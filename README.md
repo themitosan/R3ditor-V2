@@ -1,7 +1,9 @@
 <img src="https://themitosan.github.io/assets/img/R3V2.png" alt="R3V2_LOGO" title="R3ditor V2 (R3V2) Logo" width="100"/>
 
 # R3ditor V2
-Aka. R3V2, this is the second version of <a href="https://github.com/themitosan/R3ditor" target="_blank">R3ditor</a> - a tool to create mods and study classic Resident Evil 3.
+[![R3V2 Discord Server](https://img.shields.io/discord/686340740904648714?label=Discord%20Users)](https://discord.gg/aBdjNhj74e)
+
+Aka. R3V2, this is the second version of <a href="https://github.com/themitosan/R3ditor" target="_blank">R3ditor</a> - a tool to create mods and study classic Resident Evil 3!
 
 ### Project Status
 This project is on alpha state.
