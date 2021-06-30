@@ -78,6 +78,9 @@ const R3_internalHoldTime = 2800,
 							 '<a href="https://stackoverflow.com/questions/37051797/remove-comments-from-string-with-javascript-using-javascript" target="_blank">' + 
 							 'https://stackoverflow.com/questions/37051797/remove-comments-from-string-with-javascript-using-javascript' +
 							 '</a><br>' +
+							 '<a href="https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen" target="_blank">' + 
+							 'https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen' + 
+							 '</a><br>' +
 							 '<a href="https://stackoverflow.com/questions/38987784/how-to-convert-a-hexadecimal-string-to-uint8array-and-back-in-javascript" target="_blank">' + 
 							 'https://stackoverflow.com/questions/38987784/how-to-convert-a-hexadecimal-string-to-uint8array-and-back-in-javascript' + 
 							 '</a><br>',
@@ -2866,8 +2869,10 @@ const R3_internalHoldTime = 2800,
 									 '<font title="aka. cmd" class="R3_HC_LBL_CODE user-cant-select">Command Prompt</font>, <font class="R3_HC_LBL_CODE user-cant-select">bash</font> and etc. Here is a list of available flags you can use:<br><ul>' +
 									 '<li><font class="R3_HC_LBL_CODE">--webmode</font>: Start R3ditor V2 in Web Mode</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--fullscreen</font>: Start R3ditor V2 in fullscreen</li>' +
-									 '<li><font class="R3_HC_LBL_CODE">--disable-discord</font>: Disable Discord Rch Presence</li>' +
+									 '<li><font class="R3_HC_LBL_CODE">--disable-discord</font>: Disable Discord Rich Presence</li>' +
+									 '<li><font class="R3_HC_LBL_CODE">--disable-move-screen</font>: Disable moving window to a another screen</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-animations</font>: Disable all JS animations <i>(ideal for slow machines)</i></li>' +
+									 '<li><font class="R3_HC_LBL_CODE">--screen SCREEN_ID</font>: Move R3ditor V2 window to a another screen <i>(ideal for dual-monitor setups)</i></li>' +
 									 '</ul>', 53],
 		/*
 			SCD Editor

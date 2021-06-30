@@ -5,7 +5,7 @@
 // Internal Vars
 var R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_TOOLS, APP_TITLE, APP_IS_32, APP_ONLINE, ORIGINAL_FILENAME, ORIGINAL_APP_PATH, APP_REQUIRE_SUCESS, DATABASE_INIT_FOLDER, DATABASE_INIT_DELETE_FILES, APP_ENABLE_MOD = false,
 	// External Modules
-	APP_FS, APP_MEMJS, DiscordRPC,
+	APP_FS, APP_MEMJS, APP_GUI, DiscordRPC,
 	// Executable Vars
 	EXTERNAL_APP_PID, EXTERNAL_APP_EXITCODE = 0, EXTERNAL_APP_RUNNING = false,
 	// Exec Paths
@@ -77,6 +77,10 @@ function R3_INIT_REQUIRE(){
 			APP_ONLINE = navigator.onLine;
 			APP_PATH = ORIGINAL_APP_PATH;
 			APP_FS = require('fs-extra');
+			APP_GUI = require('nw.gui');
+			// Init window and displays
+			APP_GUI.Screen.Init();
+			R3_SYSTEM_availableMonitors = Object.keys(APP_GUI.Screen.screens).length;
 			/*
 				Other OS Support
 			*/
@@ -201,10 +205,11 @@ function R3_WEB_checkBrowser(){
 // Start Process
 function R3_LOAD(){
 	try {
-		var startInWebMode = false;
+		var startInWebMode = false, nwArgs = [];
 		// Drity code for webmode
 		if (typeof nw !== 'undefined'){
-			if (nw.App.argv.indexOf('--webmode') !== -1){
+			nwArgs = nw.App.argv;
+			if (nwArgs.indexOf('--webmode') !== -1){
 				startInWebMode = true;
 			};
 		};
@@ -238,6 +243,10 @@ function R3_LOAD(){
 		// End
 		APP_TITLE = 'R3ditor V2 - Ver. ' + INT_VERSION;
 		R3_SYSTEM_LOG('log', APP_TITLE);
+		// Log args
+		if (nwArgs.length !== 0){
+			R3_SYSTEM_LOG('log', 'Run Args: <font class="user-can-select">' + nwArgs.toString().replace(RegExp(',', 'gi'), ' ') + '</font>');
+		};
 		R3_SYSTEM_LOG('separator');
 		// If web, log navigator.userArgent
 		if (R3_WEBMODE === true){
@@ -441,7 +450,7 @@ function R3_SYSTEM_SAVE_LOG(){
 	File Manager functions
 */
 // Load files
-function R3_FILE_LOAD(extension, functionEval, returnFile, readMode){
+function R3_FILE_LOAD(extension, functionEval, returnFile, readMode, skipAppFs){
 	if (functionEval !== undefined){
 		if (extension === ''){
 			extension = '.*';
@@ -456,11 +465,16 @@ function R3_FILE_LOAD(extension, functionEval, returnFile, readMode){
 		$('#R3_FILE_LOAD_DOM').trigger('click');
 		document.getElementById('R3_FILE_LOAD_DOM').onchange = function(){
 			var hexFile, cFile = document.getElementById('R3_FILE_LOAD_DOM').files[0],
-				fPath = cFile.path;
+				fPath = cFile.path, loaderInterval;
 			if (R3_WEBMODE === true){
 				fPath = cFile;
 			};
-			hexFile = APP_FS.readFileSync(fPath, readMode), loaderInterval = setInterval(function(){
+			if (skipAppFs === false || skipAppFs === undefined){
+				hexFile = APP_FS.readFileSync(fPath, readMode);
+			} else {
+				hexFile = null;
+			};
+			loaderInterval = setInterval(function(){
 					if (hexFile !== undefined && hexFile !== ''){
 						if (returnFile !== true){
 							if (cFile !== undefined){

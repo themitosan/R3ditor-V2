@@ -16,6 +16,8 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 	R3_SCD_HIGHLIGHT_FUNCTION = 0, R3_SCD_SEARCH_HIGHLIGHT_FUNCTION = 0,
 	// SCD JS Editor Vars
 	R3_SCD_CODE_zoom = 12,
+	// System display vars
+	R3_SYSTEM_availableMonitors = 0,
 	// RDT Path Vars
 	R3_RDT_PREFIX_EASY = 'DATA_AJ', R3_RDT_PREFIX_HARD = 'DATA_E',
 	// Mini window Active database
@@ -60,7 +62,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		10: [200,  376,    44,  570,   	 101,  ''], 							  	 // RDT Export Sections
 		11: [700,  294,    44,  4,    100000,  ''], 							  	 // R3V2 Help Center
 		12: [540,  410,    226, 466,  	 102,  'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
-		13: [640,  480,    242, 4,    999999,  'R3_PS1_DISPLAY'],					 // eNGE PS1 Canvas
+		13: [640,  480,    44,  4,    999999,  'R3_PS1_DISPLAY'],					 // eNGE PS1 Canvas
 		14: [760,  480,    90,  12,      105,  ''],									 // SCD edit form
 		15: [400,  358,    44,  4, 	  999999,  'R3_ITEM_DATABASE_SEARCH'],			 // Item Database
 		16: [220,  88,     44,  444, 	 101,  'R3_RDT_timManagerList'],			 // RDT TIM Manager
@@ -127,6 +129,14 @@ function R3_DESIGN_CRITIAL_ERROR(args){
 function R3_INIT_APPEND(){
 	try {
 		var c = 0, BOX_ITEM_32 = HTML_TEMPLATE = '';
+		// Append displays
+		while (c < R3_SYSTEM_availableMonitors){
+			HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + c + '">Display ' + (c + 1) + '</option>';
+			c++;
+		};
+		document.getElementById('SETTINGS_ENABLE_MOVE_DISPLAY_SELECT').innerHTML = HTML_TEMPLATE;
+		c = 0;
+		HTML_TEMPLATE = '';
 		// Append Settings
 		document.getElementById('R3_RID_EDIT_camType').innerHTML = INCLUDE_RDT_CAMERA_TYPES;
 		document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').innerHTML = INCLUDE_EDIT_ATTR;
@@ -153,7 +163,7 @@ function R3_INIT_APPEND(){
 							'<div class="R3_LIVESTATUS_BOX_ITEM_LBL" id="R3_LIVESTATUS_BOX_ITEM_LBL_' + c + '">(' + c + ') Empty Slot</div><input type="button" value="Edit" class="R3_LIVESTATUS_BOX_EDIT_BTN" ' + 
 							'onclick="R3_LIVESTATUS_EDIT_ITEMBOX(' + c + ');"></div>';
 			c++;
-		}
+		};
 		document.getElementById('R3_LIVESTATUS_BOX_HOLDER').innerHTML = HTML_TEMPLATE;
 		// App Version
 		document.getElementById('ABOUT_LBL_R3_VERSION').innerHTML = INT_VERSION;
@@ -205,7 +215,11 @@ function R3_SHOW_MENU(menuId){
 			// About Page [BG]
 			if (menuId === 1){
 				R3_DESIGN_MINIWINDOW_CLOSE(0);
+				$('#R3_MENU_MAIN_TOP').css({'display': 'none'});
+				$('#MENU_1').css({'height': '100%', 'top': '0px'});
 				$('#ABOUT_BG').fadeIn({duration: 21000, queue: false});
+			} else {
+				$('#R3_MENU_MAIN_TOP').css({'display': 'inline-flex'});
 			};
 			// MSG Editor
 			if (menuId === 7){
@@ -340,6 +354,8 @@ function R3_DESIGN_SHOWTABS(tabIndex, id){
 };
 // Adjust Design
 function R3_DESIGN_ADJUST(){
+	// Load settings changes
+	R3_DESIGN_processSettingsChanges();
 	// Add icons to buttons and bg
 	var c = e = 0, cMiniWindow, thePic;
 	while (c < (R3_ICON_maxIcons + 1)){
@@ -434,6 +450,7 @@ function R3_DESIGN_ADJUST(){
 		$('#SETTINGS_DIV_LIVESTATUS').css({'display': 'none'});
 		$('#SETTINGS_LI_RECENTPOPUP').css({'display': 'none'});
 		$('#R3_FILEGEN_BACKGROUND_DIV').css({'display': 'none'});
+		$('#SETTINGS_LI_ENABLE_MOVE_DISPLAY').css({'display': 'none'});
 		// Hide about nw version
 		$('#DIV_ABOUT_NW').css({'display': 'none'});
 		// Fix Number
@@ -2568,6 +2585,17 @@ function R3_eNGE_openEmuWindow(){
 		R3_DESIGN_MINIWINDOW_OPEN(13, 'center');
 	};
 };
+// Make eNGE window visisble on settings
+function R3_eNGE_makeWindowVisible(mode){
+	if (mode === 0){
+		if (R3_MINI_WINDOW_DATABASE_STATUS[13] === false){
+			R3_DESIGN_MINIWINDOW_OPEN(13);
+		};
+		$('#R3V2_MINI_WINDOW_13').css({'z-index': '10000010'});
+	} else {
+		$('#R3V2_MINI_WINDOW_13').css({'z-index': '999999'});
+	};
+};
 /*
 	Utils
 */
@@ -2639,6 +2667,17 @@ function R3_DESIGN_renderBackupManager(){
 			document.getElementById('R3_BACKUP_MANAGER_ITEMS').innerHTML = '<br><div class="align-center">There\'s nothing to display here!</div>';
 		};
 		R3_DESIGN_MINIWINDOW_OPEN(18, 'center');
+	};
+};
+/*
+	Settings
+*/
+function R3_DESIGN_processSettingsChanges(){
+	// Move screen to another display
+	if (SETTINGS_ENABLE_MOVE_SCREEN === true){
+		$('#SETTINGS_ENABLE_MOVE_DISPLAY_DIV').css({'display': 'inline'});
+	} else {
+		$('#SETTINGS_ENABLE_MOVE_DISPLAY_DIV').css({'display': 'none'});
 	};
 };
 /*

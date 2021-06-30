@@ -1377,7 +1377,7 @@
 								<input type="number" title="eNGE Width Res." onkeyup="R3_ENGE_updateResScale(1);" value="640" min="360" placeholder="640" step="1" id="R3_SETTINGS_ENGE_WIDTH" class="R3_SCD_EDIT_61_aot"> x 
 								<input type="number" title="eNGE Height Res." onkeyup="R3_ENGE_updateResVars();" value="480" min="317" placeholder="480" step="1" id="R3_SETTINGS_ENGE_HEIGHT" class="R3_SCD_EDIT_61_aot"><br>
 								Scale Window Size: <font class="monospace mono_xyzr">360 x 317</font> 
-								<input type="range" min="360" step="1" max="3840" class="SETTINGS_RANGE" value="640" oninput="R3_ENGE_updateResScale(0);" onchange="R3_ENGE_updateResScale(0);" id="R3_ENGE_SETTINGS_SCALER"> <font class="monospace mono_xyzr">3840 x 3368</font>
+								<input type="range" min="360" step="1" max="3840" class="SETTINGS_RANGE" value="640" oninput="R3_ENGE_updateResScale(0);" onmousedown="R3_eNGE_makeWindowVisible(0);" onmouseup="R3_eNGE_makeWindowVisible(1);" onchange="R3_ENGE_updateResScale(0);" id="R3_ENGE_SETTINGS_SCALER"> <font class="monospace mono_xyzr">3840 x 3368</font>
 							</li>
 							<li>
 								Decompiled Bios Path: <font class="monospace txt-italic user-can-select" id="R3_SETTINGS_eNGE_BIOS_PATH">Undefined</font>
@@ -1385,16 +1385,30 @@
 							</li>
 						</ul>
 					</div>
-					<!-- Other Settings -->
-					<div class="LBL_subTitle">Other Settings</div>
+					<!-- Startup Settings -->
+					<div class="LBL_subTitle">Startup Settings</div>
 					<div class="SEPARATOR-0"></div>
 					<ul>
 						<li>
 							<input type="checkbox" id="R3_SETTINGS_ENABLE_FULLSCREEN"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_ENABLE_FULLSCREEN', true);" title="Enabling this option, R3ditor V2 will switch to fullscreen mode on boot">- Start on Fullscreen Mode</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_OPEN_LOG_STARTUP"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_OPEN_LOG_STARTUP', true);" title="Enabling this option, log window will be opened when you start / reload R3ditor V2.">- Open log window at startup</font>
+							<input type="checkbox" id="R3_SETTINGS_OPEN_LOG_STARTUP"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_OPEN_LOG_STARTUP', true);" title="Enabling this option, log window will be opened when you start / reload R3ditor V2">- Open log window at startup</font>
 						</li>
+						<li id="SETTINGS_LI_MOVEWINDOW">
+							<input type="checkbox" id="R3_SETTINGS_MOVE_CORNER"> <font class="cursor-pointer" title="This will move the window to top-left corner This can be useful when you have two or more monitors." onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_MOVE_CORNER', true);">- Move window to top-left corner on load / reload</font>
+						</li>
+						<li id="SETTINGS_LI_ENABLE_MOVE_DISPLAY">
+							<input type="checkbox" id="R3_SETTINGS_ENABLE_STARTUP_SCREEN"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_ENABLE_STARTUP_SCREEN', true);" title="Enabling this option, R3ditor V2 will move to a desired display at startup">- Move window to a specific display <i>(Requires "Start on Fullscreen Mode" disabled)</i></font>
+							<div id="SETTINGS_ENABLE_MOVE_DISPLAY_DIV" class="none">
+								<br>Move R3V2 to: <select id="SETTINGS_ENABLE_MOVE_DISPLAY_SELECT" onchange="R3_SETTINGS_UPDATE_SELECT();" class="SELECT_SETTINGS auto"></select>
+							</div>
+						</li>
+					</ul>
+					<!-- Other Settings -->
+					<div class="LBL_subTitle">Other Settings</div>
+					<div class="SEPARATOR-0"></div>
+					<ul>
 						<li id="SETTINGS_LI_RECENTPOPUP">
 							<input type="checkbox" id="R3_SETTINGS_SHOW_RECENT_POPUP"> <font class="cursor-pointer" title="This option will show a popup with the last file you opened on main screen" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SHOW_RECENT_POPUP', true);">- Show last file opened popup</font>
 						</li>
@@ -1406,9 +1420,6 @@
 						</li>
 						<li>
 							<input type="checkbox" id="R3_SETTINGS_OPEN_LOG_ON_WARN_ERROR"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_OPEN_LOG_ON_WARN_ERROR', true);" title="Enabling this option, log window will be opened when it log any warn or error messages">- Open log window on warn / error messages</font>
-						</li>
-						<li id="SETTINGS_LI_MOVEWINDOW">
-							<input type="checkbox" id="R3_SETTINGS_MOVE_CORNER"> <font class="cursor-pointer" title="This will move the window to top-left corner. This can be useful when you have two or more monitors." onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_MOVE_CORNER', true);">- Move window to top-left corner on load / reload</font>
 						</li>
 						<li id="SETTINGS_LI_CLEARCACHE">
 							<input type="button" value="Clear all caches / settings" title="Click here to reset all settings and caches from R3V2. (Reload)" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_SYS_CLEAR_CACHE();">
@@ -1453,7 +1464,6 @@
 					</div>
 					<div class="ABOUT_LEGAL_INFO">
 						THE LICENSE TO USE THIS SOFTWARE IS FREE FOR PERSONAL AND COMMERCIAL USE SINCE YOU GIVE CREDITS TO CREATOR OF THIS TOOL AND FOR ALL NAMES CITED ABOVE - SINCE THEY ARE OWNERS OF KNOWLEDGE THAT WERE NECESSARY FOR IT'S CREATION.
-						<!-- Hey... Don't look back - AINDA Estamos de olho em você! -->
 					</div>
 				</div>
 			</div>

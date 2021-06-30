@@ -309,9 +309,9 @@ function loadFileData(arrayBuffer) {
 
 // Handle loading by file selection
 function R3_eNGE_START_LOAD(){
-  R3_FILE_LOAD('.*', function(fData){
+  R3_FILE_LOAD('.bin, .iso, .dat', function(fData){
     openFile(fData);
-  }, true);
+  }, true, null, true);
 };
 
 function handleFileSelect(evt) {

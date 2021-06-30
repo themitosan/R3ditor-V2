@@ -6,7 +6,6 @@
 // Main Vars
 var APP_ON_BOOT = true,
 	APP_CAN_START = true,
-	SETTINGS_MAIN_INTRO = true, // TRUE
 	SETTINGS_USE_DISCORD = false,
 	SETTINGS_MOVE_WINDOW = false,
 	SETTINGS_SCD_EDITOR_MODE = 0,
@@ -18,7 +17,9 @@ var APP_ON_BOOT = true,
 	SETTINGS_SCD_HEXVIEW_FACTOR = 1,
 	SETTINGS_OPEN_LOG_STARTUP = true,
 	SETTINGS_MSG_DECOMPILER_MODE = 3,
+	SETTINGS_ENABLE_MOVE_SCREEN_ID = 0,
 	SETTINGS_ENABLE_FULLSCREEN = false,
+	SETTINGS_ENABLE_MOVE_SCREEN = true,
 	SETTINGS_SHORTCUT_CLOSETOOL = false,
 	SETTINGS_OPEN_LOG_ON_WARN_ERROR = false,
 	SETTINGS_SCD_HOVER_FUNCTION_HEX = false,
@@ -37,7 +38,7 @@ var APP_ON_BOOT = true,
 	SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM = false,
 	SETTINGS_ENGE_BIOS_PATH, SETTINGS_ENGE_BIOS, SETTINGS_RECENT_FILE_NAME, SETTINGS_RECENT_FILE_TYPE = 0, SETTINGS_RECENT_FILE_PATH,
 	// Args variables
-	R3_NW_ARGS_DISABLE_DISCORD = false;
+	R3_NW_ARGS_DISABLE_DISCORD = false, R3_NW_ARGS_DISABLE_MOVE_SCREEN = false, R3_NW_ARGS_OVERWRITE_MOVE_SCREEN = false;
 /*
 	Functions
 */
@@ -192,7 +193,7 @@ function R3_LOAD_SETTINGS(){
 				R3_ENABLE_ANIMATIONS = false;
 			};
 			document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').checked = R3_ENABLE_ANIMATIONS;
-			// Enable MOD
+			// Enable Mod
 			if (configsList[11] !== undefined){
 				APP_ENABLE_MOD = JSON.parse(configsList[11]);
 			} else {
@@ -205,12 +206,13 @@ function R3_LOAD_SETTINGS(){
 				SETTINGS_SHORTCUT_CLOSETOOL = false;
 			};
 			document.getElementById('R3_SETTINGS_ENABLE_SHORTCUT_CLOSETOOL').checked = SETTINGS_SHORTCUT_CLOSETOOL;
-			// Main Boot Image
+			// Move window to a specific display
 			if (configsList[13] !== undefined){
-				SETTINGS_MAIN_INTRO = JSON.parse(configsList[13]);
+				SETTINGS_ENABLE_MOVE_SCREEN = JSON.parse(configsList[13]);
 			} else {
-				SETTINGS_MAIN_INTRO = true;
+				SETTINGS_ENABLE_MOVE_SCREEN = true;
 			};
+			document.getElementById('R3_SETTINGS_ENABLE_STARTUP_SCREEN').checked = JSON.parse(SETTINGS_ENABLE_MOVE_SCREEN);
 			// MSG Decrypt Mode
 			if (configsList[14] !== undefined){
 				SETTINGS_MSG_DECOMPILER_MODE = parseInt(configsList[14]);
@@ -385,6 +387,13 @@ function R3_LOAD_SETTINGS(){
 				SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM = false;
 			};
 			document.getElementById('R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM').checked = SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM;
+			// Move window to another sreen - monitor id
+			if (configsList[41] !== undefined){
+				SETTINGS_ENABLE_MOVE_SCREEN_ID = parseInt(configsList[41]);
+			} else {
+				SETTINGS_ENABLE_MOVE_SCREEN_ID = 0;
+			};
+			document.getElementById('SETTINGS_ENABLE_MOVE_DISPLAY_SELECT').value = SETTINGS_ENABLE_MOVE_SCREEN_ID;
 			/*
 				End
 			*/
@@ -484,6 +493,10 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		End
 	*/
 	if (APP_ON_BOOT === true){
+		// Move windows to another display
+		if (SETTINGS_ENABLE_MOVE_SCREEN === true && R3_NW_ARGS_OVERWRITE_MOVE_SCREEN === false){
+			R3_SYSTEM_moveWindowToScreen(SETTINGS_ENABLE_MOVE_SCREEN_ID);
+		};
 		document.getElementById('R3_RDT_FILELIST_GAMEMODE').value = 1;
 		R3_RDT_FILELIST_UPDATELIST();
 		R3_DESIGN_ADJUST();
@@ -524,7 +537,7 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 		10: Enable animation
 		11: Enable MOD
 		12: Esc close tools
-		13: R3ditor V2 Main Intro
+		13: Move window to a specific display
 		14: MSG RE Mode
 		15: Open Log at startup
 		16: Log functions while decompiling SCD code
@@ -552,6 +565,7 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 		38: (SCD) Center function on click
 		39: (SCD) Keep original JS file after compiling
 		40: (SCD) Snap Search Form with Edit form
+		41: Move window to another display - monitor id
 	*/
 	R3_LOAD_CHECKFILES();
 	// Fix ORIGINAL_APP_PATH
@@ -563,11 +577,12 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 	// Save Data
 	var newConfigFile = R3_RE3_PATH + '\n' + R3_MERCE_PATH + '\n' + R3_HEX_PATH + '\n' + R3_RE3SLDE_PATH + '\n' + SETTINGS_USE_DISCORD + '\n' + SETTINGS_LIVESTATUS_BAR_POS + '\n' + 
 						R3_MOD_PATH + '\n' + SETTINGS_MOVE_WINDOW + '\n' + RE3_LIVE_CURRENTMOD + '\n' + RE3_LIVE_RENDER_TIME + '\n' + R3_ENABLE_ANIMATIONS + '\n' + APP_ENABLE_MOD + '\n' + 
-						SETTINGS_SHORTCUT_CLOSETOOL + '\n' + SETTINGS_MAIN_INTRO + '\n' + SETTINGS_MSG_DECOMPILER_MODE + '\n' + SETTINGS_OPEN_LOG_STARTUP + '\n' + SETTINGS_SCD_DECOMPILER_ENABLE_LOG + '\n' + 
+						SETTINGS_SHORTCUT_CLOSETOOL + '\n' + SETTINGS_ENABLE_MOVE_SCREEN + '\n' + SETTINGS_MSG_DECOMPILER_MODE + '\n' + SETTINGS_OPEN_LOG_STARTUP + '\n' + SETTINGS_SCD_DECOMPILER_ENABLE_LOG + '\n' + 
 						SETTINGS_SCD_DECOMPILER_SHOWOPCODE + '\n' + SETTINGS_SCD_AUTO_OPEN_SCRIPT_LIST + '\n' + SETTINGS_MSG_AUTO_OPEN_MESSAGE_LIST + '\n' + ORIGINAL_APP_PATH + '\n' + SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR + '\n' + 
 						SETTINGS_SCD_HOVER_FUNCTION_HEX + '\n' + SETTINGS_SCD_SELECT_HEX_AS_TEXT + '\n' + SETTINGS_RECENT_FILE_NAME + '\n' + SETTINGS_RECENT_FILE_TYPE + '\n' + SETTINGS_RECENT_FILE_PATH + '\n' + SETTINGS_SHOW_LAST_FILE_OPENED_POPUP + '\n' + 
 						SETTINGS_SCD_HEXVIEW_FACTOR + '\n' + SETTINGS_SCD_EDITOR_MODE + '\n' + SETTINGS_ENABLE_RDT_OPEN_ANIMATION + '\n' + SETTINGS_ENABLE_FULLSCREEN + '\n' + SETTINGS_ENGE_BIOS_PATH + '\n' + SETTINGS_ENGE_WIDTH_RES + '\n' + SETTINGS_ENGE_HEIGHT_RES + '\n' +
-						SETTINGS_OPEN_LOG_ON_WARN_ERROR + '\n' + SETTINGS_MSG_DISABLE_NEXT_PREV_SHORTCUTS + '\n' + SETTINGS_SCD_DISABLE_NEXT_PREV_SHORTCUTS + '\n' + SETTINGS_SCD_FOCUS_FUNCTION_CLICK + '\n' + SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE + '\n' + SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM;
+						SETTINGS_OPEN_LOG_ON_WARN_ERROR + '\n' + SETTINGS_MSG_DISABLE_NEXT_PREV_SHORTCUTS + '\n' + SETTINGS_SCD_DISABLE_NEXT_PREV_SHORTCUTS + '\n' + SETTINGS_SCD_FOCUS_FUNCTION_CLICK + '\n' + SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE + '\n' + SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM + '\n' +
+						SETTINGS_ENABLE_MOVE_SCREEN_ID;
 	try {
 		if (R3_WEBMODE === false){
 			APP_FS.writeFileSync(APP_PATH + '/Configs/configs.R3V2', newConfigFile, 'utf-8');
@@ -605,6 +620,7 @@ function R3_SETTINGS_UPDATE_CHECKBOX(){
 	R3_ENABLE_ANIMATIONS = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').checked);
 	SETTINGS_OPEN_LOG_STARTUP = JSON.parse(document.getElementById('R3_SETTINGS_OPEN_LOG_STARTUP').checked);
 	SETTINGS_ENABLE_FULLSCREEN = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_FULLSCREEN').checked);
+	SETTINGS_ENABLE_MOVE_SCREEN = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_STARTUP_SCREEN').checked);
 	SETTINGS_SHORTCUT_CLOSETOOL = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_SHORTCUT_CLOSETOOL').checked);
 	SETTINGS_SCD_HOVER_FUNCTION_HEX = JSON.parse(document.getElementById('R3_SETTINGS_SCD_HOVER_FUNCTION_HEX').checked);
 	SETTINGS_OPEN_LOG_ON_WARN_ERROR = JSON.parse(document.getElementById('R3_SETTINGS_OPEN_LOG_ON_WARN_ERROR').checked);
@@ -621,6 +637,8 @@ function R3_SETTINGS_UPDATE_CHECKBOX(){
 	SETTINGS_MSG_DISABLE_NEXT_PREV_SHORTCUTS = JSON.parse(document.getElementById('R3_SETTINGS_MSG_DISABLE_SHORTCUTS_NEXT_PREV').checked);
 	SETTINGS_SCD_DISABLE_NEXT_PREV_SHORTCUTS = JSON.parse(document.getElementById('R3_SETTINGS_SCD_DISABLE_SHORTCUTS_NEXT_PREV').checked);
 	SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM = JSON.parse(document.getElementById('R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM').checked);
+	// Process selection
+	R3_DESIGN_processSettingsChanges();
 };
 // Update select
 function R3_SETTINGS_UPDATE_SELECT(){
@@ -629,6 +647,7 @@ function R3_SETTINGS_UPDATE_SELECT(){
 	SETTINGS_MSG_DECOMPILER_MODE = parseInt(document.getElementById('R3_SETTINGS_MSG_DATABASE_MODE').value);
 	SETTINGS_LIVESTATUS_BAR_POS = parseInt(document.getElementById('R3_SETTINGS_LIVESTATUS_POSITION').value);
 	SETTINGS_SCD_HEXVIEW_FACTOR = parseFloat(document.getElementById('R3_SETTINGS_SCD_HEX_VIEW_SIZE').value);
+	SETTINGS_ENABLE_MOVE_SCREEN_ID = parseInt(document.getElementById('SETTINGS_ENABLE_MOVE_DISPLAY_SELECT').value);
 };
 // Update ranges
 function R3_SETTINGS_UPDATE_RANGE(mode){
@@ -870,6 +889,31 @@ function R3_INIT_PROCESS_ARGS(){
 			if (nwFlags.indexOf('--disable-discord') !== -1){
 				R3_NW_ARGS_DISABLE_DISCORD = true;
 			};
+			// Disable moving screen
+			if (nwFlags.indexOf('--disable-move-screen') !== -1){
+				R3_NW_ARGS_DISABLE_MOVE_SCREEN = true;
+			};
+			// Move window to a specific screen
+			if (nwFlags.indexOf('--screen') !== -1){
+				R3_NW_ARGS_OVERWRITE_MOVE_SCREEN = true;
+				R3_SYSTEM_moveWindowToScreen(nwFlags[parseInt(nwFlags.indexOf('--screen') + 1)]);
+			};
 		};
+	};
+};
+/*
+	NW Window Functions
+	Original code: https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen
+*/
+function R3_SYSTEM_moveWindowToScreen(windowId){
+	if (R3_WEBMODE === false && parseInt(windowId) !== NaN && SETTINGS_ENABLE_FULLSCREEN === false && R3_NW_ARGS_DISABLE_MOVE_SCREEN === false){
+		var appWindow  = APP_GUI.Window.get(),
+			appScreens = APP_GUI.Screen.screens[windowId];
+		appWindow.x = appScreens.work_area.x;
+		appWindow.y = 0;
+		appWindow.show();
+		setTimeout(function(){
+			appWindow.maximize();
+		}, 50);
 	};
 };

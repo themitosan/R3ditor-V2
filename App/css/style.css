@@ -2105,11 +2105,11 @@ blockquote {
     display: none;
     filter: blur(4px);
     position: absolute;
-    background-size: cover;
+    background-size: auto 120%;
     background-color: #000;
     background-repeat: no-repeat;
-    background-image: url('../img/tms.png');
-    -webkit-mask-image: linear-gradient(to left, #0002, #0000);
+    background-image: url('../img/agree.png');
+    -webkit-mask-image: linear-gradient(to left, #000a, #0000);
 }
 .ABOUT_manyThanks_DIV {
     top: 6%;
