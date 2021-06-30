@@ -50,32 +50,26 @@ function R3_LOAD_CHECKFILES(){
 			if (APP_FS.existsSync(APP_PATH) !== true){
 				APP_FS.mkdirSync(APP_PATH);
 			};
-			var c = 0;
-			while (c < DATABASE_INIT_CREATE_FOLDER.length){
-				if (APP_FS.existsSync(DATABASE_INIT_CREATE_FOLDER[c]) !== true){
-					APP_FS.mkdirSync(DATABASE_INIT_CREATE_FOLDER[c]);
+			DATABASE_INIT_CREATE_FOLDER.forEach(function(foldePath){
+				if (APP_FS.existsSync(foldePath) !== true){
+					APP_FS.mkdirSync(foldePath);
 				};
-				c++;
-			};
+			});
 			/*
 				Delete Files
 				Will do on Windows and Linux
 			*/
 			if (process.platform !== 'darwin'){
-				c = 0;
-				while (c < DATABASE_INIT_DELETE_FILES.length){
-					if (APP_FS.existsSync(DATABASE_INIT_DELETE_FILES[c] !== false)){
-						APP_FS.unlinkSync(DATABASE_INIT_DELETE_FILES[c]);
+				DATABASE_INIT_DELETE_FILES.forEach(function(deleteFile){
+					if (APP_FS.existsSync(deleteFile === true)){
+						APP_FS.unlinkSync(deleteFile);
 					};
-					c++;
-				};
+				});
 			};
-			/*
-				INIT Backup System
-			*/
+			// Init Backup System
 			R3_BACKUP_MANAGER_LOAD();
 		} catch (err) {
-			R3_INIT_ERROR(err);
+			R3_DESIGN_CRITIAL_ERROR(err);
 		};
 	};
 };
@@ -764,8 +758,7 @@ function R3_ENGE_updateResVars(){
 	Database Functions
 */
 function R3_INIT_generateSelectValues(db, mode, prevHTML, limit){
-	var c = 0, modeType,
-		TEMP_STR = currentHex = '',
+	var c = 0, modeType, TEMP_STR = currentHex = '',
 		tempAttr = Object.keys(db), maxLimit = tempAttr.length;
 	if (prevHTML !== undefined && prevHTML !== ''){
 		TEMP_STR = prevHTML;

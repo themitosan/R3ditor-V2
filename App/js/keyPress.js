@@ -142,6 +142,10 @@ document.addEventListener('keyup', function(kp){
 			};
 			// Commands not available on web vesion
 			if (R3_WEBMODE === false){
+				// Open log window [CTRL + SHIFT + L]
+				if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === true && kp.keyCode === 76){
+					R3_DESIGN_MINIWINDOW_OPEN(0);
+				};
 				// Close tools using [CTRL + E]
 				if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === false && SETTINGS_SHORTCUT_CLOSETOOL === true && kp.keyCode === 69){
 					R3_MENU_EXIT();
@@ -275,9 +279,18 @@ document.addEventListener('keyup', function(kp){
 					if (kp.keyCode === 67 && R3_SCD_FUNCTION_FOCUSED === true){
 						R3_SCD_COPY_FUNCTION();
 					};
+					// Crop Function [CTRL + X]
+					if (kp.keyCode === 88 && R3_SCD_FUNCTION_FOCUSED === true){
+						R3_SCD_COPY_FUNCTION(true);
+					};
 					// Paste Function [CTRL + V]
 					if (kp.keyCode === 86){
-						R3_SCD_PASTE_FUNCTION(true);
+						// Using [SHIFT] will ask where to paste
+						if (R3_KEYPRESS_SHIFT === true){
+							R3_SCD_PASTE_FUNCTION();
+						} else {
+							R3_SCD_PASTE_FUNCTION(true);
+						};
 					};
 					// Delete Function [CTRL + Delete]
 					if (kp.keyCode === 46){

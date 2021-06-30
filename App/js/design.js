@@ -196,7 +196,7 @@ function R3_INIT_APPEND(){
 };
 // Show Menu
 function R3_SHOW_MENU(menuId){
-	if (R3_MENU_LOCK !== true){
+	if (R3_MENU_LOCK !== true && R3_HAS_CRITICAL_ERROR === false){
 		if (menuId !== R3_MENU_CURRENT){
 			var c = 0;
 			if (menuId === undefined){
@@ -1654,8 +1654,6 @@ function R3_SCD_openFunctionEdit(cOpcode, isInsert, isExtra, extraTitle){
 	// Hide some buttons
 	$('#BTN_MAIN_45').css({'display': 'none'});
 	$('#BTN_MAIN_42').css({'display': 'none'});
-	$('#BTN_MAIN_30').css({'display': 'none'});
-	$('#BTN_MAIN_29').css({'display': 'inline-flex'});
 	$('#BTN_MAIN_52').css({'display': 'inline-flex'});
 	// Add R3V2 Logo if doesn't use custom bg
 	if (R3_SCD_DATABASE[cOpcode][8] === false){
@@ -1688,11 +1686,9 @@ function R3_SCD_cancelFunctionEdit(exitFromEditForm){
 	R3_SCD_IS_EDITING = false;
 	R3_SCD_currentOpcode = '';
 	// Close Search List
-	$('#BTN_MAIN_29').css({'display': 'none'});
 	$('#BTN_MAIN_52').css({'display': 'none'});
 	$('#BTN_MAIN_45').css({'display': 'inline-flex'});
 	$('#BTN_MAIN_42').css({'display': 'inline-flex'});
-	$('#BTN_MAIN_30').css({'display': 'inline-flex'});
 	$('#SCD_FUNCTION_LIST').css({'display': 'block'});
 	$('#R3_SCD_FUNCTIONS_SEARCH').css({'display': 'none'});
 	document.getElementById('SCD_FUNCTION_SEARCH_FIELD').value = '';

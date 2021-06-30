@@ -1242,8 +1242,14 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				};
 				// Run Interactive Object [AOT_ON]
 				if (cOpcode === '66'){
-					var AOT_id = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]);
-					cProp = 'Object ID: <font class="monospace mono_xyzr">' + AOT_id.toUpperCase() + ' - ' + R3_SCD_ID_LIST_ENTRIES[AOT_id.toLowerCase()][2] + '</font>';
+					var AOT_id = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
+						AOT_preview = 'Unknown Source!';
+						if (R3_SCD_ID_LIST_ENTRIES[AOT_id.toLowerCase()] !== undefined){
+							AOT_preview = R3_SCD_ID_LIST_ENTRIES[AOT_id.toLowerCase()][2];
+						} else {
+							R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to find AOT target! (Target: <font class="user-can-select">' + AOT_id.toUpperCase() + '</font>)')	
+						};
+					cProp = 'Object ID: <font class="monospace mono_xyzr">' + AOT_id.toUpperCase() + ' - ' + AOT_preview + '</font>';
 				};
 				// Set Item [ITEM_AOT_SET]
 				if (cOpcode === '67'){
@@ -2340,9 +2346,9 @@ function R3_SCD_SCRIPT_REMOVE(){
 	Copy / Paste Functions
 */
 // Copy Function
-function R3_SCD_COPY_FUNCTION(){
+function R3_SCD_COPY_FUNCTION(isCrop){
 	if (SCD_arquivoBruto !== undefined){
-		if (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][R3_SCD_CURRENT_FUNCTION] !== undefined){
+		if (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][R3_SCD_HIGHLIGHT_FUNCTION] !== undefined){
 			if (R3_SCD_IS_EDITING === true){
 				// Opened edit form
 				R3_SCD_TEMP_COPY_PASTE_FUNCTION = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][R3_SCD_CURRENT_FUNCTION];
@@ -2357,7 +2363,12 @@ function R3_SCD_COPY_FUNCTION(){
 		};
 		// End
 		if (R3_SCD_TEMP_COPY_PASTE_FUNCTION !== '' && R3_SCD_TEMP_COPY_PASTE_FUNCTION !== undefined){
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Function copied sucessfully! (Function: ' + R3_SCD_DATABASE[R3_SCD_TEMP_COPY_PASTE_FUNCTION.slice(0, 2)][1] + ')');
+			if (isCrop === true){
+				R3_SCD_FUNCTION_REMOVE(R3_SCD_HIGHLIGHT_FUNCTION);
+			};
+			var cOpcode = R3_SCD_TEMP_COPY_PASTE_FUNCTION.slice(0, 2), cColor = R3_SCD_DATABASE[cOpcode][2];
+			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Function copied sucessfully! <br>Function: ' + MEMORY_JS_fixVars(R3_SCD_HIGHLIGHT_FUNCTION, 4) + ' - Opcode: <font class="R3_SCD_function_' +
+								 cColor + ' no-bg-image user-can-select">' + cOpcode.toUpperCase() + '</font> (<font class="R3_SCD_function_' + cColor + ' no-bg-image">' + R3_SCD_DATABASE[cOpcode][1] + '</font>)');
 		};
 	} else {
 		R3_SCD_NEW_FILE();
@@ -2371,9 +2382,12 @@ function R3_SCD_PASTE_FUNCTION(isShortcut){
 			if (isShortcut !== true){
 				promptPos = R3_SYSTEM_PROMPT('Please, insert where you want to paste this function:');
 			} else {
-				promptPos = (R3_SCD_HIGHLIGHT_FUNCTION + 1);
+				promptPos = R3_SCD_TOTAL_FUNCTIONS;
 			};
 			if (promptPos !== null && promptPos !== '' && parseInt(promptPos) !== NaN){
+				if (parseInt(promptPos) === 0){
+					promptPos = 1;
+				};
 				nextPos = (parseInt(promptPos) - 1);
 				if (nextPos > R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length){
 					nextPos = (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length - 1);
@@ -2382,7 +2396,7 @@ function R3_SCD_PASTE_FUNCTION(isShortcut){
 				R3_SCD_RECOMPILE(3);
 				// Focus new function if shortcut
 				if (isShortcut === true){
-					R3_SCD_HIGHLIGHT_FUNCTION = (promptPos + 1);
+					R3_SCD_HIGHLIGHT_FUNCTION = promptPos;
 					R3_SCD_navigateFunctions(0);
 				};
 			};
@@ -5775,7 +5789,7 @@ function R3_SCD_RECOMPILE(mode){
 		// Calc Script Length
 		tempHex = '';
 		c = 0;
-		while(d < R3_SCD_POINTERS.length){
+		while (d < R3_SCD_POINTERS.length){
 			while (c < R3_SCD_SCRIPTS_LIST[cScript].length){
 				tempHex = tempHex + R3_SCD_SCRIPTS_LIST[cScript][c];
 				c++;
@@ -5791,12 +5805,8 @@ function R3_SCD_RECOMPILE(mode){
 		d = 0;
 		cScript = 0;
 		tempHex = '';
+		pHex = R3_SCD_POINTERS.toString().replace(RegExp(',', 'gi'), '');
 		// Now, let's add the scripts
-		while (c < R3_SCD_POINTERS.length){
-			pHex = pHex + R3_SCD_POINTERS[c];
-			c++;
-		};
-		c = 0;
 		while (d < Object.keys(R3_SCD_SCRIPTS_LIST).length){
 			while(c < R3_SCD_SCRIPTS_LIST[cScript].length){
 				tempHex = tempHex + R3_SCD_SCRIPTS_LIST[cScript][c];
@@ -5851,7 +5861,7 @@ function R3_SCD_RECOMPILE(mode){
 			R3_SCD_START_DECOMPILER(FINAL_HEX);
 			R3_SCD_displayScript(gotoScript);
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to Recompile / Save SCD!');
+			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to Compile / Save SCD!');
 			R3_SYSTEM_LOG('error', 'Reason: ' + err);
 			alert('ERROR: Unable to Save / Recompile SCD!\nReason: ' + err);
 		};
