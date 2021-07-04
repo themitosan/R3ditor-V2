@@ -407,7 +407,6 @@
 				</div>
 			</div>
 
-
 			<!-- Hidden Canvas -->
 			<div id="MAIN_HIDDEN_CANVAS" class="MAIN_HIDDEN_CANVAS"></div>
 
@@ -461,9 +460,9 @@
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
 						<input type="button" onclick="R3_SCD_NEW_FILE();" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new SCD file">
 						<input type="button" onclick="R3_SCD_LOAD_FILE();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open a SCD file">
-						<input type="button" onclick="R3_SCD_RECOMPILE(0);" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
-						<input type="button" onclick="R3_SCD_RECOMPILE(1);" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new file">
-						<input type="button" id="R3_SCD_BTN_APPLYRDT" onclick="R3_SCD_RECOMPILE(2);" class="BTN_ICON_BASE BTN_ICON_RDT_APPLY none" title="Click here to apply your changes on current RDT">
+						<input type="button" onclick="R3_SCD_COMPILE(0);" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
+						<input type="button" onclick="R3_SCD_COMPILE(1);" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new file">
+						<input type="button" id="R3_SCD_BTN_APPLYRDT" onclick="R3_SCD_COMPILE(2);" class="BTN_ICON_BASE BTN_ICON_RDT_APPLY none" title="Click here to apply your changes on current RDT">
 					</div>
 					<!-- Open in Hex & Compile -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
@@ -478,7 +477,7 @@
 					</div>
 					<!-- Script Utility -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR" id="R3_SUBMENU_BUTTONS_COPYPASTE">
-						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_54" title="Click here to open a list with all functions ID's" onclick="R3_DESIGN_MINIWINDOW_OPEN(12);">
+						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_54" title="Click here to open a list with all functions ID's" onclick="R3_DESIGN_MINIWINDOW_OPEN(12, 'center');">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_47" title="Click here to search an specific function on this script" onclick="R3_DESIGN_OPEN_FIND_FUNCTION();">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_29" title="Click here to copy this function" onclick="R3_SCD_COPY_FUNCTION();">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_30" title="Click here to paste this function" onclick="R3_SCD_PASTE_FUNCTION();">
@@ -767,17 +766,39 @@
 						SCD ID List
 						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(12);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
-					<!-- ID List -->
-					<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
-						<input type="text" minlength="0" maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST();">
+					<!-- Main Tabs -->
+					<div class="R3_TABHOLDER TAB_2">
+						<input type="button" id="R3_TABS_1_0" onclick="R3_DESIGN_SHOWTABS(1, 0);" class="R3_TAB_BASE R3_TAB_SELECT" value="General">
+						<input type="button" id="R3_TABS_1_1" onclick="R3_DESIGN_SHOWTABS(1, 1);" class="R3_TAB_BASE" title="Set 3D Object [OM_SET] List" value="3D Objects">
 					</div>
-					<!-- ID List List -->
-					<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG" id="R3_SCD_ID_LIST_HOLDER">
-						<!-- ID List goes here -->
+					<!-- General List -->
+					<div class="R3_TAB_MENU" id="R3_MENU_1_0">
+						<!-- ID List -->
+						<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
+							<input type="text" minlength="0" maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST(event, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT', 'R3_SCD_ID_FUNCTION_', 'R3_SCD_ID_LIST_HOLDER', 'R3_SCD_SEARCH_SCD_ID_RESULT');">
+						</div>
+						<!-- ID List List -->
+						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG" id="R3_SCD_ID_LIST_HOLDER">
+							<!-- ID List goes here -->
+						</div>
+						<!-- Search Result -->
+						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG none" id="R3_SCD_SEARCH_SCD_ID_RESULT">
+							<!-- Search Result goes here -->
+						</div>
 					</div>
-					<!-- Search Result -->
-					<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG none" id="R3_SCD_SEARCH_SCD_ID_RESULT">
-						<!-- Search Result goes here -->
+					<!-- Set 3D Object List -->
+					<div class="R3_TAB_MENU none" id="R3_MENU_1_1">
+						<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
+							<input type="text" minlength="0" maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OM_INPUT" placeholder="Insert Object ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST(event, 'R3_SCD_SEARCH_SCD_ID_OM_INPUT', 'R3_SCD_OM_FUNCTION_', 'R3_SCD_ID_LIST_HOLDER_OM_SET', 'R3_SCD_SEARCH_SCD_OM_RESULT');">
+						</div>
+						<!-- ID List List -->
+						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG" id="R3_SCD_ID_LIST_HOLDER_OM_SET">
+							<!-- ID List goes here -->
+						</div>
+						<!-- Search Result -->
+						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG none" id="R3_SCD_SEARCH_SCD_OM_RESULT">
+							<!-- Search Result goes here -->
+						</div>
 					</div>
 				</div>
 				<!-- R3V2 - SCD Edit form -->

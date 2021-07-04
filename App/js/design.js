@@ -75,10 +75,11 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 */
 const R3_MENU_BACK_EXCLUDE = [0, 2, 8],
 	// Design Consts
-	R3_ICON_maxIcons = 110, R3_MINI_WINDOW_maxWindows = 100, R3_TOTAL_MENUS = 20,
+	R3_ICON_maxIcons = 100, R3_MINI_WINDOW_maxWindows = 100, R3_TOTAL_MENUS = 20,
 	// Tab Index
 	R3_TABS_INDEX = {
-		0: 1 // RE3 Livestatus
+		0: 1, // RE3 Livestatus
+		1: 2  // SCD Id List
 	};
 /*
 	Main Functions
@@ -233,6 +234,7 @@ function R3_SHOW_MENU(menuId){
 			if (menuId === 9){
 				R3_DESIGN_MINIWINDOW_CLOSE(3);
 				// Fix Scroll
+				document.getElementById('SCD_FUNCTION_LIST').scrollTop = 0;
 				document.getElementById('R3_SCD_SCRIPT_INNER').scrollTop = 0;
 				if (SCD_arquivoBruto !== undefined){
 					R3_DESIGN_SCD_openScriptList();
@@ -942,8 +944,7 @@ function R3_DESIGN_MINIWINDOW_SNAP(windowA, windowB, fTop, fLeft){
 */
 // Prepare search
 function R3_DESIGN_prepareBtnArray(){
-	var c = 0, 
-		R3_INTERNAL_functionBtnList = document.getElementsByClassName('MSG_FUNCTION_BUTTON'), 
+	var c = 0, R3_INTERNAL_functionBtnList = document.getElementsByClassName('MSG_FUNCTION_BUTTON'),
 		R3_INTERNAL_functionScdList = document.getElementsByClassName('SCD_FUNCTION_BUTTON');
 	// MSG Editor
 	while (c < R3_INTERNAL_functionBtnList.length){
@@ -959,7 +960,7 @@ function R3_DESIGN_prepareBtnArray(){
 };
 // Function holder - Seek Function
 function R3_fnHolder_seekFunction(kPress, domSearchField, domSearchResultCanvas, domMainFunctionList, fnPrefix){
-	var tmpFunc, cFunc, funcSeekName, c = 0, SEEK_RESULTS, kp = kPress.which || kPress.keyCode;
+	var tmpFunc, cFunc, funcSeekName, SEEK_RESULTS, kp = kPress.which || kPress.keyCode;
 	if (kp === 8){
 		document.getElementById(domSearchField).value = '';
 	};
@@ -972,12 +973,11 @@ function R3_fnHolder_seekFunction(kPress, domSearchField, domSearchResultCanvas,
 			return el.toString().toLowerCase().indexOf(funcSeekName) !== -1;
 		});
 		if (SEEK_RESULTS.length !== 0){
-			while (c < SEEK_RESULTS.length){
-				tmpFunc = document.getElementById(fnPrefix + SEEK_RESULTS[c]).outerHTML;
-				cFunc = tmpFunc.replace('id=\"' + SEEK_RESULTS[c] + '\" ', '');
+			SEEK_RESULTS.forEach(function(p){
+				tmpFunc = document.getElementById(fnPrefix + p).outerHTML;
+				cFunc = tmpFunc.replace('id=\"' + p + '\" ', '');
 				$('#' + domSearchResultCanvas).append(cFunc);
-				c++;
-			};
+			});
 		} else {
 			$('#' + domSearchResultCanvas).append('<u><b>Whoops</b> - No Result Found!</u> :(');
 		};
@@ -1116,11 +1116,9 @@ function R3_HC_OPEN_PAGE(pageId){
 // Give focus to result
 function R3_DESIGN_SCD_focusResultFromSearchForm(domId){
 	if (domId !== undefined){
-		var c = 0;
-		while (c < SCD_FN_SEARCH_RESULT.length){
-			$('#R3_SCD_SEARCH_FIND_FN_' + c).css({'box-shadow': '0px 0px 0px #0000'});
-			c++;
-		};
+		SCD_FN_SEARCH_RESULT.forEach(function(d, cIndex){
+			$('#R3_SCD_SEARCH_FIND_FN_' + cIndex).css({'box-shadow': '0px 0px 0px #0000'});
+		});
 		// End
 		$('#R3_SCD_SEARCH_FIND_FN_' + domId).css({'box-shadow': '0px 0px 10px #fffa'});
 	};
@@ -1153,9 +1151,16 @@ function R3_DESIGN_navigateResultFromSearchForm(mode){
 	};
 };
 // Insert function on SCD ID list
-function R3_SCD_ID_LIST_INSERT(id, type, textDisplay){
+function R3_SCD_ID_LIST_INSERT(mode, id, type, textDisplay){
 	if (SCD_arquivoBruto !== undefined){
-		R3_SCD_ID_LIST_ENTRIES[id] = [id.toUpperCase(), type, textDisplay];
+		// General
+		if (mode === 0){
+			R3_SCD_ID_LIST_ENTRIES[id] = [id.toUpperCase(), type, textDisplay];
+		};
+		// Set 3D Object [OM_SET] list
+		if (mode === 1){
+			R3_SCD_ID_OM_SET_ENTRIES[id] = [id.toUpperCase(), type, textDisplay];
+		};
 	};
 };
 // Capture all ID's from functions
@@ -1163,6 +1168,7 @@ function R3_SCD_ID_LIST_CAPTURE(){
 	if (SCD_arquivoBruto !== undefined){
 		// Clean list
 		R3_SCD_ID_LIST_ENTRIES = {};
+		R3_SCD_ID_OM_SET_ENTRIES = {};
 		// Start the madness
 		var c = d = 0, cScript, cFunction, cOpcode, R3_SCD_DEC_DB;
 		while (c < Object.keys(R3_SCD_SCRIPTS_LIST).length){
@@ -1175,13 +1181,13 @@ function R3_SCD_ID_LIST_CAPTURE(){
 				if (cOpcode === '61'){
 					var DOOR_Id   = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]).toUpperCase(),
 						DOOR_nMap = RDT_locations['R' + (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1]), 16) + 1) + cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]).toUpperCase()][0];
-					R3_SCD_ID_LIST_INSERT(DOOR_Id, R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - Leads to ' + DOOR_nMap);
+					R3_SCD_ID_LIST_INSERT(0, DOOR_Id, R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - Leads to ' + DOOR_nMap);
 				};
 				// Set Door 4P [DOOR_AOT_SET_4P]
 				if (cOpcode === '62'){
 					var DOOR_Id   = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]).toUpperCase(),
 						DOOR_nMap = RDT_locations['R' + (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1]), 16) + 1) + cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]).toUpperCase()][0];
-					R3_SCD_ID_LIST_INSERT(DOOR_Id, R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - Leads to ' + DOOR_nMap);
+					R3_SCD_ID_LIST_INSERT(0, DOOR_Id, R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - Leads to ' + DOOR_nMap);
 				};
 				// Set Interactive Object [AOT_SET]
 				if (cOpcode === '63'){
@@ -1193,7 +1199,7 @@ function R3_SCD_ID_LIST_CAPTURE(){
 					} else {
 						AOT_model = '(<font class="monospace mono_xyzr">' + AOT_aot.toUpperCase() + '</font>) Unknown AOT!';
 					};
-					R3_SCD_ID_LIST_INSERT(AOT_id, R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - ' + AOT_model);
+					R3_SCD_ID_LIST_INSERT(0, AOT_id, R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - ' + AOT_model);
 				};
 				// Set Item [ITEM_AOT_SET]
 				if (cOpcode === '67'){
@@ -1212,7 +1218,7 @@ function R3_SCD_ID_LIST_CAPTURE(){
 					if (parseInt(ITEM_Opcode, 16) > 163){
 						ITEM_title = DATABASE_MAPS[ITEM_Opcode.toLowerCase()];
 					};
-					R3_SCD_ID_LIST_INSERT(ITEM_Id.toLowerCase(), R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - ' + ITEM_title);
+					R3_SCD_ID_LIST_INSERT(0, ITEM_Id.toLowerCase(), R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - ' + ITEM_title);
 				};
 				// Set Item 4P [ITEM_AOT_SET_4P]
 				if (cOpcode === '68'){
@@ -1231,7 +1237,13 @@ function R3_SCD_ID_LIST_CAPTURE(){
 					if (parseInt(ITEM_Opcode, 16) > 163){
 						ITEM_title = DATABASE_MAPS[ITEM_Opcode.toLowerCase()];
 					};
-					R3_SCD_ID_LIST_INSERT(ITEM_Id.toLowerCase(), R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - ' + ITEM_title);
+					R3_SCD_ID_LIST_INSERT(0, ITEM_Id.toLowerCase(), R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - ' + ITEM_title);
+				};
+				// Set 3D Object [OM_SET]
+				if (cOpcode === '7f'){
+					var OM_id  = cFunction.slice(R3_SCD_DEC_DB.objId[0], R3_SCD_DEC_DB.objId[1]),
+						OM_AOT = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]);
+					R3_SCD_ID_LIST_INSERT(1, OM_id.toLowerCase(), R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - ' + R3_SCD_OM_SET_AOT_TYPES[OM_AOT]);
 				};
 				d++;
 			};
@@ -1246,41 +1258,52 @@ function R3_SCD_ID_LIST_CAPTURE(){
 function R3_SCD_ID_LIST_RENDER(){
 	if (SCD_arquivoBruto !== undefined){
 		document.getElementById('R3_SCD_ID_LIST_HOLDER').innerHTML = '';
-		var c = 0, cID, HTML_TEMPLATE = '', cIdList = Object.keys(R3_SCD_ID_LIST_ENTRIES);
-		while (c < cIdList.length){
-			cID = R3_SCD_ID_LIST_ENTRIES[cIdList[c]];
-			HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCD_ID_LIST_ITEM R3_SCD_BTN_function_' + cID[1] + '" id="R3_SCD_ID_FUNCTION_' + cID[0].toUpperCase() + '"><font class="monospace mono_xyzr user-can-select">' + cID[0].toUpperCase() + '</font> - ' + cID[2] + '</div>';
-			c++;
-		};
-		// End
+		document.getElementById('R3_SCD_ID_LIST_HOLDER_OM_SET').innerHTML = '';
+		var cID, HTML_TEMPLATE = '';
+		Object.keys(R3_SCD_ID_LIST_ENTRIES).forEach(function(cItem, cIndex){
+			cID = R3_SCD_ID_LIST_ENTRIES[cItem];
+			HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCD_ID_LIST_ITEM R3_SCD_BTN_function_' + cID[1] + '" id="R3_SCD_ID_FUNCTION_' + 
+							cID[0].toUpperCase() + '"><font class="monospace mono_xyzr user-can-select">' + cID[0].toUpperCase() + '</font> - ' + cID[2].replace('[', '[<font class="monospace mono_xyzr">').replace(']', '</font>]') + '</div>';
+		});
 		document.getElementById('R3_SCD_ID_LIST_HOLDER').innerHTML = HTML_TEMPLATE;
+		HTML_TEMPLATE = '';
+		Object.keys(R3_SCD_ID_OM_SET_ENTRIES).forEach(function(cItem, cIndex){
+			cID = R3_SCD_ID_OM_SET_ENTRIES[cItem];
+			HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCD_ID_LIST_ITEM R3_SCD_BTN_function_' + cID[1] + '" id="R3_SCD_OM_FUNCTION_' + 
+							cID[0].toUpperCase() + '"><font class="monospace mono_xyzr user-can-select">' + cID[0].toUpperCase() + '</font> - ' + cID[2].replace('[', '[<font class="monospace mono_xyzr">').replace(']', '</font>]') + '</div>';
+		});
+		// End
+		document.getElementById('R3_SCD_ID_LIST_HOLDER_OM_SET').innerHTML = HTML_TEMPLATE;
 	};
 };
 // Search on SCD ID List
-function R3_DESIGN_SEARCH_SCD_ID_LIST(){
+function R3_DESIGN_SEARCH_SCD_ID_LIST(evt, valueInput, inputDom, listHolder, output){
 	if (SCD_arquivoBruto !== undefined){
-		var seekResult, canCloseRes = false, seekId = document.getElementById('R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT').value.toUpperCase();
-		if (seekId !== '' && seekId.length === 2){
-			seekResult = document.getElementById('R3_SCD_ID_FUNCTION_' + seekId);
+		var seekResult, canCloseRes = false, seekId = document.getElementById(valueInput).value.toUpperCase();
+		if (evt.inputType === 'deleteContentBackward' || evt.inputType === 'deleteContentForward'){
+			document.getElementById(valueInput).value = '';
+		};
+		if (seekId !== '' && seekId !== '  ' && seekId.length === 2){
+			seekResult = document.getElementById(inputDom + seekId);
 			if (seekResult !== null){
-				$('#R3_SCD_ID_LIST_HOLDER').css({'display': 'none'});
-				$('#R3_SCD_SEARCH_SCD_ID_RESULT').css({'display': 'inline-block'});
-				document.getElementById('R3_SCD_SEARCH_SCD_ID_RESULT').innerHTML = seekResult.outerHTML;
+				$('#' + listHolder).css({'display': 'none'});
+				$('#' + output).css({'display': 'inline-block'});
+				document.getElementById(output).innerHTML = seekResult.outerHTML;
 			} else {
-				document.getElementById('R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT').value = '';
-				R3_SYSTEM_ALERT('WARN: Unable to find a function using id ' + seekId + '!');
+				document.getElementById(valueInput).value = '';
+				R3_SYSTEM_ALERT('WARN: Unable to find ' + seekId + '!');
 				canCloseRes = true;
 			};
 		} else {
 			canCloseRes = true;
 		};
 		if (canCloseRes === true){
-			$('#R3_SCD_SEARCH_SCD_ID_RESULT').css({'display': 'none'});
-			$('#R3_SCD_ID_LIST_HOLDER').css({'display': 'inline-block'});
-			document.getElementById('R3_SCD_SEARCH_SCD_ID_RESULT').innerHTML = '';
-		}
+			$('#' + output).css({'display': 'none'});
+			$('#' + listHolder).css({'display': 'inline-block'});
+			document.getElementById(output).innerHTML = '';
+		};
 	} else {
-		document.getElementById('R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT').value = '';
+		document.getElementById(valueInput).value = '';
 	};
 };
 // Open insert hex preview
@@ -1772,9 +1795,9 @@ function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
 		document.getElementById('R3_SCD_EDIT_' + cOpcode + '_camPreview').src = camPrev;
 		if (R3_WEBMODE === false){
 			if (camPrev !== 'img/404.png'){
-				$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(' + camPrev + ')', 'background-size': 'auto 236%'});
+				$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(' + camPrev + ')', 'background-size': 'auto 250%'});
 			} else {
-				$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)', 'background-size': 'auto 236%'});
+				$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)', 'background-size': 'auto 250%'});
 			};
 		};
 	};
@@ -2312,9 +2335,7 @@ function R3_LIVESTATUS_CLOSE_BAR(){
 		c++;
 	};
 	// End
-	if (R3_LIVESTATUS_OPEN === true){
-		R3_LIVESTATUS_CLOSEMENU();
-	};
+	R3_DESIGN_MINIWINDOW_CLOSE(19);
 };
 // Adjust Interface
 function R3_LIVESTATUS_BAR_ADJUSTINTERFACE(){

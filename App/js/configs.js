@@ -451,6 +451,15 @@ function R3_LOAD_PROCESS_SETTINGS(){
 			R3_DESIGN_DISABLE_BTN('BTN_MAIN_2');
 			R3_DESIGN_DISABLE_BTN('BTN_MAIN_4');
 		};
+		// Check if REBirth is selected
+		if (RE3_LIVE_CURRENTMOD === 4){
+			R3_MERCE_CANRUN = false;
+			$('#BTN_MAIN_2').css({'display': 'none'});
+			$('#BTN_MAIN_4').css({'display': 'none'});
+		} else {
+			$('#BTN_MAIN_2').css({'display': 'inline-flex'});
+			$('#BTN_MAIN_4').css({'display': 'inline-flex'});
+		};
 		// RE3SDLE Path
 		if (APP_FS.existsSync(R3_RE3SLDE_PATH) === true){
 			SETTINGS_ENABLE_RE3SLDE = true;
@@ -463,7 +472,6 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		};
 		// Set Recent File
 		R3_DESIGN_UPDATE_LATEST_LABELS();
-		// eNGE load bios fix - Thx BHE
 		R3_SETTINGS_ENGE_LOAD_BIOS();
 	} else {
 		// Variables
@@ -808,7 +816,7 @@ function R3_INIT_DATABASE_GENERATE(){
 	} else {
 		R3_MOD_PATH = '';
 	};
-	var tempAttr, c = 0, TEMP_STR = currentHex = '';
+	var tempAttr, TEMP_STR = currentHex = '';
 	// Item
 	INCLUDE_EDIT_ITEM = R3_INIT_generateSelectValues(DATABASE_ITEM, 'item');
 	// Item Attr

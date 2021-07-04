@@ -133,7 +133,6 @@ function R3_MEMORY_JS_HOOK_EMU(){
 			cLocation = R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][4]; // Cheat Engine Limit
 			while (foundPos === false){
 				// console.log('Looking on ' + cLocation + ' (Hex: 0x' + parseInt(cLocation).toString(16).toUpperCase() + ')');
-
 				/*
 					Check Variables
 					On Warehouse save room:
@@ -143,12 +142,10 @@ function R3_MEMORY_JS_HOOK_EMU(){
 					zPos must be 0000
 					rPos must be 0008
 				*/
-
 				var xPos = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, cLocation, APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
 					yPos = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 8), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, ((cLocation + 8) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
 					zPos = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 4), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, ((cLocation + 4) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
 					rPos = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 58), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, ((cLocation + 58) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
-	
 				if (cLocation < ramLimit){
 					if (xPos === '50B0' && yPos === 'CAAE' && zPos === '0000' && rPos === '0008'){
 						console.info('Found!\nPos: ' + cLocation + ' (Hex: 0x' + parseInt(cLocation).toString(16).toUpperCase() + ')');
@@ -198,7 +195,6 @@ function R3_MEMORY_JS_HOOK_EMU(){
 					foundPos = true;
 					console.warn('Unable to find data!');
 				};
-	
 			};
 		};
 	};
@@ -283,6 +279,7 @@ function R3_MEMORY_JS_readItemBox(){
 	Utils Functions
 	Let's hope the last changes don't break anything!²
 */
+// By far, one of the most important functions inside R3V2!
 function MEMORY_JS_fixVars(inp, v){
 	var c = 0, inp, size;
 	if (inp === undefined || inp === ''){

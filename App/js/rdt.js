@@ -783,7 +783,7 @@ function R3_RDT_SCD_HACK_APPLY(skip){
 	if (RDT_arquivoBruto !== undefined){
 		if (R3_RDT_SCD_HACK_ENABLED === true){
 			if (skip === true){
-				R3_SCD_RECOMPILE(4);
+				R3_SCD_COMPILE(4);
 				R3_RDT_SCD_HACK_INJECT_SCD();
 			} else {
 				var conf = R3_SYSTEM_CONFIRM('WARNING:\nThis process will insert the extracted SCD in the end of this file.\n\nThis is not recomended because this process is used only for debugging and if you didn\'t run \"ENABLE SCD HACK\" before, it can brick the file.\n\nDo you want to continue anyway?');

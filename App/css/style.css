@@ -10,6 +10,8 @@
     border-radius: 4px;
 }
 ::-webkit-scrollbar-track {
+    margin-top: 6px;
+    margin-bottom: 6px;
     border-radius: 4px;
     background-image: linear-gradient(to bottom, #292929, #222);
 }
@@ -782,7 +784,7 @@ blockquote {
     background-image: linear-gradient(to bottom, #777, #aaa);
 }
 .R3V2_MINI_MENU_HEIGHT_FIX {
-    height: calc(100% - 48px) !important;
+    height: calc(100% - 24px) !important;
 }
 /*
     RID Editor
@@ -1207,8 +1209,6 @@ blockquote {
     text-align: -moz-center;
     height: calc(100% - 28px);
     text-align: -webkit-center;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
 }
 .R3_SCD_SCRIPT_OUTER {
     margin-top: 6px;

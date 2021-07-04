@@ -68,18 +68,14 @@ function R3_MSG_decompileRDT(openEditor){
 			SETTINGS_MSG_DECOMPILER_MODE = 3;
 			R3_SAVE_SETTINGS(false);
 		};
-		var c = 0, pointersLength = (parseInt(R3_parseEndian(R3_RDT_RAWSECTION_MSG.slice(0, 2)), 16) * 2),
-			R3_MSG_RDT_POINTERS_TEMP = R3_RDT_RAWSECTION_MSG.slice(0, pointersLength).match(/.{4,4}/g);
-		while (c < R3_MSG_RDT_POINTERS_TEMP.length){
-			R3_MSG_RDT_POINTERS.push(R3_parseEndian(R3_MSG_RDT_POINTERS_TEMP[c]));
-			c++;
-		};
+		var pointersLength = (parseInt(R3_parseEndian(R3_RDT_RAWSECTION_MSG.slice(0, 2)), 16) * 2),
+			R3_MSG_RDT_POINTERS_TEMP = R3_RDT_RAWSECTION_MSG.slice(0, pointersLength).match(/.{4,4}/g).forEach(function(tmpPointer){
+			R3_MSG_RDT_POINTERS.push(R3_parseEndian(tmpPointer));
+		});
 		// Push all messages to MSG List
-		c = 0;
-		while (c < R3_MSG_RDT_POINTERS.length){
-			R3_MSG_addToMSGList(c);
-			c++;
-		};
+		R3_MSG_RDT_POINTERS.forEach(function(p, cIndex){
+			R3_MSG_addToMSGList(cIndex);
+		});
 		// End
 		R3_MSG_currentMessage = 0;
 		if (openEditor === true){

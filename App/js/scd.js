@@ -20,6 +20,7 @@ var R3_SCD_path = '',
 	R3_SCD_ID_LIST_ENTRIES = {},
 	R3_SCD_CURRENT_FUNCTION = 0,
 	R3_SCD_TEMP_GOSUB_VALUE = 0,
+	R3_SCD_ID_OM_SET_ENTRIES = {},
 	R3_SCD_CURRENT_SCRIPT_HEX = '',
 	R3_SCD_TEMP_COPY_PASTE_FUNCTION,
 	R3_SCD_FUNCTION_FOCUSED = false,
@@ -115,24 +116,21 @@ function R3_SCD_EXTRACT_FROM_RDT(rdtFile, hx){
 */
 function R3_SCD_START_DECOMPILER(hex){
 	// Start process
-	var c = 0, TEMP_R3_SCD_POINTERS;
+	var TEMP_R3_SCD_POINTERS, c = 0;
 	R3_SCD_OVERALL_TOTAL_FUNCTIONS = c;
 	SCD_HEADER_LENGTH = R3_getPosFromHex(hex.slice(0, 4));
 	// Add INIT pointer to script list
 	R3_SCD_POINTERS.push(R3_parseEndian(hex.slice(0, 4)));
 	// Add EXECS pointers
-	TEMP_R3_SCD_POINTERS = hex.slice(4, (SCD_HEADER_LENGTH)).match(/.{4,4}/g);
+	TEMP_R3_SCD_POINTERS = hex.slice(4, (SCD_HEADER_LENGTH)).match(/.{4,4}/g).forEach(function(tmpPointer){
+		R3_SCD_POINTERS.push(R3_parseEndian(tmpPointer));
+	});
 	// console.info(TEMP_R3_SCD_POINTERS);
-	while (c < TEMP_R3_SCD_POINTERS.length){
-		R3_SCD_POINTERS.push(R3_parseEndian(TEMP_R3_SCD_POINTERS[c]));
-		c++;
-	};
-	c = 0;
 	R3_SCD_TOTAL_SCRITPS = R3_SCD_POINTERS.length;
-	while (c < R3_SCD_TOTAL_SCRITPS){
+	R3_SCD_POINTERS.forEach(function(){
 		R3_SCD_GENERATE_LIST(c, hex, SETTINGS_SCD_DECOMPILER_ENABLE_LOG);
 		c++;
-	};
+	});
 	// End
 	if (SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true){
 		R3_SYSTEM_LOG('separator');
@@ -440,7 +438,7 @@ function R3_SCD_COMPILE_INSERT_HEX(hex, pos){
 	if (SCD_arquivoBruto !== undefined){
 		R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].splice(pos, 0, hex);
 		R3_TEMP_INSERT_OPCODE = '';
-		R3_SCD_RECOMPILE(3);
+		R3_SCD_COMPILE(3);
 	} else {
 		R3_SCD_NEW_FILE();
 	};
@@ -474,7 +472,7 @@ function R3_SCD_IMPORT_SCRIPT(){
 					c = parseInt(c + cLength);
 				};
 				R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = tempArray;
-				R3_SCD_RECOMPILE(3);
+				R3_SCD_COMPILE(3);
 				if (R3_WEBMODE === false){
 					R3_SYSTEM_ALERT('INFO - Import Successful!\nPath: ' + fileName);
 				} else {
@@ -560,7 +558,7 @@ function R3_SCD_usePreset(presetId){
 					ask++;
 					c++;
 				};
-				R3_SCD_RECOMPILE(3);
+				R3_SCD_COMPILE(3);
 				R3_DESIGN_MINIWINDOW_CLOSE(8);
 			};
 		};
@@ -2292,7 +2290,7 @@ function R3_SCD_CLEAR_SCRIPT(){
 		if (R3_SCD_IS_EDITING === false){
 			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = [];
 			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].push('0100');
-			R3_SCD_RECOMPILE(3);
+			R3_SCD_COMPILE(3);
 		};
 	} else {
 		R3_SCD_NEW_FILE();
@@ -2310,7 +2308,7 @@ function R3_SCD_SCRIPT_ADD(){
 			R3_SCD_POINTERS[newScriptPos] = [];
 			R3_SCD_POINTERS[newScriptPos].push('0000');
 			R3_SCD_TOTAL_SCRITPS++;
-			R3_SCD_RECOMPILE(3);
+			R3_SCD_COMPILE(3);
 			R3_SCD_displayScript(newScriptPos);
 		} else {
 			R3_SCD_NEW_FILE();
@@ -2331,7 +2329,7 @@ function R3_SCD_SCRIPT_REMOVE(){
 					var newScriptPos = parseInt(Object.keys(R3_SCD_SCRIPTS_LIST).length - 1);
 					R3_SCD_CURRENT_SCRIPT = newScriptPos;
 					R3_SCD_TOTAL_SCRITPS--;
-					R3_SCD_RECOMPILE(3);
+					R3_SCD_COMPILE(3);
 					R3_SCD_displayScript(newScriptPos);
 				};
 			} else {
@@ -2393,7 +2391,7 @@ function R3_SCD_PASTE_FUNCTION(isShortcut){
 					nextPos = (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length - 1);
 				};
 				R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].splice(nextPos, 0, R3_SCD_TEMP_COPY_PASTE_FUNCTION);
-				R3_SCD_RECOMPILE(3);
+				R3_SCD_COMPILE(3);
 				// Focus new function if shortcut
 				if (isShortcut === true){
 					R3_SCD_HIGHLIGHT_FUNCTION = promptPos;
@@ -2766,7 +2764,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				if (cOpcode === '61'){
 					$('#R3_SCD_EDIT_61_displayText').append(INCLUDE_SCD_DOOR_TEXT);
 					$('#R3_SCD_EDIT_61_lockKey').append(INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
-					document.getElementById('R3_SCD_EDIT_61_id').value = '00';
+					document.getElementById('R3_SCD_EDIT_61_id').value = R3_SCD_getFreeIdForFunction(0);
 					document.getElementById('R3_SCD_EDIT_61_aot').value = '01210000';
 					document.getElementById('R3_SCD_EDIT_61_posX').value = '';
 					document.getElementById('R3_SCD_EDIT_61_posY').value = '';
@@ -2793,7 +2791,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				if (cOpcode === '62'){
 					$('#R3_SCD_EDIT_62_displayText').append(INCLUDE_SCD_DOOR_TEXT);
 					$('#R3_SCD_EDIT_62_lockKey').append(INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
-					document.getElementById('R3_SCD_EDIT_62_id').value = '00';
+					document.getElementById('R3_SCD_EDIT_62_id').value = R3_SCD_getFreeIdForFunction(0);
 					document.getElementById('R3_SCD_EDIT_62_aot').value = '000000';
 					document.getElementById('R3_SCD_EDIT_62_posX').value = '';
 					document.getElementById('R3_SCD_EDIT_62_posY').value = '';
@@ -2821,8 +2819,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				if (cOpcode === '63'){
 					$('#R3_SCD_EDIT_63_aot').append(INCLUDE_EDIT_AOT_TYPES);
 					$('#R3_SCD_EDIT_63_displayMode').append(INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
+					document.getElementById('R3_SCD_EDIT_63_id').value = R3_SCD_getFreeIdForFunction(0);
 					document.getElementById('R3_SCD_EDIT_63_aot').value = '04';
-					document.getElementById('R3_SCD_EDIT_63_id').value = '00';
 					document.getElementById('R3_SCD_EDIT_63_type').value = '00';
 					document.getElementById('R3_SCD_EDIT_63_nFloor').value = '00';
 					document.getElementById('R3_SCD_EDIT_63_super').value = '00';
@@ -2862,7 +2860,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 					$('#R3_SCD_EDIT_67_attr').append(INCLUDE_EDIT_ATTR);
 					$('#R3_SCD_EDIT_67_anim').append(INCLUDE_SCD_ITEM_ANIMATION);
 					$('#R3_SCD_EDIT_67_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
-					document.getElementById('R3_SCD_EDIT_67_id').value = '00';
+					document.getElementById('R3_SCD_EDIT_67_id').value = R3_SCD_getFreeIdForFunction(0);
 					document.getElementById('R3_SCD_EDIT_67_aot').value = '02310000';
 					document.getElementById('R3_SCD_EDIT_67_posX').value = '';
 					document.getElementById('R3_SCD_EDIT_67_posY').value = '';
@@ -2885,7 +2883,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 					$('#R3_SCD_EDIT_68_attr').append(INCLUDE_EDIT_ATTR);
 					$('#R3_SCD_EDIT_68_anim').append(INCLUDE_SCD_ITEM_ANIMATION);
 					$('#R3_SCD_EDIT_68_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
-					document.getElementById('R3_SCD_EDIT_68_id').value = '00';
+					document.getElementById('R3_SCD_EDIT_68_id').value = R3_SCD_getFreeIdForFunction(0);
 					document.getElementById('R3_SCD_EDIT_68_aot').value = '02310000';
 					document.getElementById('R3_SCD_EDIT_68_posX').value = '';
 					document.getElementById('R3_SCD_EDIT_68_posY').value = '';
@@ -3029,6 +3027,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 					$('#R3_SCD_EDIT_7f_AOT').append(INCLUDE_EDIT_SCD_OM_SET_TYPE);
 					$('#R3_SCD_EDIT_7f_colType').append(INCLUDE_EDIT_SCD_OM_SET_COL_TYPE);
 					$('#R3_SCD_EDIT_7f_setColission').append(INCLUDE_EDIT_SCD_OM_SET_COL_SHAPE);
+					document.getElementById('R3_SCD_EDIT_7f_id').value = R3_SCD_getFreeIdForFunction(1);
 					document.getElementById('R3_SCD_EDIT_7f_setColission').value = '60';
 					document.getElementById('R3_SCD_EDIT_7f_beFlag').value = 'ff';
 				};
@@ -4990,7 +4989,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			R3_SCD_cancelFunctionEdit(true);
 			R3_SCD_TEMP_SCRIPT = [];
 			R3_SCD_COMPILER_checkConditionalOpcodes(3);
-			// R3_SCD_RECOMPILE(3);
+			// R3_SCD_COMPILE(3);
 			R3_SCD_scrollScriptList();
 		};
 	} else {
@@ -5023,7 +5022,7 @@ function R3_SCD_FUNCTION_REMOVE(functionId){
 			if (functionOpcode !== '01' && R3_SCD_TOTAL_FUNCTIONS !== 1){
 				// End
 				R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].splice(cFunction, 1);
-				R3_SCD_RECOMPILE(3);
+				R3_SCD_COMPILE(3);
 				// Focus
 				if (requireFocus === true){
 					R3_SCD_navigateFunctions(2);
@@ -5542,6 +5541,35 @@ function R3_SCD_FUNCTION_updateAotOnPreview(){
 	document.getElementById('R3_SCD_EDIT_66_lblTarget').innerHTML = aotId;
 };
 /*
+	Get valid ID for functions
+	This function will return a free ID slot for functions like doors, items and objects!
+
+	Mode:
+	0 = General Functions
+	1 = Set 3D Object [OM_SET]
+*/
+function R3_SCD_getFreeIdForFunction(mode){
+	if (SCD_arquivoBruto !== undefined){
+		var c = 0, cId, canFinish = false, seekObject, freeSlot;
+		if (mode === 0 || mode === undefined){
+			seekObject = R3_SCD_ID_LIST_ENTRIES;
+		};
+		if (mode === 1){
+			seekObject = R3_SCD_ID_OM_SET_ENTRIES;
+		};
+		// Start
+		while (canFinish === false){
+			cId = MEMORY_JS_fixVars(c, 2);
+			if (seekObject[cId] !== undefined){
+				c++;
+			} else {
+				canFinish = true;
+			};
+		};
+		return cId;
+	};
+};
+/*
 	Danger messages
 */
 function R3_SCD_WARN(msg, txtVar){
@@ -5554,7 +5582,7 @@ function R3_SCD_WARN(msg, txtVar){
 };
 /*
 	SCD JS Compiler
-	Turn JS code to SCD Opcodes
+	Make JS code to SCD Opcodes by doing magic
 
 	Remove js comments from string - original source: 
 	https://stackoverflow.com/questions/37051797/remove-comments-from-string-with-javascript-using-javascript
@@ -5638,7 +5666,7 @@ function R3_SCD_JS_START_COMPILER(){
 			// Fix control hold
 			R3_KEYPRESS_CONTROL = false;
 			// Compile using final compiler!
-			R3_SCD_RECOMPILE(3);
+			R3_SCD_COMPILE(3);
 			if (SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE === true){
 				setTimeout(function(){
 					document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = previousCode;
@@ -5722,7 +5750,7 @@ function R3_SCD_COMPILER_checkConditionalOpcodes(mode){
 			Start final compiler
 		*/
 		if (SETTINGS_SCD_EDITOR_MODE === 0){
-			R3_SCD_RECOMPILE(mode);
+			R3_SCD_COMPILE(mode);
 		};
 	};
 };
@@ -5773,49 +5801,35 @@ function R3_SCD_FUNCTION_GENERATE_CHECK_LENGTH(source, endOpcode, cIndex, finish
 	3: Just recompile
 	4: Compile and inject to RDT
 */
-function R3_SCD_RECOMPILE(mode){
+function R3_SCD_COMPILE(mode){
 	if (Object.keys(R3_SCD_SCRIPTS_LIST).length !== 0){
-		var c = cScript = pointersLength = 0, d = 1, tempHex = pHex = '', FINAL_HEX, gotoScript = R3_SCD_CURRENT_SCRIPT, fPath = R3_SCD_fileName;
+		var cScript = pointersLength = 0, d = 1, tempHex = pHex = '', FINAL_HEX, gotoScript = R3_SCD_CURRENT_SCRIPT, fPath = R3_SCD_fileName;
 		if (mode === undefined){
 			mode = 0;
 		};
 		// Generate Pointers
-		while (c < R3_SCD_POINTERS.length){
-			tempHex = tempHex + R3_parseEndian(R3_SCD_POINTERS[c]);
-			c++;
-		};
+		R3_SCD_POINTERS.forEach(function(cPointer){
+			tempHex = tempHex + R3_parseEndian(cPointer);
+		});
 		pointersLength = tempHex.length;
 		R3_SCD_POINTERS[0] = R3_parseEndian(MEMORY_JS_fixVars((pointersLength / 2).toString(16), 4));
 		// Calc Script Length
 		tempHex = '';
-		c = 0;
 		while (d < R3_SCD_POINTERS.length){
-			while (c < R3_SCD_SCRIPTS_LIST[cScript].length){
-				tempHex = tempHex + R3_SCD_SCRIPTS_LIST[cScript][c];
-				c++;
-			};
+			tempHex = tempHex + R3_SCD_SCRIPTS_LIST[cScript].toString().replace(RegExp(',', 'gi'), '');
 			pointersLength = (tempHex.length + pointersLength);
 			var newPointer = R3_parseEndian(MEMORY_JS_fixVars((pointersLength / 2).toString(16), 4));
 			R3_SCD_POINTERS[d] = newPointer;
 			tempHex = '';
 			cScript++;
-			c = 0;
 			d++;
 		};
-		d = 0;
-		cScript = 0;
 		tempHex = '';
 		pHex = R3_SCD_POINTERS.toString().replace(RegExp(',', 'gi'), '');
 		// Now, let's add the scripts
-		while (d < Object.keys(R3_SCD_SCRIPTS_LIST).length){
-			while(c < R3_SCD_SCRIPTS_LIST[cScript].length){
-				tempHex = tempHex + R3_SCD_SCRIPTS_LIST[cScript][c];
-				c++;
-			};
-			cScript++;
-			c = 0;
-			d++;
-		};
+		Object.keys(R3_SCD_SCRIPTS_LIST).forEach(function(scr, cIndex){
+			tempHex = tempHex + R3_SCD_SCRIPTS_LIST[cIndex].toString().replace(RegExp(',', 'gi'), '');
+		});
 		FINAL_HEX = pHex + tempHex;
 		// Save / Inject
 		try {

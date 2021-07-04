@@ -400,7 +400,7 @@ document.addEventListener('keyup', function(kp){
 					};
 					// SCD Editor
 					if (R3_MENU_CURRENT === 9 && SCD_arquivoBruto !== undefined){
-						R3_SCD_RECOMPILE(0);
+						R3_SCD_COMPILE(0);
 					};
 					// MSG Editor
 					if (R3_MENU_CURRENT === 7 && MSG_arquivoBruto !== undefined){
