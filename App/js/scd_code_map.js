@@ -265,6 +265,18 @@ function R3_WEAPON_CHG(weaponId){
 function R3_AOT_ON(aotId){
 	return '66' + MEMORY_JS_fixVars(aotId, 2);
 };
+// 67 - Set Item [ITEM_AOT_SET]
+function R3_ITEM_AOT_SET(id, aot, itemX, itemY, itemZ, itemR, itemCode, itemQuant, itemFlag, modelId, itemMp){
+	return '67' + MEMORY_JS_fixVars(id, 2) + MEMORY_JS_fixVars(aot, 8) + MEMORY_JS_fixVars(itemX, 4) + MEMORY_JS_fixVars(itemY, 4) + MEMORY_JS_fixVars(itemZ, 4) +
+		   MEMORY_JS_fixVars(itemR, 4) + MEMORY_JS_fixVars(itemCode, 2) + '00' + R3_JS_COMPILER_parseNumber(itemQuant, 255, 2) + '0000' + MEMORY_JS_fixVars(itemFlag, 2) +
+		   MEMORY_JS_fixVars(modelId, 2) + MEMORY_JS_fixVars(itemMp, 2);
+};
+// 68 - Set Item 4P [ITEM_AOT_SET]
+function R3_ITEM_AOT_SET_4P(id, aot, itemX, itemY, itemZ, itemR, item4P, itemCode, itemQuant, itemFlag, modelId, itemMp){
+	return '68' + MEMORY_JS_fixVars(id, 2) + MEMORY_JS_fixVars(aot, 8) + MEMORY_JS_fixVars(itemX, 4) + MEMORY_JS_fixVars(itemY, 4) + MEMORY_JS_fixVars(itemZ, 4) +
+		   MEMORY_JS_fixVars(itemR, 4) + MEMORY_JS_fixVars(item4P, 16) + MEMORY_JS_fixVars(itemCode, 2) + '00' + R3_JS_COMPILER_parseNumber(itemQuant, 255, 2) + '0000' +
+		   MEMORY_JS_fixVars(itemFlag, 2) + MEMORY_JS_fixVars(modelId, 2) + MEMORY_JS_fixVars(itemMp, 2);
+};
 // 6E - [SCA_ID_SET]
 function R3_SCA_ID_SET(id, value){
 	return '6e' + MEMORY_JS_fixVars(id, 2) + MEMORY_JS_fixVars(value, 4);

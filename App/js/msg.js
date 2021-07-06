@@ -73,7 +73,7 @@ function R3_MSG_decompileRDT(openEditor){
 			R3_MSG_RDT_POINTERS.push(R3_parseEndian(tmpPointer));
 		});
 		// Push all messages to MSG List
-		R3_MSG_RDT_POINTERS.forEach(function(p, cIndex){
+		R3_MSG_RDT_POINTERS.forEach(function(cItem, cIndex){
 			R3_MSG_addToMSGList(cIndex);
 		});
 		// End

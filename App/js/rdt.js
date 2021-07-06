@@ -116,12 +116,14 @@ function R3_RDT_LOAD(rdtFile, showInterface, hexFile){
 				mapPath = rdtFile.name;
 				R3_RDT_mapName = rdtFile.name.toUpperCase().replace('.RDT', '');
 			};
-			R3_SYSTEM_LOG('separator');
-			document.title = APP_TITLE + ' - RDT Editor - File: ' + R3_RDT_mapName + '.RDT';
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - (RDT) Loading file: <font class="user-can-select">' + mapPath + '</font>');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - (RDT) Map Name: ' + RDT_locations[R3_RDT_mapName][0]);
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - (RDT) Location: ' + RDT_locations[R3_RDT_mapName][1]);
-			R3_SYSTEM_LOG('separator');
+			if (R3_DOORLINK_RUNNING !== true){
+				R3_SYSTEM_LOG('separator');
+				document.title = APP_TITLE + ' - RDT Editor - File: ' + R3_RDT_mapName + '.RDT';
+				R3_SYSTEM_LOG('log', 'R3ditor V2 - (RDT) Loading file: <font class="user-can-select">' + mapPath + '</font>');
+				R3_SYSTEM_LOG('log', 'R3ditor V2 - (RDT) Map Name: ' + RDT_locations[R3_RDT_mapName][0]);
+				R3_SYSTEM_LOG('log', 'R3ditor V2 - (RDT) Location: ' + RDT_locations[R3_RDT_mapName][1]);
+				R3_SYSTEM_LOG('separator');
+			};
 			// Start
 			R3_UTILS_VAR_CLEAN();
 			R3_RDT_LOADED = false;
@@ -159,27 +161,34 @@ function R3_RDT_LOAD(rdtFile, showInterface, hexFile){
 					Extract Sections
 					Note: PRI extraction function will be executed inside LIT.
 				*/
-				R3_RDT_EXTRACT_VB();
-				R3_RDT_EXTRACT_SCA();
-				R3_RDT_EXTRACT_OBJ();
-				R3_RDT_EXTRACT_RID();
-				R3_RDT_EXTRACT_RVD();
-				R3_RDT_EXTRACT_LIT();
-				R3_RDT_EXTRACT_BLK();
+				if (R3_DOORLINK_RUNNING === false){
+					R3_RDT_EXTRACT_VB();
+					R3_RDT_EXTRACT_SCA();
+					R3_RDT_EXTRACT_OBJ();
+					R3_RDT_EXTRACT_RID();
+					R3_RDT_EXTRACT_RVD();
+					R3_RDT_EXTRACT_LIT();
+					R3_RDT_EXTRACT_BLK();
+				};
 				R3_RDT_EXTRACT_SCD();
-				R3_RDT_EXTRACT_MSG();
-				R3_RDT_EXTRACT_FLR();
-				R3_RDT_EXTRACT_EFF();
+				if (R3_DOORLINK_RUNNING === false){
+					R3_RDT_EXTRACT_MSG();
+					R3_RDT_EXTRACT_FLR();
+					R3_RDT_EXTRACT_EFF();
+				};
 				/*
 					End
 				*/
 				R3_RDT_LOADED = true;
 				R3_RDT_COPY_ORIGINALS();
-				R3_RDT_checkIfScdHack();
-				R3_LATEST_SET_FILE(R3_RDT_mapName + '.RDT', 0, ORIGINAL_FILENAME);
-				R3_RDT_DESIGN_enableInterface(showInterface);
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) ' + R3_RDT_mapName + ' - Loading Complete!');
+				// Skip some stuff
+				if (R3_DOORLINK_RUNNING === false){
+					R3_RDT_checkIfScdHack();
+					R3_LATEST_SET_FILE(R3_RDT_mapName + '.RDT', 0, ORIGINAL_FILENAME);
+					R3_RDT_DESIGN_enableInterface(showInterface);
+					R3_SYSTEM_LOG('separator');
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) ' + R3_RDT_mapName + ' - Loading Complete!');
+				};
 			} catch (err) {
 				console.error(err);
 				R3_DESIGN_CRITIAL_ERROR(err);
@@ -587,7 +596,9 @@ function R3_RDT_generateMsgPreview(){
 // Extract SCD from RDT
 function R3_RDT_EXTRACT_SCD(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading SCD...');
+		if (R3_DOORLINK_RUNNING !== true){
+			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading SCD...');
+		};
 		var c = 0, foundEnd = false, cOpcode = '', tmpStart = 0, tmpEnd = 2, lastScript = '',
    	 	SCD_HEX_STARTPOS  = (parseInt(R3_RDT_MAP_HEADER_POINTERS[18], 16) * 2),
    	 	SCD_POINTER_START = R3_parseEndian(RDT_arquivoBruto.slice(SCD_HEX_STARTPOS, (SCD_HEX_STARTPOS + 4))),

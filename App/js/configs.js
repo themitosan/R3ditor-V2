@@ -473,6 +473,7 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		// Set Recent File
 		R3_DESIGN_UPDATE_LATEST_LABELS();
 		R3_SETTINGS_ENGE_LOAD_BIOS();
+		R3_DOORLINK_CHECK();
 	} else {
 		// Variables
 		APP_ENABLE_MOD = false;
@@ -501,6 +502,7 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		};
 		document.getElementById('R3_RDT_FILELIST_GAMEMODE').value = 1;
 		R3_RDT_FILELIST_UPDATELIST();
+		R3_DOORLINK_CHECK();
 		R3_DESIGN_ADJUST();
 		R3_GOTO_MAIN();
 	};

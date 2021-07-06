@@ -301,7 +301,7 @@ document.addEventListener('keyup', function(kp){
 						R3_SCD_JUMP_GOSUB();
 					};
 					// Import script [CTRL + I]
-					if (kp.keyCode === 73){
+					if (kp.keyCode === 73 && R3_KEYPRESS_SHIFT === false){
 						R3_SCD_IMPORT_SCRIPT();
 					};
 					// Export Script [CTRL + SHIFT + E]

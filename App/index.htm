@@ -570,6 +570,7 @@
 						<input type="button" id="BTN_SCD_4C_Check_Boolean_CK" class="SCD_FUNCTION_BUTTON" value="(4C) Check Boolean [CK]" onclick="R3_SCD_FUNCTION_ADD('4c');">
 						<input type="button" id="BTN_SCD_4E_Compare_Values_CMP" class="SCD_FUNCTION_BUTTON" value="(4E) Compare Values [CMP]" onclick="R3_WIP();">
 						<input type="button" id="BTN_SCD_6B_Check_Item_KEEP_ITEM_CK" class="SCD_FUNCTION_BUTTON" value="(6B) Check Item [KEEP_ITEM_CK]" onclick="R3_SCD_FUNCTION_ADD('6b');">
+						<input type="button" id="BTN_SCD_6C_KEY_CK" class="SCD_FUNCTION_BUTTON" value="(6C) KEY_CK" onclick="R3_SCD_FUNCTION_ADD('6c');">
 
 						<!-- Cutscene Functions -->
 						<br><br><font class="LBL_subTitle">Cutscene Functions</font><br>
@@ -697,7 +698,6 @@
 						<input type="button" id="BTN_SCD_5C_RAIN_SET" class="SCD_FUNCTION_BUTTON" value="(5C) RAIN_SET" onclick="R3_SCD_FUNCTION_ADD('5c');">
 						<input type="button" id="BTN_SCD_5E_SHAKE_ON" class="SCD_FUNCTION_BUTTON" value="(5E) SHAKE_ON" onclick="R3_SCD_FUNCTION_ADD('5e');">
 						<input type="button" id="BTN_SCD_6A_SUPER_SET" class="SCD_FUNCTION_BUTTON" value="(6A) SUPER_SET" onclick="R3_SCD_FUNCTION_ADD('6a');">
-						<input type="button" id="BTN_SCD_6C_KEY_CK" class="SCD_FUNCTION_BUTTON" value="(6C) KEY_CK" onclick="R3_SCD_FUNCTION_ADD('6c');">
 						<input type="button" id="BTN_SCD_6D_TRG_CK" class="SCD_FUNCTION_BUTTON" value="(6D) TRG_CK" onclick="R3_SCD_FUNCTION_ADD('6d');">
 						<input type="button" id="BTN_SCD_6E_SCA_ID_SET" class="SCD_FUNCTION_BUTTON" value="(6E) SCA_ID_SET" onclick="R3_SCD_FUNCTION_ADD('6e');">
 						<input type="button" id="BTN_SCD_6F_OM_BOMB" class="SCD_FUNCTION_BUTTON" value="(6F) OM_BOMB" onclick="R3_SCD_FUNCTION_ADD('6f');">
@@ -751,8 +751,8 @@
 					<!-- Search Form -->
 					<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM R3_SCD_SEARCH_SCD_SCRIPT_FORM_LBL_FIX">
 						<input type="text" minlength="0" maxlength="2" id="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" placeholder="Insert SCD Opcode Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" onkeyup="R3_SCD_SEARCH_SCRIPT_FUNCTION();">
-						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_PREV_BTN" value="<" title="Click here to go to previous function" onclick="R3_DESIGN_navigateResultFromSearchForm(0);">
-						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_NEXT_BTN" value=">" title="Click here to go to next function" onclick="R3_DESIGN_navigateResultFromSearchForm(1);"><br>
+						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_PREV_BTN" value="<" title="Click here to go to previous function (Hold [ALT] to open current function)" onclick="R3_DESIGN_navigateResultFromSearchForm(0);">
+						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_NEXT_BTN" value=">" title="Click here to go to next function (Hold [ALT] to open current function)" onclick="R3_DESIGN_navigateResultFromSearchForm(1);"><br>
 						<div class="align-center"><font id="R3_LBL_SCD_SEARCH_FUNCTION_OPCODE" class="monospace no-bg-image"></font></div>
 					</div>
 					<!-- Result List -->
@@ -820,6 +820,24 @@
 							<div id="R3_SCD_EDITFUNCTION_HOLDER">
 								<!-- Edit goes here -->
 							</div>
+						</div>
+					</div>
+				</div>
+				<!-- R3V2 - SCD DoorLink -->
+				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_20">
+					<div id="R3V2_MINI_WINDOW_20_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+						SCD DoorLink
+						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(20);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					</div>
+					<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
+						<input type="text" maxlength="3" id="R3_SCD_DOORLINK_MAP_INPUT" placeholder="Insert Stage + Room Number" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_DOORLINK_RENDER();">
+					</div>
+					<div class="R3_SCD_DOORLINK_mapInfoDiv">
+						Map Name: <font class="monospace mono_xyzr R3_SCD_DOORLINK_mapInfoLbl" id="R3_SCD_DOORLINK_mapName">Unknwon Location</font><br>
+						Location: <font class="monospace mono_xyzr R3_SCD_DOORLINK_mapInfoLbl" id="R3_SCD_DOORLINK_mapLocation">Unknwon Location</font><br>
+						<div class="align-center LBL_subTitle">Available Locations</div>
+						<div class="R3_SCD_DOORLINK_doorHolder" id="R3_SCD_DOORLINK_doorHolder">
+							<!-- DoorLink Data goes here -->
 						</div>
 					</div>
 				</div>
@@ -1376,6 +1394,9 @@
 							<input type="checkbox" id="R3_SETTINGS_SCD_SELECT_HEX_FUNCTION"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_SELECT_HEX_FUNCTION', true);" title="This will make you select hex functions as a normal text, instead of selecting only a single function">- (Hex View) Select Hex as text instead of single function
 							</font>
 						</li>
+						<li id="SETTINGS_LI_UPDATE_DOORLINK">
+							<input type="button" value="Update DoorLink Database" title="Click here to update DoorLink database manually" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_DOORLINK_INIT();">
+						</li>
 					</ul>
 					<!-- Animations -->
 					<div class="LBL_subTitle">Animations</div>
@@ -1527,6 +1548,7 @@
 				<script type="text/javascript" src="js/design.js"></script>
 				<script type="text/javascript" src="js/index.js"></script>
 				<script type="text/javascript" src="js/utils.js"></script>
+				<script type="text/javascript" src="js/wizard.js"></script>
 				<script type="text/javascript" src="js/livestatus.js"></script>
 				<script type="text/javascript" src="js/configs.js"></script>
 				<script type="text/javascript" src="js/keyPress.js"></script>
