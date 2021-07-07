@@ -212,7 +212,7 @@ function R3_CUT_AUTO(lockStataus){
 };
 // 53 - Swap Camera [CUT_REPLACE]
 function R3_CUT_REPLACE(oldCamera, newCamera){
-	return '53' + MEMORY_JS_fixVars(oldCamera, 2) + MEMORY_JS_fixVars(newCamera, 2);
+	return '53' + MEMORY_JS_fixVars(parseInt(oldCamera).toString(16), 2) + MEMORY_JS_fixVars(parseInt(newCamera).toString(16), 2);
 };
 // 54 - [CUT_BE_SET]
 function R3_CUT_BE_SET(id, value, flag){

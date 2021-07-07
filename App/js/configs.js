@@ -6,6 +6,7 @@
 // Main Vars
 var APP_ON_BOOT = true,
 	APP_CAN_START = true,
+	APP_useImageFix = false,
 	SETTINGS_USE_DISCORD = false,
 	SETTINGS_MOVE_WINDOW = false,
 	SETTINGS_SCD_EDITOR_MODE = 0,

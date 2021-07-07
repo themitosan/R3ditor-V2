@@ -1061,6 +1061,32 @@ blockquote {
     color: #fff !important;
     text-align: -webkit-left;
 }
+.R3_SCD_EDIT_53_newArrowDiv {
+    top: 120px;
+    left: 232px;
+    z-index: 20;
+    position: absolute;
+}
+.R3_SCD_EDIT_53_prevDiv {
+    top: 48px;
+    left: 10px;
+    z-index: 50;
+    width: 220px;
+    position: absolute;
+}
+.R3_SCD_EDIT_53_nextDiv {
+    top: 48px;
+    right: 10px;
+    z-index: 50;
+    width: 220px;
+    position: absolute;
+}
+.R3_SCD_EDIT_53_camPreview {
+    width: 220px;
+    margin-top: 6px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px #ff000025;
+}
 .R3_SCD_EDIT_61_camPreview {
     width: 23.6%;
     border-radius: 4px;
@@ -1376,7 +1402,7 @@ blockquote {
 }
 .R3_SCD_DOORLINK_APPLYFIX {
     width: 100%;
-    margin-top: 2px !important;
+    margin-top: 0px !important;
     margin-left: -2px !important;
 }
 /*

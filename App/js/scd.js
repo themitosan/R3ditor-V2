@@ -1114,9 +1114,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				if (cOpcode === '53'){
 					var CUT_id 	  = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 						CUT_value = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]);
-					cProp = 'The trigger for camera <font class="monospace mono_xyzr">' + CUT_id.toUpperCase() + '</font> will display camera <font class="monospace mono_xyzr">' + 
-					CUT_value.toUpperCase() + '</font>';
-				}
+					cProp = 'The trigger for camera <font class="monospace mono_xyzr">' + parseInt(CUT_id, 16) + '</font> will display camera <font class="monospace mono_xyzr">' + parseInt(CUT_value, 16) + '</font>';
+				};
 				// [CUT_BE_SET]
 				if (cOpcode === '54'){
 					var CUT_id = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
@@ -1186,8 +1185,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				};
 				// [RAIN_SET]
 				if (cOpcode === '5c'){
-					var RAIN_flag = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]);
-					cProp = 'Flag: ' + R3_SCD_FLAG[RAIN_flag];
+					var RAIN_value = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]);
+					cProp = 'Value: <font class="monospace mono_xyzr">' + RAIN_value.toUpperCase() + '</font>';
 				};
 				// [MESSAGE_OFF]
 				if (cOpcode === '5d'){
@@ -1816,7 +1815,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					if (cOpcode === '53'){
 						var CUT_id 	  = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 							CUT_value = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]);
-						tempScriptCode = tempCode + '\'' + CUT_id.toUpperCase() + '\', \'' + CUT_value.toUpperCase() + '\'';
+						tempScriptCode = tempCode + parseInt(CUT_id, 16) + ', ' + parseInt(CUT_value, 16);
 					};
 					// [CUT_BE_SET]
 					if (cOpcode === '54'){
@@ -1876,9 +1875,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					};
 					// [RAIN_SET]
 					if (cOpcode === '5c'){
-						var RAIN_flag = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]),
-							flagStatus = R3_SCD_CODE_FLAGS[RAIN_flag];
-						tempScriptCode = tempCode + flagStatus;
+						var RAIN_value = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]);
+						tempScriptCode = tempCode + '\'' + RAIN_value.toUpperCase() + '\'';
 					};
 					// [SHAKE_ON]
 					if (cOpcode === '5e'){
@@ -2696,9 +2694,10 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				}
 				// Swap Camera [CUT_REPLACE]
 				if (cOpcode === '53'){
-					document.getElementById('R3_SCD_EDIT_53_id').value = '00';
-					document.getElementById('R3_SCD_EDIT_53_value').value = '00';
-					focusDomId = 'R3_SCD_EDIT_53_value';
+					document.getElementById('R3_SCD_EDIT_53_prevCamValue').value = 0;
+					document.getElementById('R3_SCD_EDIT_53_nextCamValue').value = 0;
+					focusDomId = 'R3_SCD_EDIT_53_prevCamValue';
+					R3_SCD_FUNCTION_EDIT_updateCutReplace();
 				}
 				// [CUT_BE_SET]
 				if (cOpcode === '54'){
@@ -2753,7 +2752,6 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// [RAIN_SET]
 				if (cOpcode === '5c'){
-					$('#R3_SCD_EDIT_5c_flag').append(INCLUDE_EDIT_SCD_FLAGS);
 					document.getElementById('R3_SCD_EDIT_5c_flag').value = '00';
 					focusDomId = 'R3_SCD_EDIT_5c_flag';
 				};
@@ -3508,9 +3506,10 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			if (cOpcode === '53'){
 				var CUT_id 	  = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					CUT_value = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]);
-				document.getElementById('R3_SCD_EDIT_53_id').value = CUT_id;
-				document.getElementById('R3_SCD_EDIT_53_value').value = CUT_value;
-				focusDomId = 'R3_SCD_EDIT_53_id';
+				document.getElementById('R3_SCD_EDIT_53_prevCamValue').value = parseInt(CUT_id, 16);
+				document.getElementById('R3_SCD_EDIT_53_nextCamValue').value = parseInt(CUT_value, 16);
+				focusDomId = 'R3_SCD_EDIT_53_prevCamValue';
+				R3_SCD_FUNCTION_EDIT_updateCutReplace();
 			};
 			// [CUT_BE_SET]
 			if (cOpcode === '54'){
@@ -3585,8 +3584,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// [RAIN_SET]
 			if (cOpcode === '5c'){
-				$('#R3_SCD_EDIT_5c_flag').append(INCLUDE_EDIT_SCD_FLAGS);
-				var RAIN_flag = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]);
+				var RAIN_flag = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]);
 				document.getElementById('R3_SCD_EDIT_5c_flag').value = RAIN_flag;
 				focusDomId = 'R3_SCD_EDIT_5c_flag';
 			}
@@ -4520,8 +4518,8 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// Swap Camera [CUT_REPLACE]
 	if (R3_SCD_currentOpcode === '53'){
-		var CUT_id = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_53_id').value, 2),
-			CUT_value = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_53_value').value, 2);
+		var CUT_id = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_prevCamValue').value).toString(16), 2),
+			CUT_value = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_nextCamValue').value).toString(16), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + CUT_id + CUT_value;
 	};
 	// [CUT_BE_SET]

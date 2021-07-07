@@ -101,6 +101,8 @@ function R3_INIT_REQUIRE(){
 				};
 				APP_TOOLS = path.dirname(process.execPath).replace(new RegExp('\\\\', 'gi'), '/') + '/Tools';
 				APP_PATH = tempPath.replace(new RegExp('\\\\', 'gi'), '/') + '/R3V2';
+			} else {
+				APP_useImageFix = true;
 			};
 			// Linux (Tested on Ubuntu)
 			if (process.platform === 'linux'){

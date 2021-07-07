@@ -421,7 +421,7 @@ function R3_DESIGN_ADJUST(){
 					};
 				};
 				thePic = Math.floor(Math.random() * Math.floor(getFiles.length)), fileFix = '';
-				if (process.platform !== 'win32'){
+				if (APP_useImageFix === true){
 					fileFix = 'file://';
 				};
 				document.getElementById('R3_HOME_BG').src = fileFix + APP_PATH + '/Assets/DATA_A/BSS/' + getFiles[thePic];
@@ -1075,7 +1075,7 @@ function R3_DESIGN_UPDATE_LATEST_LABELS(){
 				fPath_00 = R3_MOD_PATH + '/DATA_A/BSS/' + fName + '00.JPG',
 				fPath_01 = R3_MOD_PATH + '/DATA_A/BSS/' + fName + '01.JPG',
 				fFix = '';
-			if (process.platform !== 'win32'){
+			if (APP_useImageFix === true){
 				fFix = 'file://';
 			};
 			if (APP_FS.existsSync(fPath_00) === true){
@@ -1876,6 +1876,39 @@ function R3_SCD_FUNCTIONEDIT_UPDATE_SET_TIMER(){
 		$('#R3_SCD_EDIT_1e_editVarInt').css({'display': 'inline'});
 	};
 };
+// Update camera on Swap Camera [CUT_REPLACE]
+function R3_SCD_FUNCTION_EDIT_updateCutReplace(){
+	var prevCamValue, nextCamValue, imgFix = '', fPrev, fNext, prevTitle, nextTitle;
+	if (RDT_arquivoBruto !== undefined){
+		prevCamValue = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_prevCamValue').value).toString(16), 2).toUpperCase();
+		nextCamValue = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_nextCamValue').value).toString(16), 2).toUpperCase();
+		fPrev = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + prevCamValue + '.JPG';
+		fNext = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + nextCamValue + '.JPG';
+		if (APP_FS.existsSync(fPrev) !== true){
+			fPrev = 'img/404.png';
+			prevTitle = '';
+		} else {
+			prevTitle = 'Camera ' + document.getElementById('R3_SCD_EDIT_53_prevCamValue').value + '\nFile: ' + R3_RDT_mapName + prevCamValue + '.JPG';
+		};
+		if (APP_FS.existsSync(fNext) !== true){
+			fNext = 'img/404.png';
+			nextTitle = '';
+		} else {
+			nextTitle = 'Camera ' + document.getElementById('R3_SCD_EDIT_53_nextCamValue').value + '\nFile: ' + R3_RDT_mapName + nextCamValue + '.JPG';
+		};
+	} else {
+		fPrev = fNext = 'img/404.png';
+	};
+	// non-windows fix\
+	if (APP_useImageFix === true){
+		imgFix = 'file://';
+	};
+	// End
+	document.getElementById('R3_SCD_EDIT_53_nextCam').title = nextTitle;
+	document.getElementById('R3_SCD_EDIT_53_nextCam').src = imgFix + fNext;
+	document.getElementById('R3_SCD_EDIT_53_previousCam').title = prevTitle;
+	document.getElementById('R3_SCD_EDIT_53_previousCam').src = imgFix + fPrev;
+};
 // Update camera preview
 function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
 	var camPrev, door_nCam = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_nextCam').value, 2),
@@ -1890,7 +1923,7 @@ function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
 				camPrev = 'img/404.png';
 			} else {
 				// non-windows fix
-				if (process.platform !== 'win32'){
+				if (APP_useImageFix === true){
 					camPrev = 'file://' + camPrev;
 				};
 			};
@@ -2083,13 +2116,13 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 	R3_DESIGN_closeAllRdtMiniWindows();
 	if (R3_WEBMODE === false){
 		if (APP_FS.existsSync(mapFirstCamera) === true){
-			if (process.platform !== 'win32'){
+			if (APP_useImageFix === true){
 				mapFirstCamera = 'file://' + mapFirstCamera;
 			};
 			document.getElementById('R3_RDT_GENERAL_IMG').src = mapFirstCamera;
 		} else {
 			if (APP_FS.existsSync(mapSecondCamera) === true){
-				if (process.platform !== 'win32'){
+				if (APP_useImageFix === true){
 					mapSecondCamera = 'file://' + mapSecondCamera;
 				};
 				document.getElementById('R3_RDT_GENERAL_IMG').src = mapSecondCamera;
@@ -2199,7 +2232,7 @@ function R3_RDT_FILELIST_GENERATE(mode){
 					};
 				};
 				// non-windows fix
-				if (process.platform !== 'win32' && APP_FS.existsSync(mapIcon) === true){
+				if (APP_useImageFix === true && APP_FS.existsSync(mapIcon) === true){
 					mapIcon = 'file://' + mapIcon;
 				};
 				var rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
@@ -2302,13 +2335,13 @@ function R3_DESIGN_RID_updateCamSelected(camId){
 			$('#R3_RID_EDIT_FORM_INNER_BG').css({'background-image': 'url(\'./img/404.png\')'});
 		} else {
 			mPath = R3_MOD_PATH;
-			if (process.platform !== 'win32'){
+			if (APP_useImageFix === true){
 				mPath = 'file://' + R3_MOD_PATH;
 			};
 			$('#R3_RID_EDIT_FORM_INNER_BG').css({'background-image': 'url(\'' + mPath + '/DATA_A/BSS/' + R3_RDT_mapName + MEMORY_JS_fixVars(parseInt(camId).toString(16), 2) + '.JPG\')'});
 		};
 		// Non-windows fix
-		if (process.platform !== 'win32'){
+		if (APP_useImageFix === true){
 			camBss = 'file://' + camBss;
 		};
 	} else {
