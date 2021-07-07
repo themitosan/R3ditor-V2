@@ -25,9 +25,11 @@
 }
 a {
     color: #fff;
+    text-decoration: underline;
 }
 a:visited {
     color: #fff;
+    text-decoration: underline;
 }
 @font-face {
     src: url('cour.ttf');
@@ -1551,7 +1553,7 @@ blockquote {
     background-image: linear-gradient(to bottom, #444, #666);
 }
 .R3_RDT_FILELIST_SERACH {
-    width: 60%;
+    width: 68%;
     color: #0f0;
     border: none;
     padding: 4px;

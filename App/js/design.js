@@ -1189,17 +1189,21 @@ function R3_DESIGN_DOORLINK_RENDER(){
 // Open SCD DoorLink
 function R3_DESIGN_SCD_openDoorLink(){
 	if (SCD_arquivoBruto !== undefined && R3_SCD_IS_EDITING === true && R3_MINI_WINDOW_DATABASE_STATUS[20] === false){
-		if (Object.keys(R3_DOORLINK_DATABASE).length !== 0){
-			R3_DESIGN_MINIWINDOW_CLOSE(9);
-			document.getElementById('R3_SCD_DOORLINK_MAP_INPUT').value = '';
-			document.getElementById('R3_SCD_DOORLINK_mapName').innerHTML = 'Unknwon Location';
-			document.getElementById('R3_SCD_DOORLINK_mapLocation').innerHTML = 'Unknwon Location';
-			document.getElementById('R3_SCD_DOORLINK_doorHolder').innerHTML = '<br><div class="align-center">There\'s nothing to show up here!</div>';
-			R3_DESIGN_MINIWINDOW_OPEN(20);
-			R3_DESIGN_MINIWINDOW_SNAP(14, 20);
+		if (R3_NW_ARGS_DISABLE_DOORLINK === false){
+			if (Object.keys(R3_DOORLINK_DATABASE).length !== 0){
+				R3_DESIGN_MINIWINDOW_CLOSE(9);
+				document.getElementById('R3_SCD_DOORLINK_MAP_INPUT').value = '';
+				document.getElementById('R3_SCD_DOORLINK_mapName').innerHTML = 'Unknwon Location';
+				document.getElementById('R3_SCD_DOORLINK_mapLocation').innerHTML = 'Unknwon Location';
+				document.getElementById('R3_SCD_DOORLINK_doorHolder').innerHTML = '<br><div class="align-center">There\'s nothing to show up here!</div>';
+				R3_DESIGN_MINIWINDOW_OPEN(20);
+				R3_DESIGN_MINIWINDOW_SNAP(14, 20);
+			} else {
+				R3_SYSTEM_LOG('separator');
+				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open DoorLink! <br>Reason: You must generate DoorLink database before using this option! <br>If you already extracted game assets: Go to settings, navigate to SCD Settings and click on \"Update DoorLink Database\".');
+			};
 		} else {
-			R3_SYSTEM_LOG('separator');
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open DoorLink! <br>Reason: You must generate DoorLink database before using this option! <br>If you already extracted game assets: Go to settings, navigate to SCD Settings and click on \"Update DoorLink Database\".');
+			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open DoorLink! <br>Reason: DoorLink was disabled on run args!');
 		};
 	};
 };

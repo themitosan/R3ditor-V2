@@ -136,7 +136,7 @@ function R3_ROFS_ENABLE_MOD_FINISH(){
 */
 // Check if DoorLink database exists
 function R3_DOORLINK_CHECK(){
-	if (R3_WEBMODE === false){
+	if (R3_WEBMODE === false && R3_NW_ARGS_DISABLE_DOORLINK === false){
 		if (APP_FS.existsSync(APP_PATH + '/Configs/DoorLink.R3V2') === true){
 			R3_DOORLINK_DATABASE = JSON.parse(atob(APP_FS.readFileSync(APP_PATH + '/Configs/DoorLink.R3V2', 'utf-8')));
 		} else {
@@ -151,7 +151,7 @@ function R3_DOORLINK_CHECK(){
 };
 // Generate DoorLink Database
 function R3_DOORLINK_INIT(){
-	if (R3_WEBMODE === false && APP_ENABLE_MOD === true){
+	if (R3_WEBMODE === false && APP_ENABLE_MOD === true && R3_NW_ARGS_DISABLE_DOORLINK === false){
 		var cLocation, fName, tmpRes, fileList, tempDoorList, tempDoorList4P, tempList = {};
 		R3_SYSTEM_LOG('separator');
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (DoorLink) Starting reading process - Please Wait...');

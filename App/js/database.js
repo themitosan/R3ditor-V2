@@ -154,7 +154,7 @@ const R3_internalHoldTime = 2800,
 		'16': 'NO_EDIT',
 		'17': 'NO_EDIT',
 		'18': 'NO_EDIT',
-		'19': 'Run Script: <input type="number" autocomplete="off" min="1" maxlength="4" placeholder="1" id="R3_SCD_EDIT_19_scriptId" class="R3_EDIT_TEXT_XYZR" onchange="R3_SCD_FUNCTION_GO_SUB_PREVIEW();" onkeyup="R3_SCD_FUNCTION_GO_SUB_PREVIEW();"><br><br>Script <font id="R3_SCD_EDIT_19_LBL_scriptId">???</font> Preview:<br><br><div class="R3_SCD_EDIT_CHECK_LENGTH" id="R3_SCD_EDIT_19_scriptPreview"></div>',
+		'19': 'Run Script: <input type="number" autocomplete="off" min="1" maxlength="4" placeholder="1" id="R3_SCD_EDIT_19_scriptId" class="R3_EDIT_TEXT_XYZR" onchange="R3_SCD_FUNCTION_GO_SUB_PREVIEW();" oninput="R3_SCD_FUNCTION_GO_SUB_PREVIEW();"><br><br>Script <font id="R3_SCD_EDIT_19_LBL_scriptId">???</font> Preview:<br><br><div class="R3_SCD_EDIT_CHECK_LENGTH" id="R3_SCD_EDIT_19_scriptPreview"></div>',
 		'1a': 'NO_EDIT',
 		'1b': 'NO_EDIT',
 		'1c': 'NO_EDIT',
@@ -2303,6 +2303,7 @@ const R3_internalHoldTime = 2800,
 		'fa': 'Unknown Value',
 		'fc': 'Unknown Value',
 		'fd': 'Unknown Value',
+		'fe': 'Unknown Value',
 		'ff': 'Unknown Value'
 	},
 	// KAGE_SET Options
@@ -2855,7 +2856,7 @@ const R3_internalHoldTime = 2800,
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 1</font>: Open RDT Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 2</font>: Open SCD Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 3</font>: Open MSG Editor</li>' +
-									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 4</font>: Open SAV Editor</li>' + 
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 4</font>: Open SAV Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 5</font>: Open INI Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 6</font>: Open RE3SET Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + L</font>: Open log window</li>' +
@@ -2873,6 +2874,7 @@ const R3_internalHoldTime = 2800,
 									 '<font title="aka. cmd" class="R3_HC_LBL_CODE user-cant-select">Command Prompt</font>, <font class="R3_HC_LBL_CODE user-cant-select">bash</font> and etc. Here is a list of available flags you can use:<br><ul>' +
 									 '<li><font class="R3_HC_LBL_CODE">--webmode</font>: Start R3ditor V2 in Web Mode</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--fullscreen</font>: Start R3ditor V2 in fullscreen</li>' +
+									 '<li><font class="R3_HC_LBL_CODE">--disable-doorlink</font>: Disable SCD DoorLink</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-discord</font>: Disable Discord Rich Presence</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-move-screen</font>: Disable moving window to a another screen</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-animations</font>: Disable all JS animations <i>(ideal for slow machines)</i></li>' +
