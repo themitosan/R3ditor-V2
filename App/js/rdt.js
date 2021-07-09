@@ -599,14 +599,34 @@ function R3_RDT_EXTRACT_SCD(){
 		if (R3_DOORLINK_RUNNING !== true){
 			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading SCD...');
 		};
-		var RDT_SCD_SEEK_AREA, cOpcode = '', lastScript,
-   	 	SCD_HEX_STARTPOS  = (parseInt(R3_RDT_MAP_HEADER_POINTERS[18], 16) * 2),
-   	 	SCD_POINTER_START = R3_parseEndian(RDT_arquivoBruto.slice(SCD_HEX_STARTPOS, (SCD_HEX_STARTPOS + 4))),
-   	 	SCD_POINTER_END   = SCD_HEX_STARTPOS + (parseInt(SCD_POINTER_START, 16) * 2),
-   	 	SCD_LENGTH 		  = (parseInt(R3_parseEndian(RDT_arquivoBruto.slice((SCD_POINTER_END - 4), SCD_POINTER_END)), 16) * 2),
-   	 	SCD_RAW_SECTION   = RDT_arquivoBruto.slice(SCD_HEX_STARTPOS, (SCD_HEX_STARTPOS + SCD_LENGTH));
-   		RDT_SCD_SEEK_AREA = RDT_arquivoBruto.slice((RDT_arquivoBruto.indexOf(SCD_RAW_SECTION) + SCD_RAW_SECTION.length), RDT_arquivoBruto.length);
-		lastScript = RDT_SCD_SEEK_AREA.slice(0, (RDT_SCD_SEEK_AREA.indexOf('0100') + 4));
+		var c = 0, RDT_SCD_SEEK_AREA, foundEnd = false, cOpcode = '', tmpStart = 0, tmpEnd = 2, lastScript = '',
+			SCD_HEX_STARTPOS  = (parseInt(R3_RDT_MAP_HEADER_POINTERS[18], 16) * 2),
+			SCD_POINTER_START = R3_parseEndian(RDT_arquivoBruto.slice(SCD_HEX_STARTPOS, (SCD_HEX_STARTPOS + 4))),
+			SCD_POINTER_END   = SCD_HEX_STARTPOS + (parseInt(SCD_POINTER_START, 16) * 2),
+			SCD_LENGTH 		  = (parseInt(R3_parseEndian(RDT_arquivoBruto.slice((SCD_POINTER_END - 4), SCD_POINTER_END)), 16) * 2),
+			SCD_RAW_SECTION   = RDT_arquivoBruto.slice(SCD_HEX_STARTPOS, (SCD_HEX_STARTPOS + SCD_LENGTH));
+		/*
+			Now, let's try extract the last script from RDT:
+		
+			After getting all scripts using Khaled SA Method, it will crop the RDT file from the end of already extracted SCD to the end of RDT file.
+			Then, it will analyze the next hex block and will compare to the database to see if it is the EVT_END function (01 00).
+			If not, it will see what opcode is, it's length and will jump to the next opcode.
+		
+			Let's hope to all maps haves EVT_END in the last script!
+		 */
+		RDT_SCD_SEEK_AREA = RDT_arquivoBruto.slice((RDT_arquivoBruto.indexOf(SCD_RAW_SECTION) + SCD_RAW_SECTION.length), RDT_arquivoBruto.length);
+		while (foundEnd === false){
+			cOpcode = RDT_SCD_SEEK_AREA.slice(tmpStart, tmpEnd);
+			// console.info('RDT - Opcode ' + cOpcode.toUpperCase() + '(' + R3_SCD_DATABASE[cOpcode][1] + ')');
+			if (cOpcode === '01'){
+				lastScript = RDT_SCD_SEEK_AREA.slice(0, (tmpEnd + 2));
+				foundEnd = true;
+			} else {
+				var opcodeLength = parseInt(R3_SCD_DATABASE[cOpcode][0] * 2);
+				tmpStart = (tmpStart + opcodeLength);
+				tmpEnd = (tmpEnd + opcodeLength);
+			};
+		};
 		R3_RDT_RAWSECTION_SCD = SCD_RAW_SECTION + lastScript;
 	};
 };
@@ -658,7 +678,8 @@ function R3_RDT_EXPORT_SECTION(sectionId){
 		if (sectionId === undefined){
 			sectionId = 0;
 		};
-		var sectionName = rawHex = '', sID = parseInt(sectionId);
+		var sectionName = rawHex = '',
+			sID = parseInt(sectionId);
 		// VB
 		if (sID === 0){
 			sectionName = 'VB';

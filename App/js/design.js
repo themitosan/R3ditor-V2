@@ -1149,7 +1149,7 @@ function R3_HC_OPEN_PAGE(pageId){
 	};
 	// End
 	document.getElementById('R3_HELP_CENTER_HOLDER').scrollTop = 0;
-	R3_DESIGN_MINIWINDOW_OPEN(11);
+	R3_DESIGN_MINIWINDOW_OPEN(11, 'center');
 };
 /*
 	SCD Editor
