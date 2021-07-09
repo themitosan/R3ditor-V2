@@ -429,11 +429,10 @@ document.addEventListener('keyup', function(kp){
 					if (kp.keyCode === 117){
 						R3_runGame(3);
 					};
-					// F9: Run RE3 MOD + RE3 Livetstatus
-					if (kp.keyCode === 120){
-						R3_runGame(2);
-						R3_SHOW_MENU(8);
-					};
+				};
+				// F9: Go to title screen
+				if (kp.keyCode === 120 && RE3_RUNNING === true){
+					R3_LIVESTATUS_gotoTitleScreen();
 				};
 				// Apply SCD Hack / Open Hex Window
 				if (R3_KEYPRESS_CONTROL === true && RDT_arquivoBruto !== undefined && kp.keyCode === 72){

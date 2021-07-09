@@ -54,7 +54,7 @@ function R3_MEMORY_JS_initMemoryJs(){
 			if (PROCESSES[c]['szExeFile'] === processName){ // ResidentEvil3.exe, psfin.exe...
 				p_info = PROCESSES[c];
 				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - MemoryJS: Load Process Done! (Game Mode: ' + RE3_LIVE_CURRENTMOD + ', Executable Name: ' + processName + ' - PID: <font class="user-can-select">' + p_info['th32ProcessID'] + '</font>)');
+				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (MemoryJS) Load Process Done! <br>(Game Mode: ' + RE3_LIVE_CURRENTMOD + ', Executable Name: ' + processName + ' - PID: <font class="user-can-select">' + p_info['th32ProcessID'] + '</font>)');
 				PROCESS_OBJ = APP_MEMJS.openProcess(p_info['th32ProcessID']);
 				if (RE3_RUNNING === false){
 					EXTERNAL_APP_PID = p_info['th32ProcessID'];

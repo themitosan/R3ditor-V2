@@ -2430,6 +2430,10 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 			if (opcodeForm !== ''){
 				document.getElementById('R3_SCD_EDITFUNCTION_HOLDER').innerHTML = opcodeForm;
 				R3_SCD_currentOpcode = cOpcode;
+				// Force it to render the new form
+				if (R3_SCD_previousOpcode[(R3_SCD_previousOpcode.length - 1)] !== R3_SCD_currentOpcode){
+					R3_DESIGN_MINIWINDOW_CLOSE(14);
+				};
 				R3_SCD_previousOpcode.push(R3_SCD_currentOpcode);
 				R3_SCD_IS_EDITING = false;
 				/*
@@ -3149,6 +3153,10 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			$('#R3_SCD_BTN_APPLY').css({'display': 'inline'});
 			R3_SCD_CURRENT_FUNCTION = fnId;
 			R3_SCD_currentOpcode = cOpcode;
+			// Force it to render the new form
+			if (R3_SCD_previousOpcode[(R3_SCD_previousOpcode.length - 1)] !== R3_SCD_currentOpcode){
+				R3_DESIGN_MINIWINDOW_CLOSE(14);
+			};
 			R3_SCD_previousOpcode.push(R3_SCD_currentOpcode);
 			R3_SCD_IS_EDITING = true;
 			/*

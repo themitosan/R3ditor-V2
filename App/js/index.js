@@ -1198,6 +1198,7 @@ function R3_UTILS_VAR_CLEAN_SCD(){
 	R3_SCD_IS_EDITING = false;
 	R3_SCD_currentOpcode = '';
 	R3_SCD_CURRENT_SCRIPT = 0;
+	R3_SCD_previousOpcode = [];
 	R3_SCD_TOTAL_FUNCTIONS = 0;
 	R3_SCD_TEMP_GOSUB_VALUE = 0;
 	R3_TEMP_INSERT_OPCODE = '';
