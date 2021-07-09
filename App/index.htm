@@ -64,69 +64,106 @@
 		</div>
 		<!-- App Holder -->
 		<div class="R3_APP_HOLDER" id="R3_APP_HOLDER">
-			<!-- Recent File -->
-			<div class="R3_LATEST_FILE_DIV" id="R3_LATEST_FILE_DIV">
-				<div class="R3_LATEST_FILE_TITLE">
-					<div class="align-center"><font class="LBL_subTitle">Last File Opened</font></div>
-					<div class="SEPARATOR-2"></div>
-				</div>
-				<!-- Image -->
-				<div class="R3_LATEST_FILE_IMG_PREV" id="R3_LATEST_FILE_IMG_PREV"></div>
-				<!-- Infos -->
-				<div class="R3_LATEST_FILE_INFO">
-					File: <font class="R3_LATEST_FILE_INFO_LABELS" id="R3_LBL_RECENT_FILE">???</font><br>
-					Type: <font class="R3_LATEST_FILE_INFO_LABELS" id="R3_LBL_RECENT_FILE_TYPE">???</font><br>
-					Path: <font class="R3_LATEST_FILE_INFO_LABELS user-can-select" id="R3_LBL_RECENT_FILE_PATH">???</font>
-				</div>
-				<!-- Open Button -->
-				<div class="R3_LATEST_OPEN_BTN">
-					<input type="button" value="Open" id="R3_BTN_LATEST_FILE" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" onclick="R3_LATEST_OPEN();">
-				</div>
-			</div>
 			<!-- App Logo -->
 			<img src="img/logo.png" class="APP_LOGO">
 			<img src="img/FRAME_BG.png" class="FRAME_TITLE">
 			<img id="R3_HOME_BG" class="R3_HOME_BG">
 			<!-- Main Menu -->
 			<div class="R3_MENU_MAIN_TOP" id="R3_MENU_MAIN_TOP">
-				<div id="R3_MENU_MAIN_TOP_HOLDER" class="display-flex">
-					<!-- Editors -->
-					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" id="BTN_MAIN_7" onclick="R3_SHOW_MENU(10);" class="BTN_ICON_BASE" title="(RDT Editor) Click here to open RE3 RDT Editor">
-						<input type="button" id="BTN_MAIN_9" onclick="R3_SHOW_MENU(9);" class="BTN_ICON_BASE" title="(SCD Editor) Click here to open RE3 SCD Editor">
-						<input type="button" id="BTN_MAIN_10" onclick="R3_SHOW_MENU(7);" class="BTN_ICON_BASE" title="(MSG Editor) Click here to open RE3 MSG Editor">
-						<input type="button" id="BTN_MAIN_13" onclick="R3_WIP();" class="BTN_ICON_BASE" title="(SAV Editor) Click here to open RE3 SAV File [NOT IMPLEMENETED YET!]">
-						<input type="button" id="BTN_MAIN_17" onclick="R3_SHOW_MENU(6);" class="BTN_ICON_BASE" title="(INI Editor) Click here to open RE3 INI Editor [WIP]">
-						<input type="button" id="BTN_MAIN_19" onclick="R3_SHOW_MENU(13);" class="BTN_ICON_BASE" title="(RE3SET Editor) Click here to edit Resident Evil 3 General settings [NOT IMPLEMENETED YET!]">
+				<!-- Editors -->
+				<div class="R3_MENU_ITEM">
+					R3V2 Main Tools
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_BIG" title="(RDT Editor) Click here to open RE3 RDT Editor" onclick="R3_SHOW_MENU(10);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-7.png"><div class="R3_MENU_BIG_LBL">RDT Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(SCD Editor) Click here to open RE3 SCD Editor" onclick="R3_SHOW_MENU(9);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-9.png"><div class="R3_MENU_BIG_LBL">SCD Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(MSG Editor) Click here to open RE3 MSG Editor" onclick="R3_SHOW_MENU(7);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-10.png"><div class="R3_MENU_BIG_LBL">MSG Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(SAV Editor) Click here to open RE3 SAV Editor [NOT IMPLEMENETED YET!]" onclick="R3_WIP();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-13.png"><div class="R3_MENU_BIG_LBL">SAV Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(INI Editor) Click here to open RE3 INI Editor [WIP]" onclick="R3_SHOW_MENU(6);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-17.png"><div class="R3_MENU_BIG_LBL">INI Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(RE3SET Editor) Click here to edit Resident Evil 3 General settings [NOT IMPLEMENETED YET!]" onclick="R3_SHOW_MENU(13);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-19.png"><div class="R3_MENU_BIG_LBL">RE3SET Editor</div>
+						</div>
 					</div>
-					<!-- Utility -->
-					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" id="BTN_MAIN_18" onclick="R3_SHOW_MENU(5);" class="BTN_ICON_BASE" title="(File Generator) Click here to write files using Resident Evil Fonts [WIP]">
-						<input type="button" id="BTN_MAIN_15" onclick="R3_OBJ_PATCHER();" class="BTN_ICON_BASE" title="(OBJ Patcher) Click here to fix OBJ files generated with Blender to use on RE3MV">
-						<input type="button" id="BTN_MAIN_14" onclick="R3_DESIGN_MINIWINDOW_OPEN(2, 'center');" class="BTN_ICON_BASE" title="(Xdelta Patcher) Click here to apply Xdelta patches">
-						<input type="button" id="BTN_MAIN_11" onclick="R3_ROFS_EXTRACT();" class="BTN_ICON_BASE" title="(ROFS Extractor) Click here to extract ROFS Files">
-						<input type="button" id="BTN_MAIN_16" onclick="ARD_loadFile();" class="BTN_ICON_BASE" title="(ARD Decompiler) Click here to decompile PS ARD file">
-						<input type="button" id="BTN_MAIN_33" onclick="ARD_checkRecompiler();" class="BTN_ICON_BASE" title="(ARD Compiler) Click here to compile PS ARD File">
-						<input type="button" id="BTN_MAIN_12" onclick="R3_ROFS_ENABLE_MOD_VERIFY();" class="BTN_ICON_BASE" title="(Wizard) Click here to extract the game assets and enable R3ditor V2 Full-Editing mode!">
-						<input type="button" id="BTN_MAIN_55" onclick="R3_eNGE_openEmuWindow();" class="BTN_ICON_BASE" title="(eNGE) Click here to open eNGE PS1 Emulator">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_MOD_EXPORT" id="BTN_MOD_EXPORT" title="(Export) Click here to your mod! [THIS WILL TAKE SOME TIME BUDDY - NOT IMPLEMENETED YET!]">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_HOOK" id="BTN_PS1_HOOK" title="Click here to hook on PS1 emulator!" onclick="R3_MEMORY_JS_HOOK_EMU();">
+				</div>
+				<!-- Utility -->
+				<div class="R3_MENU_ITEM">
+					R3V2 Utility Tools
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_BIG" title="(File Generator) Click here to write files using Resident Evil Fonts [WIP]" onclick="R3_SHOW_MENU(5);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-18.png"><div class="R3_MENU_BIG_LBL">File Generator</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(OBJ Patcher) Click here to fix OBJ files generated with Blender to use on RE3MV" onclick="R3_OBJ_PATCHER();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-15.png"><div class="R3_MENU_BIG_LBL">OBJ Patcher</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(Xdelta Patcher) Click here to apply Xdelta patches" onclick="R3_DESIGN_MINIWINDOW_OPEN(2, 'center');">
+							<img class="R3_MENU_ICON" src="img/icons/icon-14.png"><div class="R3_MENU_BIG_LBL">Xdelta Patcher</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(ROFS Extractor) Click here to extract ROFS Files" onclick="R3_ROFS_EXTRACT();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-11.png"><div class="R3_MENU_BIG_LBL">ROFS Extractor</div>
+						</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_BIG" title="(eNGE) Click here to open eNGE PS1 Emulator" onclick="R3_eNGE_openEmuWindow();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-55.png"><div class="R3_MENU_BIG_LBL">eNGE PS1 Emulator</div>
+						</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_BIG" title="(ARD Extractor) Click here to extract PS ARD file" onclick="ARD_loadFile();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-16.png"><div class="R3_MENU_BIG_LBL">ARD Extractor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(ARD Compiler) Click here to compile PS ARD File" onclick="ARD_checkCompiler();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-33.png"><div class="R3_MENU_BIG_LBL">ARD Compiler</div>
+						</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_BIG" title="(Wizard) Click here to extract the game assets and enable R3ditor V2 Full-Editing mode!" onclick="R3_ROFS_ENABLE_MOD_VERIFY();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-12.png"><div class="R3_MENU_BIG_LBL">Enable Wizard</div>
+						</div>
+						<div id="BTN_PS1_HOOK" class="none">
+							<div class="R3_MENU_SEPARATOR"></div>
+							<div class="R3_MENU_ITEM_BIG" title="Click here to hook on PS1 emulator!" onclick="R3_MEMORY_JS_HOOK_EMU();">
+								<img class="R3_MENU_ICON" src="img/icons/icon-hook.png"><div class="R3_MENU_BIG_LBL">Hook on Emulator</div>
+							</div>
+						</div>
 					</div>
-					<!-- Execs -->
-					<div class="R3_MENU_BTNS_EXECS" id="R3_MENU_MAIN_TOP_EXEC_GAME_DIV">
-						<input type="button" id="BTN_MAIN_0" onclick="R3_runGame(0);" class="BTN_ICON_BASE" disabled="disabled" title="Click here to open Resident Evil 3">
-						<input type="button" id="BTN_MAIN_2" onclick="R3_runGame(1);" class="BTN_ICON_BASE" disabled="disabled" title="Click here to open Mercenaries">
-						<input type="button" id="BTN_MAIN_3" onclick="R3_runGame(2);" class="BTN_ICON_BASE" disabled="disabled" title="Click here to open Resident Evil 3 (Mod)">
-						<input type="button" id="BTN_MAIN_4" onclick="R3_runGame(3);" class="BTN_ICON_BASE" disabled="disabled" title="Click here to open Mercenaries (Mod)">
+				</div>
+				<!-- Run Game -->
+				<div class="R3_MENU_ITEM" id="R3_MENU_RUN_GAME">
+					Run Game
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3" onclick="R3_runGame(0);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-0.png"><div class="R3_MENU_BIG_LBL">Run Resident Evil 3</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries" onclick="R3_runGame(1);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-2.png"><div class="R3_MENU_BIG_LBL">Run Mercenaries</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3 (With Mod)" onclick="R3_runGame(2);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-3.png"><div class="R3_MENU_BIG_LBL">Run Resident Evil 3 (Mod)</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries (With Mod)" onclick="R3_runGame(3);">
+							<img class="R3_MENU_ICON" src="img/icons/icon-4.png"><div class="R3_MENU_BIG_LBL">Run Mercenaries (Mod)</div>
+						</div>
 					</div>
-					<!-- Right -->
-					<div class="R3_MENU_BTNS_OTHER">
-						<input type="button" id="BTN_MAIN_BACKUP" class="BTN_ICON_BASE BTN_ICON_BACKUP" title="Click here to open Backup Manager" onclick="R3_DESIGN_renderBackupManager();">
-						<input type="button" id="BTN_MAIN_22" class="BTN_ICON_BASE" title="Click here to open Log Window" onclick="R3_DESIGN_MINIWINDOW_OPEN(0);">
-						<input type="button" id="BTN_MAIN_53" class="BTN_ICON_BASE" title="Click here to open Help Center" onclick="R3_HC_OPEN_PAGE(4);">
-						<input type="button" id="BTN_MAIN_5" class="BTN_ICON_BASE" title="Click here to change R3ditor V2 Settings" onclick="R3_SHOW_MENU(0);">
-						<input type="button" id="BTN_MAIN_8" class="BTN_ICON_BASE" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">
-						<input type="button" id="BTN_MAIN_1" class="BTN_ICON_BASE" title="Click here to reload R3V2" onclick="R3_RELOAD();">
+				</div>
+				<!-- Settings -->
+				<div class="R3_MENU_ITEM">
+					Settings / Misc
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open R3V2 Settings" onclick="R3_SHOW_MENU(0);">R3V2 Settings</div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open Backup Manager" onclick="R3_DESIGN_renderBackupManager();">Backup Manager</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open log window" onclick="R3_DESIGN_MINIWINDOW_OPEN(0);">Open Log Window</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_HC_OPEN_PAGE(4);">R3V2 Help Center</div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">About</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to reload R3V2" onclick="R3_RELOAD();">Reload</div>
 					</div>
 				</div>
 			</div>
@@ -281,7 +318,6 @@
 					<!-- Hlep Center Goes Here -->
 				</div>
 			</div>
-
 			<!-- R3V2 - RE3 Livestatus -->
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_19">
 				<div id="R3V2_MINI_WINDOW_19_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
@@ -406,14 +442,7 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- Hidden Canvas -->
-			<div id="MAIN_HIDDEN_CANVAS" class="MAIN_HIDDEN_CANVAS"></div>
-
-			<!-- MENU 8 - FREE SLOT -->
-			<div class="MENU_DIV" id="MENU_8"></div>
-
-			<!-- R3V2 - Log -->
+			<!-- R3V2 - Log window -->
 			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_0" id="R3V2_MINI_WINDOW_0">
 				<div id="R3V2_MINI_WINDOW_0_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					<font id="R3V2_TITLE_LOG_WINDOW">R3ditor V2 Log</font>
@@ -434,7 +463,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- eNGE Emulator -->
+			<!-- R3V2 - eNGE Emulator -->
 			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_13" id="R3V2_MINI_WINDOW_13">
 				<div id="R3V2_MINI_WINDOW_13_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					<font id="R3V2_TITLE_LOG_WINDOW">eNGE Emulator</font>
@@ -448,6 +477,30 @@
 				<!-- eNGE Canvas -->
 				<canvas id="R3_ENGE_CANVAS" class="eNGE_CANVAS"></canvas>
 			</div>
+			<!-- Recent File -->
+			<div class="R3_LATEST_FILE_DIV" id="R3_LATEST_FILE_DIV">
+				<div class="R3_LATEST_FILE_TITLE">
+					<div class="align-center"><font class="LBL_subTitle">Last File Opened</font></div>
+					<div class="SEPARATOR-2"></div>
+				</div>
+				<!-- Image -->
+				<div class="R3_LATEST_FILE_IMG_PREV" id="R3_LATEST_FILE_IMG_PREV"></div>
+				<!-- Infos -->
+				<div class="R3_LATEST_FILE_INFO">
+					File: <font class="R3_LATEST_FILE_INFO_LABELS" id="R3_LBL_RECENT_FILE">???</font><br>
+					Type: <font class="R3_LATEST_FILE_INFO_LABELS" id="R3_LBL_RECENT_FILE_TYPE">???</font><br>
+					Path: <font class="R3_LATEST_FILE_INFO_LABELS user-can-select" id="R3_LBL_RECENT_FILE_PATH">???</font>
+				</div>
+				<!-- Open Button -->
+				<div class="R3_LATEST_OPEN_BTN">
+					<input type="button" value="Open" id="R3_BTN_LATEST_FILE" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" onclick="R3_LATEST_OPEN();">
+				</div>
+			</div>
+			<!-- Hidden Canvas -->
+			<div id="MAIN_HIDDEN_CANVAS" class="MAIN_HIDDEN_CANVAS"></div>
+
+			<!-- MENU 8 - FREE SLOT -->
+			<div class="MENU_DIV" id="MENU_8"></div>
 
 			<!-- MAIN TOOLS -->
 
@@ -1003,10 +1056,10 @@
 				</div>
 				<!-- General -->
 				<div class="R3_RDT_MENU_TEMPLATE none" id="R3_RDT_MENU_0">
-					<img class="R3_RDT_GENERAL_IMG" id="R3_RDT_GENERAL_IMG">
+					<div class="R3_RDT_GENERAL_IMG" id="R3_RDT_GENERAL_IMG"></div>
 					<!-- Infos -->
 					<div class="R3_RDT_MENU_GENERAL_INFOS" id="R3_RDT_MENU_GENERAL_INFOS">
-						<font id="R3_RDT_GENERAL_FILENAME" class="LBL_title monospace">???</font><br>
+						<font id="R3_RDT_GENERAL_FILENAME" class="LBL_subTitle monospace">???</font><br>
 						<font id="R3_RDT_GENERAL_LOCALNAME">???</font><br>
 						<div id="R3_RDT_LBL_FILESIZE">
 							File Path: <font id="R3_RDT_GENERAL_FILEPATH" class="user-can-select monospace">???</font><br>
@@ -1265,7 +1318,7 @@
 				</div>
 			</div>
 			<!-- MENU - Settings -->
-			<div class="MENU_DIV MENU_SETTINGS_FIX" id="MENU_0">
+			<div class="MENU_DIV" id="MENU_0">
 				<div class="LBL_title">R3ditor V2 Settings</div>
 				<div class="SETTINGS_HOLDER">
 					<!-- Reading Mode -->

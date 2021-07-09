@@ -73,6 +73,9 @@ const R3_internalHoldTime = 2800,
 							 '<a href="https://stackoverflow.com/questions/25354313/saving-a-uint8array-to-a-binary-file" target="_blank">' + 
 							 'https://stackoverflow.com/questions/25354313/saving-a-uint8array-to-a-binary-file' + 
 							 '</a><br>' +
+							 '<a href="https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_dropdown_navbar" target="_blank">' + 
+							 'https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_dropdown_navbar' + 
+							 '</a><br>' +
 							 '<a href="https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control" target="_blank">' + 
 							 'https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control' + 
 							 '</a><br>' +

@@ -68,8 +68,8 @@ function ARD_extractSections(){
 		};
 	};
 };
-// Check Recompiler
-function ARD_checkRecompiler(){
+// Check Compiler
+function ARD_checkCompiler(){
 	if (R3_WEBMODE === false){
 		R3_FILE_LOAD('.R3ARD', function(recompilerFile){
 			R3_UTILS_VAR_CLEAN_ARD();
@@ -89,7 +89,7 @@ function ARD_checkRecompiler(){
 		R3_WEBWARN();
 	};
 };
-// Start Recompiler
+// Start Compiler
 function ARD_startRecompiler(ardInfos, rdtPath){
 	if (R3_WEBMODE === false){
 		var c = 0, ARD_temp = RDT_nextOffsetLength = RDT_nextOffset = '',

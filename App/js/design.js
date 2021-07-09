@@ -50,27 +50,27 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 			Order:
 			Width, Height, Top, Left, Z-index  Focus DOM element after opening
 		*/
-		0:  [670,  294,    44,  4,   9999999,  ''], 							  	 // R3V2 Log
-		1:  [380,  178,    44,  4,    	 100,  ''], 							  	 // MSG Hex View
-		2:  [700,  130,    44,  4,   9999998,  ''], 							  	 // Xdelta Patcher
-		3:  [414,  310,    44,  4,    	 100,  ''], 							  	 // SCD Hex View
-		4:  [210,  560,    44,  726,  	 101,  ''], 							  	 // SCD Script List
-		5:  [232,  560,    44,  858,  	 101,  ''], 							  	 // MSG List
-		6:  [860,  342,    44,  4,    	 100,  ''], 							  	 // RID Editor
-		7:  [392,  178,    44,  768,  	 100,  ''], 							  	 // MSG Hex Translator
-		8:  [300,  124,    44,  552,  	 104,  ''], 							  	 // SCD Preset Window
-		9:  [300,  442,    44,  446,  	 103,  'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'], 	 // SCD Search Form
-		10: [200,  376,    44,  570,   	 101,  ''], 							  	 // RDT Export Sections
-		11: [700,  294,    44,  4,    100000,  ''], 							  	 // R3V2 Help Center
+		0:  [670,  294,    68,  4,   9999999,  ''], 							  	 // R3V2 Log
+		1:  [380,  178,    68,  4,    	 100,  ''], 							  	 // MSG Hex View
+		2:  [700,  130,    68,  4,   9999998,  ''], 							  	 // Xdelta Patcher
+		3:  [414,  310,    68,  4,    	 100,  ''], 							  	 // SCD Hex View
+		4:  [210,  560,    68,  726,  	 101,  ''], 							  	 // SCD Script List
+		5:  [232,  560,    68,  858,  	 101,  ''], 							  	 // MSG List
+		6:  [860,  342,    68,  4,    	 100,  ''], 							  	 // RID Editor
+		7:  [392,  178,    68,  768,  	 100,  ''], 							  	 // MSG Hex Translator
+		8:  [300,  124,    68,  552,  	 104,  ''], 							  	 // SCD Preset Window
+		9:  [300,  442,    68,  446,  	 103,  'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'], 	 // SCD Search Form
+		10: [200,  376,    68,  570,   	 101,  ''], 							  	 // RDT Export Sections
+		11: [780,  294,    68,  4,    100000,  ''], 							  	 // R3V2 Help Center
 		12: [540,  410,    226, 466,  	 102,  'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
-		13: [640,  480,    44,  4,    999999,  'R3_PS1_DISPLAY'],					 // eNGE PS1 Canvas
-		14: [760,  480,    90,  12,      105,  ''],									 // SCD edit form
-		15: [400,  358,    44,  4, 	  999999,  'R3_ITEM_DATABASE_SEARCH'],			 // Item Database
-		16: [220,  88,     44,  444, 	 101,  'R3_RDT_timManagerList'],			 // RDT TIM Manager
-		17: [220,  88,     44,  486, 	 102,  'R3_RDT_objManagerList'],			 // RDT OBJ Manager
-		18: [680,  434,    44,  4, 	 9999998,  ''],									 // Backup Manager
-		19: [850,  620,    44,  4, 	 9999998,  ''], 								 // RE3 Livestatus
-		20: [416,  482,    44,  4, 		 105,  'R3_SCD_DOORLINK_MAP_INPUT']			 // SCD DoorLink
+		13: [640,  480,    68,  4,    999999,  'R3_PS1_DISPLAY'],					 // eNGE PS1 Canvas
+		14: [760,  480,    68,  12,      105,  ''],									 // SCD edit form
+		15: [400,  358,    68,  4, 	  999999,  'R3_ITEM_DATABASE_SEARCH'],			 // Item Database
+		16: [220,  88,     68,  444, 	 101,  'R3_RDT_timManagerList'],			 // RDT TIM Manager
+		17: [220,  88,     68,  486, 	 102,  'R3_RDT_objManagerList'],			 // RDT OBJ Manager
+		18: [680,  434,    68,  4, 	 9999998,  ''],									 // Backup Manager
+		19: [850,  620,    68,  4, 	 9999998,  ''], 								 // RE3 Livestatus
+		20: [416,  482,    68,  4, 		 105,  'R3_SCD_DOORLINK_MAP_INPUT']			 // SCD DoorLink
 	};
 /*
 	Main Consts
@@ -488,12 +488,16 @@ function R3_DESIGN_ADJUST(){
 };
 // Enable and Disable Elements
 function R3_DESIGN_ENABLE_BTN(id){
-	document.getElementById(id).disabled = '';
-	$('#' + id).css({'filter': 'grayscale(0) blur(0px)', 'cursor': 'pointer', 'opacity': '1'});
+	if (document.getElementById(id) !== null){
+		document.getElementById(id).disabled = '';
+		$('#' + id).css({'filter': 'grayscale(0) blur(0px)', 'cursor': 'pointer', 'opacity': '1'});	
+	};
 };
 function R3_DESIGN_DISABLE_BTN(id){
-	document.getElementById(id).disabled = 'disabled';
-	$('#' + id).css({'filter': 'grayscale(1) blur(0.8px)', 'cursor': 'not-allowed', 'opacity': '0.6'});
+	if (document.getElementById(id) !== null){
+		document.getElementById(id).disabled = 'disabled';
+		$('#' + id).css({'filter': 'grayscale(1) blur(0.8px)', 'cursor': 'not-allowed', 'opacity': '0.6'});
+	};
 };
 /*
 	Toggle fullscreen modes
@@ -855,11 +859,11 @@ function R3_DESIGN_MINIWINDOW_MAXIMIZE(windowId){
 	if (windowId !== undefined){
 		if (R3_ENABLE_ANIMATIONS === false){
 			$('#R3V2_MINI_WINDOW_MAXIMIZE_' + windowId).fadeOut({duration: 100, queue: false});
-			$('#R3V2_MINI_WINDOW_' + windowId).css({'top': '44px', 'left': '4px', 'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
+			$('#R3V2_MINI_WINDOW_' + windowId).css({'top': '68px', 'left': '4px', 'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
 		} else {
 			$('#R3V2_MINI_WINDOW_MAXIMIZE_' + windowId).css({'display': 'none'});
 			$('#R3V2_MINI_WINDOW_' + windowId).css({'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
-			$('#R3V2_MINI_WINDOW_' + windowId).animate({'top': '44px', 'left': '4px'}, {duration: 80, queue: false});
+			$('#R3V2_MINI_WINDOW_' + windowId).animate({'top': '68px', 'left': '4px'}, {duration: 80, queue: false});
 		};
 		// Clear Log fix
 		if (windowId === 0){
@@ -921,9 +925,13 @@ function R3_DESIGN_enableDragElement(elementId){
 		pos4 = e.clientY;
 		finalTop = (elmnt.offsetTop - pos2);
 		finalLeft = (elmnt.offsetLeft - pos1);
-		if (finalTop < 44){
+		if (finalTop < 44 && R3_MENU_CURRENT !== 4){
 			finalTop = 44;
-		};
+		} else {
+			if (finalTop < 30 && R3_MENU_CURRENT === 4){
+				finalTop = 30;
+			};
+		}
 		if (finalLeft < 4){
 			finalLeft = 4;
 		};
@@ -1072,9 +1080,7 @@ function R3_DESIGN_UPDATE_LATEST_LABELS(){
 		document.getElementById('R3_LBL_RECENT_FILE_PATH').innerHTML = R3_fixPathSize(SETTINGS_RECENT_FILE_PATH, (R3_RDT_MENU_LABEL_FIX_NUMBER - 8)).replace('//', '/');
 		if (SETTINGS_RECENT_FILE_TYPE === 0){
 			var fName = SETTINGS_RECENT_FILE_NAME.toLowerCase().replace('.rdt', '').toUpperCase(),
-				fPath_00 = R3_MOD_PATH + '/DATA_A/BSS/' + fName + '00.JPG',
-				fPath_01 = R3_MOD_PATH + '/DATA_A/BSS/' + fName + '01.JPG',
-				fFix = '';
+				fPath_00 = R3_MOD_PATH + '/DATA_A/BSS/' + fName + '00.JPG',	fPath_01 = R3_MOD_PATH + '/DATA_A/BSS/' + fName + '01.JPG', fFix = '';
 			if (APP_useImageFix === true){
 				fFix = 'file://';
 			};
@@ -2119,15 +2125,15 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 			if (APP_useImageFix === true){
 				mapFirstCamera = 'file://' + mapFirstCamera;
 			};
-			document.getElementById('R3_RDT_GENERAL_IMG').src = mapFirstCamera;
+			$('#R3_RDT_GENERAL_IMG').css({'background-image': 'url(' + mapFirstCamera + ')'});
 		} else {
 			if (APP_FS.existsSync(mapSecondCamera) === true){
 				if (APP_useImageFix === true){
 					mapSecondCamera = 'file://' + mapSecondCamera;
 				};
-				document.getElementById('R3_RDT_GENERAL_IMG').src = mapSecondCamera;
+				$('#R3_RDT_GENERAL_IMG').css({'background-image': 'url(' + mapSecondCamera + ')'});
 			} else {
-				document.getElementById('R3_RDT_GENERAL_IMG').src = 'img/404.png';
+				$('#R3_RDT_GENERAL_IMG').css({'background-image': 'url(img/404.png)'});
 			};
 		};
 	};
@@ -2201,7 +2207,7 @@ function R3_RDT_FILELIST_GENERATE(mode){
 	if (R3_WEBMODE === false){
 		R3_SETTINGS_getMapPrefix();
 		document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">Generating file list, please wait...</div>';
-		var c = 0, fileTest, currentMap, HTML_MAP_LIST = rdtPath = gameMode = mapIcon = '';
+		var c = 0, rPath, fileTest, currentMap, HTML_MAP_LIST = rdtPath = gameMode = mapIcon = '';
 		if (parseInt(mode) === 0){
 			gameMode = 'Easy';
 			rdtPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT/';
@@ -2235,10 +2241,10 @@ function R3_RDT_FILELIST_GENERATE(mode){
 				if (APP_useImageFix === true && APP_FS.existsSync(mapIcon) === true){
 					mapIcon = 'file://' + mapIcon;
 				};
-				var rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
+				rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
 				HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT_LOAD(\'' + rdtPath.replace(new RegExp('\\\\', 'g'), '/').replace('//', '/') +
-								currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' + currentMap + '</font><br>Location: ' +
-								RDT_locations[currentMap][0] + ', ' + RDT_locations[currentMap][1] + '<br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
+								currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' + currentMap + '</font><br>Location: <font class="monospace mono_xyzr">' +
+								RDT_locations[currentMap][0] + '</font>, <font class="monospace mono_xyzr">' + RDT_locations[currentMap][1] + '</font><br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
 				c++;
 			};
 			document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '';
@@ -2433,7 +2439,7 @@ function R3_LIVESTATUS_OPEN_BAR(){
 		$('#R3_LIVESTATUS_FOOTER_HOLDER').css({'display': 'inline'});
 		// Adjust menus
 		while (c < R3_TOTAL_MENUS){
-			$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 80px)'});
+			$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 64px)'});
 			c++;
 		};
 	};
@@ -2444,7 +2450,7 @@ function R3_LIVESTATUS_OPEN_BAR(){
 		$('#R3_LIVESTATUS_RIGHT_HOLDER').css({'display': 'inline'});
 		// Adjust menus
 		while (c < R3_TOTAL_MENUS){
-			$('#MENU_' + c).css({'width': 'calc(100% - 112px)', 'height': 'calc(100% - 42px)'});
+			$('#MENU_' + c).css({'width': 'calc(100% - 112px)', 'height': 'calc(100% - 26px)'});
 			c++;
 		};
 	};
@@ -2461,7 +2467,7 @@ function R3_LIVESTATUS_CLOSE_BAR(){
 	};
 	// Adjust menus
 	while (c < R3_TOTAL_MENUS){
-		$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 42px)'});
+		$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 24px)'});
 		c++;
 	};
 	// End
