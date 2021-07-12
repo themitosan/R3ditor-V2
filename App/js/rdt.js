@@ -735,15 +735,183 @@ function R3_RDT_EXPORT_SECTION(sectionId){
 			sectionName = 'FLR';
 			rawHex = R3_RDT_RAWSECTION_FLR;
 		};
-		/*
-			End
-		*/
+		// End
 		if (rawHex !== undefined){
-			R3_FILE_SAVE(R3_RDT_mapName + '_' + sectionName + '.' + sectionName.toLowerCase(), rawHex, 'hex', '.' + sectionName.toLowerCase(), function(fPath){
+			R3_FILE_SAVE(R3_RDT_mapName + '_' + sectionName + '.R3SECTION', rawHex, 'hex', '.' + sectionName.toLowerCase(), function(fPath){
 				R3_SYSTEM_LOG('separator');
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Process complete! (' + sectionName + ')<br>Path: <font class="user-can-select">' + fPath + '</font>');
 			});
 		};
+	};
+};
+// Extract all sections (Like BIOFAT)
+function R3_RDT_EXTRACT_ALL_SECTIONS(){
+	if (R3_WEBMODE === false){
+		if (RDT_arquivoBruto !== undefined){
+			try {
+				var fPath = rdtPath + R3_RDT_mapName;
+				if (APP_FS.existsSync(fPath) !== true){
+					APP_FS.mkdirSync(fPath);
+				};
+				// Start
+				R3_SYSTEM_LOG('separator');
+				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Starting export process...');
+				if (R3_RDT_RAWSECTION_VB !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving VB...');
+					APP_FS.writeFileSync(fPath + '/VB.R3SECTION', R3_RDT_RAWSECTION_VB, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_SCA !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving SCA...');
+					APP_FS.writeFileSync(fPath + '/SCA.R3SECTION', R3_RDT_RAWSECTION_SCA, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_RID !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving RID...');
+					APP_FS.writeFileSync(fPath + '/RID.R3SECTION', R3_RDT_RAWSECTION_RID, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_RVD !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving RVD...');
+					APP_FS.writeFileSync(fPath + '/RVD.R3SECTION', R3_RDT_RAWSECTION_RVD, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_OBJ !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving OBJ...');
+					APP_FS.writeFileSync(fPath + '/OBJ.R3SECTION', R3_RDT_RAWSECTION_OBJ, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_LIT !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving LIT...');
+					APP_FS.writeFileSync(fPath + '/LIT.R3SECTION', R3_RDT_RAWSECTION_LIT, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_PRI !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving PRI...');
+					APP_FS.writeFileSync(fPath + '/PRI.R3SECTION', R3_RDT_RAWSECTION_PRI, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_FLR !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving FLR...');
+					APP_FS.writeFileSync(fPath + '/FLR.R3SECTION', R3_RDT_RAWSECTION_FLR, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_MSG !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving MSG...');
+					APP_FS.writeFileSync(fPath + '/MSG.R3SECTION', R3_RDT_RAWSECTION_MSG, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_SCD !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving SCD...');
+					APP_FS.writeFileSync(fPath + '/SCD.R3SECTION', R3_RDT_RAWSECTION_SCD, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_EFF !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving EFF...');
+					APP_FS.writeFileSync(fPath + '/EFF.R3SECTION', R3_RDT_RAWSECTION_EFF, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_SND !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving SND...');
+					APP_FS.writeFileSync(fPath + '/SND.R3SECTION', R3_RDT_RAWSECTION_SND, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_BLK !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving BLK...');
+					APP_FS.writeFileSync(fPath + '/BLK.R3SECTION', R3_RDT_RAWSECTION_BLK, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_RBJ !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving RBJ...');
+					APP_FS.writeFileSync(fPath + '/RBJ.R3SECTION', R3_RDT_RAWSECTION_RBJ, 'hex');
+				};
+				if (R3_RDT_RAWSECTION_EFFSPR !== undefined){
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Saving EFFSPR...');
+					APP_FS.writeFileSync(fPath + '/EFFSPR.R3SECTION', R3_RDT_RAWSECTION_EFFSPR, 'hex');
+				};
+				R3_SYSTEM_LOG('separator');
+				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Export Successful!');
+				R3_SYSTEM_ALERT('INFO: Process Complete!');
+			} catch (err) {
+				console.error(err);
+				R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to extract all sections! <br>' + err);
+			};
+		}
+	} else {
+		R3_WEBWARN();
+	};
+};
+// Import all sections from extracted files
+function R3_RDT_IMPORT_ALL_SECTIONS(){
+	if (R3_WEBMODE !== true){
+		if (RDT_arquivoBruto !== undefined){
+			try {
+				var fPath = rdtPath + R3_RDT_mapName;
+				if (APP_FS.existsSync(fPath) === true){
+					// Reading files
+					R3_SYSTEM_LOG('separator');
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Start loading process...');
+					if (APP_FS.existsSync(fPath + '/VB.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading VB (VB.R3SECTION)');
+						R3_RDT_RAWSECTION_VB = APP_FS.readFileSync(fPath + '/VB.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/SCA.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading SCA (SCA.R3SECTION)');
+						R3_RDT_RAWSECTION_SCA = APP_FS.readFileSync(fPath + '/SCA.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/RID.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading RID (RID.R3SECTION)');
+						R3_RDT_RAWSECTION_RID = APP_FS.readFileSync(fPath + '/RID.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/RVD.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading RVD (RVD.R3SECTION)');
+						R3_RDT_RAWSECTION_RVD = APP_FS.readFileSync(fPath + '/RVD.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/OBJ.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading OBJ (OBJ.R3SECTION)');
+						R3_RDT_RAWSECTION_OBJ = APP_FS.readFileSync(fPath + '/OBJ.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/LIT.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading LIT (LIT.R3SECTION)');
+						R3_RDT_RAWSECTION_LIT = APP_FS.readFileSync(fPath + '/LIT.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/PRI.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading PRI (PRI.R3SECTION)');
+						R3_RDT_RAWSECTION_PRI = APP_FS.readFileSync(fPath + '/PRI.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/FLR.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading FLR (FLR.R3SECTION)');
+						R3_RDT_RAWSECTION_FLR = APP_FS.readFileSync(fPath + '/FLR.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/MSG.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading MSG (MSG.R3SECTION)');
+						R3_RDT_RAWSECTION_MSG = APP_FS.readFileSync(fPath + '/MSG.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/SCD.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading SCD (SCD.R3SECTION)');
+						R3_RDT_RAWSECTION_SCD = APP_FS.readFileSync(fPath + '/SCD.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/EFF.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading EFF (EFF.R3SECTION)');
+						R3_RDT_RAWSECTION_EFF = APP_FS.readFileSync(fPath + '/EFF.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/SND.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading SND (SND.R3SECTION)');
+						R3_RDT_RAWSECTION_SND = APP_FS.readFileSync(fPath + '/SND.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/BLK.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading BLK (BLK.R3SECTION)');
+						R3_RDT_RAWSECTION_BLK = APP_FS.readFileSync(fPath + '/BLK.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/RBJ.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading RBJ (RBJ.R3SECTION)');
+						R3_RDT_RAWSECTION_RBJ = APP_FS.readFileSync(fPath + '/RBJ.R3SECTION', 'hex');
+					};
+					if (APP_FS.existsSync(fPath + '/EFFSPR.R3SECTION') === true){
+						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Loading EFFSPR (EFFSPR.R3SECTION)');
+						R3_RDT_RAWSECTION_EFFSPR = APP_FS.readFileSync(fPath + '/EFFSPR.R3SECTION', 'hex');
+					};
+					R3_SYSTEM_LOG('separator');
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) Import Successful!');
+					R3_SYSTEM_ALERT('INFO: Process Complete!');
+				} else {
+					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to import sections! <br>Reason: Extraction folder does not exists! (404)');
+					R3_SYSTEM_ALERT('WARN: Unable to import sections!\nReason: Extraction folder does not exists! (404)');
+				};
+			} catch (err) {
+				console.error(err);
+				R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to import all sections! <br>' + err);
+			};
+		};
+	} else{
+		R3_WEBWARN();
 	};
 };
 /*

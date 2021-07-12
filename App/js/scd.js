@@ -2869,15 +2869,9 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				// Set Item [ITEM_AOT_SET]
 				if (cOpcode === '67'){
 					$('#R3_SCD_EDIT_67_attr').append(INCLUDE_EDIT_ATTR);
-					$('#R3_SCD_EDIT_67_anim').append(INCLUDE_SCD_ITEM_ANIMATION);
 					$('#R3_SCD_EDIT_67_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
 					document.getElementById('R3_SCD_EDIT_67_id').value = R3_SCD_getFreeIdForFunction(0);
 					document.getElementById('R3_SCD_EDIT_67_aot').value = '02310000';
-					document.getElementById('R3_SCD_EDIT_67_posX').value = '';
-					document.getElementById('R3_SCD_EDIT_67_posY').value = '';
-					document.getElementById('R3_SCD_EDIT_67_posZ').value = '';
-					document.getElementById('R3_SCD_EDIT_67_posR').value = '';
-					document.getElementById('R3_SCD_EDIT_67_itemSeek').value = '';
 					document.getElementById('R3_SCD_EDIT_67_item').value = '00';
 					document.getElementById('R3_SCD_EDIT_67_unk0').value = '00';
 					document.getElementById('R3_SCD_EDIT_67_quant').value = 1;
@@ -2885,23 +2879,16 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 					document.getElementById('R3_SCD_EDIT_67_unk2').value = '00';
 					document.getElementById('R3_SCD_EDIT_67_iFlag').value = '00';
 					document.getElementById('R3_SCD_EDIT_67_modelId').value = '00';
-					document.getElementById('R3_SCD_EDIT_67_anim').value = '00';
 					R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_67_item', 'R3_SCD_EDIT_67_itemIconPrev');
 					focusDomId = 'R3_SCD_EDIT_67_itemSeek';
 				};
 				// Set Item 4P [ITEM_AOT_SET]
 				if (cOpcode === '68'){
 					$('#R3_SCD_EDIT_68_attr').append(INCLUDE_EDIT_ATTR);
-					$('#R3_SCD_EDIT_68_anim').append(INCLUDE_SCD_ITEM_ANIMATION);
 					$('#R3_SCD_EDIT_68_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
 					document.getElementById('R3_SCD_EDIT_68_id').value = R3_SCD_getFreeIdForFunction(0);
 					document.getElementById('R3_SCD_EDIT_68_aot').value = '02310000';
-					document.getElementById('R3_SCD_EDIT_68_posX').value = '';
-					document.getElementById('R3_SCD_EDIT_68_posY').value = '';
-					document.getElementById('R3_SCD_EDIT_68_posZ').value = '';
-					document.getElementById('R3_SCD_EDIT_68_posR').value = '';
 					document.getElementById('R3_SCD_EDIT_68_4P').value = '0000000000000000';
-					document.getElementById('R3_SCD_EDIT_68_itemSeek').value = '';
 					document.getElementById('R3_SCD_EDIT_68_item').value = '00';
 					document.getElementById('R3_SCD_EDIT_68_unk0').value = '00';
 					document.getElementById('R3_SCD_EDIT_68_quant').value = 1;
@@ -3776,7 +3763,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			// Set Item [ITEM_AOT_SET]
 			if (cOpcode === '67'){
 				$('#R3_SCD_EDIT_67_attr').append(INCLUDE_EDIT_ATTR);
-				$('#R3_SCD_EDIT_67_anim').append(INCLUDE_SCD_ITEM_ANIMATION);
+				$('#R3_SCD_EDIT_67_blinkColor').append(INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
 				$('#R3_SCD_EDIT_67_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
 				var ITEM_Id 	 = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					ITEM_aot 	 = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
@@ -3791,7 +3778,9 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 					ITEM_unk2 	 = cFunction.slice(R3_SCD_DEC_DB.unk2[0], R3_SCD_DEC_DB.unk2[1]),
 					ITEM_flag 	 = cFunction.slice(R3_SCD_DEC_DB.itemFlag[0], R3_SCD_DEC_DB.itemFlag[1]),
 					ITEM_modelId = cFunction.slice(R3_SCD_DEC_DB.modelId[0], R3_SCD_DEC_DB.modelId[1]),
-					ITEM_MP 	 = cFunction.slice(R3_SCD_DEC_DB.itemMP[0], R3_SCD_DEC_DB.itemMP[1]);
+					ITEM_MP 	 = cFunction.slice(R3_SCD_DEC_DB.itemMP[0], R3_SCD_DEC_DB.itemMP[1]),
+					ITEM_bColor  = ITEM_MP.slice(0, 1).toLowerCase(),
+					item_uCrouch = ITEM_MP.slice(1, 2).toLowerCase();
 				document.getElementById('R3_SCD_EDIT_67_id').value = ITEM_Id;
 				document.getElementById('R3_SCD_EDIT_67_aot').value = ITEM_aot;
 				document.getElementById('R3_SCD_EDIT_67_posX').value = ITEM_Xpos;
@@ -3805,14 +3794,15 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 				document.getElementById('R3_SCD_EDIT_67_unk2').value = ITEM_unk2;
 				document.getElementById('R3_SCD_EDIT_67_iFlag').value = ITEM_flag;
 				document.getElementById('R3_SCD_EDIT_67_modelId').value = ITEM_modelId;
-				document.getElementById('R3_SCD_EDIT_67_anim').value = ITEM_MP;
+				document.getElementById('R3_SCD_EDIT_67_blinkColor').value = ITEM_bColor;
+				document.getElementById('R3_SCD_EDIT_67_playerCrouch').checked = R3_JS_COMPILER_parseCrouch(0, item_uCrouch);
 				R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_67_item', 'R3_SCD_EDIT_67_itemIconPrev');
 				focusDomId = 'R3_SCD_EDIT_67_itemSeek';
 			};
 			// Set Item 4P [ITEM_AOT_SET_4P]
 			if (cOpcode === '68'){
 				$('#R3_SCD_EDIT_68_attr').append(INCLUDE_EDIT_ATTR);
-				$('#R3_SCD_EDIT_68_anim').append(INCLUDE_SCD_ITEM_ANIMATION);
+				$('#R3_SCD_EDIT_68_blinkColor').append(INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
 				$('#R3_SCD_EDIT_68_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
 				var ITEM_Id 	 = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					ITEM_aot 	 = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
@@ -3828,7 +3818,9 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 					ITEM_unk2 	 = cFunction.slice(R3_SCD_DEC_DB.unk2[0], R3_SCD_DEC_DB.unk2[1]),
 					ITEM_flag 	 = cFunction.slice(R3_SCD_DEC_DB.itemFlag[0], R3_SCD_DEC_DB.itemFlag[1]),
 					ITEM_modelId = cFunction.slice(R3_SCD_DEC_DB.modelId[0], R3_SCD_DEC_DB.modelId[1]),
-					ITEM_MP 	 = cFunction.slice(R3_SCD_DEC_DB.itemMP[0], R3_SCD_DEC_DB.itemMP[1]);
+					ITEM_MP 	 = cFunction.slice(R3_SCD_DEC_DB.itemMP[0], R3_SCD_DEC_DB.itemMP[1]),
+					ITEM_bColor  = ITEM_MP.slice(0, 1).toLowerCase(),
+					item_uCrouch = ITEM_MP.slice(1, 2).toLowerCase();
 				document.getElementById('R3_SCD_EDIT_68_id').value = ITEM_Id;
 				document.getElementById('R3_SCD_EDIT_68_aot').value = ITEM_aot;
 				document.getElementById('R3_SCD_EDIT_68_posX').value = ITEM_Xpos;
@@ -3843,7 +3835,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 				document.getElementById('R3_SCD_EDIT_68_unk2').value = ITEM_unk2;
 				document.getElementById('R3_SCD_EDIT_68_iFlag').value = ITEM_flag;
 				document.getElementById('R3_SCD_EDIT_68_modelId').value = ITEM_modelId;
-				document.getElementById('R3_SCD_EDIT_68_anim').value = ITEM_MP;
+				document.getElementById('R3_SCD_EDIT_68_blinkColor').value = ITEM_bColor;
+				document.getElementById('R3_SCD_EDIT_68_playerCrouch').checked = R3_JS_COMPILER_parseCrouch(0, item_uCrouch);
 				R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_68_item', 'R3_SCD_EDIT_68_itemIconPrev');
 				focusDomId = 'R3_SCD_EDIT_68_itemSeek';
 			};
@@ -4714,7 +4707,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			item_unk2 	 = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_67_unk2').value, 2),
 			item_flag 	 = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_67_iFlag').value, 2),
 			item_modelId = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_67_modelId').value, 2),
-			item_MP 	 = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_67_anim').value, 2);
+			item_MP 	 = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_67_blinkColor').value + R3_JS_COMPILER_parseCrouch(1, 'R3_SCD_EDIT_67_playerCrouch'), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + item_Id + item_aot + item_Xpos + item_Ypos + item_Zpos + item_Rpos + item_code + item_unk0 + item_quant + 
 					item_unk1 + item_unk2 + item_flag + item_modelId + item_MP;
 	}
@@ -4734,7 +4727,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			item_unk2 	 = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_68_unk2').value, 2),
 			item_flag 	 = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_68_iFlag').value, 2),
 			item_modelId = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_68_modelId').value, 2),
-			item_MP 	 = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_68_anim').value, 2);
+			item_MP 	 = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_68_blinkColor').value + R3_JS_COMPILER_parseCrouch(1, 'R3_SCD_EDIT_68_playerCrouch'), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + item_Id + item_aot + item_Xpos + item_Ypos + item_Zpos + item_Rpos + item_4P + item_code + item_unk0 + item_quant + 
 					item_unk1 + item_unk2 + item_flag + item_modelId + item_MP;
 	};

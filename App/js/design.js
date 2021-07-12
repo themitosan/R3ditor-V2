@@ -217,11 +217,17 @@ function R3_SHOW_MENU(menuId){
 			*/
 			// About Page [BG]
 			if (menuId === 1){
+				if (RE3_RUNNING === true){
+					R3_LIVESTATUS_CLOSE_BAR();
+				};
 				R3_DESIGN_MINIWINDOW_CLOSE(0);
 				$('#R3_MENU_MAIN_TOP').css({'display': 'none'});
 				$('#MENU_1').css({'height': '100%', 'top': '0px'});
 				$('#ABOUT_BG').fadeIn({duration: 21000, queue: false});
 			} else {
+				if (RE3_RUNNING === true){
+					R3_LIVESTATUS_OPEN_BAR();
+				};
 				$('#R3_MENU_MAIN_TOP').css({'display': 'inline-flex'});
 			};
 			// MSG Editor
@@ -290,6 +296,15 @@ function R3_SHOW_MENU(menuId){
 				R3_DESIGN_OPEN_CLOSE_LATEST(0);
 			};
 			R3_DESIGN_CHECK_SHOW_EXECS();
+			// Append dropdown menu
+			if (R3_DESIGN_DROPDOWN_DATABASE[menuId][0] !== 'NO_DROPDOWN'){
+				document.getElementById('R3_MENU_CURRENT_TOOL_HOLDER').innerHTML = R3_DESIGN_DROPDOWN_DATABASE[menuId][1];
+				$('#R3_MENU_CURRENT_TOOL_HOLDER').css({'min-width': R3_DESIGN_DROPDOWN_DATABASE[menuId][2] + 'px'});
+				document.getElementById('R3_MENU_DROPDOWN_LBL').innerHTML = R3_DESIGN_DROPDOWN_DATABASE[menuId][0];
+				$('#R3_MENU_CURRENT_TOOL').css({'display': 'inline-block'});
+			} else {
+				$('#R3_MENU_CURRENT_TOOL').css({'display': 'none'});
+			};
 			/*
 				End
 			*/
@@ -305,9 +320,9 @@ function R3_SHOW_MENU(menuId){
 // Disable PC version exec buttons if emu
 function R3_DESIGN_CHECK_SHOW_EXECS(){
 	if (R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === true){
-		$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'display': 'none'});
+		$('#R3_MENU_RUN_GAME').css({'display': 'none'});
 	} else {
-		$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'display': 'inline-flex'});
+		$('#R3_MENU_RUN_GAME').css({'display': 'inline-block'});
 	};
 };
 // Web Alert
@@ -1798,7 +1813,7 @@ function R3_SCD_openFunctionEdit(cOpcode, isInsert, isExtra, extraTitle){
 	if (R3_SCD_DATABASE[cOpcode][8] === false){
 		$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(\'img/logoWm.png\')', 'background-size': 'auto 80%'});
 	} else {
-		$('#R3_SCD_editForm_bg_image').css({'background-size': 'auto 280%'});
+		$('#R3_SCD_editForm_bg_image').css({'background-size': 'auto 144%'});
 	};
 	// If are extra edit forms (non-opcodes)
 	if (isExtra === undefined){
@@ -2429,29 +2444,27 @@ function R3_LIVESTATUS_OPEN_MENU(){
 	};
 };
 function R3_LIVESTATUS_OPEN_BAR(){
-	var c = 0;
-	// Disabling Run buttons
-	$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'display': 'none'});
-	/*
-		Bottom
-	*/
-	if (SETTINGS_LIVESTATUS_BAR_POS === 0){
-		$('#R3_LIVESTATUS_FOOTER_HOLDER').css({'display': 'inline'});
-		// Adjust menus
-		while (c < R3_TOTAL_MENUS){
-			$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 64px)'});
-			c++;
+	if (R3_WEBMODE === false){
+		var c = 0;
+		// Disabling Run buttons
+		$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'display': 'none'});
+		// Bottom
+		if (SETTINGS_LIVESTATUS_BAR_POS === 0){
+			$('#R3_LIVESTATUS_FOOTER_HOLDER').css({'display': 'inline'});
+			// Adjust menus
+			while (c < R3_TOTAL_MENUS){
+				$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 64px)'});
+				c++;
+			};
 		};
-	};
-	/*
-		Right
-	*/
-	if (SETTINGS_LIVESTATUS_BAR_POS === 1){
-		$('#R3_LIVESTATUS_RIGHT_HOLDER').css({'display': 'inline'});
-		// Adjust menus
-		while (c < R3_TOTAL_MENUS){
-			$('#MENU_' + c).css({'width': 'calc(100% - 112px)', 'height': 'calc(100% - 26px)'});
-			c++;
+		// Right
+		if (SETTINGS_LIVESTATUS_BAR_POS === 1){
+			$('#R3_LIVESTATUS_RIGHT_HOLDER').css({'display': 'inline'});
+			// Adjust menus
+			while (c < R3_TOTAL_MENUS){
+				$('#MENU_' + c).css({'width': 'calc(100% - 112px)', 'height': 'calc(100% - 26px)'});
+				c++;
+			};
 		};
 	};
 };

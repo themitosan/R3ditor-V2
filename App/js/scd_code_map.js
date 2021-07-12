@@ -31,6 +31,29 @@ function R3_JS_COMPILER_parseNumber(n, numLimit, hexLength){
 	};
 };
 /*
+	Parse Crouch - For Set Item [ITEM_AOT_SET]
+
+	Modes: 0 = Hex to Bool
+		   1 = Bool to Hex
+*/
+function R3_JS_COMPILER_parseCrouch(mode, input){
+	var output = false;
+	if (mode === 0){
+		if (input !== undefined){
+			output = parseInt(input);
+			if (output !== 0){
+				output = true;
+			};
+		};
+	} else {
+		output = '0';
+		if (JSON.parse(document.getElementById(input).checked) === true){
+			output = '1';
+		};
+	};
+	return output;
+};
+/*
 	Resident Evil 3 Opcodes Functions
 */
 // 00 - Null Function [NOP]
