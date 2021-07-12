@@ -2290,9 +2290,9 @@ blockquote {
     -webkit-mask-image: linear-gradient(to left, #000a, #0000);
 }
 .ABOUT_manyThanks_DIV {
-    top: 6%;
+    top: 0px;
     left: 290px;
-    height: 40%;
+    height: calc(100% - 40px);
     overflow-y: auto;
     position: absolute;
     text-align: center;
@@ -2303,18 +2303,15 @@ blockquote {
     text-shadow: 0px 0px 10px #0a008f;
 }
 .ABOUT_specialThanks {
-    top: 48.8%;
+    bottom: 20%;
     left: 290px;
-    width: 78.6%;
+    width: calc(100% - 300px);
     position: absolute;
     text-align: center;
     text-align: -moz-center;
     text-align: -webkit-center;
 }
 .ABOUT_LEGAL_INFO {
-    top: 85%;
-    left: 290px;
-    position: absolute;
     text-align: center;
     text-align: -moz-center;
     width: calc(100% - 292px);
@@ -3330,7 +3327,7 @@ blockquote {
     text-align: -webkit-center;
 }
 .R3_EDIT_TEXT_XYZR:focus {
-    box-shadow: 0px 0px 10px #0f09;
+    box-shadow: 0px 0px 10px #00ff005e;
 }
 .R3_EDIT_TEXT_HEX {
     color: #0f0;

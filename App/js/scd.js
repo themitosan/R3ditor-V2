@@ -2788,7 +2788,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 					document.getElementById('R3_SCD_EDIT_61_nextR').value = '';
 					document.getElementById('R3_SCD_EDIT_61_stage').value = 1;
 					document.getElementById('R3_SCD_EDIT_61_roomNumber').value = '00';
-					document.getElementById('R3_SCD_EDIT_61_nextCam').value = '00';
+					document.getElementById('R3_SCD_EDIT_61_nextCam').value = 0;
 					document.getElementById('R3_SCD_EDIT_61_zIndex').value = '00';
 					document.getElementById('R3_SCD_EDIT_61_doorType').value = '00';
 					document.getElementById('R3_SCD_EDIT_61_openOrient').value = '00';
@@ -2816,7 +2816,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 					document.getElementById('R3_SCD_EDIT_62_nextR').value = '';
 					document.getElementById('R3_SCD_EDIT_62_stage').value = 1;
 					document.getElementById('R3_SCD_EDIT_62_roomNumber').value = '00';
-					document.getElementById('R3_SCD_EDIT_62_nextCam').value = '00';
+					document.getElementById('R3_SCD_EDIT_62_nextCam').value = 0;
 					document.getElementById('R3_SCD_EDIT_62_zIndex').value = '00';
 					document.getElementById('R3_SCD_EDIT_62_doorType').value = '00';
 					document.getElementById('R3_SCD_EDIT_62_openOrient').value = '00';
@@ -3635,7 +3635,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 				document.getElementById('R3_SCD_EDIT_61_nextR').value = DOOR_nextR;
 				document.getElementById('R3_SCD_EDIT_61_stage').value = DOOR_nStage;
 				document.getElementById('R3_SCD_EDIT_61_roomNumber').value = DOOR_nRoom;
-				document.getElementById('R3_SCD_EDIT_61_nextCam').value = DOOR_nCam;
+				document.getElementById('R3_SCD_EDIT_61_nextCam').value = parseInt(DOOR_nCam, 16);
 				document.getElementById('R3_SCD_EDIT_61_zIndex').value = DOOR_zIndex;
 				document.getElementById('R3_SCD_EDIT_61_doorType').value = DOOR_type;
 				document.getElementById('R3_SCD_EDIT_61_openOrient').value = DOOR_orient;
@@ -3684,7 +3684,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 				document.getElementById('R3_SCD_EDIT_62_nextR').value = DOOR_nextR;
 				document.getElementById('R3_SCD_EDIT_62_stage').value = DOOR_nStage;
 				document.getElementById('R3_SCD_EDIT_62_roomNumber').value = DOOR_nRoom;
-				document.getElementById('R3_SCD_EDIT_62_nextCam').value = DOOR_nCam;
+				document.getElementById('R3_SCD_EDIT_62_nextCam').value = parseInt(DOOR_nCam, 16);
 				document.getElementById('R3_SCD_EDIT_62_zIndex').value = DOOR_zIndex;
 				document.getElementById('R3_SCD_EDIT_62_doorType').value = DOOR_type;
 				document.getElementById('R3_SCD_EDIT_62_openOrient').value = DOOR_orient;
@@ -4607,7 +4607,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			door_nextR  = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_61_nextR').value, 4),
 			door_nStage = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_61_stage').value - 1).toString(16), 2),
 			door_nRoom  = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_61_roomNumber').value, 2),
-			door_nCam   = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_61_nextCam').value, 2),
+			door_nCam   = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_61_nextCam').value).toString(16), 2),
 			door_zIndex = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_61_zIndex').value, 2),
 			door_type   = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_61_doorType').value, 2),
 			door_orient = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_61_openOrient').value, 2),
@@ -4639,7 +4639,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			door_nextR  = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_62_nextR').value, 4),
 			door_nStage = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_62_stage').value - 1).toString(16), 2),
 			door_nRoom  = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_62_roomNumber').value, 2),
-			door_nCam   = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_62_nextCam').value, 2),
+			door_nCam   = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_62_nextCam').value).toString(16), 2),
 			door_zIndex = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_62_zIndex').value, 2),
 			door_type   = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_62_doorType').value, 2),
 			door_orient = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_62_openOrient').value, 2),

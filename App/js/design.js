@@ -153,7 +153,7 @@ function R3_INIT_APPEND(){
 		document.getElementById('R3_SETTINGS_MSG_DATABASE_MODE').innerHTML = INCLUDE_OPTION_MSG_DECOMPILE;
 		document.getElementById('R3_SETTINGS_LIVESTATUS_POSITION').innerHTML = INCLUDE_OPTION_LIVESTATUS_POS;
 		// Append about section
-		document.getElementById('ABOUT_manyThanks_DIV').innerHTML = '<font class="ABOUT_manyThanks_LBL">Many Thanks to</font>:<br><br>' + INCLUDE_ABOUT_THX + INCLUDE_ABOUT_SNIPPETS;
+		document.getElementById('ABOUT_manyThanks_DIV').innerHTML = '<font class="ABOUT_manyThanks_LBL">Many Thanks to</font>:<br><br>' + INCLUDE_ABOUT_THX + INCLUDE_ABOUT_SNIPPETS + INCLUDE_ENDING;
 		// Append RE3 Livestatus Item Box
 		while (c < 64){
 			if (c === 32){
@@ -1813,7 +1813,7 @@ function R3_SCD_openFunctionEdit(cOpcode, isInsert, isExtra, extraTitle){
 	if (R3_SCD_DATABASE[cOpcode][8] === false){
 		$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(\'img/logoWm.png\')', 'background-size': 'auto 80%'});
 	} else {
-		$('#R3_SCD_editForm_bg_image').css({'background-size': 'auto 144%'});
+		$('#R3_SCD_editForm_bg_image').css({'background-size': 'calc(100% + 60px)'});
 	};
 	// If are extra edit forms (non-opcodes)
 	if (isExtra === undefined){
@@ -1932,7 +1932,7 @@ function R3_SCD_FUNCTION_EDIT_updateCutReplace(){
 };
 // Update camera preview
 function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
-	var camPrev, door_nCam = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_nextCam').value, 2),
+	var camPrev, door_nCam = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_nextCam').value).toString(16), 2).toUpperCase(),
 		door_nStage = document.getElementById('R3_SCD_EDIT_' + cOpcode + '_stage').value,
 		door_nRoom = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_roomNumber').value, 2);
 	document.getElementById('R3_SCD_EDIT_' + cOpcode + '_lblNextStage').innerHTML = door_nStage;
@@ -1954,7 +1954,7 @@ function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
 		document.getElementById('R3_SCD_EDIT_' + cOpcode + '_camPreview').src = camPrev;
 		if (R3_WEBMODE === false){
 			if (camPrev !== 'img/404.png'){
-				$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(' + camPrev + ')', 'background-size': 'auto 250%'});
+				$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(' + camPrev + ')', 'background-size': 'calc(100% + 60px)'});
 			} else {
 				$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)', 'background-size': 'auto 250%'});
 			};
