@@ -7,7 +7,7 @@
 */
 var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_RESET = false, R3_LOG_ID = 0, R3_LOG_COUNTER_INFO = 0, R3_LOG_COUNTER_WARN = 0, R3_LOG_COUNTER_ERROR = 0,
 	// Menu Vars
-	R3_MENU_HISTORY = [], R3_MENU_CURRENT = 4, R3_MENU_LOCK = false, R3_LIVESTATUS_OPEN = false, R3_LIVESTATUS_FORCE_RENDER = false, R3_LIVESTATUS_RENDER_COUNTER = 0, R3_GET_BG = false, R3_THEPIC = '',
+	R3_MENU_HISTORY = [], R3_MENU_CURRENT = 4, R3_MENU_LOCK = false, R3_DESIGN_LOADING_ACTIVE = false, R3_LIVESTATUS_OPEN = false, R3_LIVESTATUS_FORCE_RENDER = false, R3_LIVESTATUS_RENDER_COUNTER = 0, R3_GET_BG = false, R3_THEPIC = '',
 	// Funtion search list
 	R3_INTERNAL_functionBtnArray = [], R3_INTERNAL_functionBtnScdArray = [],
 	// RDT Menu Vars
@@ -69,7 +69,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		16: [220,  88,     68,  444, 	 101,  'R3_RDT_timManagerList'],			 // RDT TIM Manager
 		17: [220,  88,     68,  486, 	 102,  'R3_RDT_objManagerList'],			 // RDT OBJ Manager
 		18: [680,  434,    68,  4, 	 9999998,  ''],									 // Backup Manager
-		19: [850,  620,    68,  4, 	 9999998,  ''], 								 // RE3 Livestatus
+		19: [1100, 620,    68,  4, 	 9999998,  ''], 								 // RE3 Livestatus
 		20: [416,  482,    68,  4, 		 105,  'R3_SCD_DOORLINK_MAP_INPUT']			 // SCD DoorLink
 	};
 /*
@@ -163,8 +163,8 @@ function R3_INIT_APPEND(){
 			};
 			HTML_TEMPLATE = HTML_TEMPLATE + '\n<div class="R3_LIVESTATUS_BOX_ITEM ' + BOX_ITEM_32 + '" id="R3_LIVESTATUS_BOX_ITEM_' + c + '">' + 
 							'<img src="img/items/00.png" id="R3_LIVESTATUS_BOX_IMG_' + c + '"><div id="R3_LIVESTATUS_BOX_ITEM_QT_' + c + '" class="R3_LIVESTATUS_BOX_ITEM_QT">0</div>' + 
-							'<div class="R3_LIVESTATUS_BOX_ITEM_LBL" id="R3_LIVESTATUS_BOX_ITEM_LBL_' + c + '">(' + c + ') Empty Slot</div><input type="button" value="Edit" class="R3_LIVESTATUS_BOX_EDIT_BTN" ' + 
-							'onclick="R3_LIVESTATUS_EDIT_ITEMBOX(' + c + ');"></div>';
+							'<div class="R3_LIVESTATUS_BOX_ITEM_LBL" id="R3_LIVESTATUS_BOX_ITEM_LBL_' + c + '">(<font class="monospace mono_xyzr">' + MEMORY_JS_fixVars(c, 2) + '</font>) ' +
+							'Empty Slot</div><input type="button" value="Edit" class="R3_LIVESTATUS_BOX_EDIT_BTN" onclick="R3_LIVESTATUS_EDIT_ITEMBOX(' + c + ');"></div>';
 			c++;
 		};
 		document.getElementById('R3_LIVESTATUS_BOX_HOLDER').innerHTML = HTML_TEMPLATE;
@@ -228,7 +228,9 @@ function R3_SHOW_MENU(menuId){
 				if (RE3_RUNNING === true){
 					R3_LIVESTATUS_OPEN_BAR();
 				};
-				$('#R3_MENU_MAIN_TOP').css({'display': 'inline-flex'});
+				if (menuId !== 2){
+					$('#R3_MENU_MAIN_TOP').css({'display': 'inline-flex'});
+				};
 			};
 			// MSG Editor
 			if (menuId === 7){
@@ -294,6 +296,13 @@ function R3_SHOW_MENU(menuId){
 				$('#BTN_MAIN_53').css({'display': 'inline-flex'});
 				$('#BTN_SCD_HACK').css({'display': 'none'});
 				R3_DESIGN_OPEN_CLOSE_LATEST(0);
+			};
+			// Loading screen
+			if (menuId === 2){
+				R3_DESIGN_MINIWINDOW_CLOSE(0);
+				R3_DESIGN_MINIWINDOW_CLOSE(2);
+				R3_DESIGN_MINIWINDOW_CLOSE(15);
+				R3_DESIGN_MINIWINDOW_CLOSE(11);
 			};
 			R3_DESIGN_CHECK_SHOW_EXECS();
 			// Append dropdown menu
@@ -1933,8 +1942,11 @@ function R3_SCD_FUNCTION_EDIT_updateCutReplace(){
 // Update camera preview
 function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
 	var camPrev, door_nCam = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_nextCam').value).toString(16), 2).toUpperCase(),
-		door_nStage = document.getElementById('R3_SCD_EDIT_' + cOpcode + '_stage').value,
+		door_nStage = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_stage').value, 1),
 		door_nRoom = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_roomNumber').value, 2);
+	if (parseInt(door_nStage) < 1){
+		door_nStage = '1';
+	};
 	document.getElementById('R3_SCD_EDIT_' + cOpcode + '_lblNextStage').innerHTML = door_nStage;
 	document.getElementById('R3_SCD_EDIT_' + cOpcode + '_lblNextRoom').innerHTML = door_nRoom.toUpperCase();
 	if (door_nCam.length === 2 && door_nStage.length === 1 && door_nRoom.length === 2){
@@ -2453,7 +2465,9 @@ function R3_LIVESTATUS_OPEN_BAR(){
 			$('#R3_LIVESTATUS_FOOTER_HOLDER').css({'display': 'inline'});
 			// Adjust menus
 			while (c < R3_TOTAL_MENUS){
-				$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 64px)'});
+				if (c !== 2){
+					$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 64px)'});
+				};
 				c++;
 			};
 		};
@@ -2462,7 +2476,9 @@ function R3_LIVESTATUS_OPEN_BAR(){
 			$('#R3_LIVESTATUS_RIGHT_HOLDER').css({'display': 'inline'});
 			// Adjust menus
 			while (c < R3_TOTAL_MENUS){
-				$('#MENU_' + c).css({'width': 'calc(100% - 112px)', 'height': 'calc(100% - 26px)'});
+				if (c !== 2){
+					$('#MENU_' + c).css({'width': 'calc(100% - 112px)', 'height': 'calc(100% - 26px)'});
+				};
 				c++;
 			};
 		};
@@ -2532,7 +2548,7 @@ function R3_LIVETSTATUS_RENDER(){
 	};
 	// Pos. Values
 	checkPos = REALTIME_X_Pos + REALTIME_Y_Pos + REALTIME_Z_Pos + REALTIME_R_Pos + REALTIME_zIndex;
-	if (checkPos !== RE3_LIVE_POS || R3_LIVESTATUS_FORCE_RENDER === true){
+	if (checkPos !== RE3_LIVE_POS){
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_X').value = REALTIME_X_Pos;
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_Y').value = REALTIME_Y_Pos;
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_Z').value = REALTIME_Z_Pos;
@@ -2547,7 +2563,7 @@ function R3_LIVETSTATUS_RENDER(){
 	};
 	// Player Values
 	checkPlayer = REALTIME_CurrentHP + REALTIME_CurrentPlayer + REALTIME_CurrentWeapon;
-	if (checkPlayer !== RE3_LIVE_PLAYER || R3_LIVESTATUS_FORCE_RENDER === true){
+	if (checkPlayer !== RE3_LIVE_PLAYER){
 		$('#R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV').removeClass('R3_COLOR_FINE');
 		$('#R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV').removeClass('R3_COLOR_DANGER');
 		$('#R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV').removeClass('R3_COLOR_POISON');
@@ -2573,7 +2589,7 @@ function R3_LIVETSTATUS_RENDER(){
 		RE3_LIVE_PLAYER = REALTIME_CurrentHP + REALTIME_CurrentPlayer + REALTIME_CurrentWeapon;
 	};
 	// Item Box
-	if (TEMP_ITEMBOX !== RE3_LIVE_BOX || R3_LIVESTATUS_FORCE_RENDER === true){
+	if (TEMP_ITEMBOX !== RE3_LIVE_BOX){
 		var IT, QT, AT, boxArray = RE3_LIVE_BOX.match(/.{1,8}/g), tempQT;
 		while (c < 64){
 			IT = boxArray[c].slice(0, 2).toLowerCase();
@@ -2606,7 +2622,7 @@ function R3_LIVETSTATUS_RENDER(){
 		R3_LIVESTATUS_infiniteHP();
 	};
 	// Camera
-	if (RE3_LIVE_CAM !== REALTIME_CurrentCam || R3_LIVESTATUS_FORCE_RENDER === true){
+	if (RE3_LIVE_CAM !== REALTIME_CurrentCam){
 		var nextCam = R3_MOD_PATH + '/DATA_A/BSS/' + REALTIME_CurrentRDT + REALTIME_CurrentCam + '.JPG';
 		if (APP_FS.existsSync(nextCam) !== false){
 			document.getElementById('R3_LIVESTATUS_IMG_CURRENT_CAM').src = nextCam;
@@ -2634,14 +2650,14 @@ function R3_LIVETSTATUS_RENDER(){
 		End
 	*/
 	// Force renderer
-	R3_LIVESTATUS_RENDER_COUNTER++;
-	if (R3_LIVESTATUS_FORCE_RENDER === true){
-		R3_LIVESTATUS_FORCE_RENDER = false;
-	};
-	if (R3_LIVESTATUS_RENDER_COUNTER > 16){
-		R3_LIVESTATUS_FORCE_RENDER = true;
-		R3_LIVESTATUS_RENDER_COUNTER = 0;
-	};
+	// R3_LIVESTATUS_RENDER_COUNTER++;
+	// if (R3_LIVESTATUS_FORCE_RENDER === true){
+	// 	R3_LIVESTATUS_FORCE_RENDER = false;
+	// };
+	// if (R3_LIVESTATUS_RENDER_COUNTER > 16){
+	// 	R3_LIVESTATUS_FORCE_RENDER = true;
+	// 	R3_LIVESTATUS_RENDER_COUNTER = 0;
+	// };
 };
 // Render Inventory
 function R3_LIVESTATUS_RENDER_INVENT_SLOT(sID, IT, QT, AT){
@@ -2780,11 +2796,8 @@ function R3_DESIGN_UTILS_processCheckBox(checkboxId, updateSettings){
 	Loading Screen
 */
 function R3_UTILS_CALL_LOADING(title, status, percent){
-	if (R3_ENABLE_ANIMATIONS !== true){
-		$('#R3_MENU_MAIN_TOP_HOLDER').css({'display': 'none'});
-	} else {
-		$('#R3_MENU_MAIN_TOP_HOLDER').fadeOut({duration: 100, queue: false});
-	};
+	R3_DESIGN_LOADING_ACTIVE = true;
+	$('#R3_MENU_MAIN_TOP').css({'display': 'none'});
 	document.getElementById('R3_LOADING_TITLE').innerHTML = title;
 	document.getElementById('R3_LOADING_STATUS').innerHTML = status;
 	document.getElementById('R3_LOADING_PGBAR_LABEL').innerHTML = percent;
@@ -2798,11 +2811,8 @@ function R3_UTILS_LOADING_UPDATE(status, percent){
 	$('#R3_LOADING_PGBAR_DIV').css({'width': 'calc(' + parseInt(percent) + '% - 20px)'});
 };
 function R3_UTILS_LOADING_CLOSE(){
-	if (R3_ENABLE_ANIMATIONS !== true){
-		$('#R3_MENU_MAIN_TOP_HOLDER').css({'display': 'inline-flex'});
-	} else {
-		$('#R3_MENU_MAIN_TOP_HOLDER').fadeIn({duration: 100, queue: false});
-	};
+	$('#R3_MENU_MAIN_TOP').css({'display': 'inline-flex'});
+	R3_DESIGN_LOADING_ACTIVE = false;
 	R3_MENU_LOCK = false;
 	R3_MENU_GOBACK();
 };
@@ -2811,7 +2821,7 @@ function R3_UTILS_LOADING_CLOSE(){
 */
 function R3_DESIGN_renderBackupManager(){
 	if (R3_WEBMODE === false){
-		var c = 0, HTML_TEMPLATE = '', fPath, fName, fShort, fType, fEditor, fDate, fileArray = Object.keys(R3_SYSTEM_BACKUP_LIST);
+		var c = 0, HTML_TEMPLATE = '', fPath, fName, fShort, fType, fEditor, fDate, fileArray = Object.keys(R3_SYSTEM_BACKUP_LIST).reverse();
 		if (Object.keys(R3_SYSTEM_BACKUP_LIST).length !== 0){
 			document.getElementById('R3_BACKUP_MANAGER_ITEMS').innerHTML = '<div class="align-center">Generating backup list - Please wait</div>';
 			while (c < fileArray.length){

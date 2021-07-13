@@ -344,6 +344,7 @@
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_3" id="R3_LIVESTATUS_MINITAB_3" value="Inventory">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_4" id="R3_LIVESTATUS_MINITAB_4" value="Edit Slot 1">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_5" id="R3_LIVESTATUS_MINITAB_5" value="Item Box">
+					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_6" id="R3_LIVESTATUS_MINITAB_6" value="Player Location">
 					<!-- Mini Sections -->
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_1">
 						Handle: <font id="R3_LIVESTATUS_LBL_PROCESS_HANDLE" class="sticky R3_LIVESTATUS_LBL_0">???</font><br>
@@ -411,26 +412,28 @@
 							<!-- Item Box Goes Here -->
 						</div>
 					</div>
+					<!-- Player Location -->
+					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_6">
+						<font class="COLOR_X">X Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_X" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_X" autocomplete="off"><br>
+						<font class="COLOR_Y">Y Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Y" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Y" autocomplete="off"><br>
+						<font class="COLOR_Z">Z Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Z" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Z" autocomplete="off"><br>
+						<font class="COLOR_R">R Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_R" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_R" autocomplete="off"><br>
+						<font class="COLOR_zI">Z-Index Pos:</font> <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_zI" maxlength="2" placeholder="00" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_zI" autocomplete="off"><br>
+						<div class="align-center">
+							<input type="button" class="BTN_R3CLASSIC" title="Click here to copy player current position" value="Copy Pos." onclick="R3_SYS_COPY_POS(0);">
+							<input type="button" class="BTN_R3CLASSIC" title="Click here to paste position" value="Paste Pos." onclick="R3_SYS_PASTE_POS(0);">
+						</div>
+						<div class="align-center">
+							<input type="button" title="Click here to apply player pos." value="Apply Position" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN R3_LIVESTATUS_PLAYERPOS_APPLYBTN" onclick="R3_LIVESTATUS_APPLY_PLAYERPOS();">
+						</div>
+					</div>
 				</div>
 				<div class="R3_TAB_MENU none" id="R3_MENU_0_1">
 					<img src="img\FRAME_LS.png" class="FRAME_R3LS">
 					<!-- Mini Tabs -->
-					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_6" value="Player Location">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_7" value="Room Information">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_8" value="Enemies Info">
 					<!-- Mini Sections -->
-					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_6">
-						<div class="align-center">
-							<font class="COLOR_X">X Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_X" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_X" autocomplete="off"><br>
-							<font class="COLOR_Y">Y Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Y" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Y" autocomplete="off"><br>
-							<font class="COLOR_Z">Z Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Z" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Z" autocomplete="off"><br>
-							<font class="COLOR_R">R Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_R" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_R" autocomplete="off"><br>
-							<font class="COLOR_zI">Z-Index Pos:</font> <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_zI" maxlength="2" placeholder="00" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_zI" autocomplete="off"><br>
-							<input type="button" class="BTN_R3CLASSIC" title="Click here to copy player current position" value="Copy Pos." onclick="R3_SYS_COPY_POS(0);">
-							<input type="button" class="BTN_R3CLASSIC" title="Click here to paste position" value="Paste Pos." onclick="R3_SYS_PASTE_POS(0);">
-						</div>
-						<input type="button" title="Click here to apply player pos." value="Apply Position" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN R3_LIVESTATUS_PLAYERPOS_APPLYBTN" onclick="R3_LIVESTATUS_APPLY_PLAYERPOS();">
-					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_7">
 						<div class="align-center">
 							File: <font id="R3_LIVESTATUS_LBL_ROOM_FILENAME" class="monospace mono_xyzr">???</font><br>
@@ -1314,7 +1317,7 @@
 				<div class="R3_FILEGEN_CANVAS_BIG" id="R3_FILEGEN_RENDERAREA_BIG"></div>
 			</div>
 			<!-- MENU - Loading -->
-			<div class="MENU_DIV" id="MENU_2">
+			<div class="MENU_DIV MENU_DIV_LOADING" id="MENU_2">
 				<div class="LOADING_BG"></div>
 				<div class="R3_LOADING_HOLDER">
 					<div class="align-center"><font class="LBL_title" id="R3_LOADING_TITLE">???</font></div>

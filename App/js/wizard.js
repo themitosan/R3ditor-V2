@@ -105,11 +105,23 @@ function R3_ROFS_ENABLE_MOD(gamePath){
 // Copy Missing Files
 function R3_ROFS_ENABLE_MOD_copyMissingFiles(rofsPath){
 	R3_UTILS_LOADING_UPDATE('Now R3ditor V2 is getting all missing files - Please wait...', 80);
-	R3_SYS_copyFiles(rofsPath + '/zmovie', R3_MOD_PATH + '/zmovie', function(){
-		R3_SYS_copyFiles(R3_RE3_PATH, R3_MOD_PATH + '/ResidentEvil3.exe', function(){
-			R3_ROFS_ENABLE_MOD_FINISH();
+	var c = 0, syncInterval, fileList = {
+		0: [rofsPath + '/zmovie', R3_MOD_PATH + '/zmovie'],
+		1: [R3_RE3_PATH, R3_MOD_PATH + '/ResidentEvil3.exe'],
+		2: [APP_EXEC_PATH + '/Tools/Misc/eAssets.bin', R3_MOD_PATH + '/' + R3_RDT_PREFIX_HARD + '/ETC2/WARNE.TIM']
+	};
+	Object.keys(fileList).forEach(function(cItem){
+		R3_SYS_copyFiles(fileList[cItem][0], fileList[cItem][1], function(){
+			R3_UTILS_LOADING_UPDATE('Now R3ditor V2 is getting all missing files... (File ' + (cItem + 1) + ' of ' + Object.keys(fileList).length + ')', 90);
+			c++;
 		});
 	});
+	syncInterval = setInterval(function(){
+		if (c > (Object.keys(fileList).length - 1)){
+			R3_ROFS_ENABLE_MOD_FINISH();
+			clearInterval(syncInterval);
+		};
+	}, 200);
 };
 // Extract Rofs (Wizard)
 function R3_ROFS_EXTRACT_MOD(gPath, rofsId){
@@ -118,7 +130,6 @@ function R3_ROFS_EXTRACT_MOD(gPath, rofsId){
 };
 // Finish Enable Mod
 function R3_ROFS_ENABLE_MOD_FINISH(){
-	R3_UTILS_LOADING_UPDATE('Done!', 100);
 	process.chdir(ORIGINAL_APP_PATH);
 	APP_ENABLE_MOD = true;
 	// Skip making config file if current version is Gemini REbirth
@@ -153,6 +164,9 @@ function R3_DOORLINK_CHECK(){
 function R3_DOORLINK_INIT(){
 	if (R3_WEBMODE === false && APP_ENABLE_MOD === true && R3_NW_ARGS_DISABLE_DOORLINK === false){
 		var cLocation, fName, tmpRes, fileList, tempDoorList, tempDoorList4P, tempList = {};
+		if (R3_DESIGN_LOADING_ACTIVE === true){
+			R3_UTILS_LOADING_UPDATE('Almost there! R3ditor V2 is generating DoorLink database - Please wait...', 96);
+		};
 		R3_SYSTEM_LOG('separator');
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (DoorLink) Starting reading process - Please Wait...');
 		try {

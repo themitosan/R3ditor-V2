@@ -3,7 +3,7 @@
 	Agora vai mah!
 */
 // Internal Vars
-var R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_TOOLS, APP_TITLE, APP_IS_32, APP_ONLINE, ORIGINAL_FILENAME, ORIGINAL_APP_PATH, APP_REQUIRE_SUCESS, DATABASE_INIT_FOLDER, DATABASE_INIT_DELETE_FILES, APP_ENABLE_MOD = false,
+var R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_IS_32, APP_ONLINE, ORIGINAL_FILENAME, ORIGINAL_APP_PATH, APP_REQUIRE_SUCESS, DATABASE_INIT_FOLDER, DATABASE_INIT_DELETE_FILES, APP_ENABLE_MOD = false,
 	// External Modules
 	APP_FS, APP_MEMJS, APP_GUI, DiscordRPC,
 	// Executable Vars
@@ -93,13 +93,14 @@ function R3_INIT_REQUIRE(){
 			if (process.platform === 'win32'){
 				var path = require('path'), tempPath = process.env.HOMEDRIVE + process.env.HOMEPATH + '/Documents';
 				/*
-					Fix if documents does not exists (attempt to fix 3Lric boot issue)
+					Fix if documents does not exists (attempt to fix 3lric boot issue)
 					This will redirect the APP_PATH to executable dir
 				*/
 				if (APP_FS.existsSync(tempPath) !== true){
 					tempPath = path.dirname(process.execPath).replace(new RegExp('\\\\', 'gi'), '/') + '/R3V2';
 				};
 				APP_TOOLS = path.dirname(process.execPath).replace(new RegExp('\\\\', 'gi'), '/') + '/Tools';
+				APP_EXEC_PATH = ORIGINAL_APP_PATH.replace(new RegExp('\\\\', 'gi'), '/');
 				APP_PATH = tempPath.replace(new RegExp('\\\\', 'gi'), '/') + '/R3V2';
 			} else {
 				APP_useImageFix = true;

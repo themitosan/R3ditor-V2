@@ -282,12 +282,12 @@ function R3_RDT_OPEN_BLK(){
 };
 /*
 	VB
-	Sound Data
+	Sound Data [WIP]
 */
 // Extract VB from RDT
 function R3_RDT_EXTRACT_VB(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading VB...');
+		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading VB... (WIP)');
 		if (R3_RDT_MAP_HEADER_POINTERS[2] !== '00000000'){
 			/*
 				Quick note:

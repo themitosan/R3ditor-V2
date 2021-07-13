@@ -422,6 +422,10 @@ blockquote {
     position: absolute;
     -webkit-mask-image: linear-gradient(to right, #0000, #000, #0000);
 }
+.MENU_DIV_LOADING {
+    top: 0px !important;
+    height: 100% !important;
+}
 .MENU_DIV {
     top: 24px;
     width: 100%;
@@ -1107,6 +1111,16 @@ blockquote {
     border-bottom-right-radius: 6px;
 }
 /* EDIT FUNCTIONS */
+.R3_SCD_EDIT_doorInfos {
+    left: 8px;
+    width: 500px;
+    position: absolute;
+}
+.R3_SCD_EDIT_doorPreview {
+    right: 10px;
+    margin-top: 2px;
+    position: absolute;
+}
 .R3_SCD_EDIT_7F_divHolder {
     display: inline-flex;
 }
@@ -2585,8 +2599,8 @@ blockquote {
 }
 .R3_LIVESTATUS_MINISECTION_6 {
     top: 26px;
-    left: 4px;
-    width: 180px;
+    left: 850px;
+    width: 236px;
     height: 206px;
 }
 .R3_LIVESTATUS_MINISECTION_7 {
@@ -2630,7 +2644,7 @@ blockquote {
 }
 .R3_LIVESTATUS_MINITAB_6 {
     top: 4px;
-    left: 12px;
+    left: 858px;
 }
 .R3_LIVESTATUS_MINITAB_7 {
     top: 56px;
@@ -2672,7 +2686,7 @@ blockquote {
     text-align: -webkit-center;
 }
 .R3_LIVESTATUS_TEXT_XYZR_BASE {
-    left: 110px;
+    left: 88px;
     width: 40px;
     color: #0f0;
     border: none;
@@ -3217,6 +3231,7 @@ blockquote {
     background-image: url('../img/icons/icon-save-as.png');
 }
 .BTN_ICON_HEX {
+    background-color: #000;
     background-image: url('../img/icons/icon-hex.png');
 }
 .BTN_ICON_OPEN_HEX {
