@@ -1206,7 +1206,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						WEAPON_name = '(<font class="monospace mono_xyzr">' + WEAPON_id.toUpperCase() + '</font>) Unknown Weapon!';
 					} else {
 						WEAPON_name = DATABASE_ITEM[WEAPON_id][0];
-					}
+					};
 					cProp = 'Weapon: ' + WEAPON_name;
 				};
 				// [UNK_OPCODE_3]
@@ -1215,24 +1215,34 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				};
 				// Set Door [DOOR_AOT_SET]
 				if (cOpcode === '61'){
-					var DOOR_Id   	= cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]).toUpperCase(),
+					var DOOR_Id		= cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]).toUpperCase(),
 						DOOR_nStage = (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1]), 16) + 1),
 						DOOR_nRoom  = cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]).toUpperCase(),
-						DOOR_nMap 	= RDT_locations['R' + DOOR_nStage + DOOR_nRoom][0];
-					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">R' + DOOR_nStage + DOOR_nRoom + '.RDT</font> [ ' + DOOR_nMap + ' ]';
+						DOOR_nCam   = cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]).toUpperCase(),
+						DOOR_nMap 	= RDT_locations['R' + DOOR_nStage + DOOR_nRoom][0],
+						DOOR_cPrev  = '';
+					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG') === true){
+						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" alt="R3_SCD_DOOR_PREVIEW" src="' + APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG">';
+					};
+					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">R' + DOOR_nStage + DOOR_nRoom + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
 				};
 				// Set Door 4P [DOOR_AOT_SET_4P]
 				if (cOpcode === '62'){
-					var DOOR_Id   	= cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]).toUpperCase(),
+					var DOOR_Id		= cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]).toUpperCase(),
 						DOOR_nStage = (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1]), 16) + 1),
 						DOOR_nRoom  = cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]).toUpperCase(),
-						DOOR_nMap 	= RDT_locations['R' + DOOR_nStage + DOOR_nRoom][0];
-					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">R' + DOOR_nStage + DOOR_nRoom + '.RDT</font> [ ' + DOOR_nMap + ' ]';
+						DOOR_nCam   = cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]).toUpperCase(),
+						DOOR_nMap 	= RDT_locations['R' + DOOR_nStage + DOOR_nRoom][0],
+						DOOR_cPrev  = '';
+					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG') === true){
+						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" alt="R3_SCD_DOOR_PREVIEW" src="' + APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG">';
+					};
+					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">R' + DOOR_nStage + DOOR_nRoom + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
 				};
 				// Set Interactive Object [AOT_SET]
 				if (cOpcode === '63'){
-					var AOT_id   = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
-						AOT_aot  = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]);
+					var AOT_id    = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
+						AOT_aot   = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]);
 						AOT_model = '';
 					if (R3_SCD_AOT_TYPES[AOT_aot] !== undefined){
 						AOT_model = R3_SCD_AOT_TYPES[AOT_aot][0];

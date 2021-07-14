@@ -153,7 +153,6 @@ function R3_DOORLINK_CHECK(){
 		} else {
 			if (APP_ENABLE_MOD === true){
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: DoorLink database is missing!');
-				R3_DOORLINK_INIT();
 			} else {
 				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to load DoorLink database!');
 			};

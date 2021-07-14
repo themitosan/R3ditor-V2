@@ -2605,13 +2605,13 @@ blockquote {
 }
 .R3_LIVESTATUS_MINISECTION_7 {
     top: 78px;
-    left: 198px;
+    left: 10px;
     width: 300px;
     height: 288px;
 }
 .R3_LIVESTATUS_MINISECTION_8 {
     top: 26px;
-    left: 198px;
+    left: 10px;
     width: 470px;
     height: auto;
 }
@@ -2648,11 +2648,11 @@ blockquote {
 }
 .R3_LIVESTATUS_MINITAB_7 {
     top: 56px;
-    left: 206px;
+    left: 16px;
 }
 .R3_LIVESTATUS_MINITAB_8 {
     top: 4px;
-    left: 206px;
+    left: 16px;
 }
 .R3_LIVESTATUS_LBL_0 {
     left: 50%;
