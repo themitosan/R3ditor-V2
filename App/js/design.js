@@ -52,26 +52,26 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 			Width, Height, Top, Left, Z-index  Focus DOM element after opening
 		*/
 		0:  [670,  294,    68,  4,   9999999,  ''], 							  	 // R3V2 Log
-		1:  [380,  178,    68,  4,    	 100,  ''], 							  	 // MSG Hex View
+		1:  [380,  178,    44,  4,    	 100,  ''], 							  	 // MSG Hex View
 		2:  [700,  130,    68,  4,   9999998,  ''], 							  	 // Xdelta Patcher
-		3:  [414,  310,    68,  4,    	 100,  ''], 							  	 // SCD Hex View
-		4:  [210,  560,    68,  726,  	 101,  ''], 							  	 // SCD Script List
+		3:  [414,  310,    44,  4,    	 100,  ''], 							  	 // SCD Hex View
+		4:  [210,  560,    44,  726,  	 101,  ''], 							  	 // SCD Script List
 		5:  [232,  560,    68,  858,  	 101,  ''], 							  	 // MSG List
 		6:  [860,  342,    68,  4,    	 100,  ''], 							  	 // RID Editor
-		7:  [392,  178,    68,  768,  	 100,  ''], 							  	 // MSG Hex Translator
-		8:  [300,  124,    68,  552,  	 104,  ''], 							  	 // SCD Preset Window
-		9:  [300,  442,    68,  446,  	 103,  'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'], 	 // SCD Search Form
-		10: [200,  376,    68,  570,   	 101,  ''], 							  	 // RDT Export Sections
+		7:  [392,  178,    44,  138,  	 100,  ''], 							  	 // MSG Hex Translator
+		8:  [300,  124,    44,  552,  	 104,  ''], 							  	 // SCD Preset Window
+		9:  [300,  442,    44,  446,  	 103,  'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'], 	 // SCD Search Form
+		10: [200,  376,    44,  570,   	 101,  ''], 							  	 // RDT Export Sections
 		11: [780,  294,    68,  4,    100000,  ''], 							  	 // R3V2 Help Center
 		12: [540,  410,    226, 466,  	 102,  'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
 		13: [640,  480,    68,  4,    999999,  'R3_PS1_DISPLAY'],					 // eNGE PS1 Canvas
 		14: [760,  480,    68,  12,      105,  ''],									 // SCD edit form
 		15: [400,  358,    68,  4, 	  999999,  'R3_ITEM_DATABASE_SEARCH'],			 // Item Database
-		16: [220,  88,     68,  444, 	 101,  'R3_RDT_timManagerList'],			 // RDT TIM Manager
-		17: [220,  88,     68,  486, 	 102,  'R3_RDT_objManagerList'],			 // RDT OBJ Manager
+		16: [220,  88,     44,  444, 	 101,  'R3_RDT_timManagerList'],			 // RDT TIM Manager
+		17: [220,  88,     44,  486, 	 102,  'R3_RDT_objManagerList'],			 // RDT OBJ Manager
 		18: [680,  434,    68,  4, 	 9999998,  ''],									 // Backup Manager
 		19: [1100, 620,    68,  4, 	 9999998,  ''], 								 // RE3 Livestatus
-		20: [416,  482,    68,  4, 		 105,  'R3_SCD_DOORLINK_MAP_INPUT'],		 // SCD DoorLink
+		20: [416,  482,    44,  4, 		 105,  'R3_SCD_DOORLINK_MAP_INPUT'],		 // SCD DoorLink
 		21: [482,  426,    44,  4,   9999998,  ''] 									 // R3V2 Wizard
 	};
 /*
@@ -133,7 +133,7 @@ function R3_DESIGN_CRITIAL_ERROR(args){
 // Append data
 function R3_INIT_APPEND(){
 	try {
-		var c = 0, BOX_ITEM_32 = HTML_TEMPLATE = '';
+		var c = 0, BOX_ITEM_32 = HTML_TEMPLATE = '', tempId, tempOpcode;
 		// Append displays
 		while (c < R3_SYSTEM_availableMonitors){
 			HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + c + '">Display ' + (c + 1) + '</option>';
@@ -181,19 +181,19 @@ function R3_INIT_APPEND(){
 		if (APP_ON_BOOT === true){
 			R3_DESIGN_prepareBtnArray();
 		};
-		// Add MSG titles
-		c = 0;
-		while (c < Object.keys(MSG_functionTypes).length){
-			if (document.getElementById('R3_MSG_fnTtitle_' + c) !== null){
-				document.getElementById('R3_MSG_fnTtitle_' + c).title = MSG_functionTypes[c][2];
+		// Add SCD Titles for functions
+		Object.keys(R3_SCD_DATABASE).forEach(function(cItem, cIndex){
+			tempOpcode = MEMORY_JS_fixVars(parseInt(cIndex).toString(16), 2);
+			tempId = 'BTN_SCD_' + tempOpcode.toUpperCase() + '_' + R3_SCD_DATABASE[tempOpcode.toLowerCase()][1].replace(' [', '_').replace(']', '').replace(RegExp(' ', 'gi'), '_').replace('_/', '');
+			if (document.getElementById(tempId) !== null){
+				document.getElementById(tempId).title = R3_SCD_INFO_DATABASE[tempOpcode];
 			};
-			c++;
-		};
+		});
 	} catch (err) {
 		APP_CAN_START = false;
-		R3_SYSTEM_LOG('error', 'ERROR: Unable to append main data! [R3_INIT_APPEND] <br>Reason: ' + err);
+		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to append main data! [R3_INIT_APPEND] <br>Reason: ' + err);
 		if (APP_ON_BOOT === true){
-			R3_INIT_ERROR('ERROR: Unable to append main data! [R3_INIT_APPEND] <br>Reason: ' + err);
+			R3_DESIGN_CRITIAL_ERROR(err);
 		} else {
 			R3_SYSTEM_ALERT('ERROR: Unable to append main data! [R3_INIT_APPEND]\nReason: ' + err);
 		};

@@ -527,7 +527,8 @@
 				</div>
 				<!-- Holder -->
 				<div class="R3_WIZARD_HOLDER">
-					<div class="align-center">
+					<div class="R3_WIZARD_BG"></div>
+					<div class="R3_WIZARD_MAIN">
 						This is the first step to create a perfect enviroment for modding RE3.<br>
 						It will unpack all game assets, generating a new version of the game built for testing and more. 
 						All files will be installed on a specific path created by R3V2. By default, this is located on <u>your documents folder</u>.<br>
@@ -644,7 +645,7 @@
 						<input type="button" class="SCD_FUNCTION_BUTTON cursor-not-allowed" value="(01) End Script [EVT_END]" disabled="disabled" title="You don't need to use this function since it is hardcoded.">
 						<input type="button" id="BTN_SCD_02_Next_Event_EVT_NEXT" class="SCD_FUNCTION_BUTTON" value="(02) Next Event [EVT_NEXT]" onclick="R3_SCD_FUNCTION_AUTOINSERT('02');">
 						<input type="button" id="BTN_SCD_03_Event_Chain_EVT_CHAIN" class="SCD_FUNCTION_BUTTON" value="(03) Event Chain [EVT_CHAIN]" onclick="R3_SCD_FUNCTION_AUTOINSERT('0300');">
-						<input type="button" id="BTN_SCD_04_Execute_Function_EVT_EXEC" class="SCD_FUNCTION_BUTTON" value="(04) Execute Function [EVT_EXEC]" onclick="R3_SCD_FUNCTION_ADD('04');">
+						<input type="button" id="BTN_SCD_04_Execute_Event_EVT_EXEC" class="SCD_FUNCTION_BUTTON" value="(04) Execute Event [EVT_EXEC]" onclick="R3_SCD_FUNCTION_ADD('04');">
 						<input type="button" id="BTN_SCD_05_Event_Kill_EVT_KILL" class="SCD_FUNCTION_BUTTON" value="(05) Event Kill [EVT_KILL]" onclick="R3_SCD_FUNCTION_ADD('05');">
 						<input type="button" id="BTN_SCD_18_Go_To_GOTO" class="SCD_FUNCTION_BUTTON" value="(18) Go To [GOTO]" onclick="R3_WIP();">
 						<input type="button" id="BTN_SCD_19_Run_Script_GO_SUB" class="SCD_FUNCTION_BUTTON" value="(19) Run Script [GO_SUB]" onclick="R3_SCD_FUNCTION_ADD('19');">
@@ -682,10 +683,10 @@
 						<input type="button" id="BTN_SCD_5A_RBJ_Trigger_RBJ_SET" class="SCD_FUNCTION_BUTTON" value="(5A) RBJ Trigger [RBJ_SET]" onclick="R3_SCD_FUNCTION_ADD('5a');">
 						<input type="button" id="BTN_SCD_09_Sleep_SLEEP" class="SCD_FUNCTION_BUTTON" value="(09) Sleep [SLEEP]" onclick="R3_SCD_FUNCTION_ADD('09');">
 						<input type="button" id="BTN_SCD_0A_Sleeping_SLEEPING" class="SCD_FUNCTION_BUTTON" value="(0A) Sleeping [SLEEPING]" onclick="R3_SCD_FUNCTION_ADD('0a');">
-						<input type="button" id="BTN_SCD_0B_WSLEEP" class="SCD_FUNCTION_BUTTON" value="(0B) WSLEEP" onclick="R3_SCD_FUNCTION_AUTOINSERT('0b');">
-						<input type="button" id="BTN_SCD_0C_WSLEEPING" class="SCD_FUNCTION_BUTTON" value="(0C) WSLEEPING" onclick="R3_SCD_FUNCTION_AUTOINSERT('0c');">
+						<input type="button" id="BTN_SCD_0B_WSLEEP_WSLEEP" class="SCD_FUNCTION_BUTTON" value="(0B) WSLEEP" onclick="R3_SCD_FUNCTION_AUTOINSERT('0b');">
+						<input type="button" id="BTN_SCD_0C_WSLEEPING_WSLEEPING" class="SCD_FUNCTION_BUTTON" value="(0C) WSLEEPING" onclick="R3_SCD_FUNCTION_AUTOINSERT('0c');">
 						<input type="button" id="BTN_SCD_21_UNK_OPCODE_1" class="SCD_FUNCTION_BUTTON" value="(21) UNK_OPCODE_1" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_50_Change Camera_CUT_CHG" class="SCD_FUNCTION_BUTTON" value="(50) Change Camera [CUT_CHG]" onclick="R3_SCD_FUNCTION_ADD('50');">
+						<input type="button" id="BTN_SCD_50_Change_Camera_CUT_CHG" class="SCD_FUNCTION_BUTTON" value="(50) Change Camera [CUT_CHG]" onclick="R3_SCD_FUNCTION_ADD('50');">
 						<input type="button" id="BTN_SCD_51_CUT_OLD" class="SCD_FUNCTION_BUTTON" value="(51) CUT_OLD" onclick="R3_SCD_FUNCTION_AUTOINSERT('51');">
 						<input type="button" id="BTN_SCD_52_Lock_Camera_CUT_AUTO" class="SCD_FUNCTION_BUTTON" value="(52) Lock Camera [CUT_AUTO]" onclick="R3_SCD_FUNCTION_ADD('52');">
 						<input type="button" id="BTN_SCD_53_Swap_Camera_CUT_REPLACE" class="SCD_FUNCTION_BUTTON" value="(53) Swap Camera [CUT_REPLACE]" onclick="R3_SCD_FUNCTION_ADD('53');">
@@ -698,7 +699,7 @@
 						<input type="button" id="BTN_SCD_69_Shadow_Effect_KAGE_SET" class="SCD_FUNCTION_BUTTON" value="(69) Shadow Effect [KAGE_SET]" onclick="R3_WIP();">
 						<input type="button" id="BTN_SCD_77_Play_SE_SE_ON" class="SCD_FUNCTION_BUTTON" value="(77) Play SE [SE_ON]" onclick="R3_SCD_FUNCTION_ADD('77');">
 						<input type="button" id="BTN_SCD_7A_Call_Cinematic_MOVIE_ON" class="SCD_FUNCTION_BUTTON" value="(7A) Call Cinematic [MOVIE_ON]" onclick="R3_SCD_FUNCTION_ADD('7a');">
-						<input type="button" id="BTN_SCD_80_Motion_trigger_PLC_MOTION" class="SCD_FUNCTION_BUTTON" value="(80) Motion trigger [PLC_MOTION]" onclick="R3_SCD_FUNCTION_ADD('80');">
+						<input type="button" id="BTN_SCD_80_Motion_Trigger_PLC_MOTION" class="SCD_FUNCTION_BUTTON" value="(80) Motion trigger [PLC_MOTION]" onclick="R3_SCD_FUNCTION_ADD('80');">
 						<input type="button" id="BTN_SCD_81_Set_Animation_DEST_PLC_DEST" class="SCD_FUNCTION_BUTTON" value="(81) Set Animation DEST [PLC_DEST]" onclick="R3_SCD_FUNCTION_ADD('81');">
 						<input type="button" id="BTN_SCD_82_Set_Head_Animation_PLC_NECK" class="SCD_FUNCTION_BUTTON" value="(82) Set Head Animation [PLC_NECK]" onclick="R3_SCD_FUNCTION_ADD('82');">
 						<input type="button" id="BTN_SCD_83_Player_Return_PLC_RET" class="SCD_FUNCTION_BUTTON" value="(83) Player Return [PLC_RET]" onclick="R3_SCD_FUNCTION_AUTOINSERT('83');">
@@ -721,13 +722,14 @@
 						<input type="button" id="BTN_SCD_1E_Set_Timer_Value_SET_TIMER" class="SCD_FUNCTION_BUTTON" value="(1E) Set Timer / Value [SET_TIMER]" onclick="R3_SCD_FUNCTION_ADD('1e');">
 						<input type="button" id="BTN_SCD_1F_SET_DO" class="SCD_FUNCTION_BUTTON" value="(1F) SET_DO" onclick="R3_WIP();">
 						<input type="button" id="BTN_SCD_40_Set_Variable_MEMB_SET" class="SCD_FUNCTION_BUTTON" value="(40) Set Variable [MEMB_SET]" onclick="R3_SCD_FUNCTION_ADD('40');">
+						<input type="button" id="BTN_SCD_41_Set_Variable_2_MEMB_SET2" class="SCD_FUNCTION_BUTTON" value="(41) Set Variable 2 [MEMB_SET2]" onclick="R3_SCD_FUNCTION_ADD('41');">
 						<input type="button" id="BTN_SCD_4D_Set_Event_Value_SET" class="SCD_FUNCTION_BUTTON" value="(4D) Set Event Value [SET]" onclick="R3_SCD_FUNCTION_ADD('4d');">
 
 						<!-- Game Interaction -->
 						<br><br><font class="LBL_subTitle">Game Interaction</font><br>
 						<div class="SEPARATOR-2"></div>
 						<input type="button" id="BTN_SCD_25_Open_Map_MAP_OPEN" class="SCD_FUNCTION_BUTTON" value="(25) Open Map [MAP_OPEN]" onclick="R3_SCD_FUNCTION_ADD('25');">
-						<input type="button" id="BTN_SCD_28_Call_Game_Over_DIEDEMO_ON" class="SCD_FUNCTION_BUTTON" value="(28) Call Game Over [DIEDEMO_ON]" onclick="R3_SCD_FUNCTION_AUTOINSERT('28');">
+						<input type="button" id="BTN_SCD_28_Game_Over_DIEDEMO_ON" class="SCD_FUNCTION_BUTTON" value="(28) Game Over [DIEDEMO_ON]" onclick="R3_SCD_FUNCTION_AUTOINSERT('28');">
 						<input type="button" id="BTN_SCD_3E_Remove_Item_ITEM_LOST" class="SCD_FUNCTION_BUTTON" value="(3E) Remove Item [ITEM_LOST]" onclick="R3_SCD_FUNCTION_ADD('3e');">
 						<input type="button" id="BTN_SCD_7C_Open_Inventory_STATUS_ON" class="SCD_FUNCTION_BUTTON" value="(7C) Open Inventory [STATUS_ON]" onclick="R3_SCD_FUNCTION_AUTOINSERT('7c');">
 
@@ -742,7 +744,7 @@
 						<input type="button" id="BTN_SCD_61_Set_Door_DOOR_AOT_SET" class="SCD_FUNCTION_BUTTON" value="(61) Set Door [DOOR_AOT_SET]" onclick="R3_SCD_FUNCTION_ADD('61');">
 						<input type="button" id="BTN_SCD_62_Set_Door_4P_DOOR_AOT_SET_4P" class="SCD_FUNCTION_BUTTON" value="(62) Set Door 4P [DOOR_AOT_SET_4P]" onclick="R3_SCD_FUNCTION_ADD('62');">
 						<input type="button" id="BTN_SCD_63_Set_Interactive_Object_AOT_SET" class="SCD_FUNCTION_BUTTON" value="(63) Set Interactive Object [AOT_SET]" onclick="R3_SCD_FUNCTION_ADD('63');">
-						<input type="button" id="BTN_SCD_64_Set_Object_4P_AOT_SET_4P" class="SCD_FUNCTION_BUTTON" value="(64) Set Object 4P [AOT_SET_4P]" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_64_Set_Interactive_Object_4P_AOT_SET_4P" class="SCD_FUNCTION_BUTTON" value="(64) Set Object 4P [AOT_SET_4P]" onclick="R3_WIP();">
 						<input type="button" id="BTN_SCD_65_AOT_RESET" class="SCD_FUNCTION_BUTTON" value="(65) AOT_RESET" onclick="R3_SCD_FUNCTION_ADD('65');">
 						<input type="button" id="BTN_SCD_66_Run_Interactive_Object_AOT_ON" class="SCD_FUNCTION_BUTTON" value="(66) Run Interactive Object [AOT_ON]" onclick="R3_SCD_FUNCTION_ADD('66');">
 						<input type="button" id="BTN_SCD_67_Set_Item_ITEM_AOT_SET" class="SCD_FUNCTION_BUTTON" value="(67) Set Item [ITEM_AOT_SET]" onclick="R3_SCD_FUNCTION_ADD('67');">
@@ -786,7 +788,6 @@
 						<input type="button" id="BTN_SCD_3C_WEAPON_CHG_OLD" class="SCD_FUNCTION_BUTTON" value="(3C) WEAPON_CHG_OLD" onclick="R3_SCD_FUNCTION_AUTOINSERT('3c');">
 						<input type="button" id="BTN_SCD_3D_SEL_EVT_ON" class="SCD_FUNCTION_BUTTON" value="(3D) SEL_EVT_ON" onclick="R3_SCD_FUNCTION_ADD('3d');">
 						<input type="button" id="BTN_SCD_3F_FLR_SET" class="SCD_FUNCTION_BUTTON" value="(3F) FLR_SET" onclick="R3_SCD_FUNCTION_ADD('3f');">
-						<input type="button" id="BTN_SCD_41_MEMB_SET2" class="SCD_FUNCTION_BUTTON" value="(41) MEMB_SET2" onclick="R3_SCD_FUNCTION_ADD('41');">
 						<input type="button" id="BTN_SCD_42_MEMB_CPY" class="SCD_FUNCTION_BUTTON" value="(42) MEMB_CPY" onclick="R3_WIP();">
 						<input type="button" id="BTN_SCD_43_MEMB_CMP" class="SCD_FUNCTION_BUTTON" value="(43) MEMB_CMP" onclick="R3_WIP();">
 						<input type="button" id="BTN_SCD_44_MEMB_CALC" class="SCD_FUNCTION_BUTTON" value="(44) MEMB_CALC" onclick="R3_WIP();">

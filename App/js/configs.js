@@ -662,7 +662,7 @@ function R3_SETTINGS_SET_PATH(mode){
 	if (mode !== 4){
 		if (mode !== 5){
 			R3_FILE_LOAD('.exe', function(pathFuture){
-				var fixPath = pathFuture.replace(new RegExp('\\\\', 'g'), '/');
+				var fixPath = R3_fixPath(pathFuture);
 				if (mode === 0){
 					R3_RE3_PATH = fixPath;
 					document.getElementById('R3_SETTINGS_RE3_PATH').innerHTML = R3_RE3_PATH;

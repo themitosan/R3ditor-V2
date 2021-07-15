@@ -335,8 +335,8 @@ document.addEventListener('keyup', function(kp){
 						R3_MSG_EDIT_APPLY(3);
 					};
 				};
-				// Apply Function [CTRL + Enter]
-				if (R3_KEYPRESS_CONTROL === true && kp.keyCode === 13){
+				// Apply Function [CTRL + Enter] or [ALT + Enter]
+				if (R3_KEYPRESS_CONTROL === true && kp.keyCode === 13 || R3_KEYPRESS_ALT === true && kp.keyCode === 13){
 					// SCD Editor
 					if (R3_MENU_CURRENT === 9 && R3_SCD_IS_EDITING === true){
 						var checkCanApply = document.getElementById('R3_SCD_EDITFUNCTION_HOLDER').innerHTML;
