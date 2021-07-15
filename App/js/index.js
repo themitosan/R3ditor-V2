@@ -97,11 +97,11 @@ function R3_INIT_REQUIRE(){
 					This will redirect the APP_PATH to executable dir
 				*/
 				if (APP_FS.existsSync(tempPath) !== true){
-					tempPath = path.dirname(process.execPath).replace(new RegExp('\\\\', 'gi'), '/') + '/R3V2';
+					tempPath = R3_fixPath(path.dirname(process.execPath)) + '/R3V2';
 				};
-				APP_TOOLS = path.dirname(process.execPath).replace(new RegExp('\\\\', 'gi'), '/') + '/Tools';
-				APP_EXEC_PATH = ORIGINAL_APP_PATH.replace(new RegExp('\\\\', 'gi'), '/');
-				APP_PATH = tempPath.replace(new RegExp('\\\\', 'gi'), '/') + '/R3V2';
+				APP_TOOLS = R3_fixPath(path.dirname(process.execPath)) + '/Tools';
+				APP_EXEC_PATH = R3_fixPath(ORIGINAL_APP_PATH);
+				APP_PATH = R3_fixPath(tempPath) + '/R3V2';
 			} else {
 				APP_useImageFix = true;
 			};
@@ -482,7 +482,7 @@ function R3_FILE_LOAD(extension, functionEval, returnFile, readMode, skipAppFs){
 						if (returnFile !== true){
 							if (cFile !== undefined){
 								if (R3_WEBMODE === false){
-									fPath = cFile.path.toString().replace(new RegExp('\\\\', 'gi'), '/');
+									fPath = R3_fixPath(cFile.path.toString());
 								} else {
 									fPath = cFile;
 								};
@@ -608,7 +608,7 @@ function R3_FOLDER_SELECT(functionEval){
 			document.getElementById('R3_FOLDER_LOAD_DOM').onchange = function(){
 				var cFile = document.getElementById('R3_FOLDER_LOAD_DOM').files[0];
 				if (cFile.path !== null && cFile.path !== undefined && cFile.path !== ''){
-					functionEval(cFile.path);
+					functionEval(R3_fixPath(cFile.path));
 					document.getElementById('R3_FOLDER_LOAD_DOM').value = '';
 					document.getElementById('R3_FOLDER_LOAD_DOM').accept = '';
 				};
@@ -662,7 +662,7 @@ function R3_solveHEX(hex){
 function R3_getFilePath(fileName){
 	if (fileName !== undefined && fileName !== ''){
 		var path = require('path');
-		return path.dirname(fileName).replace(new RegExp('\\\\', 'gi'), '/');
+		return R3_fixPath(path.dirname(fileName));
 	} else {
 		return '';
 	};
@@ -703,6 +703,14 @@ function R3_fixPathSize(path, limit){
 		} else {
 			return '...' + path.slice(parseInt(path.length - limit), path.length);
 		};
+	} else {
+		return '';
+	};
+};
+// Fix path
+function R3_fixPath(path){
+	if (path !== undefined && path !== ''){
+		return path.replace(new RegExp('\\\\', 'gi'), '/');
 	} else {
 		return '';
 	};

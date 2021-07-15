@@ -57,7 +57,7 @@ function R3_INI_parseBool(value){
 	};
 };
 // Make INI file
-function R3_INI_MAKEFILE(mode){
+function R3_INI_MAKEFILE(mode, keepRofs11){
 	if (mode !== undefined){
 		mode === 1;
 	};
@@ -75,7 +75,11 @@ function R3_INI_MAKEFILE(mode){
 		BIO3INI_Rofs8 = '.\\DATA_A\\BSS';
 		BIO3INI_Rofs9 = '.\\ROOM\\EMD';
 		BIO3INI_Rofs10 = '.\\ROOM\\EMD08';
-		BIO3INI_Rofs11 = '.\\rofs11.dat';
+		if (keepRofs11 === true){
+			BIO3INI_Rofs11 = '.\\Rofs11.dat';
+		} else {
+			BIO3INI_Rofs11 = '.\\ROOM\\RBJ';
+		};
 		BIO3INI_Rofs12 = '.\\' + R3_RDT_PREFIX_EASY + '\\RDT';
 		BIO3INI_Rofs13 = '.\\' + R3_RDT_PREFIX_HARD + '\\RDT';
 		BIO3INI_Rofs14 = '.\\DATA_A\\VOICE';
@@ -100,7 +104,7 @@ function R3_INI_MAKEFILE(mode){
 	R3_MAKE_INI('Bio3.ini', mode);
 };
 function R3_MAKE_INI(path, mode){
-	var FINAL = '[General]\n' +
+	const FINAL = '[General]\n' +
 		'Save=' + BIO3INI_Save + '\n' +
 		'Regist=' + BIO3INI_Regist + '\n' + // What is this file anyways?
 		'Movie=' + BIO3INI_Movie + '\n' +

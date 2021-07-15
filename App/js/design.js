@@ -42,7 +42,8 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		false, // RDT OBJ Manager
 		false, // Backup Manager  
 		false, // RE3 Livestatus
-		false  // SCD DoorLink
+		false, // SCD DoorLink
+		false  // R3V2 Wizard
 	],
 	// Mini Window Database
 	R3_MINI_WINDOW_DATABASE = {
@@ -70,7 +71,8 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		17: [220,  88,     68,  486, 	 102,  'R3_RDT_objManagerList'],			 // RDT OBJ Manager
 		18: [680,  434,    68,  4, 	 9999998,  ''],									 // Backup Manager
 		19: [1100, 620,    68,  4, 	 9999998,  ''], 								 // RE3 Livestatus
-		20: [416,  482,    68,  4, 		 105,  'R3_SCD_DOORLINK_MAP_INPUT']			 // SCD DoorLink
+		20: [416,  482,    68,  4, 		 105,  'R3_SCD_DOORLINK_MAP_INPUT'],		 // SCD DoorLink
+		21: [482,  426,    44,  4,   9999998,  ''] 									 // R3V2 Wizard
 	};
 /*
 	Main Consts
@@ -1205,7 +1207,7 @@ function R3_DESIGN_DOORLINK_RENDER(){
 									'pos." onclick="R3_DESIGN_DOORLINK_APPLY(\'R' + mapInput + '\', ' + cIndex + ');" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY R3_SCD_DOORLINK_APPLYFIX"></div></div>';
 				});
 			} else {
-				cName = cLocation = 'Unknwon Location';
+				cName = cLocation = 'Unknown Location';
 				HTML_TEMPLATE = '<br><div class="align-center">There\'s nothing to show up here!</div>';
 			};
 			document.getElementById('R3_SCD_DOORLINK_MAP_INPUT').value = '';
@@ -2269,7 +2271,7 @@ function R3_RDT_FILELIST_GENERATE(mode){
 					mapIcon = 'file://' + mapIcon;
 				};
 				rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
-				HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT_LOAD(\'' + rdtPath.replace(new RegExp('\\\\', 'g'), '/').replace('//', '/') +
+				HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT_LOAD(\'' + R3_fixPath(rdtPath).replace('//', '/') +
 								currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' + currentMap + '</font><br>Location: <font class="monospace mono_xyzr">' +
 								RDT_locations[currentMap][0] + '</font>, <font class="monospace mono_xyzr">' + RDT_locations[currentMap][1] + '</font><br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
 				c++;
@@ -2776,6 +2778,17 @@ function R3_eNGE_makeWindowVisible(mode){
 		$('#R3V2_MINI_WINDOW_13').css({'z-index': '10000010'});
 	} else {
 		$('#R3V2_MINI_WINDOW_13').css({'z-index': '999999'});
+	};
+};
+/*
+	R3V2 Wizard
+*/
+// Open R3V2 Wizard
+function R3_DESIGN_displayWizard(){
+	if (R3_WEBMODE === false && R3_MENU_CURRENT !== 0){
+		document.getElementById('R3_WIZARD_GAME_PATH').title = '';
+		document.getElementById('R3_WIZARD_GAME_PATH').innerHTML = 'Unknown Location';
+		R3_DESIGN_MINIWINDOW_OPEN(21, 'center');
 	};
 };
 /*

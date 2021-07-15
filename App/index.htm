@@ -122,7 +122,7 @@
 							<img class="R3_MENU_ICON" src="img/icons/icon-33.png"><div class="R3_MENU_BIG_LBL">ARD Compiler</div>
 						</div>
 						<div class="R3_MENU_SEPARATOR"></div>
-						<div class="R3_MENU_ITEM_BIG" title="(Wizard) Click here to extract the game assets and enable R3ditor V2 Full-Editing mode!" onclick="R3_ROFS_ENABLE_MOD_VERIFY();">
+						<div class="R3_MENU_ITEM_BIG" title="(Wizard) Click here to extract the game assets and enable R3ditor V2 Full-Editing mode!" onclick="R3_DESIGN_displayWizard();">
 							<img class="R3_MENU_ICON" src="img/icons/icon-12.png"><div class="R3_MENU_BIG_LBL">Enable Wizard</div>
 						</div>
 						<div id="BTN_PS1_HOOK" class="none">
@@ -508,11 +508,52 @@
 			</div>
 			<!-- Hidden Canvas -->
 			<div id="MAIN_HIDDEN_CANVAS" class="MAIN_HIDDEN_CANVAS"></div>
+			<!-- MENU - Loading -->
+			<div class="MENU_DIV MENU_DIV_LOADING" id="MENU_2">
+				<div class="LOADING_BG"></div>
+				<div class="R3_LOADING_HOLDER">
+					<div class="align-center"><font class="LBL_title" id="R3_LOADING_TITLE">???</font></div>
+					<font id="R3_LOADING_STATUS">Please wait</font><br>
+					<div id="R3_LOADING_PGBAR_DIV" class="R3_LOADING_PGBAR_DIV">
+						<font id="R3_LOADING_PGBAR_LABEL">???</font>%
+					</div>
+				</div>
+			</div>
+			<!-- R3V2 - Wizard -->
+			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_21" id="R3V2_MINI_WINDOW_21">
+				<div id="R3V2_MINI_WINDOW_21_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+					<font id="R3V2_TITLE_LOG_WINDOW">R3V2 Wizard</font>
+					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(21);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+				</div>
+				<!-- Holder -->
+				<div class="R3_WIZARD_HOLDER">
+					<div class="align-center">
+						This is the first step to create a perfect enviroment for modding RE3.<br>
+						It will unpack all game assets, generating a new version of the game built for testing and more. 
+						All files will be installed on a specific path created by R3V2. By default, this is located on <u>your documents folder</u>.<br>
+						To start, please select your main game location.<br><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Select Game Path" title="Click here to select the main game location" onclick="R3_WIZARD_getMainGamePath();"><br><br>
+						Location: <font class="R3_HC_LBL_CODE" id="R3_WIZARD_GAME_PATH">Unknown Location</font><br><br>
+						You can change how R3V2 will run this process below:
+					</div>
+					<!-- Wizard Options -->
+					<div class="R3_WIZARD_OPTIONS" id="R3_WIZARD_OPTIONS">
+						<input type="checkbox" id="R3_WIZARD_KEEP_ROFS11" checked="true"> - <font title="Enabling this option will keep Rofs11.dat inside extracted folder, avoiding some crashes due bad rofs extraction issues. (It will be extracted, but disabled by default on Bio3.ini)" onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_KEEP_ROFS11');" class="cursor-pointer">Keep <font class="R3_HC_LBL_CODE user-cant-select">Rofs11.dat</font></font><br>
+						<input type="checkbox" id="R3_WIZARD_SET_RE3_PATH" checked="true"> - <font title="Enabling this option will search for RE3 main executable using selected path. If exists, R3V2 will set RE3 Main Game Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_RE3_PATH');" class="cursor-pointer">(Settings) Set Main Game Path</font><br>
+						<input type="checkbox" id="R3_WIZARD_SET_MERCE_PATH" checked="true"> - <font title="Enabling this option will search for RE3 Mercenaries executable using selected path. If exists, R3V2 will set RE3 Mercenaries Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_MERCE_PATH');" class="cursor-pointer">(Settings) Set Mercenaries Path</font><br>
+						<input type="checkbox" id="R3_WIZARD_ENABLE_DOORLINK" checked="true"> - <font title="Enabling this option will read all doors inside the game, generating a database with all spawn locations to be used while editing SCD scripts." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_DOORLINK');" class="cursor-pointer">Enable SCD DoorLink</font><br>
+						<input type="checkbox" id="R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT" checked="true"> - <font title="Enabling this option will replace the original warning screen (This game contains scenes of explicit violence and gore, WARNE.TIM) with a custom image, indicating that user are running the beta version." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT');" class="cursor-pointer">Replace warning message</font>
+					</div>
+					<!-- Start -->
+					<div class="align-center R3_WIZARD_START_HOLDER" id="R3_WIZARD_START_HOLDER">
+						<input type="button" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" value="Run Wizard" title="Click here to start R3V2 Wizard Process" onclick="R3_WIZARD_checkProcess();">
+					</div>
+				</div>
+			</div>
+
+			<!-- MAIN TOOLS -->
 
 			<!-- MENU 8 - FREE SLOT -->
 			<div class="MENU_DIV" id="MENU_8"></div>
-
-			<!-- MAIN TOOLS -->
 
 			<!-- SCD Editor -->
 			<div class="MENU_DIV" id="MENU_9">
@@ -1315,17 +1356,6 @@
 					</div>
 				</div>
 				<div class="R3_FILEGEN_CANVAS_BIG" id="R3_FILEGEN_RENDERAREA_BIG"></div>
-			</div>
-			<!-- MENU - Loading -->
-			<div class="MENU_DIV MENU_DIV_LOADING" id="MENU_2">
-				<div class="LOADING_BG"></div>
-				<div class="R3_LOADING_HOLDER">
-					<div class="align-center"><font class="LBL_title" id="R3_LOADING_TITLE">???</font></div>
-					<font id="R3_LOADING_STATUS">Please wait</font><br>
-					<div id="R3_LOADING_PGBAR_DIV" class="R3_LOADING_PGBAR_DIV">
-						<font id="R3_LOADING_PGBAR_LABEL">???</font>%
-					</div>
-				</div>
 			</div>
 			<!-- MENU - Settings -->
 			<div class="MENU_DIV" id="MENU_0">

@@ -1219,12 +1219,13 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						DOOR_nStage = (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1]), 16) + 1),
 						DOOR_nRoom  = cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]).toUpperCase(),
 						DOOR_nCam   = cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]).toUpperCase(),
-						DOOR_nMap 	= RDT_locations['R' + DOOR_nStage + DOOR_nRoom][0],
+						DOOR_nRDT 	= 'R' + DOOR_nStage + DOOR_nRoom;
+						DOOR_nMap 	= RDT_locations[DOOR_nRDT][0],
 						DOOR_cPrev  = '';
-					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG') === true){
-						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" alt="R3_SCD_DOOR_PREVIEW" src="' + APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG">';
+					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/' + DOOR_nRDT + DOOR_nCam + '.JPG') === true){
+						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" title="Next Cam: ' + parseInt(DOOR_nCam, 16) + '" alt="R3_SCD_DOOR_PREVIEW_' + DOOR_nRDT + '_' + DOOR_nCam + '" src="' + APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG">';
 					};
-					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">R' + DOOR_nStage + DOOR_nRoom + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
+					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">' + DOOR_nRDT + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
 				};
 				// Set Door 4P [DOOR_AOT_SET_4P]
 				if (cOpcode === '62'){
@@ -1232,12 +1233,13 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						DOOR_nStage = (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1]), 16) + 1),
 						DOOR_nRoom  = cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]).toUpperCase(),
 						DOOR_nCam   = cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]).toUpperCase(),
-						DOOR_nMap 	= RDT_locations['R' + DOOR_nStage + DOOR_nRoom][0],
+						DOOR_nRDT 	= 'R' + DOOR_nStage + DOOR_nRoom;
+						DOOR_nMap 	= RDT_locations[DOOR_nRDT][0],
 						DOOR_cPrev  = '';
-					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG') === true){
-						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" alt="R3_SCD_DOOR_PREVIEW" src="' + APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG">';
+					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/' + DOOR_nRDT + DOOR_nCam + '.JPG') === true){
+						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" title="Next Cam: ' + parseInt(DOOR_nCam, 16) + '" alt="R3_SCD_DOOR_PREVIEW_' + DOOR_nRDT + '_' + DOOR_nCam + '" src="' + APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG">';
 					};
-					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">R' + DOOR_nStage + DOOR_nRoom + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
+					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">' + DOOR_nRDT + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
 				};
 				// Set Interactive Object [AOT_SET]
 				if (cOpcode === '63'){

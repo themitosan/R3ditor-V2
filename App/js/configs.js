@@ -682,13 +682,13 @@ function R3_SETTINGS_SET_PATH(mode){
 			});
 		} else {
 			R3_FILE_LOAD('.R3V2', function(biosPath){
-				SETTINGS_ENGE_BIOS_PATH = biosPath.replace(new RegExp('\\\\', 'g'), '/');
+				SETTINGS_ENGE_BIOS_PATH = R3_fixPath(biosPath);
 				document.getElementById('R3_SETTINGS_eNGE_BIOS_PATH').innerHTML = SETTINGS_ENGE_BIOS_PATH;
 			});
 		};
 	} else {
 		R3_FOLDER_SELECT(function(pathFuture){
-			var fileCheck = pathFuture.replace(new RegExp('\\\\', 'g'), '/') + '/bio3.ini';
+			var fileCheck = pathFuture + '/bio3.ini';
 			if (APP_FS.existsSync(fileCheck) === true){
 				R3_MOD_PATH = fileCheck.slice(0, (fileCheck.length - 8));
 				document.getElementById('R3_SETTINGS_MOD_PATH').innerHTML = R3_MOD_PATH;
