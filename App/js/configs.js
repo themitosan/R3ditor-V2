@@ -62,7 +62,7 @@ function R3_LOAD_CHECKFILES(){
 			*/
 			if (process.platform !== 'darwin'){
 				DATABASE_INIT_DELETE_FILES.forEach(function(deleteFile){
-					if (APP_FS.existsSync(deleteFile === true)){
+					if (APP_FS.existsSync(deleteFile) === true){
 						APP_FS.unlinkSync(deleteFile);
 					};
 				});

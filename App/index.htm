@@ -170,6 +170,7 @@
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_HC_OPEN_PAGE(4);">R3V2 Help Center</div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">About</div>
 						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_NORMAL" id="R3_MENU_ITEM_GITHUB_UPDATER" title="Click here to open GitHub Updater" onclick="R3_UPDATER_GET_BRANCHES();">GitHub Updater</div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to reload R3V2" onclick="R3_RELOAD();">Reload</div>
 					</div>
 				</div>
@@ -487,6 +488,69 @@
 				<!-- eNGE Canvas -->
 				<canvas id="R3_ENGE_CANVAS" class="eNGE_CANVAS"></canvas>
 			</div>
+			<!-- R3V2 - GitHub Updater -->
+			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_22" id="R3V2_MINI_WINDOW_22">
+				<div id="R3V2_MINI_WINDOW_22_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+					<font id="R3V2_TITLE_LOG_WINDOW">GitHub Updater</font>
+					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(22);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+				</div>
+				<div class="R3_UPDATER_BG"></div>
+				<div class="R3_UPDATER_FORM">
+					<div class="align-center">
+						Current Branch: 
+						<select class="SELECT_SETTINGS auto" id="R3_UPDATER_CURRENT_BRANCH" onchange="R3_UPDATER_GET_COMMITS();" onkeyup="R3_UPDATER_GET_COMMITS();"></select>
+					</div>
+					<div class="SEPARATOR-2"></div>
+					<div class="align-center">
+						<font class="LBL_subTitle">Latest Commit</font>
+					</div>
+					SHA: <font class="R3_HC_LBL_CODE" title="SHA" id="R3_UPDATER_COMMIT_SHA">???</font><br>
+					Time: <font class="monospace mono_xyzr" id="R3_UPDATER_COMMIT_DATE">???</font><br>
+					Commit URL: <a target="_blank" id="R3_UPDATER_COMMIT_URL">Click here to open</a><br><br>
+					Author: <font class="monospace mono_xyzr" id="R3_UPDATER_COMMIT_AUTHOR">Unknown</font><br>
+					User ID: <font class="R3_HC_LBL_CODE" id="R3_UPDATER_AUTHOR_ID">???</font>
+					<div class="R3_UPDATER_AUTHOR_DIV">
+						<img alt="R3_UPDATER_COMMIT_AUTHOR_PIC" id="R3_UPDATER_COMMIT_AUTHOR_PIC" class="R3_UPDATER_AUTHOR_ICON">
+					</div>
+					<div id="R3_UPDATER_COMMIT_MESSAGE" class="R3_UPDATER_COMMIT_MESSAGE">
+						<!-- Commit Message Goes Here -->
+					</div>
+					<!-- Update -->
+					<div class="R3_UPDATER_APPLY_DIV">
+						<input type="button" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" title="Click here to update R3V2" value="Update" onclick="R3_UPDATER_START();">
+					</div>
+				</div>
+			</div>
+			<!-- R3V2 - Wizard -->
+			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_21" id="R3V2_MINI_WINDOW_21">
+				<div id="R3V2_MINI_WINDOW_21_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+					R3V2 Wizard
+					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(21);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+				</div>
+				<div class="R3_WIZARD_HOLDER">
+					<div class="R3_WIZARD_BG"></div>
+					<div class="R3_WIZARD_MAIN">
+						This is the first step to create a perfect enviroment for modding RE3.<br>
+						It will unpack all game assets, generating a new version of the game built for testing and more. 
+						All files will be installed on a specific path created by R3V2. By default, this is located on <u>your documents folder</u>.<br>
+						To start, please select your main game location.<br><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Select Game Path" title="Click here to select the main game location" onclick="R3_WIZARD_getMainGamePath();"><br><br>
+						Location: <font class="R3_HC_LBL_CODE" id="R3_WIZARD_GAME_PATH">Unknown Location</font><br><br>
+						You can change how R3V2 will run this process below:
+					</div>
+					<!-- Wizard Options -->
+					<div class="R3_WIZARD_OPTIONS" id="R3_WIZARD_OPTIONS">
+						<input type="checkbox" id="R3_WIZARD_KEEP_ROFS11" checked="true"> - <font title="Enabling this option will keep Rofs11.dat inside extracted folder, avoiding some crashes due bad rofs extraction issues. (It will be extracted, but disabled by default on Bio3.ini)" onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_KEEP_ROFS11');" class="cursor-pointer">Keep <font class="R3_HC_LBL_CODE user-cant-select">Rofs11.dat</font></font><br>
+						<input type="checkbox" id="R3_WIZARD_SET_RE3_PATH" checked="true"> - <font title="Enabling this option will search for RE3 main executable using selected path. If exists, R3V2 will set RE3 Main Game Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_RE3_PATH');" class="cursor-pointer">(Settings) Set Main Game Path</font><br>
+						<input type="checkbox" id="R3_WIZARD_SET_MERCE_PATH" checked="true"> - <font title="Enabling this option will search for RE3 Mercenaries executable using selected path. If exists, R3V2 will set RE3 Mercenaries Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_MERCE_PATH');" class="cursor-pointer">(Settings) Set Mercenaries Path</font><br>
+						<input type="checkbox" id="R3_WIZARD_ENABLE_DOORLINK" checked="true"> - <font title="Enabling this option will read all doors inside the game, generating a database with all spawn locations to be used while editing SCD scripts." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_DOORLINK');" class="cursor-pointer">Enable SCD DoorLink</font><br>
+						<input type="checkbox" id="R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT" checked="true"> - <font title="Enabling this option will replace the original warning screen (This game contains scenes of explicit violence and gore, WARNE.TIM) with a custom image, indicating that user are running the beta version." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT');" class="cursor-pointer">Replace warning message</font>
+					</div>
+					<!-- Start -->
+					<div class="align-center R3_WIZARD_START_HOLDER" id="R3_WIZARD_START_HOLDER">
+						<input type="button" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" value="Run Wizard" title="Click here to start R3V2 Wizard Process" onclick="R3_WIZARD_checkProcess();">
+					</div>
+				</div>
+			</div>
 			<!-- Recent File -->
 			<div class="R3_LATEST_FILE_DIV" id="R3_LATEST_FILE_DIV">
 				<div class="R3_LATEST_FILE_TITLE">
@@ -516,37 +580,6 @@
 					<font id="R3_LOADING_STATUS">Please wait</font><br>
 					<div id="R3_LOADING_PGBAR_DIV" class="R3_LOADING_PGBAR_DIV">
 						<font id="R3_LOADING_PGBAR_LABEL">???</font>%
-					</div>
-				</div>
-			</div>
-			<!-- R3V2 - Wizard -->
-			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_21" id="R3V2_MINI_WINDOW_21">
-				<div id="R3V2_MINI_WINDOW_21_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
-					<font id="R3V2_TITLE_LOG_WINDOW">R3V2 Wizard</font>
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(21);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
-				</div>
-				<!-- Holder -->
-				<div class="R3_WIZARD_HOLDER">
-					<div class="R3_WIZARD_BG"></div>
-					<div class="R3_WIZARD_MAIN">
-						This is the first step to create a perfect enviroment for modding RE3.<br>
-						It will unpack all game assets, generating a new version of the game built for testing and more. 
-						All files will be installed on a specific path created by R3V2. By default, this is located on <u>your documents folder</u>.<br>
-						To start, please select your main game location.<br><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Select Game Path" title="Click here to select the main game location" onclick="R3_WIZARD_getMainGamePath();"><br><br>
-						Location: <font class="R3_HC_LBL_CODE" id="R3_WIZARD_GAME_PATH">Unknown Location</font><br><br>
-						You can change how R3V2 will run this process below:
-					</div>
-					<!-- Wizard Options -->
-					<div class="R3_WIZARD_OPTIONS" id="R3_WIZARD_OPTIONS">
-						<input type="checkbox" id="R3_WIZARD_KEEP_ROFS11" checked="true"> - <font title="Enabling this option will keep Rofs11.dat inside extracted folder, avoiding some crashes due bad rofs extraction issues. (It will be extracted, but disabled by default on Bio3.ini)" onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_KEEP_ROFS11');" class="cursor-pointer">Keep <font class="R3_HC_LBL_CODE user-cant-select">Rofs11.dat</font></font><br>
-						<input type="checkbox" id="R3_WIZARD_SET_RE3_PATH" checked="true"> - <font title="Enabling this option will search for RE3 main executable using selected path. If exists, R3V2 will set RE3 Main Game Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_RE3_PATH');" class="cursor-pointer">(Settings) Set Main Game Path</font><br>
-						<input type="checkbox" id="R3_WIZARD_SET_MERCE_PATH" checked="true"> - <font title="Enabling this option will search for RE3 Mercenaries executable using selected path. If exists, R3V2 will set RE3 Mercenaries Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_MERCE_PATH');" class="cursor-pointer">(Settings) Set Mercenaries Path</font><br>
-						<input type="checkbox" id="R3_WIZARD_ENABLE_DOORLINK" checked="true"> - <font title="Enabling this option will read all doors inside the game, generating a database with all spawn locations to be used while editing SCD scripts." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_DOORLINK');" class="cursor-pointer">Enable SCD DoorLink</font><br>
-						<input type="checkbox" id="R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT" checked="true"> - <font title="Enabling this option will replace the original warning screen (This game contains scenes of explicit violence and gore, WARNE.TIM) with a custom image, indicating that user are running the beta version." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT');" class="cursor-pointer">Replace warning message</font>
-					</div>
-					<!-- Start -->
-					<div class="align-center R3_WIZARD_START_HOLDER" id="R3_WIZARD_START_HOLDER">
-						<input type="button" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" value="Run Wizard" title="Click here to start R3V2 Wizard Process" onclick="R3_WIZARD_checkProcess();">
 					</div>
 				</div>
 			</div>
@@ -1642,6 +1675,7 @@
 				<script type="text/javascript" src="js/gamepad.js"></script>
 				<script type="text/javascript" src="js/scd_code_map.js"></script>
 				<script type="text/javascript" src="js/re3set.js"></script>
+				<script type="text/javascript" src="js/github.js"></script>
 			</blockquote>
 		</div>
 	</body>

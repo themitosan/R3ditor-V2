@@ -50,7 +50,7 @@ function R3_WIZARD_checkProcess(){
 function R3_WIZARD_startProcess(){
 	if (R3_WEBMODE === false){
 		R3_MENU_EXIT();
-		R3_UTILS_CALL_LOADING('Enable Modding Enviroment', 'Please wait while R3ditor V2 extracts all game assets.<br>Starting process...', 10);
+		R3_UTILS_CALL_LOADING('Enable Modding Enviroment', 'Please wait while R3ditor V2 extracts all game assets...', 10);
 		R3_WIZARD_RUNNING = true;
 		var currentRofs = 1, rofsTimer, rofsFix;
 		// Create zmovie
@@ -119,7 +119,7 @@ function R3_WIZARD_copyMissingFiles(){
 // Extract Rofs (Wizard)
 function R3_WIZARD_EXTRACT_ROFS(rofsId){
 	if (R3_WEBMODE === false){
-		R3_UTILS_LOADING_UPDATE('Please wait while R3ditor V2 extracts all game assets.<br>Extracting Rofs' + rofsId + '.dat - ' + ROFS_FILE_DESC[rofsId], R3_parsePercentage(rofsId, 15));
+		R3_UTILS_LOADING_UPDATE('Extracting Rofs' + rofsId + '.dat - ' + ROFS_FILE_DESC[rofsId] + ' - Please wait...', R3_parsePercentage(rofsId, 15));
 		R3_runExec(APP_TOOLS + '/rofs.exe', [R3_WIZARD_GAME_PATH + '/Rofs' + rofsId + '.dat'], 1);
 	};
 };

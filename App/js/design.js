@@ -20,66 +20,42 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 	R3_SYSTEM_availableMonitors = 0,
 	// RDT Path Vars
 	R3_RDT_PREFIX_EASY = 'DATA_AJ', R3_RDT_PREFIX_HARD = 'DATA_E',
-	// Mini window Active database
-	R3_MINI_WINDOW_DATABASE_STATUS = [
-		false, // R3V2 Log
-		false, // MSG Hex View
-		false, // Xdelta Patcher
-		false, // SCD Hex View
-		false, // SCD Script List
-		false, // MSG List
-		false, // RID Editor
-		false, // MSG Hex Translator
-		false, // SCD Preset Window
-		false, // SCD Search Form
-		false, // RDT Export Sections
-		false, // R3V2 Help Center
-		false, // SCD ID List
-		false, // eNGE PS1 Canvas
-		false, // SCD edit form
-		false, // Item Database
-		false, // RDT TIM Manager
-		false, // RDT OBJ Manager
-		false, // Backup Manager  
-		false, // RE3 Livestatus
-		false, // SCD DoorLink
-		false  // R3V2 Wizard
-	],
 	// Mini Window Database
 	R3_MINI_WINDOW_DATABASE = {
 		/*
 			Order:
-			Width, Height, Top, Left, Z-index  Focus DOM element after opening
+			Width, Height, Top, Left, Z-index, Status Focus DOM element after opening
 		*/
-		0:  [670,  294,    68,  4,   9999999,  ''], 							  	 // R3V2 Log
-		1:  [380,  178,    44,  4,    	 100,  ''], 							  	 // MSG Hex View
-		2:  [700,  130,    68,  4,   9999998,  ''], 							  	 // Xdelta Patcher
-		3:  [414,  310,    44,  4,    	 100,  ''], 							  	 // SCD Hex View
-		4:  [210,  560,    44,  726,  	 101,  ''], 							  	 // SCD Script List
-		5:  [232,  560,    68,  858,  	 101,  ''], 							  	 // MSG List
-		6:  [860,  342,    68,  4,    	 100,  ''], 							  	 // RID Editor
-		7:  [392,  178,    44,  138,  	 100,  ''], 							  	 // MSG Hex Translator
-		8:  [300,  124,    44,  552,  	 104,  ''], 							  	 // SCD Preset Window
-		9:  [300,  442,    44,  446,  	 103,  'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'], 	 // SCD Search Form
-		10: [200,  376,    44,  570,   	 101,  ''], 							  	 // RDT Export Sections
-		11: [780,  294,    68,  4,    100000,  ''], 							  	 // R3V2 Help Center
-		12: [540,  410,    226, 466,  	 102,  'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
-		13: [640,  480,    68,  4,    999999,  'R3_PS1_DISPLAY'],					 // eNGE PS1 Canvas
-		14: [760,  480,    68,  12,      105,  ''],									 // SCD edit form
-		15: [400,  358,    68,  4, 	  999999,  'R3_ITEM_DATABASE_SEARCH'],			 // Item Database
-		16: [220,  88,     44,  444, 	 101,  'R3_RDT_timManagerList'],			 // RDT TIM Manager
-		17: [220,  88,     44,  486, 	 102,  'R3_RDT_objManagerList'],			 // RDT OBJ Manager
-		18: [680,  434,    68,  4, 	 9999998,  ''],									 // Backup Manager
-		19: [1100, 620,    68,  4, 	 9999998,  ''], 								 // RE3 Livestatus
-		20: [416,  482,    44,  4, 		 105,  'R3_SCD_DOORLINK_MAP_INPUT'],		 // SCD DoorLink
-		21: [482,  426,    44,  4,   9999998,  ''] 									 // R3V2 Wizard
+		0:  [670,  294,    68,  4,   9999999, false, ''], 							  	   // R3V2 Log
+		1:  [380,  178,    44,  4,    	 100, false, ''], 							  	   // MSG Hex View
+		2:  [700,  130,    68,  4,   9999998, false, ''], 							  	   // Xdelta Patcher
+		3:  [414,  310,    44,  4,    	 100, false, ''], 							  	   // SCD Hex View
+		4:  [210,  560,    44,  726,  	 101, false, ''], 							  	   // SCD Script List
+		5:  [232,  560,    68,  858,  	 101, false, ''], 							  	   // MSG List
+		6:  [860,  342,    68,  4,    	 100, false, ''], 							  	   // RID Editor
+		7:  [392,  178,    44,  138,  	 100, false, ''], 							  	   // MSG Hex Translator
+		8:  [300,  124,    44,  552,  	 104, false, ''], 							  	   // SCD Preset Window
+		9:  [300,  442,    44,  446,  	 103, false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	   // SCD Search Form
+		10: [200,  376,    44,  570,   	 101, false, ''], 							  	   // RDT Export Sections
+		11: [780,  294,    68,  4,    100000, false, ''], 							  	   // R3V2 Help Center
+		12: [540,  410,    226, 466,  	 102, false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
+		13: [640,  480,    68,  4,    999999, false, 'R3_PS1_DISPLAY'],					   // eNGE PS1 Canvas
+		14: [760,  480,    68,  12,      105, false, ''],								   // SCD edit form
+		15: [400,  358,    68,  4, 	  999999, false, 'R3_ITEM_DATABASE_SEARCH'],		   // Item Database
+		16: [220,  88,     44,  444, 	 101, false, 'R3_RDT_timManagerList'],			   // RDT TIM Manager
+		17: [220,  88,     44,  486, 	 102, false, 'R3_RDT_objManagerList'],			   // RDT OBJ Manager
+		18: [680,  434,    68,  4, 	 9999998, false, ''],								   // Backup Manager
+		19: [1100, 620,    68,  4, 	 9999998, false, ''], 								   // RE3 Livestatus
+		20: [416,  482,    44,  4, 		 105, false, 'R3_SCD_DOORLINK_MAP_INPUT'],		   // SCD DoorLink
+		21: [482,  426,    44,  4,   9999998, false, ''],								   // R3V2 Wizard
+		22: [522,  376,    44,  4,   9999999, false, 'R3_UPDATER_CURRENT_BRANCH'],		   // R3V2 Updater
 	};
 /*
 	Main Consts
 */
 const R3_MENU_BACK_EXCLUDE = [0, 2, 8],
 	// Design Consts
-	R3_ICON_maxIcons = 100, R3_MINI_WINDOW_maxWindows = 100, R3_TOTAL_MENUS = 20,
+	R3_ICON_maxIcons = 100, R3_TOTAL_MENUS = 20,
 	// Tab Index
 	R3_TABS_INDEX = {
 		0: 1, // RE3 Livestatus
@@ -395,18 +371,16 @@ function R3_DESIGN_ADJUST(){
 			if (document.getElementById('R3_PAGE_ICON_BG_' + c) !== null){
 				$('#R3_PAGE_ICON_BG_' + c).css({'background-image': 'url(\'./img/icons/icon-' + c + '.png\')'});
 			};
-		}
+		};
 		c++;
 	};
 	// Init mini windows
-	c = 0;
-	while (c < (R3_MINI_WINDOW_maxWindows + 1)){
-		cMiniWindow = document.getElementById('R3V2_MINI_WINDOW_' + c);
+	Object.keys(R3_MINI_WINDOW_DATABASE).forEach(function(cItem, cIndex){
+		cMiniWindow = document.getElementById('R3V2_MINI_WINDOW_' + cIndex);
 		if (cMiniWindow !== null){
-			R3_DESIGN_enableDragElement('R3V2_MINI_WINDOW_' + c);
-		}
-		c++;
-	};
+			R3_DESIGN_enableDragElement('R3V2_MINI_WINDOW_' + cIndex);
+		};
+	});
 	// Prepare SCD editor
 	R3_SCD_SWAP_EDITOR_MODE(SETTINGS_SCD_EDITOR_MODE);
 	// Adjust loading div
@@ -426,6 +400,9 @@ function R3_DESIGN_ADJUST(){
 	// Fix RDT Path Labels and disable some unused functions in non-windows os / web
 	if (R3_WEBMODE === false){
 		$('#SETTINGS_LI_CLEARCACHE').css({'display': 'none'});
+		if (INT_VERSION !== 'DEV_VERSION'){
+			$('#R3_MENU_ITEM_GITHUB_UPDATER').css({'display': 'none'});
+		};
 		if (process.platform !== 'win32'){
 			R3_RDT_MENU_LABEL_FIX_NUMBER = 124;
 			// Buttons
@@ -555,7 +532,7 @@ function R3_DESIGN_toggleFullScreen(mode){
 };
 // Display Main menu
 function R3_GOTO_MAIN(){
-	if (APP_CAN_START === true){
+	if (APP_CAN_START === true && R3_HAS_CRITICAL_ERROR === false){
 		// Check fullscreen
 		if (SETTINGS_ENABLE_FULLSCREEN === true){
 			R3_DESIGN_toggleFullScreen(0);
@@ -721,19 +698,18 @@ function R3_SYSTEM_CLEAR_LOG(){
 */
 // Open Mini Window
 function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
-	// console.info('Window ID: ' + windowId + ' - ' + R3_MINI_WINDOW_DATABASE_STATUS[windowId]);
+	// console.info('Window ID: ' + windowId + ' - ' + R3_MINI_WINDOW_DATABASE[windowId][5]);
 	if (R3_MINI_WINDOW_DATABASE[windowId] !== undefined){
 		var focusDomName, scrollSize, fixLeft = '792px';
 		// Close all Mini-Windows if RDT editor is active
 		if (R3_MENU_CURRENT === 10){
 			R3_DESIGN_closeAllRdtMiniWindows();
 		};
-		if (R3_MENU_CURRENT !== 1 && R3_MINI_WINDOW_DATABASE_STATUS[windowId] === false){
+		if (R3_MENU_CURRENT !== 1 && R3_MINI_WINDOW_DATABASE[windowId][5] === false){
 			if (windowId !== 0 && windowId !== 11){
 				// SCD Hex View
 				if (windowId === 3){
 					$('#R3V2_MINI_WINDOW_' + windowId).css({
-						'display': 'block',
 						'z-index': R3_MINI_WINDOW_DATABASE[windowId][4],
 						'top': R3_MINI_WINDOW_DATABASE[windowId][2] + 'px',
 						'left': R3_MINI_WINDOW_DATABASE[windowId][3] + 'px',
@@ -742,7 +718,6 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 					});
 				} else {
 					$('#R3V2_MINI_WINDOW_' + windowId).css({
-						'display': 'block',
 						'z-index': R3_MINI_WINDOW_DATABASE[windowId][4],
 						'top': R3_MINI_WINDOW_DATABASE[windowId][2] + 'px',
 						'left': R3_MINI_WINDOW_DATABASE[windowId][3] + 'px',
@@ -755,7 +730,6 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 					fixLeft = '872px';
 				};
 				$('#R3V2_MINI_WINDOW_' + windowId).css({
-					'display': 'block',
 					'top': 'calc(100% - 342px)',
 					'left': 'calc(100% - ' + fixLeft + ')',
 					'z-index': R3_MINI_WINDOW_DATABASE[windowId][4],
@@ -768,7 +742,6 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 			// R3V2 Help Center
 			if (windowId === 11){
 				$('#R3V2_MINI_WINDOW_' + windowId).css({
-					'display': 'block',
 					'left': 'calc(50% - 350px)',
 					'z-index': R3_MINI_WINDOW_DATABASE[0][4],
 					'top': R3_MINI_WINDOW_DATABASE[windowId][2] + 'px',
@@ -780,7 +753,6 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 			// eNGE Window Size
 			if (windowId === 13){
 				$('#R3V2_MINI_WINDOW_' + windowId).css({
-					'display': 'block',
 					'width': SETTINGS_ENGE_WIDTH_RES + 'px',
 					'height': SETTINGS_ENGE_HEIGHT_RES + 'px',
 					'z-index': R3_MINI_WINDOW_DATABASE[windowId][4],
@@ -789,11 +761,16 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 				});
 			};
 		};
+		if (R3_ENABLE_ANIMATIONS === true){
+			$('#R3V2_MINI_WINDOW_' + windowId).fadeIn({duration: 80, queue: true});
+		} else {
+			$('#R3V2_MINI_WINDOW_' + windowId).css({'display': 'block'});
+		};
 		// Focus element
 		focusDomName = R3_MINI_WINDOW_DATABASE[windowId][5];
 		if (focusDomName !== '' && document.getElementById(focusDomName) !== null){
 			setTimeout(function(){
-				document.getElementById(R3_MINI_WINDOW_DATABASE[windowId][5]).focus();
+				document.getElementById(R3_MINI_WINDOW_DATABASE[windowId][6]).focus();
 			}, 20);
 		};
 		// Close DoorLink if SCD Search Form
@@ -810,7 +787,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 			R3_DESIGN_adjustMiniWindowForm();
 		};
 		// Process opening mode
-		if (mode !== undefined && R3_MINI_WINDOW_DATABASE_STATUS[windowId] === false){
+		if (mode !== undefined && R3_MINI_WINDOW_DATABASE[windowId][5] === false){
 			// Center Screen
 			if (mode === 'center'){
 				var windowW = window.innerWidth,
@@ -826,7 +803,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 		/*
 			End
 		*/
-		R3_MINI_WINDOW_DATABASE_STATUS[windowId] = true;
+		R3_MINI_WINDOW_DATABASE[windowId][5] = true;
 	} else {
 		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to open window! <br>Reason: Window ID does not exist!');
 	};
@@ -855,30 +832,41 @@ function R3_DESIGN_closeAllRdtMiniWindows(){
 };
 // Close Mini Window
 function R3_DESIGN_MINIWINDOW_CLOSE(windowId){
-	// Give R3ditor V2 shortcuts again!
-	if (windowId === 13){
-		eNGE_LOST_FOCUS();
+	var closeList = [];
+	if (windowId === 'all'){
+		Object.keys(R3_MINI_WINDOW_DATABASE).forEach(function(cItem, cIndex){
+			closeList.push(cItem);
+		});
+	} else {
+		closeList.push(parseInt(windowId));
 	};
-	// Last file opened fix
-	if (R3_MENU_CURRENT === 4 && SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
-		R3_DESIGN_OPEN_CLOSE_LATEST(0);
-	};
-	// Help Center
-	var checkButton = document.getElementById('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId);
-	if (checkButton !== null){
-		$('#R3V2_MINI_WINDOW_MAXIMIZE_' + windowId).css({'display': 'inline'});
-	};
-	// Clear Log fix
-	if (windowId === 0){
-		$('#R3V2_MINI_WINDOW_CLEAR_LOG').css({'right': '105px'});
-	};
-	// Clear Item database
-	if (windowId === 15){
-		R3_DESIGN_CLEAN_ITEM_DATABASE();
-	};
-	// End
-	R3_MINI_WINDOW_DATABASE_STATUS[windowId] = false;
-	$('#R3V2_MINI_WINDOW_' + windowId).css({'display': 'none'});
+	closeList.forEach(function(cItem, cIndex){
+		windowId = parseInt(cItem);
+		// Give R3ditor V2 shortcuts again!
+		if (windowId === 13){
+			eNGE_LOST_FOCUS();
+		};
+		// Last file opened fix
+		if (R3_MENU_CURRENT === 4 && SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
+			R3_DESIGN_OPEN_CLOSE_LATEST(0);
+		};
+		// Help Center
+		var checkButton = document.getElementById('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId);
+		if (checkButton !== null){
+			$('#R3V2_MINI_WINDOW_MAXIMIZE_' + windowId).css({'display': 'inline'});
+		};
+		// Clear Log fix
+		if (windowId === 0){
+			$('#R3V2_MINI_WINDOW_CLEAR_LOG').css({'right': '105px'});
+		};
+		// Clear Item database
+		if (windowId === 15){
+			R3_DESIGN_CLEAN_ITEM_DATABASE();
+		};
+		// End
+		$('#R3V2_MINI_WINDOW_' + windowId).css({'display': 'none'});
+		R3_MINI_WINDOW_DATABASE[windowId][5] = false;
+	});
 };
 // Maximize window
 function R3_DESIGN_MINIWINDOW_MAXIMIZE(windowId){
@@ -963,11 +951,11 @@ function R3_DESIGN_enableDragElement(elementId){
 		};
 		if (domId === 'R3V2_MINI_WINDOW_14'){
 			// Snap Search function with edit form
-			if (R3_MINI_WINDOW_DATABASE_STATUS[9] === true && SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM === true){
+			if (R3_MINI_WINDOW_DATABASE[9][5] === true && SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM === true){
 				R3_DESIGN_MINIWINDOW_SNAP(14, 9, true);
 			};
 			// Snap DoorLink
-			if (R3_MINI_WINDOW_DATABASE_STATUS[20] === true){
+			if (R3_MINI_WINDOW_DATABASE[20][5] === true){
 				R3_DESIGN_MINIWINDOW_SNAP(14, 20, true);
 			};
 		};
@@ -1220,7 +1208,7 @@ function R3_DESIGN_DOORLINK_RENDER(){
 };
 // Open SCD DoorLink
 function R3_DESIGN_SCD_openDoorLink(){
-	if (SCD_arquivoBruto !== undefined && R3_SCD_IS_EDITING === true && R3_MINI_WINDOW_DATABASE_STATUS[20] === false){
+	if (SCD_arquivoBruto !== undefined && R3_SCD_IS_EDITING === true && R3_MINI_WINDOW_DATABASE[20][5] === false){
 		if (R3_NW_ARGS_DISABLE_DOORLINK === false){
 			if (Object.keys(R3_DOORLINK_DATABASE).length !== 0){
 				R3_DESIGN_MINIWINDOW_CLOSE(9);
@@ -1835,7 +1823,7 @@ function R3_SCD_openFunctionEdit(cOpcode, isInsert, isExtra, extraTitle){
 		document.getElementById('R3_SCD_LBL_EDITFUNCTION').innerHTML = extraTitle;
 	};
 	// Open form
-	if (R3_MINI_WINDOW_DATABASE_STATUS[14] === false){
+	if (R3_MINI_WINDOW_DATABASE[14][5] === false){
 		R3_DESIGN_MINIWINDOW_OPEN(14, 'center');
 	};
 };
@@ -2082,13 +2070,13 @@ function R3_MSG_DESIGN_updateMsgList(msgId){
 */
 // Update selected TIM file on TIM Manager
 function R3_DESIGN_updateSelectedTimManager(){
-	if (RDT_arquivoBruto !== undefined && R3_MINI_WINDOW_DATABASE_STATUS[16] === true){
+	if (RDT_arquivoBruto !== undefined && R3_MINI_WINDOW_DATABASE[16][5] === true){
 		R3_RDT_currentTimFile = parseInt(document.getElementById('R3_RDT_timManagerList').value);
 	};
 };
 // Update selected OBJ file on OBJ Manager
 function R3_DESIGN_updateSelectedObjManager(){
-	if (RDT_arquivoBruto !== undefined && R3_MINI_WINDOW_DATABASE_STATUS[17] === true){
+	if (RDT_arquivoBruto !== undefined && R3_MINI_WINDOW_DATABASE[17][5] === true){
 		R3_RDT_currentObjFile = parseInt(document.getElementById('R3_RDT_objManagerList').value);
 	};
 };
@@ -2772,7 +2760,7 @@ function R3_eNGE_openEmuWindow(){
 // Make eNGE window visisble on settings
 function R3_eNGE_makeWindowVisible(mode){
 	if (mode === 0){
-		if (R3_MINI_WINDOW_DATABASE_STATUS[13] === false){
+		if (R3_MINI_WINDOW_DATABASE[13][5] === false){
 			R3_DESIGN_MINIWINDOW_OPEN(13);
 		};
 		$('#R3V2_MINI_WINDOW_13').css({'z-index': '10000010'});

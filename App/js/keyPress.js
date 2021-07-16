@@ -82,7 +82,7 @@ document.addEventListener('keydown', function(kd){
 				};
 			};
 			// RID Seek Camera
-			if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE_STATUS[6] === true){
+			if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === true){
 				// Next Next [CTRL + Right Arrow]
 				if (kd.keyCode === 39){
 					R3_DESIGN_RID_seekCamera(1);
@@ -123,7 +123,7 @@ document.addEventListener('keyup', function(kp){
 				// SCD Editor
 				if (R3_MENU_CURRENT === 9){
 					// SCD Search form
-					if (R3_MINI_WINDOW_DATABASE_STATUS[9] === true){
+					if (R3_MINI_WINDOW_DATABASE[9][5] === true){
 						R3_DESIGN_MINIWINDOW_CLOSE(9);
 					};
 					// Close Edit form
@@ -136,7 +136,7 @@ document.addEventListener('keyup', function(kp){
 					R3_MSG_cancelFunctionEdit();
 				};
 				// RID Editor
-				if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE_STATUS[6] === true){
+				if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === true){
 					R3_DESIGN_MINIWINDOW_CLOSE(6);
 				};
 			};
@@ -157,27 +157,27 @@ document.addEventListener('keyup', function(kp){
 				// Open editors using numbers [CTRL + Number]
 				if (R3_MENU_CURRENT === 10 && R3_KEYPRESS_CONTROL === true){
 					// SCD [CTRL + 1]
-					if (R3_MINI_WINDOW_DATABASE_STATUS[6] === false && kp.keyCode === 49){
+					if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 49){
 						R3_RDT_OPEN_SCD();
 					};
 					// MSG [CTRL + 2]
-					if (R3_MINI_WINDOW_DATABASE_STATUS[6] === false && kp.keyCode === 50){
+					if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 50){
 						R3_RDT_OPEN_MSG();
 					};
 					// RID [CTRL + 3]
-					if (R3_MINI_WINDOW_DATABASE_STATUS[6] === false && kp.keyCode === 51){
+					if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 51){
 						R3_RDT_OPEN_RID();
 					};
 					// LIT [CTRL + 4]
-					if (R3_MINI_WINDOW_DATABASE_STATUS[6] === false && kp.keyCode === 52){
+					if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 52){
 						R3_RDT_OPEN_LIT();
 					};
 					// PRI [CTRL + 5]
-					if (R3_MINI_WINDOW_DATABASE_STATUS[6] === false && kp.keyCode === 53){
+					if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 53){
 						R3_RDT_OPEN_PRI();
 					};
 					// SCA [CTRL + 6]
-					if (R3_MINI_WINDOW_DATABASE_STATUS[6] === false && kp.keyCode === 54){
+					if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 54){
 						R3_RDT_OPEN_SCA();
 					};
 				};
@@ -218,7 +218,7 @@ document.addEventListener('keyup', function(kp){
 					};
 				};
 				// Open Next Map on RDT Editor
-				if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE_STATUS[6] === false){
+				if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === false){
 					// Next Map [CTRL + Right Arrow]
 					if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === false && kp.keyCode === 39){
 						R3_RDT_openNextPrevMap(0);

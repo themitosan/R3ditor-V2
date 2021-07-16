@@ -947,7 +947,7 @@ function R3_RDT_SCD_HACK_ENABLE(){
 			R3_SYSTEM_LOG('log', 'Path: <font class="user-can-select">' + ORIGINAL_FILENAME + '</font>');
 			R3_SYSTEM_ALERT('ENABLE SCD HACK: Process Complete!');
 			// Update backup manager if it's open
-			if (R3_MINI_WINDOW_DATABASE_STATUS[18] === true){
+			if (R3_MINI_WINDOW_DATABASE[18][5] === true){
 				R3_DESIGN_renderBackupManager();
 			};
 			// At least... It works...
@@ -1000,7 +1000,7 @@ function R3_RDT_SCD_HACK_INJECT_SCD(){
 			R3_SYSTEM_LOG('log', 'Path: <font class="user-can-select">' + ORIGINAL_FILENAME + '</font>');
 			R3_SYSTEM_ALERT('APPLY SCD HACK: Process Complete!');
 			// Update backup manager if it's open
-			if (R3_MINI_WINDOW_DATABASE_STATUS[18] === true){
+			if (R3_MINI_WINDOW_DATABASE[18][5] === true){
 				R3_DESIGN_renderBackupManager();
 			};
 		} catch (err) {

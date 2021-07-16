@@ -24,6 +24,7 @@
     background: #fafafa;
 }
 a {
+    cursor: pointer;
     color: #fff;
     text-decoration: underline;
 }
@@ -389,8 +390,8 @@ blockquote {
 .R3_MENU_ITEM_NORMAL {
     width: auto;
     padding: 6px;
-    cursor: pointer;
     margin-top: 2px;
+    cursor: pointer;
     border-radius: 2px;
     margin-bottom: 2px;
     text-align: -webkit-center;
@@ -1957,9 +1958,9 @@ blockquote {
 }
 .R3_MSG_HEX_RAW {
     color: #0f0;
+    padding: 4px;
     overflow: auto;
     font-size: 13px;
-    padding: 4px;
     text-align: center;
     font-family: mSpace;
     text-align: -moz-center;
@@ -2232,10 +2233,10 @@ blockquote {
 */
 .R3_LOADING_HOLDER {
     left: 5%;
-    top: 40%;
+    top: calc(50% - 50px);
     width: 90%;
     z-index: 3;
-    height: auto;
+    height: 100px;
     position: absolute;
     border-radius: 6px;
     text-align: center;
@@ -3300,6 +3301,54 @@ blockquote {
     background-image: url('../img/icons/icon-hook.png');
 }
 /*
+    R3V2 Updater
+*/
+.R3_UPDATER_BG {
+    width: 100%;
+    z-index: 10;
+    position: absolute;
+    height: calc(100% - 28px);
+    background-size: auto 58%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../img/logoWm.png');
+}
+.R3_UPDATER_COMMIT_MESSAGE {
+    padding: 6px;
+    height: 100px;
+    font-size: 12px;
+    margin-top: 10px;
+    user-select: all;
+    border-radius: 6px;
+    font-family: mSpace;
+    background-color: #0008;
+    box-shadow: 0px 0px 6px #0008;
+}
+.R3_UPDATER_FORM {
+    padding: 8px;
+    z-index: 10;
+    position: relative;
+    height: calc(100% - 44px);
+    background-image: linear-gradient(to bottom, #1f1e2452, #4d4d65b5);
+}
+.R3_UPDATER_APPLY_DIV {
+    width: 100%;
+    bottom: 6px;
+    position: absolute;
+    text-align: center;
+    text-align: -webkit-center;
+}
+.R3_UPDATER_AUTHOR_DIV {
+    top: 65px;
+    right: 10px;
+    position: absolute;
+}
+.R3_UPDATER_AUTHOR_ICON {
+    width: 96px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px #000;
+}
+/*
     R3V2 Wizard
 */
 .R3_WIZARD_HOLDER {
@@ -3325,14 +3374,14 @@ blockquote {
     box-shadow: 0px 0px 10px #0006;
 }
 .R3_WIZARD_BG {
-    top: 0px;
+    top: 28px;
     left: 0px;
     z-index: 2;
     width: 100%;
-    height: 100%;
     opacity: 0.6;
     filter: blur(1px);
     position: absolute;
+    height: calc(100% - 28px);
     background-size: auto 80%;
     background-position: center;
     background-repeat: no-repeat;

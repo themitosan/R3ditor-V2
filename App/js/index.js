@@ -112,13 +112,14 @@ function R3_INIT_REQUIRE(){
 			// Init Path Vars
 			DATABASE_INIT_CREATE_FOLDER = [
 				APP_PATH + '/Assets',
+				APP_PATH + '/Update',
 				APP_PATH + '/Configs',
 				APP_PATH + '/Assets/Save',
 				APP_PATH + '/Configs/Backup',
 				APP_PATH + '/Configs/Backup/RDT'
 			];
 			DATABASE_INIT_DELETE_FILES = [
-				APP_PATH + '/README.md',
+				APP_PATH + '/Update/Update.zip',
 				APP_TOOLS + '/XDELTA_PATCH_FILE.bin'
 			];
 			/*
@@ -335,10 +336,12 @@ function R3_runExec(exe, args, mode, newFilePath){
 				RE3_PID = PROCESS.pid;
 			};
 			PROCESS.stdout.on('data', function(data){
-				R3_SYSTEM_LOG('log', data);
+				console.info(data.toString());
+				R3_SYSTEM_LOG('log', data.toString());
 			});
 			PROCESS.stderr.on('data', function(data){
-				R3_SYSTEM_LOG('log', data);
+				console.info(data.toString());
+				R3_SYSTEM_LOG('log', data.toString());
 			});
 			PROCESS.on('close', function(code){
 				R3_SYSTEM_LOG('separator');
@@ -395,7 +398,7 @@ function R3_SYSTEM_openInHex(){
 };
 // Run Games 
 function R3_runGame(mode){
-	if (R3_WEBMODE === false && R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === false){
+	if (R3_WEBMODE === false && R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === false && R3_UPDATER_RUNNING === false){
 		if (APP_FS.existsSync(R3_RE3_PATH) !== false){
 			if (mode === 0 && R3_RE3_CANRUN === true){
 				R3_MEMORY_JS_initMemoryJs();
@@ -572,7 +575,7 @@ function R3_FILE_SAVE(filename, content, mode, ext, execNext){
 	};
 };
 // Download Files
-function R3_FILE_DOWNLOAD(url, downloadFileName){
+function R3_FILE_DOWNLOAD(url, downloadFileName, execNext){
 	if (R3_WEBMODE === false){
 		var R3_FILE_DOWNLOAD_PG = R3_FILE_DOWNLOAD_LENGTH = R3_FILE_DOWNLOAD_PERCENT = 0, R3_FILE_DOWNLOAD_COMPLETE = false;
 		if (APP_FS.existsSync(downloadFileName) === true){
@@ -582,10 +585,10 @@ function R3_FILE_DOWNLOAD(url, downloadFileName){
 			file = APP_FS.createWriteStream(downloadFileName),
 			request = http.get(url, function(response){
 				response.pipe(file);
-				R3_FILE_DOWNLOAD_LENGTH = parseInt(response.headers['content-length']);
 				response.on('data', function(chunk){
 					R3_FILE_DOWNLOAD_STATUSCODE = response.statusCode;
 					R3_FILE_DOWNLOAD_PG = R3_FILE_DOWNLOAD_PG + parseInt(chunk.length);
+					R3_FILE_DOWNLOAD_LENGTH = parseInt(response.headers['content-length']);
 					R3_FILE_DOWNLOAD_PERCENT = R3_parsePercentage(R3_FILE_DOWNLOAD_PG, R3_FILE_DOWNLOAD_LENGTH);
 				});
 				file.on('finish', function(){
@@ -595,6 +598,9 @@ function R3_FILE_DOWNLOAD(url, downloadFileName){
 						console.info('FILE - Download OK!\nStatus Code: ' + R3_FILE_DOWNLOAD_STATUSCODE);
 					} else {
 						console.warn('FILE - Download Failed!\nStatus Code: ' + R3_FILE_DOWNLOAD_STATUSCODE);
+					};
+					if (execNext !== undefined){
+						execNext();
 					};
 				});
 			});
@@ -618,16 +624,9 @@ function R3_FOLDER_SELECT(functionEval){
 		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: This function is not available on web mode.');
 	};
 };
-// Delete folder with items
-function R3_FOLDER_DELETE(path){
-	if (R3_WEBMODE === false){
-		R3_runExec('cmd', ['/C', 'rd', '/s', '/q', path], 2);
-	};
-};
 /*
 	Extra parsers
-*/
-/*
+
 	Get file name
 	Original Code: https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control
 */
