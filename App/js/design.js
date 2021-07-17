@@ -45,7 +45,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		16: [220,  88,     44,  444, 	 101, false, 'R3_RDT_timManagerList'],			   // RDT TIM Manager
 		17: [220,  88,     44,  486, 	 102, false, 'R3_RDT_objManagerList'],			   // RDT OBJ Manager
 		18: [680,  434,    68,  4, 	 9999998, false, ''],								   // Backup Manager
-		19: [1100, 620,    68,  4, 	 9999998, false, ''], 								   // RE3 Livestatus
+		19: [1194, 620,    68,  4, 	 9999998, false, ''], 								   // RE3 Livestatus
 		20: [416,  482,    44,  4, 		 105, false, 'R3_SCD_DOORLINK_MAP_INPUT'],		   // SCD DoorLink
 		21: [482,  426,    44,  4,   9999998, false, ''],								   // R3V2 Wizard
 		22: [522,  376,    44,  4,   9999999, false, 'R3_UPDATER_CURRENT_BRANCH'],		   // R3V2 Updater
@@ -139,10 +139,10 @@ function R3_INIT_APPEND(){
 			} else {
 				BOX_ITEM_32 = '';
 			};
-			HTML_TEMPLATE = HTML_TEMPLATE + '\n<div class="R3_LIVESTATUS_BOX_ITEM ' + BOX_ITEM_32 + '" id="R3_LIVESTATUS_BOX_ITEM_' + c + '">' + 
+			HTML_TEMPLATE = HTML_TEMPLATE + '\n<div class="R3_LIVESTATUS_BOX_ITEM ' + BOX_ITEM_32 + '" id="R3_LIVESTATUS_BOX_ITEM_' + c + '" onclick="R3_LIVESTATUS_EDIT_ITEMBOX(' + c + ');">' + 
 							'<img src="img/items/00.png" id="R3_LIVESTATUS_BOX_IMG_' + c + '"><div id="R3_LIVESTATUS_BOX_ITEM_QT_' + c + '" class="R3_LIVESTATUS_BOX_ITEM_QT">0</div>' + 
 							'<div class="R3_LIVESTATUS_BOX_ITEM_LBL" id="R3_LIVESTATUS_BOX_ITEM_LBL_' + c + '">(<font class="monospace mono_xyzr">' + MEMORY_JS_fixVars(c, 2) + '</font>) ' +
-							'Empty Slot</div><input type="button" value="Edit" class="R3_LIVESTATUS_BOX_EDIT_BTN" onclick="R3_LIVESTATUS_EDIT_ITEMBOX(' + c + ');"></div>';
+							'Empty Slot</div></div>';
 			c++;
 		};
 		document.getElementById('R3_LIVESTATUS_BOX_HOLDER').innerHTML = HTML_TEMPLATE;
@@ -942,8 +942,8 @@ function R3_DESIGN_enableDragElement(elementId){
 		if (finalTop < 44 && R3_MENU_CURRENT !== 4){
 			finalTop = 44;
 		} else {
-			if (finalTop < 30 && R3_MENU_CURRENT === 4){
-				finalTop = 30;
+			if (finalTop < 28 && R3_MENU_CURRENT === 4){
+				finalTop = 28;
 			};
 		}
 		if (finalLeft < 4){
@@ -2595,7 +2595,7 @@ function R3_LIVETSTATUS_RENDER(){
 			};
 			if (parseInt(IT, 16) > 133){
 				IT = '85';
-			}
+			};
 			document.getElementById('R3_LIVESTATUS_BOX_ITEM_QT_' + c).innerHTML = tempQT;
 			document.getElementById('R3_LIVESTATUS_BOX_IMG_' + c).src = 'img/items/' + IT + '.png';
 			document.getElementById('R3_LIVESTATUS_BOX_ITEM_LBL_' + c).innerHTML = '(' + c + ') ' + DATABASE_ITEM[IT][0];
@@ -2618,8 +2618,8 @@ function R3_LIVETSTATUS_RENDER(){
 			document.getElementById('R3_LIVESTATUS_IMG_CURRENT_CAM').src = nextCam;
 		} else {
 			document.getElementById('R3_LIVESTATUS_IMG_CURRENT_CAM').src = 'img/404.png';
-		}
-		document.getElementById('R3_LIVESTATUS_LBL_CURRENT_CAM').innerHTML = REALTIME_CurrentCam;
+		};
+		document.getElementById('R3_LIVESTATUS_LBL_CURRENT_CAM').innerHTML = parseInt(REALTIME_CurrentCam, 16);
 		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_CAM').innerHTML = REALTIME_CurrentCam;
 		RE3_LIVE_CAM = REALTIME_CurrentCam;
 	};

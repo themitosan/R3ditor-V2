@@ -275,14 +275,16 @@ function R3_LOAD(){
 // Reload App
 function R3_RELOAD(){
 	R3_DISC_clearActivity();
-	if (RE3_RUNNING !== false){
+	if (RE3_RUNNING === true){
 		R3_killExternalSoftware(RE3_PID);
 	};
 	if (R3_WEBMODE !== true){
 		localStorage.clear();
 		sessionStorage.clear();
+		chrome.runtime.reload();
+	} else {
+		location.reload(true);
 	};
-	location.reload(true);
 };
 /*
 	Messages

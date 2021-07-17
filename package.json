@@ -2,7 +2,7 @@
   "main": "App/index.htm",
   "name": "R3ditor V2",
   "description": "This is the second version of the best software for Resident Evil 3 modding",
-  "js-flags": "--disable-devtools --disable-web-security --allow-file-access-from-files --allow-file-access",
+  "js-flags": "--disable-devtools --disable-web-security --allow-file-access-from-files --allow-file-access --enable-usermedia-screen-capturing",
   "version": "DEV_VERSION",
   "keywords": [
     "R3ditor V2",
@@ -14,11 +14,11 @@
     "icon": "App/img/logo.png",
     "theme-color": "#000",
     "fullscreen": false,
-    "min_width": 1216,
+    "min_width": 1316,
     "min_height": 684,
     "toolbar": false,
     "frame": true,
-    "width": 1216,
+    "width": 1316,
     "height": 684
   },
   "webkit": {

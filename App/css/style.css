@@ -2467,8 +2467,8 @@ blockquote {
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 4px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
     box-shadow: 0px 0px 10px #2929291c;
     text-shadow: 0px 0px 10px #868686ff;
     background-image: linear-gradient(to bottom, #000, #212125);
@@ -2478,8 +2478,10 @@ blockquote {
     padding: 4px;
     overflow: hidden;
     position: absolute;
-    border-radius: 4px;
     background-color: #000;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
     box-shadow: 0px 0px 10px #84848457;
     background-image: linear-gradient(-190deg, #222, #212129);
 }
@@ -2603,19 +2605,19 @@ blockquote {
 .R3_LIVESTATUS_MINISECTION_6 {
     top: 26px;
     left: 850px;
-    width: 236px;
+    width: 332px;
     height: 206px;
 }
 .R3_LIVESTATUS_MINISECTION_7 {
-    top: 78px;
-    left: 10px;
-    width: 300px;
-    height: 288px;
+    top: 268px;
+    left: 850px;
+    width: 332px;
+    height: 280px;
 }
 .R3_LIVESTATUS_MINISECTION_8 {
     top: 26px;
-    left: 10px;
-    width: 470px;
+    left: 4px;
+    width: 300px;
     height: auto;
 }
 .R3_LIVESTATUS_MINISECTION_9 {
@@ -2624,43 +2626,54 @@ blockquote {
     width: 476px;
     height: 170px;
 }
+.R3_LIVESTATUS_MINISECTION_10 {
+    top: 26px;
+    left: 328px;
+    width: 686px;
+    height: 510px;
+}
 .R3_LIVESTATUS_MINITAB_1 {
     top: 4px;
-    left: 12px;
+    left: 4px;
 }
 .R3_LIVESTATUS_MINITAB_2 {
     top: 112px;
-    left: 12px;
+    left: 4px;
 }
 .R3_LIVESTATUS_MINITAB_3 {
     top: 4px;
-    left: 286px;
+    left: 278px;
 }
 .R3_LIVESTATUS_MINITAB_4 {
     top: 326px;
-    left: 12px;
+    left: 4px;
     display: none;
 }
 .R3_LIVESTATUS_MINITAB_5 {
     top: 4px;
-    left: 438px;
+    left: 430px;
 }
 .R3_LIVESTATUS_MINITAB_6 {
     top: 4px;
-    left: 858px;
+    left: 850px;
 }
 .R3_LIVESTATUS_MINITAB_7 {
-    top: 56px;
-    left: 16px;
+    top: 246px;
+    left: 850px;
 }
 .R3_LIVESTATUS_MINITAB_8 {
     top: 4px;
-    left: 16px;
+    left: 4px;
+}
+.R3_LIVESTATUS_MINITAB_10 {
+    top: 3px;
+    left: 334px;
 }
 .R3_LIVESTATUS_LBL_0 {
     left: 50%;
     font-size: 13px;
     font-family: mSpace;
+    user-select: all;
 }
 .R3_LIVESTATUS_LBL_1 {
     left: 30%;
@@ -2689,7 +2702,7 @@ blockquote {
     text-align: -webkit-center;
 }
 .R3_LIVESTATUS_TEXT_XYZR_BASE {
-    left: 88px;
+    left: 76px;
     width: 40px;
     color: #0f0;
     border: none;
@@ -2711,14 +2724,25 @@ blockquote {
     text-transform: uppercase;
     text-align: -webkit-center;
 }
+.R3_LIVESTATUS_EDIT_POS_RANGE {
+    left: 204px;
+    width: 126px;
+    position: absolute;
+    cursor: col-resize;
+}
+.R3_LIVESTATUS_POS_INT {
+    left: 130px;
+    width: 60px;
+    position: sticky;
+}
 .R3_LIVESTATUS_IMG_CURRENT_CAM {
-    width: 296px;
+    width: 286px;
     margin-top: 4px;
     border-radius: 6px;
     box-shadow: 0px 0px 10px #3d3d3d;
 }
 .R3_LIVESTATUS_PLAYERPOS_APPLYBTN {
-    width: 180px;
+    width: 240px;
     margin-top: 4px;
 }
 .R3_LIVESTATUS_BOX_HOLDER {
@@ -2726,12 +2750,13 @@ blockquote {
     height: 100%;
     overflow: auto;
     border-radius: 6px;
-    background-color: #000040;
+    background-color: #004;
 }
 .R3_LIVESTATUS_BOX_ITEM {
-    width: 98.4%;
+    width: 392px;
     height: 34px;
     padding: 2px;
+    cursor: pointer;
     margin-top: 2px;
     margin-bottom: 2px;
     border-radius: 6px;
@@ -2742,35 +2767,17 @@ blockquote {
     background-image: linear-gradient(to right, #000040, #0000d0);
 }
 .R3_LIVESTATUS_BOX_ITEM_LBL {
-    margin-top: -26px;
+    font-size: 12px;
+    margin-top: -23px;
     margin-left: 48px;
-}
-.R3_LIVESTATUS_BOX_EDIT_BTN {
-    top: -20px;
-    left: 348px;
-    color: #0f0;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding-top: 4px;
-    position: relative;
-    padding-left: 10px;
-    border-radius: 4px;
-    padding-right: 10px;
-    padding-bottom: 4px;
-    text-shadow: 0px 0px 10px #aaa;
-    box-shadow: 0px 0px 10px #010039c9;
-    background-image: linear-gradient(to bottom, #222, #000);
-}
-.R3_LIVESTATUS_BOX_EDIT_BTN:active {
-    box-shadow: 0px 0px 10px #000040;
-    background-image: linear-gradient(to bottom, #000, #222);   
+    font-family: mSpace;
 }
 .R3_LIVESTATUS_BOX_ITEM_QT {
     color: #0000;
     margin-left: 4px;
-    margin-top: -22px;
+    margin-top: -23px;
     position: relative;
+    font-family: mSpace;
 }
 .R3_TAB_BASE {
     top: 2px;
