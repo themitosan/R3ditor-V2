@@ -1915,7 +1915,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 							DOOR_nextR  = cFunction.slice(R3_SCD_DEC_DB.nextRpos[0], R3_SCD_DEC_DB.nextRpos[1]),
 							DOOR_nStage = (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1])) + 1),
 							DOOR_nRoom  = cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]),
-							DOOR_nCam 	= cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]),
+							DOOR_nCam 	= parseInt(cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]), 16),
 							DOOR_zIndex = cFunction.slice(R3_SCD_DEC_DB.zIndex[0], R3_SCD_DEC_DB.zIndex[1]),
 							DOOR_type 	= cFunction.slice(R3_SCD_DEC_DB.doorType[0], R3_SCD_DEC_DB.doorType[1]),
 							DOOR_orient = cFunction.slice(R3_SCD_DEC_DB.openOrient[0], R3_SCD_DEC_DB.openOrient[1]),
@@ -1925,8 +1925,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 							DOOR_dText  = cFunction.slice(R3_SCD_DEC_DB.displayText[0], R3_SCD_DEC_DB.displayText[1]);
 						tempScriptCode = tempCode + '\'' + DOOR_Id.toUpperCase() + '\', \'' + DOOR_aot.toUpperCase() + '\', \'' + DOOR_XPos.toUpperCase() + '\', \'' + DOOR_YPos.toUpperCase() + '\', \'' +
 										 DOOR_ZPos.toUpperCase() + '\', \'' + DOOR_RPos.toUpperCase() + '\', \'' + DOOR_nextX.toUpperCase() + '\', \'' + DOOR_nextY.toUpperCase() + '\', \'' +
-										 DOOR_nextZ.toUpperCase() + '\', \'' + DOOR_nextR.toUpperCase() + '\', ' + DOOR_nStage + ', \'' + DOOR_nRoom.toUpperCase() + '\', \'' +
-										 DOOR_nCam.toUpperCase() + '\', \'' + DOOR_zIndex.toUpperCase() + '\', \'' + DOOR_type.toUpperCase() + '\', \'' + DOOR_orient.toUpperCase() + '\', \'' +
+										 DOOR_nextZ.toUpperCase() + '\', \'' + DOOR_nextR.toUpperCase() + '\', ' + DOOR_nStage + ', \'' + DOOR_nRoom.toUpperCase() + '\', ' +
+										 DOOR_nCam + ', \'' + DOOR_zIndex.toUpperCase() + '\', \'' + DOOR_type.toUpperCase() + '\', \'' + DOOR_orient.toUpperCase() + '\', \'' +
 										 DOOR_unk0.toUpperCase() + '\', \'' + DOOR_lkFlag.toUpperCase() + '\', \'' + DOOR_lkKey.toUpperCase() + '\', \'' + DOOR_dText.toUpperCase() + '\'';
 					};
 					// Set Door 4P [DOOR_AOT_SET_4P]
@@ -1944,7 +1944,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 							DOOR_nextR  = cFunction.slice(R3_SCD_DEC_DB.nextRpos[0], R3_SCD_DEC_DB.nextRpos[1]),
 							DOOR_nStage = (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1])) + 1),
 							DOOR_nRoom  = cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]),
-							DOOR_nCam 	= cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]),
+							DOOR_nCam 	= parseInt(cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]), 16),
 							DOOR_zIndex = cFunction.slice(R3_SCD_DEC_DB.zIndex[0], R3_SCD_DEC_DB.zIndex[1]),
 							DOOR_type 	= cFunction.slice(R3_SCD_DEC_DB.doorType[0], R3_SCD_DEC_DB.doorType[1]),
 							DOOR_orient = cFunction.slice(R3_SCD_DEC_DB.openOrient[0], R3_SCD_DEC_DB.openOrient[1]),
@@ -1954,8 +1954,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 							DOOR_dText  = cFunction.slice(R3_SCD_DEC_DB.displayText[0], R3_SCD_DEC_DB.displayText[1]);
 						tempScriptCode = tempCode + '\'' + DOOR_Id.toUpperCase() + '\', \'' + DOOR_aot.toUpperCase() + '\', \'' + DOOR_XPos.toUpperCase() + '\', \'' +
 										 DOOR_YPos.toUpperCase() + '\', \'' + DOOR_ZPos.toUpperCase() + '\', \'' + DOOR_RPos.toUpperCase() + '\', \'' + DOOR_4P.toUpperCase() + '\', \'' +
-										 DOOR_nextX.toUpperCase() + '\', \'' + DOOR_nextY.toUpperCase() + '\', \'' + DOOR_nextZ.toUpperCase() + '\', \'' + DOOR_nextR.toUpperCase() + '\', \'' +
-										 DOOR_nStage + '\', \'' + DOOR_nRoom.toUpperCase() + '\', \'' + DOOR_nCam.toUpperCase() + '\', \'' + DOOR_zIndex.toUpperCase() + '\', \'' +
+										 DOOR_nextX.toUpperCase() + '\', \'' + DOOR_nextY.toUpperCase() + '\', \'' + DOOR_nextZ.toUpperCase() + '\', \'' + DOOR_nextR.toUpperCase() + '\', ' +
+										 DOOR_nStage + ', \'' + DOOR_nRoom.toUpperCase() + '\', ' + DOOR_nCam + ', \'' + DOOR_zIndex.toUpperCase() + '\', \'' +
 										 DOOR_type.toUpperCase() + '\', \'' + DOOR_orient.toUpperCase() + '\', \'' + DOOR_unk0.toUpperCase() + '\', \'' + DOOR_lkFlag.toUpperCase() + '\', \'' +
 										 DOOR_lkKey.toUpperCase() + '\', \'' + DOOR_dText.toUpperCase() + '\'';
 					};
@@ -5710,7 +5710,7 @@ function R3_SCD_JS_START_COMPILER(){
 			R3_SYSTEM_LOG('separator');
 			codeCompiled = R3_unsolveHEX(finalCodeArray.toString().replace(new RegExp(',', 'gi'), ''));
 			R3_SYSTEM_ALERT('INFO: The JS compiler run sucessfully!');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: The JS compiler run sucessfully!<br>Compiled Hex: <font class="user-can-select">' + codeCompiled + '</font>');
+			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: The JS compiler run sucessfully! <br>Compiled Hex: <font class="user-can-select">' + codeCompiled + '</font>');
 			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = finalCodeArray;
 			R3_SYSTEM_LOG('separator');
 			// Fix control hold
@@ -5725,12 +5725,12 @@ function R3_SCD_JS_START_COMPILER(){
 		} else {
 			R3_SYSTEM_LOG('separator');
 			R3_SYSTEM_ALERT('ERROR: Unable to compile SCD Script!\nReason: (Compiler Error) ' + errorReason);
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to compile SCD Script!<br>Reason: (Compiler Error) ' + errorReason);
+			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to compile SCD Script! <br>Reason: (Compiler Error) ' + errorReason);
 		};
 	} catch (errTry){
 		R3_SYSTEM_LOG('separator');
 		R3_SYSTEM_ALERT('ERROR: Unable to compile SCD Script!\nReason: (R3V2 Internal Error) ' + errTry);
-		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to compile SCD Script!<br>Reason: (Internal Error) ' + errTry);
+		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to compile SCD Script! <br>Reason: (Internal Error) ' + errTry);
 	};
 };
 /*

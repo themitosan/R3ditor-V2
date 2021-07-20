@@ -55,6 +55,7 @@ function R3_JS_COMPILER_parseCrouch(mode, input){
 };
 /*
 	Resident Evil 3 Opcodes Functions
+	Important: If there is no flag attached, it will return default value 
 */
 // 00 - Null Function [NOP]
 function R3_NOP(){
@@ -74,7 +75,11 @@ function R3_EVT_CHAIN(){
 };
 // 04 - Execute Event [EVT_EXEC]
 function R3_EVT_EXEC(evtId){
-	return '04' + MEMORY_JS_fixVars(evtId, 2);
+	if (evtId !== undefined){
+		return '04' + MEMORY_JS_fixVars(evtId, 2);
+	} else {
+		return '04ff';
+	};
 };
 // 05 - Kill Event [EVT_KILL]
 function R3_EVT_KILL(evtTarget){
@@ -82,19 +87,31 @@ function R3_EVT_KILL(evtTarget){
 };
 // 09 - Sleep [SLEEP]
 function R3_SLEEP(sleeping, ticks){
-	return '09' + MEMORY_JS_fixVars(sleeping, 2) + MEMORY_JS_fixVars(ticks, 4);
+	if (sleeping !== undefined && ticks !== undefined){
+		return '09' + MEMORY_JS_fixVars(sleeping, 2) + MEMORY_JS_fixVars(ticks, 4);
+	} else {
+		return '090a1000';
+	};
 };
 // 0A - Sleeping [SLEEPING]
 function R3_SLEEPING(ticks){
-	return '0a' + MEMORY_JS_fixVars(ticks, 4);
+	if (ticks !== undefined){
+		return '0a' + MEMORY_JS_fixVars(ticks, 4);
+	} else {
+		return '0a1000';
+	};
 };
 // 19 - Run Script [GO_SUB]
 function R3_GO_SUB(nextScript){
-	var scriptId = parseInt(nextScript);
-	if (scriptId > 255){
-		return '19ff';
+	if (nextScript !== undefined){
+		var scriptId = parseInt(nextScript);
+		if (scriptId > 255){
+			return '19ff';
+		} else {
+			return '19' + MEMORY_JS_fixVars(nextScript.toString(16).toLowerCase(), 2);
+		};
 	} else {
-		return '19' + MEMORY_JS_fixVars(nextScript.toString(16).toLowerCase(), 2);
+		return '1902';
 	};
 };
 // 1C - [BREAK_POINT]
@@ -223,7 +240,11 @@ function R3_SET(evTrack, variable, flag){
 };
 // 50 - Change Camera [CUT_CHG]
 function R3_CUT_CHG(newCamera){
-	return '50' + MEMORY_JS_fixVars(newCamera, 2);
+	if (newCamera !== undefined){
+		return '50' + MEMORY_JS_fixVars(parseInt(newCamera).toString(16), 2);
+	} else {
+		return '5000';
+	};
 };
 // 51 - [CUT_OLD]
 function R3_CUT_OLD(){
@@ -231,11 +252,19 @@ function R3_CUT_OLD(){
 };
 // 52 - Lock Camera [CUT_AUTO]
 function R3_CUT_AUTO(lockStataus){
-	return '52' + R3_JS_COMPILER_parseFlag(lockStataus);
+	if (lockStataus !== undefined){
+		return '52' + R3_JS_COMPILER_parseFlag(lockStataus);
+	} else {
+		return '5200';
+	};
 };
 // 53 - Swap Camera [CUT_REPLACE]
 function R3_CUT_REPLACE(oldCamera, newCamera){
-	return '53' + MEMORY_JS_fixVars(parseInt(oldCamera).toString(16), 2) + MEMORY_JS_fixVars(parseInt(newCamera).toString(16), 2);
+	if (oldCamera !== undefined && newCamera !== undefined){
+		return '53' + MEMORY_JS_fixVars(parseInt(oldCamera).toString(16), 2) + MEMORY_JS_fixVars(parseInt(newCamera).toString(16), 2);
+	} else {
+		return '530000';
+	};
 };
 // 54 - [CUT_BE_SET]
 function R3_CUT_BE_SET(id, value, flag){
@@ -259,14 +288,22 @@ function R3_SET_VIB1(id, data0, data1){
 };
 // 5A - RBJ Trigger [RBJ_SET]
 function R3_RBJ_SET(rbjId){
-	return '5a' + MEMORY_JS_fixVars(rbjId, 2);
+	if (rbjId !== undefined){
+		return '5a' + MEMORY_JS_fixVars(rbjId, 2);
+	} else {
+		return '5a00';
+	};
 };
 // 5B - Display Message [MESSAGE_ON]
 function R3_MESSAGE_ON(messageId, msgData0, displayMode){
-	if (parseInt(messageId) === NaN || parseInt(messageId) > 255){
-		messageId = 0;
+	if (messageId !== undefined && msgData0 !== undefined && displayMode !== undefined){
+		if (parseInt(messageId) === NaN || parseInt(messageId) > 255){
+			messageId = 0;
+		};
+		return '5b' + MEMORY_JS_fixVars(messageId.toString(16), 2) + MEMORY_JS_fixVars(msgData0, 4) + MEMORY_JS_fixVars(displayMode, 4).toLowerCase();
+	} else {
+		return '5b000000ffff';
 	};
-	return '5b' + MEMORY_JS_fixVars(messageId.toString(16), 2) + MEMORY_JS_fixVars(msgData0, 4) + MEMORY_JS_fixVars(displayMode, 4).toLowerCase();
 };
 // 5C - [RAIN_SET]
 function R3_RAIN_SET(rainFlag){
@@ -284,9 +321,35 @@ function R3_SHAKE_ON(shakeId, shakeValue){
 function R3_WEAPON_CHG(weaponId){
 	return '5f' + MEMORY_JS_fixVars(weaponId, 2);
 };
+// 61 - Set Door [DOOR_AOT_SET]
+function R3_DOOR_AOT_SET(id, aot, XPos, YPos, ZPos, RPos, nextX, nextY, nextZ, nextR, nStage, nRoom, nCam, zIndex, type, orient, unk0, lkFlag, lkKey, dText){
+	if (id !== undefined && aot !== undefined && XPos !== undefined && YPos !== undefined && ZPos !== undefined && RPos !== undefined && nextX !== undefined && nextY !== undefined && nextZ !== undefined && nextR !== undefined && nStage !== undefined && nRoom !== undefined && nCam !== undefined && zIndex !== undefined && type !== undefined && orient !== undefined && unk0 !== undefined && lkFlag !== undefined && lkKey !== undefined && dText !== undefined){
+		return '61' + MEMORY_JS_fixVars(id, 2) + MEMORY_JS_fixVars(aot, 8) + MEMORY_JS_fixVars(XPos, 4) + MEMORY_JS_fixVars(YPos, 4) + MEMORY_JS_fixVars(ZPos, 4) +
+			   MEMORY_JS_fixVars(RPos, 4) + MEMORY_JS_fixVars(nextX, 4) + MEMORY_JS_fixVars(nextY, 4) + MEMORY_JS_fixVars(nextZ, 4) + MEMORY_JS_fixVars(nextR, 4) +
+			   MEMORY_JS_fixVars(parseInt((nStage) - 1).toString(16), 2) + MEMORY_JS_fixVars(nRoom, 2) + MEMORY_JS_fixVars(parseInt(nCam).toString(16), 2) + MEMORY_JS_fixVars(zIndex, 2) +
+			   MEMORY_JS_fixVars(type, 2) + MEMORY_JS_fixVars(orient, 2) + MEMORY_JS_fixVars(unk0, 2) + MEMORY_JS_fixVars(lkFlag, 2) + MEMORY_JS_fixVars(lkKey, 2) + MEMORY_JS_fixVars(dText, 2);
+	} else {
+		return '6100012100000000000000000000000000000000000000000000000000000000';
+	};
+};
+// 62 - Set Door 4P [DOOR_AOT_SET_4P]
+function R3_DOOR_AOT_SET_4P(id, aot, XPos, YPos, ZPos, RPos, D4P, nextX, nextY, nextZ, nextR, nStage, nRoom, nCam, zIndex, type, orient, unk0, lkFlag, lkKey, dText){
+	if (id !== undefined && aot !== undefined && XPos !== undefined && YPos !== undefined && ZPos !== undefined && RPos !== undefined && D4P !== undefined && nextX !== undefined && nextY !== undefined && nextZ !== undefined && nextR !== undefined && nStage !== undefined && nRoom !== undefined && nCam !== undefined && zIndex !== undefined && type !== undefined && orient !== undefined && unk0 !== undefined && lkFlag !== undefined && lkKey !== undefined && dText !== undefined){
+		return '62' + MEMORY_JS_fixVars(id, 2) + MEMORY_JS_fixVars(aot, 8) + MEMORY_JS_fixVars(XPos, 4) + MEMORY_JS_fixVars(YPos, 4) + MEMORY_JS_fixVars(ZPos, 4) +
+					  MEMORY_JS_fixVars(RPos, 4) + MEMORY_JS_fixVars(D4P, 16) + MEMORY_JS_fixVars(nextX, 4) + MEMORY_JS_fixVars(nextY, 4) + MEMORY_JS_fixVars(nextZ, 4) +
+					  MEMORY_JS_fixVars(nextR, 4) + MEMORY_JS_fixVars(parseInt((nStage) - 1).toString(16), 2) + MEMORY_JS_fixVars(nRoom, 2) + MEMORY_JS_fixVars(parseInt(nCam).toString(16), 2) +
+					  MEMORY_JS_fixVars(zIndex, 2) + MEMORY_JS_fixVars(type, 2) + MEMORY_JS_fixVars(orient, 2) + MEMORY_JS_fixVars(unk0, 2) + MEMORY_JS_fixVars(lkFlag, 2) + MEMORY_JS_fixVars(lkKey, 2) + MEMORY_JS_fixVars(dText, 2);
+	} else {
+		return '62000000000000000000000000000000000000000000000000000000000000000000000000000000';
+	};
+};
 // 66 - Run Interactive Object [AOT_ON]
 function R3_AOT_ON(aotId){
-	return '66' + MEMORY_JS_fixVars(aotId, 2);
+	if (aotId !== undefined){
+		return '66' + MEMORY_JS_fixVars(aotId, 2);
+	} else {
+		return '6600';
+	};
 };
 // 67 - Set Item [ITEM_AOT_SET]
 function R3_ITEM_AOT_SET(id, aot, itemX, itemY, itemZ, itemR, itemCode, itemQuant, itemFlag, modelId, itemMp){
@@ -322,7 +385,11 @@ function R3_XA_ON(xaId, xaData){
 };
 // 7A - Call Cinematic [MOVIE_ON]
 function R3_MOVIE_ON(movieId){
-	return '7a' + MEMORY_JS_fixVars(movieId, 2);
+	if (movieId !== undefined){
+		return '7a' + MEMORY_JS_fixVars(movieId, 2);
+	} else {
+		return '7a00';
+	};
 };
 // 7B - [BGM_TBL_SET]
 function R3_BGM_TBL_SET(id0, id1, type){
