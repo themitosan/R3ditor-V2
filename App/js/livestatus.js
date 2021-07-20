@@ -426,6 +426,27 @@ function R3_LIVESTATUS_APPLY_PLAYERPOS(){
 		};
 	};
 };
+// Update Pos Via range
+function R3_LIVESTATUS_UPDATE_POS(mode, axis){
+	if (axis !== undefined){
+		var newPos
+		if (mode === 0){
+			newPos = parseInt(document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis + '_RANGE').value);
+			if (document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis + '_RANGE').value === ''){
+				newPos = 0;
+			};
+			document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis + '_INT').value = newPos;
+			document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis).value = R3_parseEndian(R3_convertPosIntToHex(newPos)).toUpperCase();
+		} else {
+			newPos = parseInt(document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis + '_INT').value);
+			if (document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis + '_INT').value === ''){
+				newPos = 0;
+			};
+			document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis + '_RANGE').value = newPos;
+			document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis).value = R3_parseEndian(R3_convertPosIntToHex(newPos)).toUpperCase();
+		};
+	};
+};
 function R3_LIVESTATUS_APPLY_PLAYERPOS_BAR(){
 	if (RE3_RUNNING === true && PROCESS_OBJ !== undefined){
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_X').value = R3_TEMP_X;

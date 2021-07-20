@@ -24,8 +24,8 @@
     background: #fafafa;
 }
 a {
-    cursor: pointer;
     color: #fff;
+    cursor: pointer;
     text-decoration: underline;
 }
 a:visited {
@@ -46,6 +46,7 @@ body {
     user-select: none;
     scrollbar-width: thin;
     background-color: #000;
+    animation-duration: 0s;
     -webkit-user-select: none;
     scrollbar-color: #666 #333;
 }
@@ -390,10 +391,12 @@ blockquote {
 .R3_MENU_ITEM_NORMAL {
     width: auto;
     padding: 6px;
-    margin-top: 2px;
     cursor: pointer;
+    margin-top: 2px;
     border-radius: 2px;
     margin-bottom: 2px;
+    text-align: center;
+    text-align: -moz-center;
     text-align: -webkit-center;
     background-image: linear-gradient(to right, #717171, #5b5b5b);
 }
@@ -2300,8 +2303,8 @@ blockquote {
     display: none;
     filter: blur(4px);
     position: absolute;
-    background-size: auto 120%;
     background-color: #000;
+    background-size: auto 120%;
     background-repeat: no-repeat;
     background-image: url('../img/agree.png');
     -webkit-mask-image: linear-gradient(to left, #000a, #0000);
@@ -2309,12 +2312,13 @@ blockquote {
 .ABOUT_manyThanks_DIV {
     top: 0px;
     left: 290px;
-    height: calc(100% - 40px);
     overflow-y: auto;
     position: absolute;
     text-align: center;
-    text-align: -webkit-center;
+    text-align: -moz-center;
     width: calc(100% - 300px);
+    height: calc(100% - 40px);
+    text-align: -webkit-center;
 }
 .ABOUT_manyThanks_LBL {
     text-shadow: 0px 0px 10px #0a008f;
@@ -2322,10 +2326,10 @@ blockquote {
 .ABOUT_specialThanks {
     bottom: 20%;
     left: 290px;
-    width: calc(100% - 300px);
     position: absolute;
     text-align: center;
     text-align: -moz-center;
+    width: calc(100% - 300px);
     text-align: -webkit-center;
 }
 .ABOUT_LEGAL_INFO {
@@ -2388,8 +2392,8 @@ blockquote {
 }
 .SELECT_SETTINGS {
     z-index: 2;
-    margin: 2px;
     color: #000;
+    margin: 2px;
     height: 22px;
     padding: 1px;
     border: none;

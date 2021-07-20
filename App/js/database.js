@@ -40,7 +40,7 @@ const R3_internalHoldTime = 2800,
 	INCLUDE_R3V2_LOWRES = 'So tiny! >.< <br>R3ditor V2 was designed to work with screen res. higher than 1216x711.',
 	INCLUDE_R3V2_CRITICAL_ERROR = '<font class="LBL_title">Oh no!</font><br>Looks like R3ditor V2 crashed! We apologize - this is not something usual to happen!<br>To avoid crashed like this, report this message to <a href="https://twitter.com/themitosan/" target="_blank">TheMitoSan</a> on twitter.<br><br>' +
 								  '<div class="R3_ERROR_CRITICAL_REASON"><div class="R3_ERROR_LOGO_BG"></div><div id="R3_ERROR_CRITICAL_REASON" class="R3_ERROR_TEXT">???</div></div><br><input type="button" class="BTN_R3CLASSIC" title="Click here to reload" value="Restart R3V2" onclick="location.reload();">',
-	INCLUDE_CRX = 'TheMitoSan, Khaled SA, F. King and Biohazard España [BHE]',
+	INCLUDE_CRX = 'TheMitoSan, Khaled SA and F. King',
 	SYSTEM_LOG_SEPARATOR_TEXT = '--------------------------------------------------------------------------------------------------------------------------',
 	INCLUDE_ABOUT_THX = 'discordjs - RPC - <a target="_blank" href="https://discord.js.org/#/docs/rpc/master/general/welcome">Website</a><br>' + 
 						'Rob-- - memoryjs - <a target="_blank" href="https://github.com/Rob--/memoryjs">GitHub</a><br>' + 
@@ -58,7 +58,7 @@ const R3_internalHoldTime = 2800,
 						'matteofumagalli1275 memoryjs Pull Request - <a target="_blank" href="https://github.com/Rob--/memoryjs/pull/53/files">GitHub PR</a><br>' + 
 						'Klarth - TIM Graphic Formats (PSX 2D Graphics) - <a target="_blank" href="http://www.romhacking.net/documents/31/">More Info</a><br>' + 
 						'"Shockproof" Jamo Koivisto - BIO 3 Hex Chest Modding - <a target="_blank" href="https://gamefaqs.gamespot.com/pc/431704-resident-evil-3-nemesis/faqs/36465">More Info</a><br>' + 
-						'Diogo "Flag" Bandeira (Aka. Flag King) - Inicial RDT and MSG infos! - <a href="https://www.ct-stars.com/" target="_blank">CT-STARS</a><br>' + 
+						'Diogo "Flag" Bandeira <i>(Aka. Flag King)</i> - Initial RDT and MSG infos! - <a href="https://www.ct-stars.com/" target="_blank">CT-STARS</a><br>' + 
 						'Patrice Mandin (pmandin) - Reevengi-tools Rofs Extractor, ARD Extract Info and SCD Opcode List - <a target="_blank" href="https://github.com/pmandin/reevengi-tools">GitHub</a><br>' + 
 						'<font title="The real artist!">ResidentEvilArtist</font> - Memory Positions used in IEDIT Editor, MIX Editor and <u>so much more</u>! - <a target="_blank" href="https://www.tapatalk.com/groups/residentevil123/memberlist.php?mode=viewprofile&u=294">Tapatalk Profile</a><br>' + 
 						'<font title="A true hero!">Biohazard España</font> (Aka. <u>BHE</u>)- Fix OBJ to RE3MV (OBJ Patcher), Beta-testing, SLUS / ARD info and even more! - <a target="_blank" href="https://twitter.com/biohazardEsp">More Info</a><br>' + 

@@ -438,6 +438,10 @@ function R3_runGame(mode){
 		} else {
 			R3_SYSTEM_LOG('error', 'ERROR - Unable to start game!\nReason: The file was not found! (404)');
 		};
+	} else {
+		if (R3_WEBMODE === true){
+			R3_WEBWARN();
+		};
 	};
 };
 /*
@@ -931,37 +935,36 @@ function R3_parsePositive(number){
 	};
 };
 // Process location position
-function R3_processBIO3PosNumbers(number, mode){
-	if (number !== undefined && number !== '' && number !== NaN && number !== null){
+function R3_processBIO3PosNumbers(number){
+	if (number !== undefined){
 		var numTemp = parseInt(number);
 		if (numTemp > 32767){
 			numTemp = parseInt(numTemp - 65536);
 		};
-		/*
-			Mode 0: Simple conversion
-			Mode 1: Bring back to full range number (Min = 0 [0000], Max = 65535 [FFFF])
-		*/
-		if (mode === 0 || mode === undefined){
-			return numTemp;
-		} else {
-			if (numTemp < 0){
-				return parseInt(numTemp + 32767);
-			} else {
-				return numTemp;
-			};
-		};
+		return numTemp;
 	} else {
 		return 0;
 	};
 };
-// Convert location number to hex
-function R3_convertPosNumbersToHex(number){
+// Convert position int to hex
+function R3_convertPosIntToHex(number){
 	if (number !== undefined && number !== ''){
 		var num = parseInt(number);
 		if (num < 0){
 			num = parseInt(num + 65536);
 		};
 		return MEMORY_JS_fixVars(num.toString(16), 4);
+	};
+};
+// Convert position hex to int
+function R3_convertPosHexToInt(hex){
+	if (hex !== undefined && hex !== ''){
+		var fixed = R3_parseEndian(hex),
+			conv  = parseInt(fixed, 16);
+		if (conv > 32767){
+			conv = parseInt(conv - 65536);
+		};
+		return conv;
 	};
 };
 // Get all locations of specifc string

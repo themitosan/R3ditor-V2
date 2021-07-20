@@ -104,7 +104,7 @@
 						<div class="R3_MENU_ITEM_BIG" title="(OBJ Patcher) Click here to fix OBJ files generated with Blender to use on RE3MV" onclick="R3_OBJ_PATCHER();">
 							<img class="R3_MENU_ICON" src="img/icons/icon-15.png"><div class="R3_MENU_BIG_LBL">OBJ Patcher</div>
 						</div>
-						<div class="R3_MENU_ITEM_BIG" title="(Xdelta Patcher) Click here to apply Xdelta patches" onclick="R3_DESIGN_MINIWINDOW_OPEN(2, 'center');">
+						<div class="R3_MENU_ITEM_BIG" title="(Xdelta Patcher) Click here to apply Xdelta patches" onclick="R3_DESIGN_openXdeltaPatcher();">
 							<img class="R3_MENU_ICON" src="img/icons/icon-14.png"><div class="R3_MENU_BIG_LBL">Xdelta Patcher</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(ROFS Extractor) Click here to extract ROFS Files" onclick="R3_ROFS_EXTRACT();">
@@ -167,10 +167,10 @@
 						<div class="R3_MENU_SEPARATOR"></div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open log window" onclick="R3_DESIGN_MINIWINDOW_OPEN(0);">Open Log Window</div>
 						<div class="R3_MENU_SEPARATOR"></div>
-						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_HC_OPEN_PAGE(4);">R3V2 Help Center</div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open R3V2 Help center main menu" onclick="R3_HC_OPEN_PAGE(4);">R3V2 Help Center</div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">About</div>
 						<div class="R3_MENU_SEPARATOR"></div>
-						<div class="R3_MENU_ITEM_NORMAL" id="R3_MENU_ITEM_GITHUB_UPDATER" title="Click here to open GitHub Updater" onclick="R3_UPDATER_GET_BRANCHES();">GitHub Updater</div>
+						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_GITHUB_UPDATER" title="Click here to open GitHub Updater" onclick="R3_UPDATER_GET_BRANCHES();">GitHub Updater</div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to reload R3V2" onclick="R3_RELOAD();">Reload</div>
 					</div>
 				</div>
@@ -418,23 +418,23 @@
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_6">
 						<font class="COLOR_X">X Position</font>: 
 						<input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_X" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_X" autocomplete="off">
-						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_X_INT" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_X R3_LIVESTATUS_POS_INT">
-						<input type="range" min="-32767" max="32767" step="1" value="0" id="R3_LIVESTATUS_EDIT_POS_X_RANGE" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
+						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_X_INT" oninput="R3_LIVESTATUS_UPDATE_POS(1, 'X');" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_X R3_LIVESTATUS_POS_INT">
+						<input type="range" min="-32767" max="32767" step="80" value="0" id="R3_LIVESTATUS_EDIT_POS_X_RANGE" oninput="R3_LIVESTATUS_UPDATE_POS(0, 'X');" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
 						
 						<font class="COLOR_Y">Y Position</font>: 
 						<input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Y" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Y" autocomplete="off">
-						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_Y_INT" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Y R3_LIVESTATUS_POS_INT">
-						<input type="range" min="-32767" max="32767" step="1" value="0" id="R3_LIVESTATUS_EDIT_POS_Y_RANGE" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
+						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_Y_INT" oninput="R3_LIVESTATUS_UPDATE_POS(1, 'Y');" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Y R3_LIVESTATUS_POS_INT">
+						<input type="range" min="-32767" max="32767" step="80" value="0" id="R3_LIVESTATUS_EDIT_POS_Y_RANGE" oninput="R3_LIVESTATUS_UPDATE_POS(0, 'Y');" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
 						
 						<font class="COLOR_Z">Z Position</font>: 
 						<input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Z" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Z" autocomplete="off">
-						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_Z_INT" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Z R3_LIVESTATUS_POS_INT">
-						<input type="range" min="-32767" max="32767" step="1" value="0" id="R3_LIVESTATUS_EDIT_POS_Z_RANGE" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
+						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_Z_INT" oninput="R3_LIVESTATUS_UPDATE_POS(1, 'Z');" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Z R3_LIVESTATUS_POS_INT">
+						<input type="range" min="-32767" max="32767" step="80" value="0" id="R3_LIVESTATUS_EDIT_POS_Z_RANGE" oninput="R3_LIVESTATUS_UPDATE_POS(0, 'Z');" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
 						
 						<font class="COLOR_R">R Position</font>: 
 						<input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_R" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_R" autocomplete="off">
-						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_R_INT" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_R R3_LIVESTATUS_POS_INT">
-						<input type="range" min="-32767" max="32767" step="1" value="0" id="R3_LIVESTATUS_EDIT_POS_R_RANGE" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
+						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_R_INT" oninput="R3_LIVESTATUS_UPDATE_POS(1, 'R');" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_R R3_LIVESTATUS_POS_INT">
+						<input type="range" min="-32767" max="32767" step="80" value="0" id="R3_LIVESTATUS_EDIT_POS_R_RANGE" oninput="R3_LIVESTATUS_UPDATE_POS(0, 'R');" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
 						
 						<font class="COLOR_zI">Z-Index:</font> <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_zI" maxlength="2" placeholder="00" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_zI" autocomplete="off"><br>
 						<div class="align-center">
@@ -1229,19 +1229,19 @@
 								<font class="COLOR_X monospace">X Pos: </font>
 								<input type="range" min="-32767" max="32767" maxlength="5" step="1" class="R3_RANGE" id="R3_RID_EDIT_rangePosX" oninput="R3_DESIGN_RID_updateInput();">
 								<font class="COLOR_X monospace user-can-select" id="R3_RID_LBL_POS_X">0000</font>   
-								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posX"><br>
+								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR COLOR_X R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posX"><br>
 								<font class="COLOR_Y monospace">Y Pos: </font>
 								<input type="range" min="-32767" max="32767" maxlength="5" step="1" class="R3_RANGE" id="R3_RID_EDIT_rangePosY" oninput="R3_DESIGN_RID_updateInput();">
 								<font class="COLOR_Y monospace user-can-select" id="R3_RID_LBL_POS_Y">0000</font>   
-								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posY"><br>
+								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR COLOR_Y R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posY"><br>
 								<font class="COLOR_Z monospace">Z Pos: </font>
 								<input type="range" min="-32767" max="32767" maxlength="5" step="1" class="R3_RANGE" id="R3_RID_EDIT_rangePosZ" oninput="R3_DESIGN_RID_updateInput();">
 								<font class="COLOR_Z monospace user-can-select" id="R3_RID_LBL_POS_Z">0000</font>   
-								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posZ"><br>
+								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR COLOR_Z R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posZ"><br>
 								<font class="COLOR_R monospace">R Pos: </font>
 								<input type="range" min="-32767" max="32767" maxlength="5" step="1" class="R3_RANGE" id="R3_RID_EDIT_rangePosR" oninput="R3_DESIGN_RID_updateInput();">
 								<font class="COLOR_R monospace user-can-select" id="R3_RID_LBL_POS_R">0000</font>   
-								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posR"><br>
+								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR COLOR_R R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posR"><br>
 								<div class="SEPARATOR-2"></div>
 								<div class="align-center">
 									<br>
