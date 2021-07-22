@@ -26,29 +26,29 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 			Order:
 			Width, Height, Top, Left, Z-index, Status Focus DOM element after opening
 		*/
-		0:  [670,  294,    68,  4,   9999999,  false, ''], 							  	    // R3V2 Log
-		1:  [380,  178,    68,  4,    	 100,  false, ''], 							  	    // MSG Hex View
-		2:  [700,  130,    68,  4,   9999998,  false, ''], 							  	    // Xdelta Patcher
-		3:  [414,  310,    68,  4,    	 100,  false, ''], 							  	    // SCD Hex View
-		4:  [210,  560,    68,  726,  	 101,  false, ''], 							  	    // SCD Script List
-		5:  [232,  560,    68,  858,  	 101,  false, ''], 							  	    // MSG List
-		6:  [860,  342,    68,  4,    	 100,  false, ''], 							  	    // RID Editor
-		7:  [392,  178,    44,  138,  	 100,  false, ''], 							  	    // MSG Hex Translator
-		8:  [300,  124,    44,  552,  	 104,  false, ''], 							  	    // SCD Preset Window
-		9:  [300,  442,    44,  446,  	 103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],    // SCD Search Form
-		10: [200,  376,    44,  570,   	 101,  false, ''], 							  	    // RDT Export Sections
-		11: [780,  294,    68,  4,    100000,  false, ''], 							  	    // R3V2 Help Center
+		0:  [670,  294,    68,  4,   9999999,  false, ''], 									// R3V2 Log
+		1:  [380,  178,    68,  4,    	 100,  false, ''], 									// MSG Hex View
+		2:  [700,  130,    68,  4,   9999998,  false, ''], 									// Xdelta Patcher
+		3:  [414,  310,    68,  4,    	 100,  false, ''], 									// SCD Hex View
+		4:  [210,  560,    44,  370,  	 101,  false, ''], 									// SCD Script List
+		5:  [232,  560,    68,  858,  	 101,  false, ''], 									// MSG List
+		6:  [860,  342,    68,  4,    	 100,  false, ''], 									// RID Editor
+		7:  [392,  178,    44,  138,  	 100,  false, ''], 									// MSG Hex Translator
+		8:  [300,  124,    44,  672,  	 104,  false, ''], 									// SCD Preset Window
+		9:  [300,  442,    44,  518,  	 103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	// SCD Search Form
+		10: [200,  376,    44,  570,   	 101,  false, ''],									// RDT Export Sections
+		11: [780,  294,    68,  4,    100000,  false, ''],									// R3V2 Help Center
 		12: [540,  410,    226, 466,  	 102,  false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
 		13: [640,  480,    68,  4,    999999,  false, 'R3_PS1_DISPLAY'],					// eNGE PS1 Canvas
-		14: [760,  480,    68,  12,      105,  false, ''],								    // SCD edit form
-		15: [400,  358,    68,  4, 	  999999,  false, 'R3_ITEM_DATABASE_SEARCH'],		    // Item Database
-		16: [220,  88,     44,  444, 	 101,  false, 'R3_RDT_timManagerList'],			    // RDT TIM Manager
-		17: [220,  88,     44,  486, 	 102,  false, 'R3_RDT_objManagerList'],			    // RDT OBJ Manager
-		18: [680,  434,    68,  4, 	 9999998,  false, ''],								    // Backup Manager
-		19: [1194, 620,    68,  4, 	 9999998,  false, ''], 								    // RE3 Livestatus
-		20: [416,  482,    44,  4, 		 105,  false, 'R3_SCD_DOORLINK_MAP_INPUT'],		    // SCD DoorLink
-		21: [482,  426,    44,  4,   9999998,  false, ''],								    // R3V2 Wizard
-		22: [522,  376,    44,  4,   9999999,  false, 'R3_UPDATER_CURRENT_BRANCH'],		    // R3V2 Updater
+		14: [760,  480,    68,  12,      105,  false, ''],									// SCD edit form
+		15: [400,  358,    68,  4, 	  999999,  false, 'R3_ITEM_DATABASE_SEARCH'],			// Item Database
+		16: [220,  88,     44,  444, 	 101,  false, 'R3_RDT_timManagerList'],				// RDT TIM Manager
+		17: [220,  88,     44,  486, 	 102,  false, 'R3_RDT_objManagerList'],				// RDT OBJ Manager
+		18: [680,  434,    68,  4, 	 9999998,  false, ''],									// Backup Manager
+		19: [1194, 620,    68,  4, 	 9999998,  false, ''],									// RE3 Livestatus
+		20: [416,  482,    44,  4, 		 105,  false, 'R3_SCD_DOORLINK_MAP_INPUT'],			// SCD DoorLink
+		21: [482,  426,    44,  4,   9999998,  false, ''],									// R3V2 Wizard
+		22: [522,  376,    44,  4,   9999999,  false, 'R3_UPDATER_CURRENT_BRANCH'],			// R3V2 Updater
 		23: [350,  438,    44,  4,   9999997,  false, 'R3_OPCODE_FINDER_VALUE']				// SCD Opcode Finder
 	};
 /*
@@ -431,7 +431,7 @@ function R3_DESIGN_ADJUST(){
 				};
 				document.getElementById('R3_HOME_BG').src = fileFix + APP_PATH + '/Assets/DATA_A/BSS/' + getFiles[thePic];
 				R3_THEPIC = getFiles[thePic];
-				if (R3_THEPIC === 'R50606.JPG'){
+				if (R3_THEPIC === 'R50605.JPG' || R3_THEPIC === 'R50606.JPG'){
 					R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', INCLUDE_RE3_BEEP_BOOP, 'RE3', 40);
 				};
 				if (R3_ENABLE_ANIMATIONS === true){
@@ -444,6 +444,10 @@ function R3_DESIGN_ADJUST(){
 			} else {
 				$('#R3_HOME_BG').css({'display': 'none'});
 			};
+		};
+		// Mod Enabled
+		if (APP_ENABLE_MOD === true){
+			$('#R3_MENU_ITEM_OPCODE_FINDER').css({'display': 'block'});
 		};
 	} else {
 		R3_DESIGN_DISABLE_BTN('BTN_MAIN_BACKUP');
@@ -1159,6 +1163,19 @@ function R3_HC_OPEN_PAGE(pageId){
 /*
 	SCD Editor
 */
+// Render SCD Active Status
+function R3_SCD_renderScriptActiveStatus(){
+	if (SCD_arquivoBruto !== undefined){
+		var cStatus = R3_SCD_SCRIPT_ACTIVE_LIST[R3_SCD_CURRENT_SCRIPT];
+		if (cStatus === true){
+			document.getElementById('R3_SCD_SCRIPT_ACTIVE').title = 'This script is active';
+			$('#R3_SCD_SCRIPT_ACTIVE').css({'background-image': 'linear-gradient(to bottom, #0f0, #00c700)', 'box-shadow': '0px 0px 10px #090'});
+		} else {
+			document.getElementById('R3_SCD_SCRIPT_ACTIVE').title = 'This script is not active';
+			$('#R3_SCD_SCRIPT_ACTIVE').css({'background-image': 'linear-gradient(to bottom, #000, #444)', 'box-shadow': 'none'});
+		};
+	};
+};
 // Render SCD DoorLink
 function R3_DESIGN_DOORLINK_RENDER(){
 	if (SCD_arquivoBruto !== undefined){
@@ -1664,11 +1681,13 @@ function R3_SCD_SWAP_EDITOR_MODE(mode){
 function R3_DESIGN_JS_CODE_FOCUS(){
 	if (SETTINGS_SCD_EDITOR_MODE === 1){
 		setTimeout(function(){
-			document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').focus();
-			document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').scrollTop = 0;
-			document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').selectionEnd = 0;
-			document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').selectionStart = 0;
-			R3_SCD_CODE_updateTextData();
+			if (document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA') !== null){
+				document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').focus();
+				document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').scrollTop = 0;
+				document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').selectionEnd = 0;
+				document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').selectionStart = 0;
+				R3_SCD_CODE_updateTextData();
+			};
 		}, 30);
 	};
 };	
@@ -1716,8 +1735,8 @@ function R3_DESIGN_CODE_zoomMode(mode){
 		if (R3_SCD_CODE_zoom < 6){
 			R3_SCD_CODE_zoom = 6;
 		};
-		if (R3_SCD_CODE_zoom > 120){
-			R3_SCD_CODE_zoom = 120;	
+		if (R3_SCD_CODE_zoom > 140){
+			R3_SCD_CODE_zoom = 140;	
 		};
 		// End
 		$('#R3_SCD_CODE_EDITOR_TEXTAREA').css({'font-size': R3_SCD_CODE_zoom + 'px'});
@@ -2529,7 +2548,7 @@ function R3_LIVETSTATUS_RENDER(){
 		Bars
 	*/
 	// Var Cleaning
-	var c = f = 0, ext, checkPos, checkPlayer, currentInventory;
+	var c = f = 0, ext, checkPos, checkPlayer, currentInventory, R3_PLAYER_POS;
 	// Map Values
 	if (RE3_LIVE_MAP !== REALTIME_CurrentRDT || R3_LIVESTATUS_FORCE_RENDER === true){
 		if (RDT_locations[REALTIME_CurrentRDT] !== undefined){
@@ -2547,6 +2566,10 @@ function R3_LIVETSTATUS_RENDER(){
 	// Pos. Values
 	checkPos = REALTIME_X_Pos + REALTIME_Y_Pos + REALTIME_Z_Pos + REALTIME_R_Pos + REALTIME_zIndex;
 	if (checkPos !== RE3_LIVE_POS){
+		R3_PLAYER_POS = [REALTIME_X_Pos, REALTIME_Y_Pos, REALTIME_Z_Pos, REALTIME_R_Pos, REALTIME_zIndex];
+		if (SETTINGS_DISPLAY_POSITION_INT === true){
+			R3_PLAYER_POS = [R3_convertPosHexToInt(REALTIME_X_Pos), R3_convertPosHexToInt(REALTIME_Y_Pos), R3_convertPosHexToInt(REALTIME_Z_Pos), R3_convertPosHexToInt(REALTIME_R_Pos), parseInt(REALTIME_zIndex)];
+		};
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_X').value = REALTIME_X_Pos;
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_Y').value = REALTIME_Y_Pos;
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_Z').value = REALTIME_Z_Pos;
@@ -2560,13 +2583,13 @@ function R3_LIVETSTATUS_RENDER(){
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_Z_RANGE').value = R3_convertPosHexToInt(REALTIME_Z_Pos);
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_R_INT').value = R3_convertPosHexToInt(REALTIME_R_Pos);
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_R_RANGE').value = R3_convertPosHexToInt(REALTIME_R_Pos);
-
 		document.getElementById('R3_LIVESTATUS_EDIT_POS_zI').value = REALTIME_zIndex;
-		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_X').innerHTML = REALTIME_X_Pos;
-		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_Y').innerHTML = REALTIME_Y_Pos;
-		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_Z').innerHTML = REALTIME_Z_Pos;
-		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_R').innerHTML = REALTIME_R_Pos;
-		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_zI').innerHTML = REALTIME_zIndex;
+		//
+		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_X').innerHTML = R3_PLAYER_POS[0];
+		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_Y').innerHTML = R3_PLAYER_POS[1];
+		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_Z').innerHTML = R3_PLAYER_POS[2];
+		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_R').innerHTML = R3_PLAYER_POS[3];
+		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_zI').innerHTML = R3_PLAYER_POS[4];
 		RE3_LIVE_POS = REALTIME_X_Pos + REALTIME_Y_Pos + REALTIME_Z_Pos + REALTIME_R_Pos + REALTIME_zIndex;
 	};
 	// Player Values
@@ -2638,7 +2661,7 @@ function R3_LIVETSTATUS_RENDER(){
 			document.getElementById('R3_LIVESTATUS_IMG_CURRENT_CAM').src = 'img/404.png';
 		};
 		document.getElementById('R3_LIVESTATUS_LBL_CURRENT_CAM').innerHTML = parseInt(REALTIME_CurrentCam, 16);
-		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_CAM').innerHTML = REALTIME_CurrentCam;
+		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_CAM').innerHTML = parseInt(REALTIME_CurrentCam, 16);
 		RE3_LIVE_CAM = REALTIME_CurrentCam;
 	};
 	// Inventory

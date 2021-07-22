@@ -21,6 +21,7 @@ var R3_SCD_path = '',
 	R3_SCD_CURRENT_FUNCTION = 0,
 	R3_SCD_TEMP_GOSUB_VALUE = 0,
 	R3_SCD_ID_OM_SET_ENTRIES = {},
+	R3_SCD_SCRIPT_ACTIVE_LIST = [],
 	R3_SCD_CURRENT_SCRIPT_HEX = '',
 	R3_SCD_TEMP_COPY_PASTE_FUNCTION,
 	R3_SCD_FUNCTION_FOCUSED = false,
@@ -134,7 +135,7 @@ function R3_SCD_START_DECOMPILER(hex){
 	// End
 	if (SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true){
 		R3_SYSTEM_LOG('separator');
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - Finished loading SCD with ' + R3_SCD_TOTAL_SCRITPS + ' scripts, totalizing ' + R3_SCD_OVERALL_TOTAL_FUNCTIONS + ' functions.');
+		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Finished loading SCD with ' + R3_SCD_TOTAL_SCRITPS + ' scripts, totalizing ' + R3_SCD_OVERALL_TOTAL_FUNCTIONS + ' functions.');
 	};
 	R3_SCD_displayScript(0);
 };	
@@ -151,6 +152,27 @@ function R3_SCD_displayScript(scriptId){
 		} else {
 			R3_SCD_WARN(0, scriptId);
 		};
+	};
+};
+// Check script active status
+function R3_SCD_checkScriptActive(){
+	if (SCD_arquivoBruto !== undefined){
+		R3_SCD_SCRIPT_ACTIVE_LIST = Array(255).fill(false);
+		R3_SCD_SCRIPT_ACTIVE_LIST[0] = true;
+		R3_SCD_SCRIPT_ACTIVE_LIST[1] = true;
+		// Start
+		Object.keys(R3_SCD_SCRIPTS_LIST).forEach(function(cItem){
+			const cScript = R3_SCD_SCRIPTS_LIST[cItem];
+			cScript.forEach(function(cFunction){
+				var cArgs, cOpcode = cFunction.slice(0, 2);
+				if (cOpcode === '19'){
+					cArgs = parseInt(cFunction.slice(2, 4), 16);
+					R3_SCD_SCRIPT_ACTIVE_LIST[cArgs] = true;
+				};
+			});
+		});
+		// End
+		R3_SCD_renderScriptActiveStatus();
 	};
 };
 // Advance / Return Script
@@ -1820,7 +1842,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					// Change Camera [CUT_CHG]
 					if (cOpcode === '50'){
 						var CUT_id = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]);
-						tempScriptCode = tempCode + '\'' + CUT_id.toUpperCase() + '\'';
+						tempScriptCode = tempCode + parseInt(CUT_id, 16);
 					};
 					// Lock Camera [CUT_AUTO]
 					if (cOpcode === '52'){
@@ -2306,6 +2328,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 		R3_SCD_updateLabels();
 		// End
 		R3_SCD_ID_LIST_CAPTURE();
+		R3_SCD_checkScriptActive();
 		R3_SCD_SCRIPTS_IS_LOADING = false;
 	};
 };

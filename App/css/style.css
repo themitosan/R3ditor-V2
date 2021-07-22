@@ -23,6 +23,15 @@
     border-radius: 4px;
     background: #fafafa;
 }
+
+@font-face {
+    font-family: 'mSpace';
+    src: url('consolas.ttf') format('truetype');
+}
+@font-face {
+    src: url('times.ttf');
+    font-family: 'timesNR';
+}
 a {
     color: #fff;
     cursor: pointer;
@@ -31,14 +40,6 @@ a {
 a:visited {
     color: #fff;
     text-decoration: underline;
-}
-@font-face {
-    font-family: 'mSpace';
-    src: url('consolas.ttf') format('truetype');
-}
-@font-face {
-    src: url('times.ttf');
-    font-family: 'timesNR';
 }
 body {
     color: #fff;
@@ -49,6 +50,10 @@ body {
     animation-duration: 0s;
     -webkit-user-select: none;
     scrollbar-color: #666 #333;
+}
+input {
+    text-rendering: auto;
+    font: 400 13.3333px Arial;
 }
 img {
     -webkit-user-drag: none;
@@ -970,6 +975,16 @@ blockquote {
     SCD Editor
 */
 /* Edit Form */
+.R3_SCD_SCRIPT_ACTIVE {
+    top: 12.8px;
+    width: 20px;
+    right: 108px;
+    height: 20px;
+    box-shadow: none;
+    position: absolute;
+    border-radius: 30px;
+    background-image: linear-gradient(to bottom, #000, #444);
+}
 .R3_SCD_editForm_bg_image {
     width: 100%;
     z-index: 10;
@@ -1035,12 +1050,14 @@ blockquote {
 .R3_SCD_CODE_EDITOR_TEXTAREA {
     color: #0f0;
     resize: none;
-    padding: 8px;
     border: none;
+    padding: 8px;
     outline: none;
+    font-size: 12px;
     margin-left: 4px;
-    position: absolute;
     border-radius: 6px;
+    position: absolute;
+    font-family: mSpace;
     background-color: #0000;
     width: calc(100% - 22px);
     height: calc(100% - 38px);

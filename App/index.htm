@@ -125,6 +125,7 @@
 						<div class="R3_MENU_ITEM_BIG" title="(Wizard) Click here to extract the game assets and enable R3ditor V2 Full-Editing mode!" onclick="R3_DESIGN_displayWizard();">
 							<img class="R3_MENU_ICON" src="img/icons/icon-12.png"><div class="R3_MENU_BIG_LBL">Enable Wizard</div>
 						</div>
+						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_OPCODE_FINDER" title="(SCD Opcode Finder) This is a simple tool that allows you to search for a specific SCD opcode across all extracted maps" onclick="R3_SCD_openOpcodeFinder();">SCD Opcode Finder</div>
 						<div id="BTN_PS1_HOOK" class="none">
 							<div class="R3_MENU_SEPARATOR"></div>
 							<div class="R3_MENU_ITEM_BIG" title="Click here to hook on PS1 emulator!" onclick="R3_MEMORY_JS_HOOK_EMU();">
@@ -686,6 +687,7 @@
 					</div>
 					<!-- Info -->
 					<div class="align-center">
+						<div class="R3_SCD_SCRIPT_ACTIVE" id="R3_SCD_SCRIPT_ACTIVE"></div>
 						<font class="LBL_title txt-italic">Script <font id="R3_SCD_LBL_currentScript">0</font> - Total: <font id="R3_SCD_LBL_TOTALFUNCTIONS">0</font></font>
 					</div>
 					<input type="button" id="R3_SCD_CLEAR_SCRIPT_BTN" title="Click here to clear all functions from this script" class="R3_MSG_CLEAR_SCRIPT_BTN" value="Clear Script" onclick="R3_SCD_CLEAR_SCRIPT();">
@@ -1488,6 +1490,9 @@
 									If you have any issue with performance, set this value <b>higher</b> - since it <u>may cause JS Heap</u>.
 								</div>
 							</li>
+							<li>
+								<input type="checkbox" id="R3_SETTINGS_DISPLAY_POS_INT"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_DISPLAY_POS_INT', true);" title="Enabling this option, R3V2 will show position values as integer instead of hex">- Display player position as <font class="R3_HC_LBL_CODE user-cant-select">integer</font> instead of <font class="R3_HC_LBL_CODE user-cant-select">hex</font></font>
+							</li>
 						</ul>
 					</div>
 					<!-- MSG Settings -->
@@ -1713,6 +1718,8 @@
 				<script type="text/javascript" src="js/scd_code_map.js"></script>
 				<script type="text/javascript" src="js/re3set.js"></script>
 				<script type="text/javascript" src="js/github.js"></script>
+				<!-- Exclude from R3V2 Compiler -->
+				<script type="text/javascript" src="js/debug.js"></script>
 			</blockquote>
 		</div>
 	</body>
