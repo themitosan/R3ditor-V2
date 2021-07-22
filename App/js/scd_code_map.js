@@ -136,7 +136,11 @@ function R3_CHASER_EVT_CLR(){
 };
 // 25 - Open Map [MAP_OPEN]
 function R3_MAP_OPEN(mapId, mapRoom){
-	return '25' + MEMORY_JS_fixVars(mapId, 2) + MEMORY_JS_fixVars(mapRoom, 4);
+	if (mapId !== undefined && mapRoom !== undefined){
+		return '25' + MEMORY_JS_fixVars(mapId, 2) + MEMORY_JS_fixVars(mapRoom, 4);
+	} else {
+		return '25000100';
+	};
 };
 // 26 - [POINT_ADD]
 function R3_POINT_ADD(data0, data1){
@@ -196,11 +200,15 @@ function R3_SEL_EVT_ON(id){
 };
 // 3E - Remove Item [ITEM_LOST]
 function R3_ITEM_LOST(itemId){
-	var iId = parseInt(itemId, 16);
-	if (iId > 143){
-		itemId = '00';
+	if (itemId !== undefined){
+		var iId = parseInt(itemId, 16);
+		if (iId > 143){
+			itemId = '00';
+		};
+		return '3e' + MEMORY_JS_fixVars(itemId, 2);
+	} else {
+		return '3e00';
 	};
-	return '3e' + MEMORY_JS_fixVars(itemId, 2);
 };
 // 3F - [FLR_SET]
 function R3_FLR_SET(id, flag){
@@ -329,7 +337,7 @@ function R3_DOOR_AOT_SET(id, aot, XPos, YPos, ZPos, RPos, nextX, nextY, nextZ, n
 			   MEMORY_JS_fixVars(parseInt((nStage) - 1).toString(16), 2) + MEMORY_JS_fixVars(nRoom, 2) + MEMORY_JS_fixVars(parseInt(nCam).toString(16), 2) + MEMORY_JS_fixVars(zIndex, 2) +
 			   MEMORY_JS_fixVars(type, 2) + MEMORY_JS_fixVars(orient, 2) + MEMORY_JS_fixVars(unk0, 2) + MEMORY_JS_fixVars(lkFlag, 2) + MEMORY_JS_fixVars(lkKey, 2) + MEMORY_JS_fixVars(dText, 2);
 	} else {
-		return '6100012100000000000000000000000000000000000000000000000000000000';
+		return '61' + R3_SCD_getFreeIdForFunction() + '012100000000000000000000000000000000000000000000000000000000';
 	};
 };
 // 62 - Set Door 4P [DOOR_AOT_SET_4P]
@@ -340,7 +348,7 @@ function R3_DOOR_AOT_SET_4P(id, aot, XPos, YPos, ZPos, RPos, D4P, nextX, nextY, 
 					  MEMORY_JS_fixVars(nextR, 4) + MEMORY_JS_fixVars(parseInt((nStage) - 1).toString(16), 2) + MEMORY_JS_fixVars(nRoom, 2) + MEMORY_JS_fixVars(parseInt(nCam).toString(16), 2) +
 					  MEMORY_JS_fixVars(zIndex, 2) + MEMORY_JS_fixVars(type, 2) + MEMORY_JS_fixVars(orient, 2) + MEMORY_JS_fixVars(unk0, 2) + MEMORY_JS_fixVars(lkFlag, 2) + MEMORY_JS_fixVars(lkKey, 2) + MEMORY_JS_fixVars(dText, 2);
 	} else {
-		return '62000000000000000000000000000000000000000000000000000000000000000000000000000000';
+		return '62' + R3_SCD_getFreeIdForFunction() + '0000000000000000000000000000000000000000000000000000000000000000000000000000';
 	};
 };
 // 66 - Run Interactive Object [AOT_ON]
@@ -353,15 +361,23 @@ function R3_AOT_ON(aotId){
 };
 // 67 - Set Item [ITEM_AOT_SET]
 function R3_ITEM_AOT_SET(id, aot, itemX, itemY, itemZ, itemR, itemCode, itemQuant, itemFlag, modelId, itemMp){
-	return '67' + MEMORY_JS_fixVars(id, 2) + MEMORY_JS_fixVars(aot, 8) + MEMORY_JS_fixVars(itemX, 4) + MEMORY_JS_fixVars(itemY, 4) + MEMORY_JS_fixVars(itemZ, 4) +
-		   MEMORY_JS_fixVars(itemR, 4) + MEMORY_JS_fixVars(itemCode, 2) + '00' + R3_JS_COMPILER_parseNumber(itemQuant, 255, 2) + '0000' + MEMORY_JS_fixVars(itemFlag, 2) +
-		   MEMORY_JS_fixVars(modelId, 2) + MEMORY_JS_fixVars(itemMp, 2);
+	if (id !== undefined && aot !== undefined && itemX !== undefined && itemY !== undefined && itemZ !== undefined && itemR !== undefined && itemCode !== undefined && itemQuant !== undefined && itemFlag !== undefined && modelId !== undefined && itemMp !== undefined){
+		return '67' + MEMORY_JS_fixVars(id, 2) + MEMORY_JS_fixVars(aot, 8) + MEMORY_JS_fixVars(itemX, 4) + MEMORY_JS_fixVars(itemY, 4) + MEMORY_JS_fixVars(itemZ, 4) +
+			   MEMORY_JS_fixVars(itemR, 4) + MEMORY_JS_fixVars(itemCode, 2) + '00' + R3_JS_COMPILER_parseNumber(itemQuant, 255, 2) + '0000' + MEMORY_JS_fixVars(itemFlag, 2) +
+			   MEMORY_JS_fixVars(modelId, 2) + MEMORY_JS_fixVars(itemMp, 2);
+	} else {
+		return '67' + R3_SCD_getFreeIdForFunction() + '0231000000000000000000000100010000000000';
+	};
 };
 // 68 - Set Item 4P [ITEM_AOT_SET]
 function R3_ITEM_AOT_SET_4P(id, aot, itemX, itemY, itemZ, itemR, item4P, itemCode, itemQuant, itemFlag, modelId, itemMp){
-	return '68' + MEMORY_JS_fixVars(id, 2) + MEMORY_JS_fixVars(aot, 8) + MEMORY_JS_fixVars(itemX, 4) + MEMORY_JS_fixVars(itemY, 4) + MEMORY_JS_fixVars(itemZ, 4) +
-		   MEMORY_JS_fixVars(itemR, 4) + MEMORY_JS_fixVars(item4P, 16) + MEMORY_JS_fixVars(itemCode, 2) + '00' + R3_JS_COMPILER_parseNumber(itemQuant, 255, 2) + '0000' +
-		   MEMORY_JS_fixVars(itemFlag, 2) + MEMORY_JS_fixVars(modelId, 2) + MEMORY_JS_fixVars(itemMp, 2);
+	if (id !== undefined && aot !== undefined && itemX !== undefined && itemY !== undefined && itemZ !== undefined && itemR !== undefined && item4P !== undefined && itemCode !== undefined && itemQuant !== undefined && itemFlag !== undefined && modelId !== undefined && itemMp !== undefined){
+		return '68' + MEMORY_JS_fixVars(id, 2) + MEMORY_JS_fixVars(aot, 8) + MEMORY_JS_fixVars(itemX, 4) + MEMORY_JS_fixVars(itemY, 4) + MEMORY_JS_fixVars(itemZ, 4) +
+			   MEMORY_JS_fixVars(itemR, 4) + MEMORY_JS_fixVars(item4P, 16) + MEMORY_JS_fixVars(itemCode, 2) + '00' + R3_JS_COMPILER_parseNumber(itemQuant, 255, 2) + '0000' +
+			   MEMORY_JS_fixVars(itemFlag, 2) + MEMORY_JS_fixVars(modelId, 2) + MEMORY_JS_fixVars(itemMp, 2);
+	} else {
+		return '68' + R3_SCD_getFreeIdForFunction() + '02310000000000000000000000000000000000000100010000000000';
+	};
 };
 // 6E - [SCA_ID_SET]
 function R3_SCA_ID_SET(id, value){
@@ -371,7 +387,7 @@ function R3_SCA_ID_SET(id, value){
 function R3_ESPR_KILL2(esprId){
 	return '75' + MEMORY_JS_fixVars(esprId, 2);
 };
-// [ESPR_KILL_ALL]
+// 76 - [ESPR_KILL_ALL]
 function R3_ESPR_KILL_ALL(esprId, esprValue){
 	return '76' + MEMORY_JS_fixVars(esprId, 2) + MEMORY_JS_fixVars(esprValue, 2);
 };
@@ -401,7 +417,11 @@ function R3_STATUS_ON(){
 };
 // 7E - [MIZU_DIV]
 function R3_MIZU_DIV(mizuId){
-	return '7e' + MEMORY_JS_fixVars(mizuId, 2);
+	if (mizuId !== undefined){
+		return '7e' + MEMORY_JS_fixVars(mizuId, 2);
+	} else {
+		return '7e00';
+	};
 };
 // 80 - Motion Trigger [PLC_MOTION]
 function R3_PLC_MOTION(plcId, plcValue, plcType){
@@ -409,7 +429,11 @@ function R3_PLC_MOTION(plcId, plcValue, plcType){
 };
 // 81 - Set Animation DEST [PLC_DEST]
 function R3_PLC_DEST(animType, animMod, data0, data1){
-	return '8100' + MEMORY_JS_fixVars(animType, 2) + MEMORY_JS_fixVars(animMod, 2) + MEMORY_JS_fixVars(data0, 4) + MEMORY_JS_fixVars(data1, 4);
+	if (animType !== undefined && animMod !== undefined && data0 !== undefined && data1 !== undefined){
+		return '8100' + MEMORY_JS_fixVars(animType, 2) + MEMORY_JS_fixVars(animMod, 2) + MEMORY_JS_fixVars(data0, 4) + MEMORY_JS_fixVars(data1, 4);
+	} else {
+		return '8100042000000000';
+	};
 };
 // 82 - Set Head Animation [PLC_NECK]
 function R3_PLC_NECK(animType, animRepeat, data0, data1, data2, data3, animSpeed){

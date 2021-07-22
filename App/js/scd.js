@@ -1098,8 +1098,13 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				};
 				// Change Camera [CUT_CHG]
 				if (cOpcode === '50'){
-					var CUT_id = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]);
-					cProp = 'Next Camera: ' + parseInt(CUT_id, 16) + ' <font class="monospace mono_xyzr">(' + CUT_id.toUpperCase() + ')</font>';
+					var CUT_id = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
+						CUT_camPath = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + CUT_id.toUpperCase() + '.JPG',
+						CUT_camPreview = '';
+					if (APP_ENABLE_MOD === true && APP_FS.existsSync(CUT_camPath) === true){
+						CUT_camPreview = '<img src="' + CUT_camPath + '" alt="R3_SCD_CAM_' + CUT_id.toUpperCase() + '_PREVIEW" class="R3_SCD_SCRIPTITEM_ITEM_IMG">';
+					};
+					cProp = 'Next Camera: <font class="monospace mono_xyzr">' + parseInt(CUT_id, 16) + '</font>' + CUT_camPreview;
 				};
 				// [CUT_OLD]
 				if (cOpcode === '51'){
@@ -2788,16 +2793,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				if (cOpcode === '61'){
 					$('#R3_SCD_EDIT_61_displayText').append(INCLUDE_SCD_DOOR_TEXT);
 					$('#R3_SCD_EDIT_61_lockKey').append(INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
-					document.getElementById('R3_SCD_EDIT_61_id').value = R3_SCD_getFreeIdForFunction(0);
+					document.getElementById('R3_SCD_EDIT_61_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_61_aot').value = '01210000';
-					document.getElementById('R3_SCD_EDIT_61_posX').value = '';
-					document.getElementById('R3_SCD_EDIT_61_posY').value = '';
-					document.getElementById('R3_SCD_EDIT_61_posZ').value = '';
-					document.getElementById('R3_SCD_EDIT_61_posR').value = '';
-					document.getElementById('R3_SCD_EDIT_61_nextX').value = '';
-					document.getElementById('R3_SCD_EDIT_61_nextY').value = '';
-					document.getElementById('R3_SCD_EDIT_61_nextZ').value = '';
-					document.getElementById('R3_SCD_EDIT_61_nextR').value = '';
 					document.getElementById('R3_SCD_EDIT_61_stage').value = 1;
 					document.getElementById('R3_SCD_EDIT_61_roomNumber').value = '00';
 					document.getElementById('R3_SCD_EDIT_61_nextCam').value = 0;
@@ -2815,17 +2812,9 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				if (cOpcode === '62'){
 					$('#R3_SCD_EDIT_62_displayText').append(INCLUDE_SCD_DOOR_TEXT);
 					$('#R3_SCD_EDIT_62_lockKey').append(INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
-					document.getElementById('R3_SCD_EDIT_62_id').value = R3_SCD_getFreeIdForFunction(0);
+					document.getElementById('R3_SCD_EDIT_62_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_62_aot').value = '000000';
-					document.getElementById('R3_SCD_EDIT_62_posX').value = '';
-					document.getElementById('R3_SCD_EDIT_62_posY').value = '';
-					document.getElementById('R3_SCD_EDIT_62_posZ').value = '';
-					document.getElementById('R3_SCD_EDIT_62_posR').value = '';
 					document.getElementById('R3_SCD_EDIT_62_4P').value = '0000000000000000';
-					document.getElementById('R3_SCD_EDIT_62_nextX').value = '';
-					document.getElementById('R3_SCD_EDIT_62_nextY').value = '';
-					document.getElementById('R3_SCD_EDIT_62_nextZ').value = '';
-					document.getElementById('R3_SCD_EDIT_62_nextR').value = '';
 					document.getElementById('R3_SCD_EDIT_62_stage').value = 1;
 					document.getElementById('R3_SCD_EDIT_62_roomNumber').value = '00';
 					document.getElementById('R3_SCD_EDIT_62_nextCam').value = 0;
@@ -2843,7 +2832,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				if (cOpcode === '63'){
 					$('#R3_SCD_EDIT_63_aot').append(INCLUDE_EDIT_AOT_TYPES);
 					$('#R3_SCD_EDIT_63_displayMode').append(INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
-					document.getElementById('R3_SCD_EDIT_63_id').value = R3_SCD_getFreeIdForFunction(0);
+					document.getElementById('R3_SCD_EDIT_63_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_63_aot').value = '04';
 					document.getElementById('R3_SCD_EDIT_63_type').value = '00';
 					document.getElementById('R3_SCD_EDIT_63_nFloor').value = '00';
@@ -2881,34 +2870,33 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				// Set Item [ITEM_AOT_SET]
 				if (cOpcode === '67'){
 					$('#R3_SCD_EDIT_67_attr').append(INCLUDE_EDIT_ATTR);
+					$('#R3_SCD_EDIT_67_blinkColor').append(INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
 					$('#R3_SCD_EDIT_67_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
-					document.getElementById('R3_SCD_EDIT_67_id').value = R3_SCD_getFreeIdForFunction(0);
+					document.getElementById('R3_SCD_EDIT_67_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_67_aot').value = '02310000';
 					document.getElementById('R3_SCD_EDIT_67_item').value = '00';
-					document.getElementById('R3_SCD_EDIT_67_unk0').value = '00';
 					document.getElementById('R3_SCD_EDIT_67_quant').value = 1;
-					document.getElementById('R3_SCD_EDIT_67_unk1').value = '00';
-					document.getElementById('R3_SCD_EDIT_67_unk2').value = '00';
 					document.getElementById('R3_SCD_EDIT_67_iFlag').value = '00';
 					document.getElementById('R3_SCD_EDIT_67_modelId').value = '00';
+					document.getElementById('R3_SCD_EDIT_67_blinkColor').value = '0';
+					document.getElementById('R3_SCD_EDIT_67_playerCrouch').checked = false;
 					R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_67_item', 'R3_SCD_EDIT_67_itemIconPrev');
 					focusDomId = 'R3_SCD_EDIT_67_itemSeek';
 				};
-				// Set Item 4P [ITEM_AOT_SET]
+				// Set Item 4P [ITEM_AOT_SET_4P]
 				if (cOpcode === '68'){
 					$('#R3_SCD_EDIT_68_attr').append(INCLUDE_EDIT_ATTR);
+					$('#R3_SCD_EDIT_68_blinkColor').append(INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
 					$('#R3_SCD_EDIT_68_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
-					document.getElementById('R3_SCD_EDIT_68_id').value = R3_SCD_getFreeIdForFunction(0);
+					document.getElementById('R3_SCD_EDIT_68_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_68_aot').value = '02310000';
 					document.getElementById('R3_SCD_EDIT_68_4P').value = '0000000000000000';
 					document.getElementById('R3_SCD_EDIT_68_item').value = '00';
-					document.getElementById('R3_SCD_EDIT_68_unk0').value = '00';
 					document.getElementById('R3_SCD_EDIT_68_quant').value = 1;
-					document.getElementById('R3_SCD_EDIT_68_unk1').value = '00';
-					document.getElementById('R3_SCD_EDIT_68_unk2').value = '00';
 					document.getElementById('R3_SCD_EDIT_68_iFlag').value = '00';
 					document.getElementById('R3_SCD_EDIT_68_modelId').value = '00';
-					document.getElementById('R3_SCD_EDIT_68_anim').value = '00';
+					document.getElementById('R3_SCD_EDIT_68_blinkColor').value = '0';
+					document.getElementById('R3_SCD_EDIT_68_playerCrouch').checked = false;
 					R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_68_item', 'R3_SCD_EDIT_68_itemIconPrev');
 					focusDomId = 'R3_SCD_EDIT_68_itemSeek';
 				};
@@ -3010,21 +2998,6 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				if (cOpcode === '7d'){
 					$('#R3_SCD_EDIT_7d_type').append(INCLUDE_EDIT_SCD_EM_SET_TYPES);
 					$('#R3_SCD_EDIT_7d_pose').append(INCLUDE_EDIT_SCD_EM_SET_POSE);
-					document.getElementById('R3_SCD_EDIT_7d_unk0').value = '00';
-					document.getElementById('R3_SCD_EDIT_7d_id').value = '00';
-					document.getElementById('R3_SCD_EDIT_7d_type').value = '00';
-					document.getElementById('R3_SCD_EDIT_7d_pose').value = '00';
-					document.getElementById('R3_SCD_EDIT_7d_unk1').value = '00';
-					document.getElementById('R3_SCD_EDIT_7d_unk2').value = '0000000';
-					document.getElementById('R3_SCD_EDIT_7d_soundSet').value = '00';
-					document.getElementById('R3_SCD_EDIT_7d_texture').value = '00';
-					document.getElementById('R3_SCD_EDIT_7d_flag').value = '00';
-					document.getElementById('R3_SCD_EDIT_7d_posX').value = '0000';
-					document.getElementById('R3_SCD_EDIT_7d_posY').value = '0000';
-					document.getElementById('R3_SCD_EDIT_7d_posZ').value = '0000';
-					document.getElementById('R3_SCD_EDIT_7d_posR').value = '0000';
-					document.getElementById('R3_SCD_EDIT_7d_motion').value = '0000';
-					document.getElementById('R3_SCD_EDIT_7d_ctrlFlag').value = '0000';
 					focusDomId = 'R3_SCD_EDIT_7d_type';
 				};
 				// [MIZU_DIV]
@@ -3159,7 +3132,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			R3_SCD_previousOpcode.push(R3_SCD_currentOpcode);
 			R3_SCD_IS_EDITING = true;
 			/*
-				Decompile Functions
+				Extract functions
 			*/
 			// Execute Event [EVT_EXEC]
 			if (cOpcode === '04'){
@@ -5601,10 +5574,8 @@ function R3_SCD_getFreeIdForFunction(mode){
 */
 function R3_SCD_getDoorParams(mode, sLocation, sFunction){
 	if (SCD_arquivoBruto !== undefined){
-		var decDb, cFunction = R3_SCD_SCRIPTS_LIST[sLocation][sFunction];
-		if (mode === 0){
-			decDb = R3_SCD_DECOMPILER_DATABASE[61];
-		} else {
+		var decDb = R3_SCD_DECOMPILER_DATABASE[61], cFunction = R3_SCD_SCRIPTS_LIST[sLocation][sFunction];
+		if (mode !== 0){
 			decDb = R3_SCD_DECOMPILER_DATABASE[62];
 		};
 		var DOOR_xPos 	 = cFunction.slice(decDb.nextXpos[0],  decDb.nextXpos[1]),

@@ -764,7 +764,7 @@ blockquote {
 }
 .R3_LOG_WARN {
     color: #fff24a;
-    text-shadow: 0px 0px 10px #fbff00;
+    text-shadow: 0px 0px 10px #fbff00ad;
 }
 .R3_LOG_ERROR {
     color: #ff8c8c;
@@ -1136,6 +1136,9 @@ blockquote {
     left: 134px;
     position: sticky;
 }
+.R3_SCD_EDIT_25_mapLocation {
+    width: 24px;
+}
 .R3_SCD_EDIT_61_aot {
     color: #0f0;
     width: 60px;
@@ -1155,8 +1158,8 @@ blockquote {
 .R3_SCD_EDIT_CHECK_LENGTH {
     overflow: auto;
     padding-top: 10px;
-    position: absolute;
     border-radius: 4px;
+    position: absolute;
     background-color: #fff2;
     width: calc(100% - 12px);
     height: calc(100% - 104px);
@@ -1472,9 +1475,9 @@ blockquote {
     text-shadow: 0px 0px 10px #0f0;
 }
 .R3_SCD_INSERT_NEW_FIX {
-    position: absolute;
     margin-top: -2px;
     margin-left: 56px;
+    position: absolute;
 }
 .R3_SCD_INSERT_LBL_FIX {
     margin-top: 2px;
@@ -2716,10 +2719,10 @@ blockquote {
     box-shadow: none;
     padding-top: 4px;
     padding-left: 4px;
+    text-align: center;
     margin-bottom: 4px;
     border-radius: 4px;
     padding-right: 4px;
-    text-align: center;
     font-family: mSpace;
     padding-bottom: 4px;
     background-color: #000;
@@ -2731,8 +2734,8 @@ blockquote {
 .R3_LIVESTATUS_EDIT_POS_RANGE {
     left: 204px;
     width: 126px;
-    position: absolute;
     cursor: col-resize;
+    position: absolute;
 }
 .R3_LIVESTATUS_POS_INT {
     left: 130px;
@@ -3085,6 +3088,46 @@ blockquote {
 .R3_BACKUP_MANAGER_actions {
     float: right;
     margin-top: -6px;
+}
+/*
+    SCD Opcode Finder
+*/
+.R3_OPCODE_FINDER_VALUE {
+    height: 24px;
+    text-align: center;
+    font-family: mSpace;
+    text-align: -moz-center;
+    text-align: -webkit-center;
+    background-color: #131313;
+}
+.R3_OPCODE_FINDER_RESULT {
+    padding: 4px;
+    overflow: auto;
+    margin-top: 0px;
+    position: relative;
+    width: calc(100% - 8px);
+    height: calc(100% - 80px);
+    background-image: linear-gradient(to bottom, #1e2a4a, #0b3565);
+}
+.R3_OPCODE_FINDER_RES_MAP {
+    height: 21px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 3px;
+    padding-top: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    text-align: center;
+    margin-bottom: 3px;
+    border-radius: 6px;
+    font-family: mSpace;
+    text-align: -moz-center;
+    text-align: -webkit-center;
+    text-shadow: 0px 0px 10px #000;
+    background-image: linear-gradient(to right, #0000, #415384, #0000);
+}
+.R3_OPCODE_FINDER_RES_MAP:hover {
+    background-image: linear-gradient(to right, #0000, #5972b4, #0000);
 }
 /*
     RE3 Status Colors
@@ -3529,6 +3572,9 @@ blockquote {
 }
 .no-margin-left {
     margin-left: 0px !important;
+}
+.no-margin-top {
+    margin-top: -2px !important;
 }
 .user-can-select {
     cursor: text;

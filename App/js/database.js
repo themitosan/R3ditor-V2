@@ -178,7 +178,7 @@ const R3_internalHoldTime = 2800,
 		'21': 'NO_EDIT',
 		'22': 'Value: <input type="text" spellcheck="false" id="R3_SCD_EDIT_22_value" class="R3_EDIT_TEXT_XYZR" placeholder="00">',
 		'24': 'NO_EDIT',
-		'25': 'ID: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_25_id" class="R3_EDIT_TEXT_XYZR"> Room: R<input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_25_room" class="R3_EDIT_TEXT_XYZR">',
+		'25': 'ID: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_25_id" class="R3_EDIT_TEXT_XYZR"> Room: R<input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_25_room" class="R3_EDIT_TEXT_XYZR R3_SCD_EDIT_25_mapLocation">',
 		'26': 'Data 0: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_26_data0" class="R3_EDIT_TEXT_XYZR"> Data 1: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_26_data1" class="R3_EDIT_TEXT_XYZR">',
 		'27': 'NO_EDIT',
 		'28': 'NO_EDIT',
@@ -221,7 +221,7 @@ const R3_internalHoldTime = 2800,
 		'4d': 'Event Track: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_4d_id"> Set <input type="text" spellcheck="false" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_4d_varSearch" onchange="R3_SCD_FUNCTION_SEARCH_SETVAR();" onkeyup="R3_SCD_FUNCTION_SEARCH_SETVAR();"> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_4d_var"></select> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_4d_boolean"></select>',
 		'4e': 'NO_EDIT',
 		'4f': 'NO_EDIT',
-		'50': 'Next Camera: <input type="number" maxlength="3" autocomplete="off" class="R3_EDIT_TEXT_XYZR" min="0" max="255" step="1" placeholder="0" id="R3_SCD_EDIT_50_id" onkeyup="R3_SCD_FUNCTION_CAM_PREVIEW(\'R3_SCD_EDIT_50_id\', \'R3_SCD_function_50_camPreview\');"><br><div id="R3_SCD_CAMERA_PREVIEW">Camera Preview:<br><br><img id="R3_SCD_function_50_camPreview" class="R3_SCD_EDIT_61_camPreview img-size-60-percent"></div>',
+		'50': 'Next Camera: <input type="number" maxlength="3" autocomplete="off" class="R3_EDIT_TEXT_XYZR" min="0" max="255" step="1" placeholder="0" id="R3_SCD_EDIT_50_id" oninput="R3_SCD_FUNCTION_CAM_PREVIEW(\'R3_SCD_EDIT_50_id\', \'R3_SCD_function_50_camPreview\');"><br><div id="R3_SCD_CAMERA_PREVIEW">Camera Preview:<br><br><img id="R3_SCD_function_50_camPreview" class="R3_SCD_EDIT_61_camPreview img-size-60-percent"></div>',
 		'51': 'NO_EDIT',
 		'52': 'Flag: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_52_flag"></select>',
 		'53': 'The trigger for camera <input type="number" maxlength="3" min="0" max="255" step="1" autocomplete="off" oninput="R3_SCD_FUNCTION_EDIT_updateCutReplace();" onchange="R3_SCD_FUNCTION_EDIT_updateCutReplace();" class="R3_EDIT_TEXT_XYZR" placeholder="0" id="R3_SCD_EDIT_53_prevCamValue"> now will display camera <input type="number" maxlength="3" step="1" min="0" max="255" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="1" oninput="R3_SCD_FUNCTION_EDIT_updateCutReplace();" onchange="R3_SCD_FUNCTION_EDIT_updateCutReplace();" id="R3_SCD_EDIT_53_nextCamValue"><div class="SEPARATOR-2"></div><br><div class="align-center R3_SCD_EDIT_53_prevDiv">Previous Cam<br><img src="#" alt="R3_SCD_PREVIOUS_CAM" id="R3_SCD_EDIT_53_previousCam" class="R3_SCD_EDIT_53_camPreview"></div><div class="R3_SCD_EDIT_53_newArrowDiv"><img src="img/arrowNew.png" alt="newArrow"></div><div class="align-center R3_SCD_EDIT_53_nextDiv">Next Cam<br><img src="#" alt="R3_SCD_NEXT_CAM" id="R3_SCD_EDIT_53_nextCam" class="R3_SCD_EDIT_53_camPreview"></div>',
@@ -2885,6 +2885,7 @@ const R3_internalHoldTime = 2800,
 									 'to use as a novice - but perfect to create new mods, from scratch to final build.<br><br>In case to know what something is / what it does, the best thing to do is hovering your mouse - a popup will show with some explanation about.<br><br>' +
 									 // Keyboard Shortcuts
 									 '<div class="align-center"><font class="LBL_subTitle">Keyboard Shortcuts</font></div><ul>' +
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">F1</font>: Open Help Center</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 1</font>: Open RDT Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 2</font>: Open SCD Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 3</font>: Open MSG Editor</li>' +
@@ -2994,12 +2995,12 @@ const R3_internalHoldTime = 2800,
 						   '<div class="align-center"><img src="img/icons/icon-51.png" class="R3_HC_fnIcon"><br><font class="LBL_subTitle">Export Sections</font></div><br>You can export all sections individually by using export button.<br>It will open a new popup ' +
 						   'with a list with all available sections to extract.<br><br>' +
 						   // SCD Hack
-						   '<div class="align-center"><img src="img/icons/icon-enable-hack.png" class="R3_HC_fnIcon" title="Install SCD Hack"> <img src="img/icons/icon-hack.png" class="R3_HC_fnIcon" title="Apply SCD Hack"><br><font class="LBL_subTitle">SCD Hack</font></div><br>This is a temp hack that was created to test ' +
-						   'some editors, like SCD and MSG.<br>It creates a copy of some sections and move them to the end of the file - since R3V2 does not recompile RDT files... <u>yet</u>!<br><br>' +
-						   'To enable it, click on \"Inst. Hack\" and press ok. It will create a new patched file.<br>To apply, check if the editor haves the \"SCD Hack\" icon. If haves, just click and it ' +
-						   'will patch the map file! You can use <font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + H</font> shortcut to make it quicker!<br><i>(PS: It also works on other editors as well!)</i><br><br>' +
+						   '<div class="align-center"><img src="img/icons/icon-enable-hack.png" class="R3_HC_fnIcon" title="Install SCD Hack"> <img src="img/icons/icon-hack.png" class="R3_HC_fnIcon" title="Apply SCD Hack"><br><font class="LBL_subTitle">SCD Hack</font></div><br>' + 
+						   'This is a temp hack that was created to test some editors, like SCD and MSG.<br>It creates a copy of some sections and move them to the end of file - since R3V2 does not recompile RDT files... <u>yet</u>!<br><br>' +
+						   'To enable it, click on \"Inst. Hack\" and press ok. It will create a new patched file.<br>To apply, check if the editor haves the \"SCD Hack\" icon. If haves, just click and it will patch the map file!<br>' +
+						   'You can use <font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + H</font> shortcut to make it quicker!<br><i>(PS: It also works on other editors as well!)</i><br><br>' +
 						   // Info
-						   '<u><b>WARNING</b></u>: Don\'t run this process on maps that haves enemies or NPC\'S - otherwise it will <u>crash</u> the game!<br><br>', 7],
+						   '<div class="align-center"><u><b>WARNING</b></u>: Don\'t run this process on maps that haves enemies or NPC\'S - otherwise it will <u>crash</u> the game!</div><br>', 7],
 		/*
 			RE3SET Editor
 		*/

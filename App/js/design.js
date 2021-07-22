@@ -26,29 +26,30 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 			Order:
 			Width, Height, Top, Left, Z-index, Status Focus DOM element after opening
 		*/
-		0:  [670,  294,    68,  4,   9999999, false, ''], 							  	   // R3V2 Log
-		1:  [380,  178,    68,  4,    	 100, false, ''], 							  	   // MSG Hex View
-		2:  [700,  130,    68,  4,   9999998, false, ''], 							  	   // Xdelta Patcher
-		3:  [414,  310,    68,  4,    	 100, false, ''], 							  	   // SCD Hex View
-		4:  [210,  560,    68,  726,  	 101, false, ''], 							  	   // SCD Script List
-		5:  [232,  560,    68,  858,  	 101, false, ''], 							  	   // MSG List
-		6:  [860,  342,    68,  4,    	 100, false, ''], 							  	   // RID Editor
-		7:  [392,  178,    44,  138,  	 100, false, ''], 							  	   // MSG Hex Translator
-		8:  [300,  124,    44,  552,  	 104, false, ''], 							  	   // SCD Preset Window
-		9:  [300,  442,    44,  446,  	 103, false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	   // SCD Search Form
-		10: [200,  376,    44,  570,   	 101, false, ''], 							  	   // RDT Export Sections
-		11: [780,  294,    68,  4,    100000, false, ''], 							  	   // R3V2 Help Center
-		12: [540,  410,    226, 466,  	 102, false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
-		13: [640,  480,    68,  4,    999999, false, 'R3_PS1_DISPLAY'],					   // eNGE PS1 Canvas
-		14: [760,  480,    68,  12,      105, false, ''],								   // SCD edit form
-		15: [400,  358,    68,  4, 	  999999, false, 'R3_ITEM_DATABASE_SEARCH'],		   // Item Database
-		16: [220,  88,     44,  444, 	 101, false, 'R3_RDT_timManagerList'],			   // RDT TIM Manager
-		17: [220,  88,     44,  486, 	 102, false, 'R3_RDT_objManagerList'],			   // RDT OBJ Manager
-		18: [680,  434,    68,  4, 	 9999998, false, ''],								   // Backup Manager
-		19: [1194, 620,    68,  4, 	 9999998, false, ''], 								   // RE3 Livestatus
-		20: [416,  482,    44,  4, 		 105, false, 'R3_SCD_DOORLINK_MAP_INPUT'],		   // SCD DoorLink
-		21: [482,  426,    44,  4,   9999998, false, ''],								   // R3V2 Wizard
-		22: [522,  376,    44,  4,   9999999, false, 'R3_UPDATER_CURRENT_BRANCH'],		   // R3V2 Updater
+		0:  [670,  294,    68,  4,   9999999,  false, ''], 							  	    // R3V2 Log
+		1:  [380,  178,    68,  4,    	 100,  false, ''], 							  	    // MSG Hex View
+		2:  [700,  130,    68,  4,   9999998,  false, ''], 							  	    // Xdelta Patcher
+		3:  [414,  310,    68,  4,    	 100,  false, ''], 							  	    // SCD Hex View
+		4:  [210,  560,    68,  726,  	 101,  false, ''], 							  	    // SCD Script List
+		5:  [232,  560,    68,  858,  	 101,  false, ''], 							  	    // MSG List
+		6:  [860,  342,    68,  4,    	 100,  false, ''], 							  	    // RID Editor
+		7:  [392,  178,    44,  138,  	 100,  false, ''], 							  	    // MSG Hex Translator
+		8:  [300,  124,    44,  552,  	 104,  false, ''], 							  	    // SCD Preset Window
+		9:  [300,  442,    44,  446,  	 103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],    // SCD Search Form
+		10: [200,  376,    44,  570,   	 101,  false, ''], 							  	    // RDT Export Sections
+		11: [780,  294,    68,  4,    100000,  false, ''], 							  	    // R3V2 Help Center
+		12: [540,  410,    226, 466,  	 102,  false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
+		13: [640,  480,    68,  4,    999999,  false, 'R3_PS1_DISPLAY'],					// eNGE PS1 Canvas
+		14: [760,  480,    68,  12,      105,  false, ''],								    // SCD edit form
+		15: [400,  358,    68,  4, 	  999999,  false, 'R3_ITEM_DATABASE_SEARCH'],		    // Item Database
+		16: [220,  88,     44,  444, 	 101,  false, 'R3_RDT_timManagerList'],			    // RDT TIM Manager
+		17: [220,  88,     44,  486, 	 102,  false, 'R3_RDT_objManagerList'],			    // RDT OBJ Manager
+		18: [680,  434,    68,  4, 	 9999998,  false, ''],								    // Backup Manager
+		19: [1194, 620,    68,  4, 	 9999998,  false, ''], 								    // RE3 Livestatus
+		20: [416,  482,    44,  4, 		 105,  false, 'R3_SCD_DOORLINK_MAP_INPUT'],		    // SCD DoorLink
+		21: [482,  426,    44,  4,   9999998,  false, ''],								    // R3V2 Wizard
+		22: [522,  376,    44,  4,   9999999,  false, 'R3_UPDATER_CURRENT_BRANCH'],		    // R3V2 Updater
+		23: [350,  438,    44,  4,   9999997,  false, 'R3_OPCODE_FINDER_VALUE']				// SCD Opcode Finder
 	};
 /*
 	Main Consts
@@ -258,6 +259,7 @@ function R3_SHOW_MENU(menuId){
 			};
 			// Main Menu
 			if (menuId !== 4){
+				R3_DESIGN_MINIWINDOW_CLOSE(23);
 				R3_DESIGN_OPEN_CLOSE_LATEST(1);
 				$('#BTN_MAIN_53').css({'display': 'none'});
 				$('#MENU_' + menuId).css({'display': 'block'});
@@ -771,7 +773,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 		if (focusDomName !== '' && document.getElementById(focusDomName) !== null){
 			setTimeout(function(){
 				document.getElementById(R3_MINI_WINDOW_DATABASE[windowId][6]).focus();
-			}, 20);
+			}, 40);
 		};
 		// Close DoorLink if SCD Search Form
 		if (windowId === 9){
@@ -939,13 +941,9 @@ function R3_DESIGN_enableDragElement(elementId){
 		pos4 = e.clientY;
 		finalTop = (elmnt.offsetTop - pos2);
 		finalLeft = (elmnt.offsetLeft - pos1);
-		if (finalTop < 68 && R3_MENU_CURRENT !== 4){
-			finalTop = 68;
-		} else {
-			if (finalTop < 28 && R3_MENU_CURRENT === 4){
-				finalTop = 28;
-			};
-		}
+		if (finalTop < 30){
+			finalTop = 30;
+		};
 		if (finalLeft < 4){
 			finalLeft = 4;
 		};
@@ -993,7 +991,7 @@ function R3_DESIGN_getCssParams(domId){
 		var remPx = function(str){
 				return parseInt(str.replace('px', ''));
 			}, winStyle = document.getElementById(domId).style;
-		return {x: remPx(winStyle.left), y: remPx(winStyle.top), w: remPx(winStyle.width), h: remPx(winStyle.height)};
+		return {x: remPx(winStyle.left), y: remPx(winStyle.top), w: remPx(winStyle.width), h: remPx(winStyle.height), position: winStyle.position};
 	};
 };
 /*
@@ -1142,28 +1140,21 @@ function R3_DESIGN_OPEN_CLOSE_LATEST(mode){
 	Help Center
 */
 function R3_HC_OPEN_PAGE(pageId){
-	var pName;
 	// Display help content
 	if (R3_HC_DATABASE[pageId] !== undefined){
-		pName = R3_HC_DATABASE[pageId][0];
+		var pName = R3_HC_DATABASE[pageId][0];
 		document.getElementById('R3_HC_TITLE_LABEL').innerHTML = R3_HC_DATABASE[pageId][0];
 		document.getElementById('R3_HELP_CENTER_HOLDER').innerHTML = R3_HC_DATABASE[pageId][1];
 		document.getElementById('R3_HELP_CENTER_MINILABEL').innerHTML = R3_HC_DATABASE[pageId][0];
 		document.getElementById('R3_HELP_CENTER_ICON_HOLDER').src = 'img/icons/icon-' + R3_HC_DATABASE[pageId][2] + '.png';
-	} else {
-		pName = '404. Oh well...';
-		document.getElementById('R3_HC_TITLE_LABEL').innerHTML = 'Oh no... (404)';
-		document.getElementById('R3_HELP_CENTER_ICON_HOLDER').src = 'img/404.png';
-		document.getElementById('R3_HELP_CENTER_MINILABEL').innerHTML = '<b>404!</b> <i>Oh No...</i>';
-		document.getElementById('R3_HELP_CENTER_HOLDER').innerHTML = '<div class="align-center"><font class="LBL_title">Oh no!</font><br>Well... Looks like the help page you requested was not found or doesn\'t exists yet!</div>';
+		// Last file opened fix
+		if (R3_MENU_CURRENT === 4 && SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
+			R3_DESIGN_OPEN_CLOSE_LATEST(1);
+		};
+		// End
+		document.getElementById('R3_HELP_CENTER_HOLDER').scrollTop = 0;
+		R3_DESIGN_MINIWINDOW_OPEN(11, 'center');
 	};
-	// Last file opened fix
-	if (R3_MENU_CURRENT === 4 && SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
-		R3_DESIGN_OPEN_CLOSE_LATEST(1);
-	};
-	// End
-	document.getElementById('R3_HELP_CENTER_HOLDER').scrollTop = 0;
-	R3_DESIGN_MINIWINDOW_OPEN(11, 'center');
 };
 /*
 	SCD Editor
@@ -2028,6 +2019,20 @@ function R3_SCD_FUNCTIONEDIT_updateSetTimerCanvas(){
 	};
 };
 /*
+	Open SCD Opcode Finder
+	This tool can find all locations for all SCD opcodes inside RE3
+*/
+function R3_SCD_openOpcodeFinder(){
+	if (R3_WEBMODE === false && APP_ENABLE_MOD === true && R3_MENU_CURRENT === 4){
+		R3_MENU_EXIT();
+		R3_UTILS_VAR_CLEAN();
+		document.getElementById('R3_OPCODE_FINDER_opName').innerHTML = '';
+		document.getElementById('R3_OPCODE_FINDER_RESULT').innerHTML = '';
+		document.getElementById('R3V2_TITLE_SCD_OPCODE_FINDER').innerHTML = 'SCD Opcode Finder';
+		R3_DESIGN_MINIWINDOW_OPEN(23, 'center');
+	};
+};
+/*
 	MSG Editor
 */
 // Open Translator
@@ -2129,6 +2134,9 @@ function R3_RDT_openNextPrevMap(mode){
 };
 // Reset Interface
 function R3_RDT_DESIGN_resetInterface(){
+	if (R3_DOORLINK_RUNNING === false && R3_MINI_WINDOW_DATABASE[23][5] === true){
+		R3_DESIGN_MINIWINDOW_CLOSE(23);
+	};
 	$('#R3_RDT_GENERAL_IMG').css({'left': '-4%', 'display': 'none'});
 	$('#R3_RDT_MENU_GENERAL_INFOS').css({'left': '52%', 'display': 'none'});
 };
@@ -2932,6 +2940,7 @@ function R3_DESIGN_CLEAN_SCD(){
 	document.getElementById('R3_SCD_HEX_RAW').innerHTML = '';
 	document.getElementById('R3_SCD_SCRIPT_INNER').innerHTML = '';
 	document.getElementById('R3_SCD_SCRIPT_LISTS').innerHTML = '';
+	document.getElementById('R3_OPCODE_FINDER_SEARCH').value = '';
 	document.getElementById('R3_SCD_ID_LIST_HOLDER').innerHTML = '';
 	document.getElementById('R3_SCD_LBL_hexLength').innerHTML = '00';
 	document.getElementById('R3_SCD_LBL_TOTALFUNCTIONS').innerHTML = '0';

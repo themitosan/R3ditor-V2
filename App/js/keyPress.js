@@ -142,6 +142,14 @@ document.addEventListener('keyup', function(kp){
 			};
 			// Commands not available on web vesion
 			if (R3_WEBMODE === false){
+				// Open Help Center [F1]
+				if (kp.keyCode === 112){
+					R3_HC_OPEN_PAGE(R3_MENU_CURRENT);
+				};
+				// Open SCD Opcode Finder [Main Menu, CTRL + SHIFT + F]
+				if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === true && kp.keyCode === 70){
+					R3_SCD_openOpcodeFinder();
+				};
 				// Open log window [CTRL + SHIFT + L]
 				if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === true && kp.keyCode === 76){
 					R3_DESIGN_MINIWINDOW_OPEN(0);

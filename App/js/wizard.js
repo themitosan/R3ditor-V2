@@ -10,10 +10,7 @@ var R3_WIZARD_RUNNING = false,
 	R3_WIZARD_SET_RE3_PATH = true,
 	R3_WIZARD_SET_MERCE_PATH = true,
 	R3_WIZARD_ENABLE_DOORLINK = true,
-	R3_WIZARD_REPLACE_WARN = true,
-	// DoorLink variables
-	R3_DOORLINK_DATABASE = {},
-	R3_DOORLINK_RUNNING = false;
+	R3_WIZARD_REPLACE_WARN = true;
 /*
 	Wizard functions
 */
@@ -165,85 +162,5 @@ function R3_WIZARD_FINISH(){
 		R3_LOAD_SETTINGS();
 		R3_RDT_FILELIST_UPDATELIST();
 		R3_WIZARD_RUNNING = false;
-	};
-};
-/*
-	DoorLink Functions
-*/
-// Check if DoorLink database exists
-function R3_DOORLINK_CHECK(){
-	if (R3_WEBMODE === false && R3_NW_ARGS_DISABLE_DOORLINK === false){
-		if (APP_FS.existsSync(APP_PATH + '/Configs/DoorLink.R3V2') === true){
-			R3_DOORLINK_DATABASE = JSON.parse(atob(APP_FS.readFileSync(APP_PATH + '/Configs/DoorLink.R3V2', 'utf-8')));
-		} else {
-			if (APP_ENABLE_MOD === true){
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: DoorLink database is missing!');
-			} else {
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to load DoorLink database!');
-			};
-		};
-	};
-};
-// Generate DoorLink Database
-function R3_DOORLINK_INIT(){
-	if (R3_WEBMODE === false && APP_ENABLE_MOD === true && R3_NW_ARGS_DISABLE_DOORLINK === false){
-		var cLocation, fName, tmpRes, fileList, tempDoorList, tempDoorList4P, tempList = {};
-		if (R3_DESIGN_LOADING_ACTIVE === true){
-			R3_UTILS_LOADING_UPDATE('R3ditor V2 is generating DoorLink database - Please wait...', 96);
-		};
-		R3_SYSTEM_LOG('separator');
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (DoorLink) Starting reading process - Please Wait...');
-		try {
-			R3_DOORLINK_RUNNING = true;
-			fileList = APP_FS.readdirSync(APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
-			fileList.forEach(function(cFile, cIndex){
-				if (R3_getFileExtension(cFile).toLowerCase() === 'rdt'){
-					cLocation = APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
-					fName = R3_getFileName(cFile).toUpperCase();
-					// Start this madness
-					R3_RDT_LOAD(cLocation, false, APP_FS.readFileSync(cLocation, 'hex'));
-					R3_UTILS_VAR_CLEAN_SCD();
-					SCD_arquivoBruto = R3_RDT_RAWSECTION_SCD;
-					R3_SCD_START_DECOMPILER(R3_RDT_RAWSECTION_SCD);
-					// Set Door [DOOR_AOT_SET]
-					tempDoorList = R3_SCD_SEARCH_SCRIPT_FUNCTION('61', true);
-					if (tempDoorList !== undefined){
-						tempDoorList.forEach(function(lItem, lIndex){
-							tmpRes = R3_SCD_getDoorParams(0, lItem[0], lItem[1]);
-							if (tempList[tmpRes[0]] === undefined){
-								tempList[tmpRes[0]] = [];
-							};
-							tempList[tmpRes[0]].push(tmpRes);
-						});
-					};
-					// Set Door 4P [DOOR_AOT_SET_4P]
-					tempDoorList4P = R3_SCD_SEARCH_SCRIPT_FUNCTION('62', true);
-					if (tempDoorList4P !== undefined){
-						tempDoorList4P.forEach(function(lItem, lIndex){
-							tmpRes = R3_SCD_getDoorParams(1, lItem[0], lItem[1]);
-							if (tempList[tmpRes[0]] === undefined){
-								tempList[tmpRes[0]] = [];
-							};
-							tempList[tmpRes[0]].push(tmpRes);
-						});
-					};
-				} else {
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - INFO: (DoorLink) Skipping file ' + cIndex + ' - this isn\'t a valid map!');
-				};
-			});
-			// End
-			APP_FS.writeFileSync(APP_PATH + '/Configs/DoorLink.R3V2', btoa(JSON.stringify(tempList)), 'utf-8');
-			R3_DOORLINK_DATABASE = tempList;
-			R3_DOORLINK_RUNNING = false;
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (DoorLink) Process complete!');
-			// If are running on wizard, wrap end it!
-			if (R3_WIZARD_RUNNING === true){
-				R3_WIZARD_FINISH();
-			};
-		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to execute DoorLink process! <br>Reason: ' + err);
-			R3_DESIGN_CRITIAL_ERROR(err);
-			console.error(err);
-		};
 	};
 };

@@ -573,6 +573,20 @@
 					</div>
 				</div>
 			</div>
+			<!-- R3V2 - SCD Opcode Finder -->
+			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_23" id="R3V2_MINI_WINDOW_23">
+				<div id="R3V2_MINI_WINDOW_23_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+					<font id="R3V2_TITLE_SCD_OPCODE_FINDER">SCD Opcode Finder</font>
+					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(23);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+				</div>
+				<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
+					<input type="text" maxlength="2" id="R3_OPCODE_FINDER_SEARCH" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DOORLINK_SEARCH();"><br>
+				</div>
+				<div class="R3_OPCODE_FINDER_VALUE" id="R3_OPCODE_FINDER_opName"></div>
+				<div class="R3_OPCODE_FINDER_RESULT" id="R3_OPCODE_FINDER_RESULT">
+					<!-- Opcode List Goes Here -->					
+				</div>
+			</div>
 			<!-- Recent File -->
 			<div class="R3_LATEST_FILE_DIV" id="R3_LATEST_FILE_DIV">
 				<div class="R3_LATEST_FILE_TITLE">
@@ -635,6 +649,12 @@
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_ADD" title="Click here to add a new script" onclick="R3_SCD_SCRIPT_ADD();">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_REMOVE" title="Click here to delete the current script" onclick="R3_SCD_SCRIPT_REMOVE();">
 					</div>
+					<!-- Script Navigation -->
+					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
+						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_28" title="Click here to open script list" onclick="R3_DESIGN_MINIWINDOW_OPEN(4);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_PREV" title="Click here to load previous script" onclick="R3_SCD_SKIPSCRIPT(0);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_NEXT" title="Click here to load next script" onclick="R3_SCD_SKIPSCRIPT(1);">
+					</div>
 					<!-- Script Utility -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR" id="R3_SUBMENU_BUTTONS_COPYPASTE">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_54" title="Click here to open a list with all functions ID's" onclick="R3_DESIGN_MINIWINDOW_OPEN(12, 'center');">
@@ -644,12 +664,6 @@
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_42" title="Click here to insert a hex function" onclick="R3_SCD_INSERT_HEX();">
 						<input type="button" class="BTN_ICON_BASE none" id="BTN_MAIN_52" title="Click here to preview SCD hex code" onclick="R3_SCD_FUNCTION_APPLY(false, undefined, false, true);">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_45" title="Click here to open preset window" onclick="R3_DESIGN_MINIWINDOW_OPEN(8);">
-					</div>
-					<!-- Script Navigation -->
-					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_28" title="Click here to open script list" onclick="R3_DESIGN_MINIWINDOW_OPEN(4);">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_PREV" title="Click here to load previous script" onclick="R3_SCD_SKIPSCRIPT(0);">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_NEXT" title="Click here to load next script" onclick="R3_SCD_SKIPSCRIPT(1);">
 					</div>
 					<!-- Import / Export Scripts -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
@@ -910,7 +924,7 @@
 					</div>
 					<!-- Search Form -->
 					<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM R3_SCD_SEARCH_SCD_SCRIPT_FORM_LBL_FIX">
-						<input type="text" minlength="0" maxlength="2" id="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" placeholder="Insert SCD Opcode Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" onkeyup="R3_SCD_SEARCH_SCRIPT_FUNCTION();">
+						<input type="text" maxlength="2" id="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" placeholder="Insert SCD Opcode Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" onkeyup="R3_SCD_SEARCH_SCRIPT_FUNCTION();">
 						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_PREV_BTN" value="<" title="Click here to go to previous function (Hold [ALT] to open current function)" onclick="R3_DESIGN_navigateResultFromSearchForm(0);">
 						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_NEXT_BTN" value=">" title="Click here to go to next function (Hold [ALT] to open current function)" onclick="R3_DESIGN_navigateResultFromSearchForm(1);"><br>
 						<div class="align-center"><font id="R3_LBL_SCD_SEARCH_FUNCTION_OPCODE" class="monospace no-bg-image"></font></div>
@@ -935,7 +949,7 @@
 					<div class="R3_TAB_MENU" id="R3_MENU_1_0">
 						<!-- ID List -->
 						<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
-							<input type="text" minlength="0" maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST(event, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT', 'R3_SCD_ID_FUNCTION_', 'R3_SCD_ID_LIST_HOLDER', 'R3_SCD_SEARCH_SCD_ID_RESULT');">
+							<input type="text" maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST(event, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT', 'R3_SCD_ID_FUNCTION_', 'R3_SCD_ID_LIST_HOLDER', 'R3_SCD_SEARCH_SCD_ID_RESULT');">
 						</div>
 						<!-- ID List List -->
 						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG" id="R3_SCD_ID_LIST_HOLDER">
@@ -949,7 +963,7 @@
 					<!-- Set 3D Object List -->
 					<div class="R3_TAB_MENU none" id="R3_MENU_1_1">
 						<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
-							<input type="text" minlength="0" maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OM_INPUT" placeholder="Insert Object ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST(event, 'R3_SCD_SEARCH_SCD_ID_OM_INPUT', 'R3_SCD_OM_FUNCTION_', 'R3_SCD_ID_LIST_HOLDER_OM_SET', 'R3_SCD_SEARCH_SCD_OM_RESULT');">
+							<input type="text"maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OM_INPUT" placeholder="Insert Object ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST(event, 'R3_SCD_SEARCH_SCD_ID_OM_INPUT', 'R3_SCD_OM_FUNCTION_', 'R3_SCD_ID_LIST_HOLDER_OM_SET', 'R3_SCD_SEARCH_SCD_OM_RESULT');">
 						</div>
 						<!-- ID List List -->
 						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG" id="R3_SCD_ID_LIST_HOLDER_OM_SET">
@@ -1682,6 +1696,7 @@
 				<script type="text/javascript" src="js/index.js"></script>
 				<script type="text/javascript" src="js/utils.js"></script>
 				<script type="text/javascript" src="js/wizard.js"></script>
+				<script type="text/javascript" src="js/doorlink.js"></script>
 				<script type="text/javascript" src="js/livestatus.js"></script>
 				<script type="text/javascript" src="js/configs.js"></script>
 				<script type="text/javascript" src="js/keyPress.js"></script>
