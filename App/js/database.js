@@ -2896,6 +2896,7 @@ const R3_internalHoldTime = 2800,
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + I</font>: Open Item Database</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + B</font>: Open Backup Manager</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + E</font>: Close current tool <i>(Can be disabled on settins)</i></li>' +
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + F</font>: Open SCD Opcode Finder <i>(Main menu - Only available on desktop version)</i></li></ul><br>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + R</font>: Reload</li></ul><br>' +
 									 // Backup Manager
 									 '<div class="align-center"><img src="img/icons/icon-backup.png" class="R3_HC_fnIcon" title="Backup Manager"><br><font class="LBL_subTitle">Backup Manager</font></div><br>' +
