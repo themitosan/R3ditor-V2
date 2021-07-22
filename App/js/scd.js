@@ -605,7 +605,7 @@ function R3_SCD_usePreset(presetId){
 function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 	try {
 		R3_SCD_SCRIPTS_LIST[pointerPos] = [];
-		var c = d = cFunction = 0, TEMP_SCD_READ = TEMP_SCD_SETTINGS = HTML_INIT_SCRIPT_TEMP = INIT_TEXT = '', END_SCRIPT = false;
+		var c = d = cFunction = 0, TEMP_SCD_READ = TEMP_SCD_SETTINGS = HTML_INIT_SCRIPT_TEMP = INIT_TEXT = scriptOff = textLabel = '', END_SCRIPT = false;
 		TEMP_SCD_READ = SCD_RAW.slice(R3_parseHexLengthToString(R3_SCD_POINTERS[pointerPos])).match(/.{2,2}/g);
 		if (debugLog === true){
 			R3_SYSTEM_LOG('separator');
@@ -659,12 +659,12 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 				END_SCRIPT = true;
 			};
 		};
-		// Append script to list
+		textLabel = 'Script ' + pointerPos;
 		if (pointerPos === 0){
-			HTML_INIT_SCRIPT_TEMP = '<div class="R3_SCRIPT_LIST_ITEM" id="R3_SCD_SCRIPT_ID_' + pointerPos + '">INIT Script<input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="Load Script" onclick="R3_SCD_displayScript(' + pointerPos + ');"></div>';
-		} else {
-			HTML_INIT_SCRIPT_TEMP = '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SCRIPT_ID_' + pointerPos + '">Script ' + pointerPos + '<input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="Load Script" onclick="R3_SCD_displayScript(' + pointerPos + ');"></div>';
+			textLabel = 'INIT Script';
 		};
+		HTML_INIT_SCRIPT_TEMP = '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SCRIPT_ID_' + pointerPos + '"><div class="R3_SCD_SCRIPT_LIST_ACTIVE" id="R3_SCD_SCRIPT_LIST_ACTIVE_' + pointerPos + '">' +
+								'</div>' + textLabel + '<input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="Load Script" onclick="R3_SCD_displayScript(' + pointerPos + ');"></div>';
 		$('#R3_SCD_SCRIPT_LISTS').append(HTML_INIT_SCRIPT_TEMP);
 	} catch (err) {
 		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to generate script list!');

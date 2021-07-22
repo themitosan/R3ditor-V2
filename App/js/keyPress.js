@@ -415,30 +415,34 @@ document.addEventListener('keyup', function(kp){
 						R3_MSG_RECOMPILE(0);
 					};
 				};
-				// Swap Bar Pos [F1]
-				if (kp.keyCode === 112 && R3_KEYUP_TOOGLE_TIMEOUT !== true && RE3_RUNNING !== false){
+				// Swap Bar Pos [F3]
+				if (kp.keyCode === 114 && R3_KEYUP_TOOGLE_TIMEOUT !== true && RE3_RUNNING !== false){
 					R3_LIVESTATUS_BAR_TOGGLEPOS();
+				};
+				// Open RE3 Livestatus [F4]
+				if (kp.keyCode === 115 && R3_KEYUP_TOOGLE_TIMEOUT !== true && RE3_RUNNING !== false){
+					R3_LIVESTATUS_OPEN_MENU();
 				};
 				// Run Game
 				if (RE3_RUNNING !== true){
-					// F5: Run RE3
+					// [F5]: Run RE3
 					if (kp.keyCode === 118){
 						R3_runGame(0);
 					};
-					// F6: Run MERCE
+					// [F6]: Run MERCE
 					if (kp.keyCode === 119){
 						R3_runGame(1);
 					};
-					// F7: Run RE3 (MOD)
+					// [F7]: Run RE3 (MOD)
 					if (kp.keyCode === 116){
 						R3_runGame(2);
 					};
-					// F8: Run MERCE (MOD)
+					// [F8]: Run MERCE (MOD)
 					if (kp.keyCode === 117){
 						R3_runGame(3);
 					};
 				};
-				// F9: Go to title screen
+				// [F9]: Go to title screen
 				if (kp.keyCode === 120 && RE3_RUNNING === true){
 					R3_LIVESTATUS_gotoTitleScreen();
 				};

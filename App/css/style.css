@@ -398,7 +398,7 @@ blockquote {
     padding: 6px;
     cursor: pointer;
     margin-top: 2px;
-    border-radius: 2px;
+    border-radius: 6px;
     margin-bottom: 2px;
     text-align: center;
     text-align: -moz-center;
@@ -975,6 +975,13 @@ blockquote {
     SCD Editor
 */
 /* Edit Form */
+.R3_SCD_SCRIPT_LIST_ACTIVE {
+    float: left;
+    width: 10px;
+    height: 10px;
+    margin-top: 8.8px;
+    border-radius: 6px;
+}
 .R3_SCD_SCRIPT_ACTIVE {
     top: 12.8px;
     width: 20px;
@@ -1358,6 +1365,8 @@ blockquote {
     padding-right: 2px;
     margin-bottom: 4px;
     padding-bottom: 0px;
+    font-family: mSpace;
+    font-size: 14px;
     background-image: linear-gradient(to bottom, #da0606, #6f0000);
 }
 .R3_SCRIPT_LIST_ITEM_SELECT {

@@ -30,15 +30,15 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		1:  [380,  178,    68,  4,    	 100,  false, ''], 									// MSG Hex View
 		2:  [700,  130,    68,  4,   9999998,  false, ''], 									// Xdelta Patcher
 		3:  [414,  310,    68,  4,    	 100,  false, ''], 									// SCD Hex View
-		4:  [210,  560,    44,  370,  	 101,  false, ''], 									// SCD Script List
+		4:  [252,  560,    44,  426,  	 101,  false, ''], 									// SCD Script List
 		5:  [232,  560,    68,  858,  	 101,  false, ''], 									// MSG List
 		6:  [860,  342,    68,  4,    	 100,  false, ''], 									// RID Editor
 		7:  [392,  178,    44,  138,  	 100,  false, ''], 									// MSG Hex Translator
-		8:  [300,  124,    44,  672,  	 104,  false, ''], 									// SCD Preset Window
-		9:  [300,  442,    44,  518,  	 103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	// SCD Search Form
+		8:  [300,  124,    44,  744,  	 104,  false, ''], 									// SCD Preset Window
+		9:  [300,  442,    44,  586,  	 103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	// SCD Search Form
 		10: [200,  376,    44,  570,   	 101,  false, ''],									// RDT Export Sections
 		11: [780,  294,    68,  4,    100000,  false, ''],									// R3V2 Help Center
-		12: [540,  410,    226, 466,  	 102,  false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
+		12: [580,  410,    226, 466,  	 102,  false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
 		13: [640,  480,    68,  4,    999999,  false, 'R3_PS1_DISPLAY'],					// eNGE PS1 Canvas
 		14: [760,  480,    68,  12,      105,  false, ''],									// SCD edit form
 		15: [400,  358,    68,  4, 	  999999,  false, 'R3_ITEM_DATABASE_SEARCH'],			// Item Database
@@ -1121,8 +1121,8 @@ function R3_DESIGN_OPEN_CLOSE_LATEST(mode){
 			// 0 = Open, 1 = Close
 			if (mode === 0 && R3_MENU_CURRENT === 4){
 				if (R3_ENABLE_ANIMATIONS === true){
-					$('#R3_LATEST_FILE_DIV').animate({'left': '-46px'}, {duration: 88, queue: false});
-					$('#R3_LATEST_FILE_DIV').fadeIn({duration: 88, queue: false});
+					$('#R3_LATEST_FILE_DIV').animate({'left': '-46px'}, {duration: 50, queue: false});
+					$('#R3_LATEST_FILE_DIV').fadeIn({duration: 50, queue: false});
 				} else {
 					$('#R3_LATEST_FILE_DIV').css({'left': '-46px', 'display': 'block'});	
 				};
@@ -1131,8 +1131,8 @@ function R3_DESIGN_OPEN_CLOSE_LATEST(mode){
 				}, 90);
 			} else {
 				if (R3_ENABLE_ANIMATIONS === true){
-					$('#R3_LATEST_FILE_DIV').animate({'left': '-210px'}, {duration: 70, queue: false});
-					$('#R3_LATEST_FILE_DIV').fadeOut({duration: 70, queue: false});
+					$('#R3_LATEST_FILE_DIV').animate({'left': '-210px'}, {duration: 40, queue: false});
+					$('#R3_LATEST_FILE_DIV').fadeOut({duration: 40, queue: false});
 				} else {
 					$('#R3_LATEST_FILE_DIV').css({'left': '-210px', 'display': 'none'});
 				};
@@ -1174,6 +1174,17 @@ function R3_SCD_renderScriptActiveStatus(){
 			document.getElementById('R3_SCD_SCRIPT_ACTIVE').title = 'This script is not active';
 			$('#R3_SCD_SCRIPT_ACTIVE').css({'background-image': 'linear-gradient(to bottom, #000, #444)', 'box-shadow': 'none'});
 		};
+		Object.keys(R3_SCD_SCRIPTS_LIST).forEach(function(cItem){
+			if (document.getElementById('R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem) !== null){
+				if (R3_SCD_SCRIPT_ACTIVE_LIST[parseInt(cItem)] === true){
+					document.getElementById('R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem).title = 'This script is active';
+					$('#R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem).css({'box-shadow': '0px 0px 6px #000', 'background-image': 'linear-gradient(to bottom, #0f0, #0a0)'});
+				} else {
+					document.getElementById('R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem).title = 'This script is not active';
+					$('#R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem).css({'box-shadow': 'none', 'background-image': 'linear-gradient(to bottom, #000, #444)'});
+				};
+			};
+		});
 	};
 };
 // Render SCD DoorLink
@@ -2467,9 +2478,9 @@ function R3_DESIGN_RID_seekCamera(mode){
 */
 // Open RE3 Livestatus Menu
 function R3_LIVESTATUS_OPEN_MENU(){
-	if (R3_WEBMODE === false){
+	if (R3_WEBMODE === false && RE3_RUNNING === true){
 		R3_DESIGN_SHOWTABS(0, 0);
-		R3_DESIGN_MINIWINDOW_OPEN(19, 'center');
+		R3_DESIGN_MINIWINDOW_OPEN(19);
 	};
 };
 function R3_LIVESTATUS_OPEN_BAR(){
@@ -2548,11 +2559,10 @@ function R3_LIVETSTATUS_RENDER(){
 		Bars
 	*/
 	// Var Cleaning
-	var c = f = 0, ext, checkPos, checkPlayer, currentInventory, R3_PLAYER_POS;
+	var c = f = 0, ext = 'RDT' checkPos, checkPlayer, currentInventory, R3_PLAYER_POS;
 	// Map Values
 	if (RE3_LIVE_MAP !== REALTIME_CurrentRDT || R3_LIVESTATUS_FORCE_RENDER === true){
 		if (RDT_locations[REALTIME_CurrentRDT] !== undefined){
-				ext = 'RDT';
 			if (R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === true){
 				ext = 'ARD';
 			};
