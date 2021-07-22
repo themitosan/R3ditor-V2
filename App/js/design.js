@@ -773,11 +773,11 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 			$('#R3V2_MINI_WINDOW_' + windowId).css({'display': 'block'});
 		};
 		// Focus element
-		focusDomName = R3_MINI_WINDOW_DATABASE[windowId][5];
+		focusDomName = R3_MINI_WINDOW_DATABASE[windowId][6];
 		if (focusDomName !== '' && document.getElementById(focusDomName) !== null){
 			setTimeout(function(){
 				document.getElementById(R3_MINI_WINDOW_DATABASE[windowId][6]).focus();
-			}, 40);
+			}, 30);
 		};
 		// Close DoorLink if SCD Search Form
 		if (windowId === 9){

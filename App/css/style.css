@@ -1480,8 +1480,8 @@ blockquote {
 .R3_SCD_ID_LIST_ITEM {
     margin-top: 0px;
     text-align: left;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
     color: #fff !important;
     text-align: -webkit-left;
 }
