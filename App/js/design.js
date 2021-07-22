@@ -2559,7 +2559,7 @@ function R3_LIVETSTATUS_RENDER(){
 		Bars
 	*/
 	// Var Cleaning
-	var c = f = 0, ext = 'RDT' checkPos, checkPlayer, currentInventory, R3_PLAYER_POS;
+	var c = f = 0, ext = 'RDT', checkPos, checkPlayer, currentInventory, R3_PLAYER_POS;
 	// Map Values
 	if (RE3_LIVE_MAP !== REALTIME_CurrentRDT || R3_LIVESTATUS_FORCE_RENDER === true){
 		if (RDT_locations[REALTIME_CurrentRDT] !== undefined){
