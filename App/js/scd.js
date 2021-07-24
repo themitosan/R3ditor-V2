@@ -1817,8 +1817,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 							FADE_colorM   = cFunction.slice(R3_SCD_DEC_DB.colorM[0], R3_SCD_DEC_DB.colorM[1]),
 							FADE_colorC   = cFunction.slice(R3_SCD_DEC_DB.colorC[0], R3_SCD_DEC_DB.colorC[1]),
 							FADE_duration = cFunction.slice(R3_SCD_DEC_DB.duration[0], R3_SCD_DEC_DB.duration[1]);
-						tempScriptCode = tempCode + FADE_id.toUpperCase() + ', ' + FADE_unk0.toUpperCase() + ', ' + FADE_type.toUpperCase() + ', ' + FADE_colorB.toUpperCase() + ', ' + FADE_colorG.toUpperCase() + ', ' + 
-										 FADE_colorR.toUpperCase() + ', ' + FADE_colorY.toUpperCase() + ', ' + FADE_colorM.toUpperCase() + ', ' + FADE_colorC.toUpperCase() + ', ' + FADE_duration.toUpperCase();
+						tempScriptCode = tempCode + '\'' + FADE_id.toUpperCase() + '\', \'' + FADE_unk0.toUpperCase() + '\', \'' + FADE_type.toUpperCase() + '\', \'' + FADE_colorB.toUpperCase() + '\', \'' + FADE_colorG.toUpperCase() + '\', \'' + 
+										 FADE_colorR.toUpperCase() + '\', \'' + FADE_colorY.toUpperCase() + '\', \'' + FADE_colorM.toUpperCase() + '\', \'' + FADE_colorC.toUpperCase() + '\', \'' + FADE_duration.toUpperCase() + '\'';
 					};
 					// Char Trigger [WORK_SET]
 					if (cOpcode === '47'){
@@ -3032,7 +3032,6 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				if (cOpcode === '7f'){
 					$('#R3_SCD_EDIT_7f_AOT').append(INCLUDE_EDIT_SCD_OM_SET_TYPE);
 					$('#R3_SCD_EDIT_7f_colType').append(INCLUDE_EDIT_SCD_OM_SET_COL_TYPE);
-					$('#R3_SCD_EDIT_7f_setColission').append(INCLUDE_EDIT_SCD_OM_SET_COL_SHAPE);
 					document.getElementById('R3_SCD_EDIT_7f_id').value = R3_SCD_getFreeIdForFunction(1);
 					document.getElementById('R3_SCD_EDIT_7f_setColission').value = '60';
 					document.getElementById('R3_SCD_EDIT_7f_beFlag').value = 'ff';
@@ -4026,7 +4025,6 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			if (cOpcode === '7f'){
 				$('#R3_SCD_EDIT_7f_AOT').append(INCLUDE_EDIT_SCD_OM_SET_TYPE);
 				$('#R3_SCD_EDIT_7f_colType').append(INCLUDE_EDIT_SCD_OM_SET_COL_TYPE);
-				$('#R3_SCD_EDIT_7f_setColission').append(INCLUDE_EDIT_SCD_OM_SET_COL_SHAPE);
 				var OM_id  		= cFunction.slice(R3_SCD_DEC_DB.objId[0], R3_SCD_DEC_DB.objId[1]),
 					OM_AOT 		= cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
 					OM_moveType = cFunction.slice(R3_SCD_DEC_DB.moveType[0], R3_SCD_DEC_DB.moveType[1]),
@@ -4867,7 +4865,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			OM_setFlag  = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_7f_setFlag').value, 2),
 			OM_beFlag   = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_7f_beFlag').value, 2),
 			OM_boolType = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_7f_boolType').value, 2),
-			OM_setCol   = document.getElementById('R3_SCD_EDIT_7f_setColission').value,
+			OM_setCol   = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_7f_setColission').value, 2),
 			OM_visib 	= MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_7f_visibility').value, 2),
 			OM_colType  = document.getElementById('R3_SCD_EDIT_7f_colType').value,
 			OM_posX 	= MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_7f_xPos').value, 4),

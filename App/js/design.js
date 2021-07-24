@@ -35,7 +35,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		6:  [860,  342,    68,  4,    	 100,  false, ''], 									// RID Editor
 		7:  [392,  178,    44,  138,  	 100,  false, ''], 									// MSG Hex Translator
 		8:  [300,  124,    44,  744,  	 104,  false, ''], 									// SCD Preset Window
-		9:  [300,  442,    44,  586,  	 103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	// SCD Search Form
+		9:  [310,  442,    44,  586,  	 103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	// SCD Search Form
 		10: [200,  376,    44,  570,   	 101,  false, ''],									// RDT Export Sections
 		11: [780,  294,    68,  4,    100000,  false, ''],									// R3V2 Help Center
 		12: [580,  410,    226, 466,  	 102,  false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
@@ -49,7 +49,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		20: [416,  482,    44,  4, 		 105,  false, 'R3_SCD_DOORLINK_MAP_INPUT'],			// SCD DoorLink
 		21: [482,  426,    44,  4,   9999998,  false, ''],									// R3V2 Wizard
 		22: [522,  376,    44,  4,   9999999,  false, 'R3_UPDATER_CURRENT_BRANCH'],			// R3V2 Updater
-		23: [350,  438,    44,  4,   9999997,  false, 'R3_OPCODE_FINDER_VALUE']				// SCD Opcode Finder
+		23: [350,  438,    44,  4,   9999997,  false, 'R3_OPCODE_FINDER_SEARCH']			// SCD Opcode Finder
 	};
 /*
 	Main Consts

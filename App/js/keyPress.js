@@ -261,6 +261,10 @@ document.addEventListener('keyup', function(kp){
 						R3_SCD_SAVE_JS_FILE();
 					};
 				};
+				// SCD - Open Script List [CTRL + L]
+				if (R3_MENU_CURRENT === 9 && R3_KEYPRESS_SHIFT === false && R3_KEYPRESS_CONTROL === true && kp.keyCode === 76){
+					R3_DESIGN_MINIWINDOW_OPEN(4);
+				};
 				// SCD - Navigation Shortcuts
 				if (R3_MENU_CURRENT === 9 && R3_SCD_IS_EDITING === false && R3_KEYPRESS_CONTROL === true){
 					// Compile JS SCD Script [CTRL + R]

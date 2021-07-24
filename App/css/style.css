@@ -1096,7 +1096,7 @@ blockquote {
 }
 .R3_SCD_SEARCH_SCD_SCRIPT_INPUT {
     color: #0f0;
-    width: 236px;
+    width: 250px;
     border: none;
     outline: none;
     font-size: 14px;
@@ -1259,7 +1259,7 @@ blockquote {
     text-transform: uppercase;
 }
 .R3_SCD_COLOR_FADE_SET_SCRIPT_LIST {
-    width: 32px;
+    width: 44px;
     right: 170px;
     height: 32px;
     margin-top: -34px;
