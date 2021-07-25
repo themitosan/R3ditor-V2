@@ -51,7 +51,7 @@ Download Link: [ <a target="_blank" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0
 * NW.js (aka. Node-Webkit) by NW.js community
 
 ### External JS Apps / Plugins:
-* jQuery and jQuery UI by The jQuery Foundation
+* TMS.js by TheMitoSan
 * eNGE by Reene-Kootstra
 
 ### NW.js Plugins:

@@ -131,13 +131,13 @@ TMS['enableElement'] = function(elementId){
 };
 /*
 	Scroll top
-	Usage: elementObject = {HTML_DOM_ID_0: scrollInt, HTML_DOM_ID_1: scrollInt2} and goes on
+	Usage: elementObjects = {HTML_DOM_ID_0: scrollInt, HTML_DOM_ID_1: scrollInt2} and goes on
 */
-TMS['scrollTop'] = function(elementObject){
-	Object.keys(elementObject).forEach(function(cItem){
+TMS['scrollTop'] = function(elementObjects){
+	Object.keys(elementObjects).forEach(function(cItem){
 		const elId = document.getElementById(cItem);
 		if (elId !== null){
-			elId.scrollTop = elementObject[cItem];
+			elId.scrollTop = elementObjects[cItem];
 		} else {
 			TMS.warn('TMS - Unable to scroll element because it does not exist! (' + elementId + ')');
 		};

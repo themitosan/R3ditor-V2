@@ -481,7 +481,9 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		R3_RDT_FILELIST_UPDATELIST();
 		R3_DOORLINK_CHECK();
 		R3_DESIGN_ADJUST();
-		R3_GOTO_MAIN();
+		setTimeout(function(){
+			R3_GOTO_MAIN();
+		}, 1400);
 	};
 };
 // Post-boot action

@@ -858,7 +858,7 @@ function R3_DESIGN_MINIWINDOW_MAXIMIZE(windowId){
 		} else {
 			TMS.css('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId, {'display': 'none'});
 			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
-			TMS.animate('R3V2_MINI_WINDOW_' + windowId, {'top': '44px', 'left': '4px'}, 90, 'cubic-bezier(0, 1.06, 0, 1.02)');
+			TMS.animate('R3V2_MINI_WINDOW_' + windowId, {'top': '44px', 'left': '4px'}, 100, 'cubic-bezier(0, 1, 0, 1)');
 		};
 		// Clear Log fix
 		if (windowId === 0){
