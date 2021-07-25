@@ -1100,7 +1100,7 @@ function R3_DESIGN_OPEN_CLOSE_LATEST(mode){
 				if (R3_ENABLE_ANIMATIONS === false){
 					TMS.css('R3_LATEST_FILE_DIV', {'display': 'block'});
 				} else {
-					TMS.animate('R3_LATEST_FILE_DIV', {'opacity': '1',  'left': '-44px'}, 200);
+					TMS.animate('R3_LATEST_FILE_DIV', {'display': 'block', 'opacity': '1', 'left': '-44px'}, 200);
 				};
 				setTimeout(function(){
 					document.getElementById('R3_BTN_LATEST_FILE').focus();
@@ -1109,7 +1109,7 @@ function R3_DESIGN_OPEN_CLOSE_LATEST(mode){
 				if (R3_ENABLE_ANIMATIONS === false){
 					TMS.css('R3_LATEST_FILE_DIV', {'display': 'none'});
 				} else {
-					TMS.animate('R3_LATEST_FILE_DIV', {'opacity': '0', 'left': '-540px'}, 200);
+					TMS.animate('R3_LATEST_FILE_DIV', {'display': 'block', 'opacity': '0', 'left': '-540px'}, 200);
 				};
 			};
 		};

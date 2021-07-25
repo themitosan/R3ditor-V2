@@ -220,7 +220,7 @@ function R3_FILEGEN_selectTextColor(mode){
 // Render Text
 function R3_FILEGEN_renderText(renderOnFilegen, otherCanvas, textRender){
 	if (R3_WEB_IS_SAFARI === false && R3_WEB_IS_IE === false){
-		var x_offset = y_offset = textInvert = c = 0, textToRender, invertCheck, text, browserName;
+		var x_offset = y_offset = textInvert = c = 0, textToRender, invertCheck, text, browserName, FG_HTML_TEMPLATE = '';
 		if (renderOnFilegen === true){
 			document.getElementById('R3_FILEGEN_RENDERAREA').innerHTML = '';
 			document.getElementById('R3_FILEGEN_RENDERAREA_BIG').innerHTML = '';
@@ -242,21 +242,14 @@ function R3_FILEGEN_renderText(renderOnFilegen, otherCanvas, textRender){
 						x_offset = 0;
 						c++;
 					} else {
-						var distance, FG_HTML_TEMPLATE;
+						var distance;
 						if (FILEGEN_currentFont === 'RE1'){
 							distance = parseInt(FG_DICIONARIO[text[c]][1]) + x_offset;
-							FG_HTML_TEMPLATE = '<img src="img/fonts/chars_' + FILEGEN_currentFont + '_' + FILEGEN_currentColor + '.png" style="clip-path: inset(' + FG_DICIONARIO[text[c]][0] + '); position: absolute; left: ' + distance + 'px;top: ' + y_offset + 'px; filter: invert(' + textInvert + ');">';
+							FG_HTML_TEMPLATE = FG_HTML_TEMPLATE + '<img src="img/fonts/chars_' + FILEGEN_currentFont + '_' + FILEGEN_currentColor + '.png" style="clip-path: inset(' + FG_DICIONARIO[text[c]][0] + '); position: absolute; left: ' + distance + 'px;top: ' + y_offset + 'px; filter: invert(' + textInvert + ');">';
 						};
 						if (FILEGEN_currentFont === 'RE3'){
 							distance = parseInt(FG_RE3_DICIONARIO[text[c]][1]) + x_offset;
-							FG_HTML_TEMPLATE = '<img src="img/fonts/chars_' + FILEGEN_currentFont + '_' + FILEGEN_currentColor + '.png" style="clip-path: inset(' + FG_RE3_DICIONARIO[text[c]][0] + '); position: absolute; left: ' + distance + 'px;top: ' + y_offset + 'px; filter: invert(' + textInvert + ');">';
-						};
-						// Render
-						if (renderOnFilegen === true){
-							TMS.append('R3_FILEGEN_RENDERAREA', FG_HTML_TEMPLATE);
-							TMS.append('R3_FILEGEN_RENDERAREA_BIG', FG_HTML_TEMPLATE);
-						} else {
-							TMS.append(otherCanvas, FG_HTML_TEMPLATE);
+							FG_HTML_TEMPLATE = FG_HTML_TEMPLATE + '<img src="img/fonts/chars_' + FILEGEN_currentFont + '_' + FILEGEN_currentColor + '.png" style="clip-path: inset(' + FG_RE3_DICIONARIO[text[c]][0] + '); position: absolute; left: ' + distance + 'px;top: ' + y_offset + 'px; filter: invert(' + textInvert + ');">';
 						};
 						// Post
 						if (FILEGEN_currentFont === 'RE1'){
@@ -270,6 +263,13 @@ function R3_FILEGEN_renderText(renderOnFilegen, otherCanvas, textRender){
 				} else {
 					c++;
 				};
+			};
+			// Render
+			if (renderOnFilegen === true){
+				TMS.append('R3_FILEGEN_RENDERAREA', FG_HTML_TEMPLATE);
+				TMS.append('R3_FILEGEN_RENDERAREA_BIG', FG_HTML_TEMPLATE);
+			} else {
+				TMS.append(otherCanvas, FG_HTML_TEMPLATE);
 			};
 		};
 	} else {

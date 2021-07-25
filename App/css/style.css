@@ -518,6 +518,7 @@ blockquote {
     width: 500px;
     height: 144px;
     z-index: 999999;
+    display: none;
     overflow: hidden;
     position: absolute;
     border-top-right-radius: 6px;
