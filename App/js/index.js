@@ -23,14 +23,14 @@ var R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_
 /*
 	Onload
 */
-window.onload = function(){
+document.addEventListener('DOMContentLoaded', function(evt){
 	try {
 		R3_LOAD();
 	} catch (err) {
 		console.error(err);
 		R3_DESIGN_CRITIAL_ERROR(err);
 	};
-};
+});
 /*
 	Functions
 */
@@ -474,7 +474,7 @@ function R3_FILE_LOAD(extension, functionEval, returnFile, readMode, skipAppFs){
 		document.getElementById('R3_FILE_LOAD_DOM').value = '';
 		document.getElementById('R3_FILE_LOAD_DOM').files = null;
 		document.getElementById('R3_FILE_LOAD_DOM').accept = extension;
-		$('#R3_FILE_LOAD_DOM').trigger('click');
+		TMS.triggerClick('R3_FILE_LOAD_DOM');
 		document.getElementById('R3_FILE_LOAD_DOM').onchange = function(){
 			var hexFile, cFile = document.getElementById('R3_FILE_LOAD_DOM').files[0],
 				fPath = cFile.path, loaderInterval;
@@ -536,7 +536,7 @@ function R3_FILE_SAVE(filename, content, mode, ext, execNext){
 				execNext(location);
 			};
 		};
-		$('#R3_FILE_SAVE_DOM').trigger('click');
+		TMS.triggerClick('R3_FILE_SAVE_DOM');
 	} else {
 		/*
 			Original Code
@@ -616,7 +616,7 @@ function R3_FILE_DOWNLOAD(url, downloadFileName, execNext){
 function R3_FOLDER_SELECT(functionEval){
 	if (R3_WEBMODE === false){
 		if (functionEval !== undefined){
-			$('#R3_FOLDER_LOAD_DOM').trigger('click');
+			TMS.triggerClick('R3_FOLDER_LOAD_DOM');
 			document.getElementById('R3_FOLDER_LOAD_DOM').onchange = function(){
 				var cFile = document.getElementById('R3_FOLDER_LOAD_DOM').files[0];
 				if (cFile.path !== null && cFile.path !== undefined && cFile.path !== ''){

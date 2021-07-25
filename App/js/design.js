@@ -73,13 +73,13 @@ window.onresize = function(){
 function R3_DESIGN_CHECKRES(){
 	if (APP_ON_BOOT === false && R3_HAS_CRITICAL_ERROR === false){
 		if (window.innerWidth < 1216 && window.innerHeight < 711){
-			$('#R3_SPLASH').css({'display': 'none'});
-			$('#R3_APP_HOLDER').css({'display': 'none'});
-			$('#R3_APP_MAIN_DIV').css({'display': 'inline'});
+			TMS.css('R3_SPLASH', {'display': 'none'});
+			TMS.css('R3_APP_HOLDER', {'display': 'none'});
+			TMS.css('R3_APP_MAIN_DIV', {'display': 'inline'});
 			document.getElementById('R3_MAIN_LOADING_DIV').innerHTML = INCLUDE_R3V2_LOWRES;
 		} else {
-			$('#R3_APP_HOLDER').css({'display': 'inline'});
-			$('#R3_APP_MAIN_DIV').css({'display': 'none'});
+			TMS.css('R3_APP_HOLDER', {'display': 'inline'});
+			TMS.css('R3_APP_MAIN_DIV', {'display': 'none'});
 		};
 	};
 };
@@ -88,18 +88,11 @@ function R3_DESIGN_CRITIAL_ERROR(args){
 	if (args !== undefined && args !== ''){
 		var fError = args;
 		R3_HAS_CRITICAL_ERROR = true;
-		$('#R3_SPLASH').css({'display': 'none'});
-		$('#R3_APP_HOLDER').css({'display': 'none'});
-		$('#R3_MAIN_LOADING_DIV').css({'display': 'none', 'box-shadow': '0px 0px 100px #f00'});
-		if (R3_ENABLE_ANIMATIONS === false){
-			$('#R3_APP_MAIN_DIV').css({'display': 'inline'});
-			$('#R3_MAIN_LOADING_DIV').css({'display': 'inline'});
-		} else {
-			$('#R3_APP_MAIN_DIV').fadeIn({duration: 200, queue: false});
-			setTimeout(function(){
-				$('#R3_MAIN_LOADING_DIV').slideDown({duration: 200, queue: false});
-			}, 200);
-		};
+		TMS.css('R3_SPLASH', {'display': 'none'});
+		TMS.css('R3_APP_HOLDER', {'display': 'none'});
+		TMS.css('R3_APP_MAIN_DIV', {'display': 'inline'});
+		TMS.css('R3_MAIN_LOADING_DIV', {'display': 'inline'});
+		TMS.css('R3_MAIN_LOADING_DIV', {'display': 'none', 'box-shadow': '0px 0px 100px #f00'});
 		if (args.stack !== undefined){
 			fError = args.stack;
 		};
@@ -188,7 +181,7 @@ function R3_SHOW_MENU(menuId){
 			// Clear extra renderer
 			clearInterval(FG_EXTRA_RENDER);
 			while (c < (R3_TOTAL_MENUS + 1)){
-				$('#MENU_' + c).css({'display': 'none'});
+				TMS.css('MENU_' + c, {'display': 'none'});
 				c++;
 			};
 			/*
@@ -200,23 +193,23 @@ function R3_SHOW_MENU(menuId){
 					R3_LIVESTATUS_CLOSE_BAR();
 				};
 				R3_DESIGN_MINIWINDOW_CLOSE(0);
-				$('#R3_MENU_MAIN_TOP').css({'display': 'none'});
-				$('#MENU_1').css({'height': '100%', 'top': '0px'});
-				$('#ABOUT_BG').fadeIn({duration: 21000, queue: false});
+				TMS.css('R3_MENU_MAIN_TOP', {'display': 'none'});
+				TMS.css('MENU_1', {'height': '100%', 'top': '0px'});
+				TMS.fadeIn('ABOUT_BG', 21000);
 			} else {
 				if (RE3_RUNNING === true){
 					R3_LIVESTATUS_OPEN_BAR();
 				};
 				if (menuId !== 2){
-					$('#R3_MENU_MAIN_TOP').css({'display': 'inline-flex'});
+					TMS.css('R3_MENU_MAIN_TOP', {'display': 'inline-flex'});
 				};
 			};
 			// MSG Editor
 			if (menuId === 7){
 				if (RDT_arquivoBruto !== undefined){
-					$('#BTN_MAIN_32').css({'display': 'inline-flex'});
+					TMS.css('BTN_MAIN_32', {'display': 'inline-flex'});
 				} else {
-					$('#BTN_MAIN_32').css({'display': 'none'});
+					TMS.css('BTN_MAIN_32', {'display': 'none'});
 				};
 			};
 			// SCD Editor
@@ -224,13 +217,15 @@ function R3_SHOW_MENU(menuId){
 				R3_DESIGN_MINIWINDOW_CLOSE(3);
 				R3_DESIGN_MINIWINDOW_CLOSE(12);
 				// Fix Scroll
-				document.getElementById('SCD_FUNCTION_LIST').scrollTop = 0;
-				document.getElementById('R3_SCD_SCRIPT_INNER').scrollTop = 0;
+				TMS.scrollTop({
+					'SCD_FUNCTION_LIST': 0,
+					'R3_SCD_SCRIPT_INNER': 0
+				});
 				if (SCD_arquivoBruto !== undefined){
 					R3_DESIGN_SCD_openScriptList();
 					setTimeout(function(){
 						document.getElementById('R3_SCD_SCRIPT_LISTS').scrollTop = 0;
-						document.getElementById('SCD_FUNCTION_SEARCH_FIELD').focus();
+						TMS.focus('SCD_FUNCTION_SEARCH_FIELD');
 					}, 40);
 				};
 				// Generate new SCD file if empty
@@ -241,10 +236,10 @@ function R3_SHOW_MENU(menuId){
 			// RDT Editor
 			if (menuId === 10){
 				if (R3_WEBMODE === true){
-					$('#R3_RDT_FILELIST').css({'display': 'none'});
-					$('#R3_RDT_IMPORT_RDT').css({'display': 'none'});
+					TMS.css('R3_RDT_FILELIST', {'display': 'none'});
+					TMS.css('R3_RDT_IMPORT_RDT', {'display': 'none'});
 				} else {
-					$('#R3_PAGE_ICON_BG_7').css({'display': 'none'});
+					TMS.css('R3_PAGE_ICON_BG_7', {'display': 'none'});
 				};
 				document.getElementById('R3_RDT_FILELIST_SERACH').value = '';
 				R3_RDT_FILELIST_UPDATELIST();
@@ -261,9 +256,7 @@ function R3_SHOW_MENU(menuId){
 			if (menuId !== 4){
 				R3_DESIGN_MINIWINDOW_CLOSE(23);
 				R3_DESIGN_OPEN_CLOSE_LATEST(1);
-				$('#BTN_MAIN_53').css({'display': 'none'});
-				$('#MENU_' + menuId).css({'display': 'block'});
-				$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'right': '268px'});
+				TMS.css('MENU_' + menuId, {'display': 'block'});
 				// RE3 Scroll
 				if (menuId === 8){
 					document.getElementById('R3_LIVESTATUS_BOX_ITEM_LBL_26').scrollIntoView();
@@ -272,9 +265,8 @@ function R3_SHOW_MENU(menuId){
 				if (R3_WEBMODE === false && R3_THEPIC === 'R50606.JPG'){
 					R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!\n\nTheMitoSan!', 'RE3', 40);
 				};
-				$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'right': '302px'});
-				$('#BTN_MAIN_53').css({'display': 'inline-flex'});
-				$('#BTN_SCD_HACK').css({'display': 'none'});
+				TMS.css('BTN_MAIN_53', {'display': 'inline-flex'});
+				TMS.css('BTN_SCD_HACK', {'display': 'none'});
 				R3_DESIGN_OPEN_CLOSE_LATEST(0);
 			};
 			// Loading screen
@@ -288,11 +280,11 @@ function R3_SHOW_MENU(menuId){
 			// Append dropdown menu
 			if (R3_DESIGN_DROPDOWN_DATABASE[menuId][0] !== 'NO_DROPDOWN'){
 				document.getElementById('R3_MENU_CURRENT_TOOL_HOLDER').innerHTML = R3_DESIGN_DROPDOWN_DATABASE[menuId][1];
-				$('#R3_MENU_CURRENT_TOOL_HOLDER').css({'min-width': R3_DESIGN_DROPDOWN_DATABASE[menuId][2] + 'px'});
+				TMS.css('R3_MENU_CURRENT_TOOL_HOLDER', {'min-width': R3_DESIGN_DROPDOWN_DATABASE[menuId][2] + 'px'});
 				document.getElementById('R3_MENU_DROPDOWN_LBL').innerHTML = R3_DESIGN_DROPDOWN_DATABASE[menuId][0];
-				$('#R3_MENU_CURRENT_TOOL').css({'display': 'inline-block'});
+				TMS.css('R3_MENU_CURRENT_TOOL', {'display': 'inline-block'});
 			} else {
-				$('#R3_MENU_CURRENT_TOOL').css({'display': 'none'});
+				TMS.css('R3_MENU_CURRENT_TOOL', {'display': 'none'});
 			};
 			/*
 				End
@@ -309,9 +301,9 @@ function R3_SHOW_MENU(menuId){
 // Disable PC version exec buttons if emu
 function R3_DESIGN_CHECK_SHOW_EXECS(){
 	if (R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === true){
-		$('#R3_MENU_RUN_GAME').css({'display': 'none'});
+		TMS.css('R3_MENU_RUN_GAME', {'display': 'none'});
 	} else {
-		$('#R3_MENU_RUN_GAME').css({'display': 'inline-block'});
+		TMS.css('R3_MENU_RUN_GAME', {'display': 'inline-block'});
 	};
 };
 // Web Alert
@@ -326,11 +318,11 @@ function R3_MENU_GOBACK(){
 	R3_DESIGN_CHECK_SHOW_EXECS();
 	if (R3_MENU_LOCK !== true){
 		if (R3_MENU_HISTORY.length === 1){
-			$('#MENU_' + R3_MENU_HISTORY[0]).css({'display': 'none'});
+			TMS.css('MENU_' + R3_MENU_HISTORY[0], {'display': 'none'});
 			R3_SHOW_MENU(4);
 		} else {
 			var check = R3_MENU_BACK_EXCLUDE.indexOf(R3_MENU_HISTORY[(R3_MENU_HISTORY.length - 2)]);
-			$('#MENU_' + R3_MENU_HISTORY[(R3_MENU_HISTORY.length - 1)]).css({'display': 'none'});
+			TMS.css('MENU_' + R3_MENU_HISTORY[(R3_MENU_HISTORY.length - 1)], {'display': 'none'});
 			if (check !== -1){
 				R3_MENU_EXIT();
 			} else {
@@ -353,12 +345,12 @@ function R3_DESIGN_SHOWTABS(tabIndex, id){
 	var c = 0, maxTabs = R3_TABS_INDEX[tabIndex];
 	if (maxTabs !== undefined){
 		while (c < (maxTabs + 1)){
-			$('#R3_MENU_' + tabIndex + '_' + c).css({'display': 'none'});
-			$('#R3_TABS_' + tabIndex + '_' + c).removeClass('R3_TAB_SELECT');
+			TMS.css('R3_MENU_' + tabIndex + '_' + c, {'display': 'none'});
+			TMS.removeClass('R3_TABS_' + tabIndex + '_' + c, 'R3_TAB_SELECT');
 			c++;
 		};
-		$('#R3_MENU_' + tabIndex + '_' + id).css({'display': 'block'});
-		$('#R3_TABS_' + tabIndex + '_' + id).addClass('R3_TAB_SELECT');
+		TMS.css('R3_MENU_' + tabIndex + '_' + id, {'display': 'block'});
+		TMS.addClass('R3_TABS_' + tabIndex + '_' + id, 'R3_TAB_SELECT');
 	};
 };
 // Adjust Design
@@ -369,10 +361,10 @@ function R3_DESIGN_ADJUST(){
 	var c = e = 0, cMiniWindow, thePic;
 	while (c < (R3_ICON_maxIcons + 1)){
 		if (document.getElementById('BTN_MAIN_' + c) !== null){
-			$('#BTN_MAIN_' + c).css({'background-image': 'url(\'./img/icons/icon-' + c + '.png\')'});
+			TMS.css('BTN_MAIN_' + c, {'background-image': 'url(\'./img/icons/icon-' + c + '.png\')'});
 		};
 		if (document.getElementById('R3_PAGE_ICON_BG_' + c) !== null){
-			$('#R3_PAGE_ICON_BG_' + c).css({'background-image': 'url(\'./img/icons/icon-' + c + '.png\')'});
+			TMS.css('R3_PAGE_ICON_BG_' + c, {'background-image': 'url(\'./img/icons/icon-' + c + '.png\')'});
 		};
 		c++;
 	};
@@ -387,30 +379,28 @@ function R3_DESIGN_ADJUST(){
 	R3_SCD_SWAP_EDITOR_MODE(SETTINGS_SCD_EDITOR_MODE);
 	// Adjust loading div
 	if (R3_ENABLE_ANIMATIONS === true){
-		$('#R3_MAIN_LOADING_DIV').animate({'width': '70%'}, {duration: 1200, queue: false});
+		TMS.animate('R3_MAIN_LOADING_DIV', {'width': '70%'}, 1200);
 	} else {
-		$('#R3_MAIN_LOADING_DIV').css({'width': '70%'});
+		TMS.css('R3_MAIN_LOADING_DIV', {'width': '70%'});
 	};
-	// Disable export button
-	R3_DESIGN_DISABLE_BTN('BTN_MOD_EXPORT');
 	// [RE3SET] - Disable WIP Forms
-	R3_DESIGN_DISABLE_BTN('BTN_MAIN_21');
-	R3_DESIGN_DISABLE_BTN('BTN_MAIN_58');
-	R3_DESIGN_DISABLE_BTN('BTN_MAIN_59');
-	R3_DESIGN_DISABLE_BTN('BTN_MAIN_60');
-	R3_DESIGN_DISABLE_BTN('BTN_MAIN_61');
+	TMS.disableElement('BTN_MAIN_21');
+	TMS.disableElement('BTN_MAIN_58');
+	TMS.disableElement('BTN_MAIN_59');
+	TMS.disableElement('BTN_MAIN_60');
+	TMS.disableElement('BTN_MAIN_61');
 	// Fix RDT Path Labels and disable some unused functions in non-windows os / web
 	if (R3_WEBMODE === false){
-		$('#SETTINGS_LI_CLEARCACHE').css({'display': 'none'});
+		TMS.css('SETTINGS_LI_CLEARCACHE', {'display': 'none'});
 		if (INT_VERSION === 'DEV_VERSION'){
-			$('#R3_MENU_ITEM_GITHUB_UPDATER').css({'display': 'block'});
+			TMS.css('R3_MENU_ITEM_GITHUB_UPDATER', {'display': 'block'});
 		};
 		if (process.platform !== 'win32'){
 			R3_RDT_MENU_LABEL_FIX_NUMBER = 124;
 			// Buttons
-			R3_DESIGN_DISABLE_BTN('BTN_MAIN_11');
-			R3_DESIGN_DISABLE_BTN('BTN_MAIN_12');
-			R3_DESIGN_DISABLE_BTN('BTN_MAIN_14');
+			TMS.disableElement('BTN_MAIN_11');
+			TMS.disableElement('BTN_MAIN_12');
+			TMS.disableElement('BTN_MAIN_14');
 		} else {
 			R3_RDT_MENU_LABEL_FIX_NUMBER = 104;
 		};
@@ -435,58 +425,56 @@ function R3_DESIGN_ADJUST(){
 					R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', INCLUDE_RE3_BEEP_BOOP, 'RE3', 40);
 				};
 				if (R3_ENABLE_ANIMATIONS === true){
-					$('#R3_HOME_BG').fadeIn({duration: 7100, queue: false});
+					TMS.fadeIn('R3_HOME_BG', 7100);
 				} else {
-					$('#R3_HOME_BG').css({'display': 'inline'});	
+					TMS.css('R3_HOME_BG', {'display': 'inline'});	
 				};
 				// End
 				R3_GET_BG = true;
 			} else {
-				$('#R3_HOME_BG').css({'display': 'none'});
+				TMS.css('R3_HOME_BG', {'display': 'none'});
 			};
 		};
 		// Mod Enabled
 		if (APP_ENABLE_MOD === true){
-			$('#R3_MENU_ITEM_OPCODE_FINDER').css({'display': 'block'});
+			TMS.css('R3_MENU_ITEM_OPCODE_FINDER', {'display': 'block'});
 		};
 	} else {
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_BACKUP');
+		TMS.disableElement('BTN_MAIN_BACKUP');
 		// Hide NW settings if web mode
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_15');
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_16');
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_33');
-		$('#BTN_MOD_EXPORT').css({'display': 'none'});
-		$('#SETTINGS_DIV_ENGE').css({'display': 'none'});
-		$('#SETTINGS_DIV_PATHS').css({'display': 'none'});
-		$('#SETTINGS_LI_DISCORD').css({'display': 'none'});
-		$('#SETTINGS_LI_MOVEWINDOW').css({'display': 'none'});
-		$('#SETTINGS_DIV_GAME_MODE').css({'display': 'none'});
-		$('#SETTINGS_DIV_LIVESTATUS').css({'display': 'none'});
-		$('#SETTINGS_LI_RECENTPOPUP').css({'display': 'none'});
-		$('#R3_FILEGEN_BACKGROUND_DIV').css({'display': 'none'});
-		$('#SETTINGS_LI_UPDATE_DOORLINK').css({'display': 'none'});
-		$('#SETTINGS_LI_ENABLE_MOVE_DISPLAY').css({'display': 'none'});
+		TMS.disableElement('BTN_MAIN_15');
+		TMS.disableElement('BTN_MAIN_16');
+		TMS.disableElement('BTN_MAIN_33');
+		TMS.css('BTN_MOD_EXPORT', {'display': 'none'});
+		TMS.css('SETTINGS_DIV_ENGE', {'display': 'none'});
+		TMS.css('SETTINGS_DIV_PATHS', {'display': 'none'});
+		TMS.css('SETTINGS_LI_DISCORD', {'display': 'none'});
+		TMS.css('SETTINGS_LI_MOVEWINDOW', {'display': 'none'});
+		TMS.css('SETTINGS_DIV_GAME_MODE', {'display': 'none'});
+		TMS.css('SETTINGS_DIV_LIVESTATUS', {'display': 'none'});
+		TMS.css('SETTINGS_LI_RECENTPOPUP', {'display': 'none'});
+		TMS.css('R3_FILEGEN_BACKGROUND_DIV', {'display': 'none'});
+		TMS.css('SETTINGS_LI_UPDATE_DOORLINK', {'display': 'none'});
+		TMS.css('SETTINGS_LI_ENABLE_MOVE_DISPLAY', {'display': 'none'});
 		// Hide about nw version
-		$('#DIV_ABOUT_NW').css({'display': 'none'});
+		TMS.css('DIV_ABOUT_NW', {'display': 'none'});
 		// Fix Number
 		R3_RDT_MENU_LABEL_FIX_NUMBER = 124;
 		// Buttons
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_11');
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_12');
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_14');
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_55');
+		TMS.disableElement('BTN_MAIN_11');
+		TMS.disableElement('BTN_MAIN_12');
+		TMS.disableElement('BTN_MAIN_14');
+		TMS.disableElement('BTN_MAIN_55');
 		// Remove big preview on file generator
-		$('#R3_FILEGEN_RENDERAREA_BIG').css({'display': 'none'});
-		// Run Game Buttons
-		$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'display': 'none !important'});
+		TMS.css('R3_FILEGEN_RENDERAREA_BIG', {'display': 'none'});
 		// Adjust some ranges if firefox
 		if (R3_WEB_IS_FOX === true){
 			// Fix log window on Firefox
 			R3_MINI_WINDOW_DATABASE[0][0] = 800;
-			$('#R3_RID_EDIT_rangePosX').css({'width': '120px'});
-			$('#R3_RID_EDIT_rangePosY').css({'width': '120px'});
-			$('#R3_RID_EDIT_rangePosZ').css({'width': '120px'});
-			$('#R3_RID_EDIT_rangePosR').css({'width': '120px'});
+			TMS.css('R3_RID_EDIT_rangePosX', {'width': '120px'});
+			TMS.css('R3_RID_EDIT_rangePosY', {'width': '120px'});
+			TMS.css('R3_RID_EDIT_rangePosZ', {'width': '120px'});
+			TMS.css('R3_RID_EDIT_rangePosR', {'width': '120px'});
 		};
 	};
 	// Fix percentage design
@@ -494,19 +482,6 @@ function R3_DESIGN_ADJUST(){
 	setTimeout(function(){
 		R3_LIVESTATUS_CLOSE_BAR();
 	}, 10);
-};
-// Enable and Disable Elements
-function R3_DESIGN_ENABLE_BTN(id){
-	if (document.getElementById(id) !== null){
-		document.getElementById(id).disabled = '';
-		$('#' + id).css({'filter': 'grayscale(0) blur(0px)', 'cursor': 'pointer', 'opacity': '1'});	
-	};
-};
-function R3_DESIGN_DISABLE_BTN(id){
-	if (document.getElementById(id) !== null){
-		document.getElementById(id).disabled = 'disabled';
-		$('#' + id).css({'filter': 'grayscale(1) blur(0.8px)', 'cursor': 'not-allowed', 'opacity': '0.6'});
-	};
 };
 /*
 	Toggle fullscreen modes
@@ -550,34 +525,34 @@ function R3_GOTO_MAIN(){
 		if (getRandomPlr === 0 || getRandomPlr > 2){
 			getRandomPlr = 1;
 		};
-		$('#R3_SPLASH_BG').css({'background-image': 'url(\'./img/PLR_0' + getRandomPlr + '.png\')'});
+		TMS.css('R3_SPLASH_BG', {'background-image': 'url(\'./img/PLR_0' + getRandomPlr + '.png\')'});
 		// Animation
 		if (R3_ENABLE_ANIMATIONS === true){
-			$('#R3_SPLASH').fadeIn({duration: 400, queue: false});
-			$('#R3_SPLASH_TITLE').fadeIn({duration: (R3_internalHoldTime / 4), queue: false});
-			$('#R3_SPLASH_TITLE').animate({'left': '26%'}, {duration: (R3_internalHoldTime * 1.1), queue: false});
-			$('#R3_SPLASH_BG').animate({'background-position-x': 'calc(100% + 110px)'}, {duration: (R3_internalHoldTime * 1.1), queue: false});
+			TMS.fadeIn('R3_SPLASH', 400);
+			TMS.fadeIn('R3_SPLASH_TITLE', (R3_internalHoldTime / 4));
+			TMS.animate('R3_SPLASH_TITLE', {'left': '26%'}, (R3_internalHoldTime * 1.1));
+			TMS.animate('R3_SPLASH_BG', {'background-position-x': 'calc(100% + 110px)'}, (R3_internalHoldTime * 1.1));
 			// Frame Anim
-			$('#R3_SPLASH_BG_FRAME_TOP').fadeIn({duration: R3_internalHoldTime / 2, queue: false});
-			$('#R3_SPLASH_BG_FRAME_BOTOM').fadeIn({duration: R3_internalHoldTime / 2, queue: false});
+			TMS.fadeIn('R3_SPLASH_BG_FRAME_TOP', (R3_internalHoldTime / 2));
+			TMS.fadeIn('R3_SPLASH_BG_FRAME_BOTOM', (R3_internalHoldTime / 2));
 			// End
-			$('#R3_SPLASH_BG').fadeIn({duration: (R3_internalHoldTime * 1.1), queue: false});
-			$('#R3_SPLASH_thanks').fadeIn({duration: (R3_internalHoldTime / 4), queue: false});
-			$('#R3_SPLASH_BG_BIG').fadeIn({duration: (R3_internalHoldTime * 1.2), queue: false});
+			TMS.fadeIn('R3_SPLASH_BG', (R3_internalHoldTime * 1.1));
+			TMS.fadeIn('R3_SPLASH_thanks', (R3_internalHoldTime / 4));
+			TMS.fadeIn('R3_SPLASH_BG_BIG', (R3_internalHoldTime * 1.2));
 		} else {
-			$('#R3_SPLASH_TITLE').css({'display': 'inline'});
+			TMS.css('R3_SPLASH_TITLE', {'display': 'inline'});
 			// Frame
-			$('#R3_SPLASH_BG_FRAME_TOP').css({'display': 'inline'});
-			$('#R3_SPLASH_BG_FRAME_BOTOM').css({'display': 'inline'});
-			$('#R3_SPLASH_BG').css({'display': 'inline', 'background-position-x': 'calc(100% + 110px)'});
+			TMS.css('R3_SPLASH_BG_FRAME_TOP', {'display': 'inline'});
+			TMS.css('R3_SPLASH_BG_FRAME_BOTOM', {'display': 'inline'});
+			TMS.css('R3_SPLASH_BG', {'display': 'inline', 'background-position-x': 'calc(100% + 110px)'});
 			// End
-			$('#R3_SPLASH_thanks').css({'display': 'inline'});
-			$('#R3_SPLASH_BG_BIG').css({'display': 'inline'});
-			$('#R3_SPLASH').css({'display': 'inline'});
+			TMS.css('R3_SPLASH_thanks', {'display': 'inline'});
+			TMS.css('R3_SPLASH_BG_BIG', {'display': 'inline'});
+			TMS.css('R3_SPLASH', {'display': 'inline'});
 		};
 		setTimeout(function(){
-			$('#R3_APP_HOLDER').css({'display': 'inline'});
-			$('#R3_APP_MAIN_DIV').css({'display': 'none'});
+			TMS.css('R3_APP_HOLDER', {'display': 'inline'});
+			TMS.css('R3_APP_MAIN_DIV', {'display': 'none'});
 			R3_DESIGN_OPEN_CLOSE_LATEST(0);
 			APP_ON_BOOT = false;
 			R3_LOAD_CHECK_EXTRA();
@@ -588,9 +563,9 @@ function R3_GOTO_MAIN(){
 function R3_DESIGN_SHOW_INTERFACE(){
 	if (APP_ON_BOOT === false){
 		if (R3_ENABLE_ANIMATIONS === true){
-			$('#R3_APP_MAIN_DIV').fadeOut({duration: 100, queue: false});
+			TMS.fadeOut('R3_APP_MAIN_DIV', 100);
 		} else {
-			$('#R3_APP_MAIN_DIV').css({'display': 'none'});
+			TMS.css('R3_APP_MAIN_DIV', {'display': 'none'});
 		};
 		R3_MENU_CURRENT = 4;
 	} else {
@@ -683,7 +658,7 @@ function R3_SYSTEM_LOG(mode, text){
 			HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="R3_LOG_ITEM ' + logCSS + '">' + text + '</div>';
 		};
 		// End
-		$('#R3_LOG_HOLDER').append(HTML_LOG_TEMPLATE);
+		TMS.append('R3_LOG_HOLDER', HTML_LOG_TEMPLATE);
 		R3_SYSTEM_LOG_TEXT = R3_SYSTEM_LOG_TEXT + textClean + '\n';
 		R3_LOG_ID++;
 		document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>';
@@ -715,7 +690,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 			if (windowId !== 0 && windowId !== 11){
 				// SCD Hex View
 				if (windowId === 3){
-					$('#R3V2_MINI_WINDOW_' + windowId).css({
+					TMS.css('R3V2_MINI_WINDOW_' + windowId, {
 						'z-index': R3_MINI_WINDOW_DATABASE[windowId][4],
 						'top': R3_MINI_WINDOW_DATABASE[windowId][2] + 'px',
 						'left': R3_MINI_WINDOW_DATABASE[windowId][3] + 'px',
@@ -723,7 +698,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 						'height': (R3_MINI_WINDOW_DATABASE[windowId][1] * SETTINGS_SCD_HEXVIEW_FACTOR) + 'px'
 					});
 				} else {
-					$('#R3V2_MINI_WINDOW_' + windowId).css({
+					TMS.css('R3V2_MINI_WINDOW_' + windowId, {
 						'z-index': R3_MINI_WINDOW_DATABASE[windowId][4],
 						'top': R3_MINI_WINDOW_DATABASE[windowId][2] + 'px',
 						'left': R3_MINI_WINDOW_DATABASE[windowId][3] + 'px',
@@ -735,7 +710,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 				if (R3_WEB_IS_FOX === true){
 					fixLeft = '872px';
 				};
-				$('#R3V2_MINI_WINDOW_' + windowId).css({
+				TMS.css('R3V2_MINI_WINDOW_' + windowId, {
 					'top': 'calc(100% - 342px)',
 					'left': 'calc(100% - ' + fixLeft + ')',
 					'z-index': R3_MINI_WINDOW_DATABASE[windowId][4],
@@ -747,7 +722,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 			};
 			// R3V2 Help Center
 			if (windowId === 11){
-				$('#R3V2_MINI_WINDOW_' + windowId).css({
+				TMS.css('R3V2_MINI_WINDOW_' + windowId, {
 					'left': 'calc(50% - 350px)',
 					'z-index': R3_MINI_WINDOW_DATABASE[0][4],
 					'top': R3_MINI_WINDOW_DATABASE[windowId][2] + 'px',
@@ -758,7 +733,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 			};
 			// eNGE Window Size
 			if (windowId === 13){
-				$('#R3V2_MINI_WINDOW_' + windowId).css({
+				TMS.css('R3V2_MINI_WINDOW_' + windowId, {
 					'width': SETTINGS_ENGE_WIDTH_RES + 'px',
 					'height': SETTINGS_ENGE_HEIGHT_RES + 'px',
 					'z-index': R3_MINI_WINDOW_DATABASE[windowId][4],
@@ -768,9 +743,9 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 			};
 		};
 		if (R3_ENABLE_ANIMATIONS === true){
-			$('#R3V2_MINI_WINDOW_' + windowId).fadeIn({duration: 80, queue: true});
+			TMS.fadeIn('R3V2_MINI_WINDOW_' + windowId, 80);
 		} else {
-			$('#R3V2_MINI_WINDOW_' + windowId).css({'display': 'block'});
+			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'display': 'block'});
 		};
 		// Focus element
 		focusDomName = R3_MINI_WINDOW_DATABASE[windowId][6];
@@ -789,7 +764,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 		};
 		// Adjust window size if SCD edit form
 		if (windowId === 14 && R3_SCD_DATABASE[R3_SCD_currentOpcode] !== undefined){
-			$('#R3V2_MINI_WINDOW_' + windowId).css({'width': R3_SCD_DATABASE[R3_SCD_currentOpcode][6] + 'px', 'height': R3_SCD_DATABASE[R3_SCD_currentOpcode][7] + 'px'});
+			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'width': R3_SCD_DATABASE[R3_SCD_currentOpcode][6] + 'px', 'height': R3_SCD_DATABASE[R3_SCD_currentOpcode][7] + 'px'});
 			R3_DESIGN_adjustMiniWindowForm();
 		};
 		// Process opening mode
@@ -803,7 +778,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 					finalW = ((windowW / 2) - (formW / 2)),
 					finalH = ((windowH / 2) - (formH / 2));
 				// End
-				$('#R3V2_MINI_WINDOW_' + windowId).css({'left': finalW + 'px', 'top': finalH + 'px'});
+				TMS.css('R3V2_MINI_WINDOW_' + windowId, {'left': finalW + 'px', 'top': finalH + 'px'});
 			};
 		};
 		/*
@@ -820,9 +795,9 @@ function R3_DESIGN_adjustMiniWindowForm(){
 	if (R3_SCD_currentOpcode === '63'){
 		var cType = document.getElementById('R3_SCD_EDIT_63_aot').value;
 		if (cType === '04'){
-			$('#R3V2_MINI_WINDOW_14').css({'height': '380px'});
+			TMS.css('R3V2_MINI_WINDOW_14', {'height': '380px'});
 		} else {
-			$('#R3V2_MINI_WINDOW_14').css({'height': '260px'});
+			TMS.css('R3V2_MINI_WINDOW_14', {'height': '260px'});
 		};
 	};
 };
@@ -859,18 +834,18 @@ function R3_DESIGN_MINIWINDOW_CLOSE(windowId){
 		// Help Center
 		var checkButton = document.getElementById('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId);
 		if (checkButton !== null){
-			$('#R3V2_MINI_WINDOW_MAXIMIZE_' + windowId).css({'display': 'inline'});
+			TMS.css('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId, {'display': 'inline'});
 		};
 		// Clear Log fix
 		if (windowId === 0){
-			$('#R3V2_MINI_WINDOW_CLEAR_LOG').css({'right': '105px'});
+			TMS.css('R3V2_MINI_WINDOW_CLEAR_LOG', {'right': '105px'});
 		};
 		// Clear Item database
 		if (windowId === 15){
 			R3_DESIGN_CLEAN_ITEM_DATABASE();
 		};
 		// End
-		$('#R3V2_MINI_WINDOW_' + windowId).css({'display': 'none'});
+		TMS.css('R3V2_MINI_WINDOW_' + windowId, {'display': 'none'});
 		R3_MINI_WINDOW_DATABASE[windowId][5] = false;
 	});
 };
@@ -878,16 +853,16 @@ function R3_DESIGN_MINIWINDOW_CLOSE(windowId){
 function R3_DESIGN_MINIWINDOW_MAXIMIZE(windowId){
 	if (windowId !== undefined){
 		if (R3_ENABLE_ANIMATIONS === false){
-			$('#R3V2_MINI_WINDOW_MAXIMIZE_' + windowId).fadeOut({duration: 100, queue: false});
-			$('#R3V2_MINI_WINDOW_' + windowId).css({'top': '68px', 'left': '4px', 'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
+			TMS.fadeOut('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId, 100);
+			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'top': '44px', 'left': '4px', 'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
 		} else {
-			$('#R3V2_MINI_WINDOW_MAXIMIZE_' + windowId).css({'display': 'none'});
-			$('#R3V2_MINI_WINDOW_' + windowId).css({'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
-			$('#R3V2_MINI_WINDOW_' + windowId).animate({'top': '68px', 'left': '4px'}, {duration: 80, queue: false});
+			TMS.css('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId, {'display': 'none'});
+			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
+			TMS.animate('R3V2_MINI_WINDOW_' + windowId, {'top': '44px', 'left': '4px'}, 90, 'cubic-bezier(0, 1.06, 0, 1.02)');
 		};
 		// Clear Log fix
 		if (windowId === 0){
-			$('#R3V2_MINI_WINDOW_CLEAR_LOG').css({'right': '32px'});
+			TMS.css('R3V2_MINI_WINDOW_CLEAR_LOG', {'right': '32px'});
 		};
 		// Last file opened fix
 		if (R3_MENU_CURRENT === 4 && SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
@@ -979,11 +954,13 @@ function R3_DESIGN_MINIWINDOW_SNAP(windowA, windowB, fixDrag){
 			if (calcNextX < 4){
 				calcNextX = 4;
 			};
-			$('#R3V2_MINI_WINDOW_' + windowA).css({
-				'left': calcNextX + 'px'
-			});
+			if (R3_ENABLE_ANIMATIONS === true){
+				TMS.animate('R3V2_MINI_WINDOW_' + windowA, {'left': calcNextX + 'px'}, 400, 'cubic-bezier(0, 1.06, 0, 1.02)');
+			} else {
+				TMS.css('R3V2_MINI_WINDOW_' + windowA, {'left': calcNextX + 'px'});
+			};
 		};
-		$('#R3V2_MINI_WINDOW_' + windowB).css({
+		TMS.css('R3V2_MINI_WINDOW_' + windowB, {
 			'top': R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).y + 'px',
 			'left': (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).x + (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).w + 10)) + 'px'
 		});
@@ -1025,8 +1002,8 @@ function R3_fnHolder_seekFunction(kPress, domSearchField, domSearchResultCanvas,
 	};
 	funcSeekName = document.getElementById(domSearchField).value.toLowerCase().replace(RegExp(' ', 'gi'), '_');
 	if (funcSeekName.length !== 0){
-		$('#' + domMainFunctionList).css({'display': 'none'});
-		$('#' + domSearchResultCanvas).css({'display': 'block'});
+		TMS.css(domMainFunctionList, {'display': 'none'});
+		TMS.css(domSearchResultCanvas, {'display': 'block'});
 		document.getElementById(domSearchResultCanvas).innerHTML = '';
 		SEEK_RESULTS = R3_INTERNAL_functionBtnArray.filter(function(el){
 			return el.toString().toLowerCase().indexOf(funcSeekName) !== -1;
@@ -1035,14 +1012,14 @@ function R3_fnHolder_seekFunction(kPress, domSearchField, domSearchResultCanvas,
 			SEEK_RESULTS.forEach(function(p){
 				tmpFunc = document.getElementById(fnPrefix + p).outerHTML;
 				cFunc = tmpFunc.replace('id=\"' + p + '\" ', '');
-				$('#' + domSearchResultCanvas).append(cFunc);
+				TMS.append(domSearchResultCanvas, cFunc);
 			});
 		} else {
-			$('#' + domSearchResultCanvas).append('<u><b>Whoops</b> - No Result Found!</u> :(');
+			TMS.append(domSearchResultCanvas, '<u><b>Whoops</b> - No Result Found!</u> :(');
 		};
 	} else {
-		$('#' + domMainFunctionList).css({'display': 'block'});
-		$('#' + domSearchResultCanvas).css({'display': 'none'});
+		TMS.css(domMainFunctionList, {'display': 'block'});
+		TMS.css(domSearchResultCanvas, {'display': 'none'});
 	};
 };
 // Delete search fields
@@ -1101,16 +1078,16 @@ function R3_DESIGN_UPDATE_LATEST_LABELS(){
 				fFix = 'file://';
 			};
 			if (APP_FS.existsSync(fPath_00) === true){
-				$('#R3_LATEST_FILE_IMG_PREV').css({'background-image': 'url(\"' + fFix + fPath_00 + '\")'});
+				TMS.css('R3_LATEST_FILE_IMG_PREV', {'background-image': 'url(\"' + fFix + fPath_00 + '\")'});
 			} else {
 				if (APP_FS.existsSync(fPath_01) === true){
-					$('#R3_LATEST_FILE_IMG_PREV').css({'background-image': 'url(\"' + fFix + fPath_01 + '\")'});
+					TMS.css('R3_LATEST_FILE_IMG_PREV', {'background-image': 'url(\"' + fFix + fPath_01 + '\")'});
 				} else {
-					$('#R3_LATEST_FILE_IMG_PREV').css({'background-image': 'url()'});
+					TMS.css('R3_LATEST_FILE_IMG_PREV', {'background-image': 'url()'});
 				};
 			};
 		} else {
-			$('#R3_LATEST_FILE_IMG_PREV').css({'background-image': 'url()'});
+			TMS.css('R3_LATEST_FILE_IMG_PREV', {'background-image': 'url()'});
 		};
 	};
 };
@@ -1120,21 +1097,19 @@ function R3_DESIGN_OPEN_CLOSE_LATEST(mode){
 		if (SETTINGS_RECENT_FILE_NAME !== 'undefined' && SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
 			// 0 = Open, 1 = Close
 			if (mode === 0 && R3_MENU_CURRENT === 4){
-				if (R3_ENABLE_ANIMATIONS === true){
-					$('#R3_LATEST_FILE_DIV').animate({'left': '-46px'}, {duration: 50, queue: false});
-					$('#R3_LATEST_FILE_DIV').fadeIn({duration: 50, queue: false});
+				if (R3_ENABLE_ANIMATIONS === false){
+					TMS.css('R3_LATEST_FILE_DIV', {'display': 'block'});
 				} else {
-					$('#R3_LATEST_FILE_DIV').css({'left': '-46px', 'display': 'block'});	
+					TMS.animate('R3_LATEST_FILE_DIV', {'opacity': '1',  'left': '-44px'}, 200);
 				};
 				setTimeout(function(){
 					document.getElementById('R3_BTN_LATEST_FILE').focus();
-				}, 90);
+				}, 60);
 			} else {
-				if (R3_ENABLE_ANIMATIONS === true){
-					$('#R3_LATEST_FILE_DIV').animate({'left': '-210px'}, {duration: 40, queue: false});
-					$('#R3_LATEST_FILE_DIV').fadeOut({duration: 40, queue: false});
+				if (R3_ENABLE_ANIMATIONS === false){
+					TMS.css('R3_LATEST_FILE_DIV', {'display': 'none'});
 				} else {
-					$('#R3_LATEST_FILE_DIV').css({'left': '-210px', 'display': 'none'});
+					TMS.animate('R3_LATEST_FILE_DIV', {'opacity': '0', 'left': '-540px'}, 200);
 				};
 			};
 		};
@@ -1169,19 +1144,19 @@ function R3_SCD_renderScriptActiveStatus(){
 		var cStatus = R3_SCD_SCRIPT_ACTIVE_LIST[R3_SCD_CURRENT_SCRIPT];
 		if (cStatus === true){
 			document.getElementById('R3_SCD_SCRIPT_ACTIVE').title = 'This script is active';
-			$('#R3_SCD_SCRIPT_ACTIVE').css({'background-image': 'linear-gradient(to bottom, #0f0, #00c700)', 'box-shadow': '0px 0px 10px #090'});
+			TMS.css('R3_SCD_SCRIPT_ACTIVE', {'background-image': 'linear-gradient(to bottom, #0f0, #00c700)', 'box-shadow': '0px 0px 10px #090'});
 		} else {
 			document.getElementById('R3_SCD_SCRIPT_ACTIVE').title = 'This script is not active';
-			$('#R3_SCD_SCRIPT_ACTIVE').css({'background-image': 'linear-gradient(to bottom, #000, #444)', 'box-shadow': 'none'});
+			TMS.css('R3_SCD_SCRIPT_ACTIVE', {'background-image': 'linear-gradient(to bottom, #000, #444)', 'box-shadow': 'none'});
 		};
 		Object.keys(R3_SCD_SCRIPTS_LIST).forEach(function(cItem){
 			if (document.getElementById('R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem) !== null){
 				if (R3_SCD_SCRIPT_ACTIVE_LIST[parseInt(cItem)] === true){
 					document.getElementById('R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem).title = 'This script is active';
-					$('#R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem).css({'box-shadow': '0px 0px 6px #000', 'background-image': 'linear-gradient(to bottom, #0f0, #0a0)'});
+					TMS.css('R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem, {'box-shadow': '0px 0px 6px #000', 'background-image': 'linear-gradient(to bottom, #0f0, #0a0)'});
 				} else {
 					document.getElementById('R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem).title = 'This script is not active';
-					$('#R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem).css({'box-shadow': 'none', 'background-image': 'linear-gradient(to bottom, #000, #444)'});
+					TMS.css('R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem, {'box-shadow': 'none', 'background-image': 'linear-gradient(to bottom, #000, #444)'});
 				};
 			};
 		});
@@ -1265,10 +1240,10 @@ function R3_DESIGN_DOORLINK_APPLY(mapName, id){
 function R3_DESIGN_SCD_focusResultFromSearchForm(domId){
 	if (domId !== undefined){
 		SCD_FN_SEARCH_RESULT.forEach(function(d, cIndex){
-			$('#R3_SCD_SEARCH_FIND_FN_' + cIndex).css({'box-shadow': '0px 0px 0px #0000'});
+			TMS.css('R3_SCD_SEARCH_FIND_FN_' + cIndex, {'box-shadow': '0px 0px 0px #0000'});
 		});
 		// End
-		$('#R3_SCD_SEARCH_FIND_FN_' + domId).css({'box-shadow': '0px 0px 10px #fffa'});
+		TMS.css('R3_SCD_SEARCH_FIND_FN_' + domId, {'box-shadow': '0px 0px 10px #fffa'});
 	};
 };
 // Navigate between found results on SCD search list
@@ -1435,8 +1410,8 @@ function R3_DESIGN_SEARCH_SCD_ID_LIST(evt, valueInput, inputDom, listHolder, out
 		if (seekId !== '' && seekId !== '  ' && seekId.length === 2){
 			seekResult = document.getElementById(inputDom + seekId);
 			if (seekResult !== null){
-				$('#' + listHolder).css({'display': 'none'});
-				$('#' + output).css({'display': 'inline-block'});
+				TMS.css(listHolder, {'display': 'none'});
+				TMS.css(output, {'display': 'inline-block'});
 				document.getElementById(output).innerHTML = seekResult.outerHTML;
 			} else {
 				document.getElementById(valueInput).value = '';
@@ -1447,8 +1422,8 @@ function R3_DESIGN_SEARCH_SCD_ID_LIST(evt, valueInput, inputDom, listHolder, out
 			canCloseRes = true;
 		};
 		if (canCloseRes === true){
-			$('#' + output).css({'display': 'none'});
-			$('#' + listHolder).css({'display': 'inline-block'});
+			TMS.css(output, {'display': 'none'});
+			TMS.css(listHolder, {'display': 'inline-block'});
 			document.getElementById(output).innerHTML = '';
 		};
 	} else {
@@ -1472,8 +1447,8 @@ function R3_DESIGN_OPEN_SCD_INSERT_PREVIEW(hex){
 		};
 		R3_SCD_openFunctionEdit(cOpcode, false, true, 'Insert Hex Function - Preview');
 		// Hide some buttons
-		$('#BTN_MAIN_29').css({'display': 'none'});
-		$('#BTN_MAIN_52').css({'display': 'none'});
+		TMS.css('BTN_MAIN_29', {'display': 'none'});
+		TMS.css('BTN_MAIN_52', {'display': 'none'});
 		setTimeout(function(){
 			document.getElementById('R3_SCD_EXTRA_EDIT_INSERT_POS').focus();
 		}, 40);
@@ -1537,10 +1512,10 @@ function R3_SCD_SEARCH_OPCODE_ADDCOLOR(fnId){
 	if (SCD_arquivoBruto !== undefined){
 		var c = 0;
 		while (c < 20){
-			$('#R3_LBL_SCD_SEARCH_FUNCTION_OPCODE').removeClass('R3_SCD_function_' + c);
+			TMS.removeClass('R3_LBL_SCD_SEARCH_FUNCTION_OPCODE', 'R3_SCD_function_' + c);
 			c++;
 		};
-		$('#R3_LBL_SCD_SEARCH_FUNCTION_OPCODE').addClass('R3_SCD_function_' + fnId);
+		TMS.addClass('R3_LBL_SCD_SEARCH_FUNCTION_OPCODE', 'R3_SCD_function_' + fnId);
 	} else {
 		R3_SCD_NEW_FILE();
 	};
@@ -1613,11 +1588,11 @@ function R3_SCD_navigateFunctions(mode, fnId, isClick){
 			R3_SCD_HIGHLIGHT_FUNCTION = (R3_SCD_TOTAL_FUNCTIONS - 2);
 		};
 		while (c < R3_SCD_TOTAL_FUNCTIONS){
-			$('#R3_SCD_scriptCommand_' + c).css({'box-shadow': '0px 0px 0px #000'});
+			TMS.css('R3_SCD_scriptCommand_' + c, {'box-shadow': '0px 0px 0px #000'});
 			c++;
 		};
 		// Make it shine, baby!
-		$('#R3_SCD_scriptCommand_' + R3_SCD_HIGHLIGHT_FUNCTION).css({'box-shadow': '0px 0px 10px #fff'});
+		TMS.css('R3_SCD_scriptCommand_' + R3_SCD_HIGHLIGHT_FUNCTION, {'box-shadow': '0px 0px 10px #fff'});
 		// Focus function
 		if (isClick === true && SETTINGS_SCD_FOCUS_FUNCTION_CLICK === false){
 			canFocus = false;
@@ -1649,31 +1624,31 @@ function R3_SCD_SWAP_EDITOR_MODE(mode){
 		SETTINGS_SCD_EDITOR_MODE = mode;
 		if (mode === 0){
 			document.getElementById('R3_SCD_SCRIPT_INNER').innerHTML = '';
-			$('#R3_SCD_CODE_EDITOR_buttonHolder').css({'display': 'none'});
-			$('#R3_SUBMENU_BUTTONS_COPYPASTE').css({'display': 'inline-flex'});
-			$('#BTN_MAIN_48').css({'background-image': 'url(\'img/icons/icon-48.png\')'});
+			TMS.css('R3_SCD_CODE_EDITOR_buttonHolder', {'display': 'none'});
+			TMS.css('R3_SUBMENU_BUTTONS_COPYPASTE', {'display': 'inline-flex'});
+			TMS.css('BTN_MAIN_48', {'background-image': 'url(\'img/icons/icon-48.png\')'});
 			document.getElementById('BTN_MAIN_48').title = 'Click here to open code editor';
 			if (R3_ENABLE_ANIMATIONS === true){
-				$('#R3_SCD_FUNCTIONS_HOLDER').fadeIn({duration: dTime, queue: false});
-				$('#R3_SCD_FUNCTIONS_HOLDER').animate({'top': '40px', 'filter': 'blur(0px)'}, {duration: dTime, queue: false});
-				$('#R3_SCD_SCRIPT_VIEW_DIV').animate({'width': '70%'}, {duration: (dTime + 10), queue: false});
+				TMS.fadeIn('R3_SCD_FUNCTIONS_HOLDER', dTime);
+				TMS.animate('R3_SCD_FUNCTIONS_HOLDER', {'opacity': '1', 'top': '40px', 'filter': 'blur(0px)'}, dTime);
+				TMS.animate('R3_SCD_SCRIPT_VIEW_DIV', {'width': '70%'}, (dTime + 10));
 			} else {
-				$('#R3_SCD_SCRIPT_VIEW_DIV').css({'width': '70%'});
-				$('#R3_SCD_FUNCTIONS_HOLDER').css({'display': 'inline', 'top': '40px', 'filter': 'blur(0px)'});
+				TMS.css('R3_SCD_SCRIPT_VIEW_DIV', {'width': '70%'});
+				TMS.css('R3_SCD_FUNCTIONS_HOLDER', {'display': 'inline', 'top': '40px', 'filter': 'blur(0px)'});
 			};
 		} else {
-			$('#R3_SUBMENU_BUTTONS_COPYPASTE').css({'display': 'none'});
-			$('#R3_SCD_CODE_EDITOR_buttonHolder').css({'display': 'inline-flex'});
-			$('#BTN_MAIN_48').css({'background-image': 'url(\'img/icons/icon-49.png\')'});
+			TMS.css('R3_SUBMENU_BUTTONS_COPYPASTE', {'display': 'none'});
+			TMS.css('R3_SCD_CODE_EDITOR_buttonHolder', {'display': 'inline-flex'});
+			TMS.css('BTN_MAIN_48', {'background-image': 'url(\'img/icons/icon-49.png\')'});
 			document.getElementById('BTN_MAIN_48').title = 'Click here to open list editor';
 			document.getElementById('R3_SCD_SCRIPT_INNER').innerHTML = INCLUDE_SCD_CODE_EDITOR;
 			if (R3_ENABLE_ANIMATIONS === true){
-				$('#R3_SCD_FUNCTIONS_HOLDER').fadeOut({duration: dTime, queue: false});
-				$('#R3_SCD_FUNCTIONS_HOLDER').animate({'top': '0px', 'filter': 'blur(2px)'}, {duration: dTime, queue: false});
-				$('#R3_SCD_SCRIPT_VIEW_DIV').animate({'width': '100%'}, {duration: (dTime + 10), queue: false});
+				TMS.fadeOut('R3_SCD_FUNCTIONS_HOLDER', dTime);
+				TMS.animate('R3_SCD_FUNCTIONS_HOLDER', {'opacity': '0', 'top': '0px', 'filter': 'blur(2px)'}, dTime);
+				TMS.animate('R3_SCD_SCRIPT_VIEW_DIV', {'width': '100%'}, (dTime + 10));
 			} else {
-				$('#R3_SCD_SCRIPT_VIEW_DIV').css({'width': '100%'});
-				$('#R3_SCD_FUNCTIONS_HOLDER').css({'display': 'none', 'top': '0px', 'filter': 'blur(2px)'});
+				TMS.css('R3_SCD_SCRIPT_VIEW_DIV', {'width': '100%'});
+				TMS.css('R3_SCD_FUNCTIONS_HOLDER', {'display': 'none', 'top': '0px', 'filter': 'blur(2px)'});
 			};
 			R3_DESIGN_JS_CODE_FOCUS();
 		};
@@ -1693,7 +1668,7 @@ function R3_DESIGN_JS_CODE_FOCUS(){
 	if (SETTINGS_SCD_EDITOR_MODE === 1){
 		setTimeout(function(){
 			if (document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA') !== null){
-				document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').focus();
+				TMS.focus('R3_SCD_CODE_EDITOR_TEXTAREA');
 				document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').scrollTop = 0;
 				document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').selectionEnd = 0;
 				document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').selectionStart = 0;
@@ -1729,9 +1704,9 @@ function R3_SCD_CODE_updateTextData(){
 		document.getElementById('R3_SCD_CODE_keyCtrl').innerHTML = R3_KEYPRESS_CONTROL.toString().slice(0, 1).toUpperCase() + R3_KEYPRESS_CONTROL.toString().slice(1);
 		// End
 		if (textTarget.selectionStart !== textTarget.selectionEnd){
-			$('#R3_SCD_CODE_selectionDiv').css({'display': 'inline'});
+			TMS.css('R3_SCD_CODE_selectionDiv', {'display': 'inline'});
 		} else {
-			$('#R3_SCD_CODE_selectionDiv').css({'display': 'none'});
+			TMS.css('R3_SCD_CODE_selectionDiv', {'display': 'none'});
 		};
 	};
 };
@@ -1750,7 +1725,7 @@ function R3_DESIGN_CODE_zoomMode(mode){
 			R3_SCD_CODE_zoom = 140;	
 		};
 		// End
-		$('#R3_SCD_CODE_EDITOR_TEXTAREA').css({'font-size': R3_SCD_CODE_zoom + 'px'});
+		TMS.css('R3_SCD_CODE_EDITOR_TEXTAREA', {'font-size': R3_SCD_CODE_zoom + 'px'});
 	};
 };
 // SCD Seek Function
@@ -1761,9 +1736,9 @@ function R3_SCD_seekFunction(kPress){
 	};
 	funcSeekName = document.getElementById('SCD_FUNCTION_SEARCH_FIELD').value.toLowerCase().replace(RegExp(' ', 'gi'), '_');
 	if (funcSeekName.length !== 0){
-		$('#SCD_FUNCTION_SEARCH_FIELD').css({'text-transform': 'uppercase'});
-		$('#SCD_FUNCTION_LIST').css({'display': 'none'});
-		$('#R3_SCD_FUNCTIONS_SEARCH').css({'display': 'block'});
+		TMS.css('SCD_FUNCTION_LIST', {'display': 'none'});
+		TMS.css('R3_SCD_FUNCTIONS_SEARCH', {'display': 'block'});
+		TMS.css('SCD_FUNCTION_SEARCH_FIELD', {'text-transform': 'uppercase'});
 		document.getElementById('R3_SCD_FUNCTIONS_SEARCH').innerHTML = '';
 		SEEK_RESULTS = R3_INTERNAL_functionBtnScdArray.filter(function(el){
 			return el.toString().toLowerCase().indexOf(funcSeekName) !== -1;
@@ -1772,11 +1747,11 @@ function R3_SCD_seekFunction(kPress){
 			while (c < SEEK_RESULTS.length){
 				tmpFunc = document.getElementById('BTN_SCD_' + SEEK_RESULTS[c]).outerHTML;
 				cFunc = tmpFunc.replace('id="' + SEEK_RESULTS[c] + '" ', '');
-				$('#R3_SCD_FUNCTIONS_SEARCH').append(cFunc);
+				TMS.append('R3_SCD_FUNCTIONS_SEARCH', cFunc);
 				c++;
 			};
 		} else {
-			$('#R3_SCD_FUNCTIONS_SEARCH').append('<u><b>Whoops</b> - No Result Found!</u> :(');
+			TMS.append('R3_SCD_FUNCTIONS_SEARCH', '<u><b>Whoops</b> - No Result Found!</u> :(');
 		};
 		R3_KEYPRESS_releaseKeys();
 	} else {
@@ -1785,16 +1760,18 @@ function R3_SCD_seekFunction(kPress){
 };
 // Close SCD Seek Function
 function R3_SCD_closeSeekFunction(){
-	$('#SCD_FUNCTION_LIST').css({'display': 'block'});
-	$('#R3_SCD_FUNCTIONS_SEARCH').css({'display': 'none'});
-	$('#SCD_FUNCTION_SEARCH_FIELD').css({'text-transform': 'none'});
+	TMS.css('SCD_FUNCTION_LIST', {'display': 'block'});
+	TMS.css('R3_SCD_FUNCTIONS_SEARCH', {'display': 'none'});
+	TMS.css('SCD_FUNCTION_SEARCH_FIELD', {'text-transform': 'none'});
 };
 // Update Labels
 function R3_SCD_updateLabels(){
 	if (RDT_arquivoBruto !== undefined){
-		$('#R3_SCD_BTN_APPLYRDT').css({'display': 'inline-flex'});
+		TMS.css('R3_SCD_BTN_APPLYRDT', {'display': 'inline-flex'});
 	};
-	document.getElementById('R3_SCD_SCRIPT_INNER').scrollTop = 0;
+	if (document.getElementById('R3_SCD_SCRIPT_INNER').scrollTop !== 0){
+		document.getElementById('R3_SCD_SCRIPT_INNER').scrollTop = 0;
+	};
 	if (R3_SCD_CURRENT_SCRIPT !== 0){
 		document.getElementById('R3_SCD_LBL_currentScript').innerHTML = R3_SCD_CURRENT_SCRIPT;
 	} else {
@@ -1808,10 +1785,10 @@ function R3_SCD_updateLabels(){
 function R3_DESIGN_SCD_UPDATE_SELECT(scriptId){
 	var c = 0;
 	while (c < R3_SCD_TOTAL_SCRITPS){
-		$('#R3_SCD_SCRIPT_ID_' + c).removeClass('R3_SCRIPT_LIST_ITEM_SELECT');
+		TMS.removeClass('R3_SCD_SCRIPT_ID_' + c, 'R3_SCRIPT_LIST_ITEM_SELECT');
 		c++;
 	};
-	$('#R3_SCD_SCRIPT_ID_' + scriptId).addClass('R3_SCRIPT_LIST_ITEM_SELECT');
+	TMS.addClass('R3_SCD_SCRIPT_ID_' + scriptId, 'R3_SCRIPT_LIST_ITEM_SELECT');
 };
 // Open SCD Edit
 function R3_SCD_openFunctionEdit(cOpcode, isInsert, isExtra, extraTitle){
@@ -1826,21 +1803,19 @@ function R3_SCD_openFunctionEdit(cOpcode, isInsert, isExtra, extraTitle){
 	R3_DESIGN_MINIWINDOW_CLOSE(8);
 	R3_DESIGN_MINIWINDOW_CLOSE(11);
 	// Hide some buttons
-	$('#BTN_MAIN_45').css({'display': 'none'});
-	$('#BTN_MAIN_42').css({'display': 'none'});
-	$('#BTN_MAIN_52').css({'display': 'inline-flex'});
+	TMS.css('BTN_MAIN_45', {'display': 'none'});
+	TMS.css('BTN_MAIN_42', {'display': 'none'});
+	TMS.css('BTN_MAIN_52', {'display': 'inline-flex'});
 	// Add R3V2 Logo if doesn't use custom bg
 	if (R3_SCD_DATABASE[cOpcode][8] === false){
-		$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(\'img/logoWm.png\')', 'background-size': 'auto 80%'});
+		TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'url(\'img/logoWm.png\')', 'background-size': 'auto 80%'});
 	} else {
-		$('#R3_SCD_editForm_bg_image').css({'background-size': 'calc(100% + 60px)'});
+		TMS.css('R3_SCD_editForm_bg_image', {'background-size': 'calc(100% + 60px)'});
 	};
 	// If are extra edit forms (non-opcodes)
 	if (isExtra === undefined){
-		$('#R3_SCD_FUNCTION_LOCATION_LBL').css({'display': 'inline'});
 		document.getElementById('R3_SCD_LBL_EDITFUNCTION').innerHTML = titleMode + ' ' + R3_SCD_DATABASE[cOpcode][1].replace('[', '[<font class="monospace mono_xyzr">').replace(']', '</font>]');
 	} else {
-		$('#R3_SCD_FUNCTION_LOCATION_LBL').css({'display': 'none'});
 		document.getElementById('R3_SCD_LBL_EDITFUNCTION').innerHTML = extraTitle;
 	};
 	// Open form
@@ -1854,24 +1829,24 @@ function R3_SCD_cancelFunctionEdit(exitFromEditForm){
 	R3_SCD_IS_EDITING = false;
 	R3_SCD_currentOpcode = '';
 	// Close Search List
-	$('#BTN_MAIN_52').css({'display': 'none'});
-	$('#BTN_MAIN_45').css({'display': 'inline-flex'});
-	$('#BTN_MAIN_42').css({'display': 'inline-flex'});
-	$('#SCD_FUNCTION_LIST').css({'display': 'block'});
-	$('#R3_SCD_FUNCTIONS_SEARCH').css({'display': 'none'});
+	TMS.css('BTN_MAIN_52', {'display': 'none'});
+	TMS.css('BTN_MAIN_45', {'display': 'inline-flex'});
+	TMS.css('BTN_MAIN_42', {'display': 'inline-flex'});
+	TMS.css('SCD_FUNCTION_LIST', {'display': 'block'});
+	TMS.css('R3_SCD_FUNCTIONS_SEARCH', {'display': 'none'});
 	document.getElementById('SCD_FUNCTION_SEARCH_FIELD').value = '';
 	R3_DESIGN_MINIWINDOW_CLOSE(14);
 	R3_DESIGN_MINIWINDOW_CLOSE(20);
 	// End
 	document.getElementById('R3_SCD_BTN_APPLY').onclick = null;
 	if (R3_ENABLE_ANIMATIONS !== true){
-		$('#R3_SCD_SCRIPT_INNER').css({'display': 'block'});
-		$('#R3_SCD_EDITFUNCTION_DIV').css({'display': 'none'});
-		$('#R3_SCD_CLEAR_SCRIPT_BTN').css({'display': 'block'});
+		TMS.css('R3_SCD_SCRIPT_INNER', {'display': 'block'});
+		TMS.css('R3_SCD_EDITFUNCTION_DIV', {'display': 'none'});
+		TMS.css('R3_SCD_CLEAR_SCRIPT_BTN', {'display': 'block'});
 	} else {
-		$('#R3_SCD_SCRIPT_INNER').fadeIn({duration: 48, queue: false});
-		$('#R3_SCD_CLEAR_SCRIPT_BTN').fadeIn({duration: 48, queue: false});
-		$('#R3_SCD_EDITFUNCTION_DIV').fadeOut({duration: 48, queue: false});
+		TMS.fadeIn('R3_SCD_SCRIPT_INNER', 48);
+		TMS.fadeIn('R3_SCD_CLEAR_SCRIPT_BTN', 48);
+		TMS.fadeOut('R3_SCD_EDITFUNCTION_DIV', 48);
 	};
 	setTimeout(function(){
 		document.getElementById('SCD_FUNCTION_SEARCH_FIELD').focus();
@@ -1891,13 +1866,13 @@ function R3_DESIGN_SCD_openScriptList(){
 function R3_DESIGN_SCD_hoverFunction(fnId, displayHover){
 	if (fnId !== undefined && SCD_arquivoBruto !== undefined && SETTINGS_SCD_HOVER_FUNCTION_HEX === true){
 		var c = 0, scrTo;
-		while (c < (R3_SCD_TOTAL_FUNCTIONS + 1)){
-			$('#R3_SCD_scriptCommand_' + c).css({'box-shadow': 'none'});
+		while (c < R3_SCD_TOTAL_FUNCTIONS){
+			TMS.css('R3_SCD_scriptCommand_' + c, {'box-shadow': 'none'});
 			c++;
 		};
 		if (displayHover === true && SETTINGS_SCD_EDITOR_MODE === 0){
 			scrTo = document.getElementById('R3_SCD_scriptCommand_' + fnId).offsetTop;
-			$('#R3_SCD_scriptCommand_' + fnId).css({'box-shadow': '0px 0px 10px #fff'});
+			TMS.css('R3_SCD_scriptCommand_' + fnId, {'box-shadow': '0px 0px 10px #fff'});
 			document.getElementById('R3_SCD_SCRIPT_INNER').scrollTop = parseInt(scrTo - 4);
 		};
 	};
@@ -1909,12 +1884,12 @@ function R3_DESIGN_SCD_hoverFunction(fnId, displayHover){
 function R3_SCD_FUNCTIONEDIT_UPDATE_SET_TIMER(){
 	var editMode = document.getElementById('R3_SCD_EDIT_1e_target').value;
 	if (editMode === '29'){
-		$('#R3_SCD_EDIT_1e_editVarInt').css({'display': 'none'});
-		$('#R3_SCD_EDIT_1e_editVarTime').css({'display': 'inline'});
+		TMS.css('R3_SCD_EDIT_1e_editVarInt', {'display': 'none'});
+		TMS.css('R3_SCD_EDIT_1e_editVarTime', {'display': 'inline'});
 		R3_SCD_FUNCTIONEDIT_updateSetTimerCanvas();
 	} else {
-		$('#R3_SCD_EDIT_1e_editVarTime').css({'display': 'none'});
-		$('#R3_SCD_EDIT_1e_editVarInt').css({'display': 'inline'});
+		TMS.css('R3_SCD_EDIT_1e_editVarTime', {'display': 'none'});
+		TMS.css('R3_SCD_EDIT_1e_editVarInt', {'display': 'inline'});
 	};
 };
 // Update camera on Swap Camera [CUT_REPLACE]
@@ -1977,9 +1952,9 @@ function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
 		document.getElementById('R3_SCD_EDIT_' + cOpcode + '_camPreview').src = camPrev;
 		if (R3_WEBMODE === false){
 			if (camPrev !== 'img/404.png'){
-				$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(' + camPrev + ')', 'background-size': 'calc(100% + 60px)'});
+				TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'url(' + camPrev + ')', 'background-size': 'calc(100% + 60px)'});
 			} else {
-				$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)', 'background-size': 'auto 250%'});
+				TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)', 'background-size': 'auto 250%'});
 			};
 		};
 	};
@@ -1988,13 +1963,13 @@ function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
 function R3_SCD_FUNCTIONEDIT_showUsePlayerPos(mode){
 	if (mode === 0){
 		if (document.getElementById('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosBtn') !== null){
-			$('#R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosBtn').css({'display': 'none'});
-			$('#R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosDiv').css({'display': 'inline'});
+			TMS.css('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosBtn', {'display': 'none'});
+			TMS.css('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosDiv', {'display': 'inline'});
 		};
 	} else {
 		if (document.getElementById('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosBtn') !== null){
-			$('#R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosDiv').css({'display': 'none'});
-			$('#R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosBtn').css({'display': 'inline'});
+			TMS.css('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosDiv', {'display': 'none'});
+			TMS.css('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_usePlayerPosBtn', {'display': 'inline'});
 		};
 	};
 };
@@ -2005,7 +1980,7 @@ function R3_SCD_FUNCTIONEDIT_updateItemPreview(id, imgSrc){
 	if (parseInt(itemId, 16) > 133){
 		ITEM_imgIcon = 'img/items/details/87.png';
 	};
-	$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(' + ITEM_imgIcon + ')', 'background-size': 'auto 236%'});
+	TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'url(' + ITEM_imgIcon + ')', 'background-size': 'auto 236%'});
 	document.getElementById(imgSrc).src = ITEM_imgIcon;
 	if (DATABASE_ITEM[itemId] !== undefined){
 		document.getElementById(imgSrc).title = DATABASE_ITEM[itemId][0] + '\n' + DATABASE_ITEM[itemId][1].replace(new RegExp('<br>', 'gi'), '\n');
@@ -2020,10 +1995,10 @@ function R3_SCD_FUNCTIONEDIT_updateAotSetLabels(){
 		document.getElementById('R3_SCD_EDIT_63_LBL_data2').innerHTML = R3_SCD_AOT_TYPES[aotId][3];
 		document.getElementById('R3_SCD_EDIT_63_LBL_data3').innerHTML = R3_SCD_AOT_TYPES[aotId][4];
 		if (aotId === '04'){
-			$('#R3_SCD_EDIT_63_msgPrevDiv').css({'display': 'inline'});
+			TMS.css('R3_SCD_EDIT_63_msgPrevDiv', {'display': 'inline'});
 			R3_SCD_FUNCTIONEDIT_updateData0onAOT();
 		} else {
-			$('#R3_SCD_EDIT_63_msgPrevDiv').css({'display': 'none'});
+			TMS.css('R3_SCD_EDIT_63_msgPrevDiv', {'display': 'none'});
 		};
 		R3_DESIGN_adjustMiniWindowForm();
 	} else {
@@ -2081,11 +2056,11 @@ function R3_MSG_clearTranslateField(){
 function R3_MSG_updateLabels(msgId){
 	if (RDT_arquivoBruto !== undefined){
 		document.getElementById('R3_MSG_LBL_currentMessage').innerHTML = parseInt(msgId + 1);
-		$('#R3_MSG_LBL_currentMessage').css({'display': 'inline'});
-		$('#R3_MSG_BTN_APPLYRDT').css({'display': 'inline-flex'});
+		TMS.css('R3_MSG_LBL_currentMessage', {'display': 'inline'});
+		TMS.css('R3_MSG_BTN_APPLYRDT', {'display': 'inline-flex'});
 	} else {
-		$('#R3_MSG_LBL_currentMessage').css({'display': 'none'});
-		$('#R3_MSG_BTN_APPLYRDT').css({'display': 'none'});
+		TMS.css('R3_MSG_LBL_currentMessage', {'display': 'none'});
+		TMS.css('R3_MSG_BTN_APPLYRDT', {'display': 'none'});
 	};
 	document.getElementById('R3_MSG_MESSAGE_PREVIEW').innerHTML = R3_MSG_textMode;
 	document.getElementById('R3_MSG_HEX_RAW').innerHTML = R3_unsolveHEX(R3_MSG_tempHex, 0);
@@ -2095,10 +2070,10 @@ function R3_MSG_updateLabels(msgId){
 function R3_MSG_DESIGN_updateMsgList(msgId){
 	var c = 0, messageId = parseInt(msgId);
 	while (c < R3_MSG_RDT_MESSAGES.length){
-		$('#R3_MSG_MESSAGE_ID_' + c).removeClass('R3_SCRIPT_LIST_ITEM_SELECT');
+		TMS.removeClass('R3_MSG_MESSAGE_ID_' + c, 'R3_SCRIPT_LIST_ITEM_SELECT');
 		c++;
 	};
-	$('#R3_MSG_MESSAGE_ID_' + messageId).addClass('R3_SCRIPT_LIST_ITEM_SELECT');
+	TMS.addClass('R3_MSG_MESSAGE_ID_' + messageId, 'R3_SCRIPT_LIST_ITEM_SELECT');
 };
 /*
 	RDT Editor
@@ -2118,12 +2093,12 @@ function R3_DESIGN_updateSelectedObjManager(){
 // Update if SCD Hack is present
 function R3_DESIGN_updateScdHack(){
 	if (R3_RDT_SCD_HACK_ENABLED === true){
-		$('#BTN_SCD_HACK').css({'display': 'inline'});
-		$('#R3_RDT_BTN_ENABLE_SCD_HACK').css({'display': 'none'});
+		TMS.css('BTN_SCD_HACK', {'display': 'inline'});
+		TMS.css('R3_RDT_BTN_ENABLE_SCD_HACK', {'display': 'none'});
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) SCD Hack is enabled on this map!');
 	} else {
-		$('#BTN_SCD_HACK').css({'display': 'none'});
-		$('#R3_RDT_BTN_ENABLE_SCD_HACK').css({'display': 'inline'});
+		TMS.css('BTN_SCD_HACK', {'display': 'none'});
+		TMS.css('R3_RDT_BTN_ENABLE_SCD_HACK', {'display': 'inline'});
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) SCD Hack is disbled on this map!');
 	};
 };
@@ -2167,8 +2142,8 @@ function R3_RDT_DESIGN_resetInterface(){
 	if (R3_DOORLINK_RUNNING === false && R3_MINI_WINDOW_DATABASE[23][5] === true){
 		R3_DESIGN_MINIWINDOW_CLOSE(23);
 	};
-	$('#R3_RDT_GENERAL_IMG').css({'left': '-4%', 'display': 'none'});
-	$('#R3_RDT_MENU_GENERAL_INFOS').css({'left': '52%', 'display': 'none'});
+	TMS.css('R3_RDT_GENERAL_IMG', {'left': '-4%', 'display': 'none'});
+	TMS.css('R3_RDT_MENU_GENERAL_INFOS', {'left': '52%', 'display': 'none'});
 };
 // Show RDT
 function R3_RDT_DESIGN_enableInterface(showInterface){
@@ -2180,47 +2155,47 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 			if (APP_useImageFix === true){
 				mapFirstCamera = 'file://' + mapFirstCamera;
 			};
-			$('#R3_RDT_GENERAL_IMG').css({'background-image': 'url(' + mapFirstCamera + ')'});
+			TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(' + mapFirstCamera + ')'});
 		} else {
 			if (APP_FS.existsSync(mapSecondCamera) === true){
 				if (APP_useImageFix === true){
 					mapSecondCamera = 'file://' + mapSecondCamera;
 				};
-				$('#R3_RDT_GENERAL_IMG').css({'background-image': 'url(' + mapSecondCamera + ')'});
+				TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(' + mapSecondCamera + ')'});
 			} else {
-				$('#R3_RDT_GENERAL_IMG').css({'background-image': 'url(img/404.png)'});
+				TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(img/404.png)'});
 			};
 		};
 	};
 	// Check if Leo2236 RE3SLDE are present
 	if (R3_WEBMODE === false){
 		if (APP_FS.existsSync(R3_RE3SLDE_PATH) === true){
-			$('#BTN_MAIN_38').css({'display': 'inline-flex'});
+			TMS.css('BTN_MAIN_38', {'display': 'inline-flex'});
 		} else {
-			$('#BTN_MAIN_38').css({'display': 'none'});
+			TMS.css('BTN_MAIN_38', {'display': 'none'});
 		};
 	} else {
 		R3_DESIGN_DISABLE_BTN('BTN_MAIN_38');
 		R3_DESIGN_DISABLE_BTN('BTN_MAIN_26');
 	};
 	// Buttons
-	$('#BTN_MAIN_27').css({'display': 'none'});
-	$('#R3_MENU_BTNS_RDT_UTILITY').css({'display': 'inline-flex'});
-	$('#R3_MENU_BTNS_RDT_MINIWINDOWS').css({'display': 'inline-flex'});
-	$('#R3_MENU_BTNS_RDT_OPENSECTIONS').css({'display': 'inline-flex'});
+	TMS.css('BTN_MAIN_27', {'display': 'none'});
+	TMS.css('R3_MENU_BTNS_RDT_UTILITY', {'display': 'inline-flex'});
+	TMS.css('R3_MENU_BTNS_RDT_MINIWINDOWS', {'display': 'inline-flex'});
+	TMS.css('R3_MENU_BTNS_RDT_OPENSECTIONS', {'display': 'inline-flex'});
 	if (R3_WEBMODE === false){
 		// Next / Previous Map
 		if (APP_ENABLE_MOD === true){
-			$('#R3_MENU_BTNS_NEXTPREV').css({'display': 'inline-flex'});
+			TMS.css('R3_MENU_BTNS_NEXTPREV', {'display': 'inline-flex'});
 		} else {
-			$('#R3_MENU_BTNS_NEXTPREV').css({'display': 'none'});
+			TMS.css('R3_MENU_BTNS_NEXTPREV', {'display': 'none'});
 		};
 		document.getElementById('R3_RDT_GENERAL_FILEPATH').title = ORIGINAL_FILENAME.replace('//', '/');
 		document.getElementById('R3_RDT_GENERAL_FILEPATH').innerHTML = R3_fixPathSize(ORIGINAL_FILENAME, R3_RDT_MENU_LABEL_FIX_NUMBER).replace('//', '/');
 		document.getElementById('R3_RDT_GENERAL_FILESIZE').innerHTML = R3_getFileSize(ORIGINAL_FILENAME, 1) + ' KB';
 	} else {
-		$('#R3_PAGE_ICON_BG_7').css({'display': 'none'});
-		$('#R3_RDT_LBL_FILESIZE').css({'display': 'none'});
+		TMS.css('R3_PAGE_ICON_BG_7', {'display': 'none'});
+		TMS.css('R3_RDT_LBL_FILESIZE', {'display': 'none'});
 		document.getElementById('R3_RDT_GENERAL_FILEPATH').innerHTML = 'Unknwon';
 	};
 	// Map Name
@@ -2238,17 +2213,17 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 	// End Animation
 	if (R3_ENABLE_ANIMATIONS === true && SETTINGS_ENABLE_RDT_OPEN_ANIMATION === true){
 		var animTime = 810;
-		$('#R3_RDT_GENERAL_IMG').animate({'left': '-2%'}, {duration: animTime});
-		$('#R3_RDT_GENERAL_IMG').fadeIn({duration: parseInt(animTime - 200), queue: false});
-		$('#R3_RDT_MENU_GENERAL_INFOS').fadeIn({duration: parseInt(animTime - 200), queue: false});
-		$('#R3_RDT_MENU_GENERAL_INFOS').animate({'left': '50%'}, {duration: animTime, queue: false});
+		TMS.animate('R3_RDT_GENERAL_IMG', {'left': '-2%'}, animTime);
+		TMS.fadeIn('R3_RDT_GENERAL_IMG', parseInt(animTime - 200));
+		TMS.fadeIn('R3_RDT_MENU_GENERAL_INFOS', parseInt(animTime - 200));
+		TMS.animate('R3_RDT_MENU_GENERAL_INFOS', {'left': '50%'}, animTime);
 		setTimeout(function(){
 			R3_DESIGN_RDT_LOADLOCK = false;
 		}, parseInt(animTime + 10));
 	} else {
 		R3_DESIGN_RDT_LOADLOCK = false;
-		$('#R3_RDT_GENERAL_IMG').css({'display': 'block', 'left': '-2%'});
-		$('#R3_RDT_MENU_GENERAL_INFOS').css({'display': 'block', 'left': '50%'});
+		TMS.css('R3_RDT_GENERAL_IMG', {'display': 'block', 'left': '-2%'});
+		TMS.css('R3_RDT_MENU_GENERAL_INFOS', {'display': 'block', 'left': '50%'});
 	};
 	// End
 	if (showInterface === true){
@@ -2303,7 +2278,7 @@ function R3_RDT_FILELIST_GENERATE(mode){
 				c++;
 			};
 			document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '';
-			$('#R3_RDT_FILELIST_HOLDER').append(HTML_MAP_LIST);
+			TMS.append('R3_RDT_FILELIST_HOLDER', HTML_MAP_LIST);
 			// End
 			document.getElementById('R3_RDT_FILELIST_HOLDER').scrollTop = 0;
 		} else {
@@ -2331,10 +2306,9 @@ function R3_RDT_FILELIST_SEARCHMAP(event){
 		if (seekValue.length === 3){
 			mapResult = document.getElementById('R3_RDT_FILELIST_ITEM_R' + seekValue);
 			if (mapResult !== null){
-				document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '';
-				$('#R3_RDT_FILELIST_HOLDER').append(mapResult);
+				document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = mapResult.outerHTML;
 				if (kp === 13){
-					$('#R3_RDT_FILELIST_ITEM_R' + seekValue).trigger('click');
+					TMS.triggerClick('R3_RDT_FILELIST_ITEM_R' + seekValue);
 				};
 			} else {
 				document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">Unable to find R' + seekValue.toUpperCase() + '.RDT</div>';
@@ -2347,27 +2321,26 @@ function R3_RDT_FILELIST_SEARCHMAP(event){
 // Open selected menu
 function R3_DESIGN_RDT_openForm(formId){
 	if (formId !== undefined){
-		var c = 0, currentForm;
+		var c = 0;
 		while (c < 9999){
-			currentForm = document.getElementById('R3_RDT_MENU_' + c);
-			if (currentForm !== null){
-				$('#R3_RDT_MENU_' + c).css({'display': 'none'});
+			if (document.getElementById('R3_RDT_MENU_' + c) !== null){
+				TMS.css('R3_RDT_MENU_' + c, {'display': 'none'});
 			};
 			c++;
 		}
-		$('#R3_RDT_MENU_' + formId).css({'display': 'inline'});
+		TMS.css('R3_RDT_MENU_' + formId, {'display': 'inline'});
 	};
 };
 // Open RDT List
 function R3_DESIGN_RDT_openFileList(){
 	R3_DESIGN_MINIWINDOW_CLOSE(6);
 	R3_DESIGN_MINIWINDOW_CLOSE(10);
-	$('#R3_MENU_BTNS_NEXTPREV').css({'display': 'none'});
-	$('#R3_MENU_BTNS_RDT_UTILITY').css({'display': 'none'});
-	$('#R3_MENU_BTNS_RDT_MINIWINDOWS').css({'display': 'none'});
-	$('#R3_MENU_BTNS_RDT_OPENSECTIONS').css({'display': 'none'});
+	TMS.css('R3_MENU_BTNS_NEXTPREV', {'display': 'none'});
+	TMS.css('R3_MENU_BTNS_RDT_UTILITY', {'display': 'none'});
+	TMS.css('R3_MENU_BTNS_RDT_MINIWINDOWS', {'display': 'none'});
+	TMS.css('R3_MENU_BTNS_RDT_OPENSECTIONS', {'display': 'none'});
 	document.getElementById('R3_RDT_FILELIST_SERACH').value = '';
-	$('#BTN_MAIN_27').css({'display': 'inline'});
+	TMS.css('BTN_MAIN_27', {'display': 'inline'});
 	R3_RDT_FILELIST_UPDATELIST();
 	R3_DESIGN_RDT_openForm(1);
 	setTimeout(function(){
@@ -2376,11 +2349,11 @@ function R3_DESIGN_RDT_openFileList(){
 };
 // Close RDT List
 function R3_DESIGN_RDT_closeFileList(){
-	$('#R3_MENU_BTNS_RDT_OPENSECTIONS').css({'display': 'inline-flex'});
-	$('#R3_MENU_BTNS_RDT_MINIWINDOWS').css({'display': 'inline-flex'});
-	$('#R3_MENU_BTNS_RDT_UTILITY').css({'display': 'inline-flex'});
+	TMS.css('R3_MENU_BTNS_RDT_OPENSECTIONS', {'display': 'inline-flex'});
+	TMS.css('R3_MENU_BTNS_RDT_MINIWINDOWS', {'display': 'inline-flex'});
+	TMS.css('R3_MENU_BTNS_RDT_UTILITY', {'display': 'inline-flex'});
 	document.getElementById('R3_RDT_FILELIST_SERACH').value = '';
-	$('#BTN_MAIN_27').css({'display': 'none'});
+	TMS.css('BTN_MAIN_27', {'display': 'none'});
 	R3_DESIGN_RDT_openForm(0);
 };
 /*
@@ -2393,13 +2366,13 @@ function R3_DESIGN_RID_updateCamSelected(camId){
 	if (R3_WEBMODE === false){
 		if (APP_FS.existsSync(camBss) === false){
 			camBss = 'img/404.png';
-			$('#R3_RID_EDIT_FORM_INNER_BG').css({'background-image': 'url(\'./img/404.png\')'});
+			TMS.css('R3_RID_EDIT_FORM_INNER_BG', {'background-image': 'url(\'./img/404.png\')'});
 		} else {
 			mPath = R3_MOD_PATH;
 			if (APP_useImageFix === true){
 				mPath = 'file://' + R3_MOD_PATH;
 			};
-			$('#R3_RID_EDIT_FORM_INNER_BG').css({'background-image': 'url(\'' + mPath + '/DATA_A/BSS/' + R3_RDT_mapName + MEMORY_JS_fixVars(parseInt(camId).toString(16), 2) + '.JPG\')'});
+			TMS.css('R3_RID_EDIT_FORM_INNER_BG', {'background-image': 'url(\'' + mPath + '/DATA_A/BSS/' + R3_RDT_mapName + MEMORY_JS_fixVars(parseInt(camId).toString(16), 2) + '.JPG\')'});
 		};
 		// Non-windows fix
 		if (APP_useImageFix === true){
@@ -2412,10 +2385,10 @@ function R3_DESIGN_RID_updateCamSelected(camId){
 	// Cam List
 	totCams = RID_cameraList.length;
 	while (c < totCams){
-		$('#R3_RID_CAM_' + c).removeClass('R3_SCRIPT_LIST_ITEM_SELECT');
+		TMS.removeClass('R3_RID_CAM_' + c, 'R3_SCRIPT_LIST_ITEM_SELECT');
 		c++;
 	};
-	$('#R3_RID_CAM_' + camId).addClass('R3_SCRIPT_LIST_ITEM_SELECT');
+	TMS.addClass('R3_RID_CAM_' + camId, 'R3_SCRIPT_LIST_ITEM_SELECT');
 	document.getElementById('R3_RID_CAMERA_LIST_HOLDER').scrollTop = (document.getElementById('R3_RID_CAM_' + camId).offsetTop - 36);
 	// Title
 	document.getElementById('R3_RID_lblTitleCurrentCam').innerHTML = camId + ' (' + MEMORY_JS_fixVars(parseInt(camId).toString(16), 2).toUpperCase() + ')';
@@ -2429,10 +2402,10 @@ document.FOR_HACKERS_ONLY = function(){
 	R3_SYSTEM_LOG('log', '<div class="align-center">' + atob('TG9va2luZyBpbnNpZGUgUjNWMiBDb2RlPyBKdXN0IGhvcGUgeW91IGhhdmUgYSBnb29kIHRpbWUhPGJyPjxicj5EbyB5b3Ugd2FubmEgcGxheSBhIGNvb2wgZ2FtZT8gVHJ5IDx1IHRpdGxlPSJIaSEiPkNyb3NzQ29kZTwvdT4hPGJyPkl0IGlzIGF2YWlsYWJsZSBvbiBTdGVhbSAoV2luLCBtYWNPUyBhbmQgTGludXgpLCBQUzQgYW5kIGV2ZW4gb24gTmludGVuZG8gU3dpdGNoITxicj48YnI+VGhlcmUgaXMgYSB3ZWJkZW1vIGlmIHlvdSB3YW50IHRyeSB0aGUgZ2FtZSBiZWZvcmUgcHVyY2hhc2luZyBpdDo8YnI+PGEgaHJlZj0iaHR0cHM6Ly9jcm9zcy1jb2RlLmNvbS9lbi9zdGFydCIgdGFyZ2V0PSJfYmxhbmsiPmh0dHBzOi8vY3Jvc3MtY29kZS5jb20vZW4vc3RhcnQ8L2E+PGJyPjxicj5Ob3cgLSBpZiB5b3Ugd2FudCBrbm93IGFib3V0IHRoaXMgc29mdHdhcmUsIDxhIGhyZWY9Imh0dHBzOi8vdHdpdHRlci5jb20vdGhlbWl0b3NhbiIgdGFyZ2V0PSJfYmxhbmsiPkRNIG1lIG9uIFR3aXR0ZXI8L2E+ITxicj48YnI+U2VlIHlvdSBsYXRlciE8YnI+PGJyPjxhIGhyZWY9Imh0dHBzOi8vdGhlbWl0b3Nhbi5naXRodWIuaW8vIiB0YXJnZXQ9Il9ibGFuayI+VGhlTWl0b1NhbjwvYT4u') + '</div>');
 	R3_SYSTEM_LOG('separator');
 	document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'I S33 Y0U!';
-	$('#R3_LOG_ID_N_2').addClass('SEPARATOR-5');
-	$('#R3_LOG_ID_N_4').addClass('SEPARATOR-5');
-	$('#R3_LOG_ID_N_2').removeClass('SEPARATOR-3');
-	$('#R3_LOG_ID_N_4').removeClass('SEPARATOR-3');
+	TMS.addClass('R3_LOG_ID_N_2', 'SEPARATOR-5');
+	TMS.addClass('R3_LOG_ID_N_4', 'SEPARATOR-5');
+	TMS.removeClass('R3_LOG_ID_N_2', 'SEPARATOR-3');
+	TMS.removeClass('R3_LOG_ID_N_4', 'SEPARATOR-3');
 	R3_DESIGN_MINIWINDOW_OPEN(0, 'center');
 };
 // Update Range
@@ -2486,26 +2459,24 @@ function R3_LIVESTATUS_OPEN_MENU(){
 function R3_LIVESTATUS_OPEN_BAR(){
 	if (R3_WEBMODE === false){
 		var c = 0;
-		// Disabling Run buttons
-		$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'display': 'none'});
 		// Bottom
 		if (SETTINGS_LIVESTATUS_BAR_POS === 0){
-			$('#R3_LIVESTATUS_FOOTER_HOLDER').css({'display': 'inline'});
+			TMS.css('R3_LIVESTATUS_FOOTER_HOLDER', {'display': 'inline'});
 			// Adjust menus
 			while (c < R3_TOTAL_MENUS){
 				if (c !== 2){
-					$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 64px)'});
+					TMS.css('MENU_' + c, {'width': '100%', 'height': 'calc(100% - 64px)'});
 				};
 				c++;
 			};
 		};
 		// Right
 		if (SETTINGS_LIVESTATUS_BAR_POS === 1){
-			$('#R3_LIVESTATUS_RIGHT_HOLDER').css({'display': 'inline'});
+			TMS.css('R3_LIVESTATUS_RIGHT_HOLDER', {'display': 'inline'});
 			// Adjust menus
 			while (c < R3_TOTAL_MENUS){
-				if (c !== 2){
-					$('#MENU_' + c).css({'width': 'calc(100% - 112px)', 'height': 'calc(100% - 26px)'});
+				if (c !== 2 && document.getElementById('MENU_' + c) !== null){
+					TMS.css('MENU_' + c, {'width': 'calc(100% - 112px)', 'height': 'calc(100% - 26px)'});
 				};
 				c++;
 			};
@@ -2515,16 +2486,13 @@ function R3_LIVESTATUS_OPEN_BAR(){
 // Close Bar
 function R3_LIVESTATUS_CLOSE_BAR(){
 	var c = 0;
-	$('#R3_LIVESTATUS_RIGHT_HOLDER').css({'display': 'none'});
-	$('#R3_LIVESTATUS_FOOTER_HOLDER').css({'display': 'none'});
-	if (R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === false){
-		$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'display': 'inline-flex'});
-	} else {
-		$('#R3_MENU_MAIN_TOP_EXEC_GAME_DIV').css({'display': 'none'});
-	};
+	TMS.css('R3_LIVESTATUS_RIGHT_HOLDER', {'display': 'none'});
+	TMS.css('R3_LIVESTATUS_FOOTER_HOLDER', {'display': 'none'});
 	// Adjust menus
 	while (c < R3_TOTAL_MENUS){
-		$('#MENU_' + c).css({'width': '100%', 'height': 'calc(100% - 24px)'});
+		if (document.getElementById('MENU_' + c) !== null){
+			TMS.css('MENU_' + c, {'width': '100%', 'height': 'calc(100% - 24px)'});
+		};
 		c++;
 	};
 	// End
@@ -2605,17 +2573,17 @@ function R3_LIVETSTATUS_RENDER(){
 	// Player Values
 	checkPlayer = REALTIME_CurrentHP + REALTIME_CurrentPlayer + REALTIME_CurrentWeapon;
 	if (checkPlayer !== RE3_LIVE_PLAYER){
-		$('#R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV').removeClass('R3_COLOR_FINE');
-		$('#R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV').removeClass('R3_COLOR_DANGER');
-		$('#R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV').removeClass('R3_COLOR_POISON');
-		$('#R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV').removeClass('R3_COLOR_CAUTION');
-		$('#R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV').removeClass('R3_COLOR_CAUTION_RED');
-		$('#R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV').addClass(R3_processHP(REALTIME_CurrentHP)[3]);
+		TMS.removeClass('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV', 'R3_COLOR_FINE');
+		TMS.removeClass('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV', 'R3_COLOR_DANGER');
+		TMS.removeClass('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV', 'R3_COLOR_POISON');
+		TMS.removeClass('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV', 'R3_COLOR_CAUTION');
+		TMS.removeClass('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV', 'R3_COLOR_CAUTION_RED');
+		TMS.addClass('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERCONDITION_DIV', R3_processHP(REALTIME_CurrentHP)[3]);
 		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_HP').innerHTML = R3_processHP(REALTIME_CurrentHP)[0];
 		document.getElementById('R3_LIVESTATUS_LBL_' + SETTINGS_LIVESTATUS_BAR_POS + '_CONDITION').innerHTML = R3_processHP(REALTIME_CurrentHP)[1];
 		var cPlayer = 'img/PLR_' + REALTIME_CurrentPlayer + '.png',
 			cWeapon = 'img/items/' + REALTIME_CurrentWeapon + '.png';
-		$('#R3_LIVESTATUS_MINITAB_2_BG').css({'background-image': 'url("./img/PLR_' + REALTIME_CurrentPlayer + '.png")'});
+		TMS.css('R3_LIVESTATUS_MINITAB_2_BG', {'background-image': 'url("./img/PLR_' + REALTIME_CurrentPlayer + '.png")'});
 		document.getElementById('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_PLAYERICON').src = cPlayer;
 		document.getElementById('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_WEAPONICON').src = cWeapon;
 		// RE3 Live Window
@@ -2651,7 +2619,7 @@ function R3_LIVETSTATUS_RENDER(){
 			document.getElementById('R3_LIVESTATUS_BOX_IMG_' + c).src = 'img/items/' + IT + '.png';
 			document.getElementById('R3_LIVESTATUS_BOX_ITEM_LBL_' + c).innerHTML = '(' + c + ') ' + DATABASE_ITEM[IT][0];
 			if (DATABASE_ITEM_ATTR[AT] !== undefined){
-				$('#R3_LIVESTATUS_BOX_ITEM_QT_' + c).css({'color': DATABASE_ITEM_ATTR[AT][1], 'opacity': DATABASE_ITEM_ATTR[AT][4]});	
+				TMS.css('R3_LIVESTATUS_BOX_ITEM_QT_' + c, {'color': DATABASE_ITEM_ATTR[AT][1], 'opacity': DATABASE_ITEM_ATTR[AT][4]});	
 			};
 			c++;
 		};
@@ -2715,7 +2683,7 @@ function R3_LIVESTATUS_RENDER_INVENT_SLOT(sID, IT, QT, AT){
 		};
 		document.getElementById('R3_LIVESTATUS_LBL_INVENT_' + slotId).innerHTML = itQT;
 		document.getElementById('R3_LIVESTATUS_INVENT_ICON_' + slotId).src = 'img/items/' + IT + '.png';
-		$('#R3_LIVESTATUS_LBL_INVENT_' + slotId).css({'color': itColor, 'text-shadow': itShadow, 'display': itDisplay});
+		TMS.css('R3_LIVESTATUS_LBL_INVENT_' + slotId, {'color': itColor, 'text-shadow': itShadow, 'display': itDisplay});
 		document.getElementById('R3_LIVESTATUS_INVENT_ICON_' + slotId).title = DATABASE_ITEM[IT][0] + ' (Click to edit this slot)\n\n' + DATABASE_ITEM[IT][1].replace(new RegExp('<br>', 'gi'), '\n');
 	} else {
 		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unknown Item Attr! [' + AT + ']');
@@ -2738,8 +2706,8 @@ function R3_LIVESTATUS_EDIT_INVENT(inventId){
 		document.getElementById('R3_LIVESTATUS_MINITAB_4').value = 'Edit Inventory Slot ' + inventId;
 		R3_LIVESTATUS_EDIT_INVENT_RENDERIMG();
 		// End
-		$('#R3_LIVESTATUS_MINITAB_4').css({'display': 'block'});
-		$('#R3_LIVESTATUS_MINISECTION_4').css({'display': 'block'});
+		TMS.css('R3_LIVESTATUS_MINITAB_4', {'display': 'block'});
+		TMS.css('R3_LIVESTATUS_MINISECTION_4', {'display': 'block'});
 		document.getElementById('R3_LIVESTATUS_EDIT_INVENT_APPLY').onclick = function(){
 			R3_LIVESTATUS_APPLYITEM(inventId);
 		};
@@ -2763,7 +2731,7 @@ function R3_LIVESTATUS_EDIT_INVENT_RENDERIMG(){
 	var IT = document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value;
 	document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX_SEARCH').value = '';
 	document.getElementById('R3_LIVESTATUS_IMG_ITEM_SETSLOT').src = 'img/items/details/' + IT + '.png';
-	$('#R3_LIVESTATUS_IMG_ITEM_BG').css({'background-image': 'url("./img/items/details/' + IT + '.png")'});
+	TMS.css('R3_LIVESTATUS_IMG_ITEM_BG', {'background-image': 'url("./img/items/details/' + IT + '.png")'});
 };
 // Edit Itembox
 function R3_LIVESTATUS_EDIT_ITEMBOX(itemId){
@@ -2781,8 +2749,8 @@ function R3_LIVESTATUS_EDIT_ITEMBOX(itemId){
 		/*
 			End
 		*/
-		$('#R3_LIVESTATUS_MINITAB_4').css({'display': 'block'});
-		$('#R3_LIVESTATUS_MINISECTION_4').css({'display': 'block'});
+		TMS.css('R3_LIVESTATUS_MINITAB_4', {'display': 'block'});
+		TMS.css('R3_LIVESTATUS_MINISECTION_4', {'display': 'block'});
 		document.getElementById('R3_LIVESTATUS_EDIT_INVENT_APPLY').onclick = function(){
 			R3_LIVESTATUS_APPLYITEMBOX(itemId);
 		};
@@ -2791,8 +2759,8 @@ function R3_LIVESTATUS_EDIT_ITEMBOX(itemId){
 };
 // Cancel Slot Edit
 function R3_LIVESTATUS_EDIT_INVENT_CANCEL(){
-	$('#R3_LIVESTATUS_MINITAB_4').css({'display': 'none'});
-	$('#R3_LIVESTATUS_MINISECTION_4').css({'display': 'none'});
+	TMS.css('R3_LIVESTATUS_MINITAB_4', {'display': 'none'});
+	TMS.css('R3_LIVESTATUS_MINISECTION_4', {'display': 'none'});
 	document.getElementById('R3_LIVESTATUS_EDIT_INVENT_APPLY').onclick = undefined;
 };
 // Close RE3 Livestatus
@@ -2816,9 +2784,9 @@ function R3_eNGE_makeWindowVisible(mode){
 		if (R3_MINI_WINDOW_DATABASE[13][5] === false){
 			R3_DESIGN_MINIWINDOW_OPEN(13);
 		};
-		$('#R3V2_MINI_WINDOW_13').css({'z-index': '10000010'});
+		TMS.css('R3V2_MINI_WINDOW_13', {'z-index': '10000010'});
 	} else {
-		$('#R3V2_MINI_WINDOW_13').css({'z-index': '999999'});
+		TMS.css('R3V2_MINI_WINDOW_13', {'z-index': '999999'});
 	};
 };
 /*
@@ -2855,21 +2823,21 @@ function R3_DESIGN_UTILS_processCheckBox(checkboxId, updateSettings){
 */
 function R3_UTILS_CALL_LOADING(title, status, percent){
 	R3_DESIGN_LOADING_ACTIVE = true;
-	$('#R3_MENU_MAIN_TOP').css({'display': 'none'});
+	TMS.css('R3_MENU_MAIN_TOP', {'display': 'none'});
 	document.getElementById('R3_LOADING_TITLE').innerHTML = title;
 	document.getElementById('R3_LOADING_STATUS').innerHTML = status;
 	document.getElementById('R3_LOADING_PGBAR_LABEL').innerHTML = percent;
-	$('#R3_LOADING_PGBAR_DIV').css({'width': 'calc(' + parseInt(percent) + '% - 20px)'});
+	TMS.css('R3_LOADING_PGBAR_DIV', {'width': 'calc(' + parseInt(percent) + '% - 20px)'});
 	R3_SHOW_MENU(2);	
 	R3_MENU_LOCK = true;
 };
 function R3_UTILS_LOADING_UPDATE(status, percent){
 	document.getElementById('R3_LOADING_STATUS').innerHTML = status;
 	document.getElementById('R3_LOADING_PGBAR_LABEL').innerHTML = percent;
-	$('#R3_LOADING_PGBAR_DIV').css({'width': 'calc(' + parseInt(percent) + '% - 20px)'});
+	TMS.css('R3_LOADING_PGBAR_DIV', {'width': 'calc(' + parseInt(percent) + '% - 20px)'});
 };
 function R3_UTILS_LOADING_CLOSE(){
-	$('#R3_MENU_MAIN_TOP').css({'display': 'inline-flex'});
+	TMS.css('R3_MENU_MAIN_TOP', {'display': 'inline-flex'});
 	R3_DESIGN_LOADING_ACTIVE = false;
 	R3_MENU_LOCK = false;
 	R3_MENU_GOBACK();
@@ -2909,9 +2877,9 @@ function R3_DESIGN_renderBackupManager(){
 function R3_DESIGN_processSettingsChanges(){
 	// Move screen to another display
 	if (SETTINGS_ENABLE_MOVE_SCREEN === true){
-		$('#SETTINGS_ENABLE_MOVE_DISPLAY_DIV').css({'display': 'inline'});
+		TMS.css('SETTINGS_ENABLE_MOVE_DISPLAY_DIV', {'display': 'inline'});
 	} else {
-		$('#SETTINGS_ENABLE_MOVE_DISPLAY_DIV').css({'display': 'none'});
+		TMS.css('SETTINGS_ENABLE_MOVE_DISPLAY_DIV', {'display': 'none'});
 	};
 };
 /*
@@ -2969,7 +2937,7 @@ function R3_DESIGN_CLEAN_MSG(){
 };
 function R3_DESIGN_CLEAN_SCD(){
 	R3_SCD_cancelFunctionEdit();
-	$('#R3_SCD_BTN_APPLYRDT').css({'display': 'none'});
+	TMS.css('R3_SCD_BTN_APPLYRDT', {'display': 'none'});
 	document.getElementById('R3_SCD_HEX_RAW').innerHTML = '';
 	document.getElementById('R3_SCD_SCRIPT_INNER').innerHTML = '';
 	document.getElementById('R3_SCD_SCRIPT_LISTS').innerHTML = '';
@@ -2984,7 +2952,7 @@ function R3_DESIGN_CLEAN_SCD(){
 };
 function R3_DESIGN_CLEAN_RDT(){
 	R3_DESIGN_RDT_openFileList();
-	$('#BTN_MAIN_27').css({'display': 'none'});
+	TMS.css('BTN_MAIN_27', {'display': 'none'});
 	document.getElementById('R3_RDT_FILELIST_SERACH').value = '';
 };
 function R3_DESIGN_CLEAN_RID(){

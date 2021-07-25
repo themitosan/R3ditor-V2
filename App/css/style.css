@@ -514,10 +514,9 @@ blockquote {
 .R3_LATEST_FILE_DIV {
     top: 48px;
     color: #fff;
-    left: -200px;
+    left: -44px;
     width: 500px;
     height: 144px;
-    display: none;
     z-index: 999999;
     overflow: hidden;
     position: absolute;

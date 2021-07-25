@@ -122,7 +122,7 @@ function R3_MSG_addToMSGList(msgId){
 			msgFinal = msgStart.slice(0, (msgStart.indexOf('fe') + 4)),
 			HTML_TEMPLATE = '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_MSG_MESSAGE_ID_' + msgId + '">Message ' + parseInt(msgId + 1) +
 							'<input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="Load Message" onclick="R3_MSG_readMessage(' + msgId + ');"></div>';
-		$('#R3_MSG_SCRIPT_LISTS').append(HTML_TEMPLATE);
+		TMS.append('R3_MSG_SCRIPT_LISTS', HTML_TEMPLATE);
 		R3_MSG_RDT_MESSAGES.push(msgFinal);
 	};
 };

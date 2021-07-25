@@ -196,7 +196,7 @@ function R3_SCD_SKIPSCRIPT(mode){
 			// Render fix
 			if (R3_SCD_CURRENT_SCRIPT !== nextScript){
 				R3_SCD_CURRENT_SCRIPT = nextScript;
-				document.getElementById('R3_SCD_SCRIPT_ID_' + R3_SCD_CURRENT_SCRIPT).scrollIntoView();
+				TMS.scrollCenter('R3_SCD_SCRIPT_ID_' + R3_SCD_CURRENT_SCRIPT);
 				R3_SCD_displayScript(R3_SCD_CURRENT_SCRIPT);
 				R3_SCD_HIGHLIGHT_FUNCTION = 0;
 				R3_SCD_navigateFunctions(2);
@@ -215,7 +215,7 @@ function R3_SCD_OPEN_SCRIPT_SHORTCUT(){
 	if (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][R3_SCD_HIGHLIGHT_FUNCTION] !== undefined){
 		var c = 0;
 		while (c < R3_SCD_TOTAL_FUNCTIONS){
-			$('#R3_SCD_scriptCommand_' + c).css({'box-shadow': '0px 0px 0px #000'});
+			TMS.css('R3_SCD_scriptCommand_' + c, {'box-shadow': '0px 0px 0px #000'});
 			c++;
 		};
 		R3_SCD_FUNCTION_EDIT(R3_SCD_HIGHLIGHT_FUNCTION);
@@ -665,7 +665,7 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 		};
 		HTML_INIT_SCRIPT_TEMP = '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SCRIPT_ID_' + pointerPos + '"><div class="R3_SCD_SCRIPT_LIST_ACTIVE" id="R3_SCD_SCRIPT_LIST_ACTIVE_' + pointerPos + '">' +
 								'</div>' + textLabel + '<input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="Load Script" onclick="R3_SCD_displayScript(' + pointerPos + ');"></div>';
-		$('#R3_SCD_SCRIPT_LISTS').append(HTML_INIT_SCRIPT_TEMP);
+		TMS.append('R3_SCD_SCRIPT_LISTS', HTML_INIT_SCRIPT_TEMP);
 	} catch (err) {
 		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to generate script list!');
 		R3_SYSTEM_LOG('error', 'Details: ' + err);
@@ -687,7 +687,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 		// Clean interface if list editor
 		document.getElementById('R3_SCD_SCRIPT_INNER').innerHTML = '';
 		R3_SCD_SWAP_EDITOR_MODE(SETTINGS_SCD_EDITOR_MODE);
-		var c = 0, lblId, scriptId = parseInt(id), changeColorCSS = '', hexSelectMode = 'user-can-select', SCD_HTML_TEMPLATE, cFunction, cName = scriptHex = tempScriptHex = '', cOpcode, cmdType, functionList = R3_SCD_SCRIPTS_LIST[scriptId];
+		var c = 0, lblId, scriptId = parseInt(id), changeColorCSS = '', hexSelectMode = 'user-can-select', SCD_HTML_TEMPLATE = '', cFunction, cName = scriptHex = tempScriptHex = '', cOpcode, cmdType, functionList = R3_SCD_SCRIPTS_LIST[scriptId];
 		if (functionList === undefined){
 			functionList = R3_SCD_SCRIPTS_LIST[0];
 		};
@@ -1561,11 +1561,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				/*
 					Generate HTML and Stuff
 				*/
-				SCD_HTML_TEMPLATE = '<div class="R3_SCD_functionBase R3_SCD_function_' + cmdType + '" title="' + fnHint + '" id="R3_SCD_scriptCommand_' + c + '" ondblclick="R3_SCD_FUNCTION_EDIT(' + c + ');" onclick="R3_SCD_navigateFunctions(5, ' + c + ', true);">' + cEdit + 
+				SCD_HTML_TEMPLATE = SCD_HTML_TEMPLATE + '<div class="R3_SCD_functionBase R3_SCD_function_' + cmdType + '" title="' + fnHint + '" id="R3_SCD_scriptCommand_' + c + '" ondblclick="R3_SCD_FUNCTION_EDIT(' + c + ');" onclick="R3_SCD_navigateFunctions(5, ' + c + ', true);">' + cEdit + 
 									cRemove + '(<font class="monospace mono_xyzr">' + MEMORY_JS_fixVars(parseInt(c + 1), 3) + '</font>) - Function: ' + cName + ' ' + opcodeHint_HEX + '<br>' + cProp + '</div>';
-				if (canDisplayScript === true){
-					$('#R3_SCD_SCRIPT_INNER').append(SCD_HTML_TEMPLATE);
-				};
 				// Hex View checks
 				if (SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR === true){
 					changeColorCSS = 'R3_SCD_function_' + cmdType + ' no-bg-image';
@@ -2322,6 +2319,9 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 			};
 			document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = tempScriptCode;
 		};
+		if (canDisplayScript === true && SETTINGS_SCD_EDITOR_MODE === 0){
+			TMS.append('R3_SCD_SCRIPT_INNER', SCD_HTML_TEMPLATE);
+		};
 		R3_SCD_CURRENT_SCRIPT_HEX = tempScriptHex.replace(new RegExp(' ', 'g'), '');
 		R3_SCD_CURREN_HEX_VIEW = scriptHex.slice(0, parseInt(scriptHex.length - 1));
 		R3_SCD_TOTAL_FUNCTIONS = functionList.length;
@@ -2461,8 +2461,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 	if (R3_SCD_IS_EDITING === false && SCD_arquivoBruto !== undefined){
 		if (R3_SCD_DATABASE[cOpcode] !== undefined){
 			R3_SCD_closeSeekFunction();
-			$('#R3_SCD_editForm_bg_image').css({'display': 'none'});
-			$('#SCD_FUNCTION_SEARCH_FIELD').css({'text-transform': 'none'});
+			TMS.css('R3_SCD_editForm_bg_image', {'display': 'none'});
+			TMS.css('SCD_FUNCTION_SEARCH_FIELD', {'text-transform': 'none'});
 			document.getElementById('SCD_FUNCTION_SEARCH_FIELD').value = '';
 			document.getElementById('R3_SCD_editFunction_pos').disabled = '';
 			document.getElementById('R3_SCD_editFunction_pos').max = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length;
@@ -2525,7 +2525,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set Timer / Value [SET_TIMER]
 				if (cOpcode === '1e'){
-					$('#R3_SCD_EDIT_1e_target').append(INCLUDE_EDIT_SCD_SET_TIMER_TARGET);
+					TMS.append('R3_SCD_EDIT_1e_target', INCLUDE_EDIT_SCD_SET_TIMER_TARGET);
 					document.getElementById('R3_SCD_EDIT_1e_target').value = '29';
 					document.getElementById('R3_SCD_EDIT_1e_hex').innerHTML = '0000';
 					document.getElementById('R3_SCD_EDIT_1e_timeHH').value = '0';
@@ -2538,7 +2538,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Execute Calculation [CALC_OP]
 				if (cOpcode === '20'){
-					$('#R3_SCD_EDIT_20_operation').append(INCLUDE_EDIT_SCD_CALC_OP_OPERATIONS);
+					TMS.append('R3_SCD_EDIT_20_operation', INCLUDE_EDIT_SCD_CALC_OP_OPERATIONS);
 					document.getElementById('R3_SCD_EDIT_20_unk0').value = '00';
 					document.getElementById('R3_SCD_EDIT_20_operation').value = '00';
 					document.getElementById('R3_SCD_EDIT_20_accmId').value = '00';
@@ -2583,7 +2583,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// [OTA_BE_SET]
 				if (cOpcode === '2c'){
-					$('#R3_SCD_EDIT_2c_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+					TMS.append('R3_SCD_EDIT_2c_flag', INCLUDE_EDIT_SCD_FLAGS);
 					document.getElementById('R3_SCD_EDIT_2c_data0').value = '00';
 					document.getElementById('R3_SCD_EDIT_2c_data1').value = '00';
 					document.getElementById('R3_SCD_EDIT_2c_flag').value = '00';
@@ -2624,7 +2624,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// [ITEM_GET_CK]
 				if (cOpcode === '36'){
-					$('#R3_SCD_EDIT_36_itemCode').append(INCLUDE_EDIT_ITEM);
+					TMS.append('R3_SCD_EDIT_36_itemCode', INCLUDE_EDIT_ITEM);
 					document.getElementById('R3_SCD_EDIT_36_itemCode').value = '00';
 					document.getElementById('R3_SCD_EDIT_36_quant').value = 1;
 					R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_36_itemCode', 'R3_SCD_EDIT_36_itemPreview');
@@ -2653,14 +2653,14 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Remove Item [ITEM_LOST]
 				if (cOpcode === '3e'){
-					$('#R3_SCD_EDIT_3e_item').append(INCLUDE_EDIT_ITEM);
+					TMS.append('R3_SCD_EDIT_3e_item', INCLUDE_EDIT_ITEM);
 					document.getElementById('R3_SCD_EDIT_3e_item').value = '00';
 					R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_3e_item', 'R3_SCD_EDIT_3e_itemIconPrev');
 					focusDomId = 'R3_SCD_EDIT_3e_itemSeek';
 				};
 				// [FLR_SET]
 				if (cOpcode === '3f'){
-					$('#R3_SCD_EDIT_3f_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+					TMS.append('R3_SCD_EDIT_3f_flag', INCLUDE_EDIT_SCD_FLAGS);
 					document.getElementById('R3_SCD_EDIT_3f_id').value = '00';
 					document.getElementById('R3_SCD_EDIT_3f_flag').value = '00';
 					focusDomId = 'R3_SCD_EDIT_3f_flag';
@@ -2679,7 +2679,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set Fade [FADE_SET]
 				if (cOpcode === '46'){
-					$('#R3_SCD_EDIT_46_type').append(INCLUDE_EDIT_SCD_FADE_TYPES);
+					TMS.append('R3_SCD_EDIT_46_type', INCLUDE_EDIT_SCD_FADE_TYPES);
 					document.getElementById('R3_SCD_EDIT_46_id').value = '00';
 					document.getElementById('R3_SCD_EDIT_46_unk0').value = '00';
 					document.getElementById('R3_SCD_EDIT_46_type').value = '00';
@@ -2698,7 +2698,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Char Trigger [WORK_SET]
 				if (cOpcode === '47'){
-					$('#R3_SCD_EDIT_47_target').append(INCLUDE_EDIT_SCD_WORK_SET_TARGET);
+					TMS.append('R3_SCD_EDIT_47_target', INCLUDE_EDIT_SCD_WORK_SET_TARGET);
 					document.getElementById('R3_SCD_EDIT_47_target').value = '01';
 					document.getElementById('R3_SCD_EDIT_47_value').value = '00';
 					focusDomId = 'R3_SCD_EDIT_47_target';
@@ -2711,8 +2711,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Check Boolean [CK]
 				if (cOpcode === '4c'){
-					$('#R3_SCD_EDIT_4c_event').append(INCLUDE_EDIT_SCD_CK_TYPES);
-					$('#R3_SCD_EDIT_4c_flag').append(INCLUDE_EDIT_SCD_FLAGS + INCLUDE_EDIT_SCD_CK_SPECIAL);
+					TMS.append('R3_SCD_EDIT_4c_event', INCLUDE_EDIT_SCD_CK_TYPES);
+					TMS.append('R3_SCD_EDIT_4c_flag', INCLUDE_EDIT_SCD_FLAGS + INCLUDE_EDIT_SCD_CK_SPECIAL);
 					document.getElementById('R3_SCD_EDIT_4c_event').value = '03';
 					document.getElementById('R3_SCD_EDIT_4c_value').value = '00';
 					document.getElementById('R3_SCD_EDIT_4c_flag').value = '00';
@@ -2720,8 +2720,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				}
 				// Set Event Value [SET]
 				if (cOpcode === '4d'){
-					$('#R3_SCD_EDIT_4d_var').append(INCLUDE_EDIT_SCD_SET_VALUES);
-					$('#R3_SCD_EDIT_4d_boolean').append(INCLUDE_EDIT_SCD_FLAGS);
+					TMS.append('R3_SCD_EDIT_4d_var', INCLUDE_EDIT_SCD_SET_VALUES);
+					TMS.append('R3_SCD_EDIT_4d_boolean', INCLUDE_EDIT_SCD_FLAGS);
 					document.getElementById('R3_SCD_EDIT_4d_var').value = '1c';
 					document.getElementById('R3_SCD_EDIT_4d_boolean').value = '01';
 					focusDomId = 'R3_SCD_EDIT_4d_id';
@@ -2734,7 +2734,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				}
 				// Lock Camera [CUT_AUTO]
 				if (cOpcode === '52'){
-					$('#R3_SCD_EDIT_52_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+					TMS.append('R3_SCD_EDIT_52_flag', INCLUDE_EDIT_SCD_FLAGS);
 					document.getElementById('R3_SCD_EDIT_52_flag').value = '00';
 					focusDomId = 'R3_SCD_EDIT_52_flag';
 				}
@@ -2747,7 +2747,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				}
 				// [CUT_BE_SET]
 				if (cOpcode === '54'){
-					$('#R3_SCD_EDIT_54_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+					TMS.append('R3_SCD_EDIT_54_flag', INCLUDE_EDIT_SCD_FLAGS);
 					document.getElementById('R3_SCD_EDIT_54_id').value = '00';
 					document.getElementById('R3_SCD_EDIT_54_value').value = '00';
 					document.getElementById('R3_SCD_EDIT_54_flag').value = '00';
@@ -2789,7 +2789,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Display Message [MESSAGE_ON]
 				if (cOpcode === '5b'){
-					$('#R3_SCD_EDIT_5b_displayMode').append(INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
+					TMS.append('R3_SCD_EDIT_5b_displayMode', INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
 					document.getElementById('R3_SCD_EDIT_5b_id').value = 0;
 					document.getElementById('R3_SCD_EDIT_5b_data0').value = '0000';
 					document.getElementById('R3_SCD_EDIT_5b_displayMode').value = '0000';
@@ -2809,15 +2809,15 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Change Weapon [WEAPON_CHG]
 				if (cOpcode === '5f'){
-					$('#R3_SCD_EDIT_5f_weaponId').append(INCLUDE_EDIT_WEAPON);
+					TMS.append('R3_SCD_EDIT_5f_weaponId', INCLUDE_EDIT_WEAPON);
 					document.getElementById('R3_SCD_EDIT_5f_weaponId').value = '01';
 					R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_5f_weaponId', 'R3_SCD_EDIT_5f_itemIconPrev');
 					focusDomId = 'R3_SCD_EDIT_5f_weaponId';
 				};
 				// Set Door [DOOR_AOT_SET]
 				if (cOpcode === '61'){
-					$('#R3_SCD_EDIT_61_displayText').append(INCLUDE_SCD_DOOR_TEXT);
-					$('#R3_SCD_EDIT_61_lockKey').append(INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
+					TMS.append('R3_SCD_EDIT_61_displayText', INCLUDE_SCD_DOOR_TEXT);
+					TMS.append('R3_SCD_EDIT_61_lockKey', INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
 					document.getElementById('R3_SCD_EDIT_61_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_61_aot').value = '01210000';
 					document.getElementById('R3_SCD_EDIT_61_stage').value = 1;
@@ -2835,8 +2835,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set Door 4P [DOOR_AOT_SET_4P]
 				if (cOpcode === '62'){
-					$('#R3_SCD_EDIT_62_displayText').append(INCLUDE_SCD_DOOR_TEXT);
-					$('#R3_SCD_EDIT_62_lockKey').append(INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
+					TMS.append('R3_SCD_EDIT_62_displayText', INCLUDE_SCD_DOOR_TEXT);
+					TMS.append('R3_SCD_EDIT_62_lockKey', INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
 					document.getElementById('R3_SCD_EDIT_62_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_62_aot').value = '000000';
 					document.getElementById('R3_SCD_EDIT_62_4P').value = '0000000000000000';
@@ -2855,8 +2855,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set Interactive Object [AOT_SET]
 				if (cOpcode === '63'){
-					$('#R3_SCD_EDIT_63_aot').append(INCLUDE_EDIT_AOT_TYPES);
-					$('#R3_SCD_EDIT_63_displayMode').append(INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
+					TMS.append('R3_SCD_EDIT_63_aot', INCLUDE_EDIT_AOT_TYPES);
+					TMS.append('R3_SCD_EDIT_63_displayMode', INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
 					document.getElementById('R3_SCD_EDIT_63_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_63_aot').value = '04';
 					document.getElementById('R3_SCD_EDIT_63_type').value = '00';
@@ -2894,9 +2894,9 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set Item [ITEM_AOT_SET]
 				if (cOpcode === '67'){
-					$('#R3_SCD_EDIT_67_attr').append(INCLUDE_EDIT_ATTR);
-					$('#R3_SCD_EDIT_67_blinkColor').append(INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
-					$('#R3_SCD_EDIT_67_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
+					TMS.append('R3_SCD_EDIT_67_attr', INCLUDE_EDIT_ATTR);
+					TMS.append('R3_SCD_EDIT_67_blinkColor', INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
+					TMS.append('R3_SCD_EDIT_67_item', INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
 					document.getElementById('R3_SCD_EDIT_67_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_67_aot').value = '02310000';
 					document.getElementById('R3_SCD_EDIT_67_item').value = '00';
@@ -2910,9 +2910,9 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set Item 4P [ITEM_AOT_SET_4P]
 				if (cOpcode === '68'){
-					$('#R3_SCD_EDIT_68_attr').append(INCLUDE_EDIT_ATTR);
-					$('#R3_SCD_EDIT_68_blinkColor').append(INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
-					$('#R3_SCD_EDIT_68_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
+					TMS.append('R3_SCD_EDIT_68_attr', INCLUDE_EDIT_ATTR);
+					TMS.append('R3_SCD_EDIT_68_blinkColor', INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
+					TMS.append('R3_SCD_EDIT_68_item', INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
 					document.getElementById('R3_SCD_EDIT_68_id').value = R3_SCD_getFreeIdForFunction();
 					document.getElementById('R3_SCD_EDIT_68_aot').value = '02310000';
 					document.getElementById('R3_SCD_EDIT_68_4P').value = '0000000000000000';
@@ -2939,14 +2939,14 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Check Item [KEEP_ITEM_CK]
 				if (cOpcode === '6b'){
-					$('#R3_SCD_EDIT_6b_item').append(INCLUDE_EDIT_ITEM);
+					TMS.append('R3_SCD_EDIT_6b_item', INCLUDE_EDIT_ITEM);
 					document.getElementById('R3_SCD_EDIT_6b_item').value = '00';
 					R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_6b_item', 'R3_SCD_EDIT_6b_itemIconPrev');
 					focusDomId = 'R3_SCD_EDIT_6b_itemSeek';
 				};
 				// [KEY_CK]
 				if (cOpcode === '6c'){
-					$('#R3_SCD_EDIT_6c_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+					TMS.append('R3_SCD_EDIT_6c_flag', INCLUDE_EDIT_SCD_FLAGS);
 					document.getElementById('R3_SCD_EDIT_6c_flag').value = '00';
 					document.getElementById('R3_SCD_EDIT_6c_value').value = '0000';
 					focusDomId = 'R3_SCD_EDIT_6c_flag';
@@ -3021,8 +3021,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set Enemy / NPC [EM_SET]
 				if (cOpcode === '7d'){
-					$('#R3_SCD_EDIT_7d_type').append(INCLUDE_EDIT_SCD_EM_SET_TYPES);
-					$('#R3_SCD_EDIT_7d_pose').append(INCLUDE_EDIT_SCD_EM_SET_POSE);
+					TMS.append('R3_SCD_EDIT_7d_type', INCLUDE_EDIT_SCD_EM_SET_TYPES);
+					TMS.append('R3_SCD_EDIT_7d_pose', INCLUDE_EDIT_SCD_EM_SET_POSE);
 					focusDomId = 'R3_SCD_EDIT_7d_type';
 				};
 				// [MIZU_DIV]
@@ -3032,8 +3032,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set 3D Object [OM_SET]
 				if (cOpcode === '7f'){
-					$('#R3_SCD_EDIT_7f_AOT').append(INCLUDE_EDIT_SCD_OM_SET_TYPE);
-					$('#R3_SCD_EDIT_7f_colType').append(INCLUDE_EDIT_SCD_OM_SET_COL_TYPE);
+					TMS.append('R3_SCD_EDIT_7f_AOT', INCLUDE_EDIT_SCD_OM_SET_TYPE);
+					TMS.append('R3_SCD_EDIT_7f_colType', INCLUDE_EDIT_SCD_OM_SET_COL_TYPE);
 					document.getElementById('R3_SCD_EDIT_7f_id').value = R3_SCD_getFreeIdForFunction(1);
 					document.getElementById('R3_SCD_EDIT_7f_setColission').value = '60';
 					document.getElementById('R3_SCD_EDIT_7f_beFlag').value = 'ff';
@@ -3047,7 +3047,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set Animation DEST [PLC_DEST]
 				if (cOpcode === '81'){
-					$('#R3_SCD_EDIT_81_animation').append(INCLUDE_EDIT_SCD_PLC_DEST_ANIMATIONS);
+					TMS.append('R3_SCD_EDIT_81_animation', INCLUDE_EDIT_SCD_PLC_DEST_ANIMATIONS);
 					document.getElementById('R3_SCD_EDIT_81_animation').value = '04';
 					document.getElementById('R3_SCD_EDIT_81_animModifier').value = '20';
 					document.getElementById('R3_SCD_EDIT_81_dataA').value = '0000';
@@ -3057,7 +3057,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				// Set Head Animation [PLC_NECK]
 				if (cOpcode === '82'){
-					$('#R3_SCD_EDIT_82_type').append(INCLUDE_EDIT_SCD_PLC_NECK_ANIMATIONS);
+					TMS.append('R3_SCD_EDIT_82_type', INCLUDE_EDIT_SCD_PLC_NECK_ANIMATIONS);
 					document.getElementById('R3_SCD_EDIT_82_type').value = '02';
 					document.getElementById('R3_SCD_EDIT_82_repeat').value = 0;
 					document.getElementById('R3_SCD_EDIT_82_speed').value = 10;
@@ -3100,7 +3100,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				/*
 					End
 				*/
-				$('#R3_SCD_BTN_APPLY').css({'display': 'inline'});
+				TMS.css('R3_SCD_BTN_APPLY', {'display': 'inline'});
 				document.getElementById('R3_SCD_editFunction_pos').disabled = '';
 				document.getElementById('R3_SCD_BTN_APPLY').onclick = function(){
 					R3_SCD_FUNCTION_APPLY(false, undefined, false);
@@ -3115,7 +3115,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 			} else {
 				document.getElementById('R3_SCD_EDITFUNCTION_HOLDER').innerHTML = INCLUDE_SCD_EDIT_WIP;
 				document.getElementById('R3_SCD_editFunction_pos').disabled = 'disabled';
-				$('#R3_SCD_BTN_APPLY').css({'display': 'none'});
+				TMS.css('R3_SCD_BTN_APPLY', {'display': 'none'});
 				R3_SCD_openFunctionEdit(cOpcode, true);
 			};
 		} else {
@@ -3140,13 +3140,13 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			canEdit = false;
 			errorReason = 'Unable to find SCD Opcode ' + cOpcode + '!';
 		};
-		$('#R3_SCD_editForm_bg_image').css({'display': 'none'});
+		TMS.css('R3_SCD_editForm_bg_image', {'display': 'none'});
 		if (opcodeForm !== '' && canEdit === true){
 			document.getElementById('R3_SCD_editFunction_pos').max = parseInt(R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length + 1);
 			document.getElementById('R3_SCD_EDITFUNCTION_HOLDER').innerHTML = opcodeForm;
 			document.getElementById('R3_SCD_editFunction_pos').disabled = 'disabled';
 			document.getElementById('R3_SCD_editFunction_pos').value = (fnId + 1);
-			$('#R3_SCD_BTN_APPLY').css({'display': 'inline'});
+			TMS.css('R3_SCD_BTN_APPLY', {'display': 'inline'});
 			R3_SCD_CURRENT_FUNCTION = fnId;
 			R3_SCD_currentOpcode = cOpcode;
 			// Force it to render the new form
@@ -3214,7 +3214,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Timer / Value [SET_TIMER]
 			if (cOpcode === '1e'){
-				$('#R3_SCD_EDIT_1e_target').append(INCLUDE_EDIT_SCD_SET_TIMER_TARGET);
+				TMS.append('R3_SCD_EDIT_1e_target', INCLUDE_EDIT_SCD_SET_TIMER_TARGET);
 				var SET_target 	  = cFunction.slice(R3_SCD_DEC_DB.target[0], R3_SCD_DEC_DB.target[1]),
 					SET_timeHex	  = cFunction.slice(R3_SCD_DEC_DB.time[0],   R3_SCD_DEC_DB.time[1]);
 					SET_timeArray = R3_TIME_parseHexTime(SET_timeHex, 1),
@@ -3235,7 +3235,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Execute Calculation [CALC_OP]
 			if (cOpcode === '20'){
-				$('#R3_SCD_EDIT_20_operation').append(INCLUDE_EDIT_SCD_CALC_OP_OPERATIONS);
+				TMS.append('R3_SCD_EDIT_20_operation', INCLUDE_EDIT_SCD_CALC_OP_OPERATIONS);
 				var CALC_unk0 	   = cFunction.slice(R3_SCD_DEC_DB.unk0[0], R3_SCD_DEC_DB.unk0[1]),
 					CALC_operation = cFunction.slice(R3_SCD_DEC_DB.operation[0], R3_SCD_DEC_DB.operation[1]),
 					CALC_accmId    = cFunction.slice(R3_SCD_DEC_DB.accumulatorId[0], R3_SCD_DEC_DB.accumulatorId[1]),
@@ -3296,7 +3296,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// [OTA_BE_SET]
 			if (cOpcode === '2c'){
-				$('#R3_SCD_EDIT_2c_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+				TMS.append('R3_SCD_EDIT_2c_flag', INCLUDE_EDIT_SCD_FLAGS);
 				var OTA_data0 = cFunction.slice(R3_SCD_DEC_DB.data0[0], R3_SCD_DEC_DB.data0[1]),
 					OTA_data1 = cFunction.slice(R3_SCD_DEC_DB.data1[0], R3_SCD_DEC_DB.data1[1]),
 					OTA_flag  = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]);
@@ -3355,7 +3355,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// [ITEM_GET_CK]
 			if (cOpcode === '36'){
-				$('#R3_SCD_EDIT_36_itemCode').append(INCLUDE_EDIT_ITEM);
+				TMS.append('R3_SCD_EDIT_36_itemCode', INCLUDE_EDIT_ITEM);
 				var ITEM_code  = cFunction.slice(R3_SCD_DEC_DB.itemId[0], R3_SCD_DEC_DB.itemId[1]),
 					ITEM_quant = cFunction.slice(R3_SCD_DEC_DB.quant[0], R3_SCD_DEC_DB.quant[1]);
 				document.getElementById('R3_SCD_EDIT_36_itemCode').value = ITEM_code;
@@ -3391,7 +3391,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Remove Item [ITEM_LOST]
 			if (cOpcode === '3e'){
-				$('#R3_SCD_EDIT_3e_item').append(INCLUDE_EDIT_ITEM);
+				TMS.append('R3_SCD_EDIT_3e_item', INCLUDE_EDIT_ITEM);
 				var ITEM_code = cFunction.slice(R3_SCD_DEC_DB.itemCode[0], R3_SCD_DEC_DB.itemCode[1]);
 				document.getElementById('R3_SCD_EDIT_3e_item').value = ITEM_code;
 				R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_3e_item', 'R3_SCD_EDIT_3e_itemIconPrev');
@@ -3399,7 +3399,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// [FLR_SET]
 			if (cOpcode === '3f'){
-				$('#R3_SCD_EDIT_3f_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+				TMS.append('R3_SCD_EDIT_3f_flag', INCLUDE_EDIT_SCD_FLAGS);
 				var FLR_id   = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					FLR_flag = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]);
 				document.getElementById('R3_SCD_EDIT_3f_id').value = FLR_id;
@@ -3424,7 +3424,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Fade [FADE_SET]
 			if (cOpcode === '46'){
-				$('#R3_SCD_EDIT_46_type').append(INCLUDE_EDIT_SCD_FADE_TYPES);
+				TMS.append('R3_SCD_EDIT_46_type', INCLUDE_EDIT_SCD_FADE_TYPES);
 				var FADE_id 	  = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					FADE_unk0 	  = cFunction.slice(R3_SCD_DEC_DB.unk0[0], R3_SCD_DEC_DB.unk0[1]),
 					FADE_type 	  = cFunction.slice(R3_SCD_DEC_DB.type[0], R3_SCD_DEC_DB.type[1]),
@@ -3453,7 +3453,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Char Trigger [WORK_SET]
 			if (cOpcode === '47'){
-				$('#R3_SCD_EDIT_47_target').append(INCLUDE_EDIT_SCD_WORK_SET_TARGET);
+				TMS.append('R3_SCD_EDIT_47_target', INCLUDE_EDIT_SCD_WORK_SET_TARGET);
 				var WORK_target = cFunction.slice(R3_SCD_DEC_DB.target[0], R3_SCD_DEC_DB.target[1]),
 					WORK_value = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]);
 				document.getElementById('R3_SCD_EDIT_47_target').value = WORK_target;
@@ -3470,8 +3470,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Check Boolean [CK]
 			if (cOpcode === '4c'){
-				$('#R3_SCD_EDIT_4c_event').append(INCLUDE_EDIT_SCD_CK_TYPES);
-				$('#R3_SCD_EDIT_4c_flag').append(INCLUDE_EDIT_SCD_FLAGS + INCLUDE_EDIT_SCD_CK_SPECIAL);
+				TMS.append('R3_SCD_EDIT_4c_event', INCLUDE_EDIT_SCD_CK_TYPES);
+				TMS.append('R3_SCD_EDIT_4c_flag', INCLUDE_EDIT_SCD_FLAGS + INCLUDE_EDIT_SCD_CK_SPECIAL);
 				var CK_event = cFunction.slice(R3_SCD_DEC_DB.event[0], R3_SCD_DEC_DB.event[1]),
 					CK_value = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]),
 					CK_flag  = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]);
@@ -3482,8 +3482,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Event Value [SET]
 			if (cOpcode === '4d'){
-				$('#R3_SCD_EDIT_4d_boolean').append(INCLUDE_EDIT_SCD_FLAGS);
-				$('#R3_SCD_EDIT_4d_var').append(INCLUDE_EDIT_SCD_SET_VALUES);
+				TMS.append('R3_SCD_EDIT_4d_boolean', INCLUDE_EDIT_SCD_FLAGS);
+				TMS.append('R3_SCD_EDIT_4d_var', INCLUDE_EDIT_SCD_SET_VALUES);
 				var SET_id   = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					SET_var  = cFunction.slice(R3_SCD_DEC_DB.typeVar[0], R3_SCD_DEC_DB.typeVar[1]),
 					SET_flag = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]);
@@ -3501,7 +3501,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Lock Camera [CUT_AUTO]
 			if (cOpcode === '52'){
-				$('#R3_SCD_EDIT_52_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+				TMS.append('R3_SCD_EDIT_52_flag', INCLUDE_EDIT_SCD_FLAGS);
 				var CUT_flag = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]);
 				document.getElementById('R3_SCD_EDIT_52_flag').value = CUT_flag;
 				focusDomId = 'R3_SCD_EDIT_52_flag';
@@ -3517,7 +3517,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// [CUT_BE_SET]
 			if (cOpcode === '54'){
-				$('#R3_SCD_EDIT_54_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+				TMS.append('R3_SCD_EDIT_54_flag', INCLUDE_EDIT_SCD_FLAGS);
 				var CUT_id 	  = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					CUT_value = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]),
 					CUT_flag  = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]);
@@ -3576,7 +3576,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Display Message [MESSAGE_ON]
 			if (cOpcode === '5b'){
-				$('#R3_SCD_EDIT_5b_displayMode').append(INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
+				TMS.append('R3_SCD_EDIT_5b_displayMode', INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
 				var MESSAGE_id = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					MESSAGE_data0 = cFunction.slice(R3_SCD_DEC_DB.data0[0], R3_SCD_DEC_DB.data0[1]),
 					MESSAGE_dMode = cFunction.slice(R3_SCD_DEC_DB.displayMode[0], R3_SCD_DEC_DB.displayMode[1]);
@@ -3602,7 +3602,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Change Weapon [WEAPON_CHG]
 			if (cOpcode === '5f'){
-				$('#R3_SCD_EDIT_5f_weaponId').append(INCLUDE_EDIT_WEAPON);
+				TMS.append('R3_SCD_EDIT_5f_weaponId', INCLUDE_EDIT_WEAPON);
 				var WEAPON_id = cFunction.slice(R3_SCD_DEC_DB.weaponId[0], R3_SCD_DEC_DB.weaponId[1]);
 				document.getElementById('R3_SCD_EDIT_5f_weaponId').value = WEAPON_id;
 				R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_5f_weaponId', 'R3_SCD_EDIT_5f_itemIconPrev');
@@ -3610,8 +3610,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Door [DOOR_AOT_SET]
 			if (cOpcode === '61'){
-				$('#R3_SCD_EDIT_61_displayText').append(INCLUDE_SCD_DOOR_TEXT);
-				$('#R3_SCD_EDIT_61_lockKey').append(INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
+				TMS.append('R3_SCD_EDIT_61_displayText', INCLUDE_SCD_DOOR_TEXT);
+				TMS.append('R3_SCD_EDIT_61_lockKey', INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
 				var DOOR_Id     = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					DOOR_aot    = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
 					DOOR_XPos   = cFunction.slice(R3_SCD_DEC_DB.posX[0], R3_SCD_DEC_DB.posX[1]),
@@ -3657,8 +3657,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Door 4P [DOOR_AOT_SET_4P]
 			if (cOpcode === '62'){
-				$('#R3_SCD_EDIT_62_displayText').append(INCLUDE_SCD_DOOR_TEXT);
-				$('#R3_SCD_EDIT_62_lockKey').append(INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
+				TMS.append('R3_SCD_EDIT_62_displayText', INCLUDE_SCD_DOOR_TEXT);
+				TMS.append('R3_SCD_EDIT_62_lockKey', INCLUDE_EDIT_ITEM + INCLUDE_SCD_DOOR_KEYFF);
 				var DOOR_Id     = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					DOOR_aot    = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
 					DOOR_XPos   = cFunction.slice(R3_SCD_DEC_DB.posX[0], R3_SCD_DEC_DB.posX[1]),
@@ -3706,8 +3706,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Interactive Object [AOT_SET]
 			if (cOpcode === '63'){
-				$('#R3_SCD_EDIT_63_aot').append(INCLUDE_EDIT_AOT_TYPES);
-				$('#R3_SCD_EDIT_63_displayMode').append(INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
+				TMS.append('R3_SCD_EDIT_63_aot', INCLUDE_EDIT_AOT_TYPES);
+				TMS.append('R3_SCD_EDIT_63_displayMode', INCLUDE_EDIT_SCD_MSG_DISPLAYMODE);
 				var AOT_id 		 = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					AOT_aot 	 = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
 					AOT_type 	 = cFunction.slice(R3_SCD_DEC_DB.type[0], R3_SCD_DEC_DB.type[1]),
@@ -3771,9 +3771,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Item [ITEM_AOT_SET]
 			if (cOpcode === '67'){
-				$('#R3_SCD_EDIT_67_attr').append(INCLUDE_EDIT_ATTR);
-				$('#R3_SCD_EDIT_67_blinkColor').append(INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
-				$('#R3_SCD_EDIT_67_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
+				TMS.append('R3_SCD_EDIT_67_blinkColor', INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
+				TMS.append('R3_SCD_EDIT_67_item', INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
 				var ITEM_Id 	 = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					ITEM_aot 	 = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
 					ITEM_Xpos 	 = cFunction.slice(R3_SCD_DEC_DB.posX[0], R3_SCD_DEC_DB.posX[1]),
@@ -3810,9 +3809,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Item 4P [ITEM_AOT_SET_4P]
 			if (cOpcode === '68'){
-				$('#R3_SCD_EDIT_68_attr').append(INCLUDE_EDIT_ATTR);
-				$('#R3_SCD_EDIT_68_blinkColor').append(INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
-				$('#R3_SCD_EDIT_68_item').append(INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
+				TMS.append('R3_SCD_EDIT_68_blinkColor', INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR);
+				TMS.append('R3_SCD_EDIT_68_item', INCLUDE_EDIT_ITEM + INCLUDE_EDIT_FILE + INCLUDE_EDIT_MAP);
 				var ITEM_Id 	 = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 					ITEM_aot 	 = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
 					ITEM_Xpos 	 = cFunction.slice(R3_SCD_DEC_DB.posX[0], R3_SCD_DEC_DB.posX[1]),
@@ -3871,7 +3869,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Check Item [KEEP_ITEM_CK]
 			if (cOpcode === '6b'){
-				$('#R3_SCD_EDIT_6b_item').append(INCLUDE_EDIT_ITEM);
+				TMS.append('R3_SCD_EDIT_6b_item', INCLUDE_EDIT_ITEM);
 				var ITEM_code = cFunction.slice(R3_SCD_DEC_DB.itemId[0], R3_SCD_DEC_DB.itemId[1]);
 				document.getElementById('R3_SCD_EDIT_6b_item').value = ITEM_code;
 				R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_6b_item', 'R3_SCD_EDIT_6b_itemIconPrev');
@@ -3879,7 +3877,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// [KEY_CK]
 			if (cOpcode === '6c'){
-				$('#R3_SCD_EDIT_6c_flag').append(INCLUDE_EDIT_SCD_FLAGS);
+				TMS.append('R3_SCD_EDIT_6c_flag', INCLUDE_EDIT_SCD_FLAGS);
 				var KEY_flag  = cFunction.slice(R3_SCD_DEC_DB.flag[0], R3_SCD_DEC_DB.flag[1]),
 					KEY_value = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]);
 				document.getElementById('R3_SCD_EDIT_6c_flag').value = KEY_flag;
@@ -3983,8 +3981,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Enemy / NPC [EM_SET]
 			if (cOpcode === '7d'){
-				$('#R3_SCD_EDIT_7d_type').append(INCLUDE_EDIT_SCD_EM_SET_TYPES);
-				$('#R3_SCD_EDIT_7d_pose').append(INCLUDE_EDIT_SCD_EM_SET_POSE);
+				TMS.append('R3_SCD_EDIT_7d_type', INCLUDE_EDIT_SCD_EM_SET_TYPES);
+				TMS.append('R3_SCD_EDIT_7d_pose', INCLUDE_EDIT_SCD_EM_SET_POSE);
 				var EM_unk0 	 = cFunction.slice(R3_SCD_DEC_DB.unk0[0], R3_SCD_DEC_DB.unk0[1]),
 					EM_enemyId   = cFunction.slice(R3_SCD_DEC_DB.enemyId[0], R3_SCD_DEC_DB.enemyId[1]),
 					EM_enemyType = cFunction.slice(R3_SCD_DEC_DB.enemyType[0], R3_SCD_DEC_DB.enemyType[1]),
@@ -4025,8 +4023,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set 3D Object [OM_SET] // WIP
 			if (cOpcode === '7f'){
-				$('#R3_SCD_EDIT_7f_AOT').append(INCLUDE_EDIT_SCD_OM_SET_TYPE);
-				$('#R3_SCD_EDIT_7f_colType').append(INCLUDE_EDIT_SCD_OM_SET_COL_TYPE);
+				TMS.append('R3_SCD_EDIT_7f_AOT', INCLUDE_EDIT_SCD_OM_SET_TYPE);
+				TMS.append('R3_SCD_EDIT_7f_colType', INCLUDE_EDIT_SCD_OM_SET_COL_TYPE);
 				var OM_id  		= cFunction.slice(R3_SCD_DEC_DB.objId[0], R3_SCD_DEC_DB.objId[1]),
 					OM_AOT 		= cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
 					OM_moveType = cFunction.slice(R3_SCD_DEC_DB.moveType[0], R3_SCD_DEC_DB.moveType[1]),
@@ -4093,7 +4091,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Animation DEST [PLC_DEST]
 			if (cOpcode === '81'){
-				$('#R3_SCD_EDIT_81_animation').append(INCLUDE_EDIT_SCD_PLC_DEST_ANIMATIONS);
+				TMS.append('R3_SCD_EDIT_81_animation', INCLUDE_EDIT_SCD_PLC_DEST_ANIMATIONS);
 				var PLC_animation	 = cFunction.slice(R3_SCD_DEC_DB.animation[0], R3_SCD_DEC_DB.animation[1]),
 					PLC_animModifier = cFunction.slice(R3_SCD_DEC_DB.animModifier[0], R3_SCD_DEC_DB.animModifier[1]),
 					PLC_dataA		 = cFunction.slice(R3_SCD_DEC_DB.dataA[0], R3_SCD_DEC_DB.dataA[1]),
@@ -4107,7 +4105,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			};
 			// Set Head Animation [PLC_NECK]
 			if (cOpcode === '82'){
-				$('#R3_SCD_EDIT_82_type').append(INCLUDE_EDIT_SCD_PLC_NECK_ANIMATIONS);
+				TMS.append('R3_SCD_EDIT_82_type', INCLUDE_EDIT_SCD_PLC_NECK_ANIMATIONS);
 				var PLC_type   = cFunction.slice(R3_SCD_DEC_DB.type[0], R3_SCD_DEC_DB.type[1]),
 					PLC_repeat = cFunction.slice(R3_SCD_DEC_DB.repeat[0], R3_SCD_DEC_DB.repeat[1]),
 					PLC_data0  = cFunction.slice(R3_SCD_DEC_DB.data0[0], R3_SCD_DEC_DB.data0[1]),
@@ -4187,7 +4185,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			} else {
 				document.getElementById('R3_SCD_EDITFUNCTION_HOLDER').innerHTML = INCLUDE_SCD_EDIT_WIP;
 				document.getElementById('R3_SCD_BTN_APPLY').onclick = undefined;
-				$('#R3_SCD_BTN_APPLY').css({'display': 'none'});
+				TMS.css('R3_SCD_BTN_APPLY', {'display': 'none'});
 				R3_SCD_openFunctionEdit(cOpcode, false);
 			};
 		};
@@ -5342,7 +5340,7 @@ function R3_SCD_FUNCTION_UPDATE_RGB(cOpcode){
 		finalG = MEMORY_JS_fixVars(parseInt(cG).toString(16), 2);
 		finalB = MEMORY_JS_fixVars(parseInt(cB).toString(16), 2);
 		if (document.getElementById('R3_SCD_EDIT_' + cOpcode + '_rgbDivPreview') !== null){
-			$('#R3_SCD_EDIT_' + cOpcode + '_rgbDivPreview').css({'background-color': '#' + finalR + finalG + finalB + ';'});
+			TMS.css('R3_SCD_EDIT_' + cOpcode + '_rgbDivPreview', {'background-color': '#' + finalR + finalG + finalB + ';'});
 		};
 	};
 };
@@ -5512,13 +5510,13 @@ function R3_SCD_FUNCTION_CAM_PREVIEW(domId, imgId){
 			document.getElementById(imgId).src = imgFix + fPath;
 		};
 		if (fPath !== 'img/404.png'){
-			$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'url(' + fPath + ')'});
+			TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'url(' + fPath + ')'});
 		} else {
-			$('#R3_SCD_editForm_bg_image').css({'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)'});
+			TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)'});
 		};
-		$('#R3_SCD_CAMERA_PREVIEW').css({'display': 'inline'});
+		TMS.css('R3_SCD_CAMERA_PREVIEW', {'display': 'inline'});
 	} else {
-		$('#R3_SCD_CAMERA_PREVIEW').css({'display': 'none'});
+		TMS.css('R3_SCD_CAMERA_PREVIEW', {'display': 'none'});
 	};
 };
 // Update / Show Msg Preview on Display Message [MESSAGE_ON] / Set Interactive Object [AOT_SET]

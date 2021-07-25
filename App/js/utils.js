@@ -177,10 +177,10 @@ function R3_FILEGEN_selectBG(mode){
 				if (R3_WEBMODE === true){
 					fileFix = 'file://';
 				};
-				$('#R3_FILEGEN_RENDERAREA_BG').css({'background-image': 'url(\'' + fileFix + newBgFile + '\')'});
+				TMS.css('R3_FILEGEN_RENDERAREA_BG', {'background-image': 'url(\'' + fileFix + newBgFile + '\')'});
 			});
 		} else {
-			$('#R3_FILEGEN_RENDERAREA_BG').css({'background-image': 'url(\'\')'});
+			TMS.css('R3_FILEGEN_RENDERAREA_BG', {'background-image': 'url(\'\')'});
 		};
 	};
 };
@@ -203,7 +203,7 @@ function R3_FILEGEN_BG_UPDATE_FILTERS(){
 		document.getElementById('R3_FILEGEN_LBL_BG_SEPIA').innerHTML = R3_parsePercentage(bgSepia, 1);
 		document.getElementById('R3_FILEGEN_LBL_BG_INVERT').innerHTML = R3_parsePercentage(bgInvert, 1);
 		// Update BG
-		$('#R3_FILEGEN_RENDERAREA_BG').css({'background-size': 'auto ' + bgSize + '%', 'opacity': bgOpacity, 'filter': 'blur(' + bgBlur + 'px) hue-rotate(' + bgHUE + 'deg) saturate(' + bgSat + ') invert(' + bgInvert + ') sepia(' + bgSepia + ')'});
+		TMS.css('R3_FILEGEN_RENDERAREA_BG', {'background-size': 'auto ' + bgSize + '%', 'opacity': bgOpacity, 'filter': 'blur(' + bgBlur + 'px) hue-rotate(' + bgHUE + 'deg) saturate(' + bgSat + ') invert(' + bgInvert + ') sepia(' + bgSepia + ')'});
 	};
 };
 // Select Text color
@@ -253,10 +253,10 @@ function R3_FILEGEN_renderText(renderOnFilegen, otherCanvas, textRender){
 						};
 						// Render
 						if (renderOnFilegen === true){
-							$('#R3_FILEGEN_RENDERAREA').append(FG_HTML_TEMPLATE);
-							$('#R3_FILEGEN_RENDERAREA_BIG').append(FG_HTML_TEMPLATE);
+							TMS.append('R3_FILEGEN_RENDERAREA', FG_HTML_TEMPLATE);
+							TMS.append('R3_FILEGEN_RENDERAREA_BIG', FG_HTML_TEMPLATE);
 						} else {
-							$('#' + otherCanvas).append(FG_HTML_TEMPLATE);
+							TMS.append(otherCanvas, FG_HTML_TEMPLATE);
 						};
 						// Post
 						if (FILEGEN_currentFont === 'RE1'){
@@ -574,7 +574,7 @@ function R3_SYS_COLOR_PICKER(colorArray, hexMode, nextFn){
 			colorB = MEMORY_JS_fixVars(parseInt(colorArray[2]).toString(16), 2);
 		document.getElementById('R3_COLOR_PICKER').value = '#' + colorR + colorG + colorB;
 	};
-	$('#R3_COLOR_PICKER').trigger('click');
+	TMS.triggerClick('R3_COLOR_PICKER');
 	document.getElementById('R3_COLOR_PICKER').onchange = function(){
 		var newColor = document.getElementById('R3_COLOR_PICKER').value;
 		if (hexMode === false){

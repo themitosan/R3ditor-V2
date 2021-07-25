@@ -110,7 +110,7 @@ function R3_LOAD_SETTINGS(){
 			// RE3 Path
 			if (configsList[0] !== undefined){
 				R3_RE3_PATH = configsList[0];
-				document.getElementById('R3_SETTINGS_RE3_PATH').innerHTML = R3_RE3_PATH.replace(new RegExp('\\\\', 'gi'), '/');
+				document.getElementById('R3_SETTINGS_RE3_PATH').innerHTML = R3_fixPath(R3_RE3_PATH);
 			} else {
 				R3_RE3_PATH = undefined;
 				document.getElementById('R3_SETTINGS_RE3_PATH').innerHTML = 'Undefined';
@@ -118,7 +118,7 @@ function R3_LOAD_SETTINGS(){
 			// MERCE Path
 			if (configsList[1] !== undefined){
 				R3_MERCE_PATH = configsList[1];
-				document.getElementById('R3_SETTINGS_MERCE_PATH').innerHTML = R3_MERCE_PATH.replace(new RegExp('\\\\', 'gi'), '/');
+				document.getElementById('R3_SETTINGS_MERCE_PATH').innerHTML = R3_fixPath(R3_MERCE_PATH);
 			} else {
 				R3_MERCE_PATH = undefined;
 				document.getElementById('R3_SETTINGS_MERCE_PATH').innerHTML = 'Undefined';
@@ -126,7 +126,7 @@ function R3_LOAD_SETTINGS(){
 			// Hex Editor Path
 			if (configsList[2] !== undefined){
 				R3_HEX_PATH = configsList[2];
-				document.getElementById('R3_SETTINGS_HEX_PATH').innerHTML = R3_HEX_PATH.replace(new RegExp('\\\\', 'gi'), '/');
+				document.getElementById('R3_SETTINGS_HEX_PATH').innerHTML = R3_fixPath(R3_HEX_PATH);
 			} else {
 				R3_HEX_PATH = undefined;
 				document.getElementById('R3_SETTINGS_HEX_PATH').innerHTML = 'Undefined';
@@ -134,7 +134,7 @@ function R3_LOAD_SETTINGS(){
 			// RE3SLDE Path
 			if (configsList[3] !== undefined){
 				R3_RE3SLDE_PATH = configsList[3];
-				document.getElementById('R3_SETTINGS_RE3SLDE_PATH').innerHTML = R3_RE3SLDE_PATH.replace(new RegExp('\\\\', 'gi'), '/');
+				document.getElementById('R3_SETTINGS_RE3SLDE_PATH').innerHTML = R3_fixPath(R3_RE3SLDE_PATH);
 			} else {
 				R3_RE3SLDE_PATH = undefined;
 				document.getElementById('R3_SETTINGS_RE3SLDE_PATH').innerHTML = 'Undefined';
@@ -155,7 +155,7 @@ function R3_LOAD_SETTINGS(){
 			document.getElementById('R3_SETTINGS_LIVESTATUS_POSITION').value = SETTINGS_LIVESTATUS_BAR_POS;
 			// MOD Path
 			if (configsList[6] !== undefined){
-				R3_MOD_PATH = configsList[6].replace(new RegExp('\\\\', 'gi'), '/');
+				R3_MOD_PATH = R3_fixPath(configsList[6]);
 			} else {
 				R3_MOD_PATH = APP_ASSETS + '/Assets';
 			};
@@ -406,7 +406,7 @@ function R3_LOAD_SETTINGS(){
 		};
 	} catch (err) {
 		console.error(err);
-		R3_INIT_ERROR(err);
+		R3_DESIGN_CRITIAL_ERROR(err);
 	};
 };
 // Process other load settings
@@ -435,39 +435,12 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		};
 		// Check if Executable Exists (RE3)
 		if (APP_FS.existsSync(R3_RE3_PATH) !== false){
-			R3_DESIGN_ENABLE_BTN('BTN_MAIN_0');
 			R3_RE3_CANRUN = true;
 			if (APP_ENABLE_MOD === true){
 				if (R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === false){
 					R3_RE3_MOD_PATH = APP_PATH + '/Assets/' + R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][3];
 				};
-				if (APP_FS.existsSync(R3_RE3_MOD_PATH) === true){
-					R3_DESIGN_ENABLE_BTN('BTN_MAIN_3');
-				};
 			};
-		} else {
-			R3_DESIGN_DISABLE_BTN('BTN_MAIN_0');
-			R3_DESIGN_DISABLE_BTN('BTN_MAIN_3');
-		};
-		// Check if Executable Exists (MERCE)
-		if (APP_FS.existsSync(R3_MERCE_PATH) === true){
-			R3_DESIGN_ENABLE_BTN('BTN_MAIN_2');
-			R3_MERCE_CANRUN = true;
-			if (APP_ENABLE_MOD === true){
-				R3_DESIGN_ENABLE_BTN('BTN_MAIN_4');
-			};
-		} else {
-			R3_DESIGN_DISABLE_BTN('BTN_MAIN_2');
-			R3_DESIGN_DISABLE_BTN('BTN_MAIN_4');
-		};
-		// Check if REBirth is selected
-		if (RE3_LIVE_CURRENTMOD === 4){
-			R3_MERCE_CANRUN = false;
-			$('#BTN_MAIN_2').css({'display': 'none'});
-			$('#BTN_MAIN_4').css({'display': 'none'});
-		} else {
-			$('#BTN_MAIN_2').css({'display': 'inline-flex'});
-			$('#BTN_MAIN_4').css({'display': 'inline-flex'});
 		};
 		// RE3SDLE Path
 		if (APP_FS.existsSync(R3_RE3SLDE_PATH) === true){
@@ -768,7 +741,7 @@ function R3_ENGE_updateResVars(){
 	};
 	SETTINGS_ENGE_WIDTH_RES = vW;
 	SETTINGS_ENGE_HEIGHT_RES = vH;
-	$('#R3V2_MINI_WINDOW_13').css({'width': SETTINGS_ENGE_WIDTH_RES, 'height': SETTINGS_ENGE_HEIGHT_RES});
+	TMS.css('R3V2_MINI_WINDOW_13', {'width': SETTINGS_ENGE_WIDTH_RES, 'height': SETTINGS_ENGE_HEIGHT_RES});
 };
 /*
 	Database Functions

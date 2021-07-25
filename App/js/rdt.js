@@ -644,7 +644,7 @@ function R3_RDT_OPEN_SCD(){
 		R3_SCD_START_DECOMPILER(R3_RDT_RAWSECTION_SCD);
 	    document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_SCD_fileName + '.RDT';
 		// Display Apply SCD on RDT
-		$('#R3_SCD_BTN_APPLYRDT').css({'display': 'inline-flex'});
+		TMS.css('R3_SCD_BTN_APPLYRDT', {'display': 'inline-flex'});
 		R3_SHOW_MENU(9);
 	} else {
 		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You need open a map first before loading scripts.');

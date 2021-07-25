@@ -242,7 +242,7 @@ document.addEventListener('keyup', function(kp){
 						R3_DESIGN_RDT_openFileList();
 						R3_SHOW_MENU(10);
 						if (RDT_arquivoBruto === undefined){
-							$('#BTN_MAIN_27').css({'display': 'none'});
+							TMS.css('BTN_MAIN_27', {'display': 'none'});
 						};
 					};
 				};
@@ -353,14 +353,14 @@ document.addEventListener('keyup', function(kp){
 					if (R3_MENU_CURRENT === 9 && R3_SCD_IS_EDITING === true){
 						var checkCanApply = document.getElementById('R3_SCD_EDITFUNCTION_HOLDER').innerHTML;
 						if (checkCanApply !== INCLUDE_SCD_EDIT_WIP){
-							$('#R3_SCD_BTN_APPLY').trigger('click');
+							TMS.triggerClick('R3_SCD_BTN_APPLY');
 						} else {
 							R3_SCD_cancelFunctionEdit();
 						};
 					};
 					// MSG Editor
 					if (R3_MENU_CURRENT === 7 && R3_MSG_IS_EDITING === true){
-						$('#R3_MSG_BTN_APPLY').trigger('click');
+						TMS.triggerClick('R3_MSG_BTN_APPLY');
 					};
 				};
 				// GOTO [CTRL + G]
