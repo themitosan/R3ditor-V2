@@ -2336,8 +2336,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 function R3_SCD_CLEAR_SCRIPT(){
 	if (SCD_arquivoBruto !== undefined){
 		if (R3_SCD_IS_EDITING === false){
-			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = [];
-			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].push('0100');
+			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = ['0100'];
 			R3_SCD_COMPILE(3);
 		};
 	} else {
@@ -2352,12 +2351,15 @@ function R3_SCD_SCRIPT_ADD(){
 	if (R3_SCD_IS_EDITING === false){
 		if (SCD_arquivoBruto !== undefined){
 			var newScriptPos = Object.keys(R3_SCD_SCRIPTS_LIST).length;
-			R3_SCD_SCRIPTS_LIST[newScriptPos] = ['0100'];
-			R3_SCD_POINTERS[newScriptPos] = [];
-			R3_SCD_POINTERS[newScriptPos].push('0000');
-			R3_SCD_TOTAL_SCRITPS++;
-			R3_SCD_COMPILE(3);
-			R3_SCD_displayScript(newScriptPos);
+			if (newScriptPos < 256){
+				R3_SCD_SCRIPTS_LIST[newScriptPos] = ['0100'];
+				R3_SCD_POINTERS[newScriptPos] = ['0000'];
+				R3_SCD_TOTAL_SCRITPS++;
+				R3_SCD_COMPILE(3);
+				R3_SCD_displayScript(newScriptPos);
+			} else {
+				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to insert script! <br>Reason: You can only insert up to 255 scripts!');
+			};
 		} else {
 			R3_SCD_NEW_FILE();
 		};

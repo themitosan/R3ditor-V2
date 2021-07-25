@@ -44,7 +44,6 @@ psx.updateEvent = (event, clocks) => {
   event.start = event.clock;
   event.clock += +clocks;
   event.active = true;
-
   if (psx.eventClock > event.clock) {
     psx.eventClock = event.clock;
   }
@@ -126,8 +125,7 @@ function mainLoop(stamp) {
 
   let diffTime = context.realtime - context.emutime;
 
-  const timeToEmulate = diffTime,
-        totalCycles = timeToEmulate * (768*44.100);
+  const timeToEmulate = diffTime, totalCycles = timeToEmulate * (768*44.100);
 
   let entry = getCacheEntry(cpu.pc);
   if (!entry) return abort('invalid pc')
@@ -188,8 +186,7 @@ function loadFileData(arrayBuffer) {
     for (var i = 0; i < copy.length; ++i) {
       data.setInt8(i, copy[i]);
     }
-  }
-  else {
+  } else {
     var data = new Uint32Array(arrayBuffer);
   }
 
@@ -220,8 +217,7 @@ function loadFileData(arrayBuffer) {
 
     clearCodeCache(data.getInt32(0x18), view8.length);
     running = true;
-  }
-  else if (data[0] === 0xffffff00) { // ISO
+  } else if (data[0] === 0xffffff00) { // ISO
     // audo build TOC (sad attempt to not need .cue files)
     let loc = 0,
         lastLoc = data.length / (2352 / 4),
@@ -279,8 +275,7 @@ function loadFileData(arrayBuffer) {
     cdr.setTOC(tracks);
 
     running = true;
-  }
-  else if (data[0] === 0x0000434d) { // MEMCARD
+  } else if (data[0] === 0x0000434d) { // MEMCARD
     console.log('loaded MEMCARD');
     var copy = new Uint8Array(arrayBuffer);
     let card = joy.devices ? joy.devices[0].data : joy.cardOneMemory;
@@ -392,8 +387,8 @@ function eNGE_INIT(){
     e.preventDefault();
   }, false);
 
-  readStorageStream(data => {
-    if (data){
+  readStorageStream(function(data){
+    if (data !== undefined){
       let data32 = new Uint32Array(data);
       for (var i = 0; i < 0x80000; i+=4) {
         map[(0x01c00000 + i) >>> 2] = data32[i >>> 2];
