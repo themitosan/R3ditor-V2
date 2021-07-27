@@ -138,17 +138,6 @@ blockquote {
 /*
     Critical Error
 */
-.R3_ERROR_LOGO_BG {
-    z-index: 4;
-    display: inline;
-    position: absolute;
-    width: calc(100% - 28px);
-    height: calc(100% - 190px);
-    background-size: auto 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url('../img/logoWm.png');
-}
 .R3_ERROR_CRITICAL_REASON {
     color: #0f0;
     padding: 4px;

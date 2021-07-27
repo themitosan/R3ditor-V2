@@ -1,8 +1,7 @@
 /*
 	R3ditor V2 - design.js
 	Agora vai... ou não :/
-*/
-/*
+
 	Main Vars
 */
 var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_RESET = false, R3_LOG_ID = 0, R3_LOG_COUNTER_INFO = 0, R3_LOG_COUNTER_WARN = 0, R3_LOG_COUNTER_ERROR = 0,
@@ -91,8 +90,7 @@ function R3_DESIGN_CRITIAL_ERROR(args){
 		TMS.css('R3_SPLASH', {'display': 'none'});
 		TMS.css('R3_APP_HOLDER', {'display': 'none'});
 		TMS.css('R3_APP_MAIN_DIV', {'display': 'inline'});
-		TMS.css('R3_MAIN_LOADING_DIV', {'display': 'inline'});
-		TMS.css('R3_MAIN_LOADING_DIV', {'display': 'none', 'box-shadow': '0px 0px 100px #f00'});
+		TMS.css('R3_MAIN_LOADING_DIV', {'display': 'inline', 'box-shadow': '0px 0px 100px #f00'});
 		if (args.stack !== undefined){
 			fError = args.stack;
 		};
@@ -103,14 +101,12 @@ function R3_DESIGN_CRITIAL_ERROR(args){
 // Append data
 function R3_INIT_APPEND(){
 	try {
-		var c = 0, BOX_ITEM_32 = HTML_TEMPLATE = '', tempId, tempOpcode;
+		var BOX_ITEM_32 = HTML_TEMPLATE = '', tempId, tempOpcode;
 		// Append displays
-		while (c < R3_SYSTEM_availableMonitors){
-			HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + c + '">Display ' + (c + 1) + '</option>';
-			c++;
+		for (var i = 0; i < R3_SYSTEM_availableMonitors; i++){
+			HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + i + '">Display ' + (i + 1) + '</option>';
 		};
 		document.getElementById('SETTINGS_ENABLE_MOVE_DISPLAY_SELECT').innerHTML = HTML_TEMPLATE;
-		c = 0;
 		HTML_TEMPLATE = '';
 		// Append Settings
 		document.getElementById('R3_RID_EDIT_camType').innerHTML = INCLUDE_RDT_CAMERA_TYPES;
@@ -127,17 +123,15 @@ function R3_INIT_APPEND(){
 		// Append about section
 		document.getElementById('ABOUT_manyThanks_DIV').innerHTML = '<font class="ABOUT_manyThanks_LBL">Many Thanks to</font>:<br><br>' + INCLUDE_ABOUT_THX + INCLUDE_ABOUT_SNIPPETS + INCLUDE_ENDING;
 		// Append RE3 Livestatus Item Box
-		while (c < 64){
+		for (var c = 0; c < 64; c++){
+			BOX_ITEM_32 = '';
 			if (c === 32){
 				BOX_ITEM_32 = 'R3_LIVESTATUS_BOX_ITEM_MIDDLE';
-			} else {
-				BOX_ITEM_32 = '';
 			};
 			HTML_TEMPLATE = HTML_TEMPLATE + '\n<div class="R3_LIVESTATUS_BOX_ITEM ' + BOX_ITEM_32 + '" id="R3_LIVESTATUS_BOX_ITEM_' + c + '" onclick="R3_LIVESTATUS_EDIT_ITEMBOX(' + c + ');">' + 
 							'<img src="img/items/00.png" id="R3_LIVESTATUS_BOX_IMG_' + c + '"><div id="R3_LIVESTATUS_BOX_ITEM_QT_' + c + '" class="R3_LIVESTATUS_BOX_ITEM_QT">0</div>' + 
 							'<div class="R3_LIVESTATUS_BOX_ITEM_LBL" id="R3_LIVESTATUS_BOX_ITEM_LBL_' + c + '">(<font class="monospace mono_xyzr">' + MEMORY_JS_fixVars(c, 2) + '</font>) ' +
 							'Empty Slot</div></div>';
-			c++;
 		};
 		document.getElementById('R3_LIVESTATUS_BOX_HOLDER').innerHTML = HTML_TEMPLATE;
 		// App Version
@@ -2175,8 +2169,8 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 			TMS.css('BTN_MAIN_38', {'display': 'none'});
 		};
 	} else {
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_38');
-		R3_DESIGN_DISABLE_BTN('BTN_MAIN_26');
+		TMS.disableElement('BTN_MAIN_38');
+		TMS.disableElement('BTN_MAIN_26');
 	};
 	// Buttons
 	TMS.css('BTN_MAIN_27', {'display': 'none'});
