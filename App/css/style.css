@@ -28,10 +28,6 @@
     font-family: 'mSpace';
     src: url('consolas.ttf') format('truetype');
 }
-@font-face {
-    src: url('times.ttf');
-    font-family: 'timesNR';
-}
 a {
     color: #fff;
     cursor: pointer;
@@ -199,8 +195,8 @@ blockquote {
     position: absolute;
 }
 .FRAME_TITLE {
+    z-index: 0;
     width: 100%;
-    height: 100%;
     opacity: 0.4;
     position: absolute;
 }
@@ -414,7 +410,6 @@ blockquote {
 .R3_HOME_BG {
     width: 100%;
     z-index: -1;
-    height: 100%;
     opacity: 0.34;
     display: none;
     filter: blur(4px);
@@ -449,9 +444,9 @@ blockquote {
     top: 66%;
     left: 10%;
     width: 80%;
-    opacity: 1;
     z-index: 0;
     height: 20%;
+    opacity: 10;
     position: fixed;
     background-color: #0000;
 }

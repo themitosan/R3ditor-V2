@@ -96,6 +96,7 @@ function R3_DESIGN_CRITIAL_ERROR(args){
 		};
 		document.getElementById('R3_MAIN_LOADING_DIV').innerHTML = INCLUDE_R3V2_CRITICAL_ERROR;
 		document.getElementById('R3_ERROR_CRITICAL_REASON').innerHTML = fError;
+		console.error(fError);
 	};
 };
 // Append data

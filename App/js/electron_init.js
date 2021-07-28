@@ -8,7 +8,7 @@ function createWindow(){
 		width: 800,
 		height: 600
 	});
-  	console.info(win);
+  	win.loadFile('App/index.htm');
 };
 app.on('window-all-closed', function(){
 	if (process.platform !== 'darwin'){

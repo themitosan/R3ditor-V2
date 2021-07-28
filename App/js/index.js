@@ -54,8 +54,11 @@ function R3_INIT_REQUIRE(){
 						};
 					} else {
 						MEM_JS_requreSucess = false;
-						if (parseFloat(nwVersion.slice(2)) > 38.4){
-							R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: <u>You are using a newer version of NW.js!</u> <br>This can make this application malfunction - making it not execute / display properly. <br>(Required Version: <a href="https://dl.nwjs.io/v0.38.4/" target="_blank">0.38.4</a>, Current Version: <a href="https://dl.nwjs.io/v' + nwVersion + '/" target="_blank">' + nwVersion + '</a>)');
+						// Electron fix
+						if (nwVersion !== undefined){
+							if (parseFloat(nwVersion.slice(2)) > 38.4){
+								R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: <u>You are using a newer version of NW.js!</u> <br>This can make this application malfunction - making it not execute / display properly. <br>(Required Version: <a href="https://dl.nwjs.io/v0.38.4/" target="_blank">0.38.4</a>, Current Version: <a href="https://dl.nwjs.io/v' + nwVersion + '/" target="_blank">' + nwVersion + '</a>)');
+							};
 						};
 					};
 				} else {

@@ -38,67 +38,67 @@ var INT_VERSION = 'DEV_VERSION',
 const R3_internalHoldTime = 2800,
 	INCLUDE_RE3_BEEP_BOOP = 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!',
 	INCLUDE_R3V2_LOWRES = 'So tiny! >.< <br>R3ditor V2 was designed to work with screen res. higher than 1216x711.',
-	INCLUDE_R3V2_CRITICAL_ERROR = '<font class="LBL_title">Oh no!</font><br>Looks like R3ditor V2 crashed! We apologize - this is not something usual to happen!<br>To avoid crashed like this, report this message to <a href="https://twitter.com/themitosan/" target="_blank">TheMitoSan</a> on twitter.<br><br>' +
+	INCLUDE_R3V2_CRITICAL_ERROR = '<font class="LBL_title">Oh no!</font><br>Looks like R3ditor V2 crashed! We apologize - this is not something usual to happen!<br>To avoid crashed like this, report this message to <a href="https://twitter.com/themitosan/" target="_blank" rel="noreferrer">TheMitoSan</a> on twitter.<br><br>' +
 								  '<div class="R3_ERROR_CRITICAL_REASON"><div id="R3_ERROR_CRITICAL_REASON" class="R3_ERROR_TEXT">???</div></div><br><input type="button" class="BTN_R3CLASSIC" title="Click here to reload" value="Restart R3V2" onclick="location.reload();">',
 	INCLUDE_CRX = 'TheMitoSan, Khaled SA and F. King', // :(
 	SYSTEM_LOG_SEPARATOR_TEXT = '--------------------------------------------------------------------------------------------------------------------------',
-	INCLUDE_ABOUT_THX = 'discordjs - RPC - <a target="_blank" href="https://discord.js.org/#/docs/rpc/master/general/welcome">Website</a><br>' + 
-						'Rob-- - memoryjs - <a target="_blank" href="https://github.com/Rob--/memoryjs">GitHub</a><br>' + 
-						'Joshua MacDonald - Xdelta - <a target="_blank" href="https://github.com/jmacd/xdelta">GitHub</a><br>' +
-						'jprichardson - fs-extra plugin - <a target="_blank" href="https://github.com/jprichardson/node-fs-extra">GitHub</a><br>' + 
-						'Elric (Aka. 3lric) - Beta-testing - <a target="_blank" href="https://twitter.com/3lricM">Twitter</a><br>' + 
-						'Mortican - Memory Addresses - <a target="_blank" href="https://www.tapatalk.com/groups/residentevil123/bio3gps-t1780.html">More Info</a><br>' + 
-						'El rincon del Lobezno - Beta-testing - <a target="_blank" href="https://twitter.com/DelLobezno">Twitter</a><br>' + 
-						'Rene Kootstra - eNGE PS1 Emulator - <a target="_blank" href="https://github.com/kootstra-rene/enge-js">GitHub</a><br>' +
-						'The entire Resident Evil 1 2 3 Forum! - <a target="_blank" href="https://www.tapatalk.com/groups/residentevil123/">More Info</a><br>' + 
-						'Angus Johnson - Resource Hacker - <a target="_blank" href="http://www.angusj.com/resourcehacker/">Official Website</a><br>' + 
-						'<font title="The true legend!">Leo2236 - RE3SLDE Software Creator</font> - <a target="_blank" href="http://lgt.createaforum.com/">LGT Forum</a><br>' + 
-						'<font title="The most awesome woman of the entire world!">Y <i>(The Artist)</i> zu</font> - Background Art - <a target="_blank" href="https://twitter.com/artist_zu/">Twitter</a>, <a target="_blank" href="https://www.instagram.com/yzumi_reaper/">Instagram</a><br>' + 
-						'MarkGrass - BIOFAT and SCD Opcode Lists - <a target="_blank" href="https://github.com/MeganGrass/BioScript/">More Info</a><br>' + 
-						'matteofumagalli1275 memoryjs Pull Request - <a target="_blank" href="https://github.com/Rob--/memoryjs/pull/53/files">GitHub PR</a><br>' + 
-						'Klarth - TIM Graphic Formats (PSX 2D Graphics) - <a target="_blank" href="http://www.romhacking.net/documents/31/">More Info</a><br>' + 
-						'"Shockproof" Jamo Koivisto - BIO 3 Hex Chest Modding - <a target="_blank" href="https://gamefaqs.gamespot.com/pc/431704-resident-evil-3-nemesis/faqs/36465">More Info</a><br>' + 
-						'Diogo "Flag" Bandeira <i>(Aka. Flag King)</i> - Initial RDT and MSG infos! - <a href="https://www.ct-stars.com/" target="_blank">CT-STARS</a><br>' + 
-						'Patrice Mandin (pmandin) - Reevengi-tools Rofs Extractor, ARD Extract Info and SCD Opcode List - <a target="_blank" href="https://github.com/pmandin/reevengi-tools">GitHub</a><br>' + 
-						'<font title="The real artist!">ResidentEvilArtist</font> - Memory Positions used in IEDIT Editor, MIX Editor and <u>so much more</u>! - <a target="_blank" href="https://www.tapatalk.com/groups/residentevil123/memberlist.php?mode=viewprofile&u=294">Tapatalk Profile</a><br>' + 
-						'<font title="A true hero!">Biohazard España</font> (Aka. <u>BHE</u>)- Fix OBJ to RE3MV (OBJ Patcher), Beta-testing, SLUS / ARD info and even more! - <a target="_blank" href="https://twitter.com/biohazardEsp">More Info</a><br>' + 
-						'<font title="The great master">Khaled SA</font> - RDT / ARD Header Infos, RDT V1 / 2 / 3 Tutorials, SCD Opcode List / Functions, Beta-testing and more - <a target="_blank" href="https://twitter.com/khaleed681">Twitter</a><br><br>',
+	INCLUDE_ABOUT_THX = 'discordjs - RPC - <a target="_blank" rel="noreferrer" href="https://discord.js.org/#/docs/rpc/master/general/welcome">Website</a><br>' + 
+						'Rob-- - memoryjs - <a target="_blank" rel="noreferrer" href="https://github.com/Rob--/memoryjs">GitHub</a><br>' + 
+						'Joshua MacDonald - Xdelta - <a target="_blank" rel="noreferrer" href="https://github.com/jmacd/xdelta">GitHub</a><br>' +
+						'jprichardson - fs-extra plugin - <a target="_blank" rel="noreferrer" href="https://github.com/jprichardson/node-fs-extra">GitHub</a><br>' + 
+						'Elric (Aka. 3lric) - Beta-testing - <a target="_blank" rel="noreferrer" href="https://twitter.com/3lricM">Twitter</a><br>' + 
+						'Mortican - Memory Addresses - <a target="_blank" rel="noreferrer" href="https://www.tapatalk.com/groups/residentevil123/bio3gps-t1780.html">More Info</a><br>' + 
+						'El rincon del Lobezno - Beta-testing - <a target="_blank" rel="noreferrer" href="https://twitter.com/DelLobezno">Twitter</a><br>' + 
+						'Rene Kootstra - eNGE PS1 Emulator - <a target="_blank" rel="noreferrer" href="https://github.com/kootstra-rene/enge-js">GitHub</a><br>' +
+						'The entire Resident Evil 1 2 3 Forum! - <a target="_blank" rel="noreferrer" href="https://www.tapatalk.com/groups/residentevil123/">More Info</a><br>' + 
+						'Angus Johnson - Resource Hacker - <a target="_blank" rel="noreferrer" href="http://www.angusj.com/resourcehacker/">Official Website</a><br>' + 
+						'<font title="The true legend!">Leo2236 - RE3SLDE Software Creator</font> - <a target="_blank" rel="noreferrer" href="http://lgt.createaforum.com/">LGT Forum</a><br>' + 
+						'<font title="The most awesome woman of the entire world!">Y <i>(The Artist)</i> zu</font> - Background Art - <a target="_blank" rel="noreferrer" href="https://twitter.com/artist_zu/">Twitter</a>, <a target="_blank" rel="noreferrer" href="https://www.instagram.com/yzumi_reaper/">Instagram</a><br>' + 
+						'MarkGrass - BIOFAT and SCD Opcode Lists - <a target="_blank" rel="noreferrer" href="https://github.com/MeganGrass/BioScript/">More Info</a><br>' + 
+						'matteofumagalli1275 memoryjs Pull Request - <a target="_blank" rel="noreferrer" href="https://github.com/Rob--/memoryjs/pull/53/files">GitHub PR</a><br>' + 
+						'Klarth - TIM Graphic Formats (PSX 2D Graphics) - <a target="_blank" rel="noreferrer" href="http://www.romhacking.net/documents/31/">More Info</a><br>' + 
+						'"Shockproof" Jamo Koivisto - BIO 3 Hex Chest Modding - <a target="_blank" rel="noreferrer" href="https://gamefaqs.gamespot.com/pc/431704-resident-evil-3-nemesis/faqs/36465">More Info</a><br>' + 
+						'Diogo "Flag" Bandeira <i>(Aka. Flag King)</i> - Initial RDT and MSG infos! - <a href="https://www.ct-stars.com/" rel="noreferrer" target="_blank">CT-STARS</a><br>' + 
+						'Patrice Mandin (pmandin) - Reevengi-tools Rofs Extractor, ARD Extract Info and SCD Opcode List - <a target="_blank" rel="noreferrer" href="https://github.com/pmandin/reevengi-tools">GitHub</a><br>' + 
+						'<font title="The real artist!">ResidentEvilArtist</font> - Memory Positions used in IEDIT Editor, MIX Editor and <u>so much more</u>! - <a target="_blank" rel="noreferrer" href="https://www.tapatalk.com/groups/residentevil123/memberlist.php?mode=viewprofile&u=294">Tapatalk Profile</a><br>' + 
+						'<font title="A true hero!">Biohazard España</font> (Aka. <u>BHE</u>)- Fix OBJ to RE3MV (OBJ Patcher), Beta-testing, SLUS / ARD info and even more! - <a target="_blank" rel="noreferrer" href="https://twitter.com/biohazardEsp">More Info</a><br>' + 
+						'<font title="The great master">Khaled SA</font> - RDT / ARD Header Infos, RDT V1 / 2 / 3 Tutorials, SCD Opcode List / Functions, Beta-testing and more - <a target="_blank" rel="noreferrer" href="https://twitter.com/khaleed681">Twitter</a><br><br>',
 	INCLUDE_ABOUT_SNIPPETS = '<font class="LBL_subTitle">External code snippets:</font><br><br>' + 
-							 '<a href="https://stackoverflow.com/questions/822452/strip-html-from-text-javascript" target="_blank">' + 
+							 '<a rel="noreferrer" href="https://stackoverflow.com/questions/822452/strip-html-from-text-javascript" target="_blank">' + 
 							 'https://stackoverflow.com/questions/822452/strip-html-from-text-javascript' + 
 							 '</a><br>' +
-							 '<a href="https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable" target="_blank">' + 
+							 '<a rel="noreferrer" href="https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable" target="_blank">' + 
 							 'https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable' + 
 							 '</a><br>' +
-							 '<a href="https://stackoverflow.com/questions/40031688/javascript-arraybuffer-to-hex" target="_blank">' + 
+							 '<a rel="noreferrer" href="https://stackoverflow.com/questions/40031688/javascript-arraybuffer-to-hex" target="_blank">' + 
 							 'https://stackoverflow.com/questions/40031688/javascript-arraybuffer-to-hex' + 
 							 '</a><br>' +
-							 '<a href="https://stackoverflow.com/questions/25354313/saving-a-uint8array-to-a-binary-file" target="_blank">' + 
+							 '<a rel="noreferrer" href="https://stackoverflow.com/questions/25354313/saving-a-uint8array-to-a-binary-file" target="_blank">' + 
 							 'https://stackoverflow.com/questions/25354313/saving-a-uint8array-to-a-binary-file' + 
 							 '</a><br>' +
-							 '<a href="https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_dropdown_navbar" target="_blank">' + 
+							 '<a rel="noreferrer" href="https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_dropdown_navbar" target="_blank">' + 
 							 'https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_dropdown_navbar' + 
 							 '</a><br>' +
-							 '<a href="https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control" target="_blank">' + 
+							 '<a rel="noreferrer" href="https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control" target="_blank">' + 
 							 'https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control' + 
 							 '</a><br>' +
-							 '<a href="https://stackoverflow.com/questions/37051797/remove-comments-from-string-with-javascript-using-javascript" target="_blank">' + 
+							 '<a rel="noreferrer" href="https://stackoverflow.com/questions/37051797/remove-comments-from-string-with-javascript-using-javascript" target="_blank">' + 
 							 'https://stackoverflow.com/questions/37051797/remove-comments-from-string-with-javascript-using-javascript' +
 							 '</a><br>' +
-							 '<a href="https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen" target="_blank">' + 
+							 '<a rel="noreferrer" href="https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen" target="_blank">' + 
 							 'https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen' + 
 							 '</a><br>' +
-							 '<a href="https://stackoverflow.com/questions/38987784/how-to-convert-a-hexadecimal-string-to-uint8array-and-back-in-javascript" target="_blank">' + 
+							 '<a rel="noreferrer" href="https://stackoverflow.com/questions/38987784/how-to-convert-a-hexadecimal-string-to-uint8array-and-back-in-javascript" target="_blank">' + 
 							 'https://stackoverflow.com/questions/38987784/how-to-convert-a-hexadecimal-string-to-uint8array-and-back-in-javascript' + 
 							 '</a><br>',
-	INCLUDE_ENDING = '<br><u>Special Thanks To:</u><br><br><u><a target="_blank" href="https://www.ct-stars.com/">The Entire CT-STARS Team! (Special Mention to <font title="Thanks, Master!">Flag-King</font>!)</a></u><br>' +
-					 '<u><a target="_blank" href="https://twitter.com/biohazardEsp" title="Saludos, mi querido amigo!">Biohazard España</a> & <a target="_blank" href="https://twitter.com/khaleed681">Khaled SA</a> - for teaching me several RE3 tricks!</u><br>' +
-					 '<u>Kazuhiro Aoyama, Shinji Mikami and <a target="_blank" href="https://twitter.com/dev1_official">Capcom Dev 1 Team</a> - Thanks by creating the game of my life!</u><br><br>' +
-					 '<i>RE3SLDE is a software created by <a href="http://lgt.createaforum.com/" target="_blank">Leo2236</a>.<br>' +
-					 'eNGE is a PS1 emulator written in JS created by <a href="https://github.com/kootstra-rene" target="_blank">Rene Kootstra</a><br>' +
+	INCLUDE_ENDING = '<br><u>Special Thanks To:</u><br><br><u><a target="_blank" rel="noreferrer" href="https://www.ct-stars.com/">The Entire CT-STARS Team! (Special Mention to <font title="Thanks, Master!">Flag-King</font>!)</a></u><br>' +
+					 '<u><a target="_blank" rel="noreferrer" href="https://twitter.com/biohazardEsp" title="Saludos, mi querido amigo!">Biohazard España</a> & <a target="_blank" rel="noreferrer" href="https://twitter.com/khaleed681">Khaled SA</a> - for teaching me several RE3 tricks!</u><br>' +
+					 '<u>Kazuhiro Aoyama, Shinji Mikami and <a target="_blank" rel="noreferrer" href="https://twitter.com/dev1_official">Capcom Dev 1 Team</a> - Thanks by creating the game of my life!</u><br><br>' +
+					 '<i>RE3SLDE is a software created by <a href="http://lgt.createaforum.com/" target="_blank" rel="noreferrer">Leo2236</a>.<br>' +
+					 'eNGE is a PS1 emulator written in JS created by <a href="https://github.com/kootstra-rene" rel="noreferrer" target="_blank">Rene Kootstra</a><br>' +
 					 'Some icons was made using shell32.dll icons from Microsoft Windows 98 SE.<br>' +
-					 'RDT SLD Edit icon was created using the original icon from <a href="http://lgt.createaforum.com/tools-24/re3slde-a-tool-to-edit-sld-files/" target="_blank">Leo2236 RE3SLDE Editor</a>.<br>' +
-					 'The new R3ditor V2 logo was created using <a href="https://www.dafont.com/pix-chicago.font" target="_blank">Pix Chicago</a> and <a href="https://www.fonts.com/font/linotype/plak/black-extra-condensed" target="_blank">Plak® Extra Condensed</a> fonts.<br><br>' +
+					 'RDT SLD Edit icon was created using the original icon from <a rel="noreferrer" href="http://lgt.createaforum.com/tools-24/re3slde-a-tool-to-edit-sld-files/" target="_blank">Leo2236 RE3SLDE Editor</a>.<br>' +
+					 'The new R3ditor V2 logo was created using <a rel="noreferrer" href="https://www.dafont.com/pix-chicago.font" target="_blank">Pix Chicago</a> and <a rel="noreferrer" href="https://www.fonts.com/font/linotype/plak/black-extra-condensed" target="_blank">Plak® Extra Condensed</a> fonts.<br><br>' +
 					 'Biohazard and Resident Evil are trademarks of ©CAPCOM CO., LTD. ALL RIGHTS RESERVED.</i></div><br><br><div class="ABOUT_LEGAL_INFO">THE LICENSE TO USE THIS SOFTWARE IS FREE FOR PERSONAL AND COMMERCIAL USE SINCE YOU GIVE CREDITS TO CREATOR OF THIS TOOL AND FOR ALL NAMES CITED ABOVE - SINCE THEY ARE OWNERS OF KNOWLEDGE THAT WERE NECESSARY FOR IT\'S CREATION.</div>',
 	INCLUDE_THX = 'Many thanks to: CT-STARS, Elric <i>(Aka. 3lric)</i>, El rincon del Lobezno, Rene Kootstra, discordjs, Rob--, hongru, Joshua MacDonald,<br> jprichardson, Y <i>(The Artist)</i> zu, Mortican, Angus Johnson, Leo2236, MarkGrass, matteofumagalli1275, Klarth, "Shockproof" Jamo Koivisto, Diogo "Flag" Bandeira (Aka. Flag King), Khaled SA, Patrice Mandin (pmandin), ResidentEvilArtist and Biohazard España <i>(BHE)</i>.',
 	// Settings
@@ -2972,7 +2972,7 @@ const R3_internalHoldTime = 2800,
 						  '<i><u>Developer Opinion</u>: There isn\'t a fast or <font title="Or even standard... you name it!">correct way</font> to edit SCD Scripts (List or Code modes). Maybe you are the type of person that likes doing it via list mode or code mode. Regardless of how you like doing it, the best way to edit this section is doing it is the way you like best!</i><br><br>' +
 						  // Edit mode: List mode
 						  '<div class="align-center"><img src="img/icons/icon-49.png" class="R3_HC_fnIcon" title="List Mode"><br><font class="LBL_chapter">List Mode</font><br><br><img src="img/HC/HC_SCD_IMG_0.png" class="R3_HC_IMG" title="This is a example of how an RPG Maker MV script looks like."></div><br>The picture above shows how an ' + 
-						  '<a href="https://www.rpgmakerweb.com/products/rpg-maker-mv" target="_blank">RPG Maker MV</a> Editor looks like. Inspired of how organized things are shown, R3ditor V2 uses the same concept - but in a <u>better way</u>!<br><br>' +
+						  '<a rel="noreferrer" href="https://www.rpgmakerweb.com/products/rpg-maker-mv" target="_blank">RPG Maker MV</a> Editor looks like. Inspired of how organized things are shown, R3ditor V2 uses the same concept - but in a <u>better way</u>!<br><br>' +
 						  'On R3ditor V2, all functions can be found at right side - being separated by function type (Cutscenes, Variables, Items and more). Also, you can use the search field at top to seek your desired function by name, internal name or opcode.<br><br>' +
 						  '<div class="align-center"><img src="img/HC/HC_SCD_IMG_1.gif" class="R3_HC_IMG" title="R3ditor V2 SCD Function List"></div><br><br>' +
 						  // Insert Hex
