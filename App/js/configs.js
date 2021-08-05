@@ -136,7 +136,6 @@ function R3_LOAD_SETTINGS(){
 				R3_RE3SLDE_PATH = configsList[3];
 				document.getElementById('R3_SETTINGS_RE3SLDE_PATH').innerHTML = R3_fixPath(R3_RE3SLDE_PATH);
 			} else {
-				R3_RE3SLDE_PATH = undefined;
 				document.getElementById('R3_SETTINGS_RE3SLDE_PATH').innerHTML = 'Undefined';
 			};
 			// Use Discord Rich Presence
@@ -397,6 +396,20 @@ function R3_LOAD_SETTINGS(){
 				SETTINGS_DISPLAY_POSITION_INT = false;
 			};
 			document.getElementById('R3_SETTINGS_DISPLAY_POS_INT').checked = SETTINGS_DISPLAY_POSITION_INT;
+			// RE3MV Path
+			if (configsList[43] !== undefined){
+				R3_RE3MV_PATH = configsList[43];
+				document.getElementById('R3_SETTINGS_RE3MV_PATH').innerHTML = R3_fixPath(R3_RE3MV_PATH);
+			} else {
+				document.getElementById('R3_SETTINGS_RE3MV_PATH').innerHTML = 'Undefined';
+			};
+			// RE3MV Path
+			if (configsList[44] !== undefined){
+				R3_RE3PLWE_PATH = configsList[44];
+				document.getElementById('R3_SETTINGS_RE3PLWE_PATH').innerHTML = R3_fixPath(R3_RE3PLWE_PATH);
+			} else {
+				document.getElementById('R3_SETTINGS_RE3PLWE_PATH').innerHTML = 'Undefined';
+			};
 			/*
 				End
 			*/
@@ -510,7 +523,7 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 		0:  RE3 Normal Path
 		1:  RE3 Merce Path
 		2:  Hex Editor Path
-		3:  RE3SLDE Path
+		3:  Leo's RE3SLDE Path
 		4:  Use Discord
 		5:  RE3 Livestatus Pos.
 		6:  MOD Path
@@ -536,7 +549,7 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 		26: Recent File Path
 		27: Show Recent file popup
 		28: SCD Hex View Factor
-		29: SCD Editor Mode (List / Code)
+		29: SCD Editor Mode (List / JS)
 		30: Show RDT Open Animation
 		31: Fullscreen mode
 		32: eNGE Bios Path
@@ -550,11 +563,13 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 		40: (SCD) Snap Search Form with Edit form
 		41: Move window to another display - monitor id
 		42: Show position as integer
+		43: Leo's RE3MV Path
+		44: Leo's RE3PLW Editor Path
 	*/
 	R3_LOAD_CHECKFILES();
 	// Fix ORIGINAL_APP_PATH
 	if (ORIGINAL_APP_PATH !== '' && ORIGINAL_APP_PATH !== undefined){
-		ORIGINAL_APP_PATH = ORIGINAL_APP_PATH.replace(new RegExp('\\\\', 'gi'), '/');
+		ORIGINAL_APP_PATH = R3_fixPath(ORIGINAL_APP_PATH);
 	};
 	// Get eNGE Res.
 	R3_ENGE_updateResVars();
@@ -566,7 +581,7 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 						SETTINGS_SCD_HOVER_FUNCTION_HEX + '\n' + SETTINGS_SCD_SELECT_HEX_AS_TEXT + '\n' + SETTINGS_RECENT_FILE_NAME + '\n' + SETTINGS_RECENT_FILE_TYPE + '\n' + SETTINGS_RECENT_FILE_PATH + '\n' + SETTINGS_SHOW_LAST_FILE_OPENED_POPUP + '\n' + 
 						SETTINGS_SCD_HEXVIEW_FACTOR + '\n' + SETTINGS_SCD_EDITOR_MODE + '\n' + SETTINGS_ENABLE_RDT_OPEN_ANIMATION + '\n' + SETTINGS_ENABLE_FULLSCREEN + '\n' + SETTINGS_ENGE_BIOS_PATH + '\n' + SETTINGS_ENGE_WIDTH_RES + '\n' + SETTINGS_ENGE_HEIGHT_RES + '\n' +
 						SETTINGS_OPEN_LOG_ON_WARN_ERROR + '\n' + SETTINGS_MSG_DISABLE_NEXT_PREV_SHORTCUTS + '\n' + SETTINGS_SCD_DISABLE_NEXT_PREV_SHORTCUTS + '\n' + SETTINGS_SCD_FOCUS_FUNCTION_CLICK + '\n' + SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE + '\n' + SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM + '\n' +
-						SETTINGS_ENABLE_MOVE_SCREEN_ID + '\n' + SETTINGS_DISPLAY_POSITION_INT;
+						SETTINGS_ENABLE_MOVE_SCREEN_ID + '\n' + SETTINGS_DISPLAY_POSITION_INT + '\n' + R3_RE3MV_PATH + '\n' + R3_RE3PLWE_PATH;
 	try {
 		if (R3_WEBMODE === false){
 			APP_FS.writeFileSync(APP_PATH + '/Configs/configs.R3V2', newConfigFile, 'utf-8');
@@ -649,20 +664,34 @@ function R3_SETTINGS_SET_PATH(mode){
 			R3_FILE_LOAD('.exe', function(pathFuture){
 				var fixPath = R3_fixPath(pathFuture);
 				if (mode === 0){
+					// R3_SETTINGS_RE3_PATH
 					R3_RE3_PATH = fixPath;
 					document.getElementById('R3_SETTINGS_RE3_PATH').innerHTML = R3_RE3_PATH;
 				};
 				if (mode === 1){
+					// R3_SETTINGS_MERCE_PATH
 					R3_MERCE_PATH = fixPath;
 					document.getElementById('R3_SETTINGS_MERCE_PATH').innerHTML = R3_MERCE_PATH;
 				};
 				if (mode === 2){
+					// R3_SETTINGS_HEX_PATH
 					R3_HEX_PATH = fixPath;
 					document.getElementById('R3_SETTINGS_HEX_PATH').innerHTML = R3_HEX_PATH;
 				};
 				if (mode === 3){
+					// R3_SETTINGS_RE3SLDE_PATH
 					R3_RE3SLDE_PATH = fixPath;
 					document.getElementById('R3_SETTINGS_RE3SLDE_PATH').innerHTML = R3_RE3SLDE_PATH;
+				};
+				// R3_SETTINGS_RE3MV_PATH
+				if (mode === 6){
+					R3_RE3MV_PATH = fixPath;
+					document.getElementById('R3_SETTINGS_RE3MV_PATH').innerHTML = R3_RE3MV_PATH;
+				};
+				// R3_SETTINGS_RE3PLWE_PATH
+				if (mode === 7){
+					R3_RE3PLWE_PATH = fixPath;
+					document.getElementById('R3_SETTINGS_RE3PLWE_PATH').innerHTML = R3_RE3PLWE_PATH;
 				};
 			});
 		} else {

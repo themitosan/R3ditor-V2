@@ -172,6 +172,13 @@ blockquote {
     font-size: x-large !important;
     text-shadow: 0px 0px 10px #5071df;
 }
+.LBL_smallTtitle {
+    width: auto;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: larger !important;
+    text-shadow: 0px 0px 10px #5071df;
+}
 .LBL_chapter {
     font-size: 20px !important;
     text-shadow: 0px 0px 10px #00f;
@@ -501,7 +508,7 @@ blockquote {
     left: -44px;
     width: 500px;
     height: 144px;
-    z-index: 999999;
+    z-index: 100;
     display: none;
     overflow: hidden;
     position: absolute;
@@ -2373,6 +2380,48 @@ blockquote {
     background-image: linear-gradient(to bottom, #000, #3c3c3c);
 }
 /*
+    Leo's Hub
+*/
+.R3_leosHub_list {
+    margin: 6px;
+    overflow: auto;
+    padding-top: 2px;
+    border-radius: 6px;
+    width: calc(100% - 12px);
+    height: calc(100% - 16px);
+    background-color: #1a1a1a9e;
+}
+.R3_leosHub_item {
+    margin: 6px;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0px 0px 10px #0006;
+    text-shadow: 0px 0px 10px #0006;
+    background-image: linear-gradient(to bottom, #666, #545455);
+}
+.R3_leosHub_item:active {
+    background-image: linear-gradient(to bottom, #545455, #666);
+}
+.R3_leosHub_RE3MV {
+    background-image: linear-gradient(to bottom, #48558d, #333374);
+}
+.R3_leosHub_RE3MV:active {
+    background-image: linear-gradient(to bottom, #333374, #48558d);
+}
+.R3_leosHub_RE3PLWE {
+    background-image: linear-gradient(to bottom, #435c85, #35496a);
+}
+.R3_leosHub_RE3PLWE:active {
+    background-image: linear-gradient(to bottom, #35496a, #435c85);
+}
+.R3_leosHub_RE3MV_ICON {
+    width: 36px;
+}
+.R3_leosHub_RE3PLWE_ICON {
+    width: 48px;
+}
+/*
     Settings
 */
 .SETTINGS_HOLDER {
@@ -2458,7 +2507,7 @@ blockquote {
     margin-right: 6px;
     cursor: col-resize;
     position: relative;
-    width: calc(100% - 440px);
+    width: calc(100% - 500px);
 }
 /*
     RE3 Livestatus
@@ -3108,7 +3157,7 @@ blockquote {
     font-family: mSpace;
     text-align: -moz-center;
     text-align: -webkit-center;
-    background-color: #131313;
+    background-image: linear-gradient(to bottom, #131313, #1e2a4a);
 }
 .R3_OPCODE_FINDER_RESULT {
     padding: 4px;
@@ -3550,7 +3599,7 @@ blockquote {
     text-align: -webkit-left;
 }
 .lbl-path {
-    left: 98px;
+    left: 270px;
     position: sticky;
     user-select: all;
     font-style: italic;

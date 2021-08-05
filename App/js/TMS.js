@@ -2,15 +2,14 @@
 	TMS.js
 	Because I don't want to deal with jQuery anymore!
 
-	Original source: http://youmightnotneedjquery.com/
+	Original source / motivation: http://youmightnotneedjquery.com/
 */
-const TMS = {};
-//
-TMS['logWarnings'] = false;
+tmsTemp = {};
+tmsTemp['logWarnings'] = false;
 /*
 	Warn if something goes wrong
 */
-TMS['warn'] = function(warnText){
+tmsTemp['warn'] = function(warnText){
 	if (TMS.logWarnings === true){
 		console.warn(warnText);
 	};
@@ -18,7 +17,7 @@ TMS['warn'] = function(warnText){
 /*
 	CSS
 */
-TMS['css'] = function(elementId, cssChanges){
+tmsTemp['css'] = function(elementId, cssChanges){
 	var canStart = true, eReason = '';
 	const elId = document.getElementById(elementId);
 	if (elId === null){
@@ -46,8 +45,8 @@ TMS['css'] = function(elementId, cssChanges){
 	animationTime = Number (Min: 0)
 	animationEase = CSS for transition option, like cubic-bezier
 */
-TMS['animate'] = function(elementId, cssChanges, animationTime, animationEase){
-	var canStart = true, eReason = '', transitionString = '';
+tmsTemp['animate'] = function(elementId, cssChanges, animationTime, animationEase){
+	var canStart = true, eReason = transitionString = '';
 	const elId = document.getElementById(elementId);
 	if (elId === null){
 		canStart = false;
@@ -85,7 +84,7 @@ TMS['animate'] = function(elementId, cssChanges, animationTime, animationEase){
 	Focus Element
 	sTimeout = time [ms]
 */
-TMS['focus'] = function(elementId, sTimeout){
+tmsTemp['focus'] = function(elementId, sTimeout){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		if (sTimeout !== undefined && parseInt(sTimeout) !== NaN){
@@ -102,7 +101,7 @@ TMS['focus'] = function(elementId, sTimeout){
 /*
 	Disable Element
 */
-TMS['disableElement'] = function(elementId){
+tmsTemp['disableElement'] = function(elementId){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		elId.disabled = 'disabled';
@@ -117,7 +116,7 @@ TMS['disableElement'] = function(elementId){
 /*
 	Enable Element
 */
-TMS['enableElement'] = function(elementId){
+tmsTemp['enableElement'] = function(elementId){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		elId.disabled = '';
@@ -133,7 +132,7 @@ TMS['enableElement'] = function(elementId){
 	Scroll top
 	Usage: elementObjects = {HTML_DOM_ID_0: scrollInt, HTML_DOM_ID_1: scrollInt2} and goes on
 */
-TMS['scrollTop'] = function(elementObjects){
+tmsTemp['scrollTop'] = function(elementObjects){
 	Object.keys(elementObjects).forEach(function(cItem){
 		const elId = document.getElementById(cItem);
 		if (elId !== null){
@@ -146,7 +145,7 @@ TMS['scrollTop'] = function(elementObjects){
 /*
 	Append data
 */
-TMS['append'] = function(elementId, newData){
+tmsTemp['append'] = function(elementId, newData){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		var pHTML = elId.innerHTML;
@@ -158,7 +157,7 @@ TMS['append'] = function(elementId, newData){
 /*
 	Add Class
 */
-TMS['addClass'] = function(elementId, className){
+tmsTemp['addClass'] = function(elementId, className){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		elId.classList.add(className);
@@ -169,7 +168,7 @@ TMS['addClass'] = function(elementId, className){
 /*
 	Add Class
 */
-TMS['removeClass'] = function(elementId, className){
+tmsTemp['removeClass'] = function(elementId, className){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		elId.classList.remove(className);
@@ -181,7 +180,7 @@ TMS['removeClass'] = function(elementId, className){
 	Clear
 	Removes all HTML inside
 */
-TMS['clear'] = function(elementId){
+tmsTemp['clear'] = function(elementId){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		elId.innerHTML = '';
@@ -192,7 +191,7 @@ TMS['clear'] = function(elementId){
 /*
 	triggerClick
 */
-TMS['triggerClick'] = function(elementId){
+tmsTemp['triggerClick'] = function(elementId){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		elId.click();
@@ -203,7 +202,7 @@ TMS['triggerClick'] = function(elementId){
 /*
 	fadeIn
 */
-TMS['fadeIn'] = function(elementId, animationTime){
+tmsTemp['fadeIn'] = function(elementId, animationTime){
 	const elId = document.getElementById(elementId), tagType = {
 		'DIV': 'block',
 		'IMG': 'inline'
@@ -233,7 +232,7 @@ TMS['fadeIn'] = function(elementId, animationTime){
 /*
 	fadeOut
 */
-TMS['fadeOut'] = function(elementId, animationTime){
+tmsTemp['fadeOut'] = function(elementId, animationTime){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		var dTime = 1000;
@@ -254,7 +253,7 @@ TMS['fadeOut'] = function(elementId, animationTime){
 /*
 	scrollCenter
 */
-TMS['scrollCenter'] = function(elementId){
+tmsTemp['scrollCenter'] = function(elementId){
 	const elId = document.getElementById(elementId);
 	if (elId !== null){
 		var parentDom = elId.parentElement,
@@ -264,3 +263,8 @@ TMS['scrollCenter'] = function(elementId){
 		TMS.warn('TMS - Unable to fade out because DOM does not exist! (' + elementId + ')');
 	};
 };
+/*
+	END
+*/
+const TMS = tmsTemp;
+delete(tmsTemp);

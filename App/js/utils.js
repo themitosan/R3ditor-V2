@@ -16,7 +16,9 @@ var OBJ_arquivoBruto,
 	R3_TEMP_STAGE = '1',
 	R3_TEMP_ROOM = '100',
 	R3_TEMP_CAM = '00';
-	
+/*
+	ROFS
+*/
 // Extract Rofs individually 
 function R3_ROFS_EXTRACT(){
 	if (R3_WEBMODE === false){
@@ -726,9 +728,7 @@ function R3_BACKUP_MANAGER_restore(fileId){
 function R3_BACKUP_MANAGER_delete(fileId){
 	if (R3_WEBMODE === false && fileId !== undefined){
 		try {
-			var fArray = Object.keys(R3_SYSTEM_BACKUP_LIST),
-				fName  = fArray[fileId],
-				fPath  = R3_SYSTEM_BACKUP_LIST[fName][5];
+			var fArray = Object.keys(R3_SYSTEM_BACKUP_LIST), fName = fArray[fileId], fPath = R3_SYSTEM_BACKUP_LIST[fName][5];
 			APP_FS.unlinkSync(fPath);
 			delete R3_SYSTEM_BACKUP_LIST[fName];
 			APP_FS.writeFileSync(APP_PATH + '/Configs/Backup/R3V2_BCK.R3V2', btoa(JSON.stringify(R3_SYSTEM_BACKUP_LIST)), 'utf-8');
@@ -736,5 +736,61 @@ function R3_BACKUP_MANAGER_delete(fileId){
 		} catch (err) {
 			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to delete backup file! <br>Reason: ' + err);
 		};
+	};
+};
+/*
+	Leo's Hub
+*/
+// Open window
+function R3_leosHub_openWindow(){
+	if (R3_WEBMODE === false && APP_ENABLE_MOD === true){
+		var HTML_TEMPLATE = '', cPath = APP_PATH + '/Assets/DATA/PLD', tempFileList = APP_FS.readdirSync(cPath),
+			noToolError = function(where, toolName){
+				document.getElementById(where).innerHTML = '<br><div class="align-center"><i>Unable to generate list!<br>Please, insert <u>' + toolName + '</u> location on settings and try again.</i></div>';
+			};
+		// RE3MV
+		if (APP_FS.existsSync(R3_RE3MV_PATH) === true){
+			tempFileList.forEach(function(cItem){
+				if (cItem.indexOf('.PLD') !== -1){
+					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3MV" onclick="R3_leosHub_openFile(\'' + cPath + '/' + cItem + '\', 0);">' +
+									'<img src="img/icons/Leo/RE3MV.png" class="right R3_leosHub_RE3MV_ICON" alt="R3_leos_MV">' +
+									'File: <font class="monospace mono_xyzr" title="' + cPath + '/' + cItem + '">' + cItem + '</font><br>' +
+									'Size: <font class="monospace mono_xyzr">' + R3_getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
+				};
+			});
+			document.getElementById('R3_leosHub_RE3MV_LIST').innerHTML = HTML_TEMPLATE;
+			HTML_TEMPLATE = '';
+		} else {
+			noToolError('R3_leosHub_RE3MV_LIST', 'RE3MV');
+		};
+		// RE3PLWE
+		if (APP_FS.existsSync(R3_RE3PLWE_PATH) === true){
+			tempFileList.forEach(function(cItem){
+				if (cItem.indexOf('.PLW') !== -1){
+					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3PLWE" onclick="R3_leosHub_openFile(\'' + cPath + '/' + cItem + '\', 1);">' +
+									'<img src="img/icons/Leo/RE3PLWE.png" class="right R3_leosHub_RE3PLWE_ICON" alt="R3_leos_PLW">' +
+									'File: <font class="monospace mono_xyzr" title="' + cPath + '/' + cItem + '">' + cItem + '</font><br>' +
+									'Size: <font class="monospace mono_xyzr">' + R3_getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
+				};
+			});
+			document.getElementById('R3_leosHub_RE3PLWE_LIST').innerHTML = HTML_TEMPLATE;
+		} else {
+			noToolError('R3_leosHub_RE3PLWE_LIST', 'RE3PLWEditor');
+		};
+		/*
+			End
+		*/
+		R3_DESIGN_MINIWINDOW_OPEN(24, 'center');
+	};
+};
+// Open File
+function R3_leosHub_openFile(fPath, mode){
+	if (R3_WEBMODE === false){
+		var cExec = R3_RE3MV_PATH;
+		if (mode === 1){
+			cExec = R3_RE3PLWE_PATH;
+		};
+		// End
+		R3_runExec(cExec, [fPath], 2);
 	};
 };

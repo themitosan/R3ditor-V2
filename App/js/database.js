@@ -97,6 +97,7 @@ const R3_internalHoldTime = 2800,
 					 '<i>RE3SLDE is a software created by <a href="http://lgt.createaforum.com/" target="_blank" rel="noreferrer">Leo2236</a>.<br>' +
 					 'eNGE is a PS1 emulator written in JS created by <a href="https://github.com/kootstra-rene" rel="noreferrer" target="_blank">Rene Kootstra</a><br>' +
 					 'Some icons was made using shell32.dll icons from Microsoft Windows 98 SE.<br>' +
+					 '<i>RE3MV and RE3PLWEditor icons were created by <u>Leo2236</u> and <u>Yusuke Kamiyamane</u></i><br>' +
 					 'RDT SLD Edit icon was created using the original icon from <a rel="noreferrer" href="http://lgt.createaforum.com/tools-24/re3slde-a-tool-to-edit-sld-files/" target="_blank">Leo2236 RE3SLDE Editor</a>.<br>' +
 					 'The new R3ditor V2 logo was created using <a rel="noreferrer" href="https://www.dafont.com/pix-chicago.font" target="_blank">Pix Chicago</a> and <a rel="noreferrer" href="https://www.fonts.com/font/linotype/plak/black-extra-condensed" target="_blank">Plak® Extra Condensed</a> fonts.<br><br>' +
 					 'Biohazard and Resident Evil are trademarks of ©CAPCOM CO., LTD. ALL RIGHTS RESERVED.</i></div><br><br><div class="ABOUT_LEGAL_INFO">THE LICENSE TO USE THIS SOFTWARE IS FREE FOR PERSONAL AND COMMERCIAL USE SINCE YOU GIVE CREDITS TO CREATOR OF THIS TOOL AND FOR ALL NAMES CITED ABOVE - SINCE THEY ARE OWNERS OF KNOWLEDGE THAT WERE NECESSARY FOR IT\'S CREATION.</div>',
@@ -928,8 +929,8 @@ const R3_internalHoldTime = 2800,
 		'5e': [3,  'SHAKE_ON', 						   		 0,  true,  'SHAKE_ON', 				false, 720, 480, false],
 		'5f': [2,  'Change Weapon [WEAPON_CHG]', 	   		 11, true,  'WEAPON_CHG', 				false, 720, 480, false],
 		'60': [22, 'UNK_OPCODE_3', 					   		 9,  false, 'UNK_OPCODE_3();', 			false, 720, 502, false],
-		'61': [32, 'Set Door [DOOR_AOT_SET]', 		   		 1,  true,  'DOOR_AOT_SET', 			false, 744, 350,  true],
-		'62': [40, 'Set Door 4P [DOOR_AOT_SET_4P]',    		 1,  true,  'DOOR_AOT_SET_4P',			false, 744, 350,  true],
+		'61': [32, 'Set Door [DOOR_AOT_SET]', 		   		 1,  true,  'DOOR_AOT_SET', 			false, 726, 350,  true],
+		'62': [40, 'Set Door 4P [DOOR_AOT_SET_4P]',    		 1,  true,  'DOOR_AOT_SET_4P',			false, 726, 350,  true],
 		'63': [20, 'Set Interactive Object [AOT_SET]', 		 6,  true,  'AOT_SET', 					false, 560, 260, false],
 		'64': [28, 'Set Interactive Object 4P [AOT_SET_4P]', 6,  false, 'AOT_SET_4P();', 			false, 720, 480, false],
 		'65': [10, 'AOT_RESET', 							 6,  true,  'AOT_RESET',	 			false, 640, 130, false],
@@ -3393,7 +3394,8 @@ const R3_internalHoldTime = 2800,
 		9:  ['NO_DROPDOWN'],
 		// RDT Editor
 		10: ['RDT Options', '<div class="R3_MENU_ITEM_NORMAL" title="Click here to Extract all RDT sections (Like BIOFAT)" onclick="R3_RDT_EXTRACT_ALL_SECTIONS();">Extract all sections</div>' +
-							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to Import all RDT sections from already extracted files" onclick="R3_RDT_IMPORT_ALL_SECTIONS();">Import all sections</div>',
+							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to Import all RDT sections from already extracted files" onclick="R3_RDT_IMPORT_ALL_SECTIONS();">Import all sections</div>' +
+							'<div class="R3_MENU_ITEM_BIG" title="Click here to open export window" onclick="R3_DESIGN_MINIWINDOW_OPEN(10);"><img class="R3_MENU_ICON" src="img/icons/icon-51.png"><div class="R3_MENU_BIG_LBL">Export Sections Menu</div></div>',
 			164],
 		11: ['NO_DROPDOWN'],
 		// SAV Editor

@@ -3,30 +3,30 @@
 <html lang="en">
 	<head>
 		<!-- Meta -->
-		<meta charset="utf-8">
+		<meta charset="utf-8"/>
 		<title>R3ditor V2</title>
-		<link rel="manifest" href="webPackage.json">
+		<link rel="manifest" href="webPackage.json"/>
 		<link rel="shortcut icon" href="img/logo_ico.ico"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<link rel="icon" type="image/png" href="img/logo.png"/>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<!-- Theme -->
 		<meta name="theme-color" content="#000"/>
-		<meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000">
-		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#000">
+		<meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000"/>
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#000"/>
 		<!-- Google Tags -->
 		<meta name="google" content="notranslate"/>
-		<meta name="author" content="R3ditor Team">
-		<meta name="robots" content="noindex, nofollow">
+		<meta name="author" content="R3ditor Team"/>
+		<meta name="robots" content="noindex, nofollow"/>
 		<meta name="description" content="R3ditor V2 (aka. R3V2) is the second version of the multi-editing tool for classic Resident Evil 3 modding.">
-		<meta name="keywords" content="Resident Evil 3, R3V2, R3, R3ditor V2, R3ditor, Classic, RE3, Resident Evil, Modding, Mod, Tool, RDT, SCD, MSG, RID, JavaScript, JS, PC, TMS, TheMitoSan, Team">
+		<meta name="keywords" content="Resident Evil 3, R3V2, R3, R3ditor V2, R3ditor, Classic, RE3, Resident Evil, Modding, Mod, Tool, RDT, SCD, MSG, RID, JavaScript, JS, PC, TMS, TheMitoSan, Team"/>
 		<!-- OG Meta Tags -->
-		<meta property="og:image" content="img/logo.png">
-		<meta property="og:site_name" content="R3ditor V2">
-		<meta property="og:image:type" content="image/png">
-		<meta property="og:title" content="R3ditor V2 (R3V2)">
+		<meta property="og:image" content="img/logo.png"/>
+		<meta property="og:site_name" content="R3ditor V2"/>
+		<meta property="og:image:type" content="image/png"/>
+		<meta property="og:title" content="R3ditor V2 (R3V2)"/>
 		<meta property="og:url" content="https://themitosan.github.io/R3V2"/>
 		<meta property="og:description" content="R3ditor V2 (aka. R3V2) is the second version of the multi-editing tool for classic Resident Evil 3 modding."/>
 		<!-- Twitter Meta Tags -->
@@ -45,12 +45,13 @@
 				<div class="R3_SPLASH_BG_FRAME_BOTOM" id="R3_SPLASH_BG_FRAME_BOTOM"></div>
 				<div class="R3_SPLASH_BG" id="R3_SPLASH_BG"></div>
 				<!-- Content -->
-				<img src="img/logo.png" class="R3_SPLASH_LOGO" alt="R3V2_LOGO">
+				<img src="img/logo.png" class="R3_SPLASH_LOGO" alt="R3V2_LOGO_SPLASH"/>
 				<div class="R3_SPLASH_LBL">
 					<font class="monospace" id="R3_SPLASH_VER">???</font>
 				</div>
 				<div class="R3_SPLASH_TITLE" id="R3_SPLASH_TITLE">
-					<font class="LBL_title">R3ditor V2</font><br>
+					<font class="LBL_title">R3ditor V2</font> 
+					<font class="monospace txt-italic">(aka. R3V2)</font><br>
 					<font class="monospace mono_xyzr">Created by R3ditor Team<br>
 						<font class="txt-italic" id="R3_SPLASH_CREATORS"></font>
 					</font>
@@ -128,6 +129,7 @@
 							<img class="R3_MENU_ICON" src="img/icons/icon-12.png"><div class="R3_MENU_BIG_LBL">Enable Wizard</div>
 						</div>
 						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_OPCODE_FINDER" title="(SCD Opcode Finder) This is a simple tool that allows you to search for a specific SCD opcode across all extracted maps" onclick="R3_SCD_openOpcodeFinder();">SCD Opcode Finder</div>
+						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_LEOS_HUB" title="(Leo's Hub) Click here to open a list of files that can be opened with Leo2236 tools" onclick="R3_leosHub_openWindow();">Leo's Hub</div>
 						<div id="BTN_PS1_HOOK" class="none">
 							<div class="R3_MENU_SEPARATOR"></div>
 							<div class="R3_MENU_ITEM_BIG" title="Click here to hook on PS1 emulator!" onclick="R3_MEMORY_JS_HOOK_EMU();">
@@ -171,7 +173,7 @@
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open log window" onclick="R3_DESIGN_MINIWINDOW_OPEN(0);">Open Log Window</div>
 						<div class="R3_MENU_SEPARATOR"></div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open R3V2 Help center main menu" onclick="R3_HC_OPEN_PAGE(4);">R3V2 Help Center</div>
-						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">About</div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">About R3V2</div>
 						<div class="R3_MENU_SEPARATOR"></div>
 						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_GITHUB_UPDATER" title="Click here to open GitHub Updater" onclick="R3_UPDATER_GET_BRANCHES();">GitHub Updater</div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to reload R3V2" onclick="R3_RELOAD();">Reload</div>
@@ -547,7 +549,7 @@
 				</div>
 			</div>
 			<!-- R3V2 - Wizard -->
-			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_21" id="R3V2_MINI_WINDOW_21">
+			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_21">
 				<div id="R3V2_MINI_WINDOW_21_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					R3V2 Wizard
 					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(21);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
@@ -577,7 +579,7 @@
 				</div>
 			</div>
 			<!-- R3V2 - SCD Opcode Finder -->
-			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_23" id="R3V2_MINI_WINDOW_23">
+			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_23">
 				<div id="R3V2_MINI_WINDOW_23_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					<font id="R3V2_TITLE_SCD_OPCODE_FINDER">SCD Opcode Finder</font>
 					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(23);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
@@ -587,7 +589,31 @@
 				</div>
 				<div class="R3_OPCODE_FINDER_VALUE" id="R3_OPCODE_FINDER_opName"></div>
 				<div class="R3_OPCODE_FINDER_RESULT" id="R3_OPCODE_FINDER_RESULT">
-					<!-- Opcode List Goes Here -->					
+					<!-- Opcode List Goes Here -->
+				</div>
+			</div>
+			<!-- R3V2 - Leo's Hub -->
+			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_24">
+				<div id="R3V2_MINI_WINDOW_24_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+					<font id="R3V2_TITLE_SCD_OPCODE_FINDER">Leo's Hub</font>
+					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(24);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+				</div>
+				<!-- Main Tabs -->
+				<div class="R3_TABHOLDER TAB_2">
+					<input type="button" id="R3_TABS_2_0" onclick="R3_DESIGN_SHOWTABS(2, 0);" class="R3_TAB_BASE R3_TAB_SELECT" value="PLD 3D Models (RE3MV)">
+					<input type="button" id="R3_TABS_2_1" onclick="R3_DESIGN_SHOWTABS(2, 1);" class="R3_TAB_BASE" value="Weapon 3D Models (RE3PLWE)">
+				</div>
+				<!-- RE3MV -->
+				<div class="R3_TAB_MENU" id="R3_MENU_2_0">
+					<div class="R3_leosHub_list" id="R3_leosHub_RE3MV_LIST">
+						<!-- Player / NPC 3D Model list goes here -->
+					</div>
+				</div>
+				<!-- RE3PLWE -->
+				<div class="R3_TAB_MENU none" id="R3_MENU_2_1">
+					<div class="R3_leosHub_list" id="R3_leosHub_RE3PLWE_LIST">
+						<!-- Weapon 3D Model list goes here -->
+					</div>
 				</div>
 			</div>
 			<!-- Recent File -->
@@ -1158,8 +1184,6 @@
 					</div>
 					<!-- Utility -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR none" id="R3_MENU_BTNS_RDT_UTILITY">
-						<!-- Export Sections -->
-						<input type="button" id="BTN_MAIN_51" class="BTN_ICON_BASE" title="Click here to open export window" onclick="R3_DESIGN_MINIWINDOW_OPEN(10);">
 						<!-- Leo2236 RE3SLDE Tool -->
 						<input type="button" id="BTN_MAIN_38" class="BTN_ICON_BASE" title="[SLD] Click here to open SLD file for this map on Leo2236 RE3SLDE" onclick="R3_RDT_OPEN_SLD();">
 						<!-- RDT Hacks -->
@@ -1465,14 +1489,29 @@
 								Hex Editor Path: <font class="monospace lbl-path" id="R3_SETTINGS_HEX_PATH">Undefined</font>
 								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(2);">
 							</li>
-							<li>
-								<u>Leo2236</u> RE3SLDE Path: <font class="monospace lbl-path" id="R3_SETTINGS_RE3SLDE_PATH">Undefined</font>
-								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(3);">
-							</li>
 							<div class="SEPARATOR-0"></div>
 							<li>
-								Extracted Assets (MOD) Path: <font class="monospace lbl-path" id="R3_SETTINGS_MOD_PATH">Undefined</font>
+								Extracted Assets <i>(Mod)</i> Path: <font class="monospace lbl-path" id="R3_SETTINGS_MOD_PATH">Undefined</font>
 								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(4);">
+							</li>
+						</ul>
+					</div>
+					<!-- Leo2236 Paths -->
+					<div class="none" id="SETTINGS_DIV_LEO_PATH">
+						<div class="LBL_subTitle">Leo2236 Tools</div>
+						<div class="SEPARATOR-0"></div>
+						<ul>
+							<li>
+								RE3MV Path: <font class="monospace lbl-path" id="R3_SETTINGS_RE3MV_PATH">Undefined</font>
+								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(6);">
+							</li>
+							<li>
+								RE3SLDE Path: <font class="monospace lbl-path" id="R3_SETTINGS_RE3SLDE_PATH">Undefined</font>
+								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(3);">
+							</li>
+							<li>
+								RE3PLWEditor Path: <font class="monospace lbl-path" id="R3_SETTINGS_RE3PLWE_PATH">Undefined</font>
+								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(7);">
 							</li>
 						</ul>
 					</div>
@@ -1481,14 +1520,16 @@
 						<div class="LBL_subTitle">RE3 Livestatus</div>
 						<div class="SEPARATOR-0"></div>
 						<ul>
-							<li>RE3 Live Status Toolbar Position: 
+							<li>
+								RE3 Live Status Toolbar Position: 
 								<select id="R3_SETTINGS_LIVESTATUS_POSITION" title="This is what defines the position of RE3 Livestatus toolbar when it opens" onchange="R3_SETTINGS_UPDATE_SELECT();" class="SELECT_SETTINGS auto">
 									<!-- Options goes here -->
 								</select>
 							</li>
-							<li>RE3 Live Status Update Frenquency: 
+							<li>
+								RE3 Live Status Update Frenquency: 
 								<input type="range" min="50" max="300" step="2" value="80" class="SETTINGS_RANGE" oninput="R3_SETTINGS_UPDATE_RANGE(0);" id="R3_SETTINGS_RANGE_LIVETSTATUS_FREQUENCY"> <font id="R3_SETTINGS_LIVETSTATUS_FREQUENCY" class="monospace mono_xyzr">???</font>ms<br>
-								<div class="align-center margin-top-fix">
+								<div class="align-center margin-top-fix txt-italic">
 									If you have any issue with performance, set this value <b>higher</b> - since it <u>may cause JS Heap</u>.
 								</div>
 							</li>
@@ -1659,7 +1700,7 @@
 				<div class="ABOUT_RIGHT">
 					<div class="SEPARATOR-1"></div>
 					<div class="ABOUT_manyThanks_DIV" id="ABOUT_manyThanks_DIV">
-						<!-- About Goes here -->
+						<!-- About goes here -->
 					</div>
 				</div>
 			</div>

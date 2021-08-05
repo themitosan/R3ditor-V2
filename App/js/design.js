@@ -38,7 +38,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		10: [200,  376,    44,  570,   	 101,  false, ''],									// RDT Export Sections
 		11: [780,  294,    68,  4,    100000,  false, ''],									// R3V2 Help Center
 		12: [580,  410,    226, 466,  	 102,  false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
-		13: [640,  480,    68,  4,    999999,  false, 'R3_PS1_DISPLAY'],					// eNGE PS1 Canvas
+		13: [640,  480,    68,  4,   9999999,  false, 'R3_PS1_DISPLAY'],					// eNGE PS1 Canvas
 		14: [760,  480,    68,  12,      105,  false, ''],									// SCD edit form
 		15: [400,  358,    68,  4, 	  999999,  false, 'R3_ITEM_DATABASE_SEARCH'],			// Item Database
 		16: [220,  88,     44,  444, 	 101,  false, 'R3_RDT_timManagerList'],				// RDT TIM Manager
@@ -48,7 +48,8 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		20: [416,  482,    44,  4, 		 105,  false, 'R3_SCD_DOORLINK_MAP_INPUT'],			// SCD DoorLink
 		21: [482,  426,    44,  4,   9999998,  false, ''],									// R3V2 Wizard
 		22: [522,  376,    44,  4,   9999999,  false, 'R3_UPDATER_CURRENT_BRANCH'],			// R3V2 Updater
-		23: [350,  438,    44,  4,   9999997,  false, 'R3_OPCODE_FINDER_SEARCH']			// SCD Opcode Finder
+		23: [350,  438,    44,  4,   9999997,  false, 'R3_OPCODE_FINDER_SEARCH'],			// SCD Opcode Finder
+		24: [404,  454,    44,  4,		 106,  false, ''] 									// Leo's Hub
 	};
 /*
 	Main Consts
@@ -59,7 +60,8 @@ const R3_MENU_BACK_EXCLUDE = [0, 2, 8],
 	// Tab Index
 	R3_TABS_INDEX = {
 		0: 1, // RE3 Livestatus
-		1: 2  // SCD Id List
+		1: 2, // SCD ID List
+		2: 3  // Leo's Hub
 	};
 /*
 	Main Functions
@@ -168,7 +170,7 @@ function R3_INIT_APPEND(){
 function R3_SHOW_MENU(menuId){
 	if (R3_MENU_LOCK !== true && R3_HAS_CRITICAL_ERROR === false){
 		if (menuId !== R3_MENU_CURRENT){
-			var c = 0;
+			var c = 0, canClearCanvas = true;
 			if (menuId === undefined){
 				menuId = 4;
 			};
@@ -252,13 +254,18 @@ function R3_SHOW_MENU(menuId){
 				R3_DESIGN_MINIWINDOW_CLOSE(23);
 				R3_DESIGN_OPEN_CLOSE_LATEST(1);
 				TMS.css('MENU_' + menuId, {'display': 'block'});
+				TMS.css('R3_MENU_ITEM_OPCODE_FINDER', {'display': 'none'});
 				// RE3 Scroll
 				if (menuId === 8){
 					document.getElementById('R3_LIVESTATUS_BOX_ITEM_LBL_26').scrollIntoView();
 				};
 			} else {
-				if (R3_WEBMODE === false && R3_THEPIC === 'R50606.JPG'){
-					R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!\n\nTheMitoSan!', 'RE3', 40);
+				if (R3_WEBMODE === false && APP_ENABLE_MOD === true){
+					if (R3_THEPIC === 'R50606.JPG' || R3_THEPIC === 'R50605.JPG'){
+						canClearCanvas = false;
+						R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!\n\nTheMitoSan!', 'RE3', 40);
+					};
+					TMS.css('R3_MENU_ITEM_OPCODE_FINDER', {'display': 'block'});
 				};
 				TMS.css('BTN_MAIN_53', {'display': 'inline-flex'});
 				TMS.css('BTN_SCD_HACK', {'display': 'none'});
@@ -284,9 +291,10 @@ function R3_SHOW_MENU(menuId){
 			/*
 				End
 			*/
-			//console.info('DESIGN - GOTO Menu ' + menuId + ' (' + R3_DISC_MENUS[menuId][0] + ')');
+			if (canClearCanvas === true){
+				document.getElementById('MAIN_HIDDEN_CANVAS').innerHTML = '';
+			};
 			R3_DISC_setActivity(R3_DISC_MENUS[menuId][0], R3_DISC_MENUS[menuId][1]);
-			document.getElementById('MAIN_HIDDEN_CANVAS').innerHTML = '';
 			R3_DESIGN_MINIWINDOW_CLOSE(11);
 			R3_MENU_HISTORY.push(menuId);
 			R3_WEB_ALERT();
@@ -432,8 +440,11 @@ function R3_DESIGN_ADJUST(){
 		};
 		// Mod Enabled
 		if (APP_ENABLE_MOD === true){
+			TMS.css('R3_MENU_ITEM_LEOS_HUB', {'display': 'block'});
 			TMS.css('R3_MENU_ITEM_OPCODE_FINDER', {'display': 'block'});
 		};
+		// Leo tools settings
+		TMS.css('SETTINGS_DIV_LEO_PATH', {'display': 'block'});
 	} else {
 		TMS.disableElement('BTN_MAIN_BACKUP');
 		// Hide NW settings if web mode
