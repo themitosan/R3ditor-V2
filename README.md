@@ -28,7 +28,7 @@ It's recommended to use our pre-compiled version! You can download on <a href="h
 * Run <code>nw.exe</code>
 
 #### Linux
-It's exactly the same process to run on windows!
+It's almost the same process to run on windows!
 The only difference is: To run R3V2:
 
 * Open your terminal and navigate to R3V2 folder
