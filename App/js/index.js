@@ -741,11 +741,7 @@ function R3_parseHexLengthToString(hex){
 function R3_parseEndian(str){
 	var final = '';
 	if (str !== undefined && str !== ''){
-		var c = 0, prse = str.toString().match(/.{2,2}/g).reverse();
-		while (c < prse.length){
-			final = final + prse[c];
-			c++;
-		};
+		final = str.toString().match(/.{2,2}/g).reverse().toString().replace(RegExp(',', 'gi'), '');
 	};
 	return final;
 };

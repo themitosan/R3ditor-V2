@@ -2907,8 +2907,8 @@ const R3_internalHoldTime = 2800,
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + I</font>: Open Item Database</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + B</font>: Open Backup Manager</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + E</font>: Close current tool <i>(Can be disabled on settins)</i></li>' +
-									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + F</font>: Open SCD Opcode Finder <i>(Main menu - Only available on desktop version)</i></li></ul><br>' +
-									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + R</font>: Reload</li></ul><br>' +
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + F</font>: Open SCD Opcode Finder <i>(Main menu - Only available on desktop version)</i></li>' +
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + R</font>: Reload R3V2</li></ul><br>' +
 									 // Backup Manager
 									 '<div class="align-center"><img src="img/icons/icon-backup.png" class="R3_HC_fnIcon" title="Backup Manager"><br><font class="LBL_subTitle">Backup Manager</font></div><br>' +
 									 'For every time you save your changes in any editor <i>(RDT, SCD, INI and etc.)</i> R3ditor V2 will create a backup for it. It also counts where you did your changes and even <u>when</u> ' +
@@ -3353,16 +3353,12 @@ const R3_internalHoldTime = 2800,
 		Compressed Database
 	*/
 	special_day_02 = ['NzU1MjA0OTQ1NjQ4NTQ5OTcx', 'Ni1NVnhMVXdLNzVUS3dCajYz', 'Zml6Nlg3dWNDUk16OFk=', 'YXBwX2xvZ28'],
-	special_day_03 = 'SW1wb3J0YW50OiBUaGlzIHdlYnNpdGUgPHU+RE9FUyBOT1QgVVNFIENPT0tJRVMhPC91PiBJdCBvbmx5IHVzZSBuYXRpdmUgSlMgc3RvcmFnZSBmdW5jdGlvbnMgKGxpa2UgPGEgY2xhc3M9ImNvbG9yLWdyZWVuIiBocmVmPSJodHRwczovL3d3' +
-					 'dy5nb29nbGUuY29tL3NlYXJjaD9xPUphdmFTY3JpcHQrbG9jYWxzdG9yYWdlIiB0YXJnZXQ9Il9ibGFuayI+bG9jYWxTdG9yYWdlPC9hPiBhbmQgPGEgY2xhc3M9ImNvbG9yLWdyZWVuIiBocmVmPSJodHRwczovL3d3dy5nb29nbGUuY29tL3Nl' +
-					 'YXJjaD9xPUphdmFTY3JpcHQrc2Vzc2lvblN0b3JhZ2UiIHRhcmdldD0iX2JsYW5rIj5zZXNzaW9uU3RvcmFnZTwvYT4pIHRvIGtlZXAgeW91ciBzZXR0aW5ncy4gWW91IGNhbiBjbGVhbiBldmVyeXRoaW5nIG9uIHNldHRpbmdzIG1lbnUgLSBJ' +
-					 'dCdzIGp1c3QgYSBtYXR0ZXIgb2YgY2xpY2sgIkNsZWFyIGFsbCBjYWNoZXMgLyBzZXR0aW5ncyIuIDxicj48YnI+Q29tbW9uIHdlYnNpdGVzIG5vdGljZXMgb2YgdGhlaXIgY29va2llcyB1c2FnZSwgZ3JlYXQgcGxhY2VzIG9mZmVycyB5b3Ug' +
-					 'PHU+ZnJlZWRvbTwvdT4hIDxicj5UaGVNaXRvU2FuLg==',
+	special_day_03 = 'SW1wb3J0YW50OiBUaGlzIHdlYnNpdGUgPHU+RE9FUyBOT1QgVVNFIENPT0tJRVMhPC91PiBJdCBvbmx5IHVzZSBuYXRpdmUgSlMgc3RvcmFnZSBmdW5jdGlvbnMgKGxpa2UgPGEgcmVsPSJub3JlZmVycmVyIiBjbGFzcz0iY29sb3ItZ3JlZW4iIGhyZWY9Imh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vc2VhcmNoP3E9SmF2YVNjcmlwdCtsb2NhbHN0b3JhZ2UiIHRhcmdldD0iX2JsYW5rIj5sb2NhbFN0b3JhZ2U8L2E+IGFuZCA8YSByZWw9Im5vcmVmZXJyZXIiIGNsYXNzPSJjb2xvci1ncmVlbiIgaHJlZj0iaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9zZWFyY2g/cT1KYXZhU2NyaXB0K3Nlc3Npb25TdG9yYWdlIiB0YXJnZXQ9Il9ibGFuayI+c2Vzc2lvblN0b3JhZ2U8L2E+KSB0byBrZWVwIHlvdXIgc2V0dGluZ3MuIFlvdSBjYW4gY2xlYW4gZXZlcnl0aGluZyBvbiBzZXR0aW5ncyBtZW51IC0gSXQncyBqdXN0IGEgbWF0dGVyIG9mIGNsaWNrICJDbGVhciBhbGwgY2FjaGVzIC8gc2V0dGluZ3MiLiA8YnI+PGJyPkNvbW1vbiB3ZWJzaXRlcyBub3RpY2VzIG9mIHRoZWlyIGNvb2tpZXMgdXNhZ2UsIGdyZWF0IHBsYWNlcyBvZmZlcnMgeW91IDx1PmZyZWVkb208L3U+ISA8YnI+VGhlTWl0b1Nhbi4=',
 	/*
 		TIM Database
 	*/
 	TIM_BPP = {
-		//  HEX      BPP
+		//  HEX		  BPP
 		'08000000': '4 BPP',
 		'09000000': '8 BPP',
 		'02000000': '16 BPP',

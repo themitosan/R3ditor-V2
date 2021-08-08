@@ -1238,7 +1238,7 @@ function R3_DESIGN_DOORLINK_APPLY(mapName, id){
 		document.getElementById('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_zIndex').value = magicArray[5];
 		document.getElementById('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_stage').value = (parseInt(magicArray[6]) + 1);
 		document.getElementById('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_roomNumber').value = magicArray[7];
-		document.getElementById('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_nextCam').value = magicArray[8];
+		document.getElementById('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_nextCam').value = parseInt(magicArray[8], 16);
 		R3_SCD_FUNCTIONEDIT_updateCamPreview(R3_SCD_currentOpcode);
 	};
 };
@@ -2148,8 +2148,10 @@ function R3_RDT_DESIGN_resetInterface(){
 	if (R3_DOORLINK_RUNNING === false && R3_MINI_WINDOW_DATABASE[23][5] === true){
 		R3_DESIGN_MINIWINDOW_CLOSE(23);
 	};
-	TMS.css('R3_RDT_GENERAL_IMG', {'left': '-4%', 'display': 'none'});
-	TMS.css('R3_RDT_MENU_GENERAL_INFOS', {'left': '52%', 'display': 'none'});
+	if (R3_DOORLINK_RUNNING === false){
+		TMS.css('R3_RDT_GENERAL_IMG', {'left': '-4%', 'display': 'none'});
+		TMS.css('R3_RDT_MENU_GENERAL_INFOS', {'left': '52%', 'display': 'none'});
+	};
 };
 // Show RDT
 function R3_RDT_DESIGN_enableInterface(showInterface){

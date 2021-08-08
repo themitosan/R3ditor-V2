@@ -92,7 +92,7 @@ function R3_RDT_loadFile(){
 };
 // Check before open
 function R3_RDT_LOAD(rdtFile, showInterface, hexFile){
-	var c = 0, headersTemp, fName, loaderInterval, errMsg, mapPath = '';
+	var headersTemp, fName, loaderInterval, errMsg, mapPath = '';
 	// Web fix
 	if (R3_WEBMODE === false){
 		fName = R3_getFileExtension(rdtFile).toLowerCase();
@@ -145,14 +145,13 @@ function R3_RDT_LOAD(rdtFile, showInterface, hexFile){
 					TEMP Information
 					Only the first 8 bytes of the header will be kept as Endian
 				*/ 
-				while (c < headersTemp.length){
-					if (c === 0){
-						R3_RDT_MAP_HEADER_POINTERS.push(headersTemp[c]);
+				headersTemp.forEach(function(a, b){
+					if (b === 0){
+						R3_RDT_MAP_HEADER_POINTERS.push(a);
 					} else {
-						R3_RDT_MAP_HEADER_POINTERS.push(R3_parseEndian(headersTemp[c]));
+						R3_RDT_MAP_HEADER_POINTERS.push(R3_parseEndian(a));
 					};
-					c++;
-				};
+				});
 				/*
 					Get Extra Info From RDT
 				*/
@@ -180,9 +179,9 @@ function R3_RDT_LOAD(rdtFile, showInterface, hexFile){
 					End
 				*/
 				R3_RDT_LOADED = true;
-				R3_RDT_COPY_ORIGINALS();
 				// Skip some stuff
 				if (R3_DOORLINK_RUNNING === false){
+					R3_RDT_COPY_ORIGINALS();
 					R3_RDT_checkIfScdHack();
 					R3_LATEST_SET_FILE(R3_RDT_mapName + '.RDT', 0, ORIGINAL_FILENAME);
 					R3_RDT_DESIGN_enableInterface(showInterface);

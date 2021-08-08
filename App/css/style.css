@@ -385,6 +385,9 @@ blockquote {
     text-shadow: 0px 0px 10px #000;
     background-image: linear-gradient(to right, #727272, #5b5b5b);
 }
+.R3_MENU_ITEM_BIG:active {
+    background-image: linear-gradient(to top, #a3a3a3, #969696) !important;
+}
 .R3_MENU_ITEM_NORMAL {
     width: auto;
     padding: 6px;
@@ -685,7 +688,7 @@ blockquote {
     background-color: #000;
 }
 .R3_HC_IMG {
-    width: 98%;
+    width: 80%;
     border-radius: 2px;
     box-shadow: 0px 0px 10px #39337a;
 }
@@ -809,6 +812,7 @@ blockquote {
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0px 0px 2px 0px #727272;
+    background-image: linear-gradient(to bottom, #fff, #eee);
 }
 .R3V2_MINI_WINDOW_CLOSE_BTN:hover {
     color: #fff;

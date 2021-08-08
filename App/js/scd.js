@@ -116,9 +116,13 @@ function R3_SCD_EXTRACT_FROM_RDT(rdtFile, hx){
 	This process will read the SCD and separate by scripts, to be read apart
 */
 function R3_SCD_START_DECOMPILER(hex){
+	// DoorLink Fix
+	if (SCD_arquivoBruto === undefined){
+		SCD_arquivoBruto = hex;
+	};
 	// Start process
-	var TEMP_R3_SCD_POINTERS, c = 0;
-	R3_SCD_OVERALL_TOTAL_FUNCTIONS = c;
+	var TEMP_R3_SCD_POINTERS;
+	R3_SCD_OVERALL_TOTAL_FUNCTIONS = 0;
 	SCD_HEADER_LENGTH = R3_getPosFromHex(hex.slice(0, 4));
 	// Add INIT pointer to script list
 	R3_SCD_POINTERS.push(R3_parseEndian(hex.slice(0, 4)));
@@ -128,12 +132,11 @@ function R3_SCD_START_DECOMPILER(hex){
 	});
 	// console.info(TEMP_R3_SCD_POINTERS);
 	R3_SCD_TOTAL_SCRITPS = R3_SCD_POINTERS.length;
-	R3_SCD_POINTERS.forEach(function(){
-		R3_SCD_GENERATE_LIST(c, hex, SETTINGS_SCD_DECOMPILER_ENABLE_LOG);
-		c++;
+	R3_SCD_POINTERS.forEach(function(a, b){
+		R3_SCD_GENERATE_LIST(b, hex, SETTINGS_SCD_DECOMPILER_ENABLE_LOG);
 	});
 	// End
-	if (SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true){
+	if (SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true && R3_DOORLINK_RUNNING === false){
 		R3_SYSTEM_LOG('separator');
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Finished loading SCD with ' + R3_SCD_TOTAL_SCRITPS + ' scripts, totalizing ' + R3_SCD_OVERALL_TOTAL_FUNCTIONS + ' functions.');
 	};
@@ -141,7 +144,7 @@ function R3_SCD_START_DECOMPILER(hex){
 };	
 // Display Script
 function R3_SCD_displayScript(scriptId){
-	if (scriptId !== undefined && scriptId !== '' && R3_SCD_SCRIPTS_IS_LOADING === false){
+	if (scriptId !== undefined && scriptId !== '' && R3_SCD_SCRIPTS_IS_LOADING === false && R3_DOORLINK_RUNNING === false){
 		if (R3_SCD_SCRIPTS_LIST[scriptId] !== undefined){
 			R3_SCD_CURRENT_SCRIPT = scriptId;
 			R3_DESIGN_SCD_UPDATE_SELECT(scriptId);
@@ -262,13 +265,16 @@ function R3_SCD_SAVE_JS_FILE(){
 function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 	// Checks Before Search
 	if (SCD_arquivoBruto !== undefined){
-		R3_cleanHexFromInput('R3_SCD_SEARCH_SCD_SCRIPT_INPUT');
-		var HTML_RESULT_TEMPLATE, canSearch = true, opcodeSearch = R3_cleanHex(document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_INPUT').value).toLowerCase();
+		var canSearch = true, opcodeSearch, tempScript, SCD_SEARCH_RESULTS = [];
+		if (R3_DOORLINK_RUNNING === false){
+			R3_cleanHexFromInput('R3_SCD_SEARCH_SCD_SCRIPT_INPUT');
+			opcodeSearch = R3_cleanHex(document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_INPUT').value).toLowerCase();
+		};
 		if (functionOpcode !== undefined && functionOpcode !== ''){
 			opcodeSearch = functionOpcode.toLowerCase();
 		};
 		// Check length
-		if (opcodeSearch.length !== 2){
+		if (R3_DOORLINK_RUNNING === false && opcodeSearch.length !== 2){
 			canSearch = false;
 		};
 		// Check if is a valid SCD function
@@ -289,47 +295,43 @@ function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 			if (skipAlert !== true){
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Searching for Opcode <font class="user-can-select">' + opcodeSearch.toUpperCase() + '</font>...');
 			};
-			var tempHex, c = d = 0, SCD_SEARCH_RESULTS = [];
-			while (c < Object.keys(R3_SCD_SCRIPTS_LIST).length){
-				d = 0, cScript = R3_SCD_SCRIPTS_LIST[c];
-				while (d < cScript.length){
-					tempHex = cScript[d].slice(0, 2);
-					if (tempHex === opcodeSearch){
-						SCD_SEARCH_RESULTS.push([c, d]);
-					};
-					d++;
+			Object.keys(R3_SCD_SCRIPTS_LIST).forEach(function(cItem, cIndex){
+				tempScript = R3_SCD_SCRIPTS_LIST[cIndex].filter(function(data){
+					return data.slice(0, 2) === opcodeSearch;
+				});
+				if (tempScript.length !== 0){
+					tempScript.forEach(function(cData, dataIndex){
+						SCD_SEARCH_RESULTS.push([cIndex, R3_SCD_SCRIPTS_LIST[cIndex].indexOf(cData)]);
+					});
 				};
-				c++;
-			};
+			});
 			// Check Results
-			if (SCD_SEARCH_RESULTS.length > 0){
-				// Prepare form
-				R3_SCD_SEARCH_HIGHLIGHT_FUNCTION = 0;
-				document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_RESULT').innerHTML = '';
-				// Print result
-				c = d = 0;
-				HTML_RESULT_TEMPLATE = '';
-				while (c < SCD_SEARCH_RESULTS.length){
-					var cScript = SCD_SEARCH_RESULTS[c][0], cFunction = SCD_SEARCH_RESULTS[c][1], cLabel = cScript;
-					if (cLabel === 0){
-						cLabel = 'INIT';
-					} else {
-						cLabel = MEMORY_JS_fixVars(cScript, 3);
-					};
-					HTML_RESULT_TEMPLATE = HTML_RESULT_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SEARCH_FIND_FN_' + c + '">Script <font class="monospace mono_xyzr">' + cLabel + '</font> - Function <font class="monospace mono_xyzr">' + MEMORY_JS_fixVars(parseInt(cFunction + 1), 3) +
-										   '</font><input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="GOTO" onclick="R3_DESIGN_SCD_focusResultFromSearchForm(' + c + ');R3_SCD_SEARCH_GOTO_FUNCTION(' + cScript + ', ' + cFunction + ');"></div>';
-					c++;
-				};
-				// End
-				R3_KEYPRESS_ALT = false;
-				SCD_FN_SEARCH_RESULT = SCD_SEARCH_RESULTS;
-				R3_SCD_SEARCH_OPCODE_ADDCOLOR(R3_SCD_DATABASE[opcodeSearch][2]);
-				document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_RESULT').scrollTop = 0;
-				document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_RESULT').innerHTML = HTML_RESULT_TEMPLATE;
-				document.getElementById('R3_LBL_SCD_SEARCH_FUNCTION_OPCODE').title = R3_SCD_INFO_DATABASE[opcodeSearch];
-				document.getElementById('R3_LBL_SCD_SEARCH_FUNCTION_OPCODE').innerHTML = R3_SCD_DATABASE[opcodeSearch][1];
-				if (functionOpcode !== undefined){
+			if (SCD_SEARCH_RESULTS.length !== 0){
+				if (R3_DOORLINK_RUNNING === true){
 					return SCD_SEARCH_RESULTS;
+				} else {
+					// Prepare form
+					R3_SCD_SEARCH_HIGHLIGHT_FUNCTION = 0;
+					document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_RESULT').innerHTML = '';
+					// Print result
+					var cScript, HTML_RESULT_TEMPLATE = '';
+					SCD_SEARCH_RESULTS.forEach(function(rItem, rIndex){
+						cScript = SCD_SEARCH_RESULTS[rIndex][0], cFunction = SCD_SEARCH_RESULTS[rIndex][1], cLabel = cScript;
+						cLabel = MEMORY_JS_fixVars(cScript, 3);
+						if (cLabel === 0){
+							cLabel = 'INIT';
+						};
+						HTML_RESULT_TEMPLATE = HTML_RESULT_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SEARCH_FIND_FN_' + rIndex + '">Script <font class="monospace mono_xyzr">' + cLabel + '</font> - Function <font class="monospace mono_xyzr">' + MEMORY_JS_fixVars(parseInt(cFunction + 1), 3) +
+											   '</font><input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="GOTO" onclick="R3_DESIGN_SCD_focusResultFromSearchForm(' + rIndex + ');R3_SCD_SEARCH_GOTO_FUNCTION(' + cScript + ', ' + cFunction + ');"></div>';
+					});
+					// End
+					R3_KEYPRESS_ALT = false;
+					SCD_FN_SEARCH_RESULT = SCD_SEARCH_RESULTS;
+					R3_SCD_SEARCH_OPCODE_ADDCOLOR(R3_SCD_DATABASE[opcodeSearch][2]);
+					document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_RESULT').scrollTop = 0;
+					document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_RESULT').innerHTML = HTML_RESULT_TEMPLATE;
+					document.getElementById('R3_LBL_SCD_SEARCH_FUNCTION_OPCODE').title = R3_SCD_INFO_DATABASE[opcodeSearch];
+					document.getElementById('R3_LBL_SCD_SEARCH_FUNCTION_OPCODE').innerHTML = R3_SCD_DATABASE[opcodeSearch][1];
 				};
 			} else {
 				if (skipAlert !== true){
@@ -659,13 +661,16 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 				END_SCRIPT = true;
 			};
 		};
-		textLabel = 'Script ' + pointerPos;
-		if (pointerPos === 0){
-			textLabel = 'INIT Script';
+		// End
+		if (R3_DOORLINK_RUNNING === false){
+			textLabel = 'Script ' + pointerPos;
+			if (pointerPos === 0){
+				textLabel = 'INIT Script';
+			};
+			HTML_INIT_SCRIPT_TEMP = '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SCRIPT_ID_' + pointerPos + '"><div class="R3_SCD_SCRIPT_LIST_ACTIVE" id="R3_SCD_SCRIPT_LIST_ACTIVE_' + pointerPos + '">' +
+									'</div>' + textLabel + '<input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="Load Script" onclick="R3_SCD_displayScript(' + pointerPos + ');"></div>';
+			TMS.append('R3_SCD_SCRIPT_LISTS', HTML_INIT_SCRIPT_TEMP);
 		};
-		HTML_INIT_SCRIPT_TEMP = '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SCRIPT_ID_' + pointerPos + '"><div class="R3_SCD_SCRIPT_LIST_ACTIVE" id="R3_SCD_SCRIPT_LIST_ACTIVE_' + pointerPos + '">' +
-								'</div>' + textLabel + '<input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="Load Script" onclick="R3_SCD_displayScript(' + pointerPos + ');"></div>';
-		TMS.append('R3_SCD_SCRIPT_LISTS', HTML_INIT_SCRIPT_TEMP);
 	} catch (err) {
 		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to generate script list!');
 		R3_SYSTEM_LOG('error', 'Details: ' + err);

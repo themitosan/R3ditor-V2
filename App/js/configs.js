@@ -743,7 +743,7 @@ function R3_SETTINGS_ENGE_LOAD_BIOS(){
 		if (APP_FS.existsSync(SETTINGS_ENGE_BIOS_PATH) === true){
 			SETTINGS_ENGE_BIOS = APP_FS.readFileSync(SETTINGS_ENGE_BIOS_PATH, 'hex');
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (eNGE) unable to load bios! <br>Reason: The file was not found! (404)');
+			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (eNGE) unable to load bios (The file was not found!)');
 		};
 	};
 };

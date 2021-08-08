@@ -744,12 +744,13 @@ function R3_BACKUP_MANAGER_delete(fileId){
 // Open window
 function R3_leosHub_openWindow(){
 	if (R3_WEBMODE === false && APP_ENABLE_MOD === true){
-		var HTML_TEMPLATE = '', cPath = APP_PATH + '/Assets/DATA/PLD', tempFileList = APP_FS.readdirSync(cPath),
+		var HTML_TEMPLATE = '', cPath = APP_PATH + '/Assets/DATA/PLD', tempFileList = APP_FS.readdirSync(cPath), toolCounter = 0,
 			noToolError = function(where, toolName){
 				document.getElementById(where).innerHTML = '<br><div class="align-center"><i>Unable to generate list!<br>Please, insert <u>' + toolName + '</u> location on settings and try again.</i></div>';
 			};
 		// RE3MV
 		if (APP_FS.existsSync(R3_RE3MV_PATH) === true){
+			toolCounter++;
 			tempFileList.forEach(function(cItem){
 				if (cItem.indexOf('.PLD') !== -1){
 					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3MV" onclick="R3_leosHub_openFile(\'' + cPath + '/' + cItem + '\', 0);">' +
@@ -765,6 +766,7 @@ function R3_leosHub_openWindow(){
 		};
 		// RE3PLWE
 		if (APP_FS.existsSync(R3_RE3PLWE_PATH) === true){
+			toolCounter++;
 			tempFileList.forEach(function(cItem){
 				if (cItem.indexOf('.PLW') !== -1){
 					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3PLWE" onclick="R3_leosHub_openFile(\'' + cPath + '/' + cItem + '\', 1);">' +
@@ -780,7 +782,11 @@ function R3_leosHub_openWindow(){
 		/*
 			End
 		*/
-		R3_DESIGN_MINIWINDOW_OPEN(24, 'center');
+		if (toolCounter > 0){
+			R3_DESIGN_MINIWINDOW_OPEN(24, 'center');
+		} else {
+			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open Leo\'s Hub because there isn\'t any tool available!');
+		};
 	};
 };
 // Open File
