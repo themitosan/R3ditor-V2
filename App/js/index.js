@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function(evt){
 function R3_INIT_REQUIRE(){
 	if (R3_WEBMODE === false){
 		try {
+			var eReason = '';
 			// Init Gamepad
 			R3_GAMEPAD_INIT();
 			if (process.arch === 'x64'){
@@ -56,10 +57,12 @@ function R3_INIT_REQUIRE(){
 						};
 					} else {
 						MEM_JS_requreSucess = false;
+						eReason = eReason + '\nWrong version of NW.js';
 						// Electron fix
 						if (nwVersion !== undefined){
 							if (parseFloat(nwVersion.slice(2)) > 38.4){
-								R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: <u>You are using a newer version of NW.js!</u> <br>This can make this application malfunction - making it not execute / display properly. <br>(Required Version: <a href="https://dl.nwjs.io/v0.38.4/" target="_blank">0.38.4</a>, Current Version: <a href="https://dl.nwjs.io/v' + nwVersion + '/" target="_blank">' + nwVersion + '</a>)');
+								eReason = eReason + '\nYou are using a newer version of NW.js! (' + nwVersion + ')';
+								R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: <u>You are using a newer version of NW.js!</u> <br>This can make this application malfunction - making it not execute / display properly. <br>(Required Version: <a rel="noreferrer" href="https://dl.nwjs.io/v0.38.4/" target="_blank">0.38.4</a>, Current Version: <a rel="noreferrer" href="https://dl.nwjs.io/v' + nwVersion + '/" target="_blank">' + nwVersion + '</a>)');
 							};
 						};
 					};
@@ -70,7 +73,7 @@ function R3_INIT_REQUIRE(){
 				};
 				if (MEM_JS_requreSucess === false){
 					R3_SYSTEM_LOG('separator');
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: R3ditor V2 will disable MemoryJS and RE3 Livetstaus.');
+					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: R3ditor V2 will disable MemoryJS and RE3 Livetstaus - Reason: ' + eReason);
 				};
 			} else {
 				APP_IS_32 = true;
