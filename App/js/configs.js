@@ -424,6 +424,7 @@ function R3_LOAD_SETTINGS(){
 };
 // Process other load settings
 function R3_LOAD_PROCESS_SETTINGS(){
+	var modPathTest;
 	// Process args
 	if (APP_ON_BOOT === true){
 		R3_INIT_PROCESS_ARGS();
@@ -447,13 +448,15 @@ function R3_LOAD_PROCESS_SETTINGS(){
 			APP_ENABLE_MOD = false;
 		};
 		// Check if Executable Exists (RE3)
-		if (APP_FS.existsSync(R3_RE3_PATH) !== false){
+		if (APP_FS.existsSync(R3_RE3_PATH) === true){
 			R3_RE3_CANRUN = true;
-			if (APP_ENABLE_MOD === true){
-				if (R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === false){
-					R3_RE3_MOD_PATH = APP_PATH + '/Assets/' + R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][3];
-				};
+			if (APP_ENABLE_MOD === true && R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === false){
+				R3_RE3_MOD_PATH = APP_PATH + '/Assets/' + R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][3];
 			};
+		};
+		// Check MERCE path
+		if (APP_FS.existsSync(R3_MERCE_PATH) === true){
+			R3_MERCE_CANRUN = true;
 		};
 		// RE3SDLE Path
 		if (APP_FS.existsSync(R3_RE3SLDE_PATH) === true){
@@ -478,7 +481,7 @@ function R3_LOAD_PROCESS_SETTINGS(){
 	/*
 		MOD Path Fixes
 	*/
-	var modPathTest = R3_MOD_PATH.slice(parseInt(R3_MOD_PATH.length - 1), R3_MOD_PATH.length);
+	modPathTest = R3_MOD_PATH.slice(parseInt(R3_MOD_PATH.length - 1), R3_MOD_PATH.length);
 	if (modPathTest === '/' || modPathTest === '\\'){
 		R3_MOD_PATH = R3_MOD_PATH.slice(0, parseInt(R3_MOD_PATH.length - 1));
 	};
