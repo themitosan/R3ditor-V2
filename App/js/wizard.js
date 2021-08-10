@@ -3,8 +3,9 @@
 	Hoo~
 */
 // Wizard variables
-var R3_WIZARD_RUNNING = false,
+var R3_WIZARD_MOD_NAME = '',
 	R3_WIZARD_GAME_PATH = '',
+	R3_WIZARD_RUNNING = false,
 	// Wizard Options
 	R3_WIZARD_KEEP_ROFS11 = true,
 	R3_WIZARD_SET_RE3_PATH = true,
@@ -27,19 +28,35 @@ function R3_WIZARD_getMainGamePath(){
 // Check before start
 function R3_WIZARD_checkProcess(){
 	if (R3_WEBMODE === false){
+		var canStart = true, eReason = '';
+		R3_WIZARD_MOD_NAME = document.getElementById('R3_WIZARD_MOD_NAME').value;
 		R3_WIZARD_KEEP_ROFS11 = JSON.parse(document.getElementById('R3_WIZARD_KEEP_ROFS11').checked);
 		R3_WIZARD_SET_RE3_PATH = JSON.parse(document.getElementById('R3_WIZARD_SET_RE3_PATH').checked);
 		R3_WIZARD_SET_MERCE_PATH = JSON.parse(document.getElementById('R3_WIZARD_SET_MERCE_PATH').checked);
 		R3_WIZARD_ENABLE_DOORLINK = JSON.parse(document.getElementById('R3_WIZARD_ENABLE_DOORLINK').checked);
 		R3_WIZARD_REPLACE_WARN = JSON.parse(document.getElementById('R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT').checked);
-		if (R3_WIZARD_GAME_PATH !== ''){
-			if (APP_FS.existsSync(R3_WIZARD_GAME_PATH) === true){
-				R3_DESIGN_MINIWINDOW_CLOSE(0);
-				R3_DESIGN_MINIWINDOW_CLOSE(21);
-				R3_WIZARD_startProcess();
+		// Checks
+		if (APP_FS.existsSync(R3_WIZARD_GAME_PATH) !== true){
+			canStart = false;
+			if (R3_WIZARD_GAME_PATH === ''){
+				eReason = eReason + '\nYou must select a valid path for your game!';
+			} else {
+				eReason = eReason + '\nThis path does not exists! (404)';
 			};
+		};
+		if (R3_WIZARD_MOD_NAME == ''){
+			canStart = false;
+			eReason = eReason + '\nYou must insert a valid name for this mod';
+		};
+		/*
+			Start Process
+		*/
+		if (canStart === true){
+			R3_DESIGN_MINIWINDOW_CLOSE(0);
+			R3_DESIGN_MINIWINDOW_CLOSE(21);
+			R3_WIZARD_startProcess();
 		} else {
-			R3_SYSTEM_ALERT('WARN: Please, select the game location before start!');
+			R3_SYSTEM_ALERT('ERROR: Unable to start R3V2 Wizard!\n' + eReason);
 		};
 	};
 };
@@ -47,7 +64,7 @@ function R3_WIZARD_checkProcess(){
 function R3_WIZARD_startProcess(){
 	if (R3_WEBMODE === false){
 		R3_MENU_EXIT();
-		R3_UTILS_CALL_LOADING('Enable Modding Enviroment', 'Please wait while R3ditor V2 extracts all game assets...', 10);
+		R3_UTILS_CALL_LOADING('Running R3V2 Wizard', 'Please wait while R3ditor V2 extracts all game assets...', 10);
 		R3_WIZARD_RUNNING = true;
 		var currentRofs = 1, rofsTimer, rofsFix;
 		// Create zmovie
@@ -116,7 +133,7 @@ function R3_WIZARD_copyMissingFiles(){
 // Extract Rofs (Wizard)
 function R3_WIZARD_EXTRACT_ROFS(rofsId){
 	if (R3_WEBMODE === false){
-		R3_UTILS_LOADING_UPDATE('Extracting Rofs' + rofsId + '.dat - ' + ROFS_FILE_DESC[rofsId] + ' - Please wait...', R3_parsePercentage(rofsId, 15));
+		R3_UTILS_LOADING_UPDATE('Extracting <font class="R3_HC_LBL_CODE user-cant-select">Rofs' + rofsId + '.dat</font> - ' + ROFS_FILE_DESC[rofsId] + ' - Please wait...', R3_parsePercentage(rofsId, 15));
 		R3_runExec(APP_TOOLS + '/rofs.exe', [R3_WIZARD_GAME_PATH + '/Rofs' + rofsId + '.dat'], 1);
 	};
 };
@@ -157,6 +174,8 @@ function R3_WIZARD_FINAL_CHECK_DOORLINK(){
 // Finish line!
 function R3_WIZARD_FINISH(){
 	if (R3_WEBMODE === false){
+		const R3MOD = '{modName: \"' + R3_WIZARD_MOD_NAME + '\", R3V2_VERSION: \"' + INT_VERSION + '\"}';
+		APP_FS.writeFileSync(APP_PATH + '/ModInfo.R3V2', R3MOD, 'utf-8');
 		R3_SAVE_SETTINGS(false);
 		R3_UTILS_LOADING_CLOSE();
 		R3_LOAD_SETTINGS();

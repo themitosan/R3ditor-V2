@@ -414,6 +414,9 @@ blockquote {
     margin-top: -26px;
     position: absolute;
 }
+.R3_MENU_BIG_LBL_ICON_FIX {
+    left: 98px !important;
+}
 /*
     Main Divs
 */
@@ -3509,6 +3512,33 @@ blockquote {
     position: relative;
     text-align: center;
     text-align: -webkit-center;
+}
+.R3_WIZARD_MOD_NAME_HOLDER {
+    z-index: 10;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    text-align: -moz-center;
+    text-align: -webkit-center;
+}
+.R3_WIZARD_MOD_NAME {
+    width: 90%;
+    color: #0f0;
+    border: none;
+    outline: none;
+    margin-top: 4px;
+    padding-top: 6px;
+    text-align: center;
+    padding-left: 10px;
+    border-radius: 6px;
+    padding-right: 10px;
+    padding-bottom: 6px;
+    font-family: 'mSpace';
+    text-align: -moz-center;
+    background-color: #0000;
+    text-align: -webkit-center;
+    text-shadow: 0px 0px 10px #060;
+    background-image: linear-gradient(to right, #0000, #000, #0000);
 }
 /*
     Colors

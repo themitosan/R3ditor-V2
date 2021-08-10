@@ -73,6 +73,23 @@
 			<img id="R3_HOME_BG" class="R3_HOME_BG" alt="R3_HOME_BG">
 			<!-- Main Menu -->
 			<div class="R3_MENU_MAIN_TOP" id="R3_MENU_MAIN_TOP">
+				<!-- Mod Menu -->
+				<div class="R3_MENU_ITEM none" id="R3_MENU_MOD">
+					R3V2 Mod Menu
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_BIG" title="(Project Wizard) Click here to open assistant for creating a new mod" onclick="R3_DESIGN_displayWizard();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-12.png"><div class="R3_MENU_BIG_LBL">New Mod (Wizard)</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to load your mod" onclick="R3_WIP();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-open-win.png"><div class="R3_MENU_BIG_LBL">Load Mod</div>
+						</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to export your mod" onclick="R3_WIP();">
+							<img class="R3_MENU_ICON" src="img/icons/icon-export.png">
+							<div class="R3_MENU_BIG_LBL R3_MENU_BIG_LBL_ICON_FIX">Export Mod</div>
+						</div>
+					</div>
+				</div>
 				<!-- Editors -->
 				<div class="R3_MENU_ITEM">
 					R3V2 Main Tools
@@ -126,10 +143,6 @@
 						</div>
 						<div class="R3_MENU_ITEM_BIG none" id="R3_MENU_ITEM_LEOS_HUB" title="(Leo's Hub) Click here to open a list of files that can be opened with Leo2236 tools" onclick="R3_leosHub_openWindow();">
 							<img class="R3_MENU_ICON" src="img/icons/icon-leo.png"><div class="R3_MENU_BIG_LBL">Leo's Hub</div>
-						</div>
-						<div class="R3_MENU_SEPARATOR"></div>
-						<div class="R3_MENU_ITEM_BIG" title="(Wizard) Click here to extract the game assets and enable R3ditor V2 Full-Editing mode!" onclick="R3_DESIGN_displayWizard();">
-							<img class="R3_MENU_ICON" src="img/icons/icon-12.png"><div class="R3_MENU_BIG_LBL">Enable Wizard</div>
 						</div>
 						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_OPCODE_FINDER" title="(SCD Opcode Finder) This is a simple tool that allows you to search for a specific SCD opcode across all extracted maps" onclick="R3_SCD_openOpcodeFinder();">
 							SCD Opcode Finder
@@ -555,26 +568,30 @@
 			<!-- R3V2 - Wizard -->
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_21">
 				<div id="R3V2_MINI_WINDOW_21_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
-					R3V2 Wizard
+					New Mod (R3V2 Wizard)
 					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(21);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="R3_WIZARD_HOLDER">
 					<div class="R3_WIZARD_BG"></div>
 					<div class="R3_WIZARD_MAIN">
 						This is the first step to create a perfect enviroment for modding RE3.<br>
-						It will unpack all game assets, generating a new version of the game built for testing and more. 
+						This assistant will unpack all game assets, generating a new version of the game built for testing and even more! 
 						All files will be installed on a specific path created by R3V2. By default, this is located on <u>your documents folder</u>.<br>
-						To start, please select your main game location.<br><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Select Game Path" title="Click here to select the main game location" onclick="R3_WIZARD_getMainGamePath();"><br><br>
+						<br>To start, please select your main game location.<br><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Select Game Path" title="Click here to select the main game location" onclick="R3_WIZARD_getMainGamePath();"><br><br>
 						Location: <font class="R3_HC_LBL_CODE" id="R3_WIZARD_GAME_PATH">Unknown Location</font><br><br>
 						You can change how R3V2 will run this process below:
 					</div>
 					<!-- Wizard Options -->
 					<div class="R3_WIZARD_OPTIONS" id="R3_WIZARD_OPTIONS">
 						<input type="checkbox" id="R3_WIZARD_KEEP_ROFS11" checked="true"> - <font title="Enabling this option will keep Rofs11.dat inside extracted folder, avoiding some crashes due bad rofs extraction issues. (It will be extracted, but disabled by default on Bio3.ini)" onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_KEEP_ROFS11');" class="cursor-pointer">Keep <font class="R3_HC_LBL_CODE user-cant-select">Rofs11.dat</font></font><br>
-						<input type="checkbox" id="R3_WIZARD_SET_RE3_PATH" checked="true"> - <font title="Enabling this option will search for RE3 main executable using selected path. If exists, R3V2 will set RE3 Main Game Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_RE3_PATH');" class="cursor-pointer">(Settings) Set Main Game Path</font><br>
-						<input type="checkbox" id="R3_WIZARD_SET_MERCE_PATH" checked="true"> - <font title="Enabling this option will search for RE3 Mercenaries executable using selected path. If exists, R3V2 will set RE3 Mercenaries Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_MERCE_PATH');" class="cursor-pointer">(Settings) Set Mercenaries Path</font><br>
 						<input type="checkbox" id="R3_WIZARD_ENABLE_DOORLINK" checked="true"> - <font title="Enabling this option will read all doors inside the game, generating a database with all spawn locations to be used while editing SCD scripts." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_DOORLINK');" class="cursor-pointer">Enable SCD DoorLink</font><br>
-						<input type="checkbox" id="R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT" checked="true"> - <font title="Enabling this option will replace the original warning screen (This game contains scenes of explicit violence and gore, WARNE.TIM) with a custom image, indicating that user are running the beta version." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT');" class="cursor-pointer">Replace warning message</font>
+						<input type="checkbox" id="R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT" checked="true"> - <font title="Enabling this option will replace the original warning screen (This game contains scenes of explicit violence and gore, WARNE.TIM) with a custom image, indicating that user are running the beta version." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT');" class="cursor-pointer">Replace warning message</font><br>
+						<input type="checkbox" id="R3_WIZARD_SET_RE3_PATH" checked="true"> - <font title="Enabling this option will search for RE3 main executable using selected path. If exists, R3V2 will set RE3 Main Game Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_RE3_PATH');" class="cursor-pointer">(Settings) Set Main Game Path</font><br>
+						<input type="checkbox" id="R3_WIZARD_SET_MERCE_PATH" checked="true"> - <font title="Enabling this option will search for RE3 Mercenaries executable using selected path. If exists, R3V2 will set RE3 Mercenaries Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_MERCE_PATH');" class="cursor-pointer">(Settings) Set Mercenaries Path</font>
+					</div>
+					<!-- Mod Name -->
+					<div class="R3_WIZARD_MOD_NAME_HOLDER">
+						Mod Name: <input type="text" placeholder="My New RE3 Mod" class="R3_WIZARD_MOD_NAME" id="R3_WIZARD_MOD_NAME">
 					</div>
 					<!-- Start -->
 					<div class="align-center R3_WIZARD_START_HOLDER" id="R3_WIZARD_START_HOLDER">
@@ -1532,7 +1549,7 @@
 							</li>
 							<li>
 								RE3 Live Status Update Frenquency: 
-								<input type="range" min="50" max="300" step="2" value="80" class="SETTINGS_RANGE" oninput="R3_SETTINGS_UPDATE_RANGE(0);" id="R3_SETTINGS_RANGE_LIVETSTATUS_FREQUENCY"> <font id="R3_SETTINGS_LIVETSTATUS_FREQUENCY" class="monospace mono_xyzr">???</font>ms<br>
+								<input type="range" min="50" max="500" step="2" value="78" class="SETTINGS_RANGE" oninput="R3_SETTINGS_UPDATE_RANGE(0);" id="R3_SETTINGS_RANGE_LIVETSTATUS_FREQUENCY"> <font id="R3_SETTINGS_LIVETSTATUS_FREQUENCY" class="monospace mono_xyzr">???</font>ms<br>
 								<div class="align-center margin-top-fix txt-italic">
 									If you have any issue with performance, set this value <b>higher</b> - since it <u>may cause JS Heap</u>.
 								</div>
@@ -1698,7 +1715,7 @@
 					<div id="DIV_ABOUT_NW">NW.js Ver: <font id="ABOUT_LBL_NW_VERSION">???</font></div><br>
 					Created by <a target="_blank" rel="noreferrer" href="https://twitter.com/themitosan">@TheMitoSan</a> / R3V2 Team<br>
 					<a target="_blank" rel="noreferrer" href="https://themitosan.github.io/">Official Website</a><br><br>
-					"Forget the old promise, let's together make it like a dream becoming reality..."<br><br>
+					<i>"Forget the old promise, let's together make it like a dream becoming reality..."</i><br><br>
 					<input type="button" title="Click here to go back" class="ABOUT_GOBACK_BTN" value="Go Back" onclick="R3_MENU_GOBACK();">
 				</div>
 				<div class="ABOUT_RIGHT">

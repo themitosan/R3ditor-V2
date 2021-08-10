@@ -46,7 +46,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		18: [680,  434,    68,  4, 	 9999998,  false, ''],									// Backup Manager
 		19: [1194, 620,    68,  4, 	 9999998,  false, ''],									// RE3 Livestatus
 		20: [416,  482,    44,  4, 		 105,  false, 'R3_SCD_DOORLINK_MAP_INPUT'],			// SCD DoorLink
-		21: [482,  426,    44,  4,   9999998,  false, ''],									// R3V2 Wizard
+		21: [482,  520,    44,  4,   9999998,  false, 'R3_WIZARD_MOD_NAME'],				// R3V2 Wizard
 		22: [522,  376,    44,  4,   9999999,  false, 'R3_UPDATER_CURRENT_BRANCH'],			// R3V2 Updater
 		23: [350,  438,    44,  4,   9999997,  false, 'R3_OPCODE_FINDER_SEARCH'],			// SCD Opcode Finder
 		24: [404,  454,    44,  4,		 106,  false, ''] 									// Leo's Hub
@@ -394,6 +394,9 @@ function R3_DESIGN_ADJUST(){
 	TMS.disableElement('BTN_MAIN_61');
 	// Fix RDT Path Labels and disable some unused functions in non-windows os / web
 	if (R3_WEBMODE === false){
+		// Mod Menu
+		TMS.css('R3_MENU_MOD', {'display': 'block'});
+		//
 		TMS.css('SETTINGS_LI_CLEARCACHE', {'display': 'none'});
 		if (INT_VERSION === 'DEV_VERSION'){
 			TMS.css('R3_MENU_ITEM_GITHUB_UPDATER', {'display': 'block'});
@@ -446,6 +449,8 @@ function R3_DESIGN_ADJUST(){
 		// Leo tools settings
 		TMS.css('SETTINGS_DIV_LEO_PATH', {'display': 'block'});
 	} else {
+		// Hide run game if web mode
+		TMS.css('R3_MENU_RUN_GAME', {'display': 'none'});		
 		TMS.disableElement('BTN_MAIN_BACKUP');
 		// Hide NW settings if web mode
 		TMS.disableElement('BTN_MAIN_15');
