@@ -75,7 +75,7 @@
 			<div class="R3_MENU_MAIN_TOP" id="R3_MENU_MAIN_TOP">
 				<!-- Mod Menu -->
 				<div class="R3_MENU_ITEM none" id="R3_MENU_MOD">
-					R3V2 Mod Menu
+					Main Menu
 					<div class="R3_MENU_DROPDOWN">
 						<div class="R3_MENU_ITEM_BIG" title="(Project Wizard) Click here to open assistant for creating a new mod" onclick="R3_DESIGN_displayWizard();">
 							<img class="R3_MENU_ICON" src="img/icons/icon-12.png"><div class="R3_MENU_BIG_LBL">New Mod (Wizard)</div>
@@ -1076,8 +1076,8 @@
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
 						<input type="button" onclick="R3_MSG_NEW_FILE();" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to create a new message file">
 						<input type="button" onclick="R3_MSG_LOADFILE();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open a file">
-						<input type="button" onclick="R3_MSG_RECOMPILE(0);" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
-						<input type="button" onclick="R3_MSG_RECOMPILE(1);" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new message file">
+						<input type="button" onclick="R3_MSG_COMPILE(0);" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
+						<input type="button" onclick="R3_MSG_COMPILE(1);" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new message file">
 						<input type="button" id="R3_MSG_BTN_APPLYRDT" onclick="R3_MSG_EDIT_APPLY(2);" class="BTN_ICON_BASE BTN_ICON_RDT_APPLY none" title="Click here to apply your changes on current RDT">
 					</div>
 					<!-- Utility -->
@@ -1609,7 +1609,7 @@
 						</li>
 						<li>
 							<font title="This will define how big Hex View will be">(Hex View) Window Size: 
-								<select id="R3_SETTINGS_SCD_HEX_VIEW_SIZE" onchange="R3_SETTINGS_UPDATE_SELECT();" class="SELECT_SETTINGS auto">
+								<select id="R3_SETTINGS_SCD_HEX_VIEW_SIZE" onchange="R3_SETTINGS_UPDATE_SELECT();R3_DESIGN_MINIWINDOW_CLOSE(3);" class="SELECT_SETTINGS auto">
 									<!-- Hex View Sizes goes here -->
 								</select>
 							</font>

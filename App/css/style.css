@@ -415,7 +415,7 @@ blockquote {
     position: absolute;
 }
 .R3_MENU_BIG_LBL_ICON_FIX {
-    left: 98px !important;
+    left: 98px !important;
 }
 /*
     Main Divs
@@ -1464,6 +1464,7 @@ blockquote {
 }
 .R3_SCD_functionBase {
     margin: 4px;
+    cursor: pointer;
     min-height: 36px;
     padding-top: 4px;
     margin-left: 0.5%;

@@ -333,7 +333,7 @@ document.addEventListener('keyup', function(kp){
 					};
 				};
 				// MSG - Shortcuts
-				if (R3_MENU_CURRENT === 7){
+				if (R3_MENU_CURRENT === 7 && R3_KEYPRESS_CONTROL === true){
 					// Add new message [CTRL + +]
 					if (kp.keyCode === 187){
 						R3_MSG_addMessage();
@@ -416,7 +416,7 @@ document.addEventListener('keyup', function(kp){
 					};
 					// MSG Editor
 					if (R3_MENU_CURRENT === 7 && MSG_arquivoBruto !== undefined){
-						R3_MSG_RECOMPILE(0);
+						R3_MSG_COMPILE(0);
 					};
 				};
 				// Swap Bar Pos [F3]
@@ -490,6 +490,19 @@ function R3_SCD_CODE_EDITOR_KEYFIX(evt){
 		var codeArea = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA'), st = codeArea.selectionStart, ed = codeArea.selectionEnd;
 		codeArea.value = codeArea.value.substring(0, st) + '\t' + codeArea.value.substring(ed);
 		codeArea.selectionStart = codeArea.selectionEnd = (st + 1);
+	};
+};
+// Enhance code typing
+function R3_SCD_CODE_EDITOR_enhanceType(evt){
+	var textData = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value,
+		latestChar = textData.slice(textData.length - 1), autoCompleteDatabase = {
+			'{': '}',
+			'[': ']',
+			'(': ')'
+		}, skipChar = [8, 46]; // Skip Delete and Backspace keys
+	// Auto-complete keys
+	if (Object.keys(autoCompleteDatabase).indexOf(latestChar) !== -1 && skipChar.indexOf(evt.keyCode) === -1){
+		document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = textData + autoCompleteDatabase[latestChar];
 	};
 };
 /*

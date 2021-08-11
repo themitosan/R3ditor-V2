@@ -232,7 +232,7 @@ function R3_MSG_DECOMPILER_START(hex, compileMode){
 			*/
 			R3_MSG_renderCommands();
 			if (compileMode !== undefined){
-				R3_MSG_RECOMPILE(compileMode);
+				R3_MSG_COMPILE(compileMode);
 			};
 		};
 	};
@@ -265,8 +265,9 @@ function R3_MSG_translateHex(){
 };
 // Convert msg hex text to decoded text
 function R3_MSG_convertHexToPureText(hex, isMsgEditor){
+	var textDecoded = '', textRaw, c = 0;
 	if (hex !== undefined && hex !== ''){
-		var textDecoded = '', textRaw = hex.match(/.{1,2}/g), c = 0;
+		textRaw = hex.match(/.{1,2}/g);
 		while (c < textRaw.length){
 			if (R3_msgCurrentDatabase[textRaw[c]][0] === false){
 				textDecoded = textDecoded + R3_msgCurrentDatabase[textRaw[c]][1].replace('"', '/');
@@ -276,18 +277,14 @@ function R3_MSG_convertHexToPureText(hex, isMsgEditor){
 				c = (c + 2);
 			};
 		};
-		// If is msg editor
+		// If is MSG Editor
 		if (isMsgEditor === true){
-			c = 0;
-			while (c < Object.keys(MSG_formatExclude).length){
-				textDecoded = textDecoded.replace(RegExp(MSG_formatExclude[c][0], 'gi'), MSG_formatExclude[c][1]);
-				c++;
-			};
+			Object.keys(MSG_formatExclude).forEach(function(cItem, cIndex){
+				textDecoded = textDecoded.replace(RegExp(MSG_formatExclude[cIndex][0], 'gi'), MSG_formatExclude[cIndex][1]);
+			});
 		};
-		return textDecoded;
-	} else {
-		return '';
 	};
+	return textDecoded;
 };
 // Insert function from fn list
 function R3_MSG_insertFn(fnId){
@@ -323,7 +320,10 @@ function R3_MSG_RENDER_FUNCTION(cmdType, hex, id){
 	R3_MSG_textMode = R3_MSG_textMode + R3_MSG_convertHexToPureText(hex);
 	document.getElementById('R3_MSG_EDIT_TEXTAREA').value = previousValue + finalText;
 };
-// Apply changes to code
+/*
+	Apply changes to code
+	EDIT: This will be simplefied soon...
+*/
 function R3_MSG_EDIT_APPLY(mode){
 	// Variables
 	var c = 0, finalHex = '', textArray = [], textInput = document.getElementById('R3_MSG_EDIT_TEXTAREA').value;
@@ -351,7 +351,7 @@ function R3_MSG_EDIT_APPLY(mode){
 	// End
 	document.getElementById('R3_MSG_EDIT_TEXTAREA').value = '';
 	R3_MSG_RDT_MESSAGES[R3_MSG_currentMessage] = finalHex;
-	R3_MSG_RECOMPILE(mode);
+	R3_MSG_COMPILE(mode);
 };
 /*
 	Compile MSG
@@ -364,7 +364,7 @@ function R3_MSG_EDIT_APPLY(mode){
 	2: Inject in RDT
 	3: Just compile
 */
-function R3_MSG_RECOMPILE(mode){
+function R3_MSG_COMPILE(mode){
 	if (R3_MSG_totalCommands !== 0){
 		var HEX_FINAL = '', c = 1, fName = 'Untitled';
 		while (c < (R3_MSG_totalCommands + 1)){
@@ -432,11 +432,10 @@ function R3_MSG_recompileWithPointers(mode){
 		c++;
 	};
 	// Let's fix the pointers to endian
-	c = 0;
-	while (c < MSG_FINAL_POINTERS_TEMP.length){
-		endianPointers = endianPointers + R3_parseEndian(MSG_FINAL_POINTERS_TEMP[c]);
-		c++;
-	};
+	MSG_FINAL_POINTERS_TEMP.forEach(function(cPointer){
+		R3_parseEndian(cPointer);
+		endianPointers = endianPointers + R3_parseEndian(cPointer);
+	});
 	HEX_FINAL = endianPointers + tempMsgHex;
 	/*
 		Small Fix:
