@@ -130,7 +130,7 @@ function R3_MSG_addToMSGList(msgId){
 function R3_MSG_addMessage(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_MSG_RDT_MESSAGES.push('fa02fcfe00');
-		R3_MSG_RDT_POINTERS.push(MEMORY_JS_fixVars((R3_RDT_RAWSECTION_MSG.length / 2).toString(16), 4));
+		R3_MSG_RDT_POINTERS.push(R3_fixVars((R3_RDT_RAWSECTION_MSG.length / 2).toString(16), 4));
 		R3_MSG_recompileWithPointers(1);
 		R3_MSG_readMessage((R3_MSG_RDT_MESSAGES.length - 1));
 	};
@@ -390,7 +390,7 @@ function R3_MSG_COMPILE(mode){
 		// Save As
 		if (mode === 1){
 			if (RDT_arquivoBruto !== undefined){
-				fName = R3_RDT_mapName + '_MSG_' + MEMORY_JS_fixVars(R3_MSG_currentMessage, 2);
+				fName = R3_RDT_mapName + '_MSG_' + R3_fixVars(R3_MSG_currentMessage, 2);
 			}
 			R3_FILE_SAVE(fName + '.msg', HEX_FINAL, 'hex', '.msg', function(loc){
 				R3_MSG_fPath = loc;
@@ -420,14 +420,14 @@ function R3_MSG_COMPILE(mode){
 function R3_MSG_recompileWithPointers(mode){
 	R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (MSG) Compiling new MSG pointers...');
 	var c = 1, HEX_FINAL = '', endianPointers = '', cMessage = R3_MSG_currentMessage,
-		MSG_FINAL_POINTERS_TEMP = [MEMORY_JS_fixVars((R3_MSG_RDT_MESSAGES.length * 2).toString(16), 4)],
+		MSG_FINAL_POINTERS_TEMP = [R3_fixVars((R3_MSG_RDT_MESSAGES.length * 2).toString(16), 4)],
 		finalPointerLength = (parseInt(MSG_FINAL_POINTERS_TEMP[0], 16) * 2),
 		tempMsgHex = R3_MSG_RDT_MESSAGES[0];
-	MSG_FINAL_POINTERS_TEMP.push(MEMORY_JS_fixVars((parseInt(tempMsgHex.length + finalPointerLength) / 2).toString(16), 4));
+	MSG_FINAL_POINTERS_TEMP.push(R3_fixVars((parseInt(tempMsgHex.length + finalPointerLength) / 2).toString(16), 4));
 	while (c < R3_MSG_RDT_MESSAGES.length){
 		tempMsgHex = tempMsgHex + R3_MSG_RDT_MESSAGES[c];
 		if (c !== (R3_MSG_RDT_MESSAGES.length - 1)){
-			MSG_FINAL_POINTERS_TEMP.push(MEMORY_JS_fixVars((parseInt(tempMsgHex.length + finalPointerLength) / 2).toString(16), 4));
+			MSG_FINAL_POINTERS_TEMP.push(R3_fixVars((parseInt(tempMsgHex.length + finalPointerLength) / 2).toString(16), 4));
 		};
 		c++;
 	};

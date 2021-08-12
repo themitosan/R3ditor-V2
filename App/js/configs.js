@@ -793,17 +793,17 @@ function R3_INIT_generateSelectValues(db, mode, prevHTML, limit){
 	while (c < maxLimit){
 		// Modes
 		if (mode === 'hex'){
-			modeType = MEMORY_JS_fixVars(tempAttr[c], 2);
+			modeType = R3_fixVars(tempAttr[c], 2);
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType][0] + '</option>';
 		};
 		// Item
 		if (mode === 'item'){
-			modeType = MEMORY_JS_fixVars(c.toString(16), 2);
+			modeType = R3_fixVars(c.toString(16), 2);
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType][0] + '</option>';
 		};
 		// Files
 		if (mode === 'files'){
-			modeType = MEMORY_JS_fixVars(tempAttr[c], 2);
+			modeType = R3_fixVars(tempAttr[c], 2);
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType] + '</option>';
 		};
 		// Set Variables

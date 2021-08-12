@@ -3,7 +3,7 @@
 	Agora vai mah!
 */
 // Internal Vars
-var R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_IS_32, APP_ONLINE, ORIGINAL_FILENAME, ORIGINAL_APP_PATH, APP_REQUIRE_SUCESS, DATABASE_INIT_FOLDER, DATABASE_INIT_DELETE_FILES, APP_ENABLE_MOD = false,
+var R3_APP_START = false, R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_IS_32, APP_ONLINE, ORIGINAL_FILENAME, ORIGINAL_APP_PATH, APP_REQUIRE_SUCESS, DATABASE_INIT_FOLDER, DATABASE_INIT_DELETE_FILES, APP_ENABLE_MOD = false,
 	// External Modules
 	APP_FS, APP_MEMJS, APP_GUI, DiscordRPC,
 	// Executable Vars
@@ -21,16 +21,22 @@ var R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_
 	// Log window text
 	R3_SYSTEM_LOG_TEXT = '',
 	// Backup Manager
-	R3_SYSTEM_BACKUP_LIST = {};
+	R3_SYSTEM_BACKUP_LIST = {},
+	// Temp Coords
+	TEMP_X_Pos, TEMP_Y_Pos, TEMP_Z_Pos, TEMP_R_Pos, TEMP_zIndex;
 /*
 	Onload
 */
-document.addEventListener('DOMContentLoaded', function(evt){
-	try {
-		R3_LOAD();
-	} catch (err) {
-		console.error(err);
-		R3_DESIGN_CRITIAL_ERROR(err);
+document.addEventListener('readystatechange', function(cState){
+	if (cState.target.readyState === 'complete'){
+		try {
+			if (R3_APP_START === false){
+				R3_LOAD();
+			};
+		} catch (err) {
+			console.error(err);
+			R3_DESIGN_CRITIAL_ERROR(err);
+		};
 	};
 });
 /*
@@ -217,6 +223,7 @@ function R3_WEB_checkBrowser(){
 // Start Process
 function R3_LOAD(){
 	try {
+		R3_APP_START = true;
 		var startInWebMode = false, nwArgs = [];
 		// Drity code for webmode
 		if (typeof nw !== 'undefined'){
@@ -957,7 +964,7 @@ function R3_convertPosIntToHex(number){
 		if (num < 0){
 			num = parseInt(num + 65536);
 		};
-		return MEMORY_JS_fixVars(num.toString(16), 4);
+		return R3_fixVars(num.toString(16), 4);
 	};
 };
 // Convert position hex to int
@@ -989,6 +996,44 @@ function R3_getByteFromPos(mode, value){
 			res = value.slice(0, 1);
 		};
 		return res;
+	};
+};
+/*
+	R3_fixVars (aka. MEMORY_JS_fixVars)
+	By far, one of the most important functions inside R3V2!
+*/
+function R3_fixVars(inp, v){
+	var c = 0, inp, size;
+	if (inp === undefined || inp === ''){
+		input = '00';
+	} else {
+		input = inp.toString();
+	};
+	if (v === undefined || v === ''){
+		size = 2;
+	} else {
+		size = parseInt(v);
+	};
+	if (input.length < size){
+		while (input.length !== size){
+			input = '0' + input;
+		};
+	} else {
+		if (input.length !== size && input.toString().length > size){
+			input = input.slice(0, v);
+		};
+	};
+	return input;
+};
+// Copy text to clipboard
+function R3_SYS_copyText(textData){
+	if (textData !== undefined && textData !== ''){
+		var tmpDom = document.createElement('textarea');
+		document.body.appendChild(tmpDom);
+		tmpDom.value = textData;
+		tmpDom.select();
+		document.execCommand('copy');
+		document.body.removeChild(tmpDom);
 	};
 };
 // Copy files / folders
@@ -1044,16 +1089,16 @@ function R3_TIME_parseHexTime(hex, outputMode){
 			End
 		*/
 		if (outputMode === 0){
-			return MEMORY_JS_fixVars(HH, 2) + ':' + MEMORY_JS_fixVars(MM, 2) + ':' + MEMORY_JS_fixVars(SS, 2) + ':' + MEMORY_JS_fixVars(DC, 2);
+			return R3_fixVars(HH, 2) + ':' + R3_fixVars(MM, 2) + ':' + R3_fixVars(SS, 2) + ':' + R3_fixVars(DC, 2);
 		};
 		if (outputMode === 1){
 			return [HH, MM, SS, DC];
 		};
 		if (outputMode === 2){
-			return MEMORY_JS_fixVars(MM, 2) + ':' + MEMORY_JS_fixVars(SS, 2) + ':' + MEMORY_JS_fixVars(DC, 2);
+			return R3_fixVars(MM, 2) + ':' + R3_fixVars(SS, 2) + ':' + R3_fixVars(DC, 2);
 		};
 		if (outputMode === 3){
-			return MEMORY_JS_fixVars(HH, 2) + ':' + MEMORY_JS_fixVars(MM, 2) + '\'' + MEMORY_JS_fixVars(SS, 2) + '\'\'' + MEMORY_JS_fixVars(DC, 2);
+			return R3_fixVars(HH, 2) + ':' + R3_fixVars(MM, 2) + '\'' + R3_fixVars(SS, 2) + '\'\'' + R3_fixVars(DC, 2);
 		};
 		if (outputMode === 4){
 			return parseInt(HH + MM + SS + DC);

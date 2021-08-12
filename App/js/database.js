@@ -2897,6 +2897,7 @@ const R3_internalHoldTime = 2800,
 									 // Keyboard Shortcuts
 									 '<div class="align-center"><font class="LBL_subTitle">Keyboard Shortcuts</font></div><ul>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">F1</font>: Open Help Center</li>' +
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + N</font>: New Mod (Wizard)</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 1</font>: Open RDT Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 2</font>: Open SCD Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 3</font>: Open MSG Editor</li>' +

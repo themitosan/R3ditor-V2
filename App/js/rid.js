@@ -90,15 +90,15 @@ function R3_RID_removeCamera(){
 function R3_RID_recompile(){
 	if (RID_arquivoBruto !== undefined){
 		var cCam = RID_currentCamera, RID_type = document.getElementById('R3_RID_EDIT_camType').value,
-			RID_unk0 = MEMORY_JS_fixVars(document.getElementById('R3_RID_EDIT_unk0').value, 4),
+			RID_unk0 = R3_fixVars(document.getElementById('R3_RID_EDIT_unk0').value, 4),
 			RID_X	 = R3_parseEndian(R3_convertPosIntToHex(parseInt(document.getElementById('R3_RID_EDIT_posX').value))),
 			RID_Y	 = R3_parseEndian(R3_convertPosIntToHex(parseInt(document.getElementById('R3_RID_EDIT_posY').value))),
 			RID_Z	 = R3_parseEndian(R3_convertPosIntToHex(parseInt(document.getElementById('R3_RID_EDIT_posZ').value))),
 			RID_R	 = R3_parseEndian(R3_convertPosIntToHex(parseInt(document.getElementById('R3_RID_EDIT_posR').value))),
-			RID_unk1 = R3_parseEndian(MEMORY_JS_fixVars(document.getElementById('R3_RID_EDIT_unk1').value, 4)),
-			RID_unk2 = R3_parseEndian(MEMORY_JS_fixVars(document.getElementById('R3_RID_EDIT_unk2').value, 4)),
-			RID_unk3 = R3_parseEndian(MEMORY_JS_fixVars(document.getElementById('R3_RID_EDIT_unk3').value, 4)),
-			RID_unk4 = R3_parseEndian(MEMORY_JS_fixVars(document.getElementById('R3_RID_EDIT_unk4').value, 4)),
+			RID_unk1 = R3_parseEndian(R3_fixVars(document.getElementById('R3_RID_EDIT_unk1').value, 4)),
+			RID_unk2 = R3_parseEndian(R3_fixVars(document.getElementById('R3_RID_EDIT_unk2').value, 4)),
+			RID_unk3 = R3_parseEndian(R3_fixVars(document.getElementById('R3_RID_EDIT_unk3').value, 4)),
+			RID_unk4 = R3_parseEndian(R3_fixVars(document.getElementById('R3_RID_EDIT_unk4').value, 4)),
 			RID_camCompiled = RID_type + RID_unk0 + RID_R + 'ffff' + RID_Z + 'ffff' + RID_Y + 'ffff' + RID_X + 'ffff' + RID_unk1 + 'ffff' + 
 							  RID_unk2 + 'ffff' + RID_unk3 + RID_unk4;
 		RID_cameraList[RID_currentCamera] = RID_camCompiled;
@@ -107,7 +107,7 @@ function R3_RID_recompile(){
 			This also will increase the number of total cameras on RDT pointers
 		*/
 		R3_RDT_RAWSECTION_RID = RID_cameraList.toString().replace(RegExp(',', 'gi'), '');
-		var newPointer = MEMORY_JS_fixVars(parseInt(RID_cameraList.length).toString(16), 4) + R3_RDT_MAP_HEADER_POINTERS[0].slice(4, R3_RDT_MAP_HEADER_POINTERS[0].length);
+		var newPointer = R3_fixVars(parseInt(RID_cameraList.length).toString(16), 4) + R3_RDT_MAP_HEADER_POINTERS[0].slice(4, R3_RDT_MAP_HEADER_POINTERS[0].length);
 		R3_RDT_MAP_HEADER_POINTERS[0] = newPointer;
 		/*
 			End

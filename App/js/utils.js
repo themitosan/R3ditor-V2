@@ -571,9 +571,9 @@ function R3_RDT_checkMap(file){
 */
 function R3_SYS_COLOR_PICKER(colorArray, hexMode, nextFn){
 	if (colorArray !== undefined && colorArray.length === 3){
-		var colorR = MEMORY_JS_fixVars(parseInt(colorArray[0]).toString(16), 2),
-			colorG = MEMORY_JS_fixVars(parseInt(colorArray[1]).toString(16), 2),
-			colorB = MEMORY_JS_fixVars(parseInt(colorArray[2]).toString(16), 2);
+		var colorR = R3_fixVars(parseInt(colorArray[0]).toString(16), 2),
+			colorG = R3_fixVars(parseInt(colorArray[1]).toString(16), 2),
+			colorB = R3_fixVars(parseInt(colorArray[2]).toString(16), 2);
 		document.getElementById('R3_COLOR_PICKER').value = '#' + colorR + colorG + colorB;
 	};
 	TMS.triggerClick('R3_COLOR_PICKER');

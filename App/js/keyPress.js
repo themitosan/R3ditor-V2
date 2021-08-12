@@ -189,7 +189,7 @@ document.addEventListener('keyup', function(kp){
 						R3_RDT_OPEN_SCA();
 					};
 				};
-				// Open editors on main menu [CTRL + Number]
+				// Open windows / editors on main menu [CTRL + Number]
 				if (R3_MENU_CURRENT === 4 && R3_KEYPRESS_CONTROL === true){
 					// RDT Editor [CTRL + 1]
 					if (kp.keyCode === 49){
@@ -214,6 +214,10 @@ document.addEventListener('keyup', function(kp){
 					// RE3SET Editor [CTRL + 6]
 					if (kp.keyCode === 54){
 						R3_WIP();
+					};
+					// New Mod (Wizard) [CTRL + N]
+					if (kp.keyCode === 78){
+						R3_DESIGN_displayWizard();
 					};
 				};
 				// Go Back to RDT menu [CTRL + ']

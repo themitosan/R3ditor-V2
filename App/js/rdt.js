@@ -931,11 +931,11 @@ function R3_RDT_SCD_HACK_ENABLE(){
 			};
 			R3_UTILS_BACKUP(RDT_arquivoBruto, fName, '.RDT', APP_PATH + '/Configs/Backup/RDT', cEditor);
 			var newHackRDT = RDT_arquivoBruto + R3_RDT_RAWSECTION_SCD + R3_RDT_DIVISOR + R3_RDT_RAWSECTION_MSG,
-				newSCDPointer  = R3_parseEndian(MEMORY_JS_fixVars((RDT_arquivoBruto.length / 2).toString(16), 8)),
+				newSCDPointer  = R3_parseEndian(R3_fixVars((RDT_arquivoBruto.length / 2).toString(16), 8)),
 				RDT_HACK_START = RDT_arquivoBruto.slice(0, 144),
 				RDT_HACK_END   = newHackRDT.slice(152, newHackRDT.length),
 				RDT_HACK_SCD   = RDT_HACK_START + newSCDPointer + RDT_HACK_END,
-				newMSGPointer  = R3_parseEndian(MEMORY_JS_fixVars(parseInt((RDT_HACK_SCD.indexOf(R3_RDT_DIVISOR) + R3_RDT_DIVISOR.length) / 2).toString(16), 8));
+				newMSGPointer  = R3_parseEndian(R3_fixVars(parseInt((RDT_HACK_SCD.indexOf(R3_RDT_DIVISOR) + R3_RDT_DIVISOR.length) / 2).toString(16), 8));
 			// Update MSG Pointer
 			RDT_HACK_START = RDT_HACK_SCD.slice(0, 120);
 			RDT_HACK_END   = RDT_HACK_SCD.slice(128, RDT_HACK_SCD.length);
@@ -988,7 +988,7 @@ function R3_RDT_SCD_HACK_INJECT_SCD(){
 			pointerPos 	   = parseInt(R3_parseEndian(RDT_arquivoBruto.slice(144, 152)), 16) * 2, RDT_HACK_END;
 			RDT_HACK_START = RDT_arquivoBruto.slice(0, pointerPos);
 			RDT_HACK_SCD   = RDT_HACK_START + R3_RDT_RAWSECTION_SCD + R3_RDT_DIVISOR + R3_RDT_RAWSECTION_MSG;
-			newMSGPointer  = R3_parseEndian(MEMORY_JS_fixVars(parseInt((RDT_HACK_SCD.indexOf(R3_RDT_DIVISOR) + R3_RDT_DIVISOR.length) / 2).toString(16), 8));
+			newMSGPointer  = R3_parseEndian(R3_fixVars(parseInt((RDT_HACK_SCD.indexOf(R3_RDT_DIVISOR) + R3_RDT_DIVISOR.length) / 2).toString(16), 8));
 			// Update Pointer for MSG
 			RDT_HACK_START = RDT_HACK_SCD.slice(0, 120);
 			RDT_HACK_END   = RDT_HACK_SCD.slice(128, RDT_HACK_SCD.length);

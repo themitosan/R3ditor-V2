@@ -105,9 +105,9 @@ function ARD_startRecompiler(ardInfos, rdtPath){
 			c++;
 		};
 		ARD_temp = DATA_0 + RDT_target + RDT_nextOffset + DATA_1;
-		var newFileSize = R3_parseEndian(MEMORY_JS_fixVars((ARD_temp.length / 2).toString(16), 8)),
+		var newFileSize = R3_parseEndian(R3_fixVars((ARD_temp.length / 2).toString(16), 8)),
 			ARD_temp_sizeFix = newFileSize + ARD_temp.slice(8, ARD_temp.length),
-			newRDTLength = R3_parseEndian(MEMORY_JS_fixVars((RDT_target.length / 2).toString(16), 8)),
+			newRDTLength = R3_parseEndian(R3_fixVars((RDT_target.length / 2).toString(16), 8)),
 			HEX_START = ARD_temp_sizeFix.slice(0, 144),
 			HEX_END = ARD_temp_sizeFix.slice(152, ARD_temp_sizeFix.length);
 			HEX_FINAL = HEX_START + newRDTLength + HEX_END;

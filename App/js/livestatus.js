@@ -23,8 +23,7 @@ var DEBUG_LOCKRENDER = false,
 	RE3_LIVE_keyPress_enable = false,
 	REALTIME_CurrentRoomNumber = '00',
 	MEM_JS_updatePosTimer, MEM_JS_discInterval, PROCESS_OBJ, R3_CHECK_GAME_INTERVAL, R3_CHECK_ifStillOpenInterval,
-	TEMP_ITEMBOX, TEMP_X_Pos, TEMP_Y_Pos, TEMP_Z_Pos, TEMP_R_Pos, TEMP_zIndex, 
-	REALTIME_X_Pos = REALTIME_Y_Pos = REALTIME_Z_Pos = REALTIME_R_Pos = '0000', REALTIME_zIndex = '00',
+	TEMP_ITEMBOX, REALTIME_X_Pos = REALTIME_Y_Pos = REALTIME_Z_Pos = REALTIME_R_Pos = '0000', REALTIME_zIndex = '00',
 	RE3_LIVE_POS, RE3_LIVE_CAM, RE3_LIVE_PLAYER, RE3_LIVE_MAP, RE3_LIVE_BOX = '', R3_LIVE_CAM = '', RE3_LIVE_INVENT = '',
 	/*
 		Current mod is the version of the game.
@@ -142,10 +141,10 @@ function R3_MEMORY_JS_HOOK_EMU(){
 					zPos must be 0000
 					rPos must be 0008
 				*/
-				var xPos = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, cLocation, APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-					yPos = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 8), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, ((cLocation + 8) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-					zPos = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 4), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, ((cLocation + 4) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-					rPos = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 58), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, ((cLocation + 58) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
+				var xPos = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, cLocation, APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+					yPos = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 8), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, ((cLocation + 8) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+					zPos = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 4), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, ((cLocation + 4) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+					rPos = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, (cLocation + 58), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, ((cLocation + 58) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
 				if (cLocation < ramLimit){
 					if (xPos === '50B0' && yPos === 'CAAE' && zPos === '0000' && rPos === '0008'){
 						console.info('Found!\nPos: ' + cLocation + ' (Hex: 0x' + parseInt(cLocation).toString(16).toUpperCase() + ')');
@@ -214,18 +213,18 @@ function R3_MEMORY_JS_readPosition(){
 	if (MEM_JS_requreSucess === true && PROCESS_OBJ !== undefined && RE3_RUNNING === true){
 		// Stage
 		REALTIME_CurrentStage 	   = parseInt(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_Stage'][0], APP_MEMJS.BYTE) + 1).toString();
-		REALTIME_CurrentRoomNumber = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentRoomNumber'][0], APP_MEMJS.BYTE).toString(16), 2).toUpperCase();
-		REALTIME_CurrentCam 	   = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentCam'][0], APP_MEMJS.BYTE).toString(16), 2).toUpperCase();
+		REALTIME_CurrentRoomNumber = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentRoomNumber'][0], APP_MEMJS.BYTE).toString(16), 2).toUpperCase();
+		REALTIME_CurrentCam 	   = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentCam'][0], APP_MEMJS.BYTE).toString(16), 2).toUpperCase();
 		REALTIME_CurrentRDT 	   = 'R' + REALTIME_CurrentStage + REALTIME_CurrentRoomNumber;
 		// XYZR
-		var X1 = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-			X2 = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-			Y1 = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-			Y2 = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-			Z1 = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-			Z2 = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-			R1 = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-			R2 = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
+		var X1 = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+			X2 = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+			Y1 = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+			Y2 = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+			Z1 = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+			Z2 = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+			R1 = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
+			R2 = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
 		REALTIME_zIndex = APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zIndex'][0], APP_MEMJS.BYTE).toString(16).toUpperCase();
 		if (parseInt(REALTIME_zIndex, 16) < 16){
 			REALTIME_zIndex = '0' + REALTIME_zIndex;
@@ -239,37 +238,33 @@ function R3_MEMORY_JS_readPosition(){
 // Read inventory
 function R3_MEMORY_JS_readInventory(){
 	if (MEM_JS_requreSucess === true && PROCESS_OBJ !== undefined && RE3_RUNNING === true && MEM_JS_canRender === true){
-		var cPlayer;
-		REALTIME_CurrentPlayer = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentPlayer'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
+		var cPlayer = 'J';
+		REALTIME_CurrentPlayer = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentPlayer'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
 		// Inventory
 		if (REALTIME_CurrentPlayer === '02'){
 			cPlayer = 'C';
-		} else {
-			cPlayer = 'J';
 		};
 		var c = 0, tempInventory = '', inventStartPos = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_invent_item-1'][0];
 		while (c < 40){
-			tempInventory = tempInventory + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, inventStartPos, APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
+			tempInventory = tempInventory + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, inventStartPos, APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
 			inventStartPos++;
 			c++;
 		};
 		localStorage.setItem('REALTIME_INVENTORY', tempInventory); // Status
-		REALTIME_CurrentHP = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
+		REALTIME_CurrentHP = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
 		// Current Weapon
-		REALTIME_CurrentWeapon = MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_currentWeapon'][0], APP_MEMJS.BYTE).toString(16), 2);
+		REALTIME_CurrentWeapon = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_currentWeapon'][0], APP_MEMJS.BYTE).toString(16), 2);
 	};
 };
 // Read Item Box
 function R3_MEMORY_JS_readItemBox(){
-	var cPlayer, c = 0, cHex = '', cLocation;
+	var cPlayer = 'J', c = 0, cHex = '', cLocation;
 	if (REALTIME_CurrentPlayer === '02'){
 		cPlayer = 'C';
-	} else {
-		cPlayer = 'J';
 	};
 	cLocation = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_iBox_Start'][0];
 	while (c < 255){ // 255 = (64 * 4 Parameter per slot)
-		cHex = cHex + MEMORY_JS_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, cLocation, APP_MEMJS.BYTE).toString(16), 2);
+		cHex = cHex + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, cLocation, APP_MEMJS.BYTE).toString(16), 2);
 		cLocation++;
 		c++;
 	};
@@ -279,34 +274,6 @@ function R3_MEMORY_JS_readItemBox(){
 	Utils Functions
 	Let's hope the last changes don't break anything!²
 */
-// By far, one of the most important functions inside R3V2!
-function MEMORY_JS_fixVars(inp, v){
-	var c = 0, inp, size;
-	if (inp === undefined || inp === ''){
-		input = '00';
-	} else {
-		input = inp.toString();
-	};
-	if (v === undefined || v === ''){
-		size = 2;
-	} else {
-		size = parseInt(v);
-	};
-	if (input.length < size){
-		while (input.length !== size){
-			input = '0' + input;
-		};
-		return input;
-	} else {
-		if (input.length === size){
-			return input;
-		} else {
-			if (input.toString().length > size){
-				return input.slice(0, v);
-			};
-		};
-	};
-};
 // GOTO Title Screen
 function R3_LIVESTATUS_gotoTitleScreen(){
 	if (DEBUG_LOCKRENDER === false && PROCESS_OBJ !== undefined && RE3_RUNNING === true && MEM_JS_canRender === true){
@@ -352,11 +319,11 @@ function R3_LIVESTATUS_APPLYITEM(slotID){
 			cPlayer = 'J';
 		};
 		var c = 0, inventStartPos = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_invent_item-1'][0],
-			IT = MEMORY_JS_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value, 2), 
-			AT = MEMORY_JS_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').value, 2),
+			IT = R3_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value, 2), 
+			AT = R3_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').value, 2),
 			tempInvent = localStorage.getItem('REALTIME_INVENTORY').match(/.{8,8}/g);
 		// Set item to invent
-		tempInvent[(slotID - 1)] = IT + MEMORY_JS_fixVars(QT.toString(16), 2) + AT + '00';
+		tempInvent[(slotID - 1)] = IT + R3_fixVars(QT.toString(16), 2) + AT + '00';
 		var finalInvent = tempInvent.toString().replace(new RegExp(',', 'gi'), '').match(/.{2,2}/g);
 		// Apply code to game
 		while (c < finalInvent.length){
@@ -370,7 +337,7 @@ function R3_LIVESTATUS_APPLYITEM(slotID){
 };
 // Apply Item on ItemBox
 function R3_LIVESTATUS_APPLYITEMBOX(itemId){
-	var c = 0, cLocation, tempFinalHex = '', cPlayer, R3_IBOX_TEMP = RE3_LIVE_BOX.match(/.{1,8}/g),
+	var c = 0, cLocation, tempFinalHex = '', cPlayer = 'J' R3_IBOX_TEMP = RE3_LIVE_BOX.match(/.{1,8}/g),
 		AT = document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').value,
 		IT = document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value,
 		QT = parseInt(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_QT').value);
@@ -382,10 +349,8 @@ function R3_LIVESTATUS_APPLYITEMBOX(itemId){
 	};
 	if (REALTIME_CurrentPlayer === '02'){
 		cPlayer = 'C';
-	} else {
-		cPlayer = 'J';
 	};
-	R3_IBOX_TEMP[itemId] = IT + MEMORY_JS_fixVars(QT.toString(16), 2) + AT + '00';
+	R3_IBOX_TEMP[itemId] = IT + R3_fixVars(QT.toString(16), 2) + AT + '00';
 	while (c < 64){
 		tempFinalHex = tempFinalHex + R3_IBOX_TEMP[c];
 		c++;
@@ -405,11 +370,11 @@ function R3_LIVESTATUS_APPLYITEMBOX(itemId){
 function R3_LIVESTATUS_APPLY_PLAYERPOS(){
 	if (RE3_RUNNING === true && PROCESS_OBJ !== undefined){
 		var reason, canChange = true,
-			newX = MEMORY_JS_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_X').value, 4).toLowerCase(),
-			newY = MEMORY_JS_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Y').value, 4).toLowerCase(),
-			newZ = MEMORY_JS_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Z').value, 4).toLowerCase(),
-			newR = MEMORY_JS_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_R').value, 4).toLowerCase(),
-			newZI = MEMORY_JS_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_zI').value, 2).toLowerCase();
+			newX = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_X').value, 4).toLowerCase(),
+			newY = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Y').value, 4).toLowerCase(),
+			newZ = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Z').value, 4).toLowerCase(),
+			newR = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_R').value, 4).toLowerCase(),
+			newZI = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_zI').value, 2).toLowerCase();
 		// End
 		if (canChange === true){
 			APP_MEMJS.writeMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][0], parseInt(newX.slice(0, 2), 16), APP_MEMJS.BYTE);
@@ -464,8 +429,7 @@ function RE3_LIVE_COPY_PASTE_LOCATION(mode){
 			TEMP_Y_Pos = REALTIME_Y_Pos;
 			TEMP_Z_Pos = REALTIME_Z_Pos;
 			TEMP_R_Pos = REALTIME_R_Pos;
-			var TEXT_FOR_CP = '[CURRENT LOCATION]\nCurrent Map: R' + parseInt(REALTIME_CurrentStage) + REALTIME_CurrentRoomNumber + '.RDT\nX Pos: ' + REALTIME_X_Pos + '\nY Pos: ' + REALTIME_Y_Pos + '\nZ Pos: ' + REALTIME_Z_Pos + '\nR Pos: ' + REALTIME_R_Pos;
-			R3DITOR_COPY(TEXT_FOR_CP);
+			R3_SYS_copyText('[CURRENT LOCATION]\nCurrent Map: R' + parseInt(REALTIME_CurrentStage) + REALTIME_CurrentRoomNumber + '.RDT\nX Pos: ' + REALTIME_X_Pos + '\nY Pos: ' + REALTIME_Y_Pos + '\nZ Pos: ' + REALTIME_Z_Pos + '\nR Pos: ' + REALTIME_R_Pos);
 			$('#RE3_LIVESTATUS_stageOptions_pastePos').css({'display': 'inline'});
 		} else {
 			document.getElementById('RE3_LIVESTATUS_edit_X').value = TEMP_X_Pos;

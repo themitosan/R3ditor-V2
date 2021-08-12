@@ -143,10 +143,10 @@ function R3_DOORLINK_SEARCH(){
 								if (cScript === 0){
 									cScript = 'INIT';
 								} else {
-									cScript = MEMORY_JS_fixVars(cScript, 4);
+									cScript = R3_fixVars(cScript, 4);
 								};
 								HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_OPCODE_FINDER_RES_MAP" onclick="R3_RDT_LOAD(\'' + APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cItem + '.RDT\', true);R3_SHOW_MENU(10);">' +
-												'<font title="' + RDT_locations[cItem][0] + ', ' + RDT_locations[cItem][1] + '">Map ' + cItem + '</font> - Script ' + cScript + ', Function ' + MEMORY_JS_fixVars(cPosition, 3) + '</div>';
+												'<font title="' + RDT_locations[cItem][0] + ', ' + RDT_locations[cItem][1] + '">Map ' + cItem + '</font> - Script ' + cScript + ', Function ' + R3_fixVars(cPosition, 3) + '</div>';
 								c++;
 							});
 						});

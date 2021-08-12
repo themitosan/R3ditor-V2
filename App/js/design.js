@@ -133,7 +133,7 @@ function R3_INIT_APPEND(){
 			};
 			HTML_TEMPLATE = HTML_TEMPLATE + '\n<div class="R3_LIVESTATUS_BOX_ITEM ' + BOX_ITEM_32 + '" id="R3_LIVESTATUS_BOX_ITEM_' + c + '" onclick="R3_LIVESTATUS_EDIT_ITEMBOX(' + c + ');">' + 
 							'<img src="img/items/00.png" id="R3_LIVESTATUS_BOX_IMG_' + c + '"><div id="R3_LIVESTATUS_BOX_ITEM_QT_' + c + '" class="R3_LIVESTATUS_BOX_ITEM_QT">0</div>' + 
-							'<div class="R3_LIVESTATUS_BOX_ITEM_LBL" id="R3_LIVESTATUS_BOX_ITEM_LBL_' + c + '">(<font class="monospace mono_xyzr">' + MEMORY_JS_fixVars(c, 2) + '</font>) ' +
+							'<div class="R3_LIVESTATUS_BOX_ITEM_LBL" id="R3_LIVESTATUS_BOX_ITEM_LBL_' + c + '">(<font class="monospace mono_xyzr">' + R3_fixVars(c, 2) + '</font>) ' +
 							'Empty Slot</div></div>';
 		};
 		document.getElementById('R3_LIVESTATUS_BOX_HOLDER').innerHTML = HTML_TEMPLATE;
@@ -150,7 +150,7 @@ function R3_INIT_APPEND(){
 		};
 		// Add SCD Titles for functions
 		Object.keys(R3_SCD_DATABASE).forEach(function(cItem, cIndex){
-			tempOpcode = MEMORY_JS_fixVars(parseInt(cIndex).toString(16), 2);
+			tempOpcode = R3_fixVars(parseInt(cIndex).toString(16), 2);
 			tempId = 'BTN_SCD_' + tempOpcode.toUpperCase() + '_' + R3_SCD_DATABASE[tempOpcode.toLowerCase()][1].replace(' [', '_').replace(']', '').replace(RegExp(' ', 'gi'), '_').replace('_/', '');
 			if (document.getElementById(tempId) !== null){
 				document.getElementById(tempId).title = R3_SCD_INFO_DATABASE[tempOpcode];
@@ -1790,7 +1790,7 @@ function R3_SCD_updateLabels(){
 	};
 	document.getElementById('R3_SCD_HEX_RAW').innerHTML = R3_SCD_CURREN_HEX_VIEW;
 	document.getElementById('R3_SCD_LBL_TOTALFUNCTIONS').innerHTML = R3_SCD_TOTAL_FUNCTIONS;
-	document.getElementById('R3_SCD_LBL_hexLength').innerHTML = MEMORY_JS_fixVars((R3_SCD_CURRENT_SCRIPT_HEX.length / 2).toString(16), 2).toUpperCase();
+	document.getElementById('R3_SCD_LBL_hexLength').innerHTML = R3_fixVars((R3_SCD_CURRENT_SCRIPT_HEX.length / 2).toString(16), 2).toUpperCase();
 };
 // Update Selected Script
 function R3_DESIGN_SCD_UPDATE_SELECT(scriptId){
@@ -1907,8 +1907,8 @@ function R3_SCD_FUNCTIONEDIT_UPDATE_SET_TIMER(){
 function R3_SCD_FUNCTION_EDIT_updateCutReplace(){
 	var prevCamValue, nextCamValue, imgFix = '', fPrev, fNext, prevTitle, nextTitle;
 	if (RDT_arquivoBruto !== undefined){
-		prevCamValue = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_prevCamValue').value).toString(16), 2).toUpperCase();
-		nextCamValue = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_nextCamValue').value).toString(16), 2).toUpperCase();
+		prevCamValue = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_prevCamValue').value).toString(16), 2).toUpperCase();
+		nextCamValue = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_nextCamValue').value).toString(16), 2).toUpperCase();
 		fPrev = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + prevCamValue + '.JPG';
 		fNext = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + nextCamValue + '.JPG';
 		if (APP_FS.existsSync(fPrev) !== true){
@@ -1938,9 +1938,9 @@ function R3_SCD_FUNCTION_EDIT_updateCutReplace(){
 };
 // Update camera preview
 function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
-	var camPrev, door_nCam = MEMORY_JS_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_nextCam').value).toString(16), 2).toUpperCase(),
-		door_nStage = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_stage').value, 1),
-		door_nRoom = MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_roomNumber').value, 2);
+	var camPrev, door_nCam = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_nextCam').value).toString(16), 2).toUpperCase(),
+		door_nStage = R3_fixVars(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_stage').value, 1),
+		door_nRoom = R3_fixVars(document.getElementById('R3_SCD_EDIT_' + cOpcode + '_roomNumber').value, 2);
 	if (parseInt(door_nStage) < 1){
 		door_nStage = '1';
 	};
@@ -2030,7 +2030,7 @@ function R3_SCD_FUNCTIONEDIT_updateSetTimerCanvas(){
 	document.getElementById('R3_SCD_EDIT_1e_hex').innerHTML = R3_SCD_EDIT_FUNCTION_SET_TIMER_CONVERT();
 	var timerCountdown, editMode = document.getElementById('R3_SCD_EDIT_1e_target').value;
 	if (editMode === '29'){
-		timerCountdown = R3_TIME_parseHexTime(MEMORY_JS_fixVars(document.getElementById('R3_SCD_EDIT_1e_hex').innerHTML, 4), 3);
+		timerCountdown = R3_TIME_parseHexTime(R3_fixVars(document.getElementById('R3_SCD_EDIT_1e_hex').innerHTML, 4), 3);
 		R3_FILEGEN_RENDER_EXTERNAL('R3_SCD_EDIT_1e_canvas', timerCountdown, 'RE3', 0);
 	};
 };
@@ -2075,7 +2075,7 @@ function R3_MSG_updateLabels(msgId){
 	};
 	document.getElementById('R3_MSG_MESSAGE_PREVIEW').innerHTML = R3_MSG_textMode;
 	document.getElementById('R3_MSG_HEX_RAW').innerHTML = R3_unsolveHEX(R3_MSG_tempHex, 0);
-	document.getElementById('R3_MSG_LBL_hexLength').innerHTML = MEMORY_JS_fixVars(parseInt(R3_MSG_tempHex.length / 2).toString(16), 2).toUpperCase();
+	document.getElementById('R3_MSG_LBL_hexLength').innerHTML = R3_fixVars(parseInt(R3_MSG_tempHex.length / 2).toString(16), 2).toUpperCase();
 };
 // Update MSG List
 function R3_MSG_DESIGN_updateMsgList(msgId){
@@ -2160,7 +2160,7 @@ function R3_RDT_DESIGN_resetInterface(){
 };
 // Show RDT
 function R3_RDT_DESIGN_enableInterface(showInterface){
-	var mapFirstCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + MEMORY_JS_fixVars(R3_genRandomNumber(R3_RDT_MAP_totalCams).toString(16), 2) + '.JPG',
+	var mapFirstCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_fixVars(R3_genRandomNumber(R3_RDT_MAP_totalCams).toString(16), 2) + '.JPG',
 		mapSecondCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + '01.JPG';
 	R3_DESIGN_closeAllRdtMiniWindows();
 	if (R3_WEBMODE === false){
@@ -2375,7 +2375,7 @@ function R3_DESIGN_RDT_closeFileList(){
 // Update current camera
 function R3_DESIGN_RID_updateCamSelected(camId){
 	// Set BG
-	var c = 0, totCams, mPath, camBss = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + MEMORY_JS_fixVars(parseInt(camId).toString(16), 2) + '.JPG';
+	var c = 0, totCams, mPath, camBss = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_fixVars(parseInt(camId).toString(16), 2) + '.JPG';
 	if (R3_WEBMODE === false){
 		if (APP_FS.existsSync(camBss) === false){
 			camBss = 'img/404.png';
@@ -2385,7 +2385,7 @@ function R3_DESIGN_RID_updateCamSelected(camId){
 			if (APP_useImageFix === true){
 				mPath = 'file://' + R3_MOD_PATH;
 			};
-			TMS.css('R3_RID_EDIT_FORM_INNER_BG', {'background-image': 'url(\'' + mPath + '/DATA_A/BSS/' + R3_RDT_mapName + MEMORY_JS_fixVars(parseInt(camId).toString(16), 2) + '.JPG\')'});
+			TMS.css('R3_RID_EDIT_FORM_INNER_BG', {'background-image': 'url(\'' + mPath + '/DATA_A/BSS/' + R3_RDT_mapName + R3_fixVars(parseInt(camId).toString(16), 2) + '.JPG\')'});
 		};
 		// Non-windows fix
 		if (APP_useImageFix === true){
@@ -2404,7 +2404,7 @@ function R3_DESIGN_RID_updateCamSelected(camId){
 	TMS.addClass('R3_RID_CAM_' + camId, 'R3_SCRIPT_LIST_ITEM_SELECT');
 	document.getElementById('R3_RID_CAMERA_LIST_HOLDER').scrollTop = (document.getElementById('R3_RID_CAM_' + camId).offsetTop - 36);
 	// Title
-	document.getElementById('R3_RID_lblTitleCurrentCam').innerHTML = camId + ' (' + MEMORY_JS_fixVars(parseInt(camId).toString(16), 2).toUpperCase() + ')';
+	document.getElementById('R3_RID_lblTitleCurrentCam').innerHTML = camId + ' (' + R3_fixVars(parseInt(camId).toString(16), 2).toUpperCase() + ')';
 	// End
 	RID_currentCamera = parseInt(camId);
 };
