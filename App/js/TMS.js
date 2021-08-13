@@ -128,6 +128,16 @@ tmsTemp['enableElement'] = function(elementId){
 		TMS.warn('TMS - Unable to enable element because it does not exist! (' + elementId + ')');
 	};
 };
+tmsTemp['getCssData'] = function(elementId, cssAttrName){
+	var elId = document.getElementById(elementId),
+		result = '';
+	if (elId !== null){
+		result = elId.style[cssAttrName];
+	} else {
+		TMS.warn('TMS - Unable to get element because it does not exist! (' + elementId + ')');
+	};
+	return result;
+};
 /*
 	Scroll top
 	Usage: elementObjects = {HTML_DOM_ID_0: scrollInt, HTML_DOM_ID_1: scrollInt2} and goes on

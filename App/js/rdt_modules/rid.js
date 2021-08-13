@@ -13,27 +13,26 @@ var RID_arquivoBruto,
 */
 function R3_RID_START_DECOMPILER(){
 	if (RID_arquivoBruto !== undefined){
-		var c = 0, tempCamList = RID_cameraList, tempHex = HTML_TEMPLATE = '';
+		var tempCamList = RID_cameraList, tempHex = HTML_TEMPLATE = '';
 		R3_DESIGN_CLEAN_RID();
 		R3_UTILS_VAR_CLEAN_RID();
 		RID_cameraList = tempCamList;
 		// Add Cameras on Interface
-		while (c < RID_cameraList.length){
-			tempHex = tempHex + RID_cameraList[c];
-			HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_RID_CAM_' + c + '">Camera ' + c + 
-							'<input type="button" value="Load Camera" onclick="R3_RID_OPEN_CAMERA(' + c + ');" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" title="Click here to edit camera ' + c + '"></div>';
-			c++;
-		};
+		RID_cameraList.forEach(function(cItem, cIndex){
+			tempHex = tempHex + cItem;
+			HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_RID_CAM_' + cIndex + '">Camera ' + cIndex + 
+							'<input type="button" value="Load Camera" onclick="R3_RID_OPEN_CAMERA(' + cIndex + ');" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" ' +
+							'title="Click here to edit camera ' + cIndex + '"></div>';
+		});
 		RID_arquivoBruto = tempHex;
 		document.getElementById('R3_RID_CAMERA_LIST_HOLDER').innerHTML = HTML_TEMPLATE;
 		// End
 		R3_RID_OPEN_CAMERA(0);
 	} else {
-		R3_SYSTEM_LOG('error', 'R3ditor V2 - WARN: Unable to read RID!');
-		R3_SYSTEM_LOG('error', 'Reason: The RID was not defined!');
+		R3_SYSTEM_LOG('error', 'R3ditor V2 - WARN: Unable to read RID! <br>Reason: RID is not defined!');
 	};
 };
-// Decompile Camera
+// Extract Camera
 function R3_RID_OPEN_CAMERA(cameraId){
 	if (cameraId !== undefined){
 		var cId = parseInt(cameraId), RID_rawCam = RID_cameraList[cId],

@@ -237,9 +237,9 @@ function R3_RDT_checkIfScdHack(){
 };
 
 /*
-	================================
+	=================================
 	|  Extract / Read RDT Sections  |
-	================================
+	=================================
 */
 
 /*
@@ -266,13 +266,21 @@ function R3_RDT_OPEN_FLR(){
 };
 /*
 	BLK
-	AI Path Finding
+	AI Path Finding [WIP]
 */
 // Extract BLK from RDT
 function R3_RDT_EXTRACT_BLK(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading BLK...');
-		// R3_SYSTEM_LOG('warn', 'R3ditor V2 - WANR: Unable to extract BLK! #SadFace');
+		if (R3_RDT_MAP_HEADER_POINTERS[14] !== '00000000'){
+			var blkStart 	 = (parseInt(R3_RDT_MAP_HEADER_POINTERS[14], 16) * 2),
+				blkCounter   = RDT_arquivoBruto.slice(blkStart, (blkStart + 4)),
+				headerLength = RDT_arquivoBruto.slice((blkStart + 4), (blkStart + 8)),
+				blkHeader 	 = RDT_arquivoBruto.slice(blkStart, (blkStart + (parseInt(R3_parseEndian(headerLength), 16) * 2)));
+			// console.info(blkHeader);
+		} else {
+			R3_RDT_ERROR_POINTER_BLANK('BLK');
+		};
 	};
 };
 // Open BLK

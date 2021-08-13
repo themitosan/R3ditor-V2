@@ -616,64 +616,70 @@ function R3_SYSTEM_ALERT(msg){
 	Log system
 */
 function R3_SYSTEM_LOG(mode, text){
-	var lastLog, HTML_LOG_TEMPLATE = logCSS = textClean = '', canLog = true,
-		defaultCheck = [undefined, '', 'log', 'ok', 'info'];
-	if (text === undefined){
-		text = '';
-	};
-	if (R3_SYSTEM_LOG_RESET === true){
-		document.getElementById('R3_LOG_HOLDER').innerHTML = '';
-		R3_SYSTEM_LOG_RESET = false;
-	} else {
-		textClean = R3_removeHtmlFromString(text);
-	};
-	// Avoid eNGE null messages
-	if (textClean === 'R3ditor V2 - INFO: (eNGE) \n'){
-		textClean = text = '';
-		canLog = false;
-	};
-	lastLog = document.getElementById('R3_LOG_ID_N_' + (R3_LOG_ID - 1));
-	if (lastLog !== null){
-		if (lastLog.className === 'SEPARATOR-3' && mode === 'separator'){
+	if (SETTINGS_DISABLE_LOG === false){
+		var lastLog, HTML_LOG_TEMPLATE = logCSS = textClean = '', canLog = true,
+			defaultCheck = [undefined, '', 'log', 'ok', 'info'];
+		if (text === undefined){
+			text = '';
+		};
+		if (R3_SYSTEM_LOG_RESET === true){
+			document.getElementById('R3_LOG_HOLDER').innerHTML = '';
+			R3_SYSTEM_LOG_RESET = false;
+		} else {
+			textClean = R3_removeHtmlFromString(text);
+		};
+		// Avoid eNGE null messages
+		if (textClean === 'R3ditor V2 - INFO: (eNGE) \n'){
+			textClean = text = '';
 			canLog = false;
 		};
-	};
-	/*
-		Final checks
-	*/
-	if (canLog === true){
-		if (defaultCheck.indexOf(mode) !== -1){
-			logCSS = 'R3_LOG_OK';
-			R3_LOG_COUNTER_INFO++;
-		};
-		if (mode === 'warn'){
-			if (SETTINGS_OPEN_LOG_ON_WARN_ERROR === true){
-				R3_DESIGN_MINIWINDOW_OPEN(0);
+		lastLog = document.getElementById('R3_LOG_ID_N_' + (R3_LOG_ID - 1));
+		if (lastLog !== null){
+			if (lastLog.className === 'SEPARATOR-3' && mode === 'separator'){
+				canLog = false;
 			};
-			console.warn(textClean);
-			logCSS = 'R3_LOG_WARN';
-			R3_LOG_COUNTER_WARN++;
 		};
-		if (mode === 'error'){
-			if (SETTINGS_OPEN_LOG_ON_WARN_ERROR === true){
-				R3_DESIGN_MINIWINDOW_OPEN(0);
+		/*
+			Final checks
+		*/
+		if (canLog === true){
+			if (defaultCheck.indexOf(mode) !== -1){
+				logCSS = 'R3_LOG_OK';
+				R3_LOG_COUNTER_INFO++;
 			};
-			console.error(textClean);
-			logCSS = 'R3_LOG_ERROR';
-			R3_LOG_COUNTER_ERROR++;
+			if (mode === 'warn'){
+				if (SETTINGS_OPEN_LOG_ON_WARN_ERROR === true){
+					R3_DESIGN_MINIWINDOW_OPEN(0);
+				};
+				console.warn(textClean);
+				logCSS = 'R3_LOG_WARN';
+				R3_LOG_COUNTER_WARN++;
+			};
+			if (mode === 'error'){
+				if (SETTINGS_OPEN_LOG_ON_WARN_ERROR === true){
+					R3_DESIGN_MINIWINDOW_OPEN(0);
+				};
+				console.error(textClean);
+				logCSS = 'R3_LOG_ERROR';
+				R3_LOG_COUNTER_ERROR++;
+			};
+			if (mode === 'separator'){
+				textClean = SYSTEM_LOG_SEPARATOR_TEXT;
+				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="SEPARATOR-3"></div>';
+			} else {
+				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="R3_LOG_ITEM ' + logCSS + '">' + text + '</div>';
+			};
+			/*
+				End
+			*/
+			TMS.append('R3_LOG_HOLDER', HTML_LOG_TEMPLATE);
+			R3_SYSTEM_LOG_TEXT = R3_SYSTEM_LOG_TEXT + textClean + '\n';
+			R3_LOG_ID++;
+			document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>';
+			document.getElementById('R3_LOG_HOLDER').scrollTop = document.getElementById('R3_LOG_HOLDER').scrollHeight;
 		};
-		if (mode === 'separator'){
-			textClean = SYSTEM_LOG_SEPARATOR_TEXT;
-			HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="SEPARATOR-3"></div>';
-		} else {
-			HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="R3_LOG_ITEM ' + logCSS + '">' + text + '</div>';
-		};
-		// End
-		TMS.append('R3_LOG_HOLDER', HTML_LOG_TEMPLATE);
-		R3_SYSTEM_LOG_TEXT = R3_SYSTEM_LOG_TEXT + textClean + '\n';
-		R3_LOG_ID++;
-		document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>';
-		document.getElementById('R3_LOG_HOLDER').scrollTop = document.getElementById('R3_LOG_HOLDER').scrollHeight;
+	} else {
+		console.log('R3V2 LOG - ' + text);
 	};
 };
 // Clear Log
@@ -684,6 +690,12 @@ function R3_SYSTEM_CLEAR_LOG(){
 	R3_SYSTEM_LOG('log', 'R3ditor V2 - The log was cleared');
 	R3_SYSTEM_LOG('separator');
 	console.clear();
+};
+// Open Log window
+function R3_DESIGN_openLogWindow(){
+	if (SETTINGS_DISABLE_LOG === false){
+		R3_DESIGN_MINIWINDOW_OPEN(0);
+	};
 };
 /*
 	Open / Close Mini Window
@@ -2160,24 +2172,32 @@ function R3_RDT_DESIGN_resetInterface(){
 };
 // Show RDT
 function R3_RDT_DESIGN_enableInterface(showInterface){
-	var mapFirstCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_fixVars(R3_genRandomNumber(R3_RDT_MAP_totalCams).toString(16), 2) + '.JPG',
-		mapSecondCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + '01.JPG';
 	R3_DESIGN_closeAllRdtMiniWindows();
-	if (R3_WEBMODE === false){
-		if (APP_FS.existsSync(mapFirstCamera) === true){
-			if (APP_useImageFix === true){
-				mapFirstCamera = 'file://' + mapFirstCamera;
-			};
-			TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(' + mapFirstCamera + ')'});
-		} else {
-			if (APP_FS.existsSync(mapSecondCamera) === true){
+	// Background image
+	if (SETTINGS_DISABLE_RDT_BACKGROUND === false){
+		const mapFirstCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_fixVars(R3_genRandomNumber(R3_RDT_MAP_totalCams).toString(16), 2) + '.JPG',
+			  mapSecondCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + '01.JPG';
+		if (R3_WEBMODE === false){
+			if (APP_FS.existsSync(mapFirstCamera) === true){
 				if (APP_useImageFix === true){
-					mapSecondCamera = 'file://' + mapSecondCamera;
+					mapFirstCamera = 'file://' + mapFirstCamera;
 				};
-				TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(' + mapSecondCamera + ')'});
+				TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(' + mapFirstCamera + ')'});
 			} else {
-				TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(img/404.png)'});
+				if (APP_FS.existsSync(mapSecondCamera) === true){
+					if (APP_useImageFix === true){
+						mapSecondCamera = 'file://' + mapSecondCamera;
+					};
+					TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(' + mapSecondCamera + ')'});
+				} else {
+					TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(img/404.png)'});
+				};
 			};
+		};
+	} else {
+		// Disable background
+		if (TMS.getCssData('R3_RDT_GENERAL_IMG', 'background-image') !== 'none'){
+			TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'none'});
 		};
 	};
 	// Check if Leo2236 RE3SLDE are present
@@ -2224,20 +2244,9 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 		};
 	};
 	// End Animation
-	if (R3_ENABLE_ANIMATIONS === true && SETTINGS_ENABLE_RDT_OPEN_ANIMATION === true){
-		var animTime = 810;
-		TMS.animate('R3_RDT_GENERAL_IMG', {'left': '-2%'}, animTime);
-		TMS.fadeIn('R3_RDT_GENERAL_IMG', parseInt(animTime - 200));
-		TMS.fadeIn('R3_RDT_MENU_GENERAL_INFOS', parseInt(animTime - 200));
-		TMS.animate('R3_RDT_MENU_GENERAL_INFOS', {'left': '50%'}, animTime);
-		setTimeout(function(){
-			R3_DESIGN_RDT_LOADLOCK = false;
-		}, parseInt(animTime + 10));
-	} else {
-		R3_DESIGN_RDT_LOADLOCK = false;
-		TMS.css('R3_RDT_GENERAL_IMG', {'display': 'block', 'left': '-2%'});
-		TMS.css('R3_RDT_MENU_GENERAL_INFOS', {'display': 'block', 'left': '50%'});
-	};
+	R3_DESIGN_RDT_LOADLOCK = false;
+	TMS.css('R3_RDT_GENERAL_IMG', {'display': 'block'});
+	TMS.css('R3_RDT_MENU_GENERAL_INFOS', {'display': 'block'});
 	// End
 	if (showInterface === true){
 		setTimeout(function(){
@@ -2785,16 +2794,14 @@ function R3_LIVESTATUS_CLOSEMENU(){
 	eNGE Design Functions
 */
 function R3_eNGE_openEmuWindow(){
-	if (R3_WEBMODE === false){
+	if (R3_WEBMODE === false && SETTINGS_DISABLE_ENGE === false){
 		R3_DESIGN_MINIWINDOW_OPEN(13, 'center');
-	} else {
-		R3_WEBWARN();
 	};
 };
 // Make eNGE window visisble on settings
 function R3_eNGE_makeWindowVisible(mode){
 	if (mode === 0){
-		if (R3_MINI_WINDOW_DATABASE[13][5] === false){
+		if (R3_MINI_WINDOW_DATABASE[13][5] === false && SETTINGS_DISABLE_ENGE === false){
 			R3_DESIGN_MINIWINDOW_OPEN(13);
 		};
 		TMS.css('R3V2_MINI_WINDOW_13', {'z-index': '10000010'});

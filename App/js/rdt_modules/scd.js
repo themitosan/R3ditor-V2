@@ -1,6 +1,6 @@
 /*
 	R3ditor V2 - scd.js
-	Hölerò!
+	aka. The largest file inside R3V2!
 */
 var R3_SCD_path = '',
 	SCD_arquivoBruto,
@@ -5177,10 +5177,9 @@ function R3_SCD_EDIT_FUNCTION_usePlayerPos(where){
 // Seek item by opcode
 function R3_SCD_EDIT_FUNCTION_seekItem(id){
 	var c = 0, seekItem = document.getElementById('R3_SCD_EDIT_' + id + '_itemSeek').value, tempCheck = seekItem, itemCheck;
-	while (c < R3_HEX_FORMAT_EXCLUDE.length){
-		tempCheck = tempCheck.replace(R3_HEX_FORMAT_EXCLUDE[c], '');
-		c++;
-	};
+	R3_HEX_FORMAT_EXCLUDE.forEach(function(cItem){
+		tempCheck = tempCheck.replace(RegExp(cItem, 'gi'), '');
+	});
 	if (seekItem.length === 2){
 		document.getElementById('R3_SCD_EDIT_' + id + '_itemSeek').value = '';
 		itemCheck = DATABASE_ITEM[seekItem];
@@ -5204,9 +5203,7 @@ function R3_SCD_EDIT_FUNCTION_PLC_DEST(){
 		document.getElementById('R3_SCD_EDIT_81_labelDataB').innerHTML = dataLabelB;
 		document.getElementById('R3_SCD_EDIT_81_extraDiv').innerHTML = dataExtraEdit;
 	} catch (err) {
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open edit form!');
-		R3_SYSTEM_LOG('warn', 'Reason: ' + err);
-		R3_SYSTEM_LOG('warn', 'Probably this is happening due this animation is not implemented on R3ditor V2!');
+		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open edit form! <br>Reason: ' + err + ' <br>(Probably this is happening due this animation is not implemented yet!)');
 		R3_SYSTEM_ALERT('WARN: Unable to open edit form!\nReason: ' + err + '\n\nProbably this is happening due this animation is not implemented on R3ditor V2 Database!');
 		setTimeout(function(){
 			R3_SCD_cancelFunctionEdit(true);

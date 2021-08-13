@@ -652,40 +652,41 @@ function R3_FOLDER_SELECT(functionEval){
 	Original Code: https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control
 */
 function R3_getFileName(filePath){
+	var resFileName = '';
 	if (filePath !== '' && filePath !== undefined){
 		if (filePath.indexOf('(') !== -1){
 			var tempTxt = filePath.replace(/^(.*[/\\])?/, '').replace(/(\.[^.]*)$/, '');
-			return tempTxt.slice(0, tempTxt.indexOf('('));
+			res = tempTxt.slice(0, tempTxt.indexOf('('));
 		} else {
-			return filePath.replace(/^(.*[/\\])?/, '').replace(/(\.[^.]*)$/, '');
+			res = filePath.replace(/^(.*[/\\])?/, '').replace(/(\.[^.]*)$/, '');
 		};
 	};
+	return res;
 };
 // Get File Extension
 function R3_getFileExtension(file){
+	var res = '';
 	if (file !== '' && file !== undefined){
-		return file.split('.').pop();
-	} else {
-		return '';
+		res = file.split('.').pop();
 	};
+	return res;
 };
 // Format Hex values to string properly
 function R3_solveHEX(hex){
+	var res = '';
 	if (hex !== '' && hex !== undefined){
-		var res = hex.replace(new RegExp(' ', 'g'), '');
-		return res.toLowerCase();
-	} else {
-		return '';
+		res = hex.replace(new RegExp(' ', 'g'), '').toLowerCase();
 	};
+	return res;
 };
 // Get file name
 function R3_getFilePath(fileName){
+	var res = '';
 	if (fileName !== undefined && fileName !== ''){
 		var path = require('path');
-		return R3_fixPath(path.dirname(fileName));
-	} else {
-		return '';
+		res = R3_fixPath(path.dirname(fileName));
 	};
+	return res;
 };
 // Process In-Game Vars
 function R3_processBIO3Vars(hex){
@@ -709,11 +710,11 @@ function R3_processBIO3Vars(hex){
 };
 // Parse Percentage
 function R3_parsePercentage(current, maximum){
+	var res = 0;
 	if (current !== undefined && maximum !== undefined && current !== '' && maximum !== ''){
-		return Math.floor((current / maximum) * 100);
-	} else {
-		return 0;
+		res = Math.floor((current / maximum) * 100);
 	};
+	return res;
 };
 // Fix Path Size
 function R3_fixPathSize(path, limit){
@@ -729,11 +730,11 @@ function R3_fixPathSize(path, limit){
 };
 // Fix path
 function R3_fixPath(path){
+	var res = '';
 	if (path !== undefined && path !== ''){
-		return path.replace(new RegExp('\\\\', 'gi'), '/');
-	} else {
-		return '';
+		res = path.replace(new RegExp('\\\\', 'gi'), '/');
 	};
+	return res;
 };
 // Get number from hex (Using Endian)
 function R3_getPosFromHex(hex){
@@ -758,19 +759,20 @@ function R3_parseEndian(str){
 // Get file size
 function R3_getFileSize(filePath, mode){
 	if (filePath !== undefined && filePath !== '' && R3_WEBMODE === false){
-		var read = APP_FS.statSync(filePath), fsize = read.size;
+		var read = APP_FS.statSync(filePath), fsize = read.size, res = 0;
 		// Bytes
 		if (mode === 0 || mode === undefined){
-			return read.size;
+			res = read.size;
 		};
 		// In KB
 		if (mode === 1){
-			return parseInt(read.size / 1024);
+			res = parseInt(read.size / 1024);
 		};
 		// In MB
 		if (mode === 2){
-			return read.size / 1000000.0;
+			res = read.size / 1000000.0;
 		};
+		return res;
 	};
 };
 // Get all indexes of string in another string
@@ -911,12 +913,9 @@ function R3_processHP(hex){
 };
 // Format string as a hex
 function R3_unsolveHEX(hex, mode){
+	var res = '', rw;
 	if (hex !== '' && hex !== undefined && hex !== null){
-		var rw, c = 0, fina = '';
-		if (mode === undefined){
-			mode = 0;
-		};
-		if (mode === 0){
+		if (mode === undefined || mode === 0){
 			rw = hex.match(/.{1,2}/g);
 		};
 		if (mode === 1){
@@ -925,37 +924,34 @@ function R3_unsolveHEX(hex, mode){
 		if (mode === 2){
 			rw = hex.match(/.{1,8}/g);
 		};
-		while(c < rw.length){
-			fina = fina + rw[c] + ' ';
-			c++;
-		};
-		return fina.slice(0, fina.length - 1).toUpperCase();
-	} else {
-		return '';
+		res = rw.toString().replace(RegExp(',', 'gi'), ' ').toUpperCase();
 	};
+	return res;
 };
 // Parse Positive
 function R3_parsePositive(number){
+	var final = 0;
 	if (number !== undefined && parseInt(number) !== NaN && number !== ''){
 		var num = parseInt(number), tempRes = parseInt(num - num - num);
 		if (tempRes < 0){
-			return parseInt(tempRes *- 1);
+			final = parseInt(tempRes *- 1);
 		} else {
-			return tempRes;
+			final = tempRes;
 		};
 	};
+	return final;
 };
 // Process location position
 function R3_processBIO3PosNumbers(number){
+	var final = 0;
 	if (number !== undefined){
 		var numTemp = parseInt(number);
 		if (numTemp > 32767){
 			numTemp = parseInt(numTemp - 65536);
 		};
-		return numTemp;
-	} else {
-		return 0;
+		final = numTemp;
 	};
+	return final;
 };
 // Convert position int to hex
 function R3_convertPosIntToHex(number){
@@ -1063,6 +1059,7 @@ function R3_SYS_copyFiles(source, destiny, execNext){
 	4: Hex to Int
 */
 function R3_TIME_parseHexTime(hex, outputMode){
+	var final = 0;
 	if (hex !== undefined && hex !== ''){
 		if (outputMode === undefined){
 			outputMode = 0;
@@ -1089,31 +1086,32 @@ function R3_TIME_parseHexTime(hex, outputMode){
 			End
 		*/
 		if (outputMode === 0){
-			return R3_fixVars(HH, 2) + ':' + R3_fixVars(MM, 2) + ':' + R3_fixVars(SS, 2) + ':' + R3_fixVars(DC, 2);
+			final = R3_fixVars(HH, 2) + ':' + R3_fixVars(MM, 2) + ':' + R3_fixVars(SS, 2) + ':' + R3_fixVars(DC, 2);
 		};
 		if (outputMode === 1){
-			return [HH, MM, SS, DC];
+			final = [HH, MM, SS, DC];
 		};
 		if (outputMode === 2){
-			return R3_fixVars(MM, 2) + ':' + R3_fixVars(SS, 2) + ':' + R3_fixVars(DC, 2);
+			final = R3_fixVars(MM, 2) + ':' + R3_fixVars(SS, 2) + ':' + R3_fixVars(DC, 2);
 		};
 		if (outputMode === 3){
-			return R3_fixVars(HH, 2) + ':' + R3_fixVars(MM, 2) + '\'' + R3_fixVars(SS, 2) + '\'\'' + R3_fixVars(DC, 2);
+			final = R3_fixVars(HH, 2) + ':' + R3_fixVars(MM, 2) + '\'' + R3_fixVars(SS, 2) + '\'\'' + R3_fixVars(DC, 2);
 		};
 		if (outputMode === 4){
-			return parseInt(HH + MM + SS + DC);
+			final = parseInt(HH + MM + SS + DC);
 		};
+		return final;
 	};
 };
 // Convert Endian Number to Int
 function R3_parseEndianToInt(hex){
 	if (hex !== undefined && hex !== ''){
-		var split = hex.match(/.{2,2}/g), firstVal, secondVal, hx_00, hx_01, hx_02, hx_03;
+		var final = 0, split = hex.match(/.{2,2}/g), firstVal, secondVal, hx_00, hx_01, hx_02, hx_03;
 		// 8 Bits
 		if (hex.length === 4){
 			firstVal = (parseInt(split[0], 16) * 256);
 			secondVal = parseInt(split[1], 16);
-			return parseInt(firstVal + secondVal);
+			final = parseInt(firstVal + secondVal);
 		};
 		// 16 Bits
 		if (hex.length === 8){
@@ -1121,24 +1119,21 @@ function R3_parseEndianToInt(hex){
 			hx_01 = ((parseInt(split[1], 16) * 256) * 256);
 			hx_02 = (parseInt(split[2], 16) * 256);
 			hx_03 = (parseInt(split[3], 16));
-			return parseInt(hx_00 + hx_01 + hx_02 + hx_03);
+			final = parseInt(hx_00 + hx_01 + hx_02 + hx_03);
 		};
-	} else {
-		return 0;
 	};
+	return final;
 };
 // Clean Hex code
 function R3_cleanHex(hex){
+	var final = '';
 	if (hex !== undefined && hex !== ''){
-		var c = 0, final = R3_solveHEX(hex);
-		while (c < R3_HEX_FORMAT_EXCLUDE.length){
-			final = final.replace(new RegExp(R3_HEX_FORMAT_EXCLUDE[c], 'g'), '').replace(/[^a-z0-9]/gi,'');
-			c++;
-		};
-		return final;
-	} else {
-		return '';
+		final = R3_solveHEX(hex);
+		R3_HEX_FORMAT_EXCLUDE.forEach(function(cItem){
+			final = final.replace(new RegExp(cItem, 'g'), '').replace(/[^a-z0-9]/gi, '');
+		});
 	};
+	return final;
 };
 // Clean Hex from Input
 function R3_cleanHexFromInput(domId){

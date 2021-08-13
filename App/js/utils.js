@@ -210,10 +210,8 @@ function R3_FILEGEN_BG_UPDATE_FILTERS(){
 };
 // Select Text color
 function R3_FILEGEN_selectTextColor(mode){
-	var c = 0, maxColors = 4;
-	while (c < maxColors){
-		document.getElementById('R3_FILEGEN_color_' + c).checked = false;
-		c++;
+	for (var i = 0; i < 4; i++){
+		document.getElementById('R3_FILEGEN_color_' + i).checked = false;
 	};
 	document.getElementById('R3_FILEGEN_color_' + mode).checked = true;
 	FILEGEN_currentColor = mode;

@@ -188,7 +188,7 @@
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open R3V2 Settings" onclick="R3_SHOW_MENU(0);">R3V2 Settings</div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open Backup Manager" onclick="R3_DESIGN_renderBackupManager();">Backup Manager</div>
 						<div class="R3_MENU_SEPARATOR"></div>
-						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open log window" onclick="R3_DESIGN_MINIWINDOW_OPEN(0);">Open Log Window</div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open log window" onclick="R3_DESIGN_openLogWindow();">Open Log Window</div>
 						<div class="R3_MENU_SEPARATOR"></div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open R3V2 Help center main menu" onclick="R3_HC_OPEN_PAGE(4);">R3V2 Help Center</div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">About R3V2</div>
@@ -617,7 +617,7 @@
 			<!-- R3V2 - Leo's Hub -->
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_24">
 				<div id="R3V2_MINI_WINDOW_24_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
-					<font id="R3V2_TITLE_SCD_OPCODE_FINDER">Leo's Hub</font>
+					<font>Leo's Hub</font>
 					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(24);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<!-- Main Tabs -->
@@ -1537,7 +1537,7 @@
 							</li>
 						</ul>
 					</div>
-					<!-- RE3 Live Status -->
+					<!-- RE3 Livestatus -->
 					<div id="SETTINGS_DIV_LIVESTATUS">
 						<div class="LBL_subTitle">RE3 Livestatus</div>
 						<div class="SEPARATOR-0"></div>
@@ -1557,6 +1557,9 @@
 							</li>
 							<li>
 								<input type="checkbox" id="R3_SETTINGS_DISPLAY_POS_INT"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_DISPLAY_POS_INT', true);" title="Enabling this option, R3V2 will show position values as integer instead of hex">- Display player position as <font class="R3_HC_LBL_CODE user-cant-select">integer</font> instead of <font class="R3_HC_LBL_CODE user-cant-select">hex</font></font>
+							</li>
+							<li>
+								<input type="checkbox" id="R3_SETTINGS_LIVESTATUS_DISCOVER"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_LIVESTATUS_DISCOVER', true);" title="Enabling this function, R3V2 will hook on main game case it's open">- Enable game detection</font>
 							</li>
 						</ul>
 					</div>
@@ -1631,15 +1634,15 @@
 							<input type="button" value="Update DoorLink Database" title="Click here to update DoorLink database manually" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_DOORLINK_INIT();">
 						</li>
 					</ul>
-					<!-- Animations -->
-					<div class="LBL_subTitle">Animations</div>
+					<!-- Animations / Performance -->
+					<div class="LBL_subTitle">Animations / Performance</div>
 					<div class="SEPARATOR-0"></div>
 					<ul>
 						<li>
 							<input type="checkbox" id="R3_SETTINGS_ENABLE_ANIMATIONS"> <font class="cursor-pointer" id="R3_SETTINGS_LBL_enableAnim" title="This option will enable or disable internal animations. Disable this if you have performance issues." onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_ENABLE_ANIMATIONS', true);">- Enable animations</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_ENABLE_RDT_ANIMATIONS"> <font class="cursor-pointer" id="R3_SETTINGS_LBL_enableAnimRDT" title="This option will enable the background animation while opening RDT files. Disable to make loading faster!" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_ENABLE_RDT_ANIMATIONS', true);">- Enable RDT opening animation <i>(Requires "Enable animations" activated!)</i></font>
+							<input type="checkbox" id="R3_SETTINGS_DISABLE_RDT_BACKGROUND"> <font class="cursor-pointer" title="Set this option off to disable background images on RDT editor. (Ideal for slow machines)" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_DISABLE_RDT_BACKGROUND', true);">- Disable Background images on RDT Editor</font>
 						</li>
 					</ul>
 					<!-- eNGE Settings-->
@@ -1647,6 +1650,9 @@
 						<div class="LBL_subTitle">eNGE Settings</div>
 						<div class="SEPARATOR-0"></div>
 						<ul>
+							<li>
+								<input type="checkbox" id="R3_SETTINGS_DISABLE_ENGE"> <font class="cursor-pointer" title="Set this option on to disbale eNGE initialization / background process (Requires restart to apply changes)" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_DISABLE_ENGE', true);">- Disable eNGE <i>(Requires restart)</i></font>
+							</li>
 							<li>
 								Screen Res.: 
 								<input type="number" title="eNGE Width Res." onkeyup="R3_ENGE_updateResScale(1);" value="640" min="360" placeholder="640" step="1" id="R3_SETTINGS_ENGE_WIDTH" class="R3_SCD_EDIT_61_aot"> x 
@@ -1684,6 +1690,9 @@
 					<div class="LBL_subTitle">Other Settings</div>
 					<div class="SEPARATOR-0"></div>
 					<ul>
+						<li>
+							<input type="checkbox" id="R3_SETTINGS_DISABLE_LOG"> <font class="cursor-pointer" title="Set this option on to disable R3V2 log system" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_DISABLE_LOG', true);">- Disable log system</font>
+						</li>
 						<li id="SETTINGS_LI_RECENTPOPUP">
 							<input type="checkbox" id="R3_SETTINGS_SHOW_RECENT_POPUP"> <font class="cursor-pointer" title="This option will show a popup with the last file you opened on main screen" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SHOW_RECENT_POPUP', true);">- Show last file opened popup</font>
 						</li>
@@ -1776,16 +1785,18 @@
 				<script defer type="text/javascript" src="js/ini.js"></script>
 				<script defer type="text/javascript" src="js/tim.js"></script>
 				<script defer type="text/javascript" src="js/msg.js"></script>
-				<script defer type="text/javascript" src="js/scd.js"></script>
 				<script defer type="text/javascript" src="js/rdt.js"></script>
 				<script defer type="text/javascript" src="js/ard.js"></script>
-				<script defer type="text/javascript" src="js/rid.js"></script>
-				<script defer type="text/javascript" src="js/lit.js"></script>
-				<script defer type="text/javascript" src="js/obj.js"></script>
 				<script defer type="text/javascript" src="js/gamepad.js"></script>
-				<script defer type="text/javascript" src="js/scd_code_map.js"></script>
 				<script defer type="text/javascript" src="js/re3set.js"></script>
 				<script defer type="text/javascript" src="js/github.js"></script>
+				<!-- RDT Modules -->
+				<script defer type="text/javascript" src="js/rdt_modules/scd.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/scd_code_map.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/rid.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/lit.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/obj.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/blk.js"></script>
 				<!-- Exclude from R3V2 Compiler -->
 				<script defer type="text/javascript" src="js/debug.js"></script>
 			</blockquote>

@@ -64,16 +64,20 @@ function R3_UPDATER_GET_COMMITS(){
 */
 function R3_UPDATER_START(){
 	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION'){
-		R3_UPDATER_RUNNING = true;
-		var c = 0, maxSteps = 8;
-		R3_UPDATER_INTERVAL = setInterval(function(){
-			if (R3_UPDATER_LOCK === false){
-				R3_UPDATER_ACTION(c);
-				c++;
-			} else {
-				console.info('UPDATER - Waiting Step ' + c + '...');
-			};
-		}, 100);
+		try {
+			var c = 0, maxSteps = 8;
+			R3_UPDATER_RUNNING = true;
+			R3_UPDATER_INTERVAL = setInterval(function(){
+				if (R3_UPDATER_LOCK === false){
+					R3_UPDATER_ACTION(c);
+					c++;
+				} else {
+					console.info('UPDATER - Waiting Step ' + c + '...');
+				};
+			}, 100);
+		} catch (err) {
+			R3_SYSTEM_ALERT('ERROR: Unable to update R3V2!\n' + err);
+		};
 	};
 };
 // Updater Actions

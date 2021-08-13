@@ -3,18 +3,21 @@
 	This is only a test
 */
 const { app, BrowserWindow } = require('electron');
+/*
+	Functions
+*/
 function createWindow(){
 	const win = new BrowserWindow({
 		width: 800,
 		height: 600
 	});
-  	win.loadFile('App/index.htm');
+	win.loadFile('App/index.htm');
 };
 app.on('window-all-closed', function(){
 	if (process.platform !== 'darwin'){
 		app.quit();
 	};
 })
-app.on('ready', function () {
-  createWindow();
+app.on('ready', function(){
+	createWindow();
 });

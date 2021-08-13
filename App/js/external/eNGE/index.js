@@ -1,11 +1,11 @@
 /*
-  eNGE - index.js
-  Original project created by Rene Kootstra
+	eNGE - index.js
+	Original project created by Rene Kootstra
 
-  Changes written by themitosan
+	Changes written by themitosan
 */
 'use strict';
-var running = false, originalSpeed = true, realtimeStart = 0, samplesStart = 0, loading = 0, renderer = undefined, canvas = undefined, emulationTime = 0.0, context = undefined, abort = function(){
+var ENGE_INIT_OK = false, running = false, originalSpeed = true, realtimeStart = 0, samplesStart = 0, loading = 0, renderer = undefined, canvas = undefined, emulationTime = 0.0, context = undefined, abort = function(){
     console.error(Array.prototype.slice.call(arguments).join(' '));
     running = false;
     spu.silence();
@@ -60,34 +60,31 @@ psx.eventCycles = (event) => {
 }
 
 psx.setEvent = (event, clocks) => {
-  event.clock = +psx.clock + +clocks;
-  event.start = +psx.clock;
-  event.active = true;
-
-  if (psx.eventClock > event.clock) {
-    psx.eventClock = event.clock;
-  }
-  return event;
+	event.clock = +psx.clock + +clocks;
+	event.start = +psx.clock;
+	event.active = true;
+	if (psx.eventClock > event.clock) {
+	  psx.eventClock = event.clock;
+	}
+	return event;
 }
 
 psx.handleEvents = (entry) => {
-  let eventClock = Number.MAX_SAFE_INTEGER;
+	let eventClock = Number.MAX_SAFE_INTEGER;
 
-  for (let i = 0, l = psx.events.length; i < l; ++i) {
-    const event = psx.events[i];
-    if (!event.active) continue;
+	for (let i = 0, l = psx.events.length; i < l; ++i) {
+		const event = psx.events[i];
+		if (!event.active) continue;
 
-    if (psx.clock >= event.clock) {
-      event.cb(event, psx.clock);
-    }
-    if (event.clock < eventClock && event.active) {
-      eventClock = event.clock;
-    }
-  }
-
-  psx.eventClock = eventClock;
-
-  return cpuInterrupt(entry);
+		if (psx.clock >= event.clock) {
+		  event.cb(event, psx.clock);
+		}
+		if (event.clock < eventClock && event.active) {
+		  eventClock = event.clock;
+		}
+	}
+	psx.eventClock = eventClock;
+	return cpuInterrupt(entry);
 }
 
 Object.seal(psx);
@@ -107,76 +104,78 @@ mdc.event = psx.addEvent(0, mdc.complete.bind(mdc));
 dot.event = psx.addEvent(0, dot.complete.bind(dot));
 
 let frameEvent = psx.addEvent(0, endMainLoop),
-  endAnimationFrame = false,
-  switches = 0;
+	endAnimationFrame = false,
+	switches = 0;
 
-function endMainLoop(self, clock) {
-  endAnimationFrame = true;
-  self.active = false;
+function endMainLoop(self, clock){
+	endAnimationFrame = true;
+	self.active = false;
 }
 
-function mainLoop(stamp) {
-  window.requestAnimationFrame(mainLoop);
-  const delta = stamp - context.timeStamp;
-  context.timeStamp = stamp;
-  if (!running || !hasFocus || delta > 250) return;
+function mainLoop(stamp){
+	if (SETTINGS_DISABLE_ENGE === false){
+		window.requestAnimationFrame(mainLoop);
+		const delta = stamp - context.timeStamp;
+		context.timeStamp = stamp;
+		if (!running || !hasFocus || delta > 250) return;
 
-  context.realtime += delta * speedFactor;
+		context.realtime += delta * speedFactor;
 
-  let diffTime = context.realtime - context.emutime;
+		let diffTime = context.realtime - context.emutime;
 
-  const timeToEmulate = diffTime, totalCycles = timeToEmulate * (768*44.100);
+		const timeToEmulate = diffTime, totalCycles = timeToEmulate * (768*44.100);
 
-  let entry = getCacheEntry(cpu.pc);
-  if (!entry) return abort('invalid pc')
+		let entry = getCacheEntry(cpu.pc);
+		if (!entry) return abort('invalid pc')
 
-  endAnimationFrame = false;
-  psx.setEvent(frameEvent, +totalCycles);
-  handleGamePads();
-  while (!endAnimationFrame) {
-    if (!entry.code) {
-      entry.code = compileBlock(entry);
-    }
-    entry = entry.code(psx);
-    ++switches;
-    // let next = entry.code(psx);
-    // if (!next) debugger;
-    // entry = next;
-  }
-  cpu.pc = entry.pc;
+		endAnimationFrame = false;
+		psx.setEvent(frameEvent, +totalCycles);
+		handleGamePads();
+		while (!endAnimationFrame) {
+			if (!entry.code) {
+			  entry.code = compileBlock(entry);
+			}
+			entry = entry.code(psx);
+			++switches;
+			// let next = entry.code(psx);
+			// if (!next) debugger;
+			// entry = next;
+		}
+		cpu.pc = entry.pc;
 
-  // correct the emulation time accourding to the psx.clock
-  context.emutime =  psx.clock / (768*44.100);
+		// correct the emulation time accourding to the psx.clock
+		context.emutime =  psx.clock / (768*44.100);
+	};
 }
 
 function bios() {
-  running = false;
+	running = false;
 
-  let entry = getCacheEntry(0xbfc00000);
-  const $ = psx;
-  while (entry.pc !== 0x00030000) {
-    if (!entry.code) {
-      entry.code = compileBlock(entry);
-    }
-    entry = entry.code(psx);
-    ++switches;
-    // let next = entry.code(psx);
-    // if (!next) debugger;
-    // entry = next;
-  }
-  context.realtime = context.emutime =  psx.clock / (768*44.100);
-  vector = getCacheEntry(0x80);
-  cpu.pc = entry.pc;
+	let entry = getCacheEntry(0xbfc00000);
+	const $ = psx;
+	while (entry.pc !== 0x00030000) {
+		if (!entry.code) {
+		  entry.code = compileBlock(entry);
+		}
+		entry = entry.code(psx);
+		++switches;
+		// let next = entry.code(psx);
+		// if (!next) debugger;
+		// entry = next;
+	}
+	context.realtime = context.emutime =  psx.clock / (768*44.100);
+	vector = getCacheEntry(0x80);
+	cpu.pc = entry.pc;
 }
 
 var openFile = function(file) {
-  var reader = new FileReader();
-  reader.onload = function(event) {
-    // console.log(escape(file.name), file.size);
-    loadFileData(event.target.result)
-  };
-  loading++;
-  reader.readAsArrayBuffer(file);
+	var reader = new FileReader();
+	reader.onload = function(event) {
+		// console.log(escape(file.name), file.size);
+		loadFileData(event.target.result)
+	};
+	loading++;
+	reader.readAsArrayBuffer(file);
 }
 
 function loadFileData(arrayBuffer) {
@@ -282,8 +281,7 @@ function loadFileData(arrayBuffer) {
     for (var i = 0; i < copy.length; ++i) {
       card[i] = copy[i];
     }
-  }
-  else if (arrayBuffer.byteLength === 524288) {
+  } else if (arrayBuffer.byteLength === 524288){
     const base64text = Base64.encode(arrayBuffer);
     writeStorageStream('bios', arrayBuffer);
     try {
@@ -304,30 +302,32 @@ function loadFileData(arrayBuffer) {
 
 // Handle loading by file selection
 function R3_eNGE_START_LOAD(){
-  R3_FILE_LOAD('.bin, .iso, .dat', function(fData){
-    openFile(fData);
-  }, true, null, true);
+	if (ENGE_INIT_OK === true){
+		R3_FILE_LOAD('.bin, .iso, .dat', function(fData){
+			openFile(fData);
+		}, true, null, true);
+	};
 };
 
 function handleFileSelect(evt) {
-  evt.stopPropagation();
-  evt.preventDefault();
-  const fileList = evt.dataTransfer ? evt.dataTransfer.files : evt.target.files;
-  var output = [];
-  for (var i = 0, f; f = fileList[i]; i++) {
-    openFile(f);
-  }
+	evt.stopPropagation();
+	evt.preventDefault();
+	const fileList = evt.dataTransfer ? evt.dataTransfer.files : evt.target.files;
+	var output = [];
+	for (var i = 0, f; f = fileList[i]; i++){
+		openFile(f);
+	};
 }
 
-function handleDragOver(evt) {
-  evt.stopPropagation();
-  evt.preventDefault();
+function handleDragOver(evt){
+	evt.stopPropagation();
+	evt.preventDefault();
 }
 
-// default keyboard mapping
+// Default keyboard mapping
 const keyboard = new Map();
 /*
-  Easy KB setup
+	Easy KB setup
 */
 var GAME_KB_UP        = 87,  // W
     GAME_KB_DOWN      = 83,  // S
@@ -366,47 +366,51 @@ keyboard.set(GAME_KB_START, {bits: 0x08, property: 'lo'});    /* [start] */
 keyboard.set(GAME_KB_SELECT, {bits: 0x01, property: 'lo'});   /*  [sel]  */
 
 /*
-  Main function - init --> eNGE_INIT();
+	Main function - init --> eNGE_INIT();
 */
 
 function eNGE_INIT(){
-  canvas = document.getElementById('R3_ENGE_CANVAS');
-  mainLoop(performance.now());
-  renderer = new WebGLRenderer(canvas);
+	if (SETTINGS_DISABLE_ENGE === false){
+		canvas = document.getElementById('R3_ENGE_CANVAS');
+		mainLoop(performance.now());
+		renderer = new WebGLRenderer(canvas);
+		window.addEventListener('keyup', function(e) {
+			if (e.key === '1' && e.ctrlKey) renderer.setMode('disp');
+			if (e.key === '2' && e.ctrlKey) renderer.setMode('draw');
+			if (e.key === '3' && e.ctrlKey) renderer.setMode('clut8');
+			if (e.key === '4' && e.ctrlKey) renderer.setMode('clut4');
+			if (e.key === '0' && e.ctrlKey) renderer.setMode('page2');
 
-  window.addEventListener('keyup', function(e) {
-    if (e.key === '1' && e.ctrlKey) renderer.setMode('disp');
-    if (e.key === '2' && e.ctrlKey) renderer.setMode('draw');
-    if (e.key === '3' && e.ctrlKey) renderer.setMode('clut8');
-    if (e.key === '4' && e.ctrlKey) renderer.setMode('clut4');
-    if (e.key === '0' && e.ctrlKey) renderer.setMode('page2');
-
-    if (e.key === 'F12') return; // allow developer tools
-    if (e.key === 'F11') return; // allow full screen
-    if (e.key === 'F5') return; // allow page refresh
-    e.preventDefault();
-  }, false);
-
-  readStorageStream(function(data){
-    if (data !== undefined){
-      let data32 = new Uint32Array(data);
-      for (var i = 0; i < 0x80000; i+=4) {
-        map[(0x01c00000 + i) >>> 2] = data32[i >>> 2];
-        // map.setInt32(0x01c00000 + i, data32[i>>2]);
-      }
-      bios();
-    }
-  });
-  // readStorageStream('card1', data => {
-  //   if (data) {
-  //     let data8 = new Uint8Array(data);
-  //     console.log('loading card1', data8.length);
-  //     for (let i = 0; i < 128*1024; ++i) {
-  //       joy.devices[0].data[i] = data8[i];
-  //     }
-  //   }
-  // });
-}
+			if (e.key === 'F12') return; // allow developer tools
+			if (e.key === 'F11') return; // allow full screen
+			if (e.key === 'F5') return; // allow page refresh
+			e.preventDefault();
+		}, false);
+		readStorageStream(function(data){
+			if (data !== undefined){
+				let data32 = new Uint32Array(data);
+				for (var i = 0; i < 0x80000; i+=4) {
+				map[(0x01c00000 + i) >>> 2] = data32[i >>> 2];
+				// map.setInt32(0x01c00000 + i, data32[i>>2]);
+				}
+				bios();
+			}
+		});
+		// readStorageStream('card1', data => {
+		//   if (data) {
+		//     let data8 = new Uint8Array(data);
+		//     console.log('loading card1', data8.length);
+		//     for (let i = 0; i < 128*1024; ++i) {
+		//       joy.devices[0].data[i] = data8[i];
+		//     }
+		//   }
+		// });
+		/*
+		End
+		*/
+		ENGE_INIT_OK = true;
+	};
+};
 
 var line = '', lastLine = null;
 function trace(pc, val) {

@@ -152,7 +152,7 @@ document.addEventListener('keyup', function(kp){
 				};
 				// Open log window [CTRL + SHIFT + L]
 				if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === true && kp.keyCode === 76){
-					R3_DESIGN_MINIWINDOW_OPEN(0);
+					R3_DESIGN_openLogWindow();
 				};
 				// Close tools using [CTRL + E]
 				if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === false && SETTINGS_SHORTCUT_CLOSETOOL === true && kp.keyCode === 69){

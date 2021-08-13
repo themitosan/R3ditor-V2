@@ -1,7 +1,7 @@
 /*
 	R3ditor V2 - livestatus.js
-	Por mitosan/mscore/misto_quente/mscorehdr
-	Hullo Hullo... again.
+	Por mitosan/mscore/misto_quente/mscorehdr/help
+	Hullo Hullo... again!
 	
 	Node.js plugin written by Rob-- (https://github.com/Rob--)
 	MemoryJS official page: https://github.com/Rob--/memoryjs
@@ -37,11 +37,13 @@ var DEBUG_LOCKRENDER = false,
 */
 // Detect if game / emu is running
 function R3_CHECK_GAME_IS_RUNNING(){
-	R3_CHECK_GAME_INTERVAL = setInterval(function(){
-		if (MEM_JS_requreSucess === true && R3_WEBMODE === false && RE3_RUNNING === false){
-			R3_MEMORY_JS_initMemoryJs();
-		};
-	}, 200);
+	if (SETTINGS_LIVESTATUS_ENABLE_GAME_DISCOVER === true){
+		R3_CHECK_GAME_INTERVAL = setInterval(function(){
+			if (MEM_JS_requreSucess === true && R3_WEBMODE === false && RE3_RUNNING === false){
+				R3_MEMORY_JS_initMemoryJs();
+			};
+		}, 200);
+	};
 };
 // Init MemoryJS
 function R3_MEMORY_JS_initMemoryJs(){
@@ -244,11 +246,10 @@ function R3_MEMORY_JS_readInventory(){
 		if (REALTIME_CurrentPlayer === '02'){
 			cPlayer = 'C';
 		};
-		var c = 0, tempInventory = '', inventStartPos = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_invent_item-1'][0];
-		while (c < 40){
+		var tempInventory = '', inventStartPos = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_invent_item-1'][0];
+		for (var i = 0; i < 40; i++){
 			tempInventory = tempInventory + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, inventStartPos, APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
 			inventStartPos++;
-			c++;
 		};
 		localStorage.setItem('REALTIME_INVENTORY', tempInventory); // Status
 		REALTIME_CurrentHP = R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][0], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][1], APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
@@ -258,15 +259,14 @@ function R3_MEMORY_JS_readInventory(){
 };
 // Read Item Box
 function R3_MEMORY_JS_readItemBox(){
-	var cPlayer = 'J', c = 0, cHex = '', cLocation;
+	var cPlayer = 'J', cHex = '', cLocation;
 	if (REALTIME_CurrentPlayer === '02'){
 		cPlayer = 'C';
 	};
 	cLocation = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_iBox_Start'][0];
-	while (c < 255){ // 255 = (64 * 4 Parameter per slot)
+	for (var i = 0; i < 255; i++){ // 255 = (64 * 4 Parameter per slot)
 		cHex = cHex + R3_fixVars(APP_MEMJS.readMemory(PROCESS_OBJ.handle, cLocation, APP_MEMJS.BYTE).toString(16), 2);
 		cLocation++;
-		c++;
 	};
 	RE3_LIVE_BOX = cHex;
 };
@@ -306,7 +306,7 @@ function R3_LIVESTATUS_addGodHp(){
 // Apply Item On Invent
 function R3_LIVESTATUS_APPLYITEM(slotID){
 	if (DEBUG_LOCKRENDER === false && PROCESS_OBJ !== undefined && RE3_RUNNING === true && MEM_JS_canRender === true){
-		var cPlayer, QT = parseInt(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_QT').value);
+		var cPlayer = 'J', QT = parseInt(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_QT').value);
 		if (QT === '' || QT === NaN || QT < 0){
 			QT = 1;
 		};
@@ -315,10 +315,8 @@ function R3_LIVESTATUS_APPLYITEM(slotID){
 		};
 		if (REALTIME_CurrentPlayer === '02'){
 			cPlayer = 'C';
-		} else {
-			cPlayer = 'J';
 		};
-		var c = 0, inventStartPos = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_invent_item-1'][0],
+		var inventStartPos = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_invent_item-1'][0],
 			IT = R3_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value, 2), 
 			AT = R3_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').value, 2),
 			tempInvent = localStorage.getItem('REALTIME_INVENTORY').match(/.{8,8}/g);
@@ -326,18 +324,17 @@ function R3_LIVESTATUS_APPLYITEM(slotID){
 		tempInvent[(slotID - 1)] = IT + R3_fixVars(QT.toString(16), 2) + AT + '00';
 		var finalInvent = tempInvent.toString().replace(new RegExp(',', 'gi'), '').match(/.{2,2}/g);
 		// Apply code to game
-		while (c < finalInvent.length){
-			APP_MEMJS.writeMemory(PROCESS_OBJ.handle, inventStartPos, parseInt(finalInvent[c], 16), APP_MEMJS.BYTE);
+		finalInvent.forEach(function(cItem, cIndex){
+			APP_MEMJS.writeMemory(PROCESS_OBJ.handle, inventStartPos, parseInt(finalInvent[cIndex], 16), APP_MEMJS.BYTE);
 			inventStartPos++;
-			c++;
-		};
+		});
 		// End
 		R3_LIVESTATUS_EDIT_INVENT_CANCEL();
 	};
 };
 // Apply Item on ItemBox
 function R3_LIVESTATUS_APPLYITEMBOX(itemId){
-	var c = 0, cLocation, tempFinalHex = '', cPlayer = 'J' R3_IBOX_TEMP = RE3_LIVE_BOX.match(/.{1,8}/g),
+	var cLocation, tempFinalHex = '', cPlayer = 'J', R3_IBOX_TEMP = RE3_LIVE_BOX.match(/.{1,8}/g),
 		AT = document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').value,
 		IT = document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value,
 		QT = parseInt(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_QT').value);
@@ -351,17 +348,14 @@ function R3_LIVESTATUS_APPLYITEMBOX(itemId){
 		cPlayer = 'C';
 	};
 	R3_IBOX_TEMP[itemId] = IT + R3_fixVars(QT.toString(16), 2) + AT + '00';
-	while (c < 64){
-		tempFinalHex = tempFinalHex + R3_IBOX_TEMP[c];
-		c++;
+	for (var i = 0; i < 64; i++){
+		tempFinalHex = tempFinalHex + R3_IBOX_TEMP[i];
 	};
-	c = 0;
 	tempFinalHex = tempFinalHex.match(/.{2,2}/g);
 	cLocation = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_iBox_Start'][0];
-	while (c < 255){
-		APP_MEMJS.writeMemory(PROCESS_OBJ.handle, cLocation, parseInt(tempFinalHex[c], 16), APP_MEMJS.BYTE);
+	for (var i = 0; i < 255; i++){
+		APP_MEMJS.writeMemory(PROCESS_OBJ.handle, cLocation, parseInt(tempFinalHex[i], 16), APP_MEMJS.BYTE);
 		cLocation++;
-		c++;
 	};
 	// End
 	R3_LIVESTATUS_EDIT_INVENT_CANCEL();
@@ -394,7 +388,7 @@ function R3_LIVESTATUS_APPLY_PLAYERPOS(){
 // Update Pos Via range
 function R3_LIVESTATUS_UPDATE_POS(mode, axis){
 	if (axis !== undefined){
-		var newPos
+		var newPos;
 		if (mode === 0){
 			newPos = parseInt(document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis + '_RANGE').value);
 			if (document.getElementById('R3_LIVESTATUS_EDIT_POS_' + axis + '_RANGE').value === ''){
