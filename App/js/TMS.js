@@ -128,6 +128,10 @@ tmsTemp['enableElement'] = function(elementId){
 		TMS.warn('TMS - Unable to enable element because it does not exist! (' + elementId + ')');
 	};
 };
+/*
+	Get CSS data
+	Returns the attr value from CSS propriety
+*/
 tmsTemp['getCssData'] = function(elementId, cssAttrName){
 	var elId = document.getElementById(elementId),
 		result = '';

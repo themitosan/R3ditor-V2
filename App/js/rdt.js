@@ -31,7 +31,7 @@ var RDT_arquivoBruto,
 		11: LIT + PRI - Lights and Masks Data
 		12: OBJ + TIM - 3D Objects / TIM
 		13: FLR 	  - Floor Data
-		14: BLK 	  - Block Data
+		14: BLK 	  - BLK AI Path-finding
 		15: MSG		  - Text Messages
 		16: RBJ		  - Animation Data
 		17: ???		  - Unk Data
@@ -40,7 +40,7 @@ var RDT_arquivoBruto,
 		20: SND		  - Sound Data
 		21: EFFSPR    - Sprite Effects
 		22: TIM		  - TIM Location?
-		23: ???		  - Unk Data
+		23: ???		  - Unk / Unused Data
 	*/
 	// Raw Sections
 	R3_RDT_RAWSECTION_VB,
@@ -273,11 +273,21 @@ function R3_RDT_EXTRACT_BLK(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading BLK...');
 		if (R3_RDT_MAP_HEADER_POINTERS[14] !== '00000000'){
-			var blkStart 	 = (parseInt(R3_RDT_MAP_HEADER_POINTERS[14], 16) * 2),
+			var blkArray 	 = [],
+				blkStart 	 = (parseInt(R3_RDT_MAP_HEADER_POINTERS[14], 16) * 2),
 				blkCounter   = RDT_arquivoBruto.slice(blkStart, (blkStart + 4)),
 				headerLength = RDT_arquivoBruto.slice((blkStart + 4), (blkStart + 8)),
-				blkHeader 	 = RDT_arquivoBruto.slice(blkStart, (blkStart + (parseInt(R3_parseEndian(headerLength), 16) * 2)));
-			// console.info(blkHeader);
+				blkHeader 	 = RDT_arquivoBruto.slice(blkStart, (blkStart + (parseInt(R3_parseEndian(headerLength), 16) * 2))),
+				totalBlk	 = parseInt(R3_parseEndian(blkCounter), 16),
+				blkStartPos  = parseInt(blkStart + (parseInt(R3_parseEndian(headerLength), 16) * 2));
+			// Start
+			for (var i = 0; i < totalBlk; i++){
+				blkStart = RDT_arquivoBruto.slice(blkStartPos);
+				blkArray.push(blkStart.slice(0, 96));
+				blkStartPos = (blkStartPos + 96); // Update pos.
+			};
+			// End
+			R3_RDT_RAWSECTION_BLK = blkHeader + blkArray.toString().replace(RegExp(',', 'gi'), '');
 		} else {
 			R3_RDT_ERROR_POINTER_BLANK('BLK');
 		};
@@ -742,9 +752,14 @@ function R3_RDT_EXPORT_SECTION(sectionId){
 			sectionName = 'FLR';
 			rawHex = R3_RDT_RAWSECTION_FLR;
 		};
+		// BLK
+		if (sID === 11){
+			sectionName = 'BLK';
+			rawHex = R3_RDT_RAWSECTION_BLK;
+		};
 		// End
 		if (rawHex !== undefined){
-			R3_FILE_SAVE(R3_RDT_mapName + '_' + sectionName + '.R3SECTION', rawHex, 'hex', '.' + sectionName.toLowerCase(), function(fPath){
+			R3_FILE_SAVE(R3_RDT_mapName + '_' + sectionName, rawHex, 'hex', '.' + sectionName.toLowerCase(), function(fPath){
 				R3_SYSTEM_LOG('separator');
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Process complete! (' + sectionName + ')<br>Path: <font class="user-can-select">' + fPath + '</font>');
 			});

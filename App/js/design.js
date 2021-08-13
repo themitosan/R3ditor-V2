@@ -35,7 +35,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_R
 		7:  [392,  178,    44,  138,  	 100,  false, ''], 									// MSG Hex Translator
 		8:  [300,  124,    44,  744,  	 104,  false, ''], 									// SCD Preset Window
 		9:  [310,  442,    44,  586,  	 103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	// SCD Search Form
-		10: [200,  376,    44,  570,   	 101,  false, ''],									// RDT Export Sections
+		10: [200,  408,    44,  570,   	 101,  false, ''],									// RDT Export Sections
 		11: [780,  294,    68,  4,    100000,  false, ''],									// R3V2 Help Center
 		12: [580,  416,    226, 466,  	 102,  false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
 		13: [640,  480,    68,  4,   9999999,  false, 'R3_PS1_DISPLAY'],					// eNGE PS1 Canvas
