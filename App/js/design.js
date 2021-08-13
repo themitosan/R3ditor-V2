@@ -170,16 +170,15 @@ function R3_INIT_APPEND(){
 function R3_SHOW_MENU(menuId){
 	if (R3_MENU_LOCK !== true && R3_HAS_CRITICAL_ERROR === false){
 		if (menuId !== R3_MENU_CURRENT){
-			var c = 0, canClearCanvas = true;
+			var canClearCanvas = true;
 			if (menuId === undefined){
 				menuId = 4;
 			};
 			R3_MENU_CURRENT = menuId;
 			// Clear extra renderer
 			clearInterval(FG_EXTRA_RENDER);
-			while (c < (R3_TOTAL_MENUS + 1)){
+			for (var c = 0; c < (R3_TOTAL_MENUS + 1); c++){
 				TMS.css('MENU_' + c, {'display': 'none'});
-				c++;
 			};
 			/*
 				Special adjusts
@@ -345,12 +344,10 @@ function R3_MENU_EXIT(){
 };
 // Show Tabs
 function R3_DESIGN_SHOWTABS(tabIndex, id){
-	var c = 0, maxTabs = R3_TABS_INDEX[tabIndex];
-	if (maxTabs !== undefined){
-		while (c < (maxTabs + 1)){
+	if (R3_TABS_INDEX[tabIndex] !== undefined){
+		for (var c = 0; c < (R3_TABS_INDEX[tabIndex] + 1); c++){
 			TMS.css('R3_MENU_' + tabIndex + '_' + c, {'display': 'none'});
 			TMS.removeClass('R3_TABS_' + tabIndex + '_' + c, 'R3_TAB_SELECT');
-			c++;
 		};
 		TMS.css('R3_MENU_' + tabIndex + '_' + id, {'display': 'block'});
 		TMS.addClass('R3_TABS_' + tabIndex + '_' + id, 'R3_TAB_SELECT');
@@ -361,15 +358,14 @@ function R3_DESIGN_ADJUST(){
 	// Load settings changes
 	R3_DESIGN_processSettingsChanges();
 	// Add icons to buttons and bg
-	var c = e = 0, cMiniWindow, thePic;
-	while (c < (R3_ICON_maxIcons + 1)){
+	var getFiles, cMiniWindow, thePic;
+	for (var c = 0; c < (R3_ICON_maxIcons + 1); c++){
 		if (document.getElementById('BTN_MAIN_' + c) !== null){
 			TMS.css('BTN_MAIN_' + c, {'background-image': 'url(\'./img/icons/icon-' + c + '.png\')'});
 		};
 		if (document.getElementById('R3_PAGE_ICON_BG_' + c) !== null){
 			TMS.css('R3_PAGE_ICON_BG_' + c, {'background-image': 'url(\'./img/icons/icon-' + c + '.png\')'});
 		};
-		c++;
 	};
 	// Init mini windows
 	Object.keys(R3_MINI_WINDOW_DATABASE).forEach(function(cItem, cIndex){
@@ -413,14 +409,12 @@ function R3_DESIGN_ADJUST(){
 		// Get random image for main bg
 		if (R3_GET_BG === false){
 			if (APP_ENABLE_MOD === true){
-				var getFiles = APP_FS.readdirSync(APP_PATH + '/Assets/DATA_A/BSS/');
-				while (e < getFiles.length){
-					if (getFiles[e].indexOf('SLD') !== -1){
-						getFiles.splice(e, 1);
-					} else {
-						e++;
+				getFiles = APP_FS.readdirSync(APP_PATH + '/Assets/DATA_A/BSS/');
+				getFiles.forEach(function(cFile, cIndex){
+					if (cFile.indexOf('SLD') !== -1){
+						getFiles.splice(cIndex, 1);
 					};
-				};
+				});
 				thePic = Math.floor(Math.random() * Math.floor(getFiles.length)), fileFix = '';
 				if (APP_useImageFix === true){
 					fileFix = 'file://';
@@ -1806,10 +1800,8 @@ function R3_SCD_updateLabels(){
 };
 // Update Selected Script
 function R3_DESIGN_SCD_UPDATE_SELECT(scriptId){
-	var c = 0;
-	while (c < R3_SCD_TOTAL_SCRITPS){
+	for (var c = 0; c < R3_SCD_TOTAL_SCRITPS; c++){
 		TMS.removeClass('R3_SCD_SCRIPT_ID_' + c, 'R3_SCRIPT_LIST_ITEM_SELECT');
-		c++;
 	};
 	TMS.addClass('R3_SCD_SCRIPT_ID_' + scriptId, 'R3_SCRIPT_LIST_ITEM_SELECT');
 };
@@ -1888,10 +1880,9 @@ function R3_DESIGN_SCD_openScriptList(){
 // Hover Function on Hex View
 function R3_DESIGN_SCD_hoverFunction(fnId, displayHover){
 	if (fnId !== undefined && SCD_arquivoBruto !== undefined && SETTINGS_SCD_HOVER_FUNCTION_HEX === true){
-		var c = 0, scrTo;
-		while (c < R3_SCD_TOTAL_FUNCTIONS){
+		var scrTo;
+		for (var c = 0; c < R3_SCD_TOTAL_FUNCTIONS; c++){
 			TMS.css('R3_SCD_scriptCommand_' + c, {'box-shadow': 'none'});
-			c++;
 		};
 		if (displayHover === true && SETTINGS_SCD_EDITOR_MODE === 0){
 			scrTo = document.getElementById('R3_SCD_scriptCommand_' + fnId).offsetTop;
@@ -2091,10 +2082,9 @@ function R3_MSG_updateLabels(msgId){
 };
 // Update MSG List
 function R3_MSG_DESIGN_updateMsgList(msgId){
-	var c = 0, messageId = parseInt(msgId);
-	while (c < R3_MSG_RDT_MESSAGES.length){
+	var messageId = parseInt(msgId);
+	for (var c = 0; c < Things.length; c++){
 		TMS.removeClass('R3_MSG_MESSAGE_ID_' + c, 'R3_SCRIPT_LIST_ITEM_SELECT');
-		c++;
 	};
 	TMS.addClass('R3_MSG_MESSAGE_ID_' + messageId, 'R3_SCRIPT_LIST_ITEM_SELECT');
 };
@@ -2271,44 +2261,34 @@ function R3_RDT_FILELIST_GENERATE(mode){
 		// Start Reading
 		if (APP_FS.existsSync(rdtPath) === true){
 			R3_RDT_FILELIST_MAPS[mode] = APP_FS.readdirSync(rdtPath);
-			// Remove unk files
-			while (c < R3_RDT_FILELIST_MAPS[mode].length){
-				fileTest = R3_RDT_FILELIST_MAPS[mode][c];
-				if (fileTest.slice((fileTest.length - 4), fileTest.length).toUpperCase() !== '.RDT'){
-					R3_RDT_FILELIST_MAPS[mode].splice(c, 1);
-				};
-				c++;
-			};
-			c = 0;
-			while (c < R3_RDT_FILELIST_MAPS[mode].length){
-				currentMap = R3_getFileName(R3_RDT_FILELIST_MAPS[mode][c]).toUpperCase();
-				mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '00.JPG';
-				if (APP_FS.existsSync(mapIcon) !== true){
-					mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '01.JPG';
+			R3_RDT_FILELIST_MAPS[mode].forEach(function(cItem){
+				if (cItem.slice((cItem.length - 4), cItem.length).toUpperCase() === '.RDT'){
+					currentMap = R3_getFileName(cItem).toUpperCase();
+					mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '00.JPG';
 					if (APP_FS.existsSync(mapIcon) !== true){
-						mapIcon = 'img/404.png';
+						mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '01.JPG';
+						if (APP_FS.existsSync(mapIcon) !== true){
+							mapIcon = 'img/404.png';
+						};
 					};
+					// non-windows fix
+					if (APP_useImageFix === true && APP_FS.existsSync(mapIcon) === true){
+						mapIcon = 'file://' + mapIcon;
+					};
+					rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
+					HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT_LOAD(\'' + R3_fixPath(rdtPath).replace('//', '/') +
+									currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' +
+									currentMap + '</font><br>Location: <font class="monospace mono_xyzr">' + RDT_locations[currentMap][0] + '</font>, <font class="monospace mono_xyzr">' + RDT_locations[currentMap][1] +
+									'</font><br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
 				};
-				// non-windows fix
-				if (APP_useImageFix === true && APP_FS.existsSync(mapIcon) === true){
-					mapIcon = 'file://' + mapIcon;
-				};
-				rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
-				HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT_LOAD(\'' + R3_fixPath(rdtPath).replace('//', '/') +
-								currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' + currentMap + '</font><br>Location: <font class="monospace mono_xyzr">' +
-								RDT_locations[currentMap][0] + '</font>, <font class="monospace mono_xyzr">' + RDT_locations[currentMap][1] + '</font><br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
-				c++;
-			};
-			document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '';
-			TMS.append('R3_RDT_FILELIST_HOLDER', HTML_MAP_LIST);
+			});
 			// End
+			document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = HTML_MAP_LIST;
 			document.getElementById('R3_RDT_FILELIST_HOLDER').scrollTop = 0;
 		} else {
 			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to get RDT file list!');
 			document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">The path for this game mode are not available!</div>';
 		};
-	} else {
-		document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">Too bad - This option are not available in web mode :(</div>';
 	};
 };
 // Update map list
@@ -2343,13 +2323,11 @@ function R3_RDT_FILELIST_SEARCHMAP(event){
 // Open selected menu
 function R3_DESIGN_RDT_openForm(formId){
 	if (formId !== undefined){
-		var c = 0;
-		while (c < 9999){
+		for (var c = 0; c < 9999; c++){
 			if (document.getElementById('R3_RDT_MENU_' + c) !== null){
 				TMS.css('R3_RDT_MENU_' + c, {'display': 'none'});
 			};
-			c++;
-		}
+		};
 		TMS.css('R3_RDT_MENU_' + formId, {'display': 'inline'});
 	};
 };
@@ -2384,7 +2362,7 @@ function R3_DESIGN_RDT_closeFileList(){
 // Update current camera
 function R3_DESIGN_RID_updateCamSelected(camId){
 	// Set BG
-	var c = 0, totCams, mPath, camBss = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_fixVars(parseInt(camId).toString(16), 2) + '.JPG';
+	var c = 0, mPath, camBss = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_fixVars(parseInt(camId).toString(16), 2) + '.JPG';
 	if (R3_WEBMODE === false){
 		if (APP_FS.existsSync(camBss) === false){
 			camBss = 'img/404.png';
@@ -2405,10 +2383,8 @@ function R3_DESIGN_RID_updateCamSelected(camId){
 	};
 	document.getElementById('R3_RID_CAMERA_BSS').src = camBss;
 	// Cam List
-	totCams = RID_cameraList.length;
-	while (c < totCams){
+	for (var c = 0; c < RID_cameraList.length; c++){
 		TMS.removeClass('R3_RID_CAM_' + c, 'R3_SCRIPT_LIST_ITEM_SELECT');
-		c++;
 	};
 	TMS.addClass('R3_RID_CAM_' + camId, 'R3_SCRIPT_LIST_ITEM_SELECT');
 	document.getElementById('R3_RID_CAMERA_LIST_HOLDER').scrollTop = (document.getElementById('R3_RID_CAM_' + camId).offsetTop - 36);

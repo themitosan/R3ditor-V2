@@ -74,7 +74,7 @@ function R3_MSG_decompileRDT(openEditor){
 		});
 		// Push all messages to MSG List
 		R3_MSG_RDT_POINTERS.forEach(function(cItem, cIndex){
-			R3_MSG_addToMSGList(cIndex);
+			R3_MSG_addToMSGList(cIndex, openEditor);
 		});
 		// End
 		R3_MSG_currentMessage = 0;
@@ -114,8 +114,8 @@ function R3_MSG_readMessage(msgId){
 	};
 };
 // Add MSG ID to MSG List
-function R3_MSG_addToMSGList(msgId){
-	if (msgId < R3_MSG_RDT_POINTERS.length){
+function R3_MSG_addToMSGList(msgId, openEditor){
+	if (msgId < R3_MSG_RDT_POINTERS.length && openEditor === true){
 		var tmpMsgRaw = R3_RDT_RAWSECTION_MSG,
 			pointersLength = (parseInt(R3_MSG_RDT_POINTERS[msgId], 16) * 2),
 			msgStart = tmpMsgRaw.slice(pointersLength, tmpMsgRaw.length),
