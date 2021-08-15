@@ -210,8 +210,7 @@ function R3_SHOW_MENU(menuId){
 			};
 			// SCD Editor
 			if (menuId === 9){
-				R3_DESIGN_MINIWINDOW_CLOSE(3);
-				R3_DESIGN_MINIWINDOW_CLOSE(12);
+				R3_DESIGN_MINIWINDOW_CLOSE([3, 12]);
 				// Fix Scroll
 				TMS.scrollTop({
 					'SCD_FUNCTION_LIST': 0,
@@ -272,10 +271,7 @@ function R3_SHOW_MENU(menuId){
 			};
 			// Loading screen
 			if (menuId === 2){
-				R3_DESIGN_MINIWINDOW_CLOSE(0);
-				R3_DESIGN_MINIWINDOW_CLOSE(2);
-				R3_DESIGN_MINIWINDOW_CLOSE(15);
-				R3_DESIGN_MINIWINDOW_CLOSE(11);
+				R3_DESIGN_MINIWINDOW_CLOSE([0, 2, 11, 15]);
 			};
 			R3_DESIGN_CHECK_SHOW_EXECS();
 			// Append dropdown menu
@@ -610,7 +606,7 @@ function R3_SYSTEM_ALERT(msg){
 	Log system
 */
 function R3_SYSTEM_LOG(mode, text){
-	if (SETTINGS_DISABLE_LOG === false){
+	if (SETTINGS_DISABLE_LOG === false && R3_NW_ARGS_DISABLE_LOG === false){
 		var lastLog, HTML_LOG_TEMPLATE = logCSS = textClean = '', canLog = true,
 			defaultCheck = [undefined, '', 'log', 'ok', 'info'];
 		if (text === undefined){
@@ -663,31 +659,52 @@ function R3_SYSTEM_LOG(mode, text){
 			} else {
 				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="R3_LOG_ITEM ' + logCSS + '">' + text + '</div>';
 			};
+			if ((R3_LOG_COUNTER_INFO + R3_LOG_COUNTER_WARN + R3_LOG_COUNTER_ERROR) > 190){
+				R3_SYSTEM_CLEAR_LOG(false, true);
+				TMS.setInnerHtml('R3_LOG_HOLDER', '<div id="R3_LOG_ID_RESET" class="R3_LOG_ITEM R3_LOG_WARN">R3ditor V2 - WARN: The log was cleared to avoid performance issues. ' +
+												  '<br><i>(Click on \"Save Log\" to see full info)</i></div>');
+			};
 			/*
 				End
 			*/
 			TMS.append('R3_LOG_HOLDER', HTML_LOG_TEMPLATE);
 			R3_SYSTEM_LOG_TEXT = R3_SYSTEM_LOG_TEXT + textClean + '\n';
 			R3_LOG_ID++;
-			document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>';
+			TMS.setInnerHtml('R3V2_TITLE_LOG_WINDOW', 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>');
 			document.getElementById('R3_LOG_HOLDER').scrollTop = document.getElementById('R3_LOG_HOLDER').scrollHeight;
 		};
 	} else {
-		console.log('R3V2 LOG - ' + text);
+		if (text !== undefined){
+			if (mode === undefined || mode.toLowerCase() === 'log'){
+				console.info(R3_removeHtmlFromString(text));
+			} else {
+				// Warn
+				if (mode.toLowerCase() === 'warn'){
+					console.warn(R3_removeHtmlFromString(text));
+				};
+				if (mode.toLowerCase() === 'error'){
+					console.error(R3_removeHtmlFromString(text));
+				};
+			};
+		};
 	};
 };
 // Clear Log
-function R3_SYSTEM_CLEAR_LOG(){
-	R3_SYSTEM_LOG_TEXT = '';
+function R3_SYSTEM_CLEAR_LOG(resetConsole, pFix){
 	R3_LOG_ID = R3_LOG_COUNTER_INFO = R3_LOG_COUNTER_WARN = R3_LOG_COUNTER_ERROR = 0;
-	document.getElementById('R3_LOG_HOLDER').innerHTML = '';
+	if (pFix === true){
+		R3_SYSTEM_LOG_TEXT = R3_SYSTEM_LOG_TEXT + '\nINFO: The log was cleared to avoid loss of performance.\n';
+	};
+	TMS.setInnerHtml('R3_LOG_HOLDER', '');
 	R3_SYSTEM_LOG('log', 'R3ditor V2 - The log was cleared');
 	R3_SYSTEM_LOG('separator');
-	console.clear();
+	if (resetConsole === true){
+		console.clear();
+	};
 };
 // Open Log window
 function R3_DESIGN_openLogWindow(){
-	if (SETTINGS_DISABLE_LOG === false){
+	if (SETTINGS_DISABLE_LOG === false && R3_NW_ARGS_DISABLE_LOG === false){
 		R3_DESIGN_MINIWINDOW_OPEN(0);
 	};
 };
@@ -820,23 +837,21 @@ function R3_DESIGN_adjustMiniWindowForm(){
 };
 // Close all miniwindows from RDT editor
 function R3_DESIGN_closeAllRdtMiniWindows(){
-	R3_DESIGN_MINIWINDOW_CLOSE(6);
-	R3_DESIGN_MINIWINDOW_CLOSE(10);
-	R3_DESIGN_MINIWINDOW_CLOSE(16);
-	R3_DESIGN_MINIWINDOW_CLOSE(17);
-	// SCD Editor
-	R3_DESIGN_MINIWINDOW_CLOSE(9);
-	R3_DESIGN_MINIWINDOW_CLOSE(20);
+	R3_DESIGN_MINIWINDOW_CLOSE([6, 9, 10, 16, 17, 20]);
 };
 // Close Mini Window
 function R3_DESIGN_MINIWINDOW_CLOSE(windowId){
-	var closeList = [];
+	var checkButton, closeList = [];
 	if (windowId === 'all'){
 		Object.keys(R3_MINI_WINDOW_DATABASE).forEach(function(cItem, cIndex){
 			closeList.push(cItem);
 		});
 	} else {
-		closeList.push(parseInt(windowId));
+		if (typeof windowId === 'object'){
+			closeList = windowId;
+		} else {
+			closeList.push(parseInt(windowId));
+		};
 	};
 	closeList.forEach(function(cItem, cIndex){
 		windowId = parseInt(cItem);
@@ -849,7 +864,7 @@ function R3_DESIGN_MINIWINDOW_CLOSE(windowId){
 			R3_DESIGN_OPEN_CLOSE_LATEST(0);
 		};
 		// Help Center
-		var checkButton = document.getElementById('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId);
+		checkButton = document.getElementById('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId);
 		if (checkButton !== null){
 			TMS.css('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId, {'display': 'inline'});
 		};
@@ -1574,7 +1589,7 @@ function R3_SCD_scrollScriptList(){
 */
 function R3_SCD_navigateFunctions(mode, fnId, isClick){
 	if (SCD_arquivoBruto !== undefined){
-		var c = 0, cFunction, holderHeight, focusFn, canFocus = true
+		var c = 0, cFunction, holderHeight, focusFn, canFocus = true;
 		// Modes
 		if (mode === 0){
 			R3_SCD_HIGHLIGHT_FUNCTION--;
@@ -1815,8 +1830,7 @@ function R3_SCD_openFunctionEdit(cOpcode, isInsert, isExtra, extraTitle){
 		document.getElementById('R3_SCD_editFunction_pos').disabled = '';
 	};
 	// Close miniwindows
-	R3_DESIGN_MINIWINDOW_CLOSE(8);
-	R3_DESIGN_MINIWINDOW_CLOSE(11);
+	R3_DESIGN_MINIWINDOW_CLOSE([8, 11]);
 	// Hide some buttons
 	TMS.css('BTN_MAIN_45', {'display': 'none'});
 	TMS.css('BTN_MAIN_42', {'display': 'none'});
@@ -1850,8 +1864,7 @@ function R3_SCD_cancelFunctionEdit(exitFromEditForm){
 	TMS.css('SCD_FUNCTION_LIST', {'display': 'block'});
 	TMS.css('R3_SCD_FUNCTIONS_SEARCH', {'display': 'none'});
 	document.getElementById('SCD_FUNCTION_SEARCH_FIELD').value = '';
-	R3_DESIGN_MINIWINDOW_CLOSE(14);
-	R3_DESIGN_MINIWINDOW_CLOSE(20);
+	R3_DESIGN_MINIWINDOW_CLOSE([14, 20]);
 	// End
 	document.getElementById('R3_SCD_BTN_APPLY').onclick = null;
 	if (R3_ENABLE_ANIMATIONS !== true){
@@ -2155,10 +2168,6 @@ function R3_RDT_DESIGN_resetInterface(){
 	if (R3_DOORLINK_RUNNING === false && R3_MINI_WINDOW_DATABASE[23][5] === true){
 		R3_DESIGN_MINIWINDOW_CLOSE(23);
 	};
-	if (R3_DOORLINK_RUNNING === false){
-		TMS.css('R3_RDT_GENERAL_IMG', {'left': '-4%', 'display': 'none'});
-		TMS.css('R3_RDT_MENU_GENERAL_INFOS', {'left': '52%', 'display': 'none'});
-	};
 };
 // Show RDT
 function R3_RDT_DESIGN_enableInterface(showInterface){
@@ -2333,8 +2342,7 @@ function R3_DESIGN_RDT_openForm(formId){
 };
 // Open RDT List
 function R3_DESIGN_RDT_openFileList(){
-	R3_DESIGN_MINIWINDOW_CLOSE(6);
-	R3_DESIGN_MINIWINDOW_CLOSE(10);
+	R3_DESIGN_MINIWINDOW_CLOSE([6, 10]);
 	TMS.css('R3_MENU_BTNS_NEXTPREV', {'display': 'none'});
 	TMS.css('R3_MENU_BTNS_RDT_UTILITY', {'display': 'none'});
 	TMS.css('R3_MENU_BTNS_RDT_MINIWINDOWS', {'display': 'none'});

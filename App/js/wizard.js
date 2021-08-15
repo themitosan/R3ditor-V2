@@ -52,8 +52,7 @@ function R3_WIZARD_checkProcess(){
 			Start Process
 		*/
 		if (canStart === true){
-			R3_DESIGN_MINIWINDOW_CLOSE(0);
-			R3_DESIGN_MINIWINDOW_CLOSE(21);
+			R3_DESIGN_MINIWINDOW_CLOSE([0, 21]);
 			R3_WIZARD_startProcess();
 		} else {
 			R3_SYSTEM_ALERT('ERROR: Unable to start R3V2 Wizard!\n' + eReason);

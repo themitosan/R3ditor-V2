@@ -88,7 +88,7 @@ function R3_RDT_LOAD(rdtFile, showInterface, hexFile){
 		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (RDT) This is not a valid RDT file!');
 	} else {
 		if (fName === 'ard'){
-			errMsg = 'WARN: PS ARD files are not compatible with RDT Editor.\n\nIn order to open these files: Run ARD Extract first and then, open extracted RDT.';
+			errMsg = 'WARN: PlayStation ARD files are not compatible with RDT Editor.\n\nIn order to open these files: Run ARD Extract first and then, open extracted RDT.';
 			R3_SYSTEM_LOG('warn', 'R3ditor V2 - ' + errMsg);
 			R3_SYSTEM_ALERT(errMsg);
 		};
@@ -102,10 +102,8 @@ function R3_RDT_LOAD(rdtFile, showInterface, hexFile){
 			};
 			if (R3_DOORLINK_RUNNING !== true){
 				R3_SYSTEM_LOG('separator');
-				document.title = APP_TITLE + ' - RDT Editor - File: ' + R3_RDT_mapName + '.RDT';
+				document.title = APP_TITLE + ' - RDT Editor - File: ' + R3_RDT_mapName + '.RDT (' + RDT_locations[R3_RDT_mapName][0] + ', ' + RDT_locations[R3_RDT_mapName][1] + ')';
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - (RDT) Loading file: <font class="user-can-select">' + mapPath + '</font>');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - (RDT) Map Name: ' + RDT_locations[R3_RDT_mapName][0]);
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - (RDT) Location: ' + RDT_locations[R3_RDT_mapName][1]);
 				R3_SYSTEM_LOG('separator');
 			};
 			// Start
@@ -231,7 +229,7 @@ function R3_RDT_checkIfScdHack(){
 // Extract FLR from RDT
 function R3_RDT_EXTRACT_FLR(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading FLR...');
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading FLR...');
 		if (R3_RDT_MAP_HEADER_POINTERS[13] !== '00000000'){
 			// It seems to always ends on SCD Start
 			var flrStart = (parseInt(R3_RDT_MAP_HEADER_POINTERS[13], 16) * 2),
@@ -253,7 +251,7 @@ function R3_RDT_OPEN_FLR(){
 // Extract BLK from RDT
 function R3_RDT_EXTRACT_BLK(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading BLK...');
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading BLK...');
 		if (R3_RDT_MAP_HEADER_POINTERS[14] !== '00000000'){
 			var blkArray 	 = [],
 				blkStart 	 = (parseInt(R3_RDT_MAP_HEADER_POINTERS[14], 16) * 2),
@@ -286,7 +284,7 @@ function R3_RDT_OPEN_BLK(){
 // Extract VB from RDT
 function R3_RDT_EXTRACT_VB(){
 	if (RDT_arquivoBruto !== undefined){
-		// R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading VB... (WIP)');
+		// console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading VB... (WIP)');
 		// if (R3_RDT_MAP_HEADER_POINTERS[2] !== '00000000'){
 		// 	/*
 		// 		Quick note:
@@ -307,7 +305,7 @@ function R3_RDT_EXTRACT_VB(){
 // Extract RVD from RDT
 function R3_RDT_EXTRACT_RVD(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading RVD...');
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading RVD...');
 		if (R3_RDT_MAP_HEADER_POINTERS[10] !== '00000000'){
 			var RVD_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[10], 16) * 2),
 				tempRVD = RDT_arquivoBruto.slice(RVD_location);
@@ -324,7 +322,7 @@ function R3_RDT_EXTRACT_RVD(){
 // Extract TIM / OBJ from RDT
 function R3_RDT_EXTRACT_OBJ(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading OBJ / TIM...');
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading OBJ / TIM...');
 		if (R3_RDT_MAP_HEADER_POINTERS[12] !== '00000000'){
 			var c = 0, tempSection = '',
 				OBJ_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[12], 16) * 2),
@@ -343,11 +341,11 @@ function R3_RDT_EXTRACT_OBJ(){
 					var tempTim = TIM_getTimFromString(RDT_arquivoBruto, (parseInt(R3_parseEndian(tempRDT[c].slice(0, 8)), 16) * 2)),
 						temp3dObj = OBJ_extractObjFromString(RDT_arquivoBruto, c, (parseInt(R3_parseEndian(tempRDT[c].slice(8, 16)), 16) * 2));
 					if (R3_RDT_ARRAY_TIM.indexOf(tempTim) === -1){
-						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading TIM file ' + c);
+						console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading TIM file ' + c);
 						R3_RDT_ARRAY_TIM.push(tempTim);
 					};
 					if (R3_RDT_ARRAY_OBJ.indexOf(temp3dObj) === -1){
-						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading 3D OBJ file ' + c);
+						console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading 3D OBJ file ' + c);
 						R3_RDT_ARRAY_OBJ.push(temp3dObj);
 					}
 					c++;
@@ -363,11 +361,10 @@ function R3_RDT_EXTRACT_OBJ(){
 // Open TIM Manager
 function R3_RDT_OPEN_TIM(){
 	if (RDT_arquivoBruto !== undefined && R3_RDT_ARRAY_TIM !== []){
-		var c = 0, HTML_TEMPLATE = '';
-		while (c < R3_RDT_ARRAY_TIM.length){
-			HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + c + '">TIM File ' + (c + 1) + '</option>';
-			c++;
-		};
+		var HTML_TEMPLATE = '';
+		R3_RDT_ARRAY_TIM.forEach(function(cItem, cIndex){
+			HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + cIndex + '">TIM File ' + (cIndex + 1) + '</option>';
+		});
 		document.getElementById('R3_RDT_timManagerList').innerHTML = HTML_TEMPLATE;
 		// End
 		R3_DESIGN_MINIWINDOW_OPEN(16);
@@ -376,15 +373,14 @@ function R3_RDT_OPEN_TIM(){
 // Open OBJ Manager
 function R3_RDT_OPEN_OBJ(){
 	if (RDT_arquivoBruto !== undefined && R3_RDT_ARRAY_OBJ !== []){
-		var c = 0, HTML_TEMPLATE = '';
-		while (c < R3_RDT_ARRAY_OBJ.length){
-			if (R3_RDT_ARRAY_OBJ[c] !== ''){
-				HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + c + '">OBJ File ' + (c + 1) + '</option>';
+		var HTML_TEMPLATE = '';
+		R3_RDT_ARRAY_OBJ.forEach(function(cItem, cIndex){
+			if (cItem !== ''){
+				HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + cIndex + '">OBJ File ' + (cIndex + 1) + '</option>';
 			} else {
-				HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + c + '" disabled="disabled" title="This OBJ is disabled because it haves a null location (0)">OBJ File ' + (c + 1) + '</option>';
+				HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + cIndex + '" disabled="disabled" title="This OBJ is disabled because it haves a null location (0)">OBJ File ' + (cIndex + 1) + '</option>';
 			};
-			c++;
-		};
+		});
 		document.getElementById('R3_RDT_objManagerList').innerHTML = HTML_TEMPLATE;
 		// End
 		R3_DESIGN_MINIWINDOW_OPEN(17);
@@ -397,7 +393,7 @@ function R3_RDT_OPEN_OBJ(){
 // Extract SCA from RDT
 function R3_RDT_EXTRACT_SCA(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading SCA...');
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading SCA...');
 		if (R3_RDT_MAP_HEADER_POINTERS[8] !== '00000000'){
 			var SCA_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[8], 16) * 2),
 				SCA_itemStart = parseInt(SCA_location + 32),
@@ -424,7 +420,7 @@ function R3_RDT_OPEN_SCA(){
 // Extract RID from RDT
 function R3_RDT_EXTRACT_RID(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading RID...');
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading RID...');
 		var RID_totalCameras = parseInt(R3_RDT_MAP_HEADER_POINTERS[0].slice(2, 4), 16),
 			RID_startLocation = (parseInt(R3_RDT_MAP_HEADER_POINTERS[9], 16) * 2);
 		R3_RDT_RAWSECTION_RID = RDT_arquivoBruto.slice(RID_startLocation, parseInt(RID_startLocation + parseInt(64 * RID_totalCameras)));
@@ -432,8 +428,7 @@ function R3_RDT_EXTRACT_RID(){
 };
 // Open RID from RDT
 function R3_RDT_OPEN_RID(){
-	R3_DESIGN_MINIWINDOW_CLOSE(16);
-	R3_DESIGN_MINIWINDOW_CLOSE(17);
+	R3_DESIGN_MINIWINDOW_CLOSE([16, 17]);
 	R3_UTILS_VAR_CLEAN_RID();
 	RID_arquivoBruto = R3_RDT_RAWSECTION_RID;
 	RID_cameraList = RID_arquivoBruto.match(/.{64,64}/g);
@@ -449,7 +444,7 @@ function R3_RDT_OPEN_RID(){
 // Extract LIT from RDT
 function R3_RDT_EXTRACT_LIT(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading LIT...');
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading LIT...');
 		var c = 0, reachEnd = false, LIT_TEMP = '', LIT_startPos = (parseInt(R3_RDT_MAP_HEADER_POINTERS[11], 16) * 2),
 			LIT_pointerLength = RDT_arquivoBruto.slice(LIT_startPos, parseInt(LIT_startPos + 4)),
 			LIT_pointers = RDT_arquivoBruto.slice(LIT_startPos, parseInt(LIT_startPos + (parseInt(R3_parseEndian(LIT_pointerLength), 16) * 2))),
@@ -467,8 +462,7 @@ function R3_RDT_EXTRACT_LIT(){
 				};
 			} else {
 				reachEnd = true;
-				R3_SYSTEM_LOG('warn', 'RDT - WARN: Unable to extract LIT section!');
-				R3_SYSTEM_LOG('warn', 'Reason: Reach the end of the file!');
+				R3_SYSTEM_LOG('warn', 'RDT - WARN: Unable to extract LIT section! <br>Reason: Reach the end of the file!');
 			};
 		};
 		// End
@@ -492,7 +486,7 @@ function R3_RDT_OPEN_LIT(){
 // Extract PRI from RDT
 function R3_RDT_EXTRACT_PRI(){
 	if (RDT_arquivoBruto !== undefined && R3_RDT_RAWSECTION_LIT !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading PRI...');
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading PRI...');
 		R3_RDT_RAWSECTION_PRI = RDT_arquivoBruto.slice((RDT_arquivoBruto.indexOf(R3_RDT_ORIGINAL_LIT) + (R3_RDT_ORIGINAL_LIT.length + 8)), RDT_arquivoBruto.indexOf(R3_RDT_ORIGINAL_SCA));
 	};
 };
@@ -527,7 +521,7 @@ function R3_RDT_OPEN_SLD(){
 // Extract MSG From RDT
 function R3_RDT_EXTRACT_MSG(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading MSG...');
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading MSG...');
 		if (R3_RDT_MAP_HEADER_POINTERS[15] !== '00000000'){
 			var	MSG_HEX_STARTPOS 		= (parseInt(R3_RDT_MAP_HEADER_POINTERS[15], 16) * 2),
 				MSG_POINTER_LENGTH 		= (parseInt(R3_parseEndian(RDT_arquivoBruto.slice(MSG_HEX_STARTPOS, (MSG_HEX_STARTPOS + 4))), 16) * 2),
@@ -596,7 +590,7 @@ function R3_RDT_generateMsgPreview(){
 function R3_RDT_EXTRACT_SCD(){
 	if (RDT_arquivoBruto !== undefined){
 		if (R3_DOORLINK_RUNNING !== true){
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading SCD...');
+			console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading SCD...');
 		};
 		var c = 0, RDT_SCD_SEEK_AREA, foundEnd = false, cOpcode = '', tmpStart = 0, tmpEnd = 2, lastScript = '',
 			SCD_HEX_STARTPOS  = (parseInt(R3_RDT_MAP_HEADER_POINTERS[18], 16) * 2),
@@ -655,7 +649,7 @@ function R3_RDT_OPEN_SCD(){
 */
 // Extract EFF from RDT
 function R3_RDT_EXTRACT_EFF(){
-	R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading EFF...');
+	console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading EFF...');
 	/*
 		Since EFF and SND are sequent, this extraction method is kinda simple.
 		I still think there is a more logical way to make this work properly...

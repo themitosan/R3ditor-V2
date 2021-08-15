@@ -2920,6 +2920,7 @@ const R3_internalHoldTime = 2800,
 									 '<font title="aka. cmd" class="R3_HC_LBL_CODE user-cant-select">Command Prompt</font>, <font class="R3_HC_LBL_CODE user-cant-select">bash</font> and etc. Here is a list of available flags you can use:<br><ul>' +
 									 '<li><font class="R3_HC_LBL_CODE">--webmode</font>: Start R3ditor V2 in Web Mode</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--fullscreen</font>: Start R3ditor V2 in fullscreen</li>' +
+									 '<li><font class="R3_HC_LBL_CODE">--disable-log</font>: Disable internal log</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-doorlink</font>: Disable SCD DoorLink</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-discord</font>: Disable Discord Rich Presence</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-move-screen</font>: Disable moving window to a another screen</li>' +

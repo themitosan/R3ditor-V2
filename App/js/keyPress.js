@@ -223,8 +223,7 @@ document.addEventListener('keyup', function(kp){
 				// Go Back to RDT menu [CTRL + ']
 				if (RDT_arquivoBruto !== undefined && R3_MENU_BACK_EXCLUDE.indexOf(R3_MENU_CURRENT) === -1){
 					if (R3_KEYPRESS_CONTROL === true && kp.keyCode === 192){
-						R3_DESIGN_MINIWINDOW_CLOSE(10);
-						R3_DESIGN_MINIWINDOW_CLOSE(6);
+						R3_DESIGN_MINIWINDOW_CLOSE([6, 10]);
 						R3_DESIGN_RDT_closeFileList();
 						R3_SHOW_MENU(10);
 					};

@@ -75,10 +75,9 @@ function R3_INI_MAKEFILE(mode, keepRofs11){
 		BIO3INI_Rofs8 = '.\\DATA_A\\BSS';
 		BIO3INI_Rofs9 = '.\\ROOM\\EMD';
 		BIO3INI_Rofs10 = '.\\ROOM\\EMD08';
+		BIO3INI_Rofs11 = '.\\ROOM\\RBJ';
 		if (keepRofs11 === true){
 			BIO3INI_Rofs11 = '.\\Rofs11.dat';
-		} else {
-			BIO3INI_Rofs11 = '.\\ROOM\\RBJ';
 		};
 		BIO3INI_Rofs12 = '.\\' + R3_RDT_PREFIX_EASY + '\\RDT';
 		BIO3INI_Rofs13 = '.\\' + R3_RDT_PREFIX_HARD + '\\RDT';

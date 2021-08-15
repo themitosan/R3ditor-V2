@@ -43,7 +43,8 @@ var APP_ON_BOOT = true,
 	SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM = false,
 	SETTINGS_ENGE_BIOS_PATH, SETTINGS_ENGE_BIOS, SETTINGS_RECENT_FILE_NAME, SETTINGS_RECENT_FILE_TYPE = 0, SETTINGS_RECENT_FILE_PATH,
 	// Args variables
-	R3_NW_ARGS_DISABLE_DISCORD = false, R3_NW_ARGS_DISABLE_MOVE_SCREEN = false, R3_NW_ARGS_OVERWRITE_MOVE_SCREEN = false, R3_NW_ARGS_DISABLE_DOORLINK = false;
+	R3_NW_ARGS_DISABLE_DISCORD = false, R3_NW_ARGS_DISABLE_MOVE_SCREEN = false, R3_NW_ARGS_OVERWRITE_MOVE_SCREEN = false,
+	R3_NW_ARGS_DISABLE_DOORLINK = false, R3_NW_ARGS_DISABLE_LOG = false;
 /*
 	Functions
 */
@@ -946,6 +947,10 @@ function R3_INIT_PROCESS_ARGS(){
 			// Disable DoorLink
 			if (nwFlags.indexOf('--disable-doorlink') !== -1){
 				R3_NW_ARGS_DISABLE_DOORLINK = true;
+			};
+			// Disable Log
+			if (nwFlags.indexOf('--disable-log') !== -1){
+				R3_NW_ARGS_DISABLE_LOG = true;
 			};
 		};
 	};

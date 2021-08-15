@@ -38,7 +38,7 @@ tmsTemp['css'] = function(elementId, cssChanges){
 	};
 };
 /*
-	animate
+	Animate
 	
 	elementId     = HTML DOM id
 	cssChanges    = Object {width: x, height, y}
@@ -275,6 +275,17 @@ tmsTemp['scrollCenter'] = function(elementId){
 		parentDom.scrollTo(0, (elId.offsetTop - (parentHeight / 2)))
 	} else {
 		TMS.warn('TMS - Unable to fade out because DOM does not exist! (' + elementId + ')');
+	};
+};
+/*
+	setInnerHtml
+*/
+tmsTemp['setInnerHtml'] = function(elementId, htmlData){
+	const elId = document.getElementById(elementId);
+	if (elId !== null){
+		document.getElementById(elementId).innerHTML = htmlData;
+	} else {
+		TMS.warn('TMS - Unable to set innerHTML because DOM does not exist! (' + elementId + ')');
 	};
 };
 /*
