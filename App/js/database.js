@@ -3393,7 +3393,9 @@ const R3_internalHoldTime = 2800,
 		// RDT Editor
 		10: ['RDT Options', '<div class="R3_MENU_ITEM_NORMAL" title="Click here to Extract all RDT sections (Like BIOFAT)" onclick="R3_RDT_EXTRACT_ALL_SECTIONS();">Extract all sections</div>' +
 							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to Import all RDT sections from already extracted files" onclick="R3_RDT_IMPORT_ALL_SECTIONS();">Import all sections</div>' +
-							'<div class="R3_MENU_ITEM_BIG" title="Click here to open export window" onclick="R3_DESIGN_MINIWINDOW_OPEN(10);"><img class="R3_MENU_ICON" src="img/icons/icon-51.png"><div class="R3_MENU_BIG_LBL">Export Sections Menu</div></div>',
+							'<div class="R3_MENU_ITEM_BIG" title="Click here to open export window" onclick="R3_DESIGN_MINIWINDOW_OPEN(10);"><img class="R3_MENU_ICON" src="img/icons/icon-51.png"><div class="R3_MENU_BIG_LBL">Export Sections Menu</div></div>' +
+							'<div class="R3_MENU_SEPARATOR"></div>' +
+							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to open VB file for this map on Hex Editor" onclick="R3_RDT_openVbOnHex();">Open VB file on Hex Editor</div>',
 			164],
 		11: ['NO_DROPDOWN'],
 		// SAV Editor

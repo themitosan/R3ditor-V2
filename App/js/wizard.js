@@ -44,7 +44,7 @@ function R3_WIZARD_checkProcess(){
 				eReason = eReason + '\nThis path does not exists! (404)';
 			};
 		};
-		if (R3_WIZARD_MOD_NAME == ''){
+		if (R3_WIZARD_MOD_NAME === ''){
 			canStart = false;
 			eReason = eReason + '\nYou must insert a valid name for this mod';
 		};
@@ -52,7 +52,7 @@ function R3_WIZARD_checkProcess(){
 			Start Process
 		*/
 		if (canStart === true){
-			R3_DESIGN_MINIWINDOW_CLOSE([0, 21]);
+			R3_DESIGN_MINIWINDOW_CLOSE('all');
 			R3_WIZARD_startProcess();
 		} else {
 			R3_SYSTEM_ALERT('ERROR: Unable to start R3V2 Wizard!\n' + eReason);
@@ -63,8 +63,9 @@ function R3_WIZARD_checkProcess(){
 function R3_WIZARD_startProcess(){
 	if (R3_WEBMODE === false){
 		R3_MENU_EXIT();
-		R3_UTILS_CALL_LOADING('Running R3V2 Wizard', 'Please wait while R3ditor V2 extracts all game assets...', 10);
 		R3_WIZARD_RUNNING = true;
+		R3_KB_ENABLE_SHORTCUTS = false;
+		R3_UTILS_CALL_LOADING('Running R3V2 Wizard', 'Please wait while R3ditor V2 extracts all game assets...', 10);
 		var currentRofs = 1, rofsTimer, rofsFix;
 		// Create zmovie
 		if (APP_FS.existsSync(R3_MOD_PATH + '/zmovie') === false){
@@ -180,5 +181,6 @@ function R3_WIZARD_FINISH(){
 		R3_LOAD_SETTINGS();
 		R3_RDT_FILELIST_UPDATELIST();
 		R3_WIZARD_RUNNING = false;
+		R3_KB_ENABLE_SHORTCUTS = true;
 	};
 };

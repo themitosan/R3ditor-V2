@@ -43,21 +43,21 @@ var RDT_arquivoBruto,
 		23: ???		  - Unk / Unused Data
 	*/
 	// Raw Sections 			Copy from original section
-	R3_RDT_RAWSECTION_VB,  		R3_RDT_ORIGINAL_VB,
-	R3_RDT_RAWSECTION_SCA,  	R3_RDT_ORIGINAL_SCA,
-	R3_RDT_RAWSECTION_RID,  	R3_RDT_ORIGINAL_RID,
-	R3_RDT_RAWSECTION_RVD,  	R3_RDT_ORIGINAL_RVD,
-	R3_RDT_RAWSECTION_OBJ,  	R3_RDT_ORIGINAL_OBJ,
-	R3_RDT_RAWSECTION_LIT,  	R3_RDT_ORIGINAL_LIT,
-	R3_RDT_RAWSECTION_PRI,  	R3_RDT_ORIGINAL_PRI,
-	R3_RDT_RAWSECTION_FLR,  	R3_RDT_ORIGINAL_FLR,
-	R3_RDT_RAWSECTION_MSG,  	R3_RDT_ORIGINAL_MSG,
-	R3_RDT_RAWSECTION_SCD,  	R3_RDT_ORIGINAL_SCD,
-	R3_RDT_RAWSECTION_EFF,  	R3_RDT_ORIGINAL_EFF,
-	R3_RDT_RAWSECTION_SND,  	R3_RDT_ORIGINAL_SND,
-	R3_RDT_RAWSECTION_BLK,  	R3_RDT_ORIGINAL_BLK,
-	R3_RDT_RAWSECTION_RBJ,  	R3_RDT_ORIGINAL_RBJ,
-	R3_RDT_RAWSECTION_EFFSPR,  	R3_RDT_ORIGINAL_EFFSPR,
+	R3_RDT_RAWSECTION_VB,	  R3_RDT_ORIGINAL_VB,
+	R3_RDT_RAWSECTION_SCA,    R3_RDT_ORIGINAL_SCA,
+	R3_RDT_RAWSECTION_RID,    R3_RDT_ORIGINAL_RID,
+	R3_RDT_RAWSECTION_RVD,    R3_RDT_ORIGINAL_RVD,
+	R3_RDT_RAWSECTION_OBJ,    R3_RDT_ORIGINAL_OBJ,
+	R3_RDT_RAWSECTION_LIT,    R3_RDT_ORIGINAL_LIT,
+	R3_RDT_RAWSECTION_PRI,    R3_RDT_ORIGINAL_PRI,
+	R3_RDT_RAWSECTION_FLR,    R3_RDT_ORIGINAL_FLR,
+	R3_RDT_RAWSECTION_MSG,    R3_RDT_ORIGINAL_MSG,
+	R3_RDT_RAWSECTION_SCD,    R3_RDT_ORIGINAL_SCD,
+	R3_RDT_RAWSECTION_EFF,    R3_RDT_ORIGINAL_EFF,
+	R3_RDT_RAWSECTION_SND,    R3_RDT_ORIGINAL_SND,
+	R3_RDT_RAWSECTION_BLK,    R3_RDT_ORIGINAL_BLK,
+	R3_RDT_RAWSECTION_RBJ,    R3_RDT_ORIGINAL_RBJ,
+	R3_RDT_RAWSECTION_EFFSPR, R3_RDT_ORIGINAL_EFFSPR,
 	// Extra Arrays
 	R3_RDT_ARRAY_TIM = [],
 	R3_RDT_ARRAY_OBJ = [];
@@ -284,18 +284,28 @@ function R3_RDT_OPEN_BLK(){
 // Extract VB from RDT
 function R3_RDT_EXTRACT_VB(){
 	if (RDT_arquivoBruto !== undefined){
-		// console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading VB... (WIP)');
-		// if (R3_RDT_MAP_HEADER_POINTERS[2] !== '00000000'){
-		// 	/*
-		// 		Quick note:
-		// 		As i have seen, all maps has this section with the same length, so i will extract
-		// 		it using a simple crop + the usual length.
-		// 	*/
-		// 	var VB_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[2], 16) * 2);
-		// 	R3_RDT_RAWSECTION_VB = RDT_arquivoBruto.slice(VB_location, parseInt(VB_location + 384));
-		// } else {
-		// 	R3_RDT_ERROR_POINTER_BLANK('VB');
-		// };
+		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading VB... [WIP]');
+		if (R3_RDT_MAP_HEADER_POINTERS[2] !== '00000000'){
+			var VB_headerHex, VB_dataCounter, VB_useCounter, VB_dataHex,
+				VB_location_A  = (parseInt(R3_RDT_MAP_HEADER_POINTERS[2], 16) * 2),
+				VB_locationEnd = ((parseInt(R3_RDT_MAP_HEADER_POINTERS[3], 16) * 2) + 16), // It seems length is always C8 (200)
+				VB_idListHex   = RDT_arquivoBruto.slice(VB_location_A, VB_locationEnd),
+				VB_startHeader = RDT_arquivoBruto.slice(VB_locationEnd);
+				VB_firstIndex  = VB_startHeader.indexOf('0000b1b2');
+			// Check if exist 0x0000B1B2
+			if (VB_firstIndex !== -1){ // This is the start of first VB Data
+				VB_headerHex   = VB_startHeader.slice(0, VB_startHeader.indexOf('0000b1b2'));
+				VB_dataCounter = parseInt(R3_parseEndian(VB_headerHex.slice(40, 44)), 16);
+				VB_useCounter  = parseInt(R3_parseEndian(VB_headerHex.slice(44, 48)), 16);
+				VB_dataHex 	   = VB_startHeader.slice(VB_firstIndex, (VB_firstIndex + (64 * VB_dataCounter)));
+				// End
+				R3_RDT_RAWSECTION_VB = VB_idListHex + VB_headerHex + VB_dataHex;
+			} else {
+				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to find VB Header database (<font class="user-can-select">0x0000B1B2</font>)');
+			};	
+		} else {
+			R3_RDT_ERROR_POINTER_BLANK('VB');
+		};
 	};
 };
 /*
@@ -671,8 +681,7 @@ function R3_RDT_EXPORT_SECTION(sectionId){
 		if (sectionId === undefined){
 			sectionId = 0;
 		};
-		var sectionName = rawHex = '',
-			sID = parseInt(sectionId);
+		var sectionName = rawHex = '', sID = parseInt(sectionId);
 		// VB
 		if (sID === 0){
 			sectionName = 'VB';
@@ -941,9 +950,8 @@ function R3_RDT_SCD_HACK_ENABLE(){
 			RDT_HACK_FINAL = RDT_HACK_START + newMSGPointer + RDT_HACK_END;
 			// I'm Not Proud of this...
 			APP_FS.writeFileSync(ORIGINAL_FILENAME, RDT_HACK_FINAL, 'hex');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Hack done sucessfully!');
-			R3_SYSTEM_LOG('log', 'Path: <font class="user-can-select">' + ORIGINAL_FILENAME + '</font>');
-			R3_SYSTEM_ALERT('ENABLE SCD HACK: Process Complete!');
+			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Hack done sucessfully! <br>Path: <font class="user-can-select">' + ORIGINAL_FILENAME + '</font>');
+			R3_SYSTEM_ALERT('SCD HACK: Process Complete!');
 			// Update backup manager if it's open
 			if (R3_MINI_WINDOW_DATABASE[18][5] === true){
 				R3_DESIGN_renderBackupManager();
@@ -994,9 +1002,8 @@ function R3_RDT_SCD_HACK_INJECT_SCD(){
 			RDT_HACK_FINAL = RDT_HACK_START + newMSGPointer + RDT_HACK_END;
 			// Let's just hope for this...
 			APP_FS.writeFileSync(ORIGINAL_FILENAME, RDT_HACK_FINAL, 'hex');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: SCD Hack updated sucessfully!');
-			R3_SYSTEM_LOG('log', 'Path: <font class="user-can-select">' + ORIGINAL_FILENAME + '</font>');
-			R3_SYSTEM_ALERT('APPLY SCD HACK: Process Complete!');
+			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: SCD Hack updated sucessfully! <br>Path: <font class="user-can-select">' + ORIGINAL_FILENAME + '</font>');
+			R3_SYSTEM_ALERT('SCD HACK: Process Complete!');
 			// Update backup manager if it's open
 			if (R3_MINI_WINDOW_DATABASE[18][5] === true){
 				R3_DESIGN_renderBackupManager();
@@ -1008,14 +1015,31 @@ function R3_RDT_SCD_HACK_INJECT_SCD(){
 	};
 };
 /*
+	Open match VB on Hex Editor
+*/
+function R3_RDT_openVbOnHex(){
+	if (R3_WEBMODE === false){
+		if (RDT_arquivoBruto !== undefined && APP_ENABLE_MOD === true && APP_FS.existsSync(R3_HEX_PATH) === true){
+			var fPath = APP_PATH + '/Assets/DATA/SOUND/R_' + R3_RDT_mapName.replace('R', '') + '.VB';
+			if (APP_FS.existsSync(fPath) === true){
+				R3_runExec(R3_HEX_PATH, [fPath]);
+			} else {
+				R3_SYSTEM_ALERT('ERROR: Unable to open VB file because it does not exist! (404)');
+			};
+		};
+	} else {
+		R3_WEBWARN();
+	};
+};
+/*
 	RDT Compiler [WIP]
-	Test on R100.RDT
+	Tests on R100.RDT
 
 	The compiler will generate a temp pointer to calculate the position of other objects.
 	After that, it will create new pointers and attach it on the same location of the temp pointer.
 	A similar process will be done to recompile the OBJ pointers.
 */
-function R3_RDT_RECOMPILE(){
+function R3_RDT_COMPILE(){
 	if (RDT_arquivoBruto !== undefined){
 		var tempOBJ = R3_RDT_RAWSECTION_OBJ,
 			tempPointers = R3_RDT_MAP_HEADER_POINTERS.toString().replace(new RegExp(',', 'gi'), ''),
