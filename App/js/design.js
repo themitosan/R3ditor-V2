@@ -2083,7 +2083,7 @@ function R3_MSG_updateLabels(msgId){
 // Update MSG List
 function R3_MSG_DESIGN_updateMsgList(msgId){
 	var messageId = parseInt(msgId);
-	for (var c = 0; c < Things.length; c++){
+	for (var c = 0; c < R3_MSG_RDT_MESSAGES.length; c++){
 		TMS.removeClass('R3_MSG_MESSAGE_ID_' + c, 'R3_SCRIPT_LIST_ITEM_SELECT');
 	};
 	TMS.addClass('R3_MSG_MESSAGE_ID_' + messageId, 'R3_SCRIPT_LIST_ITEM_SELECT');

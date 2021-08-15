@@ -266,7 +266,7 @@ function R3_RDT_EXTRACT_BLK(){
 			for (var i = 0; i < totalBlk; i++){
 				blkStart = RDT_arquivoBruto.slice(blkStartPos);
 				blkArray.push(blkStart.slice(0, 96));
-				blkStartPos = (blkStartPos + 96); // Update pos.
+				blkStartPos = (blkStartPos + 96); // Update Pos.
 			};
 			// End
 			R3_RDT_RAWSECTION_BLK = blkHeader + blkArray.toString().replace(RegExp(',', 'gi'), '');
@@ -286,18 +286,18 @@ function R3_RDT_OPEN_BLK(){
 // Extract VB from RDT
 function R3_RDT_EXTRACT_VB(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading VB... (WIP)');
-		if (R3_RDT_MAP_HEADER_POINTERS[2] !== '00000000'){
-			/*
-				Quick note:
-				As i have seen, all maps has this section with the same length, so i will extract
-				it using a simple crop + the usual length.
-			*/
-			var VB_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[2], 16) * 2);
-			R3_RDT_RAWSECTION_VB = RDT_arquivoBruto.slice(VB_location, parseInt(VB_location + 384));
-		} else {
-			R3_RDT_ERROR_POINTER_BLANK('VB');
-		};
+		// R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Reading VB... (WIP)');
+		// if (R3_RDT_MAP_HEADER_POINTERS[2] !== '00000000'){
+		// 	/*
+		// 		Quick note:
+		// 		As i have seen, all maps has this section with the same length, so i will extract
+		// 		it using a simple crop + the usual length.
+		// 	*/
+		// 	var VB_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[2], 16) * 2);
+		// 	R3_RDT_RAWSECTION_VB = RDT_arquivoBruto.slice(VB_location, parseInt(VB_location + 384));
+		// } else {
+		// 	R3_RDT_ERROR_POINTER_BLANK('VB');
+		// };
 	};
 };
 /*
