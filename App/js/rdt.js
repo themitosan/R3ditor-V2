@@ -1037,7 +1037,7 @@ function R3_RDT_openVbOnHex(){
 
 	The compiler will generate a temp pointer to calculate the position of other objects.
 	After that, it will create new pointers and attach it on the same location of the temp pointer.
-	A similar process will be done to recompile the OBJ pointers.
+	A similar process will be done to compile the OBJ pointers.
 */
 function R3_RDT_COMPILE(){
 	if (RDT_arquivoBruto !== undefined){
