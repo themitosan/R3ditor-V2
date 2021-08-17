@@ -1594,47 +1594,56 @@
 							</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_FOCUS_FUNCTION_CLICK"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_FOCUS_FUNCTION_CLICK', true);" title="Enabling this option will scroll the list, setting the focused function at center">- (List Mode) Center function on click</font>
-						</li>
-						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM', true);" title="Enabling this option will make Search SCD Function window always be at right of SCD edit form">- (List Mode) Snap Search SCD Function with Edit Form</font>
-						</li>
-						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_LOG_SHOW_OPCODE_FUNCIONS"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_LOG_SHOW_OPCODE_FUNCIONS', true);" title="This will show the opcode hex value at front of every SCD function">- (List Mode) Show opcode hex after function name in Script List</font>
-						</li>
-						<li>
 							<input type="checkbox" id="R3_SETTINGS_SCD_LOG_WHILE_DECOMPILING"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_LOG_WHILE_DECOMPILING', true);" title="Enabling this option will log every function while readind SCD functions / sections.">- Log functions while decompiling SCD code</font>
 						</li>
 						<li>
 							<input type="checkbox" id="R3_SETTINGS_SCD_DISABLE_SHORTCUTS_NEXT_PREV"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_DISABLE_SHORTCUTS_NEXT_PREV', true);" title="This will disable [CTRL + Right Arrow] and [CTRL + Left Arrow] to avoid skipping current script">- Disable Next / Previous Keyboard Shortcuts</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_JS_COMPILER_KEEP_FILE"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_JS_COMPILER_KEEP_FILE', true);" title="Enabling this option will keep the original file after compile process - with comments and etc.">- (JS Compiler) Keep original file after compiling</font>
-						</li>
-						<li>
 							<input type="checkbox" id="R3_SETTINGS_SCD_AUTO_OPEN_SCRIPT_LIST"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_AUTO_OPEN_SCRIPT_LIST', true);">- Open Script List when you open / create a new file</font>
 						</li>
+						<li id="SETTINGS_LI_UPDATE_DOORLINK">
+							<input type="button" value="Update DoorLink Database" title="Click here to update DoorLink database manually" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_DOORLINK_INIT();">
+						</li>
+						<!-- List Mode -->
+						<br><font class="LBL_smallTitle">List Mode</font><br>
+						<div class="SEPARATOR-0"></div>
 						<li>
-							<font title="This will define how big Hex View will be">(Hex View) Window Size: 
+							<input type="checkbox" id="R3_SETTINGS_SCD_FOCUS_FUNCTION_CLICK"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_FOCUS_FUNCTION_CLICK', true);" title="Enabling this option will scroll the list, setting the focused function at center">- Center function on click</font>
+						</li>
+						<li>
+							<input type="checkbox" id="R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM', true);" title="Enabling this option will make Search SCD Function window always be at right of SCD edit form">- Snap Search SCD Function on Edit Form</font>
+						</li>
+						<li>
+							<input type="checkbox" id="R3_SETTINGS_SCD_LOG_SHOW_OPCODE_FUNCIONS"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_LOG_SHOW_OPCODE_FUNCIONS', true);" title="This will show the opcode hex value at front of every SCD function">- Show opcode hex after function name in Script List</font>
+						</li>
+						<!-- JS Editor -->
+						<br><font class="LBL_smallTitle">JS Editor</font><br>
+						<div class="SEPARATOR-0"></div>
+						<li>
+							<input type="checkbox" id="R3_SETTINGS_SCD_JS_COMPILER_KEEP_FILE"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_JS_COMPILER_KEEP_FILE', true);" title="Enabling this option will keep the original file after compile process - with comments and etc.">- Keep original file after compiling</font>
+						</li>
+						<!-- Hex View -->
+						<br><font class="LBL_smallTitle">Hex View</font><br>
+						<div class="SEPARATOR-0"></div>
+						<li>
+							<font title="This will define how big Hex View will be">Window Size: 
 								<select id="R3_SETTINGS_SCD_HEX_VIEW_SIZE" onchange="R3_SETTINGS_UPDATE_SELECT();R3_DESIGN_MINIWINDOW_CLOSE(3);" class="SELECT_SETTINGS auto">
 									<!-- Hex View Sizes goes here -->
 								</select>
 							</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR', true);" title="Enabling this function will change all hex colors on Hex view window, matching the function color on script list.">- (Hex View) Change Hex colors to match current functions
+							<input type="checkbox" id="R3_SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR', true);" title="Enabling this function will change all hex colors on Hex view window, matching the function color on script list.">- Change Hex colors to match current functions
 							</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_HOVER_FUNCTION_HEX"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_HOVER_FUNCTION_HEX', true);" title="This will help you see where is the current function on script list">- (Hex View) Highlight Script list function on mouse hover
+							<input type="checkbox" id="R3_SETTINGS_SCD_HOVER_FUNCTION_HEX"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_HOVER_FUNCTION_HEX', true);" title="This will help you see where is the current function on script list">- Highlight Script list function on mouse hover
 							</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_SELECT_HEX_FUNCTION"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_SELECT_HEX_FUNCTION', true);" title="This will make you select hex functions as a normal text, instead of selecting only a single function">- (Hex View) Select Hex as text instead of single function
+							<input type="checkbox" id="R3_SETTINGS_SCD_SELECT_HEX_FUNCTION"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_SELECT_HEX_FUNCTION', true);" title="This will make you select hex functions as a normal text, instead of selecting only a single function">- Select Hex as text instead of single function
 							</font>
-						</li>
-						<li id="SETTINGS_LI_UPDATE_DOORLINK">
-							<input type="button" value="Update DoorLink Database" title="Click here to update DoorLink database manually" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_DOORLINK_INIT();">
 						</li>
 					</ul>
 					<!-- Animations / Performance -->
