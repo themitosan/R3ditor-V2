@@ -4,7 +4,9 @@
 
 	Main Vars
 */
-var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false, R3_SYSTEM_LOG_RESET = false, R3_LOG_ID = 0, R3_LOG_COUNTER_INFO = 0, R3_LOG_COUNTER_WARN = 0, R3_LOG_COUNTER_ERROR = 0,
+var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false,
+	// Log Vars
+	R3_SYSTEM_LOG_INTERNAL = '', R3_SYSTEM_LOG_RETURN = false, R3_SYSTEM_LOG_RESET = false, R3_LOG_ID = 0, R3_LOG_COUNTER_INFO = 0, R3_LOG_COUNTER_WARN = 0, R3_LOG_COUNTER_ERROR = 0,
 	// Menu Vars
 	R3_MENU_HISTORY = [], R3_MENU_CURRENT = 4, R3_MENU_LOCK = false, R3_DESIGN_LOADING_ACTIVE = false, R3_LIVESTATUS_OPEN = false, R3_LIVESTATUS_FORCE_RENDER = false, R3_GET_BG = false, R3_THEPIC = '',
 	// Funtion search list
@@ -595,7 +597,7 @@ function R3_SYSTEM_ALERT(msg){
 */
 function R3_SYSTEM_LOG(mode, text){
 	if (SETTINGS_DISABLE_LOG === false && R3_NW_ARGS_DISABLE_LOG === false){
-		var lastLog, HTML_LOG_TEMPLATE = logCSS = textClean = '', canLog = true,
+		var lastLog, isSeparator = false, HTML_LOG_TEMPLATE = logCSS = textClean = '', canLog = true,
 			defaultCheck = [undefined, '', 'log', 'ok', 'info'];
 		if (text === undefined){
 			text = '';
@@ -642,21 +644,33 @@ function R3_SYSTEM_LOG(mode, text){
 				R3_LOG_COUNTER_ERROR++;
 			};
 			if (mode === 'separator'){
+				isSeparator = true;
 				textClean = SYSTEM_LOG_SEPARATOR_TEXT;
 				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="SEPARATOR-3"></div>';
 			} else {
 				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="R3_LOG_ITEM ' + logCSS + '">' + text + '</div>';
 			};
+			// Return from full log
+			if (R3_SYSTEM_LOG_RETURN === true){
+				R3_SYSTEM_LOG_RETURN = false;
+				TMS.setInnerHtml('R3_LOG_HOLDER', '');
+				TMS.css('R3V2_LOG_FULLVIEW', {'display': 'block'});
+			};
+			// Fix performance
 			if ((R3_LOG_COUNTER_INFO + R3_LOG_COUNTER_WARN + R3_LOG_COUNTER_ERROR) > 190){
 				R3_SYSTEM_CLEAR_LOG(false, true);
+				if (TMS.getCssData('R3V2_LOG_FULLVIEW', 'display') !== 'block'){
+					TMS.css('R3V2_LOG_FULLVIEW', {'display': 'block'});
+				};
 				TMS.setInnerHtml('R3_LOG_HOLDER', '<div id="R3_LOG_ID_RESET" class="R3_LOG_ITEM R3_LOG_WARN">R3ditor V2 - WARN: The log was cleared to avoid performance issues. ' +
-												  '<br><i>(Click on \"Save Log\" to see full info)</i></div>');
+												  '<br><i>(Click on \"View Full Log\" to see full info)</i></div>');
 			};
 			/*
 				End
 			*/
 			TMS.append('R3_LOG_HOLDER', HTML_LOG_TEMPLATE);
 			R3_SYSTEM_LOG_TEXT = R3_SYSTEM_LOG_TEXT + textClean + '\n';
+			R3_SYSTEM_LOG_INTERNAL = R3_SYSTEM_LOG_INTERNAL + HTML_LOG_TEMPLATE;
 			R3_LOG_ID++;
 			TMS.setInnerHtml('R3V2_TITLE_LOG_WINDOW', 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>');
 			document.getElementById('R3_LOG_HOLDER').scrollTop = document.getElementById('R3_LOG_HOLDER').scrollHeight;
@@ -694,6 +708,14 @@ function R3_SYSTEM_CLEAR_LOG(resetConsole, pFix){
 function R3_DESIGN_openLogWindow(){
 	if (SETTINGS_DISABLE_LOG === false && R3_NW_ARGS_DISABLE_LOG === false){
 		R3_DESIGN_MINIWINDOW_OPEN(0);
+	};
+};
+// See full log
+function R3_DESIGN_seeFullLog(){
+	if (SETTINGS_DISABLE_LOG === false && R3_NW_ARGS_DISABLE_LOG === false){
+		TMS.setInnerHtml('R3_LOG_HOLDER', R3_SYSTEM_LOG_INTERNAL);
+		TMS.css('R3V2_LOG_FULLVIEW', {'display': 'none'});
+		R3_SYSTEM_LOG_RETURN = true;
 	};
 };
 /*
