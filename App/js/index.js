@@ -27,16 +27,14 @@ var R3_APP_START = false, R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_
 /*
 	Onload
 */
-document.addEventListener('readystatechange', function(cState){
-	if (cState.target.readyState === 'complete'){
-		try {
-			if (R3_APP_START === false){
-				R3_LOAD();
-			};
-		} catch (err) {
-			console.error(err);
-			R3_DESIGN_CRITIAL_ERROR(err);
+window.addEventListener('DOMContentLoaded', function(evt){
+	try {
+		if (R3_APP_START === false){
+			R3_LOAD();
 		};
+	} catch (err) {
+		console.error(err);
+		R3_DESIGN_CRITIAL_ERROR(err);
 	};
 });
 /*

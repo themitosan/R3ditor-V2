@@ -12,7 +12,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false,
 	// Funtion search list
 	R3_INTERNAL_functionBtnArray = [], R3_INTERNAL_functionBtnScdArray = [],
 	// RDT Menu Vars
-	R3_RDT_FILELIST_MAPS = {}, R3_RDT_MENU_LABEL_FIX_NUMBER = 110, R3_DESIGN_RDT_LOADLOCK = false, APP_CAN_RENDER_DEV = true,
+	R3_RDT_FILELIST_MAPS = {}, R3_RDT_FILELIST_CURRENTMODE = [], R3_RDT_MENU_LABEL_FIX_NUMBER = 110, R3_DESIGN_RDT_LOADLOCK = false, APP_CAN_RENDER_DEV = true,
 	// SCD Editor Vars
 	R3_SCD_HIGHLIGHT_FUNCTION = 0, R3_SCD_SEARCH_HIGHLIGHT_FUNCTION = 0,
 	// SCD JS Editor Vars
@@ -2267,11 +2267,9 @@ function R3_RDT_FILELIST_GENERATE(mode){
 	if (R3_WEBMODE === false){
 		R3_SETTINGS_getMapPrefix();
 		document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">Generating file list, please wait...</div>';
-		var rPath, fileTest, currentMap, HTML_MAP_LIST = rdtPath = gameMode = mapIcon = '';
-		if (parseInt(mode) === 0){
-			gameMode = 'Easy';
+		var rPath, fileTest, currentMap, HTML_MAP_LIST = mapIcon = '',
+			gameMode = 'Easy',
 			rdtPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT/';
-		};
 		if (parseInt(mode) === 1){
 			gameMode = 'Hard';
 			rdtPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_HARD + '/RDT/';
@@ -2279,30 +2277,33 @@ function R3_RDT_FILELIST_GENERATE(mode){
 		// Start Reading
 		if (APP_FS.existsSync(rdtPath) === true){
 			R3_RDT_FILELIST_MAPS[mode] = APP_FS.readdirSync(rdtPath);
-			R3_RDT_FILELIST_MAPS[mode].forEach(function(cItem){
-				if (cItem.slice((cItem.length - 4), cItem.length).toUpperCase() === '.RDT'){
-					currentMap = R3_getFileName(cItem).toUpperCase();
-					mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '00.JPG';
-					if (APP_FS.existsSync(mapIcon) !== true){
-						mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '01.JPG';
+			if (R3_RDT_FILELIST_CURRENTMODE !== R3_RDT_FILELIST_MAPS[mode]){
+				R3_RDT_FILELIST_CURRENTMODE = R3_RDT_FILELIST_MAPS[mode];
+				R3_RDT_FILELIST_MAPS[mode].forEach(function(cItem){
+					if (R3_getFileExtension(cItem) === 'RDT'){
+						currentMap = R3_getFileName(cItem).toUpperCase();
+						mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '00.JPG';
 						if (APP_FS.existsSync(mapIcon) !== true){
-							mapIcon = 'img/404.png';
+							mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '01.JPG';
+							if (APP_FS.existsSync(mapIcon) !== true){
+								mapIcon = 'img/404.png';
+							};
 						};
+						// non-windows fix
+						if (APP_useImageFix === true && APP_FS.existsSync(mapIcon) === true){
+							mapIcon = 'file://' + mapIcon;
+						};
+						rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
+						HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT_LOAD(\'' + R3_fixPath(rdtPath).replace('//', '/') +
+										currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' +
+										currentMap + '</font><br>Location: <font class="monospace mono_xyzr">' + RDT_locations[currentMap][0] + '</font>, <font class="monospace mono_xyzr">' + RDT_locations[currentMap][1] +
+										'</font><br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
 					};
-					// non-windows fix
-					if (APP_useImageFix === true && APP_FS.existsSync(mapIcon) === true){
-						mapIcon = 'file://' + mapIcon;
-					};
-					rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
-					HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT_LOAD(\'' + R3_fixPath(rdtPath).replace('//', '/') +
-									currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' +
-									currentMap + '</font><br>Location: <font class="monospace mono_xyzr">' + RDT_locations[currentMap][0] + '</font>, <font class="monospace mono_xyzr">' + RDT_locations[currentMap][1] +
-									'</font><br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
-				};
-			});
-			// End
-			document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = HTML_MAP_LIST;
-			document.getElementById('R3_RDT_FILELIST_HOLDER').scrollTop = 0;
+				});
+				// End
+				document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = HTML_MAP_LIST;
+				document.getElementById('R3_RDT_FILELIST_HOLDER').scrollTop = 0;
+			};
 		} else {
 			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to get RDT file list!');
 			document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">The path for this game mode are not available!</div>';
