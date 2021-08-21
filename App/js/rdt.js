@@ -64,7 +64,7 @@ var RDT_arquivoBruto,
 /*
 	Functions
 */
-// New file [This will take a time...]
+// New file [This will take a long time...]
 function R3_RDT_NEW_FILE(){
 	R3_WIP();
 };

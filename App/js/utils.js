@@ -11,11 +11,11 @@ var OBJ_arquivoBruto,
 	// Disc Vars
 	RPC, rpcReady, discUserName,
 	// Internal Copy & Paste
-	R3_TEMP_X = R3_TEMP_Y = R3_TEMP_Z = R3_TEMP_R = '0000',
 	R3_TEMP_zI = '00',
+	R3_TEMP_CAM = '00',
 	R3_TEMP_STAGE = '1',
 	R3_TEMP_ROOM = '100',
-	R3_TEMP_CAM = '00';
+	R3_TEMP_X = R3_TEMP_Y = R3_TEMP_Z = R3_TEMP_R = '0000';
 /*
 	ROFS
 */
@@ -81,8 +81,8 @@ function R3_XDELTA_APPLY(){
 			R3_RE3_CANRUN = false;
 		};
 		// Run Process
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Xdelta) Starting Process - Please wait...');
 		process.chdir(APP_TOOLS);
+		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Xdelta) Starting Process - Please wait...');
 		R3_UTILS_CALL_LOADING('Xdelta Patcher', 'Please wait while Xdelta does his job...', 50);
 		origName = R3_getFileName(R3_XDELTA_ORIGINALFILE), origExt = R3_getFileExtension(R3_XDELTA_ORIGINALFILE);
 		R3_runExec(APP_TOOLS + '/xdelta.exe', ['-d', '-s', R3_XDELTA_ORIGINALFILE, R3_XDELTA_PATCH , 'XDELTA_PATCH_FILE.bin']);
@@ -542,8 +542,7 @@ function R3_RDT_checkMap(file){
 						R3_SYSTEM_ALERT('INFO - Process successful!\n\nMap: ' + fileName.toUpperCase() + '\nLocation: ' + RDT_locations[fileName.toUpperCase()][0] + ', ' + RDT_locations[fileName.toUpperCase()][1]);
 					} catch (err) {
 						msgError = 'ERROR: Something went wrong while importing map!';
-						R3_SYSTEM_LOG('error', 'R3ditor V2 - ' + msgError);
-						R3_SYSTEM_LOG('error', 'Reason: ' + err);
+						R3_SYSTEM_LOG('error', 'R3ditor V2 - ' + msgError + ' <br>Reason: ' + err);
 						R3_SYSTEM_ALERT(msgError);
 					};
 				};
@@ -681,9 +680,9 @@ function R3_BACKUP_MANAGER_INSERT(fileName, originalFileName, type, date, path, 
 function R3_BACKUP_MANAGER_restore(fileId){
 	if (R3_WEBMODE === false && fileId !== undefined){
 		var restoreOk = false, conCheck, tempHex, newFilePath, fArray = Object.keys(R3_SYSTEM_BACKUP_LIST), fName = fArray[fileId],
-			mName  = R3_SYSTEM_BACKUP_LIST[fName][0],
-			fPath  = R3_SYSTEM_BACKUP_LIST[fName][5],
-			fExt   = R3_SYSTEM_BACKUP_LIST[fName][6];
+			mName = R3_SYSTEM_BACKUP_LIST[fName][0],
+			fPath = R3_SYSTEM_BACKUP_LIST[fName][5],
+			fExt  = R3_SYSTEM_BACKUP_LIST[fName][6];
 		try {
 			// RDT Files
 			if (fExt === 'rdt'){
