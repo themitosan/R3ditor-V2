@@ -1,6 +1,5 @@
 /*
 	R3ditor V2 - debug.js
-	
 	IMPORTANT: THIS FILE CANT BE INCLUDED ON R3V2 COMPILER
 */
 // Reload App

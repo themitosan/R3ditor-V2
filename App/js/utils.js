@@ -189,21 +189,21 @@ function R3_FILEGEN_selectBG(mode){
 // Update BG filters
 function R3_FILEGEN_BG_UPDATE_FILTERS(){
 	if (R3_WEBMODE === false){
-		var bgSize = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_SIZE').value);
+		var bgHUE = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_HUE').value),
+			bgSat = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_SAT').value),
+			bgSize = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_SIZE').value),
+			bgBlur = parseFloat(document.getElementById('R3_FILEGEN_RANGE_BG_BLUR').value),
+			bgSepia = parseFloat(document.getElementById('R3_FILEGEN_RANGE_BG_SEP').value),
+			bgInvert = parseFloat(document.getElementById('R3_FILEGEN_RANGE_BG_INV').value),
 			bgOpacity = parseFloat(document.getElementById('R3_FILEGEN_RANGE_BG_OPACITY').value);
-			bgBlur = parseFloat(document.getElementById('R3_FILEGEN_RANGE_BG_BLUR').value);
-			bgHUE = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_HUE').value);
-			bgSat = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_SAT').value);
-			bgSepia = parseFloat(document.getElementById('R3_FILEGEN_RANGE_BG_SEP').value);
-			bgInvert = parseFloat(document.getElementById('R3_FILEGEN_RANGE_BG_INV').value);
 		// Update Labels
-		document.getElementById('R3_FILEGEN_LBL_BG_SIZE').innerHTML = bgSize;
-		document.getElementById('R3_FILEGEN_LBL_BG_OPACITY').innerHTML = R3_parsePercentage(bgOpacity, 1);
-		document.getElementById('R3_FILEGEN_LBL_BG_BLUR').innerHTML = bgBlur;
 		document.getElementById('R3_FILEGEN_LBL_BG_HUE').innerHTML = bgHUE;
+		document.getElementById('R3_FILEGEN_LBL_BG_SIZE').innerHTML = bgSize;
+		document.getElementById('R3_FILEGEN_LBL_BG_BLUR').innerHTML = bgBlur;
 		document.getElementById('R3_FILEGEN_LBL_BG_SAT').innerHTML = R3_parsePercentage(bgSat, 30);
 		document.getElementById('R3_FILEGEN_LBL_BG_SEPIA').innerHTML = R3_parsePercentage(bgSepia, 1);
 		document.getElementById('R3_FILEGEN_LBL_BG_INVERT').innerHTML = R3_parsePercentage(bgInvert, 1);
+		document.getElementById('R3_FILEGEN_LBL_BG_OPACITY').innerHTML = R3_parsePercentage(bgOpacity, 1);
 		// Update BG
 		TMS.css('R3_FILEGEN_RENDERAREA_BG', {'background-size': 'auto ' + bgSize + '%', 'opacity': bgOpacity, 'filter': 'blur(' + bgBlur + 'px) hue-rotate(' + bgHUE + 'deg) saturate(' + bgSat + ') invert(' + bgInvert + ') sepia(' + bgSepia + ')'});
 	};
@@ -242,15 +242,17 @@ function R3_FILEGEN_renderText(renderOnFilegen, otherCanvas, textRender){
 						x_offset = 0;
 						c++;
 					} else {
-						var distance;
+						var distance, dic;
 						if (FILEGEN_currentFont === 'RE1'){
+							dic = FG_DICIONARIO[text[c]][0];
 							distance = parseInt(FG_DICIONARIO[text[c]][1]) + x_offset;
-							FG_HTML_TEMPLATE = FG_HTML_TEMPLATE + '<img src="img/fonts/chars_' + FILEGEN_currentFont + '_' + FILEGEN_currentColor + '.png" style="clip-path: inset(' + FG_DICIONARIO[text[c]][0] + '); position: absolute; left: ' + distance + 'px;top: ' + y_offset + 'px; filter: invert(' + textInvert + ');">';
 						};
 						if (FILEGEN_currentFont === 'RE3'){
+							dic = FG_RE3_DICIONARIO[text[c]][0];
 							distance = parseInt(FG_RE3_DICIONARIO[text[c]][1]) + x_offset;
-							FG_HTML_TEMPLATE = FG_HTML_TEMPLATE + '<img src="img/fonts/chars_' + FILEGEN_currentFont + '_' + FILEGEN_currentColor + '.png" style="clip-path: inset(' + FG_RE3_DICIONARIO[text[c]][0] + '); position: absolute; left: ' + distance + 'px;top: ' + y_offset + 'px; filter: invert(' + textInvert + ');">';
 						};
+						FG_HTML_TEMPLATE = FG_HTML_TEMPLATE + '<img ondragstart="return false;" src="img/fonts/chars_' + FILEGEN_currentFont + '_' + FILEGEN_currentColor +
+											  '.png" style="clip-path: inset(' + dic + '); position: absolute; left: ' + distance + 'px;top: ' + y_offset + 'px; filter: invert(' + textInvert + ');">';
 						// Post
 						if (FILEGEN_currentFont === 'RE1'){
 							x_offset = x_offset + FG_DICIONARIO[text[c]][2];

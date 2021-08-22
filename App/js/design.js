@@ -376,12 +376,6 @@ function R3_DESIGN_ADJUST(){
 	});
 	// Prepare SCD editor
 	R3_SCD_SWAP_EDITOR_MODE(SETTINGS_SCD_EDITOR_MODE);
-	// Adjust loading div
-	if (R3_ENABLE_ANIMATIONS === true){
-		TMS.animate('R3_MAIN_LOADING_DIV', {'width': '70%'}, 1200);
-	} else {
-		TMS.css('R3_MAIN_LOADING_DIV', {'width': '70%'});
-	};
 	// [RE3SET] - Disable WIP Forms
 	TMS.disableElement(['BTN_MAIN_21','BTN_MAIN_58','BTN_MAIN_59','BTN_MAIN_60','BTN_MAIN_61']);
 	// Fix RDT Path Labels and disable some unused functions in non-windows os / web
@@ -656,8 +650,8 @@ function R3_SYSTEM_LOG(mode, text){
 				TMS.setInnerHtml('R3_LOG_HOLDER', '');
 				TMS.css('R3V2_LOG_FULLVIEW', {'display': 'block'});
 			};
-			// Fix performance
-			if ((R3_LOG_COUNTER_INFO + R3_LOG_COUNTER_WARN + R3_LOG_COUNTER_ERROR) > 190){
+			// Fix performance - too much nodes
+			if ((R3_LOG_COUNTER_INFO + R3_LOG_COUNTER_WARN + R3_LOG_COUNTER_ERROR) > 160){
 				R3_SYSTEM_CLEAR_LOG(false, true);
 				if (TMS.getCssData('R3V2_LOG_FULLVIEW', 'display') !== 'block'){
 					TMS.css('R3V2_LOG_FULLVIEW', {'display': 'block'});
@@ -1578,7 +1572,9 @@ function R3_SCD_SEARCH_GOTO_FUNCTION(cID, functionId){
 function R3_SCD_scrollScriptList(){
 	if (RDT_arquivoBruto !== undefined){
 		var sList = document.getElementById('R3_SCD_SCRIPT_INNER');
-		sList.scrollBy(0, sList.scrollHeight);
+		if (sList !== null){
+			sList.scrollBy(0, sList.scrollHeight);
+		};
 	};
 };
 /*
@@ -1651,6 +1647,25 @@ function R3_SCD_navigateFunctions(mode, fnId, isClick){
 		R3_SCD_FUNCTION_FOCUSED = true;
 	} else {
 		R3_SCD_NEW_FILE();
+	};
+};
+// Open next / previous function while edit form still open
+function R3_SCD_openPrevNextFunction(mode){
+	if (SCD_arquivoBruto !== undefined){
+		var tempNextOp, tempNextFn = R3_SCD_CURRENT_FUNCTION, canOpen = false;
+		if (mode === 0){
+			tempNextFn--;
+		} else {
+			tempNextFn++;
+		};
+		tempNextOp = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][tempNextFn];
+		// End
+		if (tempNextOp !== undefined && tempNextOp.slice(0, 2) !== '01'){
+			R3_SCD_CURRENT_FUNCTION = tempNextFn;
+			R3_MINI_WINDOW_DATABASE[14][6] = false;
+			R3_SCD_navigateFunctions(5, R3_SCD_CURRENT_FUNCTION);
+			R3_SCD_FUNCTION_EDIT(R3_SCD_CURRENT_FUNCTION);
+		};
 	};
 };
 /*

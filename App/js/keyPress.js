@@ -339,18 +339,12 @@ document.addEventListener('keyup', function(kp){
 				// Open next function while edit form still open
 				if (SETTINGS_SCD_EDITOR_MODE === 0 && R3_SCD_IS_EDITING === true && R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === false){
 					// Next function [CTRL + Right Arrow]
-					if (kp.keyCode === 39 && R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][(R3_SCD_CURRENT_FUNCTION + 1)] !== undefined){
-						R3_SCD_CURRENT_FUNCTION++;
+					if (kp.keyCode === 39){
+						R3_SCD_openPrevNextFunction(1);
 					};
 					// Previous function [CTRL + Left Arrow]
-					if (kp.keyCode === 37 && R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][(R3_SCD_CURRENT_FUNCTION - 1)] !== undefined){
-						R3_SCD_CURRENT_FUNCTION--;
-					};
-					// Prevent End Script [EVT_END]
-					if (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][R3_SCD_CURRENT_FUNCTION].slice(0, 2) !== '01'){
-						R3_MINI_WINDOW_DATABASE[14][6] = false;
-						R3_SCD_navigateFunctions(5, R3_SCD_CURRENT_FUNCTION);
-						R3_SCD_FUNCTION_EDIT(R3_SCD_CURRENT_FUNCTION);
+					if (kp.keyCode === 37){
+						R3_SCD_openPrevNextFunction(0);
 					};
 				};
 			};

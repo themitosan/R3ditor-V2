@@ -177,6 +177,7 @@ function R3_WIZARD_FINISH(){
 		const R3MOD = '{modName: \"' + R3_WIZARD_MOD_NAME + '\", R3V2_VERSION: \"' + INT_VERSION + '\"}';
 		APP_FS.writeFileSync(APP_PATH + '/ModInfo.R3V2', R3MOD, 'utf-8');
 		R3_SAVE_SETTINGS(false);
+		R3_SYSTEM_CLEAR_LOG(false);
 		R3_UTILS_LOADING_CLOSE();
 		R3_LOAD_SETTINGS();
 		R3_RDT_FILELIST_UPDATELIST();
