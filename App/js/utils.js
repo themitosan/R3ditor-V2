@@ -505,9 +505,8 @@ function R3_RDT_importMap(ev){
 					if (APP_FS.existsSync(R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT') === true && APP_FS.existsSync(R3_MOD_PATH + '/' + R3_RDT_PREFIX_HARD + '/RDT') === true){
 						R3_RDT_checkMap(file.path);
 					} else {
-						R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to find the output folders!');
-						R3_SYSTEM_LOG('error', 'Make sure to extract the game first before using this option.');
-					}
+						R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to find output folders! <br>Make sure to extract the game first before using this option.');
+					};
 				} else {
 					console.warn('Skipping file drop...');
 				};

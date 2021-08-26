@@ -1,6 +1,6 @@
 /*
 	R3ditor V2 - scd.js
-	aka. The largest file inside R3V2!
+	Aka: The largest file inside R3V2!
 */
 var R3_SCD_path = '',
 	SCD_arquivoBruto,
@@ -184,7 +184,7 @@ function R3_SCD_SKIPSCRIPT(mode){
 		if (mode !== undefined && R3_SCD_IS_EDITING === false){
 			var nextScript = R3_SCD_CURRENT_SCRIPT;
 			R3_SCD_HIGHLIGHT_FUNCTION = 0;
-			if (mode === 0){
+			if (mode === 0 || mode === undefined){
 				nextScript--;
 				if (nextScript < 0){
 					nextScript = 0;
@@ -435,8 +435,7 @@ function R3_SCD_INSERT_HEX(){
 					R3_SCD_COMPILE_INSERT_HEX(sortHex, 0);
 				};
 			} else {
-				R3_SYSTEM_LOG('WARN', 'R3ditor V2 - WARN: Unable to insert hex!');
-				R3_SYSTEM_LOG('WARN', 'Reason: ' + reason);
+				R3_SYSTEM_LOG('WARN', 'R3ditor V2 - WARN: Unable to insert hex! <br>Reason: ' + reason);
 				R3_SYSTEM_ALERT('WARN - Unable to insert hex!\nReason: ' + reason);
 			};
 		};
@@ -554,13 +553,11 @@ function R3_SCD_EXPORT_SCRIPT(mode){
 					});
 				};
 			} catch (err) {
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to export script!');
-				R3_SYSTEM_LOG('warn', 'Reason: ' + err);
+				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to export script! <br>Reason: ' + err);
 				R3_SYSTEM_ALERT('WARN - Unable to export script!\n\nReason: (JS) ' + err);
 			};
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to export script!');
-			R3_SYSTEM_LOG('warn', 'Reason: ' + reason);
+			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to export script! <br>Reason: ' + reason);
 			R3_SYSTEM_ALERT('WARN - Unable to export script!\n\nReason: ' + reason);
 		};
 	};
@@ -647,8 +644,7 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 						TEMP_SCD_SETTINGS = '';
 						c = d;
 					} catch (err) {
-						R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to render opcode <font class="user-can-select">' + TEMP_SCD_READ[c] + '</font>');
-						R3_SYSTEM_LOG('error', 'Reason: ' + err);
+						R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to render opcode <font class="user-can-select">' + TEMP_SCD_READ[c] + '</font> <br>Reason: ' + err);
 						END_SCRIPT = true;
 					};
 				} else {
@@ -672,8 +668,7 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 			TMS.append('R3_SCD_SCRIPT_LISTS', HTML_INIT_SCRIPT_TEMP);
 		};
 	} catch (err) {
-		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to generate script list!');
-		R3_SYSTEM_LOG('error', 'Details: ' + err);
+		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to generate script list! <br>Details: ' + err);
 		alert('ERROR - Unable to generate script list!\nReason: ' + err);
 	};
 };
@@ -824,11 +819,15 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				// Set Timer / Value [SET_TIMER]
 				if (cOpcode === '1e'){
 					var SET_target = cFunction.slice(R3_SCD_DEC_DB.target[0], R3_SCD_DEC_DB.target[1]),
-						SET_time   = cFunction.slice(R3_SCD_DEC_DB.time[0], R3_SCD_DEC_DB.time[1]);
+						SET_time   = cFunction.slice(R3_SCD_DEC_DB.time[0], R3_SCD_DEC_DB.time[1]),
+						SET_label  = R3_SCD_SET_TIMER_TARGET[SET_target];
 					if (SET_target === '29'){
-						cProp = 'Target: ' + R3_SCD_SET_TIMER_TARGET[SET_target] + ' - Countdown: <font class="monospace mono_xyzr">' + R3_TIME_parseHexTime(SET_time, 3) + '</font>';
+						cProp = 'Target: ' + SET_label + ' - Countdown: <font class="monospace mono_xyzr">' + R3_TIME_parseHexTime(SET_time, 3) + '</font>';
 					} else {
-						cProp = 'Set the ' + R3_SCD_SET_TIMER_TARGET[SET_target] + ' with the value <font class="monospace mono_xyzr">' + R3_TIME_parseHexTime(SET_time, 4) + '</font>';
+						if (R3_SCD_SET_TIMER_TARGET[SET_target] === undefined){
+							SET_label = '<font class="monospace mono_xyzr">' + R3_SCD_SET_TIMER_TARGET[SET_target] + '</font> (<font class="monospace mono_xyzr">Hex: ' + SET_target.toUpperCase() + '</font>)';
+						};
+						cProp = 'Set the ' + SET_label + ' with value <font class="monospace mono_xyzr">' + R3_TIME_parseHexTime(SET_time, 4) + '</font>';
 					};
 				};
 				// [SET_DO]
@@ -1075,7 +1074,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					if (CK_conditition === undefined){
 						CK_conditition = R3_SCD_CK_SPECIAL_CONTITIONS[CK_flag];
 						if (CK_conditition === undefined){
-							CK_conditition = '(' + CK_flag.toUpperCase() + ' Unknown Condition)';
+							CK_conditition = '(<font class="monospace mono_xyzr">' + CK_flag.toUpperCase() + '</font> Unknown Condition)';
 						};
 					};
 					cProp = 'Checks if ' + CK_tempEvt + ' <font class="monospace mono_xyzr">' + CK_value.toUpperCase() + '</font> is / are ' + CK_conditition;
@@ -1276,7 +1275,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				// Set Interactive Object [AOT_SET]
 				if (cOpcode === '63'){
 					var AOT_id    = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
-						AOT_aot   = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]);
+						AOT_aot   = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
+						AOT_dMode = cFunction.slice(R3_SCD_DEC_DB.displayMode[0], R3_SCD_DEC_DB.displayMode[1]),
 						AOT_model = '';
 					if (R3_SCD_AOT_TYPES[AOT_aot] !== undefined){
 						AOT_model = R3_SCD_AOT_TYPES[AOT_aot][0];
@@ -1469,9 +1469,13 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				};
 				// Set 3D Object [OM_SET]
 				if (cOpcode === '7f'){
-					var OM_id  = cFunction.slice(R3_SCD_DEC_DB.objId[0], R3_SCD_DEC_DB.objId[1]),
-						OM_AOT = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]);
-					cProp = 'ID: <font class="monospace mono_xyzr">' + OM_id.toUpperCase() + '</font> - Type: <font class="monospace mono_xyzr">' + R3_SCD_OM_SET_AOT_TYPES[OM_AOT] + '</font>';
+					var OM_id  		= cFunction.slice(R3_SCD_DEC_DB.objId[0], R3_SCD_DEC_DB.objId[1]),
+						OM_AOT 		= cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]),
+						OM_aotLabel = R3_SCD_OM_SET_AOT_TYPES[OM_AOT];
+					if (OM_aotLabel === undefined){
+						OM_aotLabel = 'Undefined (Hex: ' + OM_AOT.toUpperCase() + ')';
+					};
+					cProp = 'ID: <font class="monospace mono_xyzr">' + OM_id.toUpperCase() + '</font> - Type: <font class="monospace mono_xyzr">' + OM_aotLabel + '</font>';
 				};
 				// Motion Trigger [PLC_MOTION]
 				if (cOpcode === '80'){
@@ -2376,8 +2380,7 @@ function R3_SCD_SCRIPT_REMOVE(){
 		if (SCD_arquivoBruto !== undefined){
 			if (Object.keys(R3_SCD_SCRIPTS_LIST).length !== 2){
 				if (R3_SCD_CURRENT_SCRIPT === 0 || R3_SCD_CURRENT_SCRIPT === 1){
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You can\'t delete this script!');
-					R3_SYSTEM_LOG('warn', 'Instead, try removing all functions using "Clear Script".');	
+					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You can\'t delete this script! <br>Instead, try removing all functions using "Clear Script".');
 				} else {
 					R3_SCD_POINTERS.splice(R3_SCD_CURRENT_SCRIPT, 1);
 					delete R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT];
@@ -4003,7 +4006,6 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 					EM_R 		 = cFunction.slice(R3_SCD_DEC_DB.posR[0], R3_SCD_DEC_DB.posR[1]),
 					EM_motion	 = cFunction.slice(R3_SCD_DEC_DB.motion[0], R3_SCD_DEC_DB.motion[1]),
 					EM_ctrlFlag	 = cFunction.slice(R3_SCD_DEC_DB.ctrlFlag[0], R3_SCD_DEC_DB.ctrlFlag[1]);
-				// console.info(EM_enemyPose);
 				document.getElementById('R3_SCD_EDIT_7d_unk0').value = EM_unk0;
 				document.getElementById('R3_SCD_EDIT_7d_id').value = EM_enemyId;
 				document.getElementById('R3_SCD_EDIT_7d_type').value = EM_enemyType;
@@ -5015,9 +5017,8 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			SCD_REASON = SCD_REASON + ' <br>You aren\'t on list editor mode!';
 		};
 		if (SCD_SHOW_REASON === true){
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to apply function!');
-			R3_SYSTEM_LOG('warn', 'Reason: ' + SCD_REASON);
-			alert('R3ditor V2 - WARN: Unable to apply function!\nReson: ' + SCD_REASON);
+			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to apply function! <br>Reason: ' + SCD_REASON);
+			R3_SYSTEM_ALERT('WARN: Unable to apply function!\nReson: ' + SCD_REASON);
 		};
 	};
 };
@@ -5342,7 +5343,7 @@ function R3_SCD_FUNCTION_UPDATE_RGB(cOpcode){
 		finalG = R3_fixVars(parseInt(cG).toString(16), 2);
 		finalB = R3_fixVars(parseInt(cB).toString(16), 2);
 		if (document.getElementById('R3_SCD_EDIT_' + cOpcode + '_rgbDivPreview') !== null){
-			TMS.css('R3_SCD_EDIT_' + cOpcode + '_rgbDivPreview', {'background-color': '#' + finalR + finalG + finalB + ';'});
+			TMS.css('R3_SCD_EDIT_' + cOpcode + '_rgbDivPreview', {'background-color': '#' + finalR + finalG + finalB});
 		};
 	};
 };
@@ -5380,7 +5381,7 @@ function R3_SCD_FUNCTION_UPDATE_CMY(cOpcode){
 		document.getElementById('R3_SCD_EDIT_' + cOpcode + '_colorY_range').value = cY;
 		/*
 			End
-			Sadly i dunno how to convert CMY to RGB or something like so... no support for it now. :(
+			Sadly i dunno how to convert CMY to RGB or something like so... no support for it now. :( #SadFace
 		*/
 	};
 };
@@ -5842,7 +5843,7 @@ function R3_SCD_FUNCTION_GENERATE_CHECK_LENGTH(source, endOpcode, cIndex, finish
 	0: Save
 	1: Save As
 	2: Inject to RDT and GOTO RDT
-	3: Just recompile
+	3: Just Compile
 	4: Compile and inject to RDT
 */
 function R3_SCD_COMPILE(mode){
@@ -5898,7 +5899,7 @@ function R3_SCD_COMPILE(mode){
 				R3_RDT_RAWSECTION_SCD = FINAL_HEX;
 				R3_SHOW_MENU(10);
 			};
-			// Just Recompile
+			// Just Compile
 			if (mode === 3){
 				if (SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true){
 					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Updating SCD...');
@@ -5919,8 +5920,7 @@ function R3_SCD_COMPILE(mode){
 			R3_SCD_START_DECOMPILER(FINAL_HEX);
 			R3_SCD_displayScript(gotoScript);
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to Compile / Save SCD!');
-			R3_SYSTEM_LOG('error', 'Reason: ' + err);
+			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to Compile / Save SCD! <br>Reason: ' + err);
 			alert('ERROR: Unable to Save / Recompile SCD!\nReason: ' + err);
 		};
 	} else {

@@ -1652,15 +1652,24 @@ function R3_SCD_navigateFunctions(mode, fnId, isClick){
 // Open next / previous function while edit form still open
 function R3_SCD_openPrevNextFunction(mode){
 	if (SCD_arquivoBruto !== undefined){
-		var tempNextOp, tempNextFn = R3_SCD_CURRENT_FUNCTION, canOpen = false;
-		if (mode === 0){
-			tempNextFn--;
-		} else {
-			tempNextFn++;
+		var tempNextOp, tempHex, tempNextFn = R3_SCD_CURRENT_FUNCTION, canOpen = false;
+		while (canOpen === false){
+			if (mode === 0){
+				tempNextFn--;
+			} else {
+				tempNextFn++;
+			};
+			tempNextOp = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][tempNextFn];
+			if (tempNextOp === undefined){
+				break;
+			} else {
+				if (INCLUDE_SCD_EDIT_FUNCTIONS[tempNextOp.slice(0, 2)] !== 'NO_EDIT'){
+					canOpen = true;
+				};
+			};
 		};
-		tempNextOp = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][tempNextFn];
 		// End
-		if (tempNextOp !== undefined && tempNextOp.slice(0, 2) !== '01'){
+		if (tempNextOp !== undefined && canOpen === true){
 			R3_SCD_CURRENT_FUNCTION = tempNextFn;
 			R3_MINI_WINDOW_DATABASE[14][6] = false;
 			R3_SCD_navigateFunctions(5, R3_SCD_CURRENT_FUNCTION);

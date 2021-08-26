@@ -6,11 +6,11 @@
 */
 // Extract OBJ From String
 function OBJ_extractObjFromString(hexString, cObject, location){
-	var finalObj = '';
+	var finalObj = '', tempHeaderLength, tempHeader, tempObjLength;
 	if (location !== 0){
-		var tempHeaderLength = (parseInt(R3_parseEndian(hexString.slice(location, (location + 8))), 16) * 2),
-			tempHeader = hexString.slice(location, (location + tempHeaderLength)),
-			tempObjLength = (parseInt(R3_parseEndian(hexString.slice((location + tempHeaderLength), ((location + tempHeaderLength) + 8))), 16) * 2);
+		tempHeaderLength = (parseInt(R3_parseEndian(hexString.slice(location, (location + 8))), 16) * 2);
+		tempHeader = hexString.slice(location, (location + tempHeaderLength));
+		tempObjLength = (parseInt(R3_parseEndian(hexString.slice((location + tempHeaderLength), ((location + tempHeaderLength) + 8))), 16) * 2);
 		finalObj = tempHeader + hexString.slice((location + tempHeaderLength), ((location + tempHeaderLength) + tempObjLength));
 	} else {
 		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to read 3D Object ' + cObject + ' because it\'s location are null! (Location: 0)');

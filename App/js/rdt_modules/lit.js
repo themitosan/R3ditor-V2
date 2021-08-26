@@ -10,9 +10,7 @@
 	B1 / 2 / 3 = Blue Tint
 */
 // Variables
-var LIT_arquivoBruto,
-	LIT_lightArray = [],
-	LIT_camPointers = [];
+var LIT_arquivoBruto, LIT_lightArray = [], LIT_camPointers = [];
 /*
 	Functions
 */
