@@ -21,14 +21,25 @@ It's recommended to use our pre-compiled version! You can download on <a href="h
 
 <i>PS: <a href="https://themitosan.github.io/R3V2" title="Click here to test R3ditor V2 in your browser!" target="_blank">You can try this tool online!</a></i>
 
-#### Windows
+##### Important
+To run this software properly, you will need generate <code>node_modules</code> folder using <code>npm</code> and Visual Studio 2017 <i>(with c++ development tools)</i>.
+
+#### Windows (NW.js)
 * Clone this repository
+* Rename <code>nw_package.json</code> to <code>package.json</code>
+* Run <code>npm install</code> and wait! (Make sure to have VS 2017 installed - otherwise it will fail!)
 * Download NW.js version 0.38.4 [ <a title="x86 Version - Click here to download" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0.38.4-win-ia32.zip" target="_blank">x86 / 32 Bits</a> or <a title="x64 Version - Click here to download" target="_blank" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0.38.4-win-x64.zip">x64 / 64 Bits</a> ]
-* Extract NW contents inside clone folder
+* Extract nw contents inside clone folder
 * Run <code>nw.exe</code>
 
+#### Windows (Electron)
+* Clone this repository
+* Rename <code>electron_package.json</code> to <code>package.json</code>
+* Run <code>npm install</code> and wait! (Make sure to have VS 2017 installed - otherwise it will fail!)
+* Run <code>npm start</code>
+
 #### Linux
-It's exactly the same process to run on windows!
+It's exactly the same process to run on windows (nw)!
 The only difference is: To run R3V2:
 
 * Open your terminal and navigate to R3V2 folder
@@ -49,9 +60,9 @@ Download Link: [ <a target="_blank" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0
 
 ### Engine:
 * NW.js (aka. Node-Webkit) by NW.js community
+* Electron by OpenJS Foundation
 
 ### External JS Apps / Plugins:
-* jQuery and jQuery UI by The jQuery Foundation
 * eNGE by Reene-Kootstra
 
 ### NW.js Plugins:
