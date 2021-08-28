@@ -39,11 +39,7 @@ To run this software properly, you will need generate <code>node_modules</code> 
 * Run <code>npm start</code>
 
 #### Linux
-<<<<<<< HEAD
-It's almost the same process to run on windows!
-=======
 It's exactly the same process to run on windows (nw)!
->>>>>>> 062d7fb8c1e3192ebc027f52c882b9eaa5fae447
 The only difference is: To run R3V2:
 
 * Open your terminal and navigate to R3V2 folder
@@ -67,10 +63,7 @@ Download Link: [ <a target="_blank" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0
 * Electron by OpenJS Foundation
 
 ### External JS Apps / Plugins:
-<<<<<<< HEAD
 * TMS.js by TheMitoSan
-=======
->>>>>>> 062d7fb8c1e3192ebc027f52c882b9eaa5fae447
 * eNGE by Reene-Kootstra
 
 ### NW.js Plugins:
