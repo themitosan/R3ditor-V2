@@ -22,7 +22,8 @@ It's recommended to use our pre-compiled version! You can download on <a href="h
 <i>PS: <a href="https://themitosan.github.io/R3V2" title="Click here to test R3ditor V2 in your browser!" target="_blank">You can try this tool online!</a></i>
 
 ##### Important
-To run this software properly, you will need generate <code>node_modules</code> folder using <code>npm</code> and Visual Studio 2017 <i>(with c++ development tools)</i>.
+To run this software properly, you will need generate <code>node_modules</code> folder using <code>npm</code> and Visual Studio 2017
+<br><i>(with c++ development tools)</i>.
 
 #### Windows (NW.js)
 * Clone this repository
