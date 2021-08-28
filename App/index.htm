@@ -34,6 +34,8 @@
 		<meta name="twitter:card" content="summary"/>
 		<meta name="twitter:site" content="@TheMitoSan"/>
 		<meta name="twitter:creator" content="@TheMitoSan"/>
+		<!-- Security Thing -->
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
 	</head>
 	<body id="APP_BODY">
 		<!-- Loading Frame -->
@@ -93,7 +95,7 @@
 				</div>
 				<!-- Editors -->
 				<div class="R3_MENU_ITEM">
-					R3V2 Main Tools
+					Main Tools
 					<div class="R3_MENU_DROPDOWN">
 						<div class="R3_MENU_ITEM_BIG" title="(RDT Editor) Click here to open RE3 RDT Editor" onclick="R3_SHOW_MENU(10);">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-7.png"><div class="R3_MENU_BIG_LBL">RDT Editor</div>
@@ -1736,8 +1738,8 @@
 					<img ondragstart="return false;" src="img/logo.png" class="ABOUT_LOGO"><br>
 					<font class="LBL_appTitle">R3ditor V2</font><br>
 					Ver. <font id="ABOUT_LBL_R3_VERSION">???</font><br>
-					<div id="DIV_ABOUT_NW">NW.js Ver: <font id="ABOUT_LBL_NW_VERSION">???</font></div><br>
-					Created by <a target="_blank" rel="noreferrer" href="https://twitter.com/themitosan">@TheMitoSan</a> / R3V2 Team<br>
+					<div id="DIV_ABOUT_NW"><font id="ABOUT_LBL_NW_VERSION">???</font></div><br>
+					Created by:<br><a target="_blank" rel="noreferrer" href="https://twitter.com/themitosan">@TheMitoSan</a> / R3V2 Team<br>
 					<a target="_blank" rel="noreferrer" href="https://themitosan.github.io/">Official Website</a><br><br>
 					<i>"Forget the old promise, let's together make it like a dream becoming reality..."</i><br><br>
 					<input type="button" title="Click here to go back" class="ABOUT_GOBACK_BTN" value="Go Back" onclick="R3_MENU_GOBACK();">
@@ -1790,11 +1792,11 @@
 				<script defer type="text/javascript" src="js/database.js"></script>
 				<script defer type="text/javascript" src="js/design.js"></script>
 				<script defer type="text/javascript" src="js/index.js"></script>
+				<script defer type="text/javascript" src="js/configs.js"></script>
 				<script defer type="text/javascript" src="js/utils.js"></script>
 				<script defer type="text/javascript" src="js/wizard.js"></script>
 				<script defer type="text/javascript" src="js/doorlink.js"></script>
 				<script defer type="text/javascript" src="js/livestatus.js"></script>
-				<script defer type="text/javascript" src="js/configs.js"></script>
 				<script defer type="text/javascript" src="js/keyPress.js"></script>
 				<script defer type="text/javascript" src="js/ini.js"></script>
 				<script defer type="text/javascript" src="js/tim.js"></script>

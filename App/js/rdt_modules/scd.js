@@ -5397,18 +5397,17 @@ function R3_SCD_FUNCTION_UPDATE_RANGE_CMY(cOpcode){
 // Show [GO_SUB] Script Preview
 function R3_SCD_FUNCTION_GO_SUB_PREVIEW(){
 	if (SCD_arquivoBruto !== undefined){
-		var c = 0, TEMP_HTML = '', scriptId = document.getElementById('R3_SCD_EDIT_19_scriptId').value;
+		var TEMP_HTML = '', scriptId = document.getElementById('R3_SCD_EDIT_19_scriptId').value;
 		document.getElementById('R3_SCD_EDIT_19_LBL_scriptId').innerHTML = scriptId;
 		if (R3_SCD_SCRIPTS_LIST[scriptId] !== undefined){
 			document.getElementById('R3_SCD_EDIT_19_scriptPreview').innerHTML = '';
-			while (c < R3_SCD_SCRIPTS_LIST[scriptId].length){
-				var cFunction = R3_SCD_SCRIPTS_LIST[scriptId][c].slice(0, 2),
+			R3_SCD_SCRIPTS_LIST[scriptId].forEach(function(cItem, cIndex){
+				var cFunction = cItem.slice(0, 2),
 					fName = R3_SCD_DATABASE[cFunction][1],
 					fColor = R3_SCD_DATABASE[cFunction][2],
 					fTitle = R3_SCD_INFO_DATABASE[cFunction];
 				TEMP_HTML = TEMP_HTML + '<div class="R3_SCD_EDIT_DEMO_NEXTFN R3_SCD_function_' + fColor + ' monospace" title="' + fTitle + '"><div class="R3_SCD_INSERT_LBL_FIX">' + fName + '</div></div>';
-				c++;
-			};
+			});
 			document.getElementById('R3_SCD_EDIT_19_scriptPreview').innerHTML = TEMP_HTML;
 		} else {
 			document.getElementById('R3_SCD_EDIT_19_scriptPreview').innerHTML = '<br><u>Caution</u> - This script are not available!';

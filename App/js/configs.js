@@ -52,6 +52,19 @@ var APP_ON_BOOT = true,
 function R3_LOAD_CHECKFILES(){
 	if (R3_WEBMODE === false){
 		try {
+			// Path
+			const DATABASE_INIT_CREATE_FOLDER = [
+				APP_PATH + '/Assets',
+				APP_PATH + '/Update',
+				APP_PATH + '/Configs',
+				APP_PATH + '/Assets/Save',
+				APP_PATH + '/Configs/Backup',
+				APP_PATH + '/Configs/Backup/RDT'
+			],
+			DATABASE_INIT_DELETE_FILES = [
+				APP_PATH + '/Update/Update.zip',
+				APP_TOOLS + '/XDELTA_PATCH_FILE.bin'
+			];
 			// Create Paths
 			if (APP_FS.existsSync(APP_PATH) !== true){
 				APP_FS.mkdirSync(APP_PATH);
@@ -63,7 +76,7 @@ function R3_LOAD_CHECKFILES(){
 			});
 			/*
 				Delete Files
-				Will do on Windows and Linux
+				Will run on Windows and Linux
 			*/
 			if (process.platform !== 'darwin'){
 				DATABASE_INIT_DELETE_FILES.forEach(function(deleteFile){
@@ -919,37 +932,48 @@ function R3_INIT_DATABASE_GENERATE(){
 */
 function R3_INIT_PROCESS_ARGS(){
 	if (R3_WEBMODE === false){
-		var nwFlags = nw.App.argv;
-		if (nwFlags !== []){
+		var runFlags;
+		// NW.js
+		if (R3_WEB_IS_NW === true){
+			runFlags = nw.App.argv;
+		};
+		// Electron
+		if (R3_WEB_IS_ELECTRON === true){
+			runFlags = process.argv;
+		};
+		/*
+			Start
+		*/
+		if (runFlags !== []){
 			// Disable animations
-			if (nwFlags.indexOf('--disable-animations') !== -1){
+			if (runFlags.indexOf('--disable-animations') !== -1){
 				R3_ENABLE_ANIMATIONS = false;
 				document.getElementById('R3_SETTINGS_LBL_enableAnim').onclick = null;
 				document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').disabled = 'disabled';
 			};
 			// Enter Fullscreen
-			if (nwFlags.indexOf('--fullscreen') !== -1){
+			if (runFlags.indexOf('--fullscreen') !== -1){
 				R3_DESIGN_toggleFullScreen(0);
 			};
 			// Disable discord
-			if (nwFlags.indexOf('--disable-discord') !== -1){
+			if (runFlags.indexOf('--disable-discord') !== -1){
 				R3_NW_ARGS_DISABLE_DISCORD = true;
 			};
 			// Disable moving screen
-			if (nwFlags.indexOf('--disable-move-screen') !== -1){
+			if (runFlags.indexOf('--disable-move-screen') !== -1){
 				R3_NW_ARGS_DISABLE_MOVE_SCREEN = true;
 			};
 			// Move window to a specific screen
-			if (nwFlags.indexOf('--screen') !== -1){
+			if (runFlags.indexOf('--screen') !== -1){
 				R3_NW_ARGS_OVERWRITE_MOVE_SCREEN = true;
-				R3_SYSTEM_moveWindowToScreen(nwFlags[parseInt(nwFlags.indexOf('--screen') + 1)]);
+				R3_SYSTEM_moveWindowToScreen(runFlags[parseInt(runFlags.indexOf('--screen') + 1)]);
 			};
 			// Disable DoorLink
-			if (nwFlags.indexOf('--disable-doorlink') !== -1){
+			if (runFlags.indexOf('--disable-doorlink') !== -1){
 				R3_NW_ARGS_DISABLE_DOORLINK = true;
 			};
 			// Disable Log
-			if (nwFlags.indexOf('--disable-log') !== -1){
+			if (runFlags.indexOf('--disable-log') !== -1){
 				R3_NW_ARGS_DISABLE_LOG = true;
 			};
 		};

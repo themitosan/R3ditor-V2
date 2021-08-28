@@ -3,9 +3,10 @@
 	Agora vai mah!
 */
 // Internal Vars
-var R3_APP_START = false, R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_IS_32, APP_ONLINE, ORIGINAL_FILENAME, ORIGINAL_APP_PATH, APP_REQUIRE_SUCESS, DATABASE_INIT_FOLDER, DATABASE_INIT_DELETE_FILES, APP_ENABLE_MOD = false,
+var R3_APP_START = false, R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_IS_32 = false,
+	APP_ONLINE, ORIGINAL_FILENAME, ORIGINAL_APP_PATH, APP_REQUIRE_SUCESS, APP_ENABLE_MOD = false,
 	// External Modules
-	APP_FS, APP_MEMJS, APP_GUI, DiscordRPC,
+	APP_FS, APP_MEMJS, APP_GUI, DiscordRPC, APP_REQUIRE_PATH,
 	// Executable Vars
 	EXTERNAL_APP_PID, EXTERNAL_APP_EXITCODE = 0, EXTERNAL_APP_RUNNING = false,
 	// Exec Paths
@@ -17,7 +18,15 @@ var R3_APP_START = false, R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_
 	// Download Vars
 	R3_FILE_DOWNLOAD_COMPLETE = false, R3_FILE_DOWNLOAD_STATUSCODE = 0, R3_FILE_DOWNLOAD_PERCENT = 0,
 	// Web Mode
-	R3_WEBMODE = false, R3_WEB_FILE_BRIDGE = '', R3_WEB_IS_SAFARI = false, R3_WEB_IS_FOX = false, R3_WEB_IS_IE = false, R3_WEB_IS_ANDROID = false, R3_WEB_IS_PS4 = false,
+	R3_WEBMODE = false, R3_WEB_FILE_BRIDGE = '', 
+	// Web Engines
+	R3_WEB_IS_SAFARI   = false, // Apple Safari
+	R3_WEB_IS_FOX 	   = false, // Mozilla Firefox
+	R3_WEB_IS_IE 	   = false, // Internet Explorer
+	R3_WEB_IS_ANDROID  = false, // Google Chrome (Android)
+	R3_WEB_IS_PS4 	   = false, // PS4 Browser
+	R3_WEB_IS_NW 	   = false, // NW.js
+	R3_WEB_IS_ELECTRON = false, // Electron
 	// Log window text
 	R3_SYSTEM_LOG_TEXT = '',
 	// Backup Manager
@@ -33,83 +42,77 @@ window.addEventListener('DOMContentLoaded', function(evt){
 			R3_LOAD();
 		};
 	} catch (err) {
-		console.error(err);
+		console.error(err + '\nEvent: ' + evt);
 		R3_DESIGN_CRITIAL_ERROR(err);
 	};
 });
 /*
 	Functions
 */
-// Require NW.js Modules
+// Require modules
 function R3_INIT_REQUIRE(){
 	if (R3_WEBMODE === false){
-		try {
-			var nwVersion, eReason = '';
-			// Init Gamepad
-			R3_GAMEPAD_INIT();
-			if (process.arch === 'x64'){
-				APP_IS_32 = false;
-				if (process.platform === 'win32'){
-					nwVersion = process.versions['node-webkit'];
-					if (nwVersion !== undefined){
-						if (nwVersion === '0.38.4'){
-							try {
-								APP_MEMJS = require('memoryjs');
-								MEM_JS_requreSucess = true;
-							} catch (errMemJs) {
-								MEM_JS_requreSucess = false;
-								console.error('ERROR - Unable to require MemoryJS!\n' + errMemJs);
-							};
-						} else {
-							MEM_JS_requreSucess = false;
-							eReason = eReason + '\nWrong version of NW.js';
-						};
-						if (parseFloat(nwVersion.slice(2)) > 38.4){
-							eReason = eReason + '\nYou are using a newer version of NW.js! (' + nwVersion + ')';
-							R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: <u>You are using a newer version of NW.js!</u> <br>This can make this application malfunction - making it not execute / display properly. <br>(Required Version: <a rel="noreferrer" href="https://dl.nwjs.io/v0.38.4/" target="_blank">0.38.4</a>, Current Version: <a rel="noreferrer" href="https://dl.nwjs.io/v' + nwVersion + '/" target="_blank">' + nwVersion + '</a>)');
-						};
-					};
-				} else {
-					MEM_JS_requreSucess = false;
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You are running R3ditor V2 in a Non-Windows OS! <br>Most of R3V2 features will be disabled since this app was designed to run on Windows.');
+		var eReason = '',
+			engineVersion, 					   // nwjs, Electron
+			engineArch = process.arch, 		   // x86 or x64
+			enginePlatform = process.platform; // win32, darwin or linux 
+		/*
+			Detect engine (nwjs, electron and etc.)
+		*/
+		// NW.js [Node-Webkit]
+		if (process.versions['node-webkit'] !== undefined){
+			engineVersion = process.versions['node-webkit'];
+			R3_WEB_IS_NW = true;
+		};
+		// Electron
+		if (process.versions['electron'] !== undefined){
+			engineVersion = process.versions['electron'];
+			R3_WEB_IS_ELECTRON = true;
+		};
+		/*
+			Start Require process
+		*/
+		if (engineVersion !== undefined){
+			// Init MemoryJS
+			if (engineArch === 'x64' && enginePlatform === 'win32'){
+				try {
+					APP_MEMJS = require('memoryjs');
+					MEM_JS_requreSucess = true;
+				} catch (err) {
+					console.error('Unable to require MemoryJS!\n' + err);
 				};
-				if (MEM_JS_requreSucess === false){
-					R3_SYSTEM_LOG('separator');
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: R3ditor V2 will disable MemoryJS and RE3 Livetstaus - Reason: ' + eReason);
-				};
-			} else {
-				APP_IS_32 = true;
-				MEM_JS_requreSucess = false;
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: NW.js is a non-64bits version!\nR3ditor will disable MemoryJS and RE3 Livetstaus.');
 			};
 			DiscordRPC = require('discord-rpc');
+			APP_REQUIRE_PATH = require('path');
 			ORIGINAL_APP_PATH = process.cwd();
 			APP_ONLINE = navigator.onLine;
 			APP_PATH = ORIGINAL_APP_PATH;
 			APP_FS = require('fs-extra');
-			APP_GUI = require('nw.gui');
-			// Init window and displays
-			APP_GUI.Screen.Init();
-			R3_SYSTEM_availableMonitors = Object.keys(APP_GUI.Screen.screens).length;
+			// NW.gui
+			if (R3_WEB_IS_NW === true){
+				APP_GUI = require('nw.gui');
+				APP_GUI.Screen.Init();
+				R3_SYSTEM_availableMonitors = Object.keys(APP_GUI.Screen.screens).length;
+			};
 			/*
-				Other OS Support
+				Other OS
 			*/
 			// macOS (Tested on Mojave)
 			if (process.platform === 'darwin'){
 				APP_PATH = process.env.HOME + '/Documents/R3V2';
 				APP_ASSETS = process.cwd();
 			};
-			// Windows
+			// Windows [Tested on 7, 8, 8.1, 10 and 11 Preview]
 			if (process.platform === 'win32'){
-				var path = require('path'), tempPath = process.env.HOMEDRIVE + process.env.HOMEPATH + '/Documents';
+				var tempPath = process.env.HOMEDRIVE + process.env.HOMEPATH + '/Documents';
 				/*
 					Fix if documents does not exists (attempt to fix 3lric boot issue)
 					This will redirect the APP_PATH to executable dir
 				*/
 				if (APP_FS.existsSync(tempPath) !== true){
-					tempPath = R3_fixPath(path.dirname(process.execPath)) + '/R3V2';
+					tempPath = R3_fixPath(APP_REQUIRE_PATH.dirname(process.execPath)) + '/R3V2';
 				};
-				APP_TOOLS = R3_fixPath(path.dirname(process.execPath)) + '/Tools';
+				APP_TOOLS = R3_fixPath(APP_REQUIRE_PATH.dirname(process.execPath)) + '/Tools';
 				APP_EXEC_PATH = R3_fixPath(ORIGINAL_APP_PATH);
 				APP_PATH = R3_fixPath(tempPath) + '/R3V2';
 			} else {
@@ -119,77 +122,63 @@ function R3_INIT_REQUIRE(){
 			if (process.platform === 'linux'){
 				APP_PATH = ORIGINAL_APP_PATH;
 			};
-			// Init Path Vars
-			DATABASE_INIT_CREATE_FOLDER = [
-				APP_PATH + '/Assets',
-				APP_PATH + '/Update',
-				APP_PATH + '/Configs',
-				APP_PATH + '/Assets/Save',
-				APP_PATH + '/Configs/Backup',
-				APP_PATH + '/Configs/Backup/RDT'
-			];
-			DATABASE_INIT_DELETE_FILES = [
-				APP_PATH + '/Update/Update.zip',
-				APP_TOOLS + '/XDELTA_PATCH_FILE.bin'
-			];
 			/*
 				End
 			*/
 			APP_REQUIRE_SUCESS = true;
-		} catch (err) {
-			R3_DESIGN_CRITIAL_ERROR(err);
-			APP_REQUIRE_SUCESS = false;
-		};
-	} else {
-		try {
-			R3_WEB_checkBrowser();
-			// Try to port some nw functions to web
-			APP_FS = {
-				readFileSync: function(path, options){
-					if (path !== undefined && path !== ''){
-						var fReader = new FileReader;
-						if (options === undefined){
-							options = 'hex';
-						}
-						/*
-							Read Modes
-
-							Hex
-							Original Code: https://stackoverflow.com/questions/40031688/javascript-arraybuffer-to-hex
-						*/
-						if (options === 'hex'){
-							fReader.readAsArrayBuffer(path);
-							fReader.onload = function(){
-								R3_WEB_FILE_BRIDGE = Array.prototype.map.call(new Uint8Array(fReader.result), function(x){
-									return ('00' + x.toString(16)).slice(-2);
-								}).join('');
+		} else {
+			/*
+				Web Mode
+			*/
+			try {
+				R3_WEB_checkBrowser();
+				// Try to port some nw functions to web
+				APP_FS = {
+					readFileSync: function(path, options){
+						if (path !== undefined && path !== ''){
+							var fReader = new FileReader;
+							if (options === undefined){
+								options = 'hex';
+							}
+							/*
+								Read Modes
+								Original Code: https://stackoverflow.com/questions/40031688/javascript-arraybuffer-to-hex
+							*/
+							// Hex
+							if (options === 'hex'){
+								fReader.readAsArrayBuffer(path);
+								fReader.onload = function(){
+									R3_WEB_FILE_BRIDGE = Array.prototype.map.call(new Uint8Array(fReader.result), function(x){
+										return ('00' + x.toString(16)).slice(-2);
+									}).join('');
+								};
+							};
+							// Text
+							if (options === 'utf-8'){
+								fReader.readAsText(path);
+								fReader.onload = function(){
+									R3_WEB_FILE_BRIDGE = fReader.result;
+								};
+							};
+							// End
+							fReader.onerror = function(){
+								R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to read file! <br>Reason: ' + fReader.error);
+								console.error('APP_FS ERROR!\n' + fReader.error);
+								R3_SYSTEM_ALERT('ERROR: \n' + fReader.error);
 							};
 						};
-						// Text
-						if (options === 'utf-8'){
-							fReader.readAsText(path);
-							fReader.onload = function(){
-								R3_WEB_FILE_BRIDGE = fReader.result;
-							};
-						};
-						// End
-						fReader.onerror = function(){
-							R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to read file! <br>Reason: ' + fReader.error);
-							console.error('APP_FS ERROR!\n' + fReader.error);
-							R3_SYSTEM_ALERT('ERROR: \n' + fReader.error);
-						};
-					};
-				},
-				writeFileSync: function(path, fData, mode){
-					R3_FILE_SAVE(R3_getFileName(path.name) + '.' + R3_getFileExtension(path.name), fData, mode, R3_getFileExtension(path.name));
-				}
+					},
+					writeFileSync: function(path, fData, mode){
+						R3_FILE_SAVE(R3_getFileName(path.name) + '.' + R3_getFileExtension(path.name), fData, mode, R3_getFileExtension(path.name));
+					}
+				};
+			} catch (err) {
+				R3_DESIGN_CRITIAL_ERROR(err);
 			};
-		} catch (err) {
-			R3_DESIGN_CRITIAL_ERROR(err);
 		};
 	};
 };
-// Web-Check
+// Detect browser on web-mode
 function R3_WEB_checkBrowser(){
 	if (R3_WEBMODE === true){
 		var uArgent = navigator.userAgent;
@@ -220,7 +209,7 @@ function R3_WEB_checkBrowser(){
 function R3_LOAD(){
 	try {
 		R3_APP_START = true;
-		var startInWebMode = false, nwArgs = [];
+		var startInWebMode = false, nwArgs = [], nwFlavor = '';
 		// Drity code for webmode
 		if (typeof nw !== 'undefined'){
 			nwArgs = nw.App.argv;
@@ -244,6 +233,11 @@ function R3_LOAD(){
 			R3_DESIGN_ADJUST();
 		} else {
 			if (APP_REQUIRE_SUCESS === true){
+				// NW Flavor
+				if (R3_WEB_IS_NW === true){
+					nwFlavor = ' [' + process.versions['nw-flavor'] + ']';
+				};
+				INT_VERSION = INT_VERSION + nwFlavor;
 				try {
 					R3_INIT_DATABASE_GENERATE();
 					R3_LOAD_CHECKFILES();
@@ -679,8 +673,7 @@ function R3_solveHEX(hex){
 function R3_getFilePath(fileName){
 	var res = '';
 	if (fileName !== undefined && fileName !== ''){
-		var path = require('path');
-		res = R3_fixPath(path.dirname(fileName));
+		res = R3_fixPath(APP_REQUIRE_PATH.dirname(fileName));
 	};
 	return res;
 };

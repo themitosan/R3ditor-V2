@@ -106,7 +106,7 @@ function R3_DESIGN_CRITIAL_ERROR(args){
 // Append data
 function R3_INIT_APPEND(){
 	try {
-		var BOX_ITEM_32 = HTML_TEMPLATE = '', tempId, tempOpcode;
+		var BOX_ITEM_32 = HTML_TEMPLATE = '', tempId, tempOpcode, verStr = 'Web Version';
 		// Append displays
 		for (var i = 0; i < R3_SYSTEM_availableMonitors; i++){
 			HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + i + '">Display ' + (i + 1) + '</option>';
@@ -142,10 +142,14 @@ function R3_INIT_APPEND(){
 		// App Version
 		document.getElementById('ABOUT_LBL_R3_VERSION').innerHTML = INT_VERSION;
 		if (R3_WEBMODE === false){
-			document.getElementById('ABOUT_LBL_NW_VERSION').innerHTML = process.versions['node-webkit'] + ' (' + process.arch + ')';
-		} else {
-			document.getElementById('ABOUT_LBL_NW_VERSION').innerHTML = 'Web Version';
+			if (R3_WEB_IS_NW === true){
+				verStr = 'NW.js Version: ' + process.versions['node-webkit'] + ' (' + process.arch + ')';
+			};
+			if (R3_WEB_IS_ELECTRON === true){
+				verStr = 'Electron Version:' + process.versions['electron'] + ' (' + process.arch + ')';
+			};
 		};
+		document.getElementById('ABOUT_LBL_NW_VERSION').innerHTML = verStr;
 		// Array for Search Fields
 		if (APP_ON_BOOT === true){
 			R3_DESIGN_prepareBtnArray();
@@ -382,7 +386,6 @@ function R3_DESIGN_ADJUST(){
 	if (R3_WEBMODE === false){
 		// Mod Menu
 		TMS.css('R3_MENU_MOD', {'display': 'block'});
-		//
 		TMS.css('SETTINGS_LI_CLEARCACHE', {'display': 'none'});
 		if (INT_VERSION === 'DEV_VERSION'){
 			TMS.css('R3_MENU_ITEM_GITHUB_UPDATER', {'display': 'block'});
@@ -428,8 +431,12 @@ function R3_DESIGN_ADJUST(){
 			TMS.css('R3_MENU_ITEM_LEOS_HUB', {'display': 'block'});
 			TMS.css('R3_MENU_ITEM_OPCODE_FINDER', {'display': 'block'});
 		};
-		// Leo tools settings
+		// Leo's settings
 		TMS.css('SETTINGS_DIV_LEO_PATH', {'display': 'block'});
+		// Fix RDT Background on Electron
+		if (R3_WEB_IS_ELECTRON === true){
+			TMS.css('R3_RDT_GENERAL_IMG', {'background-size': 'auto 174%'});
+		};
 	} else {
 		// Hide run game if web mode
 		TMS.css('BTN_MOD_EXPORT', {'display': 'none'});
@@ -470,20 +477,20 @@ function R3_DESIGN_ADJUST(){
 };
 /*
 	Toggle fullscreen modes
-	Mode:
+	Modes:
 
 	0 = Enter
 	1 = Leave
 */
 function R3_DESIGN_toggleFullScreen(mode){
 	if (mode === 0){
-		if (R3_WEBMODE === false){
+		if (R3_WEBMODE === false && R3_WEB_IS_NW === true){
 			require('nw.gui').Window.get().enterFullscreen();
 		} else {
 			document.documentElement.requestFullscreen();
 		};
 	} else {
-		if (R3_WEBMODE === false){
+		if (R3_WEBMODE === false && R3_WEB_IS_NW === true){
 			nw.Window.get().leaveFullscreen();
 		} else {
 			var webFs = window.fullScreen;

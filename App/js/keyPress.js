@@ -17,7 +17,7 @@ function R3_KEYPRESS_releaseKeys(){
 */
 document.addEventListener('keydown', function(kd){
 	// console.info(kd.keyCode);
-	if (R3_KB_ENABLE_SHORTCUTS === true && APP_ON_BOOT !== true){
+	if (R3_KB_ENABLE_SHORTCUTS === true && APP_ON_BOOT === false){
 		// Hold shift [SHIFT]
 		if (kd.keyCode === 16){
 			R3_KEYPRESS_SHIFT = true;
@@ -93,7 +93,7 @@ document.addEventListener('keydown', function(kd){
 		};
 	};
 	// Update text data on SCD Code editor
-	if (R3_MENU_CURRENT === 9){
+	if (R3_MENU_CURRENT === 9 && SETTINGS_SCD_EDITOR_MODE === 0){
 		R3_SCD_CODE_updateTextData();
 	};
 });
@@ -143,78 +143,81 @@ document.addEventListener('keyup', function(kp){
 			if (kp.keyCode === 112){
 				R3_HC_OPEN_PAGE(R3_MENU_CURRENT);
 			};
-			// Open SCD Opcode Finder [Main Menu, CTRL + SHIFT + F]
-			if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === true && kp.keyCode === 70){
-				R3_SCD_openOpcodeFinder();
-			};
-			// Open log window [CTRL + SHIFT + L]
-			if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === true && kp.keyCode === 76){
-				R3_DESIGN_openLogWindow();
-			};
-			// Close tools using [CTRL + E]
-			if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === false && SETTINGS_SHORTCUT_CLOSETOOL === true && kp.keyCode === 69){
-				R3_MENU_EXIT();
-			};
-			// Open Item Database [CTRL + SHIFT + I]
-			if (R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === true && kp.keyCode === 73){
-				R3_DESIGN_MINIWINDOW_OPEN(15, 'center');
-			};
-			// Open editors using numbers [CTRL + Number]
-			if (R3_MENU_CURRENT === 10 && R3_KEYPRESS_CONTROL === true){
-				// SCD [CTRL + 1]
-				if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 49){
-					R3_RDT_OPEN_SCD();
+			// [CTRL] Hotkeys
+			if (R3_KEYPRESS_CONTROL === true){
+				// Open SCD Opcode Finder [Main Menu, CTRL + SHIFT + F]
+				if (R3_KEYPRESS_SHIFT === true && kp.keyCode === 70){
+					R3_SCD_openOpcodeFinder();
 				};
-				// MSG [CTRL + 2]
-				if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 50){
-					R3_RDT_OPEN_MSG();
+				// Open log window [CTRL + SHIFT + L]
+				if (R3_KEYPRESS_SHIFT === true && kp.keyCode === 76){
+					R3_DESIGN_openLogWindow();
 				};
-				// RID [CTRL + 3]
-				if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 51){
-					R3_RDT_OPEN_RID();
+				// Close tools using [CTRL + E]
+				if (R3_KEYPRESS_SHIFT === false && SETTINGS_SHORTCUT_CLOSETOOL === true && kp.keyCode === 69){
+					R3_MENU_EXIT();
 				};
-				// LIT [CTRL + 4]
-				if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 52){
-					R3_RDT_OPEN_LIT();
+				// Open Item Database [CTRL + SHIFT + I]
+				if (R3_KEYPRESS_SHIFT === true && kp.keyCode === 73){
+					R3_DESIGN_MINIWINDOW_OPEN(15, 'center');
 				};
-				// PRI [CTRL + 5]
-				if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 53){
-					R3_RDT_OPEN_PRI();
+				// RDT - Open editors using numbers [CTRL + Number]
+				if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === false){
+					// SCD [CTRL + 1]
+					if (kp.keyCode === 49){
+						R3_RDT_OPEN_SCD();
+					};
+					// MSG [CTRL + 2]
+					if (kp.keyCode === 50){
+						R3_RDT_OPEN_MSG();
+					};
+					// RID [CTRL + 3]
+					if (kp.keyCode === 51){
+						R3_RDT_OPEN_RID();
+					};
+					// LIT [CTRL + 4]
+					if (kp.keyCode === 52){
+						R3_RDT_OPEN_LIT();
+					};
+					// PRI [CTRL + 5]
+					if (kp.keyCode === 53){
+						R3_RDT_OPEN_PRI();
+					};
+					// SCA [CTRL + 6]
+					if (kp.keyCode === 54){
+						R3_RDT_OPEN_SCA();
+					};
 				};
-				// SCA [CTRL + 6]
-				if (R3_MINI_WINDOW_DATABASE[6][5] === false && kp.keyCode === 54){
-					R3_RDT_OPEN_SCA();
-				};
-			};
-			// Open windows / editors on main menu [CTRL + Number]
-			if (R3_MENU_CURRENT === 4 && R3_KEYPRESS_CONTROL === true){
-				// RDT Editor [CTRL + 1]
-				if (kp.keyCode === 49){
-					R3_SHOW_MENU(10);
-				};
-				// SCD Editor [CTRL + 2]
-				if (kp.keyCode === 50){
-					R3_SHOW_MENU(9);
-				};
-				// MSG Editor [CTRL + 3]
-				if (kp.keyCode === 51){
-					R3_SHOW_MENU(7);
-				};
-				// SAV Editor [CTRL + 4]
-				if (kp.keyCode === 52){
-					R3_WIP();
-				};
-				// INI Editor [CTRL + 5]
-				if (kp.keyCode === 53){
-					R3_SHOW_MENU(6);
-				};
-				// RE3SET Editor [CTRL + 6]
-				if (kp.keyCode === 54){
-					R3_WIP();
-				};
-				// New Mod (Wizard) [CTRL + N]
-				if (kp.keyCode === 78){
-					R3_DESIGN_displayWizard();
+				// Open windows / editors on main menu [CTRL + Number]
+				if (R3_MENU_CURRENT === 4){
+					// RDT Editor [CTRL + 1]
+					if (kp.keyCode === 49){
+						R3_SHOW_MENU(10);
+					};
+					// SCD Editor [CTRL + 2]
+					if (kp.keyCode === 50){
+						R3_SHOW_MENU(9);
+					};
+					// MSG Editor [CTRL + 3]
+					if (kp.keyCode === 51){
+						R3_SHOW_MENU(7);
+					};
+					// SAV Editor [CTRL + 4]
+					if (kp.keyCode === 52){
+						R3_WIP();
+					};
+					// INI Editor [CTRL + 5]
+					if (kp.keyCode === 53){
+						R3_SHOW_MENU(6);
+					};
+					// RE3SET Editor [CTRL + 6]
+					if (kp.keyCode === 54){
+						R3_WIP();
+					};
+					// New Mod (Wizard) [CTRL + N]
+					if (kp.keyCode === 78){
+						R3_DESIGN_displayWizard();
+					};
 				};
 			};
 			// Go Back to RDT menu [CTRL + ']
@@ -489,7 +492,7 @@ document.addEventListener('keyup', function(kp){
 		R3_RELOAD();
 	};
 	// Update text data on SCD Code editor
-	if (R3_MENU_CURRENT === 9){
+	if (R3_MENU_CURRENT === 9 && SETTINGS_SCD_EDITOR_MODE === 1){
 		R3_SCD_CODE_updateTextData();
 	};
 });
@@ -561,6 +564,8 @@ document.addEventListener('wheel', function(mWheel){
 				} else {
 					R3_DESIGN_CODE_zoomMode(1);
 				};
+				// Update Text labels
+				R3_SCD_CODE_updateTextData();
 			};
 		};
 	};
