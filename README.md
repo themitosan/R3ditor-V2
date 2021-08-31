@@ -13,7 +13,7 @@ It can open maps, text files and SCD Scripts. For now, your best usage is for ed
 - Windows: 7, 8, 8.1, 10 or 11.
 - Linux: Ubuntu 20.00 or higher
 - macOS: 10.15 (Mojave) or higher²
-- Hardware: Any hardware that is capable of running NW.js and the game!
+- Hardware: Any hardware that is capable of running NW.js / Electron and the game!
 
 
 ### How to install
