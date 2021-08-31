@@ -40,7 +40,7 @@ To run this software properly, you will need generate <code>node_modules</code> 
 
 #### Linux
 It's exactly the same process to run on windows (nw)!
-The only difference is: To run R3V2:
+The only difference is - To run R3V2:
 
 * Open your terminal and navigate to R3V2 folder
 * Run <code>./nw</code>
