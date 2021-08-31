@@ -554,7 +554,10 @@ function R3_LOAD_CHECK_EXTRA(){
 	} else {
 		R3_WEB_ALERT();
 	};
+	R3_POSTBOOT();
 };
+// Function to be overwritten by debug.js
+function R3_POSTBOOT(){};
 // Save Settings
 function R3_SAVE_SETTINGS(reload, logSaving){
 	/*

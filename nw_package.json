@@ -1,8 +1,10 @@
 {
     "name": "R3V2",
     "version": "1.0.0",
+    "license": "GPL-2",
     "author": "R3V2 Team",
     "main": "App/index.htm",
+    "repository": "https://github.com/themitosan/R3ditor-V2",
     "description": "This is the second version of the best software for Resident Evil 3 modding",
     "js-flags": "--disable-devtools --disable-web-security --allow-file-access-from-files --allow-file-access",
     "keywords": [
@@ -13,8 +15,8 @@
         "node-webkit"
     ],
     "window": {
-        "height": 684,
         "width": 1316,
+        "height": 684,
         "frame": true,
         "toolbar": false,
         "min_width": 1316,
@@ -24,15 +26,21 @@
         "icon": "App/img/logo.png",
         "title": "R3ditor V2 - Please wait..."
     },
-    "webkit": {
-        "plugin": true
-    },
     "dependencies": {
+        "nw": "0.38.4-sdk",
         "memoryjs": "^3.2.3",
         "fs-extra": "^8.1.0",
         "jsonfile": "^4.0.0",
         "node-fetch": "^2.6.0",
+        "graceful-fs": "^4.2.2",
         "discord-rpc": "^3.1.3",
-        "graceful-fs": "^4.2.2"
-    }
+        "universalify": "^0.1.2"
+    },
+    "webkit": {
+        "plugin": true
+    },
+    "scripts": {
+        "start": "nw"
+    },
+    "devDependencies": {}
 }

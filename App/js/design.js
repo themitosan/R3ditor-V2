@@ -209,6 +209,7 @@ function R3_SHOW_MENU(menuId){
 			// MSG Editor
 			if (menuId === 7){
 				if (RDT_arquivoBruto !== undefined){
+					document.title = APP_TITLE + ' - MSG Editor - File: ' + R3_RDT_mapName + '.RDT';
 					TMS.css('BTN_MAIN_32', {'display': 'inline-flex'});
 				} else {
 					TMS.css('BTN_MAIN_32', {'display': 'none'});
@@ -1602,7 +1603,7 @@ function R3_SCD_scrollScriptList(){
 */
 function R3_SCD_navigateFunctions(mode, fnId, isClick){
 	if (SCD_arquivoBruto !== undefined){
-		var c = 0, cFunction, holderHeight, focusFn, canFocus = true;
+		var cFunction, holderHeight, focusFn, canFocus = true;
 		// Modes
 		if (mode === 0){
 			R3_SCD_HIGHLIGHT_FUNCTION--;
@@ -1632,9 +1633,8 @@ function R3_SCD_navigateFunctions(mode, fnId, isClick){
 		if (R3_SCD_HIGHLIGHT_FUNCTION > (R3_SCD_TOTAL_FUNCTIONS - 2)){
 			R3_SCD_HIGHLIGHT_FUNCTION = (R3_SCD_TOTAL_FUNCTIONS - 2);
 		};
-		while (c < R3_SCD_TOTAL_FUNCTIONS){
+		for (var c = 0; c < R3_SCD_TOTAL_FUNCTIONS; c++){
 			TMS.css('R3_SCD_scriptCommand_' + c, {'box-shadow': '0px 0px 0px #000'});
-			c++;
 		};
 		// Make it shine, baby!
 		TMS.css('R3_SCD_scriptCommand_' + R3_SCD_HIGHLIGHT_FUNCTION, {'box-shadow': '0px 0px 10px #fff'});
@@ -2506,7 +2506,7 @@ function R3_LIVESTATUS_OPEN_MENU(){
 // Open Bar
 function R3_LIVESTATUS_OPEN_BAR(){
 	if (R3_WEBMODE === false){
-		TMS.css('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_HOLDER', {'display': 'inline'});
+		TMS.css('R3_LIVESTATUS_' + SETTINGS_LIVESTATUS_BAR_POS + '_HOLDER', {'display': 'block'});
 		for (var c = 0; c < R3_TOTAL_MENUS; c++){
 			if (c !== 2 && document.getElementById('MENU_' + c) !== null){
 				if (SETTINGS_LIVESTATUS_BAR_POS === 1){
@@ -2533,9 +2533,9 @@ function R3_LIVESTATUS_CLOSE_BAR(){
 };
 // Adjust Interface
 function R3_LIVESTATUS_BAR_ADJUSTINTERFACE(){
-	R3_LIVESTATUS_CLOSE_BAR();
+	R3_LIVESTATUS_OPEN_BAR();
 	setTimeout(function(){
-		R3_LIVESTATUS_OPEN_BAR();
+		R3_LIVESTATUS_CLOSE_BAR();
 	}, 100);
 };
 // Toggle Bar Position

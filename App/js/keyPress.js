@@ -157,8 +157,8 @@ document.addEventListener('keyup', function(kp){
 				if (R3_KEYPRESS_SHIFT === false && SETTINGS_SHORTCUT_CLOSETOOL === true && kp.keyCode === 69){
 					R3_MENU_EXIT();
 				};
-				// Open Item Database [CTRL + SHIFT + I]
-				if (R3_KEYPRESS_SHIFT === true && kp.keyCode === 73){
+				// Open Item Databse [CTRL + SHIFT + D]
+				if (R3_KEYPRESS_SHIFT === true && kp.keyCode === 68){
 					R3_DESIGN_MINIWINDOW_OPEN(15, 'center');
 				};
 				// RDT - Open editors using numbers [CTRL + Number]

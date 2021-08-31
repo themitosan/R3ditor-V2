@@ -1,7 +1,7 @@
 /*
-	R3ditor V2 - scd_code_map.js
-	Okay... This is experimental!
+	R3ditor V2 - scd_js.js
 
+	Okay... This is experimental!
 	This file contains all SCD functions converted to JS and should be used to compile scripts.
 
 	JS Compiler Utils

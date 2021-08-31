@@ -79,7 +79,6 @@ function R3_MSG_decompileRDT(openEditor){
 		// End
 		R3_MSG_currentMessage = 0;
 		if (openEditor === true){
-			document.title = APP_TITLE + ' - MSG Editor - File: ' + R3_RDT_mapName + '.RDT';
 			R3_MSG_readMessage(0);
 			R3_SHOW_MENU(7);
 		};
@@ -115,14 +114,18 @@ function R3_MSG_readMessage(msgId){
 };
 // Add MSG ID to MSG List
 function R3_MSG_addToMSGList(msgId, openEditor){
-	if (msgId < R3_MSG_RDT_POINTERS.length && openEditor === true){
+	if (msgId < R3_MSG_RDT_POINTERS.length){
 		var tmpMsgRaw = R3_RDT_RAWSECTION_MSG,
 			pointersLength = (parseInt(R3_MSG_RDT_POINTERS[msgId], 16) * 2),
 			msgStart = tmpMsgRaw.slice(pointersLength, tmpMsgRaw.length),
-			msgFinal = msgStart.slice(0, (msgStart.indexOf('fe') + 4)),
-			HTML_TEMPLATE = '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_MSG_MESSAGE_ID_' + msgId + '">Message ' + parseInt(msgId + 1) +
+			msgFinal = msgStart.slice(0, (msgStart.indexOf('fe') + 4));
+		// Add if Open editor is true
+		if (openEditor === true){
+			const HTML_TEMPLATE = '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_MSG_MESSAGE_ID_' + msgId + '">Message ' + parseInt(msgId + 1) +
 							'<input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="Load Message" onclick="R3_MSG_readMessage(' + msgId + ');"></div>';
-		TMS.append('R3_MSG_SCRIPT_LISTS', HTML_TEMPLATE);
+			TMS.append('R3_MSG_SCRIPT_LISTS', HTML_TEMPLATE);
+		};
+		// End
 		R3_MSG_RDT_MESSAGES.push(msgFinal);
 	};
 };
@@ -409,11 +412,11 @@ function R3_MSG_COMPILE(mode){
 	};
 };
 /*
-	Recompile MSG Section With Pointers
+	Compile MSG Section With Pointers
 
 	Mode:
 	0: Insert to RDT
-	1: Just recompile
+	1: Just compile
 	2: Log FINAL_HEX (Debug)
 	3: HACK (Later will be the auto-save)
 */

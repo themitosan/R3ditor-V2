@@ -571,12 +571,12 @@ function R3_RDT_OPEN_MSG(){
 function R3_RDT_generateMsgPreview(){
 	if (RDT_arquivoBruto !== undefined && R3_RDT_RAWSECTION_MSG !== undefined){
 		R3_MSG_RDT_MESSAGES_PREVIEW = [];
-		var c = 0, d = 1, cMessage;
+		var d = 1, cMessage;
 		R3_MSG_decompileRDT(false);
-		while (c < R3_MSG_RDT_MESSAGES.length){
+		Object.keys(R3_MSG_RDT_MESSAGES).forEach(function(cItem){
 			d = 1;
 			cMessage = '';
-			R3_MSG_DECOMPILER_START(R3_MSG_RDT_MESSAGES[c]);
+			R3_MSG_DECOMPILER_START(R3_MSG_RDT_MESSAGES[cItem]);
 			while (d < Object.keys(R3_MSG_commands).length){
 				if (R3_MSG_commands[d][0] === 0){
 					cMessage = cMessage + R3_MSG_commands[d][1]; 
@@ -586,8 +586,7 @@ function R3_RDT_generateMsgPreview(){
 				};
 				d++;
 			};
-			c++;
-		};
+		});
 		// End
 		document.getElementById('R3_MSG_EDIT_TEXTAREA').value = '';
 	};
