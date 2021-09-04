@@ -7,16 +7,16 @@
 	Email: stevemonaco@hotmail.com
 */
 // Variables
-var TIM_arquivoBruto,
+var TIM_CLUT,
 	TIM_header,
 	TIM_bppType,
+	TIM_RAW_IMG,
 	TIM_clutSize,
-	TIM_VRAM_palleteOrgX,
-	TIM_VRAM_palleteOrgY,
-	TIM_colorsPerCLUT,
 	TIM_totalCLUT,
-	TIM_CLUT,
-	TIM_RAW_IMG;
+	TIM_arquivoBruto,
+	TIM_colorsPerCLUT,
+	TIM_VRAM_palleteOrgX,
+	TIM_VRAM_palleteOrgY;
 /*
 	Functions
 */
@@ -67,7 +67,7 @@ function TIM_getTimFromString(hex, location){
 	if (hex !== undefined && location !== undefined){
 		R3_UTILS_VAR_CLEAN_TIM();
 		// Start Read
-		TIM_header = hex.slice(location, parseInt(location + 8));
+		TIM_header  = hex.slice(location, parseInt(location + 8));
 		TIM_bppType = hex.slice((location + 8), (location + 16));
 		/*
 			8BPP With CLUT

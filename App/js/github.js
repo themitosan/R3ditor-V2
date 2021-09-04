@@ -15,7 +15,7 @@ var R3_UPDATER_INTERVAL,
 */
 // Get branches list
 function R3_UPDATER_GET_BRANCHES(){
-	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION'){
+	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION' && R3_ELECTRON === undefined){
 		var HTML_TEMPLATE = '';
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (GitHub) Fetching branches - Please wait...');
 		fetch(R3_GITHUB_FETCH_URL + 'branches').then(resp => resp.json()).then(function(dat){

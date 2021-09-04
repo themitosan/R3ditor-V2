@@ -218,11 +218,13 @@ document.addEventListener('keyup', function(kp){
 					if (kp.keyCode === 78){
 						R3_DESIGN_displayWizard();
 					};
+					// Open Mod [CTRL + O]
+					if (kp.keyCode === 79){
+						R3_WIZARD_openMod();
+					};
 				};
-			};
-			// Go Back to RDT menu [CTRL + ']
-			if (RDT_arquivoBruto !== undefined && R3_MENU_BACK_EXCLUDE.indexOf(R3_MENU_CURRENT) === -1){
-				if (R3_KEYPRESS_CONTROL === true && kp.keyCode === 192){
+				// Go Back to RDT menu [CTRL + ']
+				if (RDT_arquivoBruto !== undefined && R3_MENU_BACK_EXCLUDE.indexOf(R3_MENU_CURRENT) === -1 && kp.keyCode === 192){
 					R3_DESIGN_MINIWINDOW_CLOSE([6, 10]);
 					R3_DESIGN_RDT_closeFileList();
 					R3_SHOW_MENU(10);

@@ -58,7 +58,7 @@ function R3_SCD_STARTLOAD(scdFile, hxFile){
 	};
 	R3_SCD_HIGHLIGHT_FUNCTION = 0;
 	if (fName !== 'scd' && fName !== 'rdt'){
-		R3_SYSTEM_LOG('warn', 'WARN - This is not a valid SCD file!');
+		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: This is not a valid SCD file!');
 	} else {
 		R3_DESIGN_CLEAN_SCD();
 		R3_UTILS_VAR_CLEAN_SCD();
@@ -318,8 +318,8 @@ function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 					SCD_SEARCH_RESULTS.forEach(function(rItem, rIndex){
 						cScript = SCD_SEARCH_RESULTS[rIndex][0], cFunction = SCD_SEARCH_RESULTS[rIndex][1], cLabel = cScript;
 						cLabel = R3_fixVars(cScript, 3);
-						if (cLabel === 0){
-							cLabel = 'INIT';
+						if (SCD_scriptNames[cLabel] !== undefined){
+							cLabel = SCD_scriptNames[cLabel];
 						};
 						HTML_RESULT_TEMPLATE = HTML_RESULT_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SEARCH_FIND_FN_' + rIndex + '">Script <font class="monospace mono_xyzr">' + cLabel + '</font> - Function <font class="monospace mono_xyzr">' + R3_fixVars(parseInt(cFunction + 1), 3) +
 											   '</font><input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="GOTO" onclick="R3_DESIGN_SCD_focusResultFromSearchForm(' + rIndex + ');R3_SCD_SEARCH_GOTO_FUNCTION(' + cScript + ', ' + cFunction + ');"></div>';
@@ -531,7 +531,7 @@ function R3_SCD_EXPORT_SCRIPT(mode){
 		if (mode === undefined || mode === ''){
 			mode = 0;
 		};
-		var fileName, canExport = true, reason = '', tempHex = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].toString().replace(new RegExp(',', 'g'), '');
+		var fileName, sName = R3_SCD_CURRENT_SCRIPT, canExport = true, reason = '', tempHex = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].toString().replace(new RegExp(',', 'g'), '');
 		if (tempHex === '0100'){
 			canExport = false;
 			reason = 'This script is empty! (Error Code: 00)';
@@ -540,9 +540,9 @@ function R3_SCD_EXPORT_SCRIPT(mode){
 		if (canExport === true){
 			try {
 				fileName = R3_SCD_fileName + '_S' + R3_fixVars(R3_SCD_CURRENT_SCRIPT, 2) + '.R3SCRIPT';
-				if (R3_SCD_CURRENT_SCRIPT === 0){
-					fileName = R3_SCD_fileName + '_SINIT.R3SCRIPT';
-				}
+				if (SCD_scriptNames[R3_SCD_CURRENT_SCRIPT] !== undefined){
+					fileName = R3_SCD_fileName + '_S' + SCD_scriptNames[R3_SCD_CURRENT_SCRIPT] + '.R3SCRIPT';
+				};
 				if (mode === 0){
 					R3_FILE_SAVE(fileName, tempHex, 'hex', '.R3SCRIPT', function(scdPath){
 						if (R3_WEBMODE === false){
@@ -599,7 +599,7 @@ function R3_SCD_usePreset(presetId){
 };
 /*
 	Add Scripts to list
-	The 1st one always gonna be the INIT
+	The 1st one always gonna be the INIT and the second AutoExec
 */
 function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 	try {
@@ -608,8 +608,8 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 		TEMP_SCD_READ = SCD_RAW.slice(R3_parseHexLengthToString(R3_SCD_POINTERS[pointerPos])).match(/.{2,2}/g);
 		if (debugLog === true){
 			R3_SYSTEM_LOG('separator');
-			if (pointerPos === 0){
-				INIT_TEXT = '(INIT)';
+			if (SCD_scriptNames[pointerPos] !== undefined){
+				INIT_TEXT = '(' + SCD_scriptNames[pointerPos] + ')';
 			};
 			R3_SYSTEM_LOG('log', 'R3ditor V2 - SCD: Reading Script ' + pointerPos + ' ' + INIT_TEXT);
 		};
@@ -660,8 +660,8 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 		// End
 		if (R3_DOORLINK_RUNNING === false){
 			textLabel = 'Script ' + pointerPos;
-			if (pointerPos === 0){
-				textLabel = 'INIT Script';
+			if (SCD_scriptNames[pointerPos] !== undefined){
+				textLabel = 'Script ' + SCD_scriptNames[pointerPos];
 			};
 			HTML_INIT_SCRIPT_TEMP = '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SCRIPT_ID_' + pointerPos + '"><div class="R3_SCD_SCRIPT_LIST_ACTIVE" id="R3_SCD_SCRIPT_LIST_ACTIVE_' + pointerPos + '">' +
 									'</div>' + textLabel + '<input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="Load Script" onclick="R3_SCD_displayScript(' + pointerPos + ');"></div>';
@@ -1588,11 +1588,9 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 			/*
 				Code Mode (Script)
 			*/
-			var lblScript = '', tCount = 0, tempScriptCode, lastOpcodeWasCheck = false;
-			if (R3_SCD_CURRENT_SCRIPT === 0){
-				lblScript = 'INIT';
-			} else {
-				lblScript = R3_SCD_CURRENT_SCRIPT;
+			var lblScript = R3_SCD_CURRENT_SCRIPT, tCount = 0, tempScriptCode, lastOpcodeWasCheck = false;
+			if (SCD_scriptNames[R3_SCD_CURRENT_SCRIPT] !== undefined){
+				lblScript = SCD_scriptNames[R3_SCD_CURRENT_SCRIPT];
 			};
 			tempScriptCode = '/*\n	Map ' + R3_SCD_fileName + ', Script ' + lblScript + '\n	This is on Alpha-WIP stage, it means you can\'t edit SCD using this method yet.\n\n	Please, be patient!\n	With love, TheMitoSan <3\n*/', tabCounter = 0;
 			while (c < functionList.length){
@@ -2323,8 +2321,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				c++;
 			};
 			lblId = id;
-			if (id === 0){
-				lblId = 'INIT';
+			if (SCD_scriptNames[id] !== undefined){
+				lblId = SCD_scriptNames[id];
 			};
 			document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = tempScriptCode;
 		};
@@ -2438,7 +2436,7 @@ function R3_SCD_PASTE_FUNCTION(isShortcut){
 			if (isShortcut !== true){
 				promptPos = R3_SYSTEM_PROMPT('Please, insert where you want to paste this function:');
 			} else {
-				promptPos = R3_SCD_TOTAL_FUNCTIONS;
+				promptPos = (R3_SCD_HIGHLIGHT_FUNCTION + 2);
 			};
 			if (promptPos !== null && promptPos !== '' && parseInt(promptPos) !== NaN){
 				if (parseInt(promptPos) === 0){
@@ -2473,8 +2471,8 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 			TMS.css('SCD_FUNCTION_SEARCH_FIELD', {'text-transform': 'none'});
 			document.getElementById('SCD_FUNCTION_SEARCH_FIELD').value = '';
 			document.getElementById('R3_SCD_editFunction_pos').disabled = '';
+			document.getElementById('R3_SCD_editFunction_pos').value = (R3_SCD_HIGHLIGHT_FUNCTION + 2);
 			document.getElementById('R3_SCD_editFunction_pos').max = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length;
-			document.getElementById('R3_SCD_editFunction_pos').value = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length;
 			var focusDomId = '', opcodeForm = INCLUDE_SCD_EDIT_FUNCTIONS[cOpcode];
 			// Check if form exists
 			if (opcodeForm !== ''){
@@ -4965,9 +4963,11 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	// Auto-Insert Values
 	if (autoInsert === true && hex !== undefined){
 		if (R3_KEYPRESS_CONTROL === false){
-			SCD_scriptLoc = (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length - 1);
+			SCD_scriptLoc = (R3_SCD_HIGHLIGHT_FUNCTION + 1);
+			R3_SCD_HIGHLIGHT_FUNCTION++;
+			// SCD_scriptLoc = (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length - 1);
 		} else {
-			ask = R3_SYSTEM_PROMPT('Please, insert where you want to insert ' + R3_SCD_DATABASE[hex.slice(0, 2)][1] + ' below:');
+			ask = R3_SYSTEM_PROMPT('Please insert where you want to add ' + R3_SCD_DATABASE[hex.slice(0, 2)][1] + ' below:');
 			if (ask !== null && ask !== ''){
 				SCD_scriptLoc = (parseInt(ask) - 1);
 				if (SCD_scriptLoc > (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length + 1)){
@@ -4980,7 +4980,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		};
 		HEX_FINAL = hex;
 		// Fix for control
-		R3_KEYPRESS_CONTROL = false;
+		R3_KEYPRESS_releaseKeys();
 	};
 	if (SCD_CAN_APPLY === true){
 		//console.info(HEX_FINAL);
@@ -5001,6 +5001,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 					R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].push('0100');
 				} else {
 					R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].splice(SCD_scriptLoc, 0, HEX_FINAL);
+					R3_SCD_HIGHLIGHT_FUNCTION++;
 				};
 			} else {
 				R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][SCD_scriptLoc] = HEX_FINAL;
@@ -5262,13 +5263,13 @@ function R3_SCD_FUNCTION_READ_CHECK_LENGTH(hex, start){
 */
 function R3_SCD_FUNCTION_READ_CHECK_LENGTH_SPECIAL(hex, start, parentOpcode){
 	if (hex !== undefined && start !== undefined && parentOpcode !== undefined){
-		var cStart = parseInt(start + 1), desire = (parseInt(R3_parseEndian(hex), 16) * 2), counter = 0, current = 0, done = false;
+		var cFunction, cOpcode, cStart = parseInt(start + 1), desire = (parseInt(R3_parseEndian(hex), 16) * 2), counter = 0, current = 0, done = false;
 		while (done === false){
 			cStart++;
 			counter++;
-			var cFunction = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][cStart];
+			cFunction = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][cStart];
 			if (cFunction !== undefined){
-				var cOpcode = cFunction.slice(0, 2),
+				cOpcode = cFunction.slice(0, 2),
 				current = parseInt(current + (R3_SCD_DATABASE[cOpcode][0] * 2));
 				if (current === desire || current > desire){
 					done = true;
@@ -5288,11 +5289,11 @@ function R3_SCD_FUNCTION_READ_CHECK_LENGTH_SPECIAL(hex, start, parentOpcode){
 */
 function R3_SCD_FUNCTION_CHECK_LENGTH_GENERATOR_SPECIAL(outputId){
 	if (outputId !== undefined){
-		var TEMP_HTML = '', c = (parseInt(document.getElementById('R3_SCD_editFunction_pos').value) + 1), tFunctions = (parseInt(document.getElementById('R3_SCD_EDIT_' + outputId + '_length').value) + c);
+		var nFunction, nFunctionHex, TEMP_HTML = '', c = (parseInt(document.getElementById('R3_SCD_editFunction_pos').value) + 1), tFunctions = (parseInt(document.getElementById('R3_SCD_EDIT_' + outputId + '_length').value) + c);
 		while (c < tFunctions){
-			var nFunction = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][c];
+			nFunction = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][c];
 			if (nFunction !== undefined){
-				var nFunctionHex = nFunction.slice(0, 2);
+				nFunctionHex = nFunction.slice(0, 2);
 				TEMP_HTML = TEMP_HTML + '<div class="R3_SCD_EDIT_DEMO_NEXTFN R3_SCD_function_' + R3_SCD_DATABASE[nFunctionHex][2] + ' monospace"><div class="R3_SCD_INSERT_LBL_FIX">' + R3_SCD_DATABASE[nFunctionHex][1] + '</div></div>';
 			} else {
 				TEMP_HTML = TEMP_HTML + '<div class="R3_SCD_EDIT_DEMO_NEXTFN R3_SCD_function_14 monospace"><div class="R3_SCD_INSERT_LBL_FIX">Unknown Function (Out of bounds!)</div></div>';

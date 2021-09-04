@@ -31,7 +31,7 @@ var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false,
 		1:  [380,  178,    68,  4,    	 100,  false, ''], 									// MSG Hex View
 		2:  [700,  130,    68,  4,   9999998,  false, ''], 									// Xdelta Patcher
 		3:  [414,  310,    68,  4,    	 100,  false, ''], 									// SCD Hex View
-		4:  [252,  560,    44,  426,  	 101,  false, ''], 									// SCD Script List
+		4:  [274,  560,    44,  426,  	 101,  false, ''], 									// SCD Script List
 		5:  [232,  560,    68,  858,  	 101,  false, ''], 									// MSG List
 		6:  [860,  342,    68,  4,    	 100,  false, ''], 									// RID Editor
 		7:  [392,  178,    44,  138,  	 100,  false, ''], 									// MSG Hex Translator
@@ -434,10 +434,6 @@ function R3_DESIGN_ADJUST(){
 		};
 		// Leo's settings
 		TMS.css('SETTINGS_DIV_LEO_PATH', {'display': 'block'});
-		// Fix RDT Background on Electron
-		if (R3_WEB_IS_ELECTRON === true){
-			TMS.css('R3_RDT_GENERAL_IMG', {'background-size': 'auto 174%'});
-		};
 	} else {
 		// Hide run game if web mode
 		TMS.css('BTN_MOD_EXPORT', {'display': 'none'});
@@ -1839,17 +1835,17 @@ function R3_SCD_closeSeekFunction(){
 };
 // Update Labels
 function R3_SCD_updateLabels(){
+	var scriptName = R3_SCD_CURRENT_SCRIPT;
 	if (RDT_arquivoBruto !== undefined){
 		TMS.css('R3_SCD_BTN_APPLYRDT', {'display': 'inline-flex'});
 	};
 	if (document.getElementById('R3_SCD_SCRIPT_INNER').scrollTop !== 0){
 		document.getElementById('R3_SCD_SCRIPT_INNER').scrollTop = 0;
 	};
-	if (R3_SCD_CURRENT_SCRIPT !== 0){
-		document.getElementById('R3_SCD_LBL_currentScript').innerHTML = R3_SCD_CURRENT_SCRIPT;
-	} else {
-		document.getElementById('R3_SCD_LBL_currentScript').innerHTML = 'INIT';
+	if (SCD_scriptNames[R3_SCD_CURRENT_SCRIPT] !== undefined){
+		scriptName = SCD_scriptNames[R3_SCD_CURRENT_SCRIPT];
 	};
+	document.getElementById('R3_SCD_LBL_currentScript').innerHTML = scriptName;
 	document.getElementById('R3_SCD_HEX_RAW').innerHTML = R3_SCD_CURREN_HEX_VIEW;
 	document.getElementById('R3_SCD_LBL_TOTALFUNCTIONS').innerHTML = R3_SCD_TOTAL_FUNCTIONS;
 	document.getElementById('R3_SCD_LBL_hexLength').innerHTML = R3_fixVars((R3_SCD_CURRENT_SCRIPT_HEX.length / 2).toString(16), 2).toUpperCase();
@@ -2130,9 +2126,12 @@ function R3_MSG_updateLabels(msgId){
 		TMS.css('R3_MSG_LBL_currentMessage', {'display': 'none'});
 		TMS.css('R3_MSG_BTN_APPLYRDT', {'display': 'none'});
 	};
-	document.getElementById('R3_MSG_MESSAGE_PREVIEW').innerHTML = R3_MSG_textMode;
-	document.getElementById('R3_MSG_HEX_RAW').innerHTML = R3_unsolveHEX(R3_MSG_tempHex, 0);
-	document.getElementById('R3_MSG_LBL_hexLength').innerHTML = R3_fixVars(parseInt(R3_MSG_tempHex.length / 2).toString(16), 2).toUpperCase();
+	// Update only on MSG editor
+	if (R3_MENU_CURRENT === 7){
+		document.getElementById('R3_MSG_MESSAGE_PREVIEW').innerHTML = R3_MSG_textMode;
+		document.getElementById('R3_MSG_HEX_RAW').innerHTML = R3_unsolveHEX(R3_MSG_tempHex, 0);
+		document.getElementById('R3_MSG_LBL_hexLength').innerHTML = R3_fixVars(parseInt(R3_MSG_tempHex.length / 2).toString(16), 2).toUpperCase();
+	};
 };
 // Update MSG List
 function R3_MSG_DESIGN_updateMsgList(msgId){
@@ -2541,6 +2540,7 @@ function R3_LIVESTATUS_BAR_ADJUSTINTERFACE(){
 // Toggle Bar Position
 function R3_LIVESTATUS_BAR_TOGGLEPOS(){
 	if (RE3_RUNNING !== false && R3_WEBMODE === false){
+		R3_LIVESTATUS_CLOSE_BAR();
 		R3_KEYUP_TOOGLE_TIMEOUT = true;
 		R3_LIVESTATUS_FORCE_RENDER = true;
 		if (SETTINGS_LIVESTATUS_BAR_POS === 0){
@@ -2548,6 +2548,7 @@ function R3_LIVESTATUS_BAR_TOGGLEPOS(){
 		} else {
 			SETTINGS_LIVESTATUS_BAR_POS = 0;
 		};
+		R3_LIVESTATUS_OPEN_BAR();
 		R3_SETTINGS_SAVE();
 		setTimeout(function(){
 			R3_KEYUP_TOOGLE_TIMEOUT = false;
@@ -2957,9 +2958,9 @@ function R3_DESIGN_CLEAN_MSG(){
 	document.getElementById('R3_MSG_SCRIPT_LISTS').innerHTML = '';
 	// Pre-refactor
 	document.getElementById('R3_MSG_HEX_RAW').innerHTML = '';
-	document.getElementById('R3_MSG_MESSAGE_PREVIEW').innerHTML = '';
 	document.getElementById('R3_MSG_TRANSLATE_TEXTAREA').value = '';
 	document.getElementById('R3_MSG_LBL_hexLength').innerHTML = '00';
+	document.getElementById('R3_MSG_MESSAGE_PREVIEW').innerHTML = '';
 };
 function R3_DESIGN_CLEAN_SCD(){
 	R3_SCD_cancelFunctionEdit();

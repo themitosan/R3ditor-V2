@@ -3,7 +3,8 @@
 	Hoo~
 */
 // Wizard variables
-var R3_WIZARD_MOD_NAME = '',
+var R3_WIZARD_modFile,
+	R3_WIZARD_MOD_NAME = '',
 	R3_WIZARD_GAME_PATH = '',
 	R3_WIZARD_RUNNING = false,
 	// Wizard Options
@@ -174,8 +175,9 @@ function R3_WIZARD_FINAL_CHECK_DOORLINK(){
 // Finish line!
 function R3_WIZARD_FINISH(){
 	if (R3_WEBMODE === false){
-		const R3MOD = '{modName: \"' + R3_WIZARD_MOD_NAME + '\", R3V2_VERSION: \"' + INT_VERSION + '\"}';
-		APP_FS.writeFileSync(APP_PATH + '/ModInfo.R3V2', R3MOD, 'utf-8');
+		const R3MOD = '{"modName": \"' + R3_WIZARD_MOD_NAME + '\", "appVersion": \"' + INT_VERSION + '\", "modPath": \"' + R3_MOD_PATH + '\", "gameMode": ' +
+					  RE3_LIVE_CURRENTMOD + '}';
+		APP_FS.writeFileSync(APP_PATH + '/ModInfo.R3MOD', R3MOD, 'utf-8');
 		R3_SAVE_SETTINGS(false);
 		R3_SYSTEM_CLEAR_LOG(false);
 		R3_UTILS_LOADING_CLOSE();
@@ -183,5 +185,22 @@ function R3_WIZARD_FINISH(){
 		R3_RDT_FILELIST_UPDATELIST();
 		R3_WIZARD_RUNNING = false;
 		R3_KB_ENABLE_SHORTCUTS = true;
+	};
+};
+/*
+	Mod Utils
+*/
+function R3_WIZARD_openMod(){
+	if (R3_WEBMODE === false){
+		R3_FILE_LOAD('.R3MOD, .R3V2', function(fName){
+			R3_MENU_EXIT();
+			var mFile = APP_FS.readFileSync(fName, 'utf-8');
+			R3_WIZARD_modFile = JSON.parse(mFile);
+			R3_MOD_PATH = R3_WIZARD_modFile.modPath;
+			R3_MOD_NAME = R3_WIZARD_modFile.modName;
+			RE3_LIVE_CURRENTMOD = parseInt(R3_WIZARD_modFile.gameMode);
+			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Mod loaded sucessfully! <br>Mod Name: ' + R3_MOD_NAME + ' <br>Game Mode: ' + RE3_LIVE_CURRENTMOD);
+			R3_SAVE_SETTINGS(false);
+		});
 	};
 };

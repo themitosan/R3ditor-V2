@@ -650,9 +650,6 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 */
 // Save Settings
 function R3_SETTINGS_SAVE(){
-	if (RE3_RUNNING !== false){
-		R3_LIVESTATUS_BAR_ADJUSTINTERFACE();
-	};
 	R3_SAVE_SETTINGS(false, false);
 	if (RE3_RUNNING === false){
 		R3_MENU_GOBACK();

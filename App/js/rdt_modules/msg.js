@@ -13,7 +13,9 @@ var R3_MSG_fPath,
 	R3_MSG_totalCommands = 0,
 	R3_MSG_IS_EDITING = false,
 	R3_MSG_currentMessage = 0,
-	R3_MSG_RDT_MESSAGES_PREVIEW = [];
+	R3_MSG_RDT_MESSAGES_PREVIEW = [],
+	// MSG Color Vars
+	R3_MSG_enableColorChange = false;
 /*
 	Functions
 */
@@ -45,8 +47,8 @@ function R3_MSG_startLoadMsg(fPath){
 			} else {
 				fileName = R3_getFileName(fPath.name);
 			};
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (MSG) Loading file: <font class="user-can-select">' + fPath + '</font>');
 			document.title = APP_TITLE + ' - MSG Editor - File: ' + fileName + '.MSG';
+			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (MSG) Loading file: <font class="user-can-select">' + fPath + '</font>');
 			R3_MSG_DECOMPILER_START(MSG_arquivoBruto);
 			// End
 			R3_LATEST_SET_FILE(fileName + '.MSG', 1, ORIGINAL_FILENAME);
@@ -256,10 +258,9 @@ function R3_MSG_translateHex(){
 	document.getElementById('R3_MSG_EDIT_TEXTAREA').value = '';
 	var c = 0, fHex = R3_solveHEX(document.getElementById('R3_MSG_TRANSLATE_TEXTAREA').value.replace(new RegExp('\n', 'gi'), ''));
 	if (fHex !== ''){
-		while (c < R3_HEX_FORMAT_EXCLUDE.length){
-			fHex = fHex.replace(new RegExp(R3_HEX_FORMAT_EXCLUDE[c], 'gi'), '').replace(/[^a-z0-9]/gi,'');
-			c++;
-		};
+		Object.keys(R3_HEX_FORMAT_EXCLUDE).forEach(function(cItem){
+			fHex = fHex.replace(new RegExp(cItem, 'gi'), '').replace(/[^a-z0-9]/gi,'');
+		});
 		R3_MSG_DECOMPILER_START(fHex);
 	} else {
 		R3_MSG_NEW_FILE();
@@ -268,15 +269,41 @@ function R3_MSG_translateHex(){
 };
 // Convert msg hex text to decoded text
 function R3_MSG_convertHexToPureText(hex, isMsgEditor){
-	var textDecoded = '', textRaw, c = 0;
+	var tmp, textDecoded = '', textRaw, c = 0, excludeList = [
+		'ea', // Show Special Char
+		'f8', // Show Item Name
+		'f9'  // Change text color
+	];
 	if (hex !== undefined && hex !== ''){
 		textRaw = hex.match(/.{1,2}/g);
 		while (c < textRaw.length){
+			// Is text / function
 			if (R3_msgCurrentDatabase[textRaw[c]][0] === false){
 				textDecoded = textDecoded + R3_msgCurrentDatabase[textRaw[c]][1].replace('"', '/');
 				c++;
 			} else {
-				textDecoded = textDecoded + '<font class="monospace mono_xyzr">' + R3_msgCurrentDatabase[textRaw[c]][1] + ' ' + textRaw[c + 1] + ')</font>';
+				// Exclude text description
+				if (SETTINGS_MSG_DECOMPILER_MODE === 3 && excludeList.indexOf(textRaw[c]) === -1){
+					textDecoded = textDecoded + '<font class="monospace mono_xyzr">' + R3_msgCurrentDatabase[textRaw[c]][1] + ' ' + textRaw[c + 1] + ')</font>';
+				};
+				// Show Item Name
+				if (SETTINGS_MSG_DECOMPILER_MODE === 3 && textRaw[c] === 'f8'){
+					tmp = DATABASE_ITEM[textRaw[c + 1]];
+					if (tmp === undefined){
+						tmp = DATABASE_ITEM['00'][0];
+					} else {
+						tmp = DATABASE_ITEM[textRaw[c + 1]][0]
+					};
+					textDecoded = textDecoded + tmp;
+				};
+				// Show Special Char
+				if (SETTINGS_MSG_DECOMPILER_MODE === 3 && textRaw[c] === 'ea'){
+					tmp = MSG_RE3_SPECIAL_CHAR_LIST[textRaw[c + 1]];
+					if (tmp === undefined){
+						tmp = '(Special Char: ' + textRaw[c + 1].toUpperCase() + ')';
+					};
+					textDecoded = textDecoded + tmp;
+				};
 				c = (c + 2);
 			};
 		};
@@ -289,14 +316,14 @@ function R3_MSG_convertHexToPureText(hex, isMsgEditor){
 	};
 	return textDecoded;
 };
-// Insert function from fn list
+// Insert function from list
 function R3_MSG_insertFn(fnId){
 	if (R3_MENU_CURRENT === 7){
 		var prevText = document.getElementById('R3_MSG_EDIT_TEXTAREA').value;
 		if (fnId === undefined){
 			fnId = 1;
 		};
-		document.getElementById('R3_MSG_EDIT_TEXTAREA').value = prevText + '$' + MSG_functionTypes[fnId][1] + '00';
+		document.getElementById('R3_MSG_EDIT_TEXTAREA').value = prevText + '{' + MSG_functionTypes[fnId][1] + '00}';
 	};
 };
 /*
@@ -304,23 +331,34 @@ function R3_MSG_insertFn(fnId){
 	This will look more or less like Leo's approach on his RE1 Tool!
 */
 function R3_MSG_RENDER_FUNCTION(cmdType, hex, id){
-	// console.info('(MSG) Function: ' + MSG_functionTypes[cmdType][0] + ' - ' + hex);
 	// Variables
-	var finalText = '', functionPrefix = '$', previousValue = document.getElementById('R3_MSG_EDIT_TEXTAREA').value;
+	var finalText = '', colorStart = '', colorEnd = '', functionPrefix = '{',
+		previousValue = document.getElementById('R3_MSG_EDIT_TEXTAREA').value;
 	if (MSG_functionTypes[cmdType] !== undefined){
 		// If it is Show Message
 		if (cmdType === 0){
 			finalText = R3_MSG_convertHexToPureText(hex, true);
 		} else {
-			finalText = functionPrefix + MSG_functionTypes[cmdType][1] + hex.slice(2);
+			// Change preview color
+			if (cmdType === 9){
+				if (hex.slice(2) !== '00'){
+					colorEnd = '';
+					colorStart = '<font class="R3_MSG_color_' + hex.slice(2) + '">';
+				};
+				if (hex.slice(2) === '00'){
+					colorStart = '';
+					colorEnd = '</font>';
+				};
+			};
+			finalText = functionPrefix + MSG_functionTypes[cmdType][1] + hex.slice(2) + '}';
 		};
 	} else {
-		finalText = functionPrefix + 'HEX' + hex.slice(0, 2);
+		finalText = functionPrefix + 'HEX:' + hex.slice(0, 2) + '}';
 	};
 	/*
 		End
 	*/
-	R3_MSG_textMode = R3_MSG_textMode + R3_MSG_convertHexToPureText(hex);
+	R3_MSG_textMode = R3_MSG_textMode + colorStart + R3_MSG_convertHexToPureText(hex) + colorEnd;
 	document.getElementById('R3_MSG_EDIT_TEXTAREA').value = previousValue + finalText;
 };
 /*
@@ -331,21 +369,23 @@ function R3_MSG_EDIT_APPLY(mode){
 	// Variables
 	var c = 0, finalHex = '', textArray = [], textInput = document.getElementById('R3_MSG_EDIT_TEXTAREA').value;
 	if (textInput === ''){
-		textInput = '$SMS02@$EMS00';
+		textInput = '{S:02}@{E:00}';
 	};
 	// Here we go...
 	textArray = textInput.match(/.{1,1}/g);
 	while (c < textArray.length){
 		// If current char is function
-		if (textArray[c] === '$'){
-			var cFunctionHex = textArray.slice(c, (c + 6)).toString().replace(RegExp(',', 'gi'), '').toUpperCase(),
-				cFunction = cFunctionHex.slice(0, 4), cArgs = cFunctionHex.slice(4, 6);
+		if (textArray[c] === '{'){
+			var cNextPos = c + (textArray.slice(c).indexOf('}') + 1),
+				cFunctionHex = textArray.slice(c, cNextPos).toString().replace(RegExp(',', 'gi'), '').toUpperCase(),
+				cFunction = cFunctionHex.slice(1, cFunctionHex.indexOf(':')),
+				cArgs = R3_fixVars(cFunctionHex.slice((cFunctionHex.indexOf(':') + 1), cFunctionHex.indexOf('}')), 2);
 			// console.info('Function: ' + cFunctionHex);
 			if (cArgs === ''){
 				cArgs = '00';
 			};
 			finalHex = finalHex + R3_MSG_FUNCTIONS[cFunction] + cArgs;
-			c = (c + 6);
+			c = cNextPos;
 		} else {
 			finalHex = finalHex + R3_MSG_COMPILER_CHAR_DATABASE[textArray[c]];
 			c++;
@@ -354,7 +394,11 @@ function R3_MSG_EDIT_APPLY(mode){
 	// End
 	document.getElementById('R3_MSG_EDIT_TEXTAREA').value = '';
 	R3_MSG_RDT_MESSAGES[R3_MSG_currentMessage] = finalHex;
-	R3_MSG_COMPILE(mode);
+	if (MSG_arquivoBruto !== undefined){
+		R3_MSG_COMPILE(mode);
+	} else {
+		R3_MSG_DECOMPILER_START(finalHex, mode);
+	};
 };
 /*
 	Compile MSG
@@ -403,7 +447,7 @@ function R3_MSG_COMPILE(mode){
 		if (mode === 2){
 			R3_MSG_recompileWithPointers(0);
 		};
-		// Just compiler
+		// Just compile
 		if (mode === 3){
 			R3_MSG_DECOMPILER_START(HEX_FINAL);
 			R3_MSG_updateLabels(R3_MSG_currentMessage);

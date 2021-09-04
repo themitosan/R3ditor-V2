@@ -3,8 +3,10 @@
 	Agora vai mah!
 */
 // Internal Vars
-var R3_APP_START = false, R3_ELECTRON, R3_MOD_PATH, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_IS_32 = false,
+var R3_APP_START = false, R3_ELECTRON, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_IS_32 = false,
 	APP_ONLINE, ORIGINAL_FILENAME, ORIGINAL_APP_PATH, APP_REQUIRE_SUCESS, APP_ENABLE_MOD = false,
+	// Mod Vars
+	R3_MOD_PATH, R3_MOD_NAME,
 	// External Modules
 	APP_FS, APP_MEMJS, APP_GUI, DiscordRPC, APP_REQUIRE_PATH,
 	// Executable Vars
@@ -116,8 +118,8 @@ function R3_INIT_REQUIRE(){
 				if (APP_FS.existsSync(tempPath) !== true){
 					tempPath = R3_fixPath(APP_REQUIRE_PATH.dirname(process.execPath)) + '/R3V2';
 				};
-				APP_TOOLS = R3_fixPath(APP_REQUIRE_PATH.dirname(process.execPath)) + '/Tools';
 				APP_EXEC_PATH = R3_fixPath(ORIGINAL_APP_PATH);
+				APP_TOOLS = R3_fixPath(APP_EXEC_PATH + '/Tools');
 				APP_PATH = R3_fixPath(tempPath) + '/R3V2';
 			} else {
 				APP_useImageFix = true;

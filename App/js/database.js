@@ -112,20 +112,36 @@ const R3_internalHoldTime = 2800,
 	INCLUDE_FILEGEN_FONTSTYLES = '<option value="RE1">Resident Evil 1 [WIP]</option><option value="RE3">Resident Evil 3 [WIP]</option>',
 	// RDT Filelist Game mode
 	INCLUDE_RDT_FILELIST_GAMEMODE = '<option value="0">Easy Mode</option><option value="1">Hard Mode</option>',
+	// SCD Script Names
+	SCD_scriptNames = {
+		0: 'INIT',
+		1: 'AutoExec'
+	},
 	// MSG Function Types
 	MSG_functionTypes = {
 		0:  ['Show Message', 		'',    ''],
-		1:  ['Start Message', 	 	'SMS', 'Usage: $SMS + Text speed (Min: 00, Max: 09)\nThis will set the speed of how text will be rendered.'],
-		2:  ['End Message', 		'EMS', 'Usage: $EMS + Args (Range: 00 to FF)\nThis probably will call other event.'],
-		3:  ['???', 				'UNK', ''],
-		4:  ['Show Special Char', 	'SSC', 'Usage: $SSC + Char Hex (Range: 00 to FF)\nThis will display a special char on current text.'],
-		5:  ['Show Item Name', 		'SIN', 'Usage: $SIN + Item ID (Range: 00 to 85)\nThis will display an Item name on current text.'],
-		6:  ['Play SE', 			'PSE', 'Usage: $PSE + SE ID (Range: 00 to FF)\nThis will play a specific sound, depending of current map.'],
-		7:  ['Change Camera', 		'CHC', 'Usage: $CHC + Camera ID (Range: 00 to FF, Depending of how many cameras are available on current map)\nThis will show a specific camera from current map.'],
-		8:  ['(UNK) Function F5', 	'UF5', 'Unknown\nThis function is present on R101.RDT - Still WIP!'],
-		9:  ['Change Text Color', 	'CTC', 'Usage: $CTC + Color ID (Range: 00 to 0F)\nThis will change the text color depending of inserted value.'],
+		1:  ['Start Message', 	 	'S:',  'Usage: {S: + Text speed (Min: 00, Max: 09) + }\nThis will set the speed of how text will be rendered.'],
+		2:  ['End Message', 		'E:',  'Usage: {E: + Args (Range: 00 to FF) + }\nThis probably will call other event.'],
+		3:  ['???', 				'U:',  ''],
+		4:  ['Show Special Char', 	'SC:', 'Usage: {SC: + Char Hex (Range: 00 to FF) + }\nThis will display a special char on current text.'],
+		5:  ['Show Item Name', 		'IN:', 'Usage: {IN: + Item ID (Range: 00 to 85) + }\nThis will display an Item name on current text.'],
+		6:  ['Play SE', 			'SE:', 'Usage: {SE: + SE ID (Range: 00 to FF) + }\nThis will play a specific sound, depending of current map.'],
+		7:  ['Change Camera', 		'CC:', 'Usage: {CC: + Camera ID (Range: 00 to FF, Depending of how many cameras are available on current map)\nThis will show a specific camera from current map.'],
+		8:  ['(UNK) Function F5', 	'UF:', 'Unknown\nThis function is present on R101.RDT - Still WIP!'],
+		9:  ['Change Text Color', 	'C:',  'Usage: {C: + Color ID (Range: 00 to 0F) + }\nThis will change the text color depending of inserted value.'],
 		10: ['???', 				'',    ''],
-		11: ['Show Options', 		'SHO', 'Still WIP!']
+		11: ['Show Options', 		'O:',  'Still WIP!']
+	},
+	R3_MSG_FUNCTIONS = {
+		'S':  'fa', // Start Message
+		'E':  'fe', // End Message
+		'SC': 'ea', // Show Special Char
+		'IN': 'f8', // Show Item Name
+		'SE': 'f3', // Play SE
+		'CC': 'f4', // Change Camera
+		'UF': 'f5', // (UNK) Function F5
+		'C':  'f9', // Change Text Color
+		'O':  '70'  // Show Options (WIP)
 	},
 	// RDT Camera Types
 	INCLUDE_RDT_CAMERA_TYPES = '<option value="0000">(0000) Normal</option><option value="0100">(0100) Cutscene?</option>',
@@ -190,9 +206,9 @@ const R3_internalHoldTime = 2800,
 		'2d': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_2d_id"> Value: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_2d_value">',
 		'2e': 'NO_EDIT',
 		'2f': 'NO_EDIT',
-		'30': 'LIT ID: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_30_id" class="R3_EDIT_TEXT_XYZR"> <font class="COLOR_X">X</font>: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_30_posX" class="R3_EDIT_TEXT_XYZR"> <font class="COLOR_Y">Y</font>: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_30_posY" class="R3_EDIT_TEXT_XYZR">',
+		'30': 'Lit ID: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_30_id" class="R3_EDIT_TEXT_XYZR"> <font class="COLOR_X">X</font>: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_30_posX" class="R3_EDIT_TEXT_XYZR"> <font class="COLOR_Y">Y</font>: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_30_posY" class="R3_EDIT_TEXT_XYZR">',
 		'31': 'NO_EDIT',
-		'32': 'LIT ID: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_32_lightId" maxlength="2"> Unk 0: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_32_unk0" maxlength="2"><br><div class="R3_SCD_DIV_COLOR_EDIT"><font class="cType_R">Color R</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorR_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorR" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><font class="cType_G">Color G</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorG_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorG" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><font class="cType_B">Color B</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorB_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorB" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><input type="button" value="Color Picker" onclick="R3_SCD_FUNCTION_LIT_COLOR_PICKER(\'32\');" class="BTN_R3CLASSIC"><br><div class="R3_SCD_DIV_COLOR_PREVIEW" id="R3_SCD_EDIT_32_rgbDivPreview">Color Preview</div></div>',
+		'32': 'Lit ID: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_32_lightId" maxlength="2"> Unk 0: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_32_unk0" maxlength="2"><br><div class="R3_SCD_DIV_COLOR_EDIT"><font class="cType_R">Color R</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorR_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorR" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><font class="cType_G">Color G</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorG_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorG" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><font class="cType_B">Color B</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorB_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorB" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><input type="button" value="Color Picker" onclick="R3_SCD_FUNCTION_LIT_COLOR_PICKER(\'32\');" class="BTN_R3CLASSIC"><br><div class="R3_SCD_DIV_COLOR_PREVIEW" id="R3_SCD_EDIT_32_rgbDivPreview">Color Preview</div></div>',
 		'33': 'Value: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_33_value" class="R3_EDIT_TEXT_XYZR">',
 		'34': 'NO_EDIT',
 		'35': 'Data 0: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_35_data0" maxlength="2"> Data 1: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_35_data1" maxlength="2"> Value: <input type="text" spellcheck="false" placeholder="0000" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_35_value" maxlength="4">',
@@ -839,7 +855,7 @@ const R3_internalHoldTime = 2800,
 		'02': [1,  'Next Event [EVT_NEXT]', 	  	   		 0,  false, 'EVT_NEXT();', 				false, 720, 480, false],
 		'03': [2,  'Event Chain [EVT_CHAIN]', 	  	   		 0,  false, 'EVT_CHAIN();', 			false, 720, 480, false],
 		'04': [2,  'Execute Event [EVT_EXEC]', 		   		 0,  true,  'EVT_EXEC', 				false, 480, 100, false],
-		'05': [2,  'Event Kill [EVT_KILL]', 	  	   		 0,  true,  'EVT_KILL', 				false, 720, 480, false],
+		'05': [2,  'Event Kill [EVT_KILL]', 	  	   		 0,  true,  'EVT_KILL', 				false, 480, 100, false],
 		'06': [4,  'If [IF]', 					  	   		 4,  false, 'if (',						false, 720, 480, false],
 		'07': [4,  'Else [ELSE]', 				  	   		 4,  false, '} else {', 				false, 720, 480, false],
 		'08': [2,  'End If [END_IF]', 			  	   		 4,  false, '}', 						false, 720, 480, false],
@@ -2482,6 +2498,12 @@ const R3_internalHoldTime = 2800,
 	/*
 		MSG Database
 	*/
+	MSG_RE3_SPECIAL_CHAR_LIST = {
+		'24': 'S.',
+		'25': 'T.',
+		'26': 'A.',
+		'27': 'R.'
+	},
 	MSG_RE3_DATABASE = {
 		'00': [false, ' ', 1],
 		'01': [false, '.', 1],
@@ -2725,13 +2747,13 @@ const R3_internalHoldTime = 2800,
 		'fd': [false, '(Pause)', 		    						1],
 		'ff': [false, '(Unknown CHAR)',     						1],
 		// Special commands (functions)
-		'70': [true, '(Function: Select Option - Args: ',		11, 2],
-		'fa': [true, '(Function: Start Message - Text Speed: ',  1, 2],
-		'fe': [true, '(Function: End Message - Args: ',			 2, 2],
+		'70': [true, '(Function: Select Option - Args:',		11, 2],
+		'fa': [true, '(Function: Start Message - Text Speed:',   1, 2],
+		'fe': [true, '(Function: End Message - Args:',			 2, 2],
 		'ea': [true, '(Function: Show Special Char - Char ID:',  4, 2], // (Relative to modifier)
 		'f0': [true, '(Function: Show Special Char - Char ID:',  4, 2], // (Relative to modifier)
 		'f8': [true, '(Function: Show Item Name - Item ID:', 	 5, 2],
-		'f3': [true, '(Function: Play SE - SE ID: ',  			 6, 2], // (Relative to modifier) 
+		'f3': [true, '(Function: Play SE - SE ID:',  			 6, 2], // (Relative to modifier) 
 		/* 
 			Info: Se o valor na frente de F3 for 43, O game irá executar o som da arma equipada.
 			Mas, quando esse comando for executado, alguns sons de menu / porta irão deixar de ser reproduzidos.
@@ -2739,9 +2761,9 @@ const R3_internalHoldTime = 2800,
 	
 			At least on R105.RDT
 		*/
-		'f4': [true, '(Function: Change Camera - Cam ID: ', 	 7, 2],
-		'f5': [true, '(Function: (UNK) Function F5 - Args: ',	 8, 2], // Used on "Septemer, 28" text
-		'f9': [true, '(Function: Text Color - Color: ',			 9, 2],
+		'f4': [true, '(Function: Change Camera - Cam ID:',		 7, 2],
+		'f5': [true, '(Function: (UNK) Function F5 - Args:',	 8, 2], // Used on "Septemer, 28" text
+		'f9': [true, '(Function: Text Color - Color:',			 9, 2],
 		// CT-STARS PATCH COMPAT
 		'd7': [false, ' ', 											1],
 		'3c': [false, 'ã', 											1],
@@ -2879,17 +2901,6 @@ const R3_internalHoldTime = 2800,
 		'@':  'fc',	// Enter / Break line
 		'\n': 'fc', // Enter / Break line
 		'|':  'fd' 	// Pause Text
-	},
-	R3_MSG_FUNCTIONS = {
-		'$SMS': 'fa', // Start Message
-		'$EMS': 'fe', // End Message
-		'$SSC': 'ea', // Show Special Char
-		'$SIN': 'f8', // Show Item Name
-		'$PSE': 'f3', // Play SE
-		'$CHC': 'f4', // Chanfe Camera
-		'$UF5': 'f5', // (UNK) Function F5
-		'$CTC': 'f9', // Change Text Color
-		'$SHO': '70'  // Show Options (WIP)
 	},
 	MSG_formatExclude = {
 		0: ['[(]Line Break[)]<br>', '@\n'],
