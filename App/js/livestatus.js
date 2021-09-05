@@ -433,3 +433,15 @@ function RE3_LIVE_COPY_PASTE_LOCATION(mode){
 		};
 	};
 };
+// Open current map on RDT Editor
+function R3_LIVESTATUS_openCurrentMap(){
+	if (RE3_RUNNING === true && APP_ENABLE_MOD === true){
+		var fPath = R3_getMapPath()[1] + 'R' + REALTIME_CurrentStage + REALTIME_CurrentRoomNumber + '.RDT';
+		if (APP_FS.existsSync(fPath) === true){
+			R3_SHOW_MENU(10);
+			R3_RDT_LOAD(fPath, true);
+		};
+	} else {
+		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to load file! Reason: File not found! (404)');
+	};
+};

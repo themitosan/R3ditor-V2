@@ -2176,28 +2176,19 @@ function R3_RDT_openNextPrevMap(mode){
 		if (mapList !== undefined){
 			mapLocation = mapList.indexOf(R3_RDT_mapName + '.RDT');
 			if (mapLocation !== -1){
-				// Next
-				if (mode === 0){
-					nextMap = parseInt(mapLocation + 1);
-				};
+				nextMap = parseInt(mapLocation + 1);
+				nmPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT/';
 				// Prev
 				if (mode === 1){
 					nextMap = parseInt(mapLocation - 1);
 				};
 				// Game Modes
-				if (gMode === 0){
-					nmPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT/';
-				};
 				if (gMode === 1){
 					nmPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_HARD + '/RDT/';
 				};
-				/*
-					End
-				*/
-				if (mapList[nextMap] !== undefined){
-					if (R3_DESIGN_RDT_LOADLOCK === false){
-						R3_RDT_LOAD(nmPath + mapList[nextMap], true);
-					};
+				// End
+				if (mapList[nextMap] !== undefined && R3_DESIGN_RDT_LOADLOCK === false){
+					R3_RDT_LOAD(nmPath + mapList[nextMap], true);
 				};
 			};
 		};
@@ -2293,16 +2284,14 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 	};
 };
 // Filelist
-function R3_RDT_FILELIST_GENERATE(mode){
+function R3_RDT_FILELIST_GENERATE(currentMode){
 	if (R3_WEBMODE === false){
 		R3_SETTINGS_getMapPrefix();
 		document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">Generating file list, please wait...</div>';
-		var rPath, fileTest, currentMap, HTML_MAP_LIST = mapIcon = '',
-			gameMode = 'Easy',
-			rdtPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT/';
-		if (parseInt(mode) === 1){
+		var mode = R3_getMapPath()[0], rPath, fileTest, currentMap, HTML_MAP_LIST = mapIcon = '', gameMode = 'Easy',
+			rdtPath = R3_getMapPath()[1];
+		if (mode === 1){
 			gameMode = 'Hard';
-			rdtPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_HARD + '/RDT/';
 		};
 		// Start Reading
 		if (APP_FS.existsSync(rdtPath) === true){

@@ -2447,7 +2447,7 @@ function R3_SCD_PASTE_FUNCTION(isShortcut){
 					nextPos = (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length - 1);
 				};
 				R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].splice(nextPos, 0, R3_SCD_TEMP_COPY_PASTE_FUNCTION);
-				R3_SCD_COMPILE(3);
+				R3_SCD_COMPILER_checkConditionalOpcodes(3);
 				// Focus new function if shortcut
 				if (isShortcut === true){
 					R3_SCD_HIGHLIGHT_FUNCTION = promptPos;
@@ -5042,7 +5042,7 @@ function R3_SCD_FUNCTION_REMOVE(functionId){
 			if (functionOpcode !== '01' && R3_SCD_TOTAL_FUNCTIONS !== 1){
 				// End
 				R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].splice(cFunction, 1);
-				R3_SCD_COMPILE(3);
+				R3_SCD_COMPILER_checkConditionalOpcodes(3);
 				// Focus
 				if (requireFocus === true){
 					R3_SCD_navigateFunctions(2);
@@ -5861,11 +5861,9 @@ function R3_SCD_COMPILE(mode){
 		// Calc Script Length
 		tempHex = '';
 		while (d < R3_SCD_POINTERS.length){
-			tempHex = tempHex + R3_SCD_SCRIPTS_LIST[cScript].toString().replace(RegExp(',', 'gi'), '');
+			tempHex = R3_SCD_SCRIPTS_LIST[cScript].toString().replace(RegExp(',', 'gi'), '');
 			pointersLength = (tempHex.length + pointersLength);
-			var newPointer = R3_parseEndian(R3_fixVars((pointersLength / 2).toString(16), 4));
-			R3_SCD_POINTERS[d] = newPointer;
-			tempHex = '';
+			R3_SCD_POINTERS[d] = R3_parseEndian(R3_fixVars((pointersLength / 2).toString(16), 4));
 			cScript++;
 			d++;
 		};

@@ -1180,19 +1180,26 @@ function R3_removeHtmlFromString(str){
 	Added to enhance IE oldness!
 */
 function R3_isInteger(value){
+	var res = false;
 	if (value !== undefined){
 		// If IE
-		if (R3_WEB_IS_IE === true){
-			var res = false, test = value.toString().indexOf('.');
-			if (test === -1){
-				res = true;
-			};
-			return res;
+		if (R3_WEB_IS_IE === true && value.toString().indexOf('.') === -1){
+			res = true;
 		} else {
-			return Number.isInteger(value);
+			res = Number.isInteger(value);
 		};
-	} else {
-		return false;
+	};
+	return res;
+};
+// Get map path
+function R3_getMapPath(){
+	if (APP_ENABLE_MOD === true){
+		var gMode = parseInt(document.getElementById('R3_RDT_FILELIST_GAMEMODE').value),
+			cPrefix = R3_RDT_PREFIX_EASY;
+		if (gMode === 1){
+			cPrefix = R3_RDT_PREFIX_HARD;
+		};
+		return [gMode, R3_MOD_PATH + '/' + cPrefix + '/RDT/'];
 	};
 };
 /*
