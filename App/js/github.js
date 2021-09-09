@@ -34,7 +34,7 @@ function R3_UPDATER_GET_COMMITS(){
 	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION'){
 		var cBranch = document.getElementById('R3_UPDATER_CURRENT_BRANCH').value, parseTimestamp = function(str){
 				const day = str.slice(0, str.indexOf('T')),
-					time = str.slice(parseInt(str.indexOf('T') + 1)).replace('Z', '');
+					  time = str.slice(parseInt(str.indexOf('T') + 1)).replace('Z', '');
 				return day + ' - ' + time;
 			};
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (GitHub) Reading latest commit from ' + R3_GITHUB_BRANCHES_LIST[cBranch].name + ' - Please wait...');

@@ -5634,9 +5634,9 @@ function R3_SCD_WARN(msg, txtVar){
 */
 function R3_SCD_JS_START_COMPILER(){
 	try {
-		var c = d = 0, previousCode, cFunction, codeCompiled, cUpperCase, canProcessFunction = true, canFinalize = true, errorReason = '', finalCodeArray = [], codeList = [], 
+		var previousCode, cLine, codeCompiled, cUpperCase, canProcessFunction = true, canFinalize = true, errorReason = '', finalCodeArray = [], codeList = [], 
 			textScript = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'').split('\n').forEach(function(codeLine){
-				var cLine = codeLine.replace(new RegExp('	', 'gi'), '');
+				cLine = codeLine.replace(new RegExp('	', 'gi'), '');
 				if (cLine !== ''){
 					codeList.push(cLine);
 				};
@@ -5660,28 +5660,23 @@ function R3_SCD_JS_START_COMPILER(){
 		};
 		// Check if can start compiling
 		if (canFinalize === true){
-			while (c < codeList.length){
-				cFunction = codeList[c];
+			codeList.forEach(function(cFunction){
 				cUpperCase = cFunction.toUpperCase();
 				// Skipping variables
-				while (d < INCLUDE_SCD_CODE_VARIABLE.length){
-					if (cFunction.indexOf(INCLUDE_SCD_CODE_VARIABLE[d].toLowerCase()) !== -1){
+				INCLUDE_SCD_CODE_VARIABLE.forEach(function(cItem){
+					if (cFunction.indexOf(cItem) !== -1){
 						canProcessFunction = false;
 						R3_SYSTEM_LOG('separator');
 						R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (Compiler) You can\'t declare variables using \"var\", \"let\" or \"const\"! <br>Use internal variable functions to store data instead.');
 						R3_SYSTEM_LOG('separator');
 					};
-					d++;
-				};
+				});
 				// End
 				if (canProcessFunction === true){
 					console.info(cFunction.replace(');', ')'));
-					finalCodeArray.push(Function('"use strict";return (R3_' + cFunction.replace(');', ')') + ')')());
+					finalCodeArray.push(Function('"use strict";return (R3_JS_COMPILER_' + cFunction.replace(');', ')') + ')')());
 				};
-				c++;
-				d = 0;
-				canProcessFunction = true;
-			};
+			});
 		};
 		/*
 			Code Checks
@@ -5709,7 +5704,7 @@ function R3_SCD_JS_START_COMPILER(){
 			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = finalCodeArray;
 			R3_SYSTEM_LOG('separator');
 			// Fix control hold
-			R3_KEYPRESS_CONTROL = false;
+			R3_KEYPRESS_releaseKeys();
 			// Compile using final compiler!
 			R3_SCD_COMPILE(3);
 			if (SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE === true){

@@ -3505,152 +3505,152 @@ const R3_internalHoldTime = 2800,
 			Mode 0 = RE3 Eidos US
 		*/
 		// Current Map - First Camera (B773...)
-		'RE3_mode_0_firstCameraStart': 	[0x64EB8C],
+		'RE3_mode_0_firstCameraStart': 	['0x64EB8C'],
 		// Item Box
-		'RE3_mode_0_J_iBox_Start': 		[0xA622CC],
-		'RE3_mode_0_C_iBox_Start': 		[0xA6240C],
+		'RE3_mode_0_J_iBox_Start': 		['0xA622CC'],
+		'RE3_mode_0_C_iBox_Start': 		['0xA6240C'],
 		// Jill Inventory
-		'RE3_mode_0_J_invent_item-1':  	[0xA622A4],
+		'RE3_mode_0_J_invent_item-1':  	['0xA622A4'],
 		// Carlos Inventory
-		'RE3_mode_0_C_invent_item-1':  	[0xA623E4],
+		'RE3_mode_0_C_invent_item-1':  	['0xA623E4'],
 		// Player Hex Pos.
-		'RE3_mode_0_xPosition': 	    [0xA5CD68, 0xA5CD69],
-		'RE3_mode_0_yPosition': 	    [0xA5CD70, 0xA5CD71],
-		'RE3_mode_0_zPosition': 	    [0xA5CD6C, 0xA5CD6D],
-		'RE3_mode_0_rPosition': 	    [0xA5CDA2, 0xA5CDA3],
-		'RE3_mode_0_zIndex': 			[0xA5CD3D],
+		'RE3_mode_0_xPosition': 	    ['0xA5CD68', '0xA5CD69'],
+		'RE3_mode_0_yPosition': 	    ['0xA5CD70', '0xA5CD71'],
+		'RE3_mode_0_zPosition': 	    ['0xA5CD6C', '0xA5CD6D'],
+		'RE3_mode_0_rPosition': 	    ['0xA5CDA2', '0xA5CDA3'],
+		'RE3_mode_0_zIndex': 			['0xA5CD3D'],
 		// Current Stage, Room number & Cam
-		'RE3_mode_0_Stage': 			[0xA620E6],
-		'RE3_mode_0_currentCam': 		[0xA5CD2E],
-		'RE3_mode_0_currentRoomNumber': [0xA620E8],
+		'RE3_mode_0_Stage': 			['0xA620E6'],
+		'RE3_mode_0_currentCam': 		['0xA5CD2E'],
+		'RE3_mode_0_currentRoomNumber': ['0xA620E8'],
 		// HP
-		'RE3_mode_0_HP': 				[0xA5CE00, 0xA5CE01],
+		'RE3_mode_0_HP': 				['0xA5CE00', '0xA5CE01'],
 		// Player current weapon
-		'RE3_mode_0_J_currentWeapon': 	[0xA623CD],
-		'RE3_mode_0_C_currentWeapon': 	[0xA6250D],
+		'RE3_mode_0_J_currentWeapon': 	['0xA623CD'],
+		'RE3_mode_0_C_currentWeapon': 	['0xA6250D'],
 		// Current Player
-		'RE3_mode_0_currentPlayer': 	[0x6FA402],
+		'RE3_mode_0_currentPlayer': 	['0x6FA402'],
 		// Title screen
-		'RE3_mode_0_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3],
+		'RE3_mode_0_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'],
 		/*
 			Mode 1 = RE3 Xplosiv
 		*/
 		// Item Box
-		'RE3_mode_1_J_iBox_Start': 		[0xA7C62C],
-		'RE3_mode_1_C_iBox_Start': 		[0xA7C76C],
+		'RE3_mode_1_J_iBox_Start': 		['0xA7C62C'],
+		'RE3_mode_1_C_iBox_Start': 		['0xA7C76C'],
 		// Jill Inventory
-		'RE3_mode_1_J_invent_item-1':  	[0xA7C604],
+		'RE3_mode_1_J_invent_item-1':  	['0xA7C604'],
 		// Carlos Inventory
-		'RE3_mode_1_C_invent_item-1':  	[0xA7C744],
+		'RE3_mode_1_C_invent_item-1':  	['0xA7C744'],
 		// Player Hex Pos.
-		'RE3_mode_1_xPosition': 	    [0xA770C8, 0xA770C9],
-		'RE3_mode_1_yPosition': 	    [0xA770D0, 0xA770D1],
-		'RE3_mode_1_zPosition': 	    [0XA770CC, 0xA770CD],
-		'RE3_mode_1_rPosition': 	    [0xA77102, 0xA77103],
-		'RE3_mode_1_zIndex': 			[0XA7709D],
+		'RE3_mode_1_xPosition': 	    ['0xA770C8', '0xA770C9'],
+		'RE3_mode_1_yPosition': 	    ['0xA770D0', '0xA770D1'],
+		'RE3_mode_1_zPosition': 	    ['0XA770CC', '0xA770CD'],
+		'RE3_mode_1_rPosition': 	    ['0xA77102', '0xA77103'],
+		'RE3_mode_1_zIndex': 			['0XA7709D'],
 		// Current Stage, Room number & Cam
-		'RE3_mode_1_Stage': 			[0xA7C446],
-		'RE3_mode_1_currentCam': 		[0xA7708E],
-		'RE3_mode_1_currentRoomNumber': [0xA7C448],
+		'RE3_mode_1_Stage': 			['0xA7C446'],
+		'RE3_mode_1_currentCam': 		['0xA7708E'],
+		'RE3_mode_1_currentRoomNumber': ['0xA7C448'],
 		// HP
-		'RE3_mode_1_HP': 				[0xA77160, 0xA77161],
+		'RE3_mode_1_HP': 				['0xA77160', '0xA77161'],
 		// Player current weapon
-		'RE3_mode_1_J_currentWeapon': 	[0xA7C72D],
-		'RE3_mode_1_C_currentWeapon': 	[0xA7C86D],
+		'RE3_mode_1_J_currentWeapon': 	['0xA7C72D'],
+		'RE3_mode_1_C_currentWeapon': 	['0xA7C86D'],
 		// Current Player
-		'RE3_mode_1_currentPlayer': 	[0x71254A],
+		'RE3_mode_1_currentPlayer': 	['0x71254A'],
 		// Title screen
-		'RE3_mode_1_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3], // WIP
+		'RE3_mode_1_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'], // WIP
 		/*
 			Mode 2
 			pSX 1.13 PS1 Emulator (Game ver: USA)
 		*/
 		// Item Box
-		'RE3_mode_2_J_iBox_Start': 		[0xE4417C],
-		'RE3_mode_2_C_iBox_Start': 		[0xE442BC],
+		'RE3_mode_2_J_iBox_Start': 		['0xE4417C'],
+		'RE3_mode_2_C_iBox_Start': 		['0xE442BC'],
 		// Jill Inventory
-		'RE3_mode_2_J_invent_item-1':  	[0xE44154],
+		'RE3_mode_2_J_invent_item-1':  	['0xE44154'],
 		// Carlos Inventory
-		'RE3_mode_2_C_invent_item-1':  	[0xE44294],
+		'RE3_mode_2_C_invent_item-1':  	['0xE44294'],
 		// Player Hex Pos.
-		'RE3_mode_2_xPosition': 	    [0xE3EC18, 0xE3EC19],
-		'RE3_mode_2_yPosition': 	    [0xE3EC20, 0xE3EC21],
-		'RE3_mode_2_zPosition': 	    [0xE3EC1C, 0xE3EC1D],
-		'RE3_mode_2_rPosition': 	    [0xE3EC52, 0xE3EC53],
-		'RE3_mode_2_zIndex': 			[0xE3EBED],
+		'RE3_mode_2_xPosition': 	    ['0xE3EC18', '0xE3EC19'],
+		'RE3_mode_2_yPosition': 	    ['0xE3EC20', '0xE3EC21'],
+		'RE3_mode_2_zPosition': 	    ['0xE3EC1C', '0xE3EC1D'],
+		'RE3_mode_2_rPosition': 	    ['0xE3EC52', '0xE3EC53'],
+		'RE3_mode_2_zIndex': 			['0xE3EBED'],
 		// Current Stage, Room number & Cam
-		'RE3_mode_2_Stage': 			[0x12D3F96],
-		'RE3_mode_2_currentCam': 		[0xE3EBDE],
-		'RE3_mode_2_currentRoomNumber': [0xE43F98],
+		'RE3_mode_2_Stage': 			['0x12D3F96'],
+		'RE3_mode_2_currentCam': 		['0xE3EBDE'],
+		'RE3_mode_2_currentRoomNumber': ['0xE43F98'],
 		// HP
-		'RE3_mode_2_HP': 				[0x12CECB0, 0x12CECB1],
+		'RE3_mode_2_HP': 				['0x12CECB0', '0x12CECB1'],
 		// Player current weapon
-		'RE3_mode_2_J_currentWeapon': 	[0xE4427D],
-		'RE3_mode_2_C_currentWeapon': 	[0xE443BD],
+		'RE3_mode_2_J_currentWeapon': 	['0xE4427D'],
+		'RE3_mode_2_C_currentWeapon': 	['0xE443BD'],
 		// Current Player
-		'RE3_mode_2_currentPlayer': 	[0x1B2685E], // I think this value is wrong
+		'RE3_mode_2_currentPlayer': 	['0x1B2685E'], // I think this value is wrong
 		// Title screen
-		'RE3_mode_2_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3], // Savestate said hello!
+		'RE3_mode_2_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'], // Savestate said hello!
 		/*
 			Mode 3
 			ePSXe 2.0.5 PS1 Emulator (Game ver: USA)
 		*/
 		// Item Box
-		'RE3_mode_3_J_iBox_Start': 		[0xE4417C],
-		'RE3_mode_3_C_iBox_Start': 		[0xE442BC],
+		'RE3_mode_3_J_iBox_Start': 		['0xE4417C'],
+		'RE3_mode_3_C_iBox_Start': 		['0xE442BC'],
 		// Jill Inventory
-		'RE3_mode_3_J_invent_item-1':  	[0xE44154],
+		'RE3_mode_3_J_invent_item-1':  	['0xE44154'],
 		// Carlos Inventory
-		'RE3_mode_3_C_invent_item-1':  	[0xE44294],
+		'RE3_mode_3_C_invent_item-1':  	['0xE44294'],
 		// Player Hex Pos.
-		'RE3_mode_3_xPosition': 	    [0xE3EC18, 0xE3EC19],
-		'RE3_mode_3_yPosition': 	    [0xE3EC20, 0xE3EC21],
-		'RE3_mode_3_zPosition': 	    [0xE3EC1C, 0xE3EC1D],
-		'RE3_mode_3_rPosition': 	    [0xE3EC52, 0xE3EC53],
-		'RE3_mode_3_zIndex': 			[0xE3EBED],
+		'RE3_mode_3_xPosition': 	    ['0xE3EC18', '0xE3EC19'],
+		'RE3_mode_3_yPosition': 	    ['0xE3EC20', '0xE3EC21'],
+		'RE3_mode_3_zPosition': 	    ['0xE3EC1C', '0xE3EC1D'],
+		'RE3_mode_3_rPosition': 	    ['0xE3EC52', '0xE3EC53'],
+		'RE3_mode_3_zIndex': 			['0xE3EBED'],
 		// Current Stage, Room number & Cam
-		'RE3_mode_3_Stage': 			[0x12D3F96],
-		'RE3_mode_3_currentCam': 		[0xE3EBDE],
-		'RE3_mode_3_currentRoomNumber': [0xE43F98],
+		'RE3_mode_3_Stage': 			['0x12D3F96'],
+		'RE3_mode_3_currentCam': 		['0xE3EBDE'],
+		'RE3_mode_3_currentRoomNumber': ['0xE43F98'],
 		// HP
-		'RE3_mode_3_HP': 				[0x12CECB0, 0x12CECB1],
+		'RE3_mode_3_HP': 				['0x12CECB0', '0x12CECB1'],
 		// Player current weapon
-		'RE3_mode_3_J_currentWeapon': 	[0xE4427D],
-		'RE3_mode_3_C_currentWeapon': 	[0xE443BD],
+		'RE3_mode_3_J_currentWeapon': 	['0xE4427D'],
+		'RE3_mode_3_C_currentWeapon': 	['0xE443BD'],
 		// Current Player
-		'RE3_mode_3_currentPlayer': 	[0x1B2685E], // I think this value is wrong
+		'RE3_mode_3_currentPlayer': 	['0x1B2685E'], // I think this value is wrong
 		// Title screen
-		'RE3_mode_3_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3], // Savestate said hello!
+		'RE3_mode_3_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'], // Savestate said hello!
 		/*
 			Mode 4 - WIP
 			Gemini REBirth Path (Game ver: USA)
 		*/
 		// Item Box
-		'RE3_mode_4_J_iBox_Start': 		[0xA675AC], // OK
-		'RE3_mode_4_C_iBox_Start': 		[0xA676EC], // OK 
+		'RE3_mode_4_J_iBox_Start': 		['0xA675AC'], // OK
+		'RE3_mode_4_C_iBox_Start': 		['0xA676EC'], // OK 
 		// Jill Inventory
-		'RE3_mode_4_J_invent_item-1':  	[0xA67584], // OK
+		'RE3_mode_4_J_invent_item-1':  	['0xA67584'], // OK
 		// Carlos Inventory
-		'RE3_mode_4_C_invent_item-1':  	[0xA676C4], // OK
+		'RE3_mode_4_C_invent_item-1':  	['0xA676C4'], // OK
 		// Player Hex Pos.
-		'RE3_mode_4_xPosition': 	    [0xA62048, 0xA62049], // OK
-		'RE3_mode_4_yPosition': 	    [0xA62050, 0xA62051], // OK
-		'RE3_mode_4_zPosition': 	    [0xA6204C, 0xA6204D], // OK
-		'RE3_mode_4_rPosition': 	    [0xA62082, 0xA62083], // OK
-		'RE3_mode_4_zIndex': 			[0xA6201D], // OK
+		'RE3_mode_4_xPosition': 	    ['0xA62048', '0xA62049'], // OK
+		'RE3_mode_4_yPosition': 	    ['0xA62050', '0xA62051'], // OK
+		'RE3_mode_4_zPosition': 	    ['0xA6204C', '0xA6204D'], // OK
+		'RE3_mode_4_rPosition': 	    ['0xA62082', '0xA62083'], // OK
+		'RE3_mode_4_zIndex': 			['0xA6201D'], // OK
 		// Current Stage, Room number & Cam
-		'RE3_mode_4_Stage': 			[0xA673C6], // OK
-		'RE3_mode_4_currentCam': 		[0xA6200E], // OK
-		'RE3_mode_4_currentRoomNumber': [0xA673C8], // OK (Stage Hex Pos + 2)
+		'RE3_mode_4_Stage': 			['0xA673C6'], // OK
+		'RE3_mode_4_currentCam': 		['0xA6200E'], // OK
+		'RE3_mode_4_currentRoomNumber': ['0xA673C8'], // OK (Stage Hex Pos + 2)
 		// HP
-		'RE3_mode_4_HP': 				[0xA620E0, 0xA620E1], // OK
+		'RE3_mode_4_HP': 				['0xA620E0', '0xA620E1'], // OK
 		// Player current weapon
-		'RE3_mode_4_J_currentWeapon': 	[0xA676AD], // OK
-		'RE3_mode_4_C_currentWeapon': 	[0xE443BD],
+		'RE3_mode_4_J_currentWeapon': 	['0xA676AD'], // OK
+		'RE3_mode_4_C_currentWeapon': 	['0xE443BD'],
 		// Current Player
-		'RE3_mode_4_currentPlayer': 	[0x6FE999], // Must Check this
+		'RE3_mode_4_currentPlayer': 	['0x6FE999'], // Must Check this
 		// Title screen
-		'RE3_mode_4_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3] // This is not needed here...
+		'RE3_mode_4_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'] // This is not needed here...
 	},
 	// RE3 Livestatus Player List
 	R3_LIVESTATUS_playerList = {
