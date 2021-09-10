@@ -79,34 +79,34 @@ function R3_MEMORY_JS_readGame(){
 function R3_MEMORY_JS_readPosition(){
 	if (MEM_JS_requreSucess === true && R3_MEMJS_PROCESS_OBJ !== undefined && RE3_RUNNING === true){
 		// Stage
-		REALTIME_CurrentStage 	   = parseInt(R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_Stage'][0], 2, 'hex') + 1).toString();
-		REALTIME_CurrentRoomNumber = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentRoomNumber'][0], 2, 'hex');
-		REALTIME_CurrentCam 	   = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentCam'][0], 2, 'hex');
+		REALTIME_CurrentStage 	   = parseInt(R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_Stage'][0], 2, 'hex') + 1).toString();
+		REALTIME_CurrentRoomNumber = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentRoomNumber'][0], 2, 'hex');
+		REALTIME_CurrentCam 	   = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentCam'][0], 2, 'hex');
 		REALTIME_CurrentRDT 	   = 'R' + REALTIME_CurrentStage + REALTIME_CurrentRoomNumber;
 		// Player Coords
-		REALTIME_X_Pos  = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][0], 2, 'hex') + R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][1], 2, 'hex');
-		REALTIME_Y_Pos  = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][0], 2, 'hex') + R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][1], 2, 'hex');
-		REALTIME_Z_Pos  = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][0], 2, 'hex') + R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][1], 2, 'hex');
-		REALTIME_R_Pos  = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][0], 2, 'hex') + R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][1], 2, 'hex');
-		REALTIME_zIndex = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zIndex'][0], 2, 'hex');
+		REALTIME_X_Pos  = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][0], 2, 'hex') + R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][1], 2, 'hex');
+		REALTIME_Y_Pos  = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][0], 2, 'hex') + R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][1], 2, 'hex');
+		REALTIME_Z_Pos  = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][0], 2, 'hex') + R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][1], 2, 'hex');
+		REALTIME_R_Pos  = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][0], 2, 'hex') + R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][1], 2, 'hex');
+		REALTIME_zIndex = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zIndex'][0], 2, 'hex');
 	};
 };
 // Read inventory
 function R3_MEMORY_JS_readInventory(){
 	if (MEM_JS_requreSucess === true && R3_MEMJS_PROCESS_OBJ !== undefined && RE3_RUNNING === true && MEM_JS_canRender === true){
 		var cPlayer = 'J', tempInventory = '', inventPos = parseInt(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_invent_item-1'][0]);
-		REALTIME_CurrentPlayer = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentPlayer'][0], 2, 'hex');
+		REALTIME_CurrentPlayer = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentPlayer'][0], 2, 'hex');
 		// Inventory
 		if (REALTIME_CurrentPlayer === '02'){
 			cPlayer = 'C';
 		};
 		for (var i = 0; i < 40; i++){
-			tempInventory = tempInventory + R3_MEMJS_readValue(inventPos.toString(16), 2, 'hex');
+			tempInventory = tempInventory + R3_MEMJS.readValue(inventPos.toString(16), 2, 'hex');
 			inventPos++;
 		};
 		// Current Status / Weapon
-		REALTIME_CurrentHP = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][0], 2, 'hex') + R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][1], 2, 'hex');
-		REALTIME_CurrentWeapon = R3_MEMJS_readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_currentWeapon'][0], 2, 'hex');
+		REALTIME_CurrentHP = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][0], 2, 'hex') + R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][1], 2, 'hex');
+		REALTIME_CurrentWeapon = R3_MEMJS.readValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_currentWeapon'][0], 2, 'hex');
 		/*
 			End
 		*/
@@ -120,7 +120,7 @@ function R3_MEMORY_JS_readItemBox(){
 		cPlayer = 'C';
 	};
 	for (var i = 0; i < 255; i++){ // 255 = (64 * 4 Parameter per slot)
-		cHex = cHex + R3_MEMJS_readValue(cLocation.toString(16), 2, 'hex');
+		cHex = cHex + R3_MEMJS.readValue(cLocation.toString(16), 2, 'hex');
 		cLocation++;
 	};
 	RE3_LIVE_BOX = cHex;
@@ -145,8 +145,8 @@ function R3_LIVESTATUS_gotoTitleScreen(){
 function R3_LIVESTATUS_infiniteHP(){
 	if (DEBUG_LOCKRENDER === false && R3_MEMJS_PROCESS_OBJ !== undefined && RE3_RUNNING === true && MEM_JS_canRender === true){
 		if (REALTIME_CurrentHP.toLowerCase() !== 'c800'){
-			R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][0], 'C8', 'hex');
-			R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][1], '00', 'hex');
+			R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][0], 'C8', 'hex');
+			R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][1], '00', 'hex');
 		};
 	};
 };
@@ -154,14 +154,14 @@ function R3_LIVESTATUS_infiniteHP(){
 function R3_LIVESTATUS_addGodHp(){
 	if (DEBUG_LOCKRENDER === false && R3_MEMJS_PROCESS_OBJ !== undefined && RE3_RUNNING === true && MEM_JS_canRender === true){
 		document.getElementById('R3_LIVESTATUS_OPTION_INFINITE_HP').checked = false;
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][0], 48, 'int');
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][1], 117, 'int');
+		R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][0], 48, 'int');
+		R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_HP'][1], 117, 'int');
 	};
 };
 // Apply Item On Invent
 function R3_LIVESTATUS_APPLYITEM(slotID){
 	if (DEBUG_LOCKRENDER === false && R3_MEMJS_PROCESS_OBJ !== undefined && RE3_RUNNING === true && MEM_JS_canRender === true){
-		var cPlayer = 'J', QT = parseInt(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_QT').value);
+		var inventStartPos, tempInvent, finalInvent, IT, AT, cPlayer = 'J', QT = parseInt(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_QT').value);
 		if (QT === '' || QT === NaN || QT < 0){
 			QT = 1;
 		};
@@ -171,16 +171,16 @@ function R3_LIVESTATUS_APPLYITEM(slotID){
 		if (REALTIME_CurrentPlayer === '02'){
 			cPlayer = 'C';
 		};
-		var inventStartPos = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_invent_item-1'][0],
-			IT = R3_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value, 2), 
-			AT = R3_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').value, 2),
-			tempInvent = localStorage.getItem('REALTIME_INVENTORY').match(/.{8,8}/g);
+		inventStartPos = MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_' + cPlayer + '_invent_item-1'][0];
+		IT = R3_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value, 2);
+		AT = R3_fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').value, 2);
+		tempInvent = localStorage.getItem('REALTIME_INVENTORY').match(/.{8,8}/g);
 		// Set item to invent
 		tempInvent[(slotID - 1)] = IT + R3_fixVars(QT.toString(16), 2) + AT + '00';
-		var finalInvent = tempInvent.toString().replace(new RegExp(',', 'gi'), '').match(/.{2,2}/g);
+		finalInvent = tempInvent.toString().replace(new RegExp(',', 'gi'), '').match(/.{2,2}/g);
 		// Apply code to game
 		finalInvent.forEach(function(cItem, cIndex){
-			R3_MEMJS_writeValue(inventStartPos.toString(16), finalInvent[cIndex], 'hex');
+			R3_MEMJS.writeValue(inventStartPos.toString(16), finalInvent[cIndex], 'hex');
 			inventStartPos++;
 		});
 		// End
@@ -209,7 +209,7 @@ function R3_LIVESTATUS_APPLYITEMBOX(itemId){
 	};
 	tempFinalHex = tempFinalHex.match(/.{2,2}/g);
 	for (var i = 0; i < 255; i++){
-		R3_MEMJS_writeValue(cLocation.toString(16), tempFinalHex[i], 'hex');
+		R3_MEMJS.writeValue(cLocation.toString(16), tempFinalHex[i], 'hex');
 		cLocation++;
 	};
 	// End
@@ -218,22 +218,24 @@ function R3_LIVESTATUS_APPLYITEMBOX(itemId){
 // Apply Player Pos.
 function R3_LIVESTATUS_APPLY_PLAYERPOS(){
 	if (RE3_RUNNING === true && R3_MEMJS_PROCESS_OBJ !== undefined){
-		var reason, canChange = true,
-			newX  = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_X').value, 4).toLowerCase().match(/.{2,2}/g),
-			newY  = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Y').value, 4).toLowerCase().match(/.{2,2}/g),
-			newZ  = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Z').value, 4).toLowerCase().match(/.{2,2}/g),
-			newR  = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_R').value, 4).toLowerCase().match(/.{2,2}/g),
-			newZI = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_zI').value, 2).toLowerCase();
+		const newX = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_X').value, 4).match(/.{2,2}/g),
+			newY = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Y').value, 4).match(/.{2,2}/g),
+			newZ = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Z').value, 4).match(/.{2,2}/g),
+			newR = R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_R').value, 4).match(/.{2,2}/g),
+			posArray = [...newX, ...newY, ...newZ, ...newR, R3_fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_zI').value, 2)],
+			memArray = [
+				MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][0],
+				MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][1],
+				MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][0],
+				MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][1],
+				MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][0],
+				MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][1],
+				MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][0],
+				MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][1],
+				MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zIndex'][0]
+			];
 		// End
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][0], newX[0], 'hex');
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_xPosition'][1], newX[1], 'hex');
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][0], newY[0], 'hex');
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_yPosition'][1], newY[1], 'hex');
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][0], newZ[0], 'hex');
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zPosition'][1], newZ[1], 'hex');
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][0], newR[0], 'hex');
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_rPosition'][1], newR[1], 'hex');
-		R3_MEMJS_writeValue(MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_zIndex'][0], newZI, 'hex');
+		R3_MEMJS.writeArray(memArray, posArray);
 	};
 };
 // Update Pos Via range
@@ -287,7 +289,7 @@ function RE3_LIVE_COPY_PASTE_LOCATION(mode){
 // Open current map on RDT Editor
 function R3_LIVESTATUS_openCurrentMap(){
 	if (RE3_RUNNING === true && APP_ENABLE_MOD === true){
-		var fPath = R3_getMapPath()[1] + 'R' + REALTIME_CurrentStage + REALTIME_CurrentRoomNumber + '.RDT';
+		const fPath = R3_getMapPath()[1] + 'R' + REALTIME_CurrentStage + REALTIME_CurrentRoomNumber + '.RDT';
 		if (APP_FS.existsSync(fPath) === true){
 			R3_SHOW_MENU(10);
 			R3_RDT_LOAD(fPath, true);

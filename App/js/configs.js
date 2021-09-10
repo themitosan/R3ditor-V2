@@ -810,7 +810,8 @@ function R3_ENGE_updateResScale(mode){
 };
 // Update Res. Vars
 function R3_ENGE_updateResVars(){
-	var vW = parseInt(document.getElementById('R3_SETTINGS_ENGE_WIDTH').value), vH = parseInt(document.getElementById('R3_SETTINGS_ENGE_HEIGHT').value);
+	var vW = parseInt(document.getElementById('R3_SETTINGS_ENGE_WIDTH').value),
+		vH = parseInt(document.getElementById('R3_SETTINGS_ENGE_HEIGHT').value);
 	if (vW === NaN || vW === '' || vW < 360){
 		vW = 360;
 	};
@@ -825,8 +826,7 @@ function R3_ENGE_updateResVars(){
 	Database Functions
 */
 function R3_INIT_generateSelectValues(db, mode, prevHTML, limit){
-	var c = 0, modeType, TEMP_STR = currentHex = '',
-		tempAttr = Object.keys(db), maxLimit = tempAttr.length;
+	var modeType, TEMP_STR = currentHex = '', tempAttr = Object.keys(db), maxLimit = tempAttr.length;
 	if (prevHTML !== undefined && prevHTML !== ''){
 		TEMP_STR = prevHTML;
 	};
@@ -834,7 +834,7 @@ function R3_INIT_generateSelectValues(db, mode, prevHTML, limit){
 		maxLimit = parseInt(limit);
 	};
 	// Start Madness
-	while (c < maxLimit){
+	for (var c = 0; c < maxLimit; c++){
 		// Modes
 		if (mode === 'hex'){
 			modeType = R3_fixVars(tempAttr[c], 2);
@@ -863,7 +863,6 @@ function R3_INIT_generateSelectValues(db, mode, prevHTML, limit){
 		if (mode === 'ckSpecial'){
 			TEMP_STR = TEMP_STR + '<option value="' + tempAttr[c] + '">(' + tempAttr[c] + ') ' + db[tempAttr[c]] + '</option>';
 		};
-		c++;
 	};
 	return TEMP_STR;
 };
@@ -984,7 +983,7 @@ function R3_INIT_PROCESS_ARGS(){
 	Original code: https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen
 */
 function R3_SYSTEM_moveWindowToScreen(windowId){
-	if (R3_WEBMODE === false && parseInt(windowId) !== NaN && SETTINGS_ENABLE_FULLSCREEN === false && R3_NW_ARGS_DISABLE_MOVE_SCREEN === false){
+	if (R3_WEBMODE === false && parseInt(windowId) !== NaN && SETTINGS_ENABLE_FULLSCREEN === false && R3_NW_ARGS_DISABLE_MOVE_SCREEN === false && R3_WEB_IS_ELECTRON === false){
 		var appWindow  = APP_GUI.Window.get(),
 			appScreens = APP_GUI.Screen.screens[windowId];
 		appWindow.x = appScreens.work_area.x;

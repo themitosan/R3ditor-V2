@@ -64,26 +64,25 @@ function R3_INI_MAKEFILE(mode, keepRofs11){
 	BIO3INI_Save = '.\\Save';
 	BIO3INI_Movie = '.\\zmovie';
 	BIO3INI_Regist = '.\\regist.txt';
-	if (mode === 0){
-		BIO3INI_Rofs1 = '.\\DATA\\DOOR';
-		BIO3INI_Rofs2 = '.\\DATA_AE\\ETC2';
-		BIO3INI_Rofs3 = '.\\DATA\\ETC';
-		BIO3INI_Rofs4 = '.\\' + R3_RDT_PREFIX_HARD + '\\ETC2';
-		BIO3INI_Rofs5 = '.\\DATA\\PLD';
-		BIO3INI_Rofs6 = '.\\DATA_A\\PLD';
-		BIO3INI_Rofs7 = '.\\DATA\\SOUND';
-		BIO3INI_Rofs8 = '.\\DATA_A\\BSS';
-		BIO3INI_Rofs9 = '.\\ROOM\\EMD';
-		BIO3INI_Rofs10 = '.\\ROOM\\EMD08';
-		BIO3INI_Rofs11 = '.\\ROOM\\RBJ';
-		if (keepRofs11 === true){
-			BIO3INI_Rofs11 = '.\\Rofs11.dat';
-		};
-		BIO3INI_Rofs12 = '.\\' + R3_RDT_PREFIX_EASY + '\\RDT';
-		BIO3INI_Rofs13 = '.\\' + R3_RDT_PREFIX_HARD + '\\RDT';
-		BIO3INI_Rofs14 = '.\\DATA_A\\VOICE';
-		BIO3INI_Rofs15 = '.\\DATA_A\\SOUND';
-	} else {
+	BIO3INI_Rofs1 = '.\\DATA\\DOOR';
+	BIO3INI_Rofs2 = '.\\DATA_AE\\ETC2';
+	BIO3INI_Rofs3 = '.\\DATA\\ETC';
+	BIO3INI_Rofs4 = '.\\' + R3_RDT_PREFIX_HARD + '\\ETC2';
+	BIO3INI_Rofs5 = '.\\DATA\\PLD';
+	BIO3INI_Rofs6 = '.\\DATA_A\\PLD';
+	BIO3INI_Rofs7 = '.\\DATA\\SOUND';
+	BIO3INI_Rofs8 = '.\\DATA_A\\BSS';
+	BIO3INI_Rofs9 = '.\\ROOM\\EMD';
+	BIO3INI_Rofs10 = '.\\ROOM\\EMD08';
+	BIO3INI_Rofs11 = '.\\ROOM\\RBJ';
+	if (keepRofs11 === true){
+		BIO3INI_Rofs11 = '.\\Rofs11.dat';
+	};
+	BIO3INI_Rofs12 = '.\\' + R3_RDT_PREFIX_EASY + '\\RDT';
+	BIO3INI_Rofs13 = '.\\' + R3_RDT_PREFIX_HARD + '\\RDT';
+	BIO3INI_Rofs14 = '.\\DATA_A\\VOICE';
+	BIO3INI_Rofs15 = '.\\DATA_A\\SOUND';
+	if (mode !== 0){
 		BIO3INI_Rofs1 = '.\\Rofs1.dat';
 		BIO3INI_Rofs2 = '.\\Rofs2.dat';
 		BIO3INI_Rofs3 = '.\\Rofs3.dat';
@@ -166,8 +165,7 @@ function R3_MAKE_INI(path, mode){
 			try {
 				APP_FS.writeFileSync(R3_MOD_PATH + '/' + path, FINAL, 'utf-8');
 			} catch (err) {
-				R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to save INI file!');
-				R3_SYSTEM_LOG('error', 'Reason: ' + err);
+				R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to save INI file! <br>Reason: ' + err);
 			};
 		};
 	} else {

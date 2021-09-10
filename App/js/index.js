@@ -427,7 +427,7 @@ function R3_runGame(mode){
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries');
 			};
 			if (mode === 2 && R3_RE3_CANRUN === true){
-				R3_MEMJS_seekProcess();
+				R3_MEMJS.seekProcess();
 				if (R3_MEMJS_PROCESS_OBJ !== undefined){
 					R3_LIVESTATUS_OPEN_BAR();
 				} else {
@@ -442,7 +442,7 @@ function R3_runGame(mode){
 			// 32-bit check
 			if (APP_IS_32 !== true && MEM_JS_requreSucess === true && R3_MERCE_CANRUN === true && R3_RE3_CANRUN === true){
 				if (mode === 0 || mode === 2){
-					R3_MEMJS_seekProcess();
+					R3_MEMJS.seekProcess();
 					R3_LIVESTATUS_OPEN_BAR();
 				};
 			};

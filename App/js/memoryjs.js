@@ -7,12 +7,16 @@
 	Node.js plugin written by Rob-- (https://github.com/Rob--)
 	MemoryJS official page: https://github.com/Rob--/memoryjs
 */
+tempMEMJS = {};
 var R3_MEMJS_PROCESS_OBJ;
 /*
 	Functions
 */
-// Read host processes
-function R3_MEMJS_seekProcess(){
+/*
+	R3_MEMJS.seekProcess
+	Read host processes
+*/
+tempMEMJS['seekProcess'] = function(){
 	if (MEM_JS_requreSucess === true && R3_WEBMODE === false){
 		R3_MEMJS_PROCESS_OBJ = undefined;
 		clearInterval(R3_CHECK_ifStillOpenInterval);
@@ -58,13 +62,13 @@ function R3_MEMJS_seekProcess(){
 	};
 };
 /*
-	R3_MEMJS_HOOK_EMU - Hook on emulators
+	R3_MEMJS.HOOK_EMU
+	Hook on running emulators
+	
 	This function will seek some values inside emulators (ePSXe, pSX...) process to find livestatus data.
-
-	How it works:
-	Open the game, go to warehouse save room (hard) and run this function (without moving player)
+	How it works: Open the game, go to warehouse save room (hard) and run this function (without moving player)
 */
-function R3_MEMJS_HOOK_EMU(){
+tempMEMJS['HOOK_EMU'] = function(){
 	if (R3_WEBMODE === false && R3_MEMJS_PROCESS_OBJ !== undefined && R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === true){
 		var foundPos = false, cLocation, ramLimit = 0x7FFFFFFFFFFF, askConf = R3_SYSTEM_CONFIRM('IMPORTANT: To read in-game data, make sure you are exactly on Spawn Pos. of Warehouse Save Room (R100.RDT).\n\nIf so, click on OK and wait.\n\nPS: This probably will consume your CPU Power!');
 		if (askConf === true){
@@ -74,17 +78,17 @@ function R3_MEMJS_HOOK_EMU(){
 				// console.log('Looking on ' + cLocation + ' (Hex: 0x' + parseInt(cLocation).toString(16).toUpperCase() + ')');
 				/*
 					Check Variables
-					On Warehouse save room:
+					On Warehouse Save room: (R100)
 	
 					xPos must be 50B0
 					yPos must be CAAE
 					zPos must be 0000
 					rPos must be 0008
 				*/
-				var xPos = R3_fixVars(APP_MEMJS.readMemory(R3_MEMJS_PROCESS_OBJ.handle, cLocation, APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(R3_MEMJS_PROCESS_OBJ.handle, (cLocation + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-					yPos = R3_fixVars(APP_MEMJS.readMemory(R3_MEMJS_PROCESS_OBJ.handle, (cLocation + 8), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(R3_MEMJS_PROCESS_OBJ.handle, ((cLocation + 8) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-					zPos = R3_fixVars(APP_MEMJS.readMemory(R3_MEMJS_PROCESS_OBJ.handle, (cLocation + 4), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(R3_MEMJS_PROCESS_OBJ.handle, ((cLocation + 4) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2),
-					rPos = R3_fixVars(APP_MEMJS.readMemory(R3_MEMJS_PROCESS_OBJ.handle, (cLocation + 58), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2) + R3_fixVars(APP_MEMJS.readMemory(R3_MEMJS_PROCESS_OBJ.handle, ((cLocation + 58) + 1), APP_MEMJS.BYTE).toString(16).toUpperCase(), 2);
+				var xPos = R3_MEMJS.readValue(cLocation, 		2, 'hex') + R3_MEMJS.readValue((cLocation + 1),  2, 'hex'),
+					yPos = R3_MEMJS.readValue((cLocation + 8),  2, 'hex') + R3_MEMJS.readValue((cLocation + 9),  2, 'hex'),
+					zPos = R3_MEMJS.readValue((cLocation + 4),  2, 'hex') + R3_MEMJS.readValue((cLocation + 5),  2, 'hex'),
+					rPos = R3_MEMJS.readValue((cLocation + 58), 2, 'hex') + R3_MEMJS.readValue((cLocation + 59), 2, 'hex');
 				if (cLocation < ramLimit){
 					if (xPos === '50B0' && yPos === 'CAAE' && zPos === '0000' && rPos === '0008'){
 						console.info('Found!\nPos: ' + cLocation + ' (Hex: 0x' + parseInt(cLocation).toString(16).toUpperCase() + ')');
@@ -139,15 +143,15 @@ function R3_MEMJS_HOOK_EMU(){
 	};
 };
 /*
-	R3_MEMJS_readValue
+	R3_MEMJS.readValue
 	
-	ramPos: Start RAM position
+	ramPos: RAM Position
 	limit:  Limit length res
 	mode:
 		'hex': Read / return values in hex	
 		'int': Read / return values in int
 */
-function R3_MEMJS_readValue(ramPos, limit, mode){
+tempMEMJS['readValue'] = function(ramPos, limit, mode){
 	var res = '00';
 	if (ramPos !== undefined && MEM_JS_requreSucess === true){
 		if (limit !== undefined || parseInt(limit) === NaN){
@@ -163,15 +167,15 @@ function R3_MEMJS_readValue(ramPos, limit, mode){
 	return res;
 };
 /*
-	R3_MEMJS_writeValue
+	R3_MEMJS.writeValue
 
-	ramPos: RAM position
+	ramPos: RAM Position
 	value: value to be written
 	mode:
 		'hex': Read / return values in hex	
 		'int': Read / return values in int
 */
-function R3_MEMJS_writeValue(ramPos, value, mode){
+tempMEMJS['writeValue'] = function(ramPos, value, mode){
 	if (ramPos !== undefined && MEM_JS_requreSucess === true && ramPos !== undefined){
 		if (value === undefined || value === ''){
 			value = 0;
@@ -185,3 +189,27 @@ function R3_MEMJS_writeValue(ramPos, value, mode){
 		APP_MEMJS.writeMemory(R3_MEMJS_PROCESS_OBJ.handle, parseInt(ramPos.toString().replace('0x', ''), 16), value, APP_MEMJS.BYTE);
 	};
 };
+/*
+	R3_MEMJS.writeArray
+	Works only on hex mode
+
+	ramPos: Array with RAM Positions
+	values: Array with values
+*/
+tempMEMJS['writeArray'] = function(ramPos, values){
+	if (ramPos !== undefined && values !== undefined && MEM_JS_requreSucess === true && ramPos.length === values.length){
+		var cValue;
+		ramPos.forEach(function(cPosition, cIndex){
+			cValue = values[cIndex];
+			if (typeof cValue === 'number'){
+				cValue = R3_fixVars(cValue.toString(16), 2);
+			};
+			APP_MEMJS.writeMemory(R3_MEMJS_PROCESS_OBJ.handle, parseInt(cPosition.toString().replace('0x', ''), 16), parseInt(cValue, 16), APP_MEMJS.BYTE);
+		});
+	};
+};
+/*
+	End
+*/
+const R3_MEMJS = tempMEMJS;
+delete(tempMEMJS);
