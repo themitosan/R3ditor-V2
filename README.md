@@ -22,20 +22,27 @@ It's recommended to use our pre-compiled version! You can download on <a href="h
 <i>PS: <a href="https://themitosan.github.io/R3V2" title="Click here to test R3ditor V2 in your browser!" target="_blank">You can try this tool online!</a></i>
 
 ##### Important
-To run this software properly, you will need generate <code>node_modules</code> folder using <code>npm</code> and Visual Studio 2017
-<br><i>(with c++ development tools)</i>.
+To run this software properly, you will need generate <code>node_modules</code>.<br>
+This will require Node.js, Python 2.7.12 and Visual Studio 2017 <i>(with c++ development tools)</i>.
 
-#### Windows (NW.js)
+#### Windows (NW.js - Compiling <code>node_modules</code>)
 * Clone this repository
 * Rename <code>nw_package.json</code> to <code>package.json</code>
-* Run <code>npm install</code> and wait! <i>(This process may take a while)</i>
-* Extract <code>memoryjs-R3V2</code> inside <code>node_modules</code> folder
+* Open <code>cmd</code> on this location, run <code>npm install</code> and wait! <i>(This process may take a while)</i>
+* Extract <code>memoryjs</code> folder from "nw_easyinstall.zip" inside <code>node_modules</code>
+* Run <code>npm start</code>
+
+#### Windows (NW.js - Easy Install)
+* Clone this repository
+* Extract all contents from "nw_easyinstall.zip" where "nw_package.json" is located
+* Download <a href="https://dl.nwjs.io/v0.38.4/" target="_blank">NW.js 0.38.4</a> and extract it where "nw_package.json" is located 
+* Rename "nw_easyinstall_package.json" to "package.json"
 * Run <code>nw.exe</code>
 
 #### Windows (Electron)
 * Clone this repository
 * Rename <code>electron_package.json</code> to <code>package.json</code>
-* Run <code>npm install</code> and wait! (Make sure to have VS 2017 installed - otherwise it will fail!)
+* Open <code>cmd</code>, run <code>npm install</code> and wait! (Make sure to have VS 2017 installed - otherwise it will fail!)
 * Run <code>npm start</code>
 
 #### Linux
