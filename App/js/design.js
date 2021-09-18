@@ -2308,7 +2308,7 @@ function R3_RDT_FILELIST_GENERATE(currentMode){
 								mapIcon = 'img/404.png';
 							};
 						};
-						// non-windows fix
+						// Non-windows fix
 						if (APP_useImageFix === true && APP_FS.existsSync(mapIcon) === true){
 							mapIcon = 'file://' + mapIcon;
 						};

@@ -44,7 +44,7 @@ var APP_ON_BOOT = true,
 	SETTINGS_ENGE_BIOS_PATH, SETTINGS_ENGE_BIOS, SETTINGS_RECENT_FILE_NAME, SETTINGS_RECENT_FILE_TYPE = 0, SETTINGS_RECENT_FILE_PATH,
 	// Args variables
 	R3_NW_ARGS_DISABLE_DISCORD = false, R3_NW_ARGS_DISABLE_MOVE_SCREEN = false, R3_NW_ARGS_OVERWRITE_MOVE_SCREEN = false,
-	R3_NW_ARGS_DISABLE_DOORLINK = false, R3_NW_ARGS_DISABLE_LOG = false;
+	R3_NW_ARGS_DISABLE_DOORLINK = false, R3_NW_ARGS_DISABLE_LOG = false, R3_NW_ARGS_DISABLE_ENGE = false;
 /*
 	Functions
 */
@@ -975,6 +975,10 @@ function R3_INIT_PROCESS_ARGS(){
 			if (runFlags.indexOf('--disable-log') !== -1){
 				R3_NW_ARGS_DISABLE_LOG = true;
 			};
+			// Disable eNGE
+			if (runFlags.indexOf('--disable-enge') !== -1){
+				R3_NW_ARGS_DISABLE_ENGE = true;
+			};
 		};
 	};
 };
@@ -984,8 +988,7 @@ function R3_INIT_PROCESS_ARGS(){
 */
 function R3_SYSTEM_moveWindowToScreen(windowId){
 	if (R3_WEBMODE === false && parseInt(windowId) !== NaN && SETTINGS_ENABLE_FULLSCREEN === false && R3_NW_ARGS_DISABLE_MOVE_SCREEN === false && R3_WEB_IS_ELECTRON === false){
-		var appWindow  = APP_GUI.Window.get(),
-			appScreens = APP_GUI.Screen.screens[windowId];
+		var appWindow = APP_GUI.Window.get(), appScreens = APP_GUI.Screen.screens[windowId];
 		appWindow.x = appScreens.work_area.x;
 		appWindow.y = 0;
 		appWindow.show();

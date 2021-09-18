@@ -232,7 +232,7 @@ function R3_RDT_EXTRACT_FLR(){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading FLR...');
 		if (R3_RDT_MAP_HEADER_POINTERS[13] !== '00000000'){
 			// It seems to always ends on SCD Start
-			var flrStart = (parseInt(R3_RDT_MAP_HEADER_POINTERS[13], 16) * 2),
+			const flrStart = (parseInt(R3_RDT_MAP_HEADER_POINTERS[13], 16) * 2),
 				flrEnd = RDT_arquivoBruto.indexOf(R3_RDT_RAWSECTION_SCD);
 			R3_RDT_RAWSECTION_FLR = RDT_arquivoBruto.slice(flrStart, flrEnd);
 		} else {

@@ -88,7 +88,7 @@ function R3_RID_removeCamera(){
 */
 function R3_RID_recompile(){
 	if (RID_arquivoBruto !== undefined){
-		var cCam = RID_currentCamera, RID_type = document.getElementById('R3_RID_EDIT_camType').value,
+		var newPointer, cCam, RID_currentCamera, RID_type = document.getElementById('R3_RID_EDIT_camType').value,
 			RID_unk0 = R3_fixVars(document.getElementById('R3_RID_EDIT_unk0').value, 4),
 			RID_X	 = R3_parseEndian(R3_convertPosIntToHex(parseInt(document.getElementById('R3_RID_EDIT_posX').value))),
 			RID_Y	 = R3_parseEndian(R3_convertPosIntToHex(parseInt(document.getElementById('R3_RID_EDIT_posY').value))),
@@ -106,7 +106,7 @@ function R3_RID_recompile(){
 			This also will increase the number of total cameras on RDT pointers
 		*/
 		R3_RDT_RAWSECTION_RID = RID_cameraList.toString().replace(RegExp(',', 'gi'), '');
-		var newPointer = R3_fixVars(parseInt(RID_cameraList.length).toString(16), 4) + R3_RDT_MAP_HEADER_POINTERS[0].slice(4, R3_RDT_MAP_HEADER_POINTERS[0].length);
+		newPointer = R3_fixVars(parseInt(RID_cameraList.length).toString(16), 4) + R3_RDT_MAP_HEADER_POINTERS[0].slice(4, R3_RDT_MAP_HEADER_POINTERS[0].length);
 		R3_RDT_MAP_HEADER_POINTERS[0] = newPointer;
 		/*
 			End

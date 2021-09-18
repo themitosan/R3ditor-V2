@@ -110,24 +110,19 @@ let frameEvent = psx.addEvent(0, endMainLoop),
 function endMainLoop(self, clock){
 	endAnimationFrame = true;
 	self.active = false;
-}
+};
 
 function mainLoop(stamp){
-	if (SETTINGS_DISABLE_ENGE === false){
+	if (SETTINGS_DISABLE_ENGE === false && R3_NW_ARGS_DISABLE_ENGE === false){
 		window.requestAnimationFrame(mainLoop);
 		const delta = stamp - context.timeStamp;
 		context.timeStamp = stamp;
 		if (!running || !hasFocus || delta > 250) return;
-
 		context.realtime += delta * speedFactor;
-
 		let diffTime = context.realtime - context.emutime;
-
 		const timeToEmulate = diffTime, totalCycles = timeToEmulate * (768*44.100);
-
 		let entry = getCacheEntry(cpu.pc);
 		if (!entry) return abort('invalid pc')
-
 		endAnimationFrame = false;
 		psx.setEvent(frameEvent, +totalCycles);
 		handleGamePads();
@@ -142,15 +137,13 @@ function mainLoop(stamp){
 			// entry = next;
 		}
 		cpu.pc = entry.pc;
-
 		// correct the emulation time accourding to the psx.clock
 		context.emutime =  psx.clock / (768*44.100);
 	};
-}
+};
 
-function bios() {
+function bios(){
 	running = false;
-
 	let entry = getCacheEntry(0xbfc00000);
 	const $ = psx;
 	while (entry.pc !== 0x00030000) {
@@ -166,9 +159,9 @@ function bios() {
 	context.realtime = context.emutime =  psx.clock / (768*44.100);
 	vector = getCacheEntry(0x80);
 	cpu.pc = entry.pc;
-}
+};
 
-var openFile = function(file) {
+var openFile = function(file){
 	var reader = new FileReader();
 	reader.onload = function(event) {
 		// console.log(escape(file.name), file.size);
@@ -176,12 +169,11 @@ var openFile = function(file) {
 	};
 	loading++;
 	reader.readAsArrayBuffer(file);
-}
+};
 
-function loadFileData(arrayBuffer) {
+function loadFileData(arrayBuffer){
   if ((arrayBuffer.byteLength & 3) !== 0) {
-    var copy = new Uint8Array(arrayBuffer),
-        data = new Uint32Array(((copy.length + 3) & ~3) >> 2);
+    var copy = new Uint8Array(arrayBuffer), data = new Uint32Array(((copy.length + 3) & ~3) >> 2);
     for (var i = 0; i < copy.length; ++i) {
       data.setInt8(i, copy[i]);
     }

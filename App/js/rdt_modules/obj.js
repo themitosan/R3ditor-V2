@@ -1,6 +1,6 @@
 /*
 	R3ditor V2 - obj.js
-	It's about time...
+	It's about time?
 
 	Functions
 */
