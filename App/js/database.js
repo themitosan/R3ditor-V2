@@ -1148,7 +1148,7 @@ const R3_internalHoldTime = 2800,
 		'8d': '[SPL_WEAPON_CHG]',
 		'8e': '[PLC_MOT_NUM]',
 		'8f': '[EM_RESET]\nThis function will reset a enemy animation'
-	}, R3_MP_WM = 'ZmZmZmZmZmY1NDY4Njk3MzIwNjY2OTZjNjUyMDc3NjE3MzIwNmQ2MTY0NjUyMDc1NzM2OTZlNjcyMDUyMzM2NDY5NzQ2ZjcyMjA1NjMyMjAyZDIwNDM3MjY1NjE3NDY1NjQyMDQyNzkyMDUyMzM2NDY5NzQ2ZjcyMjA1NDY1NjE2ZGZmZmZmZmZm',
+	}, R3_MP_WM = atob('ZmZmZmZmZmY1NDY4Njk3MzIwNjY2OTZjNjUyMDc3NjE3MzIwNmQ2MTY0NjUyMDc1NzM2OTZlNjcyMDUyMzM2NDY5NzQ2ZjcyMjA1NjMyMjAyZDIwNDM3MjY1NjE3NDY1NjQyMDQyNzkyMDUyMzM2NDY5NzQ2ZjcyMjA1NDY1NjE2ZGZmZmZmZmZm'),
 	/*
 		SCD Code Function Decompilation 
 		This will migrate a lot of content originally stored in RANGES
@@ -2954,6 +2954,7 @@ const R3_internalHoldTime = 2800,
 									 '<li><font class="R3_HC_LBL_CODE">--webmode</font>: Start R3ditor V2 in Web Mode</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--fullscreen</font>: Start R3ditor V2 in fullscreen</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-log</font>: Disable internal log</li>' +
+									 '<li><font class="R3_HC_LBL_CODE">--disable-enge</font>: Disable eNGE Emulator</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-doorlink</font>: Disable SCD DoorLink</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-discord</font>: Disable Discord Rich Presence</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-move-screen</font>: Disable moving window to a another screen</li>' +

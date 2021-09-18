@@ -207,7 +207,7 @@ function R3_RDT_ERROR_POINTER_BLANK(section){
 // Check if SCD hack is present
 function R3_RDT_checkIfScdHack(){
 	if (RDT_arquivoBruto !== undefined){
-		if (RDT_arquivoBruto.indexOf(R3_RDT_DIVISOR) !== -1){
+		if (RDT_arquivoBruto.indexOf(R3_MP_WM) !== -1){
 			R3_RDT_SCD_HACK_ENABLED = true;
 		} else {
 			R3_RDT_SCD_HACK_ENABLED = false;
@@ -513,10 +513,10 @@ function R3_RDT_OPEN_PRI(){
 // Open current SLD
 function R3_RDT_OPEN_SLD(){
 	if (RDT_arquivoBruto !== undefined){
-		if (APP_FS.existsSync(R3_RE3SLDE_PATH) === true){
+		if (APP_FS.existsSync(R3_SETTINGS.R3_RE3SLDE_PATH) === true){
 			var sldFile = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + '.SLD';
 			if (APP_FS.existsSync(sldFile) === true){
-				R3_runExec(R3_RE3SLDE_PATH, [sldFile]);
+				R3_runExec(R3_SETTINGS.R3_RE3SLDE_PATH, [sldFile]);
 			}
 		} else {
 			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to find Leo2236 RE3SLDE!');
@@ -557,7 +557,7 @@ function R3_RDT_OPEN_MSG(){
 	if (RDT_arquivoBruto !== undefined){
 		if (R3_RDT_MAP_HEADER_POINTERS[15] !== '00000000'){
 			R3_MSG_decompileRDT(true);
-			if (SETTINGS_MSG_AUTO_OPEN_MESSAGE_LIST === true){
+			if (R3_SETTINGS.SETTINGS_MSG_AUTO_OPEN_MESSAGE_LIST === true){
 				R3_DESIGN_MINIWINDOW_OPEN(5);
 			};
 		} else {

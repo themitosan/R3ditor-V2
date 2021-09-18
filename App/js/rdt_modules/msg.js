@@ -65,9 +65,9 @@ function R3_MSG_decompileRDT(openEditor){
 	if (RDT_arquivoBruto !== undefined && R3_RDT_RAWSECTION_MSG !== undefined){
 		R3_DESIGN_CLEAN_MSG();
 		R3_UTILS_VAR_CLEAN_MSG();
-		if (SETTINGS_MSG_DECOMPILER_MODE !== 3){
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: MSG Read mode was changed from Resident Evil ' + SETTINGS_MSG_DECOMPILER_MODE + ' to Resident Evil 3!');
-			SETTINGS_MSG_DECOMPILER_MODE = 3;
+		if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE !== 3){
+			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: MSG Read mode was changed from Resident Evil ' + R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE + ' to Resident Evil 3!');
+			R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE = 3;
 			R3_SAVE_SETTINGS(false);
 		};
 		var pointersLength = (parseInt(R3_parseEndian(R3_RDT_RAWSECTION_MSG.slice(0, 2)), 16) * 2),
@@ -102,7 +102,7 @@ function R3_MSG_GOTO_MESSAGE(){
 };
 // Read MSG From List
 function R3_MSG_readMessage(msgId){
-	if (R3_MSG_RDT_MESSAGES[msgId] !== undefined && msgId > -1){
+	if (R3_MSG_RDT_MESSAGES[msgId] !== undefined){
 		document.getElementById('R3_MSG_EDIT_TEXTAREA').value = '';
 		MSG_arquivoBruto = R3_MSG_RDT_MESSAGES[msgId];
 		R3_MSG_DECOMPILER_START(MSG_arquivoBruto);
@@ -110,8 +110,6 @@ function R3_MSG_readMessage(msgId){
 		R3_MSG_currentMessage = msgId;
 		R3_MSG_updateLabels(msgId);
 		document.getElementById('R3_MSG_EDIT_TEXTAREA').focus();
-	} else {
-		R3_SYSTEM_ALERT('WARN - Unable to find message ' + msgId + '!');
 	};
 };
 // Add MSG ID to MSG List
@@ -189,7 +187,7 @@ function R3_MSG_DECOMPILER_START(hex, compileMode){
 			R3_MSG_commands = {};
 			R3_MSG_totalCommands = 0;
 			// Reading Mode
-			if (SETTINGS_MSG_DECOMPILER_MODE === 3){
+			if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE === 3){
 				R3_msgCurrentDatabase = MSG_RE3_DATABASE;
 			};
 			var d = c = 0, cLength, tempFunc, currentText = '', formatHex = R3_solveHEX(hex), RAW_DATA = formatHex.match(/.{1,2}/g), currentCommand, needReleaseText = false;
@@ -283,11 +281,11 @@ function R3_MSG_convertHexToPureText(hex, isMsgEditor){
 				c++;
 			} else {
 				// Exclude text description
-				if (SETTINGS_MSG_DECOMPILER_MODE === 3 && excludeList.indexOf(textRaw[c]) === -1){
+				if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE === 3 && excludeList.indexOf(textRaw[c]) === -1){
 					textDecoded = textDecoded + '<font class="monospace mono_xyzr">' + R3_msgCurrentDatabase[textRaw[c]][1] + ' ' + textRaw[c + 1] + ')</font>';
 				};
 				// Show Item Name
-				if (SETTINGS_MSG_DECOMPILER_MODE === 3 && textRaw[c] === 'f8'){
+				if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE === 3 && textRaw[c] === 'f8'){
 					tmp = DATABASE_ITEM[textRaw[c + 1]];
 					if (tmp === undefined){
 						tmp = DATABASE_ITEM['00'][0];
@@ -297,7 +295,7 @@ function R3_MSG_convertHexToPureText(hex, isMsgEditor){
 					textDecoded = textDecoded + tmp;
 				};
 				// Show Special Char
-				if (SETTINGS_MSG_DECOMPILER_MODE === 3 && textRaw[c] === 'ea'){
+				if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE === 3 && textRaw[c] === 'ea'){
 					tmp = MSG_RE3_SPECIAL_CHAR_LIST[textRaw[c + 1]];
 					if (tmp === undefined){
 						tmp = '(Special Char: ' + textRaw[c + 1].toUpperCase() + ')';

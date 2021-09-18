@@ -12,7 +12,7 @@ var R3_DOORLINK_DATABASE = {},
 */
 // Check if DoorLink database exists
 function R3_DOORLINK_CHECK(){
-	if (R3_WEBMODE === false && R3_NW_ARGS_DISABLE_DOORLINK === false){
+	if (R3_WEBMODE === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === false){
 		if (APP_FS.existsSync(APP_PATH + '/Configs/DoorLink.R3V2') === true){
 			R3_DOORLINK_DATABASE = JSON.parse(atob(APP_FS.readFileSync(APP_PATH + '/Configs/DoorLink.R3V2', 'utf-8')));
 		} else {
@@ -26,7 +26,7 @@ function R3_DOORLINK_CHECK(){
 };
 // Generate DoorLink Database
 function R3_DOORLINK_INIT(){
-	if (R3_WEBMODE === false && APP_ENABLE_MOD === true && R3_NW_ARGS_DISABLE_DOORLINK === false){
+	if (R3_WEBMODE === false && APP_ENABLE_MOD === true && R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === false){
 		var dInterval, cLocation, fName, tmpRes, fileList, tempDoorList, tempDoorList4P, tempList = {}, pComplete = false;
 		R3_SYSTEM_LOG('separator');
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (DoorLink) Starting reading process - Please Wait...');
@@ -165,10 +165,11 @@ function R3_DOORLINK_SEARCH(){
 				console.error(err);
 			};
 			document.getElementById('R3_OPCODE_FINDER_SEARCH').value = '';
+			document.getElementById('R3_OPCODE_FINDER_SEARCH').focus();
 		} else {
 			// End Script [EVT_END] fix
 			if (opcodeId === '01'){
-				R3_SYSTEM_ALERT('WARN: Unable to search because this opcode are present in all SCD scripts!');
+				R3_SYSTEM_ALERT('WARN: Unable to search because this opcode (End Script / EVT_END) are present in all SCD scripts!');
 				document.getElementById('R3_OPCODE_FINDER_SEARCH').value = '';
 			};
 		};

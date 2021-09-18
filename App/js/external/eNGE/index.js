@@ -5,7 +5,7 @@
 	Changes written by themitosan
 */
 'use strict';
-var ENGE_INIT_OK = false, running = false, originalSpeed = true, realtimeStart = 0, samplesStart = 0, loading = 0, renderer = undefined, canvas = undefined, emulationTime = 0.0, context = undefined, abort = function(){
+var SETTINGS_ENGE_BIOS = '', ENGE_INIT_OK = false, running = false, originalSpeed = true, realtimeStart = 0, samplesStart = 0, loading = 0, renderer = undefined, canvas = undefined, emulationTime = 0.0, context = undefined, abort = function(){
     console.error(Array.prototype.slice.call(arguments).join(' '));
     running = false;
     spu.silence();
@@ -113,7 +113,7 @@ function endMainLoop(self, clock){
 };
 
 function mainLoop(stamp){
-	if (SETTINGS_DISABLE_ENGE === false && R3_NW_ARGS_DISABLE_ENGE === false){
+	if (R3_SETTINGS.SETTINGS_DISABLE_ENGE === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_ENGE === false){
 		window.requestAnimationFrame(mainLoop);
 		const delta = stamp - context.timeStamp;
 		context.timeStamp = stamp;
@@ -358,11 +358,11 @@ keyboard.set(GAME_KB_START, {bits: 0x08, property: 'lo'});    /* [start] */
 keyboard.set(GAME_KB_SELECT, {bits: 0x01, property: 'lo'});   /*  [sel]  */
 
 /*
-	Main function - init --> eNGE_INIT();
+    Main function - init --> eNGE_INIT();
 */
 
 function eNGE_INIT(){
-	if (SETTINGS_DISABLE_ENGE === false){
+	if (R3_SETTINGS.SETTINGS_DISABLE_ENGE === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_ENGE === false){
 		canvas = document.getElementById('R3_ENGE_CANVAS');
 		mainLoop(performance.now());
 		renderer = new WebGLRenderer(canvas);

@@ -35,7 +35,7 @@ document.addEventListener('keydown', function(kd){
 		if (R3_MENU_CURRENT === 9){
 			if (R3_KEYPRESS_CONTROL === true && R3_SCD_IS_EDITING === false && SCD_arquivoBruto !== undefined && R3_KEYPRESS_SHIFT === false){
 				// Disable skip shortcuts
-				if (SETTINGS_SCD_DISABLE_NEXT_PREV_SHORTCUTS === false){
+				if (R3_SETTINGS.SETTINGS_SCD_DISABLE_NEXT_PREV_SHORTCUTS === false){
 					// Next [CTRL + Right Arrow]
 					if (kd.keyCode === 39){
 						R3_SCD_SKIPSCRIPT(1);
@@ -69,7 +69,7 @@ document.addEventListener('keydown', function(kd){
 		};
 		// MSG Shortcuts
 		if (R3_MENU_CURRENT === 7){
-			if (R3_KEYPRESS_CONTROL === true && MSG_arquivoBruto !== undefined && SETTINGS_MSG_DISABLE_NEXT_PREV_SHORTCUTS === false){
+			if (R3_KEYPRESS_CONTROL === true && MSG_arquivoBruto !== undefined && R3_SETTINGS.SETTINGS_MSG_DISABLE_NEXT_PREV_SHORTCUTS === false){
 				// Next Message [CTRL + Right Arrow]
 				if (kd.keyCode === 39){
 					R3_MSG_SKIPSCRIPT(1);
@@ -93,7 +93,7 @@ document.addEventListener('keydown', function(kd){
 		};
 	};
 	// Update text data on SCD Code editor
-	if (R3_MENU_CURRENT === 9 && SETTINGS_SCD_EDITOR_MODE === 0){
+	if (R3_MENU_CURRENT === 9 && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 		R3_SCD_CODE_updateTextData();
 	};
 });
@@ -154,7 +154,7 @@ document.addEventListener('keyup', function(kp){
 					R3_DESIGN_openLogWindow();
 				};
 				// Close tools using [CTRL + E]
-				if (R3_KEYPRESS_SHIFT === false && SETTINGS_SHORTCUT_CLOSETOOL === true && kp.keyCode === 69){
+				if (R3_KEYPRESS_SHIFT === false && R3_SETTINGS.SETTINGS_SHORTCUT_CLOSETOOL === true && kp.keyCode === 69){
 					R3_MENU_EXIT();
 				};
 				// Open Item Databse [CTRL + SHIFT + D]
@@ -260,7 +260,7 @@ document.addEventListener('keyup', function(kp){
 					R3_SCD_OPEN_CLOSE_CODE_EDITOR();
 				};
 				// SCD - Save / Open JS File [Code editor]
-				if (SETTINGS_SCD_EDITOR_MODE === 1 && R3_KEYPRESS_CONTROL === false && R3_KEYPRESS_ALT === true){
+				if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1 && R3_KEYPRESS_CONTROL === false && R3_KEYPRESS_ALT === true){
 					// Open file [ALT + O]
 					if (kp.keyCode === 79){
 						R3_SCD_OPEN_JS_FILE();
@@ -277,7 +277,7 @@ document.addEventListener('keyup', function(kp){
 				// Navigation Shortcuts
 				if (R3_SCD_IS_EDITING === false && R3_KEYPRESS_CONTROL === true){
 					// Compile JS SCD Script [CTRL + R]
-					if (kp.keyCode === 82 && SETTINGS_SCD_EDITOR_MODE === 1 && R3_KEYPRESS_SHIFT === false){
+					if (kp.keyCode === 82 && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1 && R3_KEYPRESS_SHIFT === false){
 						R3_SCD_JS_START_COMPILER();
 					};
 					// Open edit form via shortcut [CTRL + Space]
@@ -342,7 +342,7 @@ document.addEventListener('keyup', function(kp){
 					};
 				};
 				// Open next function while edit form still open
-				if (SETTINGS_SCD_EDITOR_MODE === 0 && R3_SCD_IS_EDITING === true && R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === false){
+				if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0 && R3_SCD_IS_EDITING === true && R3_KEYPRESS_CONTROL === true && R3_KEYPRESS_SHIFT === false){
 					// Next function [CTRL + Right Arrow]
 					if (kp.keyCode === 39){
 						R3_SCD_openPrevNextFunction(1);
@@ -494,7 +494,7 @@ document.addEventListener('keyup', function(kp){
 		R3_RELOAD();
 	};
 	// Update text data on SCD Code editor
-	if (R3_MENU_CURRENT === 9 && SETTINGS_SCD_EDITOR_MODE === 1){
+	if (R3_MENU_CURRENT === 9 && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){
 		R3_SCD_CODE_updateTextData();
 	};
 });
@@ -534,7 +534,7 @@ document.addEventListener('wheel', function(mWheel){
 	// console.info(mWheel.deltaY);
 	if (R3_MENU_CURRENT === 9){
 		// While not editing
-		if (R3_SCD_IS_EDITING === false && SETTINGS_SCD_EDITOR_MODE === 0){
+		if (R3_SCD_IS_EDITING === false && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 			// Focus previous function [CTRL + Mouse Scroll Up]
 			if (R3_KEYPRESS_CONTROL === true && mWheel.deltaY < 0){
 				// Normal
@@ -557,7 +557,7 @@ document.addEventListener('wheel', function(mWheel){
 			};
 		};
 		// JS Code editor
-		if (SETTINGS_SCD_EDITOR_MODE === 1){
+		if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){
 			// Text Size
 			if (R3_KEYPRESS_CONTROL === true){
 				// Zoom +

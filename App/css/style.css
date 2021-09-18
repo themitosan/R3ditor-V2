@@ -2264,6 +2264,9 @@ blockquote {
 .XDELTA_SEPARATOR {
     margin-top: 10px;
 }
+.XDELTA_LBL_FIX {
+    left: 96px !important;
+}
 /*
     Loading
 */

@@ -317,7 +317,7 @@ function R3_FILEGEN_RENDER_EXTERNAL(location, text, font, interval){
 */
 // Set Status
 function R3_DISC_setActivity(det, stat){
-	if (SETTINGS_USE_DISCORD !== false && rpcReady !== false && R3_WEBMODE === false && R3_NW_ARGS_DISABLE_DISCORD === false){
+	if (R3_SETTINGS.SETTINGS_USE_DISCORD !== false && rpcReady !== false && R3_WEBMODE === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_DISCORD === false){
 		if (RE3_RUNNING !== false){
 			RPC.setActivity({'details': 'Running RE3', 'state': 'On ' + RDT_locations[REALTIME_CurrentRDT][0], 'largeImageKey': 'app_logo', 'maxpartysize': 0});
 		} else {
@@ -327,13 +327,13 @@ function R3_DISC_setActivity(det, stat){
 };
 // Clear Activity
 function R3_DISC_clearActivity(){
-	if (SETTINGS_USE_DISCORD !== false && rpcReady !== false && R3_WEBMODE === false && R3_NW_ARGS_DISABLE_DISCORD === false){
+	if (R3_SETTINGS.SETTINGS_USE_DISCORD !== false && rpcReady !== false && R3_WEBMODE === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_DISCORD === false){
 		RPC.clearActivity();
 	};
 };
 // Init discord API
 function R3_DISCORD_INIT(){
-	if (R3_WEBMODE === false && R3_NW_ARGS_DISABLE_DISCORD === false){
+	if (R3_WEBMODE === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_DISCORD === false){
 		RPC = new DiscordRPC.Client({transport: 'ipc'});
 		if (navigator.onLine !== false){
 			var loginRPC = RPC.login({clientId: atob(special_day_02[0]), clientSecret: atob(special_day_02[1] + special_day_02[2])});
@@ -747,7 +747,7 @@ function R3_leosHub_openWindow(){
 				document.getElementById(where).innerHTML = '<br><div class="align-center"><i>Unable to generate list!<br>Please, insert <u>' + toolName + '</u> location on settings and try again.</i></div>';
 			};
 		// RE3MV
-		if (APP_FS.existsSync(R3_RE3MV_PATH) === true){
+		if (APP_FS.existsSync(R3_SETTINGS.R3_RE3MV_PATH) === true){
 			toolCounter++;
 			tempFileList.forEach(function(cItem){
 				if (cItem.indexOf('.PLD') !== -1){
@@ -763,7 +763,7 @@ function R3_leosHub_openWindow(){
 			noToolError('R3_leosHub_RE3MV_LIST', 'RE3MV');
 		};
 		// RE3PLWE
-		if (APP_FS.existsSync(R3_RE3PLWE_PATH) === true){
+		if (APP_FS.existsSync(R3_SETTINGS.R3_RE3PLWE_PATH) === true){
 			toolCounter++;
 			tempFileList.forEach(function(cItem){
 				if (cItem.indexOf('.PLW') !== -1){

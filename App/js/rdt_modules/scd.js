@@ -133,10 +133,10 @@ function R3_SCD_START_DECOMPILER(hex){
 	// console.info(TEMP_R3_SCD_POINTERS);
 	R3_SCD_TOTAL_SCRITPS = R3_SCD_POINTERS.length;
 	R3_SCD_POINTERS.forEach(function(a, b){
-		R3_SCD_GENERATE_LIST(b, hex, SETTINGS_SCD_DECOMPILER_ENABLE_LOG);
+		R3_SCD_GENERATE_LIST(b, hex, R3_SETTINGS.SETTINGS_SCD_DECOMPILER_ENABLE_LOG);
 	});
 	// End
-	if (SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true && R3_DOORLINK_RUNNING === false){
+	if (R3_SETTINGS.SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true && R3_DOORLINK_RUNNING === false){
 		R3_SYSTEM_LOG('separator');
 		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Finished loading SCD with ' + R3_SCD_TOTAL_SCRITPS + ' scripts, totalizing ' + R3_SCD_OVERALL_TOTAL_FUNCTIONS + ' functions.');
 	};
@@ -226,7 +226,7 @@ function R3_SCD_OPEN_SCRIPT_SHORTCUT(){
 };
 // Open JS Script
 function R3_SCD_OPEN_JS_FILE(){
-	if (SETTINGS_SCD_EDITOR_MODE === 1){
+	if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){
 		R3_FILE_LOAD('.js, .txt', function(jsFile, jsFile){
 			document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = jsFile;
 			R3_SCD_CODE_updateTextData();
@@ -235,7 +235,7 @@ function R3_SCD_OPEN_JS_FILE(){
 };
 // Save JS Script
 function R3_SCD_SAVE_JS_FILE(){
-	if (SETTINGS_SCD_EDITOR_MODE === 1){
+	if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){
 		var canSave = true, fName = errorReason = '', textCode = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value;
 		if (textCode === ''){
 			canSave = false;
@@ -623,7 +623,7 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 						cFunction++;
 						R3_SCD_OVERALL_TOTAL_FUNCTIONS++;
 						var opcodeInfo,	OPCODE_HEX = TEMP_SCD_READ[c].toLowerCase(), OPCODE_LENGTH = R3_SCD_DATABASE[OPCODE_HEX][0];
-						if (debugLog === true){
+						if (debugLog === true && R3_DOORLINK_RUNNING === false){
 							opcodeInfo = 'SCD: Script ' + pointerPos + ' - Function: ' + R3_fixVars(cFunction, 4) + ' \nOpcode: <font class="R3_SCD_function_' + R3_SCD_DATABASE[OPCODE_HEX.toLowerCase()][2] + 
 										 ' no-bg-image user-can-select">' + OPCODE_HEX.toUpperCase() + '</font> (<font class="R3_SCD_function_' + R3_SCD_DATABASE[OPCODE_HEX.toLowerCase()][2] + ' no-bg-image">' + R3_SCD_DATABASE[OPCODE_HEX][1] + 
 										 '</font>)\nHex length: <font class="user-can-select">' + R3_fixVars(OPCODE_LENGTH.toString(16), 2).toUpperCase() + '</font>';
@@ -686,13 +686,13 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 		document.getElementById('R3_SCD_HEX_RAW').innerHTML = '';
 		// Clean interface if list editor
 		document.getElementById('R3_SCD_SCRIPT_INNER').innerHTML = '';
-		R3_SCD_SWAP_EDITOR_MODE(SETTINGS_SCD_EDITOR_MODE);
+		R3_SCD_SWAP_EDITOR_MODE(R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE);
 		var c = 0, lblId, scriptId = parseInt(id), changeColorCSS = '', hexSelectMode = 'user-can-select', SCD_HTML_TEMPLATE = '', cFunction, cName = scriptHex = tempScriptHex = '', cOpcode, cmdType, functionList = R3_SCD_SCRIPTS_LIST[scriptId];
 		if (functionList === undefined){
 			functionList = R3_SCD_SCRIPTS_LIST[0];
 		};
 		// Reading all functions proprieties to render on current script
-		if (SETTINGS_SCD_EDITOR_MODE === 0){
+		if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 			while (c < functionList.length){
 				// Main Infos
 				cFunction = functionList[c];
@@ -705,7 +705,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					R3_SCD_DEC_DB = R3_SCD_DECOMPILER_DATABASE[cOpcode],
 					fnHint = R3_SCD_INFO_DATABASE[cOpcode],
 					opcodeHint_HEX = '';
-				if (SETTINGS_SCD_DECOMPILER_SHOWOPCODE === true){
+				if (R3_SETTINGS.SETTINGS_SCD_DECOMPILER_SHOWOPCODE === true){
 					opcodeHint_HEX = '(<font class="monospace mono_xyzr user-can-select">' + cOpcode.toUpperCase() + '</font>)';
 				};
 				R3_SCD_CURRENT_SCRIPT = scriptId;
@@ -1573,10 +1573,10 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				SCD_HTML_TEMPLATE = SCD_HTML_TEMPLATE + '<div class="R3_SCD_functionBase R3_SCD_function_' + cmdType + '" title="' + fnHint + '" id="R3_SCD_scriptCommand_' + c + '" ondblclick="R3_SCD_FUNCTION_EDIT(' + c + ');" onclick="R3_SCD_navigateFunctions(5, ' + c + ', true);">' + cEdit + 
 									cRemove + '(<font class="monospace mono_xyzr">' + R3_fixVars(parseInt(c + 1), 3) + '</font>) - Function: ' + cName + ' ' + opcodeHint_HEX + '<br>' + cProp + '</div>';
 				// Hex View checks
-				if (SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR === true){
+				if (R3_SETTINGS.SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR === true){
 					changeColorCSS = 'R3_SCD_function_' + cmdType + ' no-bg-image';
 				};
-				if (SETTINGS_SCD_SELECT_HEX_AS_TEXT === true){
+				if (R3_SETTINGS.SETTINGS_SCD_SELECT_HEX_AS_TEXT === true){
 					hexSelectMode = 'user-select-normal';
 				};
 				scriptHex = scriptHex + '<font id="R3_SCD_HEX_VIEW_FN_' + c + '" onmouseover="R3_DESIGN_SCD_hoverFunction(' + c + ', true);" onmouseout="R3_DESIGN_SCD_hoverFunction(0, false);" class="' + hexSelectMode + ' ' + changeColorCSS + '" title="(' + parseInt(c + 1) + ') ' + fnHint + '">' + R3_unsolveHEX(cFunction) + '</font> ';
@@ -2309,10 +2309,10 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					End
 				*/
 				// Hex View checks
-				if (SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR === true){
+				if (R3_SETTINGS.SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR === true){
 					changeColorCSS = 'R3_SCD_function_' + cmdType + ' no-bg-image';
 				};
-				if (SETTINGS_SCD_SELECT_HEX_AS_TEXT === true){
+				if (R3_SETTINGS.SETTINGS_SCD_SELECT_HEX_AS_TEXT === true){
 					hexSelectMode = 'user-select-normal';
 				};
 				var fnHint = '';
@@ -2326,7 +2326,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 			};
 			document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = tempScriptCode;
 		};
-		if (canDisplayScript === true && SETTINGS_SCD_EDITOR_MODE === 0){
+		if (canDisplayScript === true && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 			TMS.append('R3_SCD_SCRIPT_INNER', SCD_HTML_TEMPLATE);
 		};
 		R3_SCD_CURRENT_SCRIPT_HEX = tempScriptHex.replace(new RegExp(' ', 'g'), '');
@@ -4985,7 +4985,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	if (SCD_CAN_APPLY === true){
 		//console.info(HEX_FINAL);
 		// SCD Hex Preview
-		if (isHexPreview === true && R3_SCD_IS_EDITING === true && SETTINGS_SCD_EDITOR_MODE === 0){
+		if (isHexPreview === true && R3_SCD_IS_EDITING === true && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 			if (R3_SCD_currentOpcode !== ''){
 				R3_SYSTEM_LOG('separator');
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: SCD Hex Preview for ' + R3_SCD_DATABASE[R3_SCD_currentOpcode][1] + ': <font class="user-can-select">' + R3_unsolveHEX(HEX_FINAL).toUpperCase() + '</font>');
@@ -5014,7 +5014,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			R3_SCD_scrollScriptList();
 		};
 	} else {
-		if (SETTINGS_SCD_EDITOR_MODE === 1){
+		if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){
 			SCD_REASON = SCD_REASON + ' <br>You aren\'t on list editor mode!';
 		};
 		if (SCD_SHOW_REASON === true){
@@ -5641,7 +5641,7 @@ function R3_SCD_JS_START_COMPILER(){
 					codeList.push(cLine);
 				};
 			});
-		if (SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE === true){
+		if (R3_SETTINGS.SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE === true){
 			previousCode = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value;
 		};
 		/*
@@ -5707,7 +5707,7 @@ function R3_SCD_JS_START_COMPILER(){
 			R3_KEYPRESS_releaseKeys();
 			// Compile using final compiler!
 			R3_SCD_COMPILE(3);
-			if (SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE === true){
+			if (R3_SETTINGS.SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE === true){
 				setTimeout(function(){
 					document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = previousCode;
 				}, 20);
@@ -5789,7 +5789,7 @@ function R3_SCD_COMPILER_checkConditionalOpcodes(mode){
 		/*
 			Start final compiler
 		*/
-		if (SETTINGS_SCD_EDITOR_MODE === 0){
+		if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 			R3_SCD_COMPILE(mode);
 		};
 	};
@@ -5894,7 +5894,7 @@ function R3_SCD_COMPILE(mode){
 			};
 			// Just Compile
 			if (mode === 3){
-				if (SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true){
+				if (R3_SETTINGS.SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true){
 					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Updating SCD...');
 				};
 			};

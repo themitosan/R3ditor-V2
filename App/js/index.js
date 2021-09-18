@@ -3,7 +3,7 @@
 	Agora vai mah!
 */
 // Internal Vars
-var R3_APP_START = false, R3_ELECTRON, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_IS_32 = false,
+var R3_APP_START = false, APP_ON_BOOT = true, APP_CAN_START = true, R3_ELECTRON, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_TOOLS, APP_TITLE, APP_IS_32 = false,
 	APP_ONLINE, ORIGINAL_FILENAME, ORIGINAL_APP_PATH, APP_REQUIRE_SUCESS, APP_ENABLE_MOD = false,
 	// Mod Vars
 	R3_MOD_PATH, R3_MOD_NAME,
@@ -11,10 +11,6 @@ var R3_APP_START = false, R3_ELECTRON, APP_PATH, APP_ASSETS, APP_EXEC_PATH, APP_
 	APP_FS, APP_MEMJS, APP_GUI, DiscordRPC, APP_REQUIRE_PATH,
 	// Executable Vars
 	EXTERNAL_APP_PID, EXTERNAL_APP_EXITCODE = 0, EXTERNAL_APP_RUNNING = false,
-	// Exec Paths
-	R3_RE3_PATH, R3_MERCE_PATH, R3_RE3_MOD_PATH, R3_HEX_PATH, 
-	// Leo's tools
-	R3_RE3SLDE_PATH, R3_RE3MV_PATH, R3_RE3PLWE_PATH,
 	// Game Vars
 	R3_RE3_CANRUN = false, R3_MERCE_CANRUN = R3_RE3_CANRUN, RE3_PID, RE3_RUNNING = R3_RE3_CANRUN,
 	// Download Vars
@@ -56,7 +52,7 @@ function R3_INIT_REQUIRE(){
 	if (R3_WEBMODE === false){
 		var eReason = '',
 			engineVersion, 					   // nwjs, Electron
-			engineArch = process.arch, 		   // x86 or x64
+			engineArch = process.arch, 		   // x86 / x64
 			enginePlatform = process.platform; // win32, darwin or linux 
 		/*
 			Detect engine (nwjs, electron and etc.)
@@ -412,18 +408,18 @@ function R3_SYSTEM_openInHex(){
 // Run Games 
 function R3_runGame(mode){
 	if (R3_WEBMODE === false && R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === false && R3_UPDATER_RUNNING === false){
-		if (APP_FS.existsSync(R3_RE3_PATH) !== false){
+		if (APP_FS.existsSync(R3_SETTINGS.R3_RE3_PATH) === true){
 			if (mode === 0 && R3_RE3_CANRUN === true){
-				R3_MEMORY_JS_initMemoryJs();
+				R3_MEMJS.seekProcess();
 				if (PROCESS_OBJ !== undefined){
 					R3_LIVESTATUS_OPEN_BAR();
 				} else {
-					R3_runExec(R3_RE3_PATH, undefined, 0);
+					R3_runExec(R3_SETTINGS.R3_RE3_PATH, undefined, 0);
 				};
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3...');
 			};
 			if (mode === 1 && R3_MERCE_CANRUN === true){
-				R3_runExec(R3_MERCE_PATH, undefined, 0);
+				R3_runExec(R3_SETTINGS.R3_MERCE_PATH, undefined, 0);
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries');
 			};
 			if (mode === 2 && R3_RE3_CANRUN === true){
@@ -726,6 +722,10 @@ function R3_fixPathSize(path, limit){
 // Fix path
 function R3_fixPath(path){
 	var res = '';
+	// If loading settings
+	if (R3_SETTINGS_LOADING === true && path === ''){
+		res = 'Undefined';
+	};
 	if (path !== undefined && path !== ''){
 		res = path.replace(new RegExp('\\\\', 'gi'), '/');
 	};

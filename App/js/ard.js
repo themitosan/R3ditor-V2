@@ -52,19 +52,16 @@ function ARD_extractSections(){
 		try {
 			R3_SYSTEM_LOG('separator');
 			APP_FS.writeFileSync(newFilePath + '.RDT', ARD_sections[8], 'hex');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - ARD Extractor: RDT extraction complete!');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - Path: <font class="user-can-select">' + newFilePath + '.RDT</font>');
+			R3_SYSTEM_LOG('log', 'R3ditor V2 - ARD Extractor: RDT extraction complete! <br>Path: <font class="user-can-select">' + newFilePath + '.RDT</font>');
 			setTimeout(function(){
 				APP_FS.writeFileSync(newFilePath + '.R3ARD', finalFile, 'utf-8');
 				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - ARD Extractor: Save successfull! (R3ARD)');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - Path: <font class="user-can-select">' + newFilePath + '.R3ARD</font>');
+				R3_SYSTEM_LOG('log', 'R3ditor V2 - ARD Extractor: Save successfull! (R3ARD) <br>Path: <font class="user-can-select">' + newFilePath + '.R3ARD</font>');
 				R3_UTILS_VAR_CLEAN_ARD();
 			}, 500);
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to save ARD Extractor files!');
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - Details: ' + err);
-			alert('ERROR - Unable to save files!\n' + err);
+			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to save ARD Extractor files! <br>Details: ' + err);
+			R3_SYSTEM_ALERT('ERROR - Unable to save files!\n' + err);
 		};
 	};
 };
@@ -82,7 +79,7 @@ function ARD_checkCompiler(){
 			if (APP_FS.existsSync(R3_getFilePath(recompilerFile) + '/' + mapName + '.RDT') === true){
 				ARD_startRecompiler(rebuildFile, R3_getFilePath(recompilerFile) + mapName + '.RDT');
 			} else {
-				alert('WARN - Unable to find RDT file!');
+				R3_SYSTEM_ALERT('WARN - Unable to find RDT file!');
 			};
 		});
 	} else {

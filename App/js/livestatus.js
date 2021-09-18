@@ -8,7 +8,6 @@
 // Lock Livestatus Render
 var DEBUG_LOCKRENDER = false,
 	MEM_JS_canRender = false,
-	RE3_LIVE_RENDER_TIME = 60,
 	REALTIME_CurrentCam = '00',
 	REALTIME_CurrentHP = '0000',
 	MEM_JS_requreSucess = false,
@@ -34,10 +33,10 @@ var DEBUG_LOCKRENDER = false,
 */
 // Detect if game / emu is running
 function R3_CHECK_GAME_IS_RUNNING(){
-	if (SETTINGS_LIVESTATUS_ENABLE_GAME_DISCOVER === true){
+	if (R3_SETTINGS.SETTINGS_LIVESTATUS_ENABLE_GAME_DISCOVER === true){
 		R3_CHECK_GAME_INTERVAL = setInterval(function(){
 			if (MEM_JS_requreSucess === true && R3_WEBMODE === false && RE3_RUNNING === false){
-				R3_MEMJS_seekProcess();
+				R3_MEMJS.seekProcess();
 			};
 		}, 200);
 	};

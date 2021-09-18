@@ -52,7 +52,7 @@ tempMEMJS['seekProcess'] = function(){
 					R3_MEMORY_JS_checkStillOpen();
 					MEM_JS_updatePosTimer = setInterval(function(){
 						R3_MEMORY_JS_readGame();
-					}, RE3_LIVE_RENDER_TIME);
+					}, R3_SETTINGS.RE3_LIVE_RENDER_TIME);
 				} else {
 					DEBUG_LOCKRENDER = true;
 				};
@@ -129,7 +129,7 @@ tempMEMJS['HOOK_EMU'] = function(){
 						R3_LIVESTATUS_OPEN_BAR();
 						MEM_JS_updatePosTimer = setInterval(function(){
 							R3_MEMORY_JS_readGame();
-						}, RE3_LIVE_RENDER_TIME);
+						}, R3_SETTINGS.RE3_LIVE_RENDER_TIME);
 						foundPos = true;
 					} else {
 						cLocation++;
