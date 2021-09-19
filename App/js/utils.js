@@ -52,6 +52,7 @@ function R3_ROFS_EXTRACT(){
 	Xdelta Patcher
 */
 // Load Files
+
 function R3_XDELTA_loadFiles(mode){
 	if (R3_WEBMODE === false){
 		if (mode === 0){
@@ -189,7 +190,7 @@ function R3_FILEGEN_selectBG(mode){
 // Update BG filters
 function R3_FILEGEN_BG_UPDATE_FILTERS(){
 	if (R3_WEBMODE === false){
-		var bgHUE = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_HUE').value),
+		const bgHUE = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_HUE').value),
 			bgSat = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_SAT').value),
 			bgSize = parseInt(document.getElementById('R3_FILEGEN_RANGE_BG_SIZE').value),
 			bgBlur = parseFloat(document.getElementById('R3_FILEGEN_RANGE_BG_BLUR').value),

@@ -361,7 +361,7 @@ blockquote {
     width: auto;
     display: block;
     z-index: 999990;
-    min-width: 164px;
+    min-width: 238px;
     margin-left: -6px;
     position: absolute;
     box-shadow: 8px 8px 10px #0008;
@@ -376,7 +376,7 @@ blockquote {
     box-shadow: 0px 0px 10px #4e4e4e;
 }
 .R3_MENU_ITEM_BIG {
-    width: 230px;
+    width: auto;
     cursor: pointer;
     padding-top: 2px;
     padding-left: 12px;
@@ -410,7 +410,7 @@ blockquote {
 }
 .R3_MENU_BIG_LBL {
     left: 60px;
-    width: 200px;
+    width: auto;
     margin-top: -26px;
     position: absolute;
 }

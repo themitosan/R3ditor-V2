@@ -746,8 +746,8 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 						'z-index': R3_MINI_WINDOW_DATABASE[windowId][4],
 						'top': R3_MINI_WINDOW_DATABASE[windowId][2] + 'px',
 						'left': R3_MINI_WINDOW_DATABASE[windowId][3] + 'px',
-						'width': (R3_MINI_WINDOW_DATABASE[windowId][0] * SETTINGS_SCD_HEXVIEW_FACTOR) + 'px',
-						'height': (R3_MINI_WINDOW_DATABASE[windowId][1] * SETTINGS_SCD_HEXVIEW_FACTOR) + 'px'
+						'width': (R3_MINI_WINDOW_DATABASE[windowId][0] * R3_SETTINGS.SETTINGS_SCD_HEXVIEW_FACTOR) + 'px',
+						'height': (R3_MINI_WINDOW_DATABASE[windowId][1] * R3_SETTINGS.SETTINGS_SCD_HEXVIEW_FACTOR) + 'px'
 					});
 				} else {
 					TMS.css('R3V2_MINI_WINDOW_' + windowId, {
