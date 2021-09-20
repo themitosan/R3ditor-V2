@@ -1193,14 +1193,16 @@ function R3_isInteger(value){
 };
 // Get map path
 function R3_getMapPath(){
+	var gMode, cPrefix, result = [];
 	if (APP_ENABLE_MOD === true){
-		var gMode = parseInt(document.getElementById('R3_RDT_FILELIST_GAMEMODE').value),
-			cPrefix = R3_RDT_PREFIX_EASY;
+		gMode = parseInt(document.getElementById('R3_RDT_FILELIST_GAMEMODE').value);
+		cPrefix = R3_RDT_PREFIX_EASY;
 		if (gMode === 1){
 			cPrefix = R3_RDT_PREFIX_HARD;
 		};
-		return [gMode, R3_MOD_PATH + '/' + cPrefix + '/RDT/'];
+		result = [gMode, R3_MOD_PATH + '/' + cPrefix + '/RDT/'];
 	};
+	return result;
 };
 /*
 	Cleaner
