@@ -355,8 +355,8 @@ tempFn_sections['readOBJ'] = function(){
 				R3_RDT_rawSections.RAWSECTION_OBJ = tempRDT.slice(0, totalObjects).toString().replace(new RegExp(',', 'gi'), '');
 				// Get all TIM / OBJ Files
 				tempRDT = R3_RDT_rawSections.RAWSECTION_OBJ.match(/.{16,16}/g).forEach(function(cItem, cIndex){
-					tempTim = TIM_getTimFromString(RDT_arquivoBruto, (parseInt(R3_parseEndian(cItem.slice(0, 8)), 16) * 2));
-					temp3dObj = OBJ_extractObjFromString(RDT_arquivoBruto, cIndex, (parseInt(R3_parseEndian(cItem.slice(8, 16)), 16) * 2));
+					tempTim = R3_TIM.getTimFromString(RDT_arquivoBruto, (parseInt(R3_parseEndian(cItem.slice(0, 8)), 16) * 2));
+					temp3dObj = R3_RDT.obj.extractObjFromString(RDT_arquivoBruto, cIndex, (parseInt(R3_parseEndian(cItem.slice(8, 16)), 16) * 2));
 					if (R3_RDT_rawSections.ARRAY_TIM.indexOf(tempTim) === -1){
 						console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading TIM file ' + cIndex);
 						R3_RDT_rawSections.ARRAY_TIM.push(tempTim);
@@ -930,13 +930,17 @@ tempFn_R3_RDT['compile'] = function(){
 };
 /*
 	END
-	Compile functions on objects
+	Compile functions
 */
+tempFn_R3_RDT['obj'] = tempFn_R3_rdtOBJ;
+tempFn_R3_RDT['tim'] = tempFn_timManager;
 tempFn_R3_RDT['scdHack'] = tempFn_scdHack;
 tempFn_R3_RDT['sections'] = tempFn_sections;
 
 const R3_RDT = tempFn_R3_RDT;
 
 delete tempFn_R3_RDT;
-delete tempFn_scdHack
-delete tempFn_sections
+delete tempFn_scdHack;
+delete tempFn_sections;
+delete tempFn_R3_rdtOBJ;
+delete tempFn_timManager;

@@ -144,7 +144,7 @@
 						<div class="R3_MENU_ITEM_BIG" title="(ARD Compiler) Click here to compile PS ARD File" onclick="ARD_checkCompiler();">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-33.png"><div class="R3_MENU_BIG_LBL">ARD Compiler</div>
 						</div>
-						<div class="R3_MENU_ITEM_BIG none" id="R3_MENU_ITEM_LEOS_HUB" title="(Leo's Hub) Click here to open a list of files that can be opened with Leo2236 tools" onclick="R3_leosHub_openWindow();">
+						<div class="R3_MENU_ITEM_BIG none" id="R3_MENU_ITEM_LEOS_HUB" title="(Leo's Hub) Click here to open a list of files that can be opened with Leo2236 tools" onclick="R3_leosHub.openWindow();">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-leo.png"><div class="R3_MENU_BIG_LBL">Leo's Hub</div>
 						</div>
 						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_OPCODE_FINDER" title="(SCD Opcode Finder) This is a simple tool that allows you to search for a specific SCD opcode across all extracted maps" onclick="R3_SCD_openOpcodeFinder();">
@@ -1376,8 +1376,8 @@
 					</div>
 					<div class="align-center R3_TIM_MANAGER_BG">
 						<select id="R3_RDT_timManagerList" class="SELECT_SETTINGS auto" onchange="R3_DESIGN_updateSelectedTimManager();"></select><br>
-						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Export TIM" onclick="R3_TIM_MANAGER_importExport(1);" title="Click here to export this file">
-						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Replace TIM" onclick="R3_TIM_MANAGER_importExport(0);" title="Click here to replace this file">
+						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Export TIM" onclick="R3_RDT.tim.export();" title="Click here to export this file">
+						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Replace TIM" onclick="R3_RDT.tim.import();" title="Click here to replace this file">
 					</div>
 				</div>
 				<!-- R3V2 - OBJ Manager -->
@@ -1388,8 +1388,8 @@
 					</div>
 					<div class="align-center R3_OBJ_MANAGER_BG">
 						<select id="R3_RDT_objManagerList" class="SELECT_SETTINGS auto" onchange="R3_DESIGN_updateSelectedObjManager();"></select><br>
-						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Export OBJ" onclick="R3_OBJ_MANAGER_importExport(1);" title="Click here to export this file">
-						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Replace OBJ" onclick="R3_OBJ_MANAGER_importExport(0);" title="Click here to replace this file">
+						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Export OBJ" onclick="R3_RDT.obj.manager.export();" title="Click here to export this file">
+						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Replace OBJ" onclick="R3_RDT.obj.manager.import();" title="Click here to replace this file">
 					</div>
 				</div>
 			</div>
@@ -1803,7 +1803,6 @@
 				<script defer type="text/javascript" src="js/keyPress.js"></script>
 				<script defer type="text/javascript" src="js/ini.js"></script>
 				<script defer type="text/javascript" src="js/tim.js"></script>
-				<script defer type="text/javascript" src="js/rdt.js"></script>
 				<script defer type="text/javascript" src="js/ard.js"></script>
 				<script defer type="text/javascript" src="js/gamepad.js"></script>
 				<script defer type="text/javascript" src="js/re3set.js"></script>
@@ -1816,6 +1815,7 @@
 				<script defer type="text/javascript" src="js/rdt_modules/lit.js"></script>
 				<script defer type="text/javascript" src="js/rdt_modules/obj.js"></script>
 				<script defer type="text/javascript" src="js/rdt_modules/blk.js"></script>
+				<script defer type="text/javascript" src="js/rdt.js"></script>
 				<!-- Exclude from R3V2 Compiler -->
 				<script defer type="text/javascript" src="js/debug.js"></script>
 			</blockquote>

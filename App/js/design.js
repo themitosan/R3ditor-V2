@@ -4,7 +4,7 @@
 
 	Main Vars
 */
-var R3_HAS_CRITICAL_ERROR = false, R3_ENABLE_ANIMATIONS = false,
+var R3_HAS_CRITICAL_ERROR = false,
 	// Log Vars
 	R3_SYSTEM_LOG_INTERNAL = '', R3_SYSTEM_LOG_RETURN = false, R3_SYSTEM_LOG_RESET = false, R3_LOG_ID = 0, R3_LOG_COUNTER_INFO = 0, R3_LOG_COUNTER_WARN = 0, R3_LOG_COUNTER_ERROR = 0,
 	// Menu Vars
@@ -420,7 +420,7 @@ function R3_DESIGN_ADJUST(){
 				if (R3_THEPIC === 'R50605.JPG' || R3_THEPIC === 'R50606.JPG'){
 					R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', INCLUDE_RE3_BEEP_BOOP, 'RE3', 40);
 				};
-				if (R3_ENABLE_ANIMATIONS === true){
+				if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
 					TMS.fadeIn('R3_HOME_BG', 7100);
 				} else {
 					TMS.css('R3_HOME_BG', {'display': 'inline'});	
@@ -521,7 +521,7 @@ function R3_GOTO_MAIN(){
 			};
 			TMS.css('R3_SPLASH_BG', {'background-image': 'url(\'./img/PLR_0' + getRandomPlr + '.png\')'});
 			// Animation
-			if (R3_ENABLE_ANIMATIONS === true){
+			if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
 				TMS.fadeIn('R3_SPLASH', 400);
 				TMS.fadeIn('R3_SPLASH_TITLE', (R3_internalHoldTime / 4));
 				TMS.animate('R3_SPLASH_TITLE', {'left': '26%'}, (R3_internalHoldTime * 1.1));
@@ -559,7 +559,7 @@ function R3_GOTO_MAIN(){
 // Show Interface
 function R3_DESIGN_SHOW_INTERFACE(){
 	if (R3_SETTINGS.APP_ON_BOOT === false){
-		if (R3_ENABLE_ANIMATIONS === true){
+		if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
 			TMS.fadeOut('R3_APP_MAIN_DIV', 100);
 		} else {
 			TMS.css('R3_APP_MAIN_DIV', {'display': 'none'});
@@ -790,7 +790,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 				});
 			};
 		};
-		if (R3_ENABLE_ANIMATIONS === true){
+		if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
 			TMS.fadeIn('R3V2_MINI_WINDOW_' + windowId, 80);
 		} else {
 			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'display': 'block'});
@@ -898,7 +898,7 @@ function R3_DESIGN_MINIWINDOW_CLOSE(windowId){
 // Maximize window
 function R3_DESIGN_MINIWINDOW_MAXIMIZE(windowId){
 	if (windowId !== undefined){
-		if (R3_ENABLE_ANIMATIONS === false){
+		if (R3_SETTINGS.ENABLE_ANIMATIONS === false){
 			TMS.fadeOut('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId, 100);
 			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'top': '44px', 'left': '4px', 'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
 		} else {
@@ -1000,7 +1000,7 @@ function R3_DESIGN_MINIWINDOW_SNAP(windowA, windowB, fixDrag){
 			if (calcNextX < 4){
 				calcNextX = 4;
 			};
-			if (R3_ENABLE_ANIMATIONS === true){
+			if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
 				TMS.animate('R3V2_MINI_WINDOW_' + windowA, {'left': calcNextX + 'px'}, 400, 'cubic-bezier(0, 1.06, 0, 1.02)');
 			} else {
 				TMS.css('R3V2_MINI_WINDOW_' + windowA, {'left': calcNextX + 'px'});
@@ -1143,7 +1143,7 @@ function R3_DESIGN_OPEN_CLOSE_LATEST(mode){
 		if (R3_SETTINGS.SETTINGS_RECENT_FILE_NAME !== '' && R3_SETTINGS.SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
 			// 0 = Open, 1 = Close
 			if (mode === 0 && R3_MENU_CURRENT === 4){
-				if (R3_ENABLE_ANIMATIONS === false){
+				if (R3_SETTINGS.ENABLE_ANIMATIONS === false){
 					TMS.css('R3_LATEST_FILE_DIV', {'display': 'block'});
 				} else {
 					TMS.animate('R3_LATEST_FILE_DIV', {'display': 'block', 'opacity': '1', 'left': '-44px'}, 200);
@@ -1152,7 +1152,7 @@ function R3_DESIGN_OPEN_CLOSE_LATEST(mode){
 					document.getElementById('R3_BTN_LATEST_FILE').focus();
 				}, 60);
 			} else {
-				if (R3_ENABLE_ANIMATIONS === false){
+				if (R3_SETTINGS.ENABLE_ANIMATIONS === false){
 					TMS.css('R3_LATEST_FILE_DIV', {'display': 'none'});
 				} else {
 					TMS.animate('R3_LATEST_FILE_DIV', {'display': 'block', 'opacity': '0', 'left': '-540px'}, 200);
@@ -1703,7 +1703,7 @@ function R3_SCD_SWAP_EDITOR_MODE(mode){
 			TMS.css('R3_SUBMENU_BUTTONS_COPYPASTE', {'display': 'inline-flex'});
 			TMS.css('BTN_MAIN_48', {'background-image': 'url(\'img/icons/icon-48.png\')'});
 			document.getElementById('BTN_MAIN_48').title = 'Click here to open code editor';
-			if (R3_ENABLE_ANIMATIONS === true){
+			if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
 				TMS.fadeIn('R3_SCD_FUNCTIONS_HOLDER', dTime);
 				TMS.animate('R3_SCD_FUNCTIONS_HOLDER', {'opacity': '1', 'top': '40px', 'filter': 'blur(0px)'}, dTime);
 				TMS.animate('R3_SCD_SCRIPT_VIEW_DIV', {'width': '73%'}, (dTime + 10));
@@ -1717,7 +1717,7 @@ function R3_SCD_SWAP_EDITOR_MODE(mode){
 			TMS.css('BTN_MAIN_48', {'background-image': 'url(\'img/icons/icon-49.png\')'});
 			document.getElementById('BTN_MAIN_48').title = 'Click here to open list editor';
 			document.getElementById('R3_SCD_SCRIPT_INNER').innerHTML = INCLUDE_SCD_CODE_EDITOR;
-			if (R3_ENABLE_ANIMATIONS === true){
+			if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
 				TMS.fadeOut('R3_SCD_FUNCTIONS_HOLDER', dTime);
 				TMS.animate('R3_SCD_FUNCTIONS_HOLDER', {'opacity': '0', 'top': '0px', 'filter': 'blur(2px)'}, dTime);
 				TMS.animate('R3_SCD_SCRIPT_VIEW_DIV', {'width': '100%'}, (dTime + 10));
@@ -1910,7 +1910,7 @@ function R3_SCD_cancelFunctionEdit(exitFromEditForm){
 	R3_DESIGN_MINIWINDOW_CLOSE([14, 20]);
 	// End
 	document.getElementById('R3_SCD_BTN_APPLY').onclick = null;
-	if (R3_ENABLE_ANIMATIONS !== true){
+	if (R3_SETTINGS.ENABLE_ANIMATIONS !== true){
 		TMS.css('R3_SCD_SCRIPT_INNER', {'display': 'block'});
 		TMS.css('R3_SCD_EDITFUNCTION_DIV', {'display': 'none'});
 		TMS.css('R3_SCD_CLEAR_SCRIPT_BTN', {'display': 'block'});
@@ -2910,7 +2910,7 @@ function R3_DESIGN_loadSettingsGUI(){
 	document.getElementById('R3_SETTINGS_RE3_VERSION').value = RE3_LIVE_CURRENTMOD;
 	document.getElementById('R3_SETTINGS_LIVETSTATUS_FREQUENCY').innerHTML = R3_SETTINGS.RE3_LIVE_RENDER_TIME;
 	document.getElementById('R3_SETTINGS_RANGE_LIVETSTATUS_FREQUENCY').value = R3_SETTINGS.RE3_LIVE_RENDER_TIME;
-	document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').checked = R3_SETTINGS.R3_ENABLE_ANIMATIONS;
+	document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').checked = R3_SETTINGS.ENABLE_ANIMATIONS;
 	document.getElementById('R3_SETTINGS_ENABLE_SHORTCUT_CLOSETOOL').checked = R3_SETTINGS.SETTINGS_SHORTCUT_CLOSETOOL;
 	document.getElementById('R3_SETTINGS_ENABLE_STARTUP_SCREEN').checked = R3_SETTINGS.SETTINGS_ENABLE_MOVE_SCREEN;
 	document.getElementById('R3_SETTINGS_MSG_DATABASE_MODE').value = R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE;

@@ -21,6 +21,7 @@ var OBJ_arquivoBruto,
 	Temp Functions
 */
 tempFn_R3_XDELTA = {};
+tempFn_R3_leosHub = {};
 /*
 	ROFS
 */
@@ -742,11 +743,10 @@ function R3_BACKUP_MANAGER_delete(fileId){
 /*
 	Leo's Hub
 */
-// Open window
-function R3_leosHub_openWindow(){
+// Open window R3_leosHub_openWindow
+tempFn_R3_leosHub['openWindow'] = function(){
 	if (R3_WEBMODE === false && APP_ENABLE_MOD === true){
-		var HTML_TEMPLATE = '', cPath = APP_PATH + '/Assets/DATA/PLD', tempFileList = APP_FS.readdirSync(cPath), toolCounter = 0,
-			noToolError = function(where, toolName){
+		var HTML_TEMPLATE = '', cPath = APP_PATH + '/Assets/DATA/PLD', tempFileList = APP_FS.readdirSync(cPath), toolCounter = 0, noToolError = function(where, toolName){
 				document.getElementById(where).innerHTML = '<br><div class="align-center"><i>Unable to generate list!<br>Please, insert <u>' + toolName + '</u> location on settings and try again.</i></div>';
 			};
 		// RE3MV
@@ -754,7 +754,7 @@ function R3_leosHub_openWindow(){
 			toolCounter++;
 			tempFileList.forEach(function(cItem){
 				if (cItem.indexOf('.PLD') !== -1){
-					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3MV" onclick="R3_leosHub_openFile(\'' + cPath + '/' + cItem + '\', 0);">' +
+					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3MV" onclick="R3_leosHub.openFile(\'' + cPath + '/' + cItem + '\', 0);">' +
 									'<img src="img/icons/Leo/RE3MV.png" class="right R3_leosHub_RE3MV_ICON" alt="R3_leos_MV">' +
 									'File: <font class="monospace mono_xyzr" title="' + cPath + '/' + cItem + '">' + cItem + '</font><br>' +
 									'Size: <font class="monospace mono_xyzr">' + R3_getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
@@ -770,7 +770,7 @@ function R3_leosHub_openWindow(){
 			toolCounter++;
 			tempFileList.forEach(function(cItem){
 				if (cItem.indexOf('.PLW') !== -1){
-					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3PLWE" onclick="R3_leosHub_openFile(\'' + cPath + '/' + cItem + '\', 1);">' +
+					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3PLWE" onclick="R3_leosHub.openFile(\'' + cPath + '/' + cItem + '\', 1);">' +
 									'<img src="img/icons/Leo/RE3PLWE.png" class="right R3_leosHub_RE3PLWE_ICON" alt="R3_leos_PLW">' +
 									'File: <font class="monospace mono_xyzr" title="' + cPath + '/' + cItem + '">' + cItem + '</font><br>' +
 									'Size: <font class="monospace mono_xyzr">' + R3_getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
@@ -790,8 +790,8 @@ function R3_leosHub_openWindow(){
 		};
 	};
 };
-// Open File
-function R3_leosHub_openFile(fPath, mode){
+// Open File R3_leosHub_openFile
+tempFn_R3_leosHub['openFile'] = function(fPath, mode){
 	if (R3_WEBMODE === false){
 		var cExec = R3_SETTINGS.R3_RE3MV_PATH;
 		if (mode === 1){
@@ -801,3 +801,6 @@ function R3_leosHub_openFile(fPath, mode){
 		R3_runExec(cExec, [fPath], 2);
 	};
 };
+// End
+const R3_leosHub = tempFn_R3_leosHub;
+delete tempFn_R3_leosHub;

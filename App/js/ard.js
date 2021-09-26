@@ -19,12 +19,11 @@ function ARD_loadFile(){
 			ARD_arquivoBruto = APP_FS.readFileSync(ardFile, 'hex');
 			ARD_fileSize = R3_parseEndian(ARD_arquivoBruto.slice(0, 8));
 			ARD_totalObjects = parseInt(R3_parseEndian(ARD_arquivoBruto.slice(8, 16)), 16);
-			var c = 0, objEnd = 24, objStart = 16;
-			while (c < ARD_totalObjects){
-				ARD_objectsMetadata.push(R3_parseEndian(ARD_arquivoBruto.slice(objStart, objEnd)));
-				objStart = (objStart + 16);
-				objEnd = (objEnd + 16);
-				c++;
+			const tempMetadata = ARD_arquivoBruto.slice(16, ((ARD_totalObjects * 16) + 24)).match(/.{8,8}/g);
+			for (var c = 0; c < (ARD_totalObjects * 2); c++){
+				if (R3_isInteger(c / 2) === true){
+					ARD_objectsMetadata.push(R3_parseEndian(tempMetadata[c]));
+				};
 			};
 			// End
 			ARD_extractSections();
@@ -36,14 +35,13 @@ function ARD_loadFile(){
 // Extract Sections
 function ARD_extractSections(){
 	if (ARD_arquivoBruto !== undefined){
-		var c = 0, cSection = 4096, sectionFullSize, nextSection, sectionSlice, newFilePath, finalFile = '';
-		while (c < ARD_totalObjects){
+		var cSection = 4096, sectionFullSize, nextSection, sectionSlice, newFilePath, finalFile = '';
+		for (var c = 0; c < ARD_totalObjects; c++){
 			sectionSlice = ARD_arquivoBruto.slice(cSection, (cSection + parseInt(ARD_objectsMetadata[c], 16) * 2));
 			ARD_sections.push(sectionSlice);
 			sectionFullSize = (cSection + sectionSlice.length);
 			nextSection = parseInt(Math.ceil(sectionFullSize / 4096) * 4096);
 			cSection = nextSection;
-			c++;
 		};
 		finalFile = 'ARD Extract - Generated with R3ditor V2 - V. ' + INT_VERSION + '\nMAP = ' + ARD_fileName.toUpperCase() + '\nTOTAL = ' + ARD_totalObjects + 
 					'\nDATA_0 = ' + ARD_arquivoBruto.slice(0, ARD_arquivoBruto.indexOf(ARD_sections[8])) + '\nDATA_1 = ' + 

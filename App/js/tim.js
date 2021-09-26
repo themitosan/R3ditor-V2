@@ -7,29 +7,23 @@
 	Email: stevemonaco@hotmail.com
 */
 // Variables
-var TIM_CLUT,
-	TIM_header,
-	TIM_bppType,
-	TIM_RAW_IMG,
-	TIM_clutSize,
-	TIM_totalCLUT,
-	TIM_arquivoBruto,
-	TIM_colorsPerCLUT,
-	TIM_VRAM_palleteOrgX,
-	TIM_VRAM_palleteOrgY;
+var TIM_CLUT, TIM_header, TIM_bppType, TIM_RAW_IMG, TIM_clutSize, TIM_totalCLUT, TIM_arquivoBruto, TIM_colorsPerCLUT, TIM_VRAM_palleteOrgX, TIM_VRAM_palleteOrgY;
+// Objects
+tempFn_R3_TIM = {};
+tempFn_timManager = {};
 /*
 	Functions
 */
-// Load File
-function TIM_loadFile(){
+// Load File TIM_loadFile
+tempFn_R3_TIM['loadFile'] = function(){
 	R3_FILE_LOAD('.tim', function(timFile, timHex){
 		R3_UTILS_VAR_CLEAN_TIM();
 		TIM_arquivoBruto = timHex;
-		TIM_decompileFile();
+		TIM.decompileFile();
 	}, undefined, 'hex');
 };
-// Decompile TIM
-function TIM_decompileFile(){
+// Decompile TIM TIM_decompileFile
+tempFn_R3_TIM['decompileFile'] = function(){
 	if (TIM_arquivoBruto !== undefined){
 		TIM_header = TIM_arquivoBruto.slice(0, 8);
 		TIM_bppType = TIM_arquivoBruto.slice(8, 16);
@@ -62,8 +56,8 @@ function TIM_decompileFile(){
 /*
 	Extract TIM from string + location
 */
-// Get TIM file from string
-function TIM_getTimFromString(hex, location){
+// Get TIM file from string TIM_getTimFromString
+tempFn_R3_TIM['getTimFromString'] = function(hex, location){
 	if (hex !== undefined && location !== undefined){
 		R3_UTILS_VAR_CLEAN_TIM();
 		// Start Read
@@ -74,7 +68,7 @@ function TIM_getTimFromString(hex, location){
 		*/
 		if (TIM_bppType === '09000000'){
 			TIM_clutSize = hex.slice((location + 16), (location + 24));
-			var clutSizeConvert = parseInt((R3_parseEndianToInt(R3_parseEndian(TIM_clutSize)) - 12) * 2);
+			const clutSizeConvert = parseInt((R3_parseEndianToInt(R3_parseEndian(TIM_clutSize)) - 12) * 2);
 			CLUT_RAW = hex.slice((location + 40), (location + (clutSizeConvert + 40)));
 			var metadataStart  = parseInt(hex.indexOf(CLUT_RAW) + CLUT_RAW.length),
 				META_imgSize   = hex.slice(metadataStart, parseInt(metadataStart + 8)),
@@ -86,10 +80,10 @@ function TIM_getTimFromString(hex, location){
 	};
 };
 /*
-	Check if file is a valid TIM
+	Check if file is a valid TIM TIM_checkIntegrity
 	This will check if file has BPP
 */
-function TIM_checkIntegrity(timHex){
+tempFn_R3_TIM['checkIntegrity'] = function(timHex){
 	if (timHex !== undefined){
 		var loc = 0, res = false;
 		try {
@@ -105,38 +99,44 @@ function TIM_checkIntegrity(timHex){
 	};
 };
 /*
-	TIM Manager functions
+	END
 */
+const R3_TIM = tempFn_R3_TIM;
+delete tempFn_R3_TIM;
+
 /*
-	Import / Export TIM
-	Mode: 0 - Import
-		  1 - Export
+	RDT TIM Manager functions
 */
-function R3_TIM_MANAGER_importExport(mode){
-	if (RDT_arquivoBruto !== undefined && mode !== undefined){
-		if (mode === 0){
-			R3_FILE_LOAD('.tim', function(fPath, hxFile){
-				if (TIM_checkIntegrity(hxFile) === true){
-					R3_RDT_ARRAY_TIM[R3_RDT_currentTimFile] = hxFile;
-					R3_SYSTEM_ALERT('INFO: (TIM Manager) Import Successful!');
-					R3_SYSTEM_LOG('separator');
-					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (TIM Manager) Import Successful!');
-					if (R3_WEBMODE === false){
-						R3_SYSTEM_LOG('log', 'Path: <font class="user-can-select">' + fPath + '</font>');
-					};
-				} else {
-					R3_SYSTEM_ALERT('WARN: Unable to import TIM file!\nReason: This file failed on TIM integrity check!');
+// Import TIM R3_TIM_MANAGER_importExport
+tempFn_timManager['import'] = function(){
+	if (RDT_arquivoBruto !== undefined){
+		R3_FILE_LOAD('.tim', function(fPath, hxFile){
+			if (R3_TIM.checkIntegrity(hxFile) === true){
+				R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile] = hxFile;
+				var finalLbl = '';
+				if (R3_WEBMODE === true){
+					finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
 				};
-			}, undefined, 'hex');
-		} else {
-			R3_FILE_SAVE('TIM_' + R3_RDT_mapName + '_' + (R3_RDT_currentTimFile + 1) + '.tim', R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile], 'hex', '.tim', function(fName){
-				R3_SYSTEM_ALERT('INFO: (TIM Manager) Export Successful!');
 				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (TIM Manager) Export Successful!');
-				if (R3_WEBMODE === false){
-					R3_SYSTEM_LOG('log', 'Path: <font class="user-can-select">' + fName + '</font>');
-				};
-			});
-		};
+				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (TIM Manager) Import Successful! ' + finalLbl);
+				R3_SYSTEM_ALERT('INFO: (TIM Manager) Import Successful!');
+			} else {
+				R3_SYSTEM_ALERT('WARN: Unable to import TIM file!\nReason: This file failed on TIM integrity check!');
+			};
+		}, undefined, 'hex');
+	};
+};
+// Export TIM
+tempFn_timManager['export'] = function(){
+	if (RDT_arquivoBruto !== undefined){
+		R3_FILE_SAVE('TIM_' + R3_RDT_mapName + '_' + (R3_RDT_currentTimFile + 1) + '.tim', R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile], 'hex', '.tim', function(fName){
+			var finalLbl = '';
+			if (R3_WEBMODE === true){
+				finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
+			};
+			R3_SYSTEM_LOG('separator');
+			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (TIM Manager) Export Successful! ' + finalLbl);
+			R3_SYSTEM_ALERT('INFO: (TIM Manager) Export Successful!');
+		});
 	};
 };

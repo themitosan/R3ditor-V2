@@ -625,7 +625,7 @@ function R3_FOLDER_SELECT(functionEval){
 		if (functionEval !== undefined){
 			TMS.triggerClick('R3_FOLDER_LOAD_DOM');
 			document.getElementById('R3_FOLDER_LOAD_DOM').onchange = function(){
-				var cFile = document.getElementById('R3_FOLDER_LOAD_DOM').files[0];
+				const cFile = document.getElementById('R3_FOLDER_LOAD_DOM').files[0];
 				if (cFile.path !== null && cFile.path !== undefined && cFile.path !== ''){
 					functionEval(R3_fixPath(cFile.path));
 					document.getElementById('R3_FOLDER_LOAD_DOM').value = '';
@@ -644,11 +644,14 @@ function R3_FOLDER_SELECT(functionEval){
 	Original Code: https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control
 */
 function R3_getFileName(filePath){
-	var resFileName = '';
+	var tempTxt, res = '';
 	if (filePath !== '' && filePath !== undefined){
 		if (filePath.indexOf('(') !== -1){
-			var tempTxt = filePath.replace(/^(.*[/\\])?/, '').replace(/(\.[^.]*)$/, '');
-			res = tempTxt.slice(0, tempTxt.indexOf('('));
+			tempTxt = filePath.replace(/^(.*[/\\])?/, '').replace(/(\.[^.]*)$/, '');
+			res = tempTxt;
+			if (tempTxt.indexOf('(') !== -1){
+				res = tempTxt.slice(0, tempTxt.indexOf('('));
+			};
 		} else {
 			res = filePath.replace(/^(.*[/\\])?/, '').replace(/(\.[^.]*)$/, '');
 		};
@@ -709,15 +712,15 @@ function R3_parsePercentage(current, maximum){
 };
 // Fix Path Size
 function R3_fixPathSize(path, limit){
+	var res = '';
 	if (path !== undefined && path !== ''){
 		if (path.length < 50){
-			return path;
+			res = path;
 		} else {
-			return '...' + path.slice(parseInt(path.length - limit), path.length);
+			res = '...' + path.slice(parseInt(path.length - limit), path.length);
 		};
-	} else {
-		return '';
 	};
+	return res;
 };
 // Fix path
 function R3_fixPath(path){

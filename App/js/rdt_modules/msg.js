@@ -499,12 +499,12 @@ function R3_MSG_recompileWithPointers(mode){
 	if (mode === 0){
 		R3_RDT_rawSections.RAWSECTION_MSG = HEX_FINAL;
 		R3_SHOW_MENU(10);
-		R3_RDT_generateMsgPreview();
+		R3_RDT.sections.generateMsgPreview();
 	};
 	if (mode === 1){
 		R3_RDT_rawSections.RAWSECTION_MSG = HEX_FINAL;
 		R3_MSG_decompileRDT(true);
-		R3_RDT_generateMsgPreview();
+		R3_RDT.sections.generateMsgPreview();
 	};
 	if (mode === 2){
 		console.info(HEX_FINAL);
@@ -513,7 +513,7 @@ function R3_MSG_recompileWithPointers(mode){
 		R3_RDT_rawSections.RAWSECTION_MSG = HEX_FINAL;
 		R3_RDT.scdHack.applyHack(true);
 		R3_MSG_decompileRDT(true);
-		R3_RDT_generateMsgPreview();
+		R3_RDT.sections.generateMsgPreview();
 	};
 	R3_MSG_readMessage(cMessage);
 };

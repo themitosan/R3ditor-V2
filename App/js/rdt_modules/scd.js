@@ -3809,7 +3809,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 				document.getElementById('R3_SCD_EDIT_67_iFlag').value = ITEM_flag;
 				document.getElementById('R3_SCD_EDIT_67_modelId').value = ITEM_modelId;
 				document.getElementById('R3_SCD_EDIT_67_blinkColor').value = ITEM_bColor;
-				document.getElementById('R3_SCD_EDIT_67_playerCrouch').checked = R3_JS_COMPILER_parseCrouch(0, item_uCrouch);
+				document.getElementById('R3_SCD_EDIT_67_playerCrouch').checked = R3_SCD_JS.tools.parseCrouch(0, item_uCrouch);
 				R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_67_item', 'R3_SCD_EDIT_67_itemIconPrev');
 				focusDomId = 'R3_SCD_EDIT_67_itemSeek';
 			};
@@ -3849,7 +3849,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 				document.getElementById('R3_SCD_EDIT_68_iFlag').value = ITEM_flag;
 				document.getElementById('R3_SCD_EDIT_68_modelId').value = ITEM_modelId;
 				document.getElementById('R3_SCD_EDIT_68_blinkColor').value = ITEM_bColor;
-				document.getElementById('R3_SCD_EDIT_68_playerCrouch').checked = R3_JS_COMPILER_parseCrouch(0, item_uCrouch);
+				document.getElementById('R3_SCD_EDIT_68_playerCrouch').checked = R3_SCD_JS.tools.parseCrouch(0, item_uCrouch);
 				R3_SCD_FUNCTIONEDIT_updateItemPreview('R3_SCD_EDIT_68_item', 'R3_SCD_EDIT_68_itemIconPrev');
 				focusDomId = 'R3_SCD_EDIT_68_itemSeek';
 			};
@@ -4718,7 +4718,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			item_unk2 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_unk2').value, 2),
 			item_flag 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_iFlag').value, 2),
 			item_modelId = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_modelId').value, 2),
-			item_MP 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_blinkColor').value + R3_JS_COMPILER_parseCrouch(1, 'R3_SCD_EDIT_67_playerCrouch'), 2);
+			item_MP 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_blinkColor').value + R3_SCD_JS.tools.parseCrouch(1, 'R3_SCD_EDIT_67_playerCrouch'), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + item_Id + item_aot + item_Xpos + item_Ypos + item_Zpos + item_Rpos + item_code + item_unk0 + item_quant + 
 					item_unk1 + item_unk2 + item_flag + item_modelId + item_MP;
 	}
@@ -4738,7 +4738,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			item_unk2 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_unk2').value, 2),
 			item_flag 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_iFlag').value, 2),
 			item_modelId = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_modelId').value, 2),
-			item_MP 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_blinkColor').value + R3_JS_COMPILER_parseCrouch(1, 'R3_SCD_EDIT_68_playerCrouch'), 2);
+			item_MP 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_blinkColor').value + R3_SCD_JS.tools.parseCrouch(1, 'R3_SCD_EDIT_68_playerCrouch'), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + item_Id + item_aot + item_Xpos + item_Ypos + item_Zpos + item_Rpos + item_4P + item_code + item_unk0 + item_quant + 
 					item_unk1 + item_unk2 + item_flag + item_modelId + item_MP;
 	};
@@ -5674,7 +5674,7 @@ function R3_SCD_JS_START_COMPILER(){
 				// End
 				if (canProcessFunction === true){
 					console.info(cFunction.replace(');', ')'));
-					finalCodeArray.push(Function('"use strict";return (R3_JS_COMPILER_' + cFunction.replace(');', ')') + ')')());
+					finalCodeArray.push(Function('"use strict";return (R3_SCD_JS.' + cFunction.replace(');', ')') + ')')());
 				};
 			});
 		};

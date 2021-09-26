@@ -15,6 +15,7 @@ var R3_SETTINGS = {
 		'R3_RE3PLWE_PATH': '',
 		// General
 		'APP_useImageFix': false,
+		'ENABLE_ANIMATIONS': false,
 		'SETTINGS_USE_DISCORD': false,
 		'SETTINGS_MOVE_WINDOW': false,
 		'SETTINGS_DISABLE_LOG': false,
@@ -291,8 +292,8 @@ function R3_SETTINGS_UPDATE_CHECKBOX(){
 	R3_SETTINGS.SETTINGS_MOVE_WINDOW = JSON.parse(document.getElementById('R3_SETTINGS_MOVE_CORNER').checked);
 	R3_SETTINGS.SETTINGS_DISABLE_LOG = JSON.parse(document.getElementById('R3_SETTINGS_DISABLE_LOG').checked);
 	R3_SETTINGS.SETTINGS_DISABLE_ENGE = JSON.parse(document.getElementById('R3_SETTINGS_DISABLE_ENGE').checked);
+	R3_SETTINGS.ENABLE_ANIMATIONS = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').checked);
 	R3_SETTINGS.SETTINGS_USE_DISCORD = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_DISCORD').checked);
-	R3_SETTINGS.R3_ENABLE_ANIMATIONS = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').checked);
 	R3_SETTINGS.SETTINGS_OPEN_LOG_STARTUP = JSON.parse(document.getElementById('R3_SETTINGS_OPEN_LOG_STARTUP').checked);
 	R3_SETTINGS.SETTINGS_ENABLE_FULLSCREEN = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_FULLSCREEN').checked);
 	R3_SETTINGS.SETTINGS_DISPLAY_POSITION_INT = JSON.parse(document.getElementById('R3_SETTINGS_DISPLAY_POS_INT').checked);
@@ -576,7 +577,7 @@ function R3_INIT_PROCESS_ARGS(){
 		if (runFlags !== []){
 			// Disable animations
 			if (runFlags.indexOf('--disable-animations') !== -1){
-				R3_ENABLE_ANIMATIONS = false;
+				R3_SETTINGS.ENABLE_ANIMATIONS = false;
 				document.getElementById('R3_SETTINGS_LBL_enableAnim').onclick = null;
 				document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').disabled = 'disabled';
 			};
