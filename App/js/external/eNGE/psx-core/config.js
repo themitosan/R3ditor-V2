@@ -14,7 +14,7 @@ function readStorageStream(handler){
 function writeStorageStream(item, arrayBuffer){
 	const base64text = Base64.encode(arrayBuffer);
 	if (item === 'bios'){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) - Saving PSX Bios...');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) - Saving PSX Bios...');
 		APP_FS.writeFileSync(SETTINGS_ENGE_BIOS_PATH, base64text, 'utf-8');
 	};
 }

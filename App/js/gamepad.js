@@ -47,7 +47,7 @@ function R3_GAMEPAD_CHECK(){
 // Disabling R3V2 shortcuts to use KB as eNGE controller
 function eNGE_FOCUS(){
 	if (R3_KB_ENABLE_SHORTCUTS === true){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) Disabling general shortcuts...');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) Disabling general shortcuts...');
 		R3_KB_ENABLE_SHORTCUTS = false;
 		if (cdr.cdImage[0] !== undefined){
 			running = true;
@@ -57,7 +57,7 @@ function eNGE_FOCUS(){
 // Enabling R3V2 shortcuts and stop eNGE emulator
 function eNGE_LOST_FOCUS(){
 	if (R3_KB_ENABLE_SHORTCUTS === false){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) Enabling general shortcuts...');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) Enabling general shortcuts...');
 		R3_KB_ENABLE_SHORTCUTS = true;
 		running = false;
 		spu.silence();

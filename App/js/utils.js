@@ -39,12 +39,12 @@ function R3_ROFS_EXTRACT(){
 					if (EXTERNAL_APP_EXITCODE < 2){
 						process.chdir(ORIGINAL_APP_PATH);
 						R3_UTILS_LOADING_CLOSE();
-						R3_SYSTEM_ALERT('Process complete!\nFile: ' + rofsFile);
+						R3_SYSTEM.alert('Process complete!\nFile: ' + rofsFile);
 						clearInterval(rofsTimer);
 					} else {
 						R3_UTILS_LOADING_UPDATE('Something went wrong while extracting ' + rofsFile + '!', 100);
 						setTimeout(function(){
-							R3_RELOAD();
+							R3_SYSTEM.reload();
 						}, 5000);
 					};
 				};
@@ -63,14 +63,14 @@ tempFn_R3_XDELTA['loadFiles'] = function(mode){
 		if (mode === 0){
 			R3_FILE_LOAD('.xdelta', function(xPath){
 				R3_XDELTA_PATCH = xPath;
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - Xdelta: Patch File: ' + xPath);
+				R3_SYSTEM.log('log', 'R3ditor V2 - Xdelta: Patch File: ' + xPath);
 				document.getElementById('R3_XDELTA_LBL_XFILE').title = xPath;
 				document.getElementById('R3_XDELTA_LBL_XFILE').innerHTML = R3_fixPathSize(xPath, 60);
 			});
 		} else {
 			R3_FILE_LOAD('.exe, .bin, .iso, .dat, .23, .raw', function(origFile){
 				R3_XDELTA_ORIGINALFILE = origFile;
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - Xdelta: Target File: ' + origFile);
+				R3_SYSTEM.log('log', 'R3ditor V2 - Xdelta: Target File: ' + origFile);
 				document.getElementById('R3_XDELTA_LBL_ORIGFILE').title = origFile;
 				document.getElementById('R3_XDELTA_LBL_ORIGFILE').innerHTML = R3_fixPathSize(origFile, 60);
 			});
@@ -88,7 +88,7 @@ tempFn_R3_XDELTA['applyPatch'] = function(){
 		};
 		// Run Process
 		process.chdir(APP_TOOLS);
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Xdelta) Starting Process - Please wait...');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Xdelta) Starting Process - Please wait...');
 		R3_UTILS_CALL_LOADING('Xdelta Patcher', 'Please wait while Xdelta does his job...', 50);
 		origName = R3_getFileName(R3_XDELTA_ORIGINALFILE), origExt = R3_getFileExtension(R3_XDELTA_ORIGINALFILE);
 		R3_runExec(APP_TOOLS + '/xdelta.exe', ['-d', '-s', R3_XDELTA_ORIGINALFILE, R3_XDELTA_PATCH , 'XDELTA_PATCH_FILE.bin']);
@@ -97,14 +97,14 @@ tempFn_R3_XDELTA['applyPatch'] = function(){
 				console.info('External - Waiting XDELTA...');
 			} else {
 				if (EXTERNAL_APP_EXITCODE !== 0){
-					R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: (Xdelta) Something went wrong while applying Xdelta Patch!');
+					R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: (Xdelta) Something went wrong while applying Xdelta Patch!');
 					R3_UTILS_LOADING_UPDATE('Something went wrong while applying Xdelta Patch! R3V2 Will reload in 5 seconds...', 100);
 					setTimeout(function(){
-						R3_RELOAD();
+						R3_SYSTEM.reload();
 					}, 5000);
 				} else {
 					// Finish Path
-					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Xdelta) Process complete!');
+					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Xdelta) Process complete!');
 					newFilePath = APP_TOOLS + '/XDELTA_PATCH_FILE.bin', R3_XDELTA_newFile;
 					if (R3_rearm === true){
 						R3_RE3_CANRUN = true;
@@ -163,8 +163,8 @@ function R3_OBJ_PATCHER(){
 				OBJ_arquivoBruto = '# OBJ Converted using ' + APP_TITLE + '\n' + OBJ_arquivoBruto.slice(1, OBJ_arquivoBruto.length);
 				R3_FILE_SAVE(R3_getFileName(objFile).toLowerCase().replace('.obj', '') + '_converted', OBJ_arquivoBruto, 'utf-8', 'obj');
 			} else {
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (OBJ Patcher) This file doesn\'t need patching!');
-				R3_SYSTEM_ALERT('INFO - This file doesn\'t need patching!');
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (OBJ Patcher) This file doesn\'t need patching!');
+				R3_SYSTEM.alert('INFO - This file doesn\'t need patching!');
 			};
 		}, undefined, 'utf-8');
 	} else {
@@ -347,11 +347,11 @@ function R3_DISCORD_INIT(){
 				R3_DISC_setActivity('Main menu', 'Idle');
 			});
 		} else {
-			R3_SYSTEM_LOG('warn', 'WARN - You are offline!\nDiscord options will be disabled.');
+			R3_SYSTEM.log('warn', 'WARN - You are offline!\nDiscord options will be disabled.');
 		};
 	} else {
 		if (R3_NW_ARGS_DISABLE_DISCORD === true){
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Disabling Discord Rich Presence...');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Disabling Discord Rich Presence...');
 		};
 	};
 };
@@ -419,7 +419,7 @@ function R3_SYS_COPY_POS(where){
 	/*
 		End
 	*/
-	R3_SYSTEM_LOG('log', 'R3ditor V2 - Copy Position from ' + whr + ' (<font class="COLOR_X">X: <font class="user-can-select">' + R3_TEMP_X.toUpperCase() + 
+	R3_SYSTEM.log('log', 'R3ditor V2 - Copy Position from ' + whr + ' (<font class="COLOR_X">X: <font class="user-can-select">' + R3_TEMP_X.toUpperCase() + 
 				  '</font></font> <font class="COLOR_Y">Y: <font class="user-can-select">' + R3_TEMP_Y.toUpperCase() + '</font></font> <font class="COLOR_Z">' + 
 				  'Z: <font class="user-can-select">' + R3_TEMP_Z.toUpperCase() + '</font></font> <font class="COLOR_R">R: <font class="user-can-select">' + R3_TEMP_R.toUpperCase() + 
 				  '</font></font>)');
@@ -486,7 +486,7 @@ function R3_SYS_PASTE_POS(where){
 	/*
 		End
 	*/
-	R3_SYSTEM_LOG('log', 'R3ditor V2 - Paste Position to ' + whr + ' (<font class="COLOR_X">X: <font class="user-can-select">' + R3_TEMP_X.toUpperCase() + 
+	R3_SYSTEM.log('log', 'R3ditor V2 - Paste Position to ' + whr + ' (<font class="COLOR_X">X: <font class="user-can-select">' + R3_TEMP_X.toUpperCase() + 
 				  '</font></font> <font class="COLOR_Y">Y: <font class="user-can-select">' + R3_TEMP_Y.toUpperCase() + '</font></font> <font class="COLOR_Z">' + 
 				  'Z: <font class="user-can-select">' + R3_TEMP_Z.toUpperCase() + '</font></font> <font class="COLOR_R">R: <font class="user-can-select">' + R3_TEMP_R.toUpperCase() + 
 				  '</font></font>)');
@@ -509,7 +509,7 @@ function R3_RDT_importMap(ev){
 					if (APP_FS.existsSync(R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT') === true && APP_FS.existsSync(R3_MOD_PATH + '/' + R3_RDT_PREFIX_HARD + '/RDT') === true){
 						R3_RDT_checkMap(file.path);
 					} else {
-						R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to find output folders! <br>Make sure to extract the game first before using this option.');
+						R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to find output folders! <br>Make sure to extract the game first before using this option.');
 					};
 				} else {
 					console.warn('Skipping file drop...');
@@ -531,35 +531,35 @@ function R3_RDT_checkMap(file){
 				impHard = document.getElementById('R3_RDT_IMPORT_HARD').checked;
 				if (impEasy === false && impHard === false){
 					msgError = 'WARN: You need select where you want to import!';
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - ' + msgError);
-					R3_SYSTEM_ALERT(msgError);
+					R3_SYSTEM.log('warn', 'R3ditor V2 - ' + msgError);
+					R3_SYSTEM.alert(msgError);
 				} else {
 					tempFile = APP_FS.readFileSync(file, 'hex');
 					try {
 						if (impEasy === true){
 							APP_FS.writeFileSync(R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT/' + fileName.toUpperCase() + '.RDT', tempFile, 'hex');
-							R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Importing map ' + fileName.toUpperCase() + ' (Easy)');
+							R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Importing map ' + fileName.toUpperCase() + ' (Easy)');
 						};
 						if (impHard === true){
 							APP_FS.writeFileSync(R3_MOD_PATH + '/' + R3_RDT_PREFIX_HARD + '/RDT/' + fileName.toUpperCase() + '.RDT', tempFile, 'hex');
-							R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Importing map ' + fileName.toUpperCase() + ' (Hard)');
+							R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Importing map ' + fileName.toUpperCase() + ' (Hard)');
 						};
-						R3_SYSTEM_ALERT('INFO - Process successful!\n\nMap: ' + fileName.toUpperCase() + '\nLocation: ' + RDT_locations[fileName.toUpperCase()][0] + ', ' + RDT_locations[fileName.toUpperCase()][1]);
+						R3_SYSTEM.alert('INFO - Process successful!\n\nMap: ' + fileName.toUpperCase() + '\nLocation: ' + RDT_locations[fileName.toUpperCase()][0] + ', ' + RDT_locations[fileName.toUpperCase()][1]);
 					} catch (err) {
 						msgError = 'ERROR: Something went wrong while importing map!';
-						R3_SYSTEM_LOG('error', 'R3ditor V2 - ' + msgError + ' <br>Reason: ' + err);
-						R3_SYSTEM_ALERT(msgError);
+						R3_SYSTEM.log('error', 'R3ditor V2 - ' + msgError + ' <br>Reason: ' + err);
+						R3_SYSTEM.alert(msgError);
 					};
 				};
 			} else {
 				msgError = 'WARN: This file aren\'t from RE3!';
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - ' + msgError);
-				R3_SYSTEM_ALERT(msgError);
+				R3_SYSTEM.log('warn', 'R3ditor V2 - ' + msgError);
+				R3_SYSTEM.alert(msgError);
 			};
 		} else {
 			msgError = 'WARN: This is not a valid map file!';
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - ' + msgError);
-			R3_SYSTEM_ALERT(msgError);
+			R3_SYSTEM.log('warn', 'R3ditor V2 - ' + msgError);
+			R3_SYSTEM.alert(msgError);
 		};
 	};
 };
@@ -599,7 +599,7 @@ function R3_SYS_COLOR_PICKER(colorArray, hexMode, nextFn){
 // Clear cache from web
 function R3_SYS_CLEAR_CACHE(){
 	if (R3_WEBMODE === true){
-		var check = R3_SYSTEM_CONFIRM('WARN: This option will clear all cached images / R3V2 settings from your browser!\n\nYou want to continue?');
+		var check = R3_SYSTEM.confirm('WARN: This option will clear all cached images / R3V2 settings from your browser!\n\nYou want to continue?');
 		if (check === true && R3_WEBMODE === true){
 			localStorage.clear();
 			sessionStorage.clear();
@@ -621,7 +621,7 @@ function R3_ITEM_DATABASE_SEARCH_INFO(){
 			document.getElementById('R3_ITEM_DATABASE_DETAILS').innerHTML = DATABASE_ITEM[itemInput][1].replace(DATABASE_ITEM[itemInput][0] + '<br>', '');
 			document.getElementById('R3_ITEM_DATABASE_SEARCH').focus();
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (Item Database) Unable to find item <font class="user-can-select">' + itemInput.toUpperCase() + '</font>!');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (Item Database) Unable to find item <font class="user-can-select">' + itemInput.toUpperCase() + '</font>!');
 		};
 	};
 };
@@ -635,13 +635,13 @@ function R3_UTILS_BACKUP(data, fileName, extension, backupPath, type){
 		try {
 			APP_FS.writeFileSync(bckPath, data, 'hex');
 			// End
-			R3_SYSTEM_LOG('separator');
+			R3_SYSTEM.log('separator');
 			R3_BACKUP_MANAGER_INSERT(BCK_fName, fileName, extension.toLowerCase(), cDate, bckPath, type);
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Backup Complete! <br>Path: <font class="user-can-select">' + backupPath + BCK_fName + '</font>');
-			R3_SYSTEM_LOG('separator');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Backup Complete! <br>Path: <font class="user-can-select">' + backupPath + BCK_fName + '</font>');
+			R3_SYSTEM.log('separator');
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to make backup! <br>Reason: ' + err);
-			R3_SYSTEM_ALERT('ERROR: Unable to make backup!\nReason: ' + err);
+			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to make backup! <br>Reason: ' + err);
+			R3_SYSTEM.alert('ERROR: Unable to make backup!\nReason: ' + err);
 		};
 	};
 };
@@ -653,14 +653,14 @@ function R3_BACKUP_MANAGER_LOAD(openBackupList){
 			try {
 				APP_FS.writeFileSync(bckList, 'e30=', 'utf-8');
 			} catch (err) {
-				R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to gerenate backup list! <br>Reason: ' + err);
+				R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to gerenate backup list! <br>Reason: ' + err);
 			};
 		};
 		// Load backup file
 		try {
 			R3_SYSTEM_BACKUP_LIST = JSON.parse(atob(APP_FS.readFileSync(bckList, 'utf-8')));
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to load backup list! <br>Reason: ' + err);
+			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to load backup list! <br>Reason: ' + err);
 		};
 		if (openBackupList === true){
 			R3_DESIGN_renderBackupManager();
@@ -675,9 +675,9 @@ function R3_BACKUP_MANAGER_INSERT(fileName, originalFileName, type, date, path, 
 		// Save List
 		try {
 			APP_FS.writeFileSync(APP_PATH + '/Configs/Backup/R3V2_BCK.R3V2', btoa(JSON.stringify(R3_SYSTEM_BACKUP_LIST)), 'utf-8');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Updating backup list...');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Updating backup list...');
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to update backup list! <br>Reason: ' + err);
+			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to update backup list! <br>Reason: ' + err);
 		};
 	};
 };
@@ -692,26 +692,26 @@ function R3_BACKUP_MANAGER_restore(fileId){
 			// RDT Files
 			if (fExt === 'rdt'){
 				// Easy Mode
-				conCheck = R3_SYSTEM_CONFIRM('Confirm: Click OK to restore this file on Easy mode (' + R3_RDT_PREFIX_EASY + ')');
+				conCheck = R3_SYSTEM.confirm('Confirm: Click OK to restore this file on Easy mode (' + R3_RDT_PREFIX_EASY + ')');
 				if (conCheck === true){
 					restoreOk = true;
 					tempHex = APP_FS.readFileSync(fPath, 'hex');
 					newFilePath = APP_PATH + '/Assets/' + R3_RDT_PREFIX_EASY + '/RDT/' + R3_SYSTEM_BACKUP_LIST[fName][0] + '.RDT';
 					APP_FS.writeFileSync(newFilePath, tempHex, 'hex');
-					R3_SYSTEM_LOG('separator');
-					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Process complete! <br>Path:<font class="user-can-select">' + newFilePath + '</font>');
-					R3_SYSTEM_ALERT('INFO: Process complete! (' + R3_RDT_PREFIX_EASY + ')');
+					R3_SYSTEM.log('separator');
+					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Process complete! <br>Path:<font class="user-can-select">' + newFilePath + '</font>');
+					R3_SYSTEM.alert('INFO: Process complete! (' + R3_RDT_PREFIX_EASY + ')');
 				};
 				// Hard Mode
-				conCheck = R3_SYSTEM_CONFIRM('Confirm: Click OK to restore this file on Hard mode (' + R3_RDT_PREFIX_HARD + ')');
+				conCheck = R3_SYSTEM.confirm('Confirm: Click OK to restore this file on Hard mode (' + R3_RDT_PREFIX_HARD + ')');
 				if (conCheck === true){
 					restoreOk = true;
 					tempHex = APP_FS.readFileSync(fPath, 'hex');
 					newFilePath = APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + R3_SYSTEM_BACKUP_LIST[fName][0] + '.RDT';
 					APP_FS.writeFileSync(newFilePath, tempHex, 'hex');
-					R3_SYSTEM_LOG('separator');
-					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Process complete! <br>Path:<font class="user-can-select">' + newFilePath + '</font>');
-					R3_SYSTEM_ALERT('INFO: Process complete! (' + R3_RDT_PREFIX_HARD + ')');
+					R3_SYSTEM.log('separator');
+					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Process complete! <br>Path:<font class="user-can-select">' + newFilePath + '</font>');
+					R3_SYSTEM.alert('INFO: Process complete! (' + R3_RDT_PREFIX_HARD + ')');
 				};
 				// Actions after restoring map
 				if (R3_RDT_mapName === mName && restoreOk === true){
@@ -722,7 +722,7 @@ function R3_BACKUP_MANAGER_restore(fileId){
 				};
 			};
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to restore backup file! <br>Reason: ' + err);
+			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to restore backup file! <br>Reason: ' + err);
 		};
 	};
 };
@@ -736,7 +736,7 @@ function R3_BACKUP_MANAGER_delete(fileId){
 			APP_FS.writeFileSync(APP_PATH + '/Configs/Backup/R3V2_BCK.R3V2', btoa(JSON.stringify(R3_SYSTEM_BACKUP_LIST)), 'utf-8');
 			R3_BACKUP_MANAGER_LOAD(true);
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to delete backup file! <br>Reason: ' + err);
+			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to delete backup file! <br>Reason: ' + err);
 		};
 	};
 };
@@ -784,9 +784,9 @@ tempFn_R3_leosHub['openWindow'] = function(){
 			End
 		*/
 		if (toolCounter > 0){
-			R3_DESIGN_MINIWINDOW_OPEN(24, 'center');
+			R3_MINIWINDOW.open(24, 'center');
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open Leo\'s Hub because there isn\'t any tool available!');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to open Leo\'s Hub because there isn\'t any tool available!');
 		};
 	};
 };

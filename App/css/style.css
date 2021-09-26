@@ -576,7 +576,7 @@ blockquote {
 .R3_MENU_MAIN_TOP {
     top: 0px;
     height: 24px;
-    z-index: 100000;
+    z-index: 10000000000;
     position: static;
     padding-left: 8px;
     display: inline-flex;
@@ -2160,7 +2160,7 @@ blockquote {
     right: 0%;
     z-index: 2;
     width: 100%;
-    height: 350px;
+    height: 480px;
     position: absolute;
     box-shadow: 0px 0px 110px #000;
     background-image: linear-gradient(to bottom, #666, #444);
@@ -2179,14 +2179,14 @@ blockquote {
 }
 .R3_FILEGEN_CANVAS_BIG {
     left: 0px;
-    top: 350px;
+    top: 480px;
     z-index: 4;
     color: #fff;
     width: 100%;
     overflow: hidden;
     position: absolute;
     background-color: #000;
-    height: calc(100% - 348px);
+    height: calc(100% - 480px);
 }
 .R3_FILEGEN_TEXTAREA {
     color: #0f0;
@@ -2194,7 +2194,7 @@ blockquote {
     width: 346px;
     border: none;
     resize: none;
-    height: 346px;
+    height: 476px;
     outline: none;
     overflow: auto;
     font-size: 13px;
@@ -2206,7 +2206,7 @@ blockquote {
     z-index: 2;
     left: 350px;
     padding: 4px;
-    height: 343px;
+    height: 472px;
     position: fixed;
     overflow: hidden;
     width: calc(100% - 634px);

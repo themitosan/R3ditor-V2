@@ -10,14 +10,16 @@ var R3_UPDATER_INTERVAL,
 	R3_UPDATER_RUNNING = false,
 	R3_GITHUB_BRANCHES_LIST = {},
 	R3_GITHUB_CURRENT_BRANCH = {};
+// Objects
+tempFn_R3_UPDATER = {};
 /*
 	Functions
 */
-// Get branches list
-function R3_UPDATER_GET_BRANCHES(){
+// Get branches list R3_UPDATER_GET_BRANCHES
+tempFn_R3_UPDATER['getUpdates'] = function(){
 	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION' && R3_ELECTRON === undefined){
 		var HTML_TEMPLATE = '';
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (GitHub) Fetching branches - Please wait...');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (GitHub) Fetching branches - Please wait...');
 		fetch(R3_GITHUB_FETCH_URL + 'branches').then(resp => resp.json()).then(function(dat){
 			R3_GITHUB_BRANCHES_LIST = dat
 			Object.keys(R3_GITHUB_BRANCHES_LIST).forEach(function(cItem, cIndex){
@@ -25,19 +27,19 @@ function R3_UPDATER_GET_BRANCHES(){
 			});
 			INCLUDE_GITHUB_BRANCHES = HTML_TEMPLATE;
 			document.getElementById('R3_UPDATER_CURRENT_BRANCH').innerHTML = INCLUDE_GITHUB_BRANCHES;
-			R3_UPDATER_GET_COMMITS();
+			R3_UPDATER.getCommits();
 		});
 	};
 };
-// Get Commit list
-function R3_UPDATER_GET_COMMITS(){
+// Get commits list R3_UPDATER_GET_COMMITS
+tempFn_R3_UPDATER['getCommits'] = function(){
 	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION'){
 		var cBranch = document.getElementById('R3_UPDATER_CURRENT_BRANCH').value, parseTimestamp = function(str){
 				const day = str.slice(0, str.indexOf('T')),
 					  time = str.slice(parseInt(str.indexOf('T') + 1)).replace('Z', '');
 				return day + ' - ' + time;
 			};
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (GitHub) Reading latest commit from ' + R3_GITHUB_BRANCHES_LIST[cBranch].name + ' - Please wait...');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (GitHub) Reading latest commit from ' + R3_GITHUB_BRANCHES_LIST[cBranch].name + ' - Please wait...');
 		fetch(R3_GITHUB_FETCH_URL + 'branches/' + R3_GITHUB_BRANCHES_LIST[cBranch].name).then(resp => resp.json()).then(function(dat){
 			R3_GITHUB_CURRENT_BRANCH = dat;
 			document.getElementById('R3_UPDATER_COMMIT_SHA').innerHTML = R3_GITHUB_CURRENT_BRANCH.commit.sha;
@@ -51,44 +53,44 @@ function R3_UPDATER_GET_COMMITS(){
 			document.getElementById('R3_UPDATER_COMMIT_AUTHOR_PIC').title = R3_GITHUB_CURRENT_BRANCH.commit.commit.author.name + '\'s Avatar';
 			// End
 			if (R3_MINI_WINDOW_DATABASE[22][5] === false){
-				R3_DESIGN_MINIWINDOW_OPEN(22, 'center');
+				R3_MINIWINDOW.open(22, 'center');
 			};
 		});
 	};
 };
 /*
-	Start Updater
+	Start Updater R3_UPDATER_START
 
-	reload app: chrome.runtime.reload();
+	Reload app: chrome.runtime.reload();
 	https://github.com/nwjs/nw.js/issues/149#issuecomment-299653483
 */
-function R3_UPDATER_START(){
+tempFn_R3_UPDATER['startUpdate'] = function(){
 	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION'){
 		try {
 			var c = 0, maxSteps = 8;
 			R3_UPDATER_RUNNING = true;
 			R3_UPDATER_INTERVAL = setInterval(function(){
 				if (R3_UPDATER_LOCK === false){
-					R3_UPDATER_ACTION(c);
+					R3_UPDATER.execAction(c);
 					c++;
 				} else {
 					console.info('UPDATER - Waiting Step ' + c + '...');
 				};
 			}, 100);
 		} catch (err) {
-			R3_SYSTEM_ALERT('ERROR: Unable to update R3V2!\n' + err);
+			R3_SYSTEM.alert('ERROR: Unable to update R3V2!\n' + err);
 		};
 	};
 };
-// Updater Actions
-function R3_UPDATER_ACTION(actionId){
+// Updater Actions R3_UPDATER_ACTION
+tempFn_R3_UPDATER['execAction'] = function(actionId){
 	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION' && R3_UPDATER_RUNNING === true && actionId !== undefined){
 		console.info('Running Step ' + actionId);
 		R3_UPDATER_LOCK = true;
 		var sysInterval, ACTION_updateCrash = function(reason){
 			clearInterval(sysInterval);
 			clearInterval(R3_UPDATER_INTERVAL);
-			R3_SYSTEM_ALERT('ERROR: Unable to execute update!\nReason: ' + reason + '\n\nR3ditor V2 will restart.');
+			R3_SYSTEM.alert('ERROR: Unable to execute update!\nReason: ' + reason + '\n\nR3ditor V2 will restart.');
 			chrome.runtime.reload();
 		};
 		// 0 - Initial preparations
@@ -98,7 +100,7 @@ function R3_UPDATER_ACTION(actionId){
 			document.getElementById('R3_UPDATER_CURRENT_BRANCH').disabled = 'disabled';
 			R3_DESIGN_OPEN_CLOSE_LATEST(1);
 			R3_LIVESTATUS_CLOSE_BAR();
-			R3_DESIGN_MINIWINDOW_CLOSE('all');
+			R3_MINIWINDOW.close('all');
 			clearInterval(MEM_JS_updatePosTimer);
 			clearInterval(R3_CHECK_GAME_INTERVAL);
 			clearInterval(R3_CHECK_ifStillOpenInterval);
@@ -176,7 +178,7 @@ function R3_UPDATER_ACTION(actionId){
 		// 7 - Reload R3V2
 		if (actionId === 7){
 			R3_UTILS_LOADING_UPDATE('Process complete!', 100);
-			R3_SYSTEM_ALERT('INFO: Process complete!\nAfter closing this message, R3V2 will reload!');
+			R3_SYSTEM.alert('INFO: Process complete!\nAfter closing this message, R3V2 will reload!');
 			chrome.runtime.reload();
 			clearInterval(sysInterval);
 			clearInterval(R3_UPDATER_INTERVAL);
@@ -186,3 +188,8 @@ function R3_UPDATER_ACTION(actionId){
 		R3_UPDATER_LOCK = false;
 	};
 };
+/*
+	END
+*/
+const R3_UPDATER = tempFn_R3_UPDATER;
+delete tempFn_R3_UPDATER;

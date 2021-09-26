@@ -43,11 +43,13 @@ var BIO3INI_Save, BIO3INI_Movie, BIO3INI_Regist, BIO3INI_Rofs1, BIO3INI_Rofs2, B
 	BIO3INI_sound_device = 'NULL',
 	// Data
 	BIO3INI_data_00 = BIO3INI_data_01 = BIO3INI_data_02 = BIO3INI_data_03 = BIO3INI_data_10 = BIO3INI_data_complete = '';
+// Objects
+tempFn_R3_INI = {};
 /*
 	Functions
 */
-// Parse bool to ini
-function R3_INI_parseBool(value){
+// Parse bool to ini R3_INI_parseBool
+tempFn_R3_INI['parseBool'] = function(value){
 	if (value !== undefined){
 		var res = 'on';
 		if (value === false){
@@ -56,8 +58,8 @@ function R3_INI_parseBool(value){
 		return res;
 	};
 };
-// Make INI file
-function R3_INI_MAKEFILE(mode, keepRofs11){
+// Make INI file R3_INI_MAKEFILE
+tempFn_R3_INI['generateIni'] = function(mode, keepRofs11){
 	if (mode !== undefined){
 		mode === 1;
 	};
@@ -99,9 +101,10 @@ function R3_INI_MAKEFILE(mode, keepRofs11){
 		BIO3INI_Rofs14 = '.\\Rofs14.dat';
 		BIO3INI_Rofs15 = '.\\Rofs15.dat';
 	};
-	R3_MAKE_INI('Bio3.ini', mode);
+	R3_INI.saveIni('Bio3.ini', mode);
 };
-function R3_MAKE_INI(path, mode){
+// Save INI
+tempFn_R3_INI['saveIni'] = function(path, mode){
 	const FINAL = '[General]\n' +
 		'Save=' + BIO3INI_Save + '\n' +
 		'Regist=' + BIO3INI_Regist + '\n' + // What is this file anyways?
@@ -121,11 +124,11 @@ function R3_MAKE_INI(path, mode){
 		'Rofs13=' + BIO3INI_Rofs13 + '\n' +
 		'Rofs14=' + BIO3INI_Rofs14 + '\n' +
 		'Rofs15=' + BIO3INI_Rofs15 + '\n\n[Video]\n' +
-		'DisableMovie=' + R3_INI_parseBool(BIO3INI_v_disableMovie) + '\n' +
-		'DisableAlpha=' + R3_INI_parseBool(BIO3INI_v_disableAlpha) + '\n' +
-		'DisableLinear=' + R3_INI_parseBool(BIO3INI_v_disableLinear) + '\n' +
-		'DisableSpecular=' + R3_INI_parseBool(BIO3INI_v_disableSpecular) + '\n' +
-		'TextureAdjust=' + R3_INI_parseBool(BIO3INI_v_textureAdjust) + '\n' +
+		'DisableMovie=' + R3_INI.parseBool(BIO3INI_v_disableMovie) + '\n' +
+		'DisableAlpha=' + R3_INI.parseBool(BIO3INI_v_disableAlpha) + '\n' +
+		'DisableLinear=' + R3_INI.parseBool(BIO3INI_v_disableLinear) + '\n' +
+		'DisableSpecular=' + R3_INI.parseBool(BIO3INI_v_disableSpecular) + '\n' +
+		'TextureAdjust=' + R3_INI.parseBool(BIO3INI_v_textureAdjust) + '\n' +
 		'Mode=' + BIO3INI_v_mode + '\n\n[Windowed]\n' +
 		'Driver=' + BIO3INI_w_driver + '\n' +
 		'Device=' + BIO3INI_w_device + '\n' +
@@ -165,10 +168,15 @@ function R3_MAKE_INI(path, mode){
 			try {
 				APP_FS.writeFileSync(R3_MOD_PATH + '/' + path, FINAL, 'utf-8');
 			} catch (err) {
-				R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to save INI file! <br>Reason: ' + err);
+				R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to save INI file! <br>Reason: ' + err);
 			};
 		};
 	} else {
 		R3_FILE_SAVE(path, FINAL, 'utf-8', '.ini');
 	};
 };
+/*
+	END
+*/
+const R3_INI = tempFn_R3_INI;
+delete tempFn_R3_INI;

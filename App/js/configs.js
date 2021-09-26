@@ -163,7 +163,7 @@ function R3_LOAD_PROCESS_SETTINGS(){
 	};
 	// Open Log at startup
 	if (APP_ON_BOOT === true && R3_SETTINGS.SETTINGS_OPEN_LOG_STARTUP !== false){
-		R3_DESIGN_MINIWINDOW_OPEN(0);
+		R3_MINIWINDOW.open(0);
 	};
 	// NW Checks
 	if (R3_WEBMODE === false){
@@ -199,7 +199,7 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		// Set Recent File
 		R3_DESIGN_UPDATE_LATEST_LABELS();
 		R3_SETTINGS_ENGE_LOAD_BIOS();
-		R3_DOORLINK_CHECK();
+		R3_DOORLINK.checkDatabase();
 	} else {
 		// Variables
 		APP_ENABLE_MOD = false;
@@ -223,7 +223,7 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		};
 		document.getElementById('R3_RDT_FILELIST_GAMEMODE').value = 1;
 		R3_RDT_FILELIST_UPDATELIST();
-		R3_DOORLINK_CHECK();
+		R3_DOORLINK.checkDatabase();
 		R3_DESIGN_ADJUST();
 		setTimeout(function(){
 			R3_GOTO_MAIN();
@@ -267,13 +267,13 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 			localStorage.setItem('R3V2_SETTINGS', newConfigFile);
 		};
 		if (logSaving !== false){
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - Saving settings...');
+			R3_SYSTEM.log('log', 'R3ditor V2 - Saving settings...');
 		};
 		if (reload === true){
-			R3_RELOAD();
+			R3_SYSTEM.reload();
 		};
 	} catch (err) {
-		R3_SYSTEM_LOG('error', 'ERROR - Unable to save settings!\nReason: ' + err);
+		R3_SYSTEM.log('error', 'ERROR - Unable to save settings!\nReason: ' + err);
 	};
 };
 /*
@@ -385,7 +385,7 @@ function R3_SETTINGS_SET_PATH(mode){
 				R3_MOD_PATH = fileCheck.slice(0, (fileCheck.length - 8));
 				document.getElementById('R3_SETTINGS_MOD_PATH').innerHTML = R3_MOD_PATH;
 			} else {
-				R3_SYSTEM_ALERT('WARN - You selected the wrong path!\nPlease select a path that haves Resident Evil 3 config file! (Bio3.ini)');
+				R3_SYSTEM.alert('WARN - You selected the wrong path!\nPlease select a path that haves Resident Evil 3 config file! (Bio3.ini)');
 			};
 		});
 	};
@@ -421,7 +421,7 @@ function R3_SETTINGS_ENGE_LOAD_BIOS(){
 		if (APP_FS.existsSync(R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH) === true){
 			SETTINGS_ENGE_BIOS = APP_FS.readFileSync(R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH, 'hex');
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (eNGE) unable to load bios (The file was not found!)');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (eNGE) unable to load bios (The file was not found!)');
 		};
 	};
 };

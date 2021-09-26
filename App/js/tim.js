@@ -117,11 +117,11 @@ tempFn_timManager['import'] = function(){
 				if (R3_WEBMODE === true){
 					finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
 				};
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (TIM Manager) Import Successful! ' + finalLbl);
-				R3_SYSTEM_ALERT('INFO: (TIM Manager) Import Successful!');
+				R3_SYSTEM.log('separator');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (TIM Manager) Import Successful! ' + finalLbl);
+				R3_SYSTEM.alert('INFO: (TIM Manager) Import Successful!');
 			} else {
-				R3_SYSTEM_ALERT('WARN: Unable to import TIM file!\nReason: This file failed on TIM integrity check!');
+				R3_SYSTEM.alert('WARN: Unable to import TIM file!\nReason: This file failed on TIM integrity check!');
 			};
 		}, undefined, 'hex');
 	};
@@ -134,9 +134,9 @@ tempFn_timManager['export'] = function(){
 			if (R3_WEBMODE === true){
 				finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
 			};
-			R3_SYSTEM_LOG('separator');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (TIM Manager) Export Successful! ' + finalLbl);
-			R3_SYSTEM_ALERT('INFO: (TIM Manager) Export Successful!');
+			R3_SYSTEM.log('separator');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (TIM Manager) Export Successful! ' + finalLbl);
+			R3_SYSTEM.alert('INFO: (TIM Manager) Export Successful!');
 		});
 	};
 };

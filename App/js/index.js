@@ -164,9 +164,9 @@ function R3_INIT_REQUIRE(){
 							};
 							// End
 							fReader.onerror = function(){
-								R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to read file! <br>Reason: ' + fReader.error);
+								R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to read file! <br>Reason: ' + fReader.error);
 								console.error('APP_FS ERROR!\n' + fReader.error);
-								R3_SYSTEM_ALERT('ERROR: \n' + fReader.error);
+								R3_SYSTEM.alert('ERROR: \n' + fReader.error);
 							};
 						};
 					},
@@ -203,7 +203,7 @@ function R3_WEB_checkBrowser(){
 		// Android Devices
 		if (uArgent.indexOf('Android') !== -1){
 			R3_WEB_IS_ANDROID = true;
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You are using R3ditor V2 on Android! This isn\'t recommended, since screen size aren\'t great for this tool display.');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: You are using R3ditor V2 on Android! This isn\'t recommended, since screen size aren\'t great for this tool display.');
 		};
 	};
 };
@@ -253,18 +253,18 @@ function R3_LOAD(){
 		};
 		// End
 		APP_TITLE = 'R3ditor V2 - Ver. ' + INT_VERSION;
-		R3_SYSTEM_LOG('log', APP_TITLE);
+		R3_SYSTEM.log('log', APP_TITLE);
 		// Log args
 		if (nwArgs.length !== 0){
-			R3_SYSTEM_LOG('log', 'Run Args: <font class="user-can-select">' + nwArgs.toString().replace(RegExp(',', 'gi'), ' ') + '</font>');
+			R3_SYSTEM.log('log', 'Run Args: <font class="user-can-select">' + nwArgs.toString().replace(RegExp(',', 'gi'), ' ') + '</font>');
 		};
-		R3_SYSTEM_LOG('separator');
+		R3_SYSTEM.log('separator');
 		// If web, log navigator.userArgent
 		if (R3_WEBMODE === true){
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Webmode) - User-Argent: <font class="user-can-select">' + navigator.userAgent + '</font>');
-			R3_SYSTEM_LOG('separator');
-			R3_SYSTEM_LOG('log', atob(special_day_03));
-			R3_SYSTEM_LOG('separator');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Webmode) - User-Argent: <font class="user-can-select">' + navigator.userAgent + '</font>');
+			R3_SYSTEM.log('separator');
+			R3_SYSTEM.log('log', atob(special_day_03));
+			R3_SYSTEM.log('separator');
 		} else {
 			// eNGE Start
 			eNGE_INIT();
@@ -277,34 +277,17 @@ function R3_LOAD(){
 	};
 };
 /*
-	Utils
-*/
-// Reload App
-function R3_RELOAD(){
-	R3_DISC_clearActivity();
-	if (RE3_RUNNING === true){
-		R3_killExternalSoftware(RE3_PID);
-	};
-	if (R3_WEBMODE !== true){
-		localStorage.clear();
-		sessionStorage.clear();
-		chrome.runtime.reload();
-	} else {
-		location.reload(true);
-	};
-};
-/*
 	Messages
 */
 // WIP Placeholder
 function R3_WIP(){
-	R3_SYSTEM_ALERT('TheMitoSan Says - THIS IS WIP! #Sorry');
-	R3_SYSTEM_LOG('warn', 'TheMitoSan Says - THIS IS WIP! #Sorry');
+	R3_SYSTEM.alert('TheMitoSan Says - THIS IS WIP! #Sorry');
+	R3_SYSTEM.log('warn', 'TheMitoSan Says - THIS IS WIP! #Sorry');
 };
 // R3 WEB Warn
 function R3_WEBWARN(){
-	R3_SYSTEM_ALERT('WARN: This function is only available on desktop version.');
-	R3_SYSTEM_LOG('warn', 'WARN: This function is only available on desktop version.');
+	R3_SYSTEM.alert('WARN: This function is only available on desktop version.');
+	R3_SYSTEM.log('warn', 'WARN: This function is only available on desktop version.');
 };
 /*
 	External Software
@@ -346,14 +329,14 @@ function R3_runExec(exe, args, mode, newFilePath){
 			};
 			PROCESS.stdout.on('data', function(data){
 				console.info(data.toString());
-				R3_SYSTEM_LOG('log', data.toString());
+				R3_SYSTEM.log('log', data.toString());
 			});
 			PROCESS.stderr.on('data', function(data){
 				console.info(data.toString());
-				R3_SYSTEM_LOG('log', data.toString());
+				R3_SYSTEM.log('log', data.toString());
 			});
 			PROCESS.on('close', function(code){
-				R3_SYSTEM_LOG('separator');
+				R3_SYSTEM.log('separator');
 				EXTERNAL_APP_RUNNING = false;
 				process.chdir(ORIGINAL_APP_PATH);
 				if (RE3_RUNNING !== false){
@@ -361,18 +344,18 @@ function R3_runExec(exe, args, mode, newFilePath){
 					R3_LIVESTATUS_CLOSE_BAR();
 					clearInterval(MEM_JS_updatePosTimer);
 					if (parseInt(code) < 2){
-						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: The game closed with code <font class="user-can-select">' + code + '</font>');
+						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: The game closed with code <font class="user-can-select">' + code + '</font>');
 					} else {
-						R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: The game closed with code <font class="user-can-select">' + code + '</font>!');
-						R3_DESIGN_MINIWINDOW_OPEN(0);
+						R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: The game closed with code <font class="user-can-select">' + code + '</font>!');
+						R3_MINIWINDOW.open(0);
 					};
 				} else {
-					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: The application closed with code <font class="user-can-select">' + code + '</font>');
+					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: The application closed with code <font class="user-can-select">' + code + '</font>');
 				};
 				return code;
 			});
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You can\'t run external software in non-windows systems!');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: You can\'t run external software in non-windows systems!');
 		};
 	};
 };
@@ -389,7 +372,7 @@ function R3_killExternalSoftware(processID){
 				};
 			};
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to kill process ' + processID + '! <br>Details: ' + err);
+			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to kill process ' + processID + '! <br>Details: ' + err);
 		};
 	};
 };
@@ -399,7 +382,7 @@ function R3_SYSTEM_openInHex(){
 		if (APP_FS.existsSync(R3_SETTINGS.R3_HEX_PATH) !== false && APP_FS.existsSync(ORIGINAL_FILENAME) !== false){
 			R3_runExec(R3_SETTINGS.R3_HEX_PATH, [ORIGINAL_FILENAME]);
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open file in hex, since the Hex Viewer or file was not found!');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to open file in hex, since the Hex Viewer or file was not found!');
 		};
 	} else {
 		R3_WEBWARN();
@@ -416,11 +399,11 @@ function R3_runGame(mode){
 				} else {
 					R3_runExec(R3_SETTINGS.R3_RE3_PATH, undefined, 0);
 				};
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3...');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3...');
 			};
 			if (mode === 1 && R3_MERCE_CANRUN === true){
 				R3_runExec(R3_SETTINGS.R3_MERCE_PATH, undefined, 0);
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries');
 			};
 			if (mode === 2 && R3_RE3_CANRUN === true){
 				R3_MEMJS.seekProcess();
@@ -429,11 +412,11 @@ function R3_runGame(mode){
 				} else {
 					R3_runExec(R3_RE3_MOD_PATH, undefined, 1);
 				};
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3 (Mod)');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3 (Mod)');
 			}
 			if (mode === 3 && R3_MERCE_CANRUN === true){
 				R3_runExec(R3_MERCE_PATH, undefined, 1);
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries (Mod)');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries (Mod)');
 			};
 			// 32-bit check
 			if (APP_IS_32 !== true && MEM_JS_requreSucess === true && R3_MERCE_CANRUN === true && R3_RE3_CANRUN === true){
@@ -443,26 +426,12 @@ function R3_runGame(mode){
 				};
 			};
 		} else {
-			R3_SYSTEM_LOG('error', 'ERROR - Unable to start game!\nReason: The file was not found! (404)');
+			R3_SYSTEM.log('error', 'ERROR - Unable to start game!\nReason: The file was not found! (404)');
 		};
 	} else {
 		if (R3_WEBMODE === true){
 			R3_WEBWARN();
 		};
-	};
-};
-/*
-	Log functions
-*/
-function R3_SYSTEM_SAVE_LOG(){
-	if (R3_SYSTEM_LOG_TEXT !== ''){
-		R3_FILE_SAVE('R3V2_LOG.log', R3_SYSTEM_LOG_TEXT, 'utf-8', '.log', function(finalFile){
-			R3_SYSTEM_LOG('separator');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Save complete!');
-			if (R3_WEBMODE === false){
-				R3_SYSTEM_LOG('log', 'Path: <font class="user-can-select">' + finalFile + '</font>');
-			};
-		});
 	};
 };
 /*
@@ -534,7 +503,7 @@ function R3_FILE_SAVE(filename, content, mode, ext, execNext){
 				try {
 					APP_FS.writeFileSync(location, content, mode);
 				} catch (err) {
-					R3_SYSTEM_LOG('error', 'ERROR - Unable to save file!\nReason: ' + err);
+					R3_SYSTEM.log('error', 'ERROR - Unable to save file!\nReason: ' + err);
 				};
 			};
 			document.getElementById('R3_FILE_SAVE_DOM').value = '';
@@ -634,7 +603,7 @@ function R3_FOLDER_SELECT(functionEval){
 			};
 		};
 	} else {
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: This function is not available on web mode.');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: This function is not available on web mode.');
 	};
 };
 /*
@@ -782,7 +751,7 @@ function R3_getAllIndexes(arr, val){
     	};
     	return idx;
 	} else {
-		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: (Internal) Invalid arguments on R3_getAllIndexes!');
+		R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: (Internal) Invalid arguments on R3_getAllIndexes!');
 	};
 };
 // Get Current Date
@@ -1035,7 +1004,7 @@ function R3_SYS_copyFiles(source, destiny, execNext){
 	if (R3_WEBMODE === false){
 		APP_FS.copy(source, destiny, function(err){
 			if (err){
-				R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to copy! <br>Reason: ' + err);
+				R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to copy! <br>Reason: ' + err);
 			} else {
 				if (execNext !== undefined){
 					execNext();
@@ -1207,6 +1176,179 @@ function R3_getMapPath(){
 	};
 	return result;
 };
+/*
+	SYSTEM Functions
+*/
+tempFn_R3_SYSTEM = {};
+/*
+	R3_SYSTEM_PROMPT
+	Prompt replace
+*/
+tempFn_R3_SYSTEM['prompt'] = function(txt){
+	var res = window.prompt(txt);
+	R3_KEYPRESS_releaseKeys();
+	return res;
+};
+/*
+	R3_SYSTEM_CONFIRM
+	Confirm replace
+*/
+tempFn_R3_SYSTEM['confirm'] = function(conf){
+	var res = window.confirm(conf);
+	R3_KEYPRESS_releaseKeys();
+	return res;
+};
+/*
+	R3_SYSTEM_ALERT
+	Alert system 
+*/
+tempFn_R3_SYSTEM['alert'] = function(msg){
+	if (msg !== undefined){
+		window.alert(msg);
+		R3_KEYPRESS_releaseKeys();
+	};
+};
+/*
+	R3_SYSTEM_LOG
+	Log system
+*/
+tempFn_R3_SYSTEM['log'] = function(mode, text){
+	if (R3_SETTINGS.SETTINGS_DISABLE_LOG === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_LOG === false){
+		var lastLog, isSeparator = false, HTML_LOG_TEMPLATE = logCSS = textClean = '', canLog = true,
+			defaultCheck = [undefined, '', 'log', 'ok', 'info'];
+		if (text === undefined){
+			text = '';
+		};
+		if (R3_SYSTEM.log_RESET === true){
+			document.getElementById('R3_LOG_HOLDER').innerHTML = '';
+			R3_SYSTEM.log_RESET = false;
+		} else {
+			textClean = R3_removeHtmlFromString(text);
+		};
+		// Avoid eNGE null messages
+		if (textClean === 'R3ditor V2 - INFO: (eNGE) \n'){
+			textClean = text = '';
+			canLog = false;
+		};
+		lastLog = document.getElementById('R3_LOG_ID_N_' + (R3_LOG_ID - 1));
+		if (lastLog !== null && lastLog.className === 'SEPARATOR-3' && mode === 'separator'){
+			canLog = false;
+		};
+		/*
+			Final checks
+		*/
+		if (canLog === true){
+			if (defaultCheck.indexOf(mode) !== -1){
+				logCSS = 'R3_LOG_OK';
+				R3_LOG_COUNTER_INFO++;
+			};
+			if (mode === 'warn'){
+				console.warn(textClean);
+				logCSS = 'R3_LOG_WARN';
+				R3_LOG_COUNTER_WARN++;
+			};
+			if (mode === 'error'){
+				console.error(textClean);
+				logCSS = 'R3_LOG_ERROR';
+				R3_LOG_COUNTER_ERROR++;
+			};
+			if (mode === 'separator'){
+				isSeparator = true;
+				textClean = SYSTEM_LOG_SEPARATOR_TEXT;
+				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="SEPARATOR-3"></div>';
+			} else {
+				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="R3_LOG_ITEM ' + logCSS + '">' + text + '</div>';
+			};
+			// Open on warn / error
+			if (mode === 'warn' || mode === 'error'){
+				if (R3_SETTINGS.SETTINGS_OPEN_LOG_ON_WARN_ERROR === true){
+					R3_MINIWINDOW.open(0);
+				};
+			};
+			// Return from full log
+			if (R3_SYSTEM.log_RETURN === true){
+				R3_SYSTEM.log_RETURN = false;
+				TMS.setInnerHtml('R3_LOG_HOLDER', '');
+				TMS.css('R3V2_LOG_FULLVIEW', {'display': 'block'});
+			};
+			// Fix performance - too much nodes
+			if ((R3_LOG_COUNTER_INFO + R3_LOG_COUNTER_WARN + R3_LOG_COUNTER_ERROR) > 160 && R3_DOORLINK_RUNNING === false){
+				R3_SYSTEM.clearLog(false, true);
+				if (TMS.getCssData('R3V2_LOG_FULLVIEW', 'display') !== 'block'){
+					TMS.css('R3V2_LOG_FULLVIEW', {'display': 'block'});
+				};
+				TMS.setInnerHtml('R3_LOG_HOLDER', '<div id="R3_LOG_ID_RESET" class="R3_LOG_ITEM R3_LOG_WARN">R3ditor V2 - WARN: The log was cleared to avoid performance issues. ' +
+												  '<br><i>(Click on \"View Full Log\" to see full info)</i></div>');
+			};
+			/*
+				End
+			*/
+			R3_SYSTEM.log_TEXT = R3_SYSTEM.log_TEXT + textClean + '\n';
+			R3_SYSTEM.log_INTERNAL = R3_SYSTEM.log_INTERNAL + HTML_LOG_TEMPLATE;
+			R3_LOG_ID++;
+			TMS.append('R3_LOG_HOLDER', HTML_LOG_TEMPLATE);
+			document.getElementById('R3_LOG_HOLDER').scrollTop = document.getElementById('R3_LOG_HOLDER').scrollHeight;
+			document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>';
+		};
+	} else {
+		if (text !== undefined){
+			if (mode === undefined || mode.toLowerCase() === 'log'){
+				console.info(R3_removeHtmlFromString(text));
+			} else {
+				if (mode.toLowerCase() === 'warn'){
+					console.warn(R3_removeHtmlFromString(text));
+				};
+				if (mode.toLowerCase() === 'error'){
+					console.error(R3_removeHtmlFromString(text));
+				};
+			};
+		};
+	};
+};
+// Clear Log R3_SYSTEM_CLEAR_LOG
+tempFn_R3_SYSTEM['clearLog'] = function(resetConsole, pFix){
+	R3_LOG_ID = R3_LOG_COUNTER_INFO = R3_LOG_COUNTER_WARN = R3_LOG_COUNTER_ERROR = 0;
+	if (pFix === true){
+		R3_SYSTEM.log_TEXT = R3_SYSTEM.log_TEXT + '\nINFO: The log was cleared to avoid loss of performance.\n';
+	};
+	TMS.setInnerHtml('R3_LOG_HOLDER', '');
+	R3_SYSTEM.log('log', 'R3ditor V2 - The log was cleared');
+	R3_SYSTEM.log('separator');
+	if (resetConsole === true){
+		console.clear();
+	};
+};
+// Save Log R3_SYSTEM_SAVE_LOG
+tempFn_R3_SYSTEM['saveLog'] = function(){
+	if (R3_SYSTEM.log_TEXT !== ''){
+		R3_FILE_SAVE('R3V2_LOG.log', R3_SYSTEM.log_TEXT, 'utf-8', '.log', function(finalFile){
+			var finalLbl = '';
+			if (R3_WEBMODE === false){
+				finalLbl = 'Path: <font class="user-can-select">' + finalFile + '</font>';
+			};
+			R3_SYSTEM.log('separator');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Save complete! ' + finalLbl);
+		});
+	};
+};
+// Reload App R3_RELOAD
+tempFn_R3_SYSTEM['reload'] = function(){
+	R3_DISC_clearActivity();
+	if (RE3_RUNNING === true){
+		R3_killExternalSoftware(RE3_PID);
+	};
+	if (R3_WEBMODE !== true){
+		localStorage.clear();
+		sessionStorage.clear();
+		chrome.runtime.reload();
+	} else {
+		location.reload(true);
+	};
+};
+const R3_SYSTEM = tempFn_R3_SYSTEM;
+delete tempFn_R3_SYSTEM;
+
+
 /*
 	Cleaner
 	Let's reset everyting!

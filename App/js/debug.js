@@ -3,7 +3,7 @@
 	IMPORTANT: THIS FILE CANT BE INCLUDED ON R3V2 COMPILER
 */
 // Reload App
-function R3_RELOAD(){
+R3_SYSTEM.reload = function(){
 	R3_DISC_clearActivity();
 	if (RE3_RUNNING === true){
 		R3_killExternalSoftware(RE3_PID);

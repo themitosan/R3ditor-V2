@@ -121,7 +121,7 @@ document.addEventListener('keyup', function(kp){
 			if (R3_MENU_CURRENT === 9){
 				// SCD Search form
 				if (R3_MINI_WINDOW_DATABASE[9][5] === true){
-					R3_DESIGN_MINIWINDOW_CLOSE(9);
+					R3_MINIWINDOW.close(9);
 				};
 				// Close Edit form
 				if (R3_SCD_IS_EDITING === true){
@@ -134,7 +134,7 @@ document.addEventListener('keyup', function(kp){
 			};
 			// RID Editor
 			if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === true){
-				R3_DESIGN_MINIWINDOW_CLOSE(6);
+				R3_MINIWINDOW.close(6);
 			};
 		};
 		// Commands not available on web vesion
@@ -159,7 +159,7 @@ document.addEventListener('keyup', function(kp){
 				};
 				// Open Item Databse [CTRL + SHIFT + D]
 				if (R3_KEYPRESS_SHIFT === true && kp.keyCode === 68){
-					R3_DESIGN_MINIWINDOW_OPEN(15, 'center');
+					R3_MINIWINDOW.open(15, 'center');
 				};
 				// RDT - Open editors using numbers [CTRL + Number]
 				if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === false){
@@ -225,7 +225,7 @@ document.addEventListener('keyup', function(kp){
 				};
 				// Go Back to RDT menu [CTRL + ']
 				if (RDT_arquivoBruto !== undefined && R3_MENU_BACK_EXCLUDE.indexOf(R3_MENU_CURRENT) === -1 && kp.keyCode === 192){
-					R3_DESIGN_MINIWINDOW_CLOSE([6, 10]);
+					R3_MINIWINDOW.close([6, 10]);
 					R3_DESIGN_RDT_closeFileList();
 					R3_SHOW_MENU(10);
 				};
@@ -272,7 +272,7 @@ document.addEventListener('keyup', function(kp){
 				};
 				// SCD - Open Script List [CTRL + L]
 				if (R3_KEYPRESS_SHIFT === false && R3_KEYPRESS_CONTROL === true && kp.keyCode === 76){
-					R3_DESIGN_MINIWINDOW_OPEN(4);
+					R3_MINIWINDOW.open(4);
 				};
 				// Navigation Shortcuts
 				if (R3_SCD_IS_EDITING === false && R3_KEYPRESS_CONTROL === true){
@@ -480,7 +480,7 @@ document.addEventListener('keyup', function(kp){
 				if (R3_KEYPRESS_SHIFT === true){
 					R3_RDT.scdHack.applyHack(true);
 				} else {
-					R3_DESIGN_MINIWINDOW_OPEN(3);
+					R3_MINIWINDOW.open(3);
 				};
 			};
 			// Open Backup Manager [CTRL + SHIFT + B]
@@ -491,7 +491,7 @@ document.addEventListener('keyup', function(kp){
 	}
 	// Reload [CTRL + SHIFT + R]
 	if (kp.keyCode === 82 && R3_KEYPRESS_SHIFT === true && R3_KEYPRESS_CONTROL === true){
-		R3_RELOAD();
+		R3_SYSTEM.reload();
 	};
 	// Update text data on SCD Code editor
 	if (R3_MENU_CURRENT === 9 && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){

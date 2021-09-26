@@ -93,7 +93,7 @@ const rc0 = {
   },
 
   setMode: function(bits32) {
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) ' + hex(0x1104, 4) + ' ' + hex(bits32));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) ' + hex(0x1104, 4) + ' ' + hex(bits32));
     r11x4[0] = (bits32 & 0x3ff) | (1 << 10);
 
     let cyclesToSkip = +0;
@@ -233,7 +233,7 @@ const rc1 = {
   },
 
   setMode: function(bits32) {
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) ' + hex(0x1114, 4) + ' ' + hex(bits32));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) ' + hex(0x1114, 4) + ' ' + hex(bits32));
     r11x4[1] = ((bits32 & 0x13f) | (1 << 10)) >>> 0;
 
     const limit = (r11x4[1] & 0x008) ? 11 : 12;
@@ -382,7 +382,7 @@ const rc2 = {
   },
 
   setMode: function(bits32) {
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) ' + hex(0x1124, 4) + ' ' + hex(bits32));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) ' + hex(0x1124, 4) + ' ' + hex(bits32));
     const limit = (r11x4[2] & 0x008) ? 11 : 12;
     r11x4[2] = (bits32 & 0x3ff) | (1 << 10);
 

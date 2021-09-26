@@ -7,8 +7,8 @@
 	Node.js plugin written by Rob-- (https://github.com/Rob--)
 	MemoryJS official page: https://github.com/Rob--/memoryjs
 */
-tempMEMJS = {};
 var R3_MEMJS_PROCESS_OBJ;
+tempMEMJS = {};
 /*
 	Functions
 */
@@ -24,8 +24,8 @@ tempMEMJS['seekProcess'] = function(){
 		for (var c = 0; c < hostProcessList.length; c++){
 			if (hostProcessList[c]['szExeFile'] === processName){ // ResidentEvil3.exe, psfin.exe...
 				p_info = hostProcessList[c];
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (MemoryJS) Load Process Done! <br>(Game Mode: ' + RE3_LIVE_CURRENTMOD + ', Executable Name: ' + processName + ' - PID: <font class="user-can-select">' + p_info['th32ProcessID'] + '</font>)');
+				R3_SYSTEM.log('separator');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (MemoryJS) Load Process Done! <br>(Game Mode: ' + RE3_LIVE_CURRENTMOD + ', Executable Name: ' + processName + ' - PID: <font class="user-can-select">' + p_info['th32ProcessID'] + '</font>)');
 				R3_MEMJS_PROCESS_OBJ = APP_MEMJS.openProcess(p_info['th32ProcessID']);
 				if (RE3_RUNNING === false){
 					EXTERNAL_APP_PID = p_info['th32ProcessID'];
@@ -45,7 +45,7 @@ tempMEMJS['seekProcess'] = function(){
 				document.getElementById('R3_LIVESTATUS_LBL_PROCESS_PARENT').innerHTML = R3_MEMJS_PROCESS_OBJ['th32ParentProcessID'];
 				document.getElementById('BTN_MAIN_20').onclick = function(){
 					R3_killExternalSoftware(R3_MEMJS_PROCESS_OBJ['th32ProcessID']);
-					R3_DESIGN_MINIWINDOW_CLOSE(19);
+					R3_MINIWINDOW.close(19);
 				};
 				// Start Render
 				if (R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === false){
@@ -70,9 +70,9 @@ tempMEMJS['seekProcess'] = function(){
 */
 tempMEMJS['HOOK_EMU'] = function(){
 	if (R3_WEBMODE === false && R3_MEMJS_PROCESS_OBJ !== undefined && R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === true){
-		var foundPos = false, cLocation, ramLimit = 0x7FFFFFFFFFFF, askConf = R3_SYSTEM_CONFIRM('IMPORTANT: To read in-game data, make sure you are exactly on Spawn Pos. of Warehouse Save Room (R100.RDT).\n\nIf so, click on OK and wait.\n\nPS: This probably will consume your CPU Power!');
+		var foundPos = false, cLocation, ramLimit = 0x7FFFFFFFFFFF, askConf = R3_SYSTEM.confirm('IMPORTANT: To read in-game data, make sure you are exactly on Spawn Pos. of Warehouse Save Room (R100.RDT).\n\nIf so, click on OK and wait.\n\nPS: This probably will consume your CPU Power!');
 		if (askConf === true){
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Start reading Emulator RAM - Please wait...');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Start reading Emulator RAM - Please wait...');
 			cLocation = R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][4]; // Cheat Engine Limit
 			while (foundPos === false){
 				// console.log('Looking on ' + cLocation + ' (Hex: 0x' + parseInt(cLocation).toString(16).toUpperCase() + ')');
@@ -122,8 +122,8 @@ tempMEMJS['HOOK_EMU'] = function(){
 						/*
 							End
 						*/
-						R3_SYSTEM_LOG('separator');
-						R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Hook Complete! The sync was done on location <font class="user-can-select">0x' + parseInt(cLocation).toString(16).toUpperCase() + '</font>!');
+						R3_SYSTEM.log('separator');
+						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Hook Complete! The sync was done on location <font class="user-can-select">0x' + parseInt(cLocation).toString(16).toUpperCase() + '</font>!');
 						$('#BTN_PS1_HOOK').css({'display': 'none'});
 						DEBUG_LOCKRENDER = false;
 						R3_LIVESTATUS_OPEN_BAR();

@@ -189,15 +189,15 @@ function loadFileData(arrayBuffer){
     cpu.gpr[29] = data.getInt32(0x30) ? data.getInt32(0x30) : 0x001fff00;
     cpu.gpr[30] = data.getInt32(0x30) ? data.getInt32(0x30) : 0x001fff00;
     cpu.gpr[31] = cpu.pc;
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) init-pc  : $' + hex(cpu.pc >>> 0));
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) init-gp  : $' + hex(cpu.gpr[28] >>> 0));
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) init-sp  : $' + hex(cpu.gpr[29] >>> 0));
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) init-fp  : $' + hex(cpu.gpr[30] >>> 0));
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) init-of  : $' + hex(data.getInt32(0x34) >>> 0));
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) text-addr: $' + hex(data.getInt32(0x18) >>> 0));
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) text-size: $' + hex(data.getInt32(0x1C) >>> 0));
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) data-addr: $' + hex(data.getInt32(0x20) >>> 0));
-    R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) data-size: $' + hex(data.getInt32(0x24) >>> 0));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) init-pc  : $' + hex(cpu.pc >>> 0));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) init-gp  : $' + hex(cpu.gpr[28] >>> 0));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) init-sp  : $' + hex(cpu.gpr[29] >>> 0));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) init-fp  : $' + hex(cpu.gpr[30] >>> 0));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) init-of  : $' + hex(data.getInt32(0x34) >>> 0));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) text-addr: $' + hex(data.getInt32(0x18) >>> 0));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) text-size: $' + hex(data.getInt32(0x1C) >>> 0));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) data-addr: $' + hex(data.getInt32(0x20) >>> 0));
+    R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) data-size: $' + hex(data.getInt32(0x24) >>> 0));
 
     var textSegmentOffset = data.getInt32(0x18),
         fileContentLength = view8.length;
@@ -279,8 +279,8 @@ function loadFileData(arrayBuffer){
     try {
       APP_FS.writeFileSync(SETTINGS_ENGE_BIOS_PATH, base64text);
     } catch (err){
-      R3_SYSTEM_LOG('separator');
-      R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to save PS1 Bios! <br>Details: ' + err);
+      R3_SYSTEM.log('separator');
+      R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to save PS1 Bios! <br>Details: ' + err);
     }
     for (var i = 0; i < 0x00080000; i += 4) {
       map[(0x01c00000 + i) >>> 2] = data[i >>> 2];
@@ -421,7 +421,7 @@ function trace(pc, val) {
         case 0x3d:  line += String.fromCharCode(gpr[4])
                     if (gpr[4] === 10 || gpr[4] === 13) {
                       if (line !== lastLine){
-                        R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) <font class="user-can-select">' + line + '</font>');
+                        R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) <font class="user-can-select">' + line + '</font>');
                         lastLine = line;
                       }
                       line = '';

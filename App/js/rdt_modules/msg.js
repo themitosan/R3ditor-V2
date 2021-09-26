@@ -48,7 +48,7 @@ function R3_MSG_startLoadMsg(fPath){
 				fileName = R3_getFileName(fPath.name);
 			};
 			document.title = APP_TITLE + ' - MSG Editor - File: ' + fileName + '.MSG';
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (MSG) Loading file: <font class="user-can-select">' + fPath + '</font>');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (MSG) Loading file: <font class="user-can-select">' + fPath + '</font>');
 			R3_MSG_DECOMPILER_START(MSG_arquivoBruto);
 			// End
 			R3_LATEST_SET_FILE(fileName + '.MSG', 1, ORIGINAL_FILENAME);
@@ -66,7 +66,7 @@ function R3_MSG_decompileRDT(openEditor){
 		R3_DESIGN_CLEAN_MSG();
 		R3_UTILS_VAR_CLEAN_MSG();
 		if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE !== 3){
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: MSG Read mode was changed from Resident Evil ' + R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE + ' to Resident Evil 3!');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: MSG Read mode was changed from Resident Evil ' + R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE + ' to Resident Evil 3!');
 			R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE = 3;
 			R3_SAVE_SETTINGS(false);
 		};
@@ -89,7 +89,7 @@ function R3_MSG_decompileRDT(openEditor){
 // GOTO MSG
 function R3_MSG_GOTO_MESSAGE(){
 	if (RDT_arquivoBruto !== undefined){
-		var msgId, askMessage = R3_SYSTEM_PROMPT('Please, insert the message you want to jump:');
+		var msgId, askMessage = R3_SYSTEM.prompt('Please, insert the message you want to jump:');
 		if (askMessage !== null && askMessage !== ''){
 			msgId = parseInt(askMessage);
 			if (msgId !== NaN && msgId > 0){
@@ -147,7 +147,7 @@ function R3_MSG_removeMessage(){
 		R3_MSG_recompileWithPointers(1);
 		R3_MSG_readMessage(tmpCurrentMsg);
 	} else {
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You can\'t delete this message!');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: You can\'t delete this message!');
 	};
 };
 /*
@@ -426,7 +426,7 @@ function R3_MSG_COMPILE(mode){
 				try {
 					APP_FS.writeFileSync(R3_MSG_fPath, HEX_FINAL, 'hex');
 				} catch (err) {
-					R3_SYSTEM_LOG('error', 'ERROR - Unable to save MSG file!\nReason: ' + err);
+					R3_SYSTEM.log('error', 'ERROR - Unable to save MSG file!\nReason: ' + err);
 				};
 			} else {
 				mode = 1;
@@ -463,7 +463,7 @@ function R3_MSG_COMPILE(mode){
 	3: HACK (Later will be the auto-save)
 */
 function R3_MSG_recompileWithPointers(mode){
-	R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (MSG) Compiling new MSG pointers...');
+	R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (MSG) Compiling new MSG pointers...');
 	var c = 1, HEX_FINAL = '', endianPointers = '', cMessage = R3_MSG_currentMessage,
 		MSG_FINAL_POINTERS_TEMP = [R3_fixVars((R3_MSG_RDT_MESSAGES.length * 2).toString(16), 4)],
 		finalPointerLength = (parseInt(MSG_FINAL_POINTERS_TEMP[0], 16) * 2),

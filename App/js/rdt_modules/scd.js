@@ -58,7 +58,7 @@ function R3_SCD_STARTLOAD(scdFile, hxFile){
 	};
 	R3_SCD_HIGHLIGHT_FUNCTION = 0;
 	if (fName !== 'scd' && fName !== 'rdt'){
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: This is not a valid SCD file!');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: This is not a valid SCD file!');
 	} else {
 		R3_DESIGN_CLEAN_SCD();
 		R3_UTILS_VAR_CLEAN_SCD();
@@ -78,7 +78,7 @@ function R3_SCD_STARTLOAD(scdFile, hxFile){
 		} else {
 			R3_SCD_fileName = R3_getFileName(scdFile.name).toUpperCase();
 		};
-		R3_SYSTEM_LOG('log', 'SCD - Loading file: <font class="user-can-select">' + scdFile + '</font>');
+		R3_SYSTEM.log('log', 'SCD - Loading file: <font class="user-can-select">' + scdFile + '</font>');
 		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_SCD_fileName + '.' + fName.toUpperCase();
 		if (fName === 'scd'){
 			R3_SCD_path = scdFile;
@@ -137,8 +137,8 @@ function R3_SCD_START_DECOMPILER(hex){
 	});
 	// End
 	if (R3_SETTINGS.SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true && R3_DOORLINK_RUNNING === false){
-		R3_SYSTEM_LOG('separator');
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Finished loading SCD with ' + R3_SCD_TOTAL_SCRITPS + ' scripts, totalizing ' + R3_SCD_OVERALL_TOTAL_FUNCTIONS + ' functions.');
+		R3_SYSTEM.log('separator');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Finished loading SCD with ' + R3_SCD_TOTAL_SCRITPS + ' scripts, totalizing ' + R3_SCD_OVERALL_TOTAL_FUNCTIONS + ' functions.');
 	};
 	R3_SCD_displayScript(0);
 };	
@@ -248,14 +248,14 @@ function R3_SCD_SAVE_JS_FILE(){
 				if (R3_WEBMODE === false){
 					pathLbl = ' Path: <font class="user-can-select">' + finalPath + '</font>'
 				};
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - Save Successful! - File: ' + fName + pathLbl);
+				R3_SYSTEM.log('separator');
+				R3_SYSTEM.log('log', 'R3ditor V2 - Save Successful! - File: ' + fName + pathLbl);
 				R3_DESIGN_JS_CODE_FOCUS();
 			});
 		} else {
-			R3_SYSTEM_LOG('separator');
-			R3_SYSTEM_ALERT('WARN: Unable to save JS Script!' + errorReason);
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to save JS Script! <br>Reason: ' + errorReason);
+			R3_SYSTEM.log('separator');
+			R3_SYSTEM.alert('WARN: Unable to save JS Script!' + errorReason);
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to save JS Script! <br>Reason: ' + errorReason);
 		};
 	};
 };
@@ -280,7 +280,7 @@ function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 		// Check if is a valid SCD function
 		if (parseInt(opcodeSearch, 16) !== NaN && parseInt(opcodeSearch, 16) > 143){
 			canSearch = false;
-			R3_SYSTEM_ALERT('WARN: This is not a valid SCD opcode!');
+			R3_SYSTEM.alert('WARN: This is not a valid SCD opcode!');
 			document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_INPUT').value = '';
 		};
 		// Remove End Script [EVT_END] from search
@@ -293,7 +293,7 @@ function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 			document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_INPUT').value = '';
 			// Start Search
 			if (skipAlert !== true){
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Searching for Opcode <font class="user-can-select">' + opcodeSearch.toUpperCase() + '</font>...');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Searching for Opcode <font class="user-can-select">' + opcodeSearch.toUpperCase() + '</font>...');
 			};
 			Object.keys(R3_SCD_SCRIPTS_LIST).forEach(function(cItem, cIndex){
 				tempScript = R3_SCD_SCRIPTS_LIST[cIndex].filter(function(data){
@@ -335,8 +335,8 @@ function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 				};
 			} else {
 				if (skipAlert !== true){
-					R3_SYSTEM_ALERT('WARN: Unable to find this opcode!\n\nOpcode: ' + opcodeSearch.toUpperCase() + ' (' + R3_SCD_DATABASE[opcodeSearch][1] + ')');
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to find this opcode! (Opcode: <font class="user-can-select">' + opcodeSearch.toUpperCase() + '</font> [' + R3_SCD_DATABASE[opcodeSearch.toLowerCase()][1] + '])');
+					R3_SYSTEM.alert('WARN: Unable to find this opcode!\n\nOpcode: ' + opcodeSearch.toUpperCase() + ' (' + R3_SCD_DATABASE[opcodeSearch][1] + ')');
+					R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to find this opcode! (Opcode: <font class="user-can-select">' + opcodeSearch.toUpperCase() + '</font> [' + R3_SCD_DATABASE[opcodeSearch.toLowerCase()][1] + '])');
 				};
 			};
 		};
@@ -351,7 +351,7 @@ function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 // Jump using a destination [CTRL + G]
 function R3_SCD_GOTO_SCRIPT(){
 	if (SCD_arquivoBruto !== undefined){
-		var scriptId, askScript = R3_SYSTEM_PROMPT('Please insert the script you want to jump below:');
+		var scriptId, askScript = R3_SYSTEM.prompt('Please insert the script you want to jump below:');
 		if (askScript !== '' && askScript !== null){
 			scriptId = parseInt(askScript);
 			if (scriptId !== undefined && R3_SCD_SCRIPTS_LIST[scriptId] !== undefined && scriptId !== NaN){
@@ -361,8 +361,8 @@ function R3_SCD_GOTO_SCRIPT(){
 				if (scriptId !== NaN && R3_SCD_SCRIPTS_LIST[scriptId] === undefined){
 					R3_SCD_WARN(0, scriptId);
 				} else {
-					R3_SYSTEM_ALERT('WARN - The script ' + scriptId + ' is not available!');
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: The script ' + scriptId + ' is not available!');
+					R3_SYSTEM.alert('WARN - The script ' + scriptId + ' is not available!');
+					R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: The script ' + scriptId + ' is not available!');
 				};
 			};
 		};
@@ -382,13 +382,13 @@ function R3_SCD_JUMP_GOSUB(){
 				R3_SCD_displayScript(R3_SCD_CURRENT_SCRIPT);
 				R3_SCD_navigateFunctions(2);
 			} else {
-				R3_DESIGN_MINIWINDOW_OPEN(0);
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (SCD) Unable to jump to script ' + nScript + ' because it does not exist! <br><u>WARNING</u>: If you are seeing this message, this means this code is broken! <br>Create script ' + nScript + ' before saving this code on RDT!');
+				R3_MINIWINDOW.open(0);
+				R3_SYSTEM.log('separator');
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (SCD) Unable to jump to script ' + nScript + ' because it does not exist! <br><u>WARNING</u>: If you are seeing this message, this means this code is broken! <br>Create script ' + nScript + ' before saving this code on RDT!');
 			};
 		} else {
-			R3_SYSTEM_LOG('separator');
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to jump since the highlighted function aren\'t Run script [GO_SUB]! <br>(' + R3_SCD_HIGHLIGHT_FUNCTION + ') Function: ' + R3_SCD_DATABASE[cScript.slice(0, 2)][1]);
+			R3_SYSTEM.log('separator');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to jump since the highlighted function aren\'t Run script [GO_SUB]! <br>(' + R3_SCD_HIGHLIGHT_FUNCTION + ') Function: ' + R3_SCD_DATABASE[cScript.slice(0, 2)][1]);
 		};
 	} else {
 		R3_SCD_NEW_FILE();
@@ -403,7 +403,7 @@ function R3_SCD_INSERT_HEX(){
 		if (R3_KEYPRESS_CONTROL === true){
 			skipPreview = true;
 		};
-		askForHex = R3_SYSTEM_PROMPT('Please, insert the hex code below:\n(It must be only one function, more than one will break!)');
+		askForHex = R3_SYSTEM.prompt('Please, insert the hex code below:\n(It must be only one function, more than one will break!)');
 		if (askForHex !== null && askForHex !== ''){
 			// Check function length
 			sortHex = R3_solveHEX(askForHex);
@@ -435,8 +435,8 @@ function R3_SCD_INSERT_HEX(){
 					R3_SCD_COMPILE_INSERT_HEX(sortHex, 0);
 				};
 			} else {
-				R3_SYSTEM_LOG('WARN', 'R3ditor V2 - WARN: Unable to insert hex! <br>Reason: ' + reason);
-				R3_SYSTEM_ALERT('WARN - Unable to insert hex!\nReason: ' + reason);
+				R3_SYSTEM.log('WARN', 'R3ditor V2 - WARN: Unable to insert hex! <br>Reason: ' + reason);
+				R3_SYSTEM.alert('WARN - Unable to insert hex!\nReason: ' + reason);
 			};
 		};
 	} else {
@@ -507,13 +507,13 @@ function R3_SCD_IMPORT_SCRIPT(){
 				R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = tempArray;
 				R3_SCD_COMPILE(3);
 				if (R3_WEBMODE === false){
-					R3_SYSTEM_ALERT('INFO - Import Successful!\nPath: ' + fileName);
+					R3_SYSTEM.alert('INFO - Import Successful!\nPath: ' + fileName);
 				} else {
-					R3_SYSTEM_ALERT('INFO - Import Successful!');
+					R3_SYSTEM.alert('INFO - Import Successful!');
 				};
 			} else {
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to import script! <br>Reason: ' + reason);
-				R3_SYSTEM_ALERT('WARN - Unable to import script!\n\nReason: ' + reason);
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to import script! <br>Reason: ' + reason);
+				R3_SYSTEM.alert('WARN - Unable to import script!\n\nReason: ' + reason);
 			};
 		}, undefined, 'hex');
 	} else {
@@ -546,19 +546,19 @@ function R3_SCD_EXPORT_SCRIPT(mode){
 				if (mode === 0){
 					R3_FILE_SAVE(fileName, tempHex, 'hex', '.R3SCRIPT', function(scdPath){
 						if (R3_WEBMODE === false){
-							R3_SYSTEM_ALERT('Export Successful!\nPath: ' + scdPath);
+							R3_SYSTEM.alert('Export Successful!\nPath: ' + scdPath);
 						} else {
-							R3_SYSTEM_ALERT('Export Successful!');
+							R3_SYSTEM.alert('Export Successful!');
 						};
 					});
 				};
 			} catch (err) {
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to export script! <br>Reason: ' + err);
-				R3_SYSTEM_ALERT('WARN - Unable to export script!\n\nReason: (JS) ' + err);
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to export script! <br>Reason: ' + err);
+				R3_SYSTEM.alert('WARN - Unable to export script!\n\nReason: (JS) ' + err);
 			};
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to export script! <br>Reason: ' + reason);
-			R3_SYSTEM_ALERT('WARN - Unable to export script!\n\nReason: ' + reason);
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to export script! <br>Reason: ' + reason);
+			R3_SYSTEM.alert('WARN - Unable to export script!\n\nReason: ' + reason);
 		};
 	};
 };
@@ -572,7 +572,7 @@ function R3_SCD_usePreset(presetId){
 			if (R3_KEYPRESS_CONTROL === true){
 				ask = parseInt(R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length);
 			} else {
-				ask = R3_SYSTEM_PROMPT('Please, insert the position where \"' + R3_SCD_PRESET_LIST[parseInt(presetId)][0] + '\" will be inserted below:');
+				ask = R3_SYSTEM.prompt('Please, insert the position where \"' + R3_SCD_PRESET_LIST[parseInt(presetId)][0] + '\" will be inserted below:');
 			};
 			// Start
 			if (ask !== null && ask !== ''){
@@ -590,7 +590,7 @@ function R3_SCD_usePreset(presetId){
 					c++;
 				};
 				R3_SCD_COMPILE(3);
-				R3_DESIGN_MINIWINDOW_CLOSE(8);
+				R3_MINIWINDOW.close(8);
 			};
 		};
 	} else {
@@ -607,11 +607,11 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 		var c = d = cFunction = 0, TEMP_SCD_READ = TEMP_SCD_SETTINGS = HTML_INIT_SCRIPT_TEMP = INIT_TEXT = scriptOff = textLabel = '', END_SCRIPT = false;
 		TEMP_SCD_READ = SCD_RAW.slice(R3_parseHexLengthToString(R3_SCD_POINTERS[pointerPos])).match(/.{2,2}/g);
 		if (debugLog === true){
-			R3_SYSTEM_LOG('separator');
+			R3_SYSTEM.log('separator');
 			if (SCD_scriptNames[pointerPos] !== undefined){
 				INIT_TEXT = '(' + SCD_scriptNames[pointerPos] + ')';
 			};
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - SCD: Reading Script ' + pointerPos + ' ' + INIT_TEXT);
+			R3_SYSTEM.log('log', 'R3ditor V2 - SCD: Reading Script ' + pointerPos + ' ' + INIT_TEXT);
 		};
 		while (END_SCRIPT !== true){
 			if (c < TEMP_SCD_READ.length){
@@ -627,7 +627,7 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 							opcodeInfo = 'SCD: Script ' + pointerPos + ' - Function: ' + R3_fixVars(cFunction, 4) + ' \nOpcode: <font class="R3_SCD_function_' + R3_SCD_DATABASE[OPCODE_HEX.toLowerCase()][2] + 
 										 ' no-bg-image user-can-select">' + OPCODE_HEX.toUpperCase() + '</font> (<font class="R3_SCD_function_' + R3_SCD_DATABASE[OPCODE_HEX.toLowerCase()][2] + ' no-bg-image">' + R3_SCD_DATABASE[OPCODE_HEX][1] + 
 										 '</font>)\nHex length: <font class="user-can-select">' + R3_fixVars(OPCODE_LENGTH.toString(16), 2).toUpperCase() + '</font>';
-							R3_SYSTEM_LOG('log', opcodeInfo);
+							R3_SYSTEM.log('log', opcodeInfo);
 						};
 						// Retreive all subcodes and add to string
 						while (d < (c + OPCODE_LENGTH)){
@@ -644,11 +644,11 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 						TEMP_SCD_SETTINGS = '';
 						c = d;
 					} catch (err) {
-						R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to render opcode <font class="user-can-select">' + TEMP_SCD_READ[c] + '</font> <br>Reason: ' + err);
+						R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to render opcode <font class="user-can-select">' + TEMP_SCD_READ[c] + '</font> <br>Reason: ' + err);
 						END_SCRIPT = true;
 					};
 				} else {
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to find SCD Opcode <font class="user-can-select">' + TEMP_SCD_READ[c].toUpperCase() + '</font>, Adding as a single hex...');
+					R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to find SCD Opcode <font class="user-can-select">' + TEMP_SCD_READ[c].toUpperCase() + '</font>, Adding as a single hex...');
 					R3_SCD_SCRIPTS_LIST[pointerPos];
 					c++;
 				};
@@ -668,7 +668,7 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 			TMS.append('R3_SCD_SCRIPT_LISTS', HTML_INIT_SCRIPT_TEMP);
 		};
 	} catch (err) {
-		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to generate script list! <br>Details: ' + err);
+		R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to generate script list! <br>Details: ' + err);
 		alert('ERROR - Unable to generate script list!\nReason: ' + err);
 	};
 };
@@ -1298,7 +1298,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						if (R3_SCD_ID_LIST_ENTRIES[AOT_id.toLowerCase()] !== undefined){
 							AOT_preview = R3_SCD_ID_LIST_ENTRIES[AOT_id.toLowerCase()][2];
 						} else {
-							R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to find AOT target! (Target: <font class="user-can-select">' + AOT_id.toUpperCase() + '</font>)')	
+							R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to find AOT target! (Target: <font class="user-can-select">' + AOT_id.toUpperCase() + '</font>)')	
 						};
 					cProp = 'Object ID: <font class="monospace mono_xyzr">' + AOT_id.toUpperCase() + ' - ' + AOT_preview + '</font>';
 				};
@@ -2365,7 +2365,7 @@ function R3_SCD_SCRIPT_ADD(){
 				R3_SCD_COMPILE(3);
 				R3_SCD_displayScript(newScriptPos);
 			} else {
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to insert script! <br>Reason: You can only insert up to 255 scripts!');
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to insert script! <br>Reason: You can only insert up to 255 scripts!');
 			};
 		} else {
 			R3_SCD_NEW_FILE();
@@ -2378,7 +2378,7 @@ function R3_SCD_SCRIPT_REMOVE(){
 		if (SCD_arquivoBruto !== undefined){
 			if (Object.keys(R3_SCD_SCRIPTS_LIST).length !== 2){
 				if (R3_SCD_CURRENT_SCRIPT === 0 || R3_SCD_CURRENT_SCRIPT === 1){
-					R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You can\'t delete this script! <br>Instead, try removing all functions using "Clear Script".');
+					R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: You can\'t delete this script! <br>Instead, try removing all functions using "Clear Script".');
 				} else {
 					R3_SCD_POINTERS.splice(R3_SCD_CURRENT_SCRIPT, 1);
 					delete R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT];
@@ -2389,7 +2389,7 @@ function R3_SCD_SCRIPT_REMOVE(){
 					R3_SCD_displayScript(newScriptPos);
 				};
 			} else {
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You can\'t delete this script!');
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: You can\'t delete this script!');
 			};
 		} else {
 			R3_SCD_NEW_FILE();
@@ -2413,7 +2413,7 @@ function R3_SCD_COPY_FUNCTION(isCrop){
 				};
 			};
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: This function is not available to copy!');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: This function is not available to copy!');
 		};
 		// End
 		if (R3_SCD_TEMP_COPY_PASTE_FUNCTION !== '' && R3_SCD_TEMP_COPY_PASTE_FUNCTION !== undefined){
@@ -2421,7 +2421,7 @@ function R3_SCD_COPY_FUNCTION(isCrop){
 				R3_SCD_FUNCTION_REMOVE(R3_SCD_HIGHLIGHT_FUNCTION);
 			};
 			var cOpcode = R3_SCD_TEMP_COPY_PASTE_FUNCTION.slice(0, 2), cColor = R3_SCD_DATABASE[cOpcode][2];
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Function copied sucessfully! <br>Function: ' + R3_fixVars(R3_SCD_HIGHLIGHT_FUNCTION, 4) + ' - Opcode: <font class="R3_SCD_function_' +
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Function copied sucessfully! <br>Function: ' + R3_fixVars(R3_SCD_HIGHLIGHT_FUNCTION, 4) + ' - Opcode: <font class="R3_SCD_function_' +
 								 cColor + ' no-bg-image user-can-select">' + cOpcode.toUpperCase() + '</font> (<font class="R3_SCD_function_' + cColor + ' no-bg-image">' + R3_SCD_DATABASE[cOpcode][1] + '</font>)');
 		};
 	} else {
@@ -2434,7 +2434,7 @@ function R3_SCD_PASTE_FUNCTION(isShortcut){
 		if (R3_SCD_IS_EDITING === false && R3_SCD_TEMP_COPY_PASTE_FUNCTION !== undefined){
 			var promptPos, nextPos;
 			if (isShortcut !== true){
-				promptPos = R3_SYSTEM_PROMPT('Please, insert where you want to paste this function:');
+				promptPos = R3_SYSTEM.prompt('Please, insert where you want to paste this function:');
 			} else {
 				promptPos = (R3_SCD_HIGHLIGHT_FUNCTION + 2);
 			};
@@ -2480,7 +2480,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				R3_SCD_currentOpcode = cOpcode;
 				// Force it to render the new form
 				if (R3_SCD_previousOpcode[(R3_SCD_previousOpcode.length - 1)] !== R3_SCD_currentOpcode){
-					R3_DESIGN_MINIWINDOW_CLOSE(14);
+					R3_MINIWINDOW.close(14);
 				};
 				R3_SCD_previousOpcode.push(R3_SCD_currentOpcode);
 				R3_SCD_IS_EDITING = false;
@@ -3125,7 +3125,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				R3_SCD_openFunctionEdit(cOpcode, true);
 			};
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to find SCD Opcode ' + cOpcode.toUpperCase() + '!');	
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to find SCD Opcode ' + cOpcode.toUpperCase() + '!');	
 		};
 	} else {
 		if (R3_SCD_IS_EDITING === false && SCD_arquivoBruto === undefined){
@@ -3157,7 +3157,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 			R3_SCD_currentOpcode = cOpcode;
 			// Force it to render the new form
 			if (R3_SCD_previousOpcode[(R3_SCD_previousOpcode.length - 1)] !== R3_SCD_currentOpcode){
-				R3_DESIGN_MINIWINDOW_CLOSE(14);
+				R3_MINIWINDOW.close(14);
 			};
 			R3_SCD_previousOpcode.push(R3_SCD_currentOpcode);
 			R3_SCD_IS_EDITING = true;
@@ -4186,7 +4186,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 		} else {
 			// Check if can edit function
 			if (canEdit === false){
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to edit function ' + functionId + '! <br>Reason: ' + errorReason);
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to edit function ' + functionId + '! <br>Reason: ' + errorReason);
 			} else {
 				document.getElementById('R3_SCD_EDITFUNCTION_HOLDER').innerHTML = INCLUDE_SCD_EDIT_WIP;
 				document.getElementById('R3_SCD_BTN_APPLY').onclick = undefined;
@@ -4202,7 +4202,7 @@ function R3_SCD_FUNCTION_AUTOINSERT(cOpcode, isHexPreview){
 		if (R3_SCD_DATABASE[cOpcode.slice(0, 2)] !== undefined){
 			R3_SCD_FUNCTION_APPLY(true, cOpcode, false);
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable insert this function because it does not exist!');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable insert this function because it does not exist!');
 		};
 	} else {
 		if (R3_SCD_IS_EDITING === false && SCD_arquivoBruto === undefined){
@@ -4269,11 +4269,11 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		};
 		if (SUB_Id > (Object.keys(R3_SCD_SCRIPTS_LIST).length - 1)){
 			nPos = (Object.keys(R3_SCD_SCRIPTS_LIST).length - 1);
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (SCD Compiler) - Setting (' + (SCD_scriptLoc + 1) + ') Run Script [GO_SUB] target to ' + nPos + ' due original target does not exists! (Original: ' + SUB_Id + ')');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (SCD Compiler) - Setting (' + (SCD_scriptLoc + 1) + ') Run Script [GO_SUB] target to ' + nPos + ' due original target does not exists! (Original: ' + SUB_Id + ')');
 			SUB_Id = nPos;
 		};
 		if (parseInt(SUB_Id) === R3_SCD_CURRENT_SCRIPT){
-			askSub = R3_SYSTEM_CONFIRM('WARN: The current target leads to the same script this function is running!\n\nThis can cause an infinite loop, probably making the game crash. You can compile this function without any problem if you are aware of what you are doing.\n\nAre you sure you want to continue?');
+			askSub = R3_SYSTEM.confirm('WARN: The current target leads to the same script this function is running!\n\nThis can cause an infinite loop, probably making the game crash. You can compile this function without any problem if you are aware of what you are doing.\n\nAre you sure you want to continue?');
 			subLoopCheck = askSub;
 		};
 		// End
@@ -4967,7 +4967,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			R3_SCD_HIGHLIGHT_FUNCTION++;
 			// SCD_scriptLoc = (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length - 1);
 		} else {
-			ask = R3_SYSTEM_PROMPT('Please insert where you want to add ' + R3_SCD_DATABASE[hex.slice(0, 2)][1] + ' below:');
+			ask = R3_SYSTEM.prompt('Please insert where you want to add ' + R3_SCD_DATABASE[hex.slice(0, 2)][1] + ' below:');
 			if (ask !== null && ask !== ''){
 				SCD_scriptLoc = (parseInt(ask) - 1);
 				if (SCD_scriptLoc > (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length + 1)){
@@ -4987,11 +4987,11 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		// SCD Hex Preview
 		if (isHexPreview === true && R3_SCD_IS_EDITING === true && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 			if (R3_SCD_currentOpcode !== ''){
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: SCD Hex Preview for ' + R3_SCD_DATABASE[R3_SCD_currentOpcode][1] + ': <font class="user-can-select">' + R3_unsolveHEX(HEX_FINAL).toUpperCase() + '</font>');
-				R3_DESIGN_MINIWINDOW_OPEN(0);
+				R3_SYSTEM.log('separator');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: SCD Hex Preview for ' + R3_SCD_DATABASE[R3_SCD_currentOpcode][1] + ': <font class="user-can-select">' + R3_unsolveHEX(HEX_FINAL).toUpperCase() + '</font>');
+				R3_MINIWINDOW.open(0);
 			} else {
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: The preview for this opcode is not ready yet!');
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: The preview for this opcode is not ready yet!');
 			};
 		} else {
 			if (isEdit === false){
@@ -5018,8 +5018,8 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 			SCD_REASON = SCD_REASON + ' <br>You aren\'t on list editor mode!';
 		};
 		if (SCD_SHOW_REASON === true){
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to apply function! <br>Reason: ' + SCD_REASON);
-			R3_SYSTEM_ALERT('WARN: Unable to apply function!\nReson: ' + SCD_REASON);
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to apply function! <br>Reason: ' + SCD_REASON);
+			R3_SYSTEM.alert('WARN: Unable to apply function!\nReson: ' + SCD_REASON);
 		};
 	};
 };
@@ -5205,8 +5205,8 @@ function R3_SCD_EDIT_FUNCTION_PLC_DEST(){
 		document.getElementById('R3_SCD_EDIT_81_labelDataB').innerHTML = dataLabelB;
 		document.getElementById('R3_SCD_EDIT_81_extraDiv').innerHTML = dataExtraEdit;
 	} catch (err) {
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open edit form! <br>Reason: ' + err + ' <br>(Probably this is happening due this animation is not implemented yet!)');
-		R3_SYSTEM_ALERT('WARN: Unable to open edit form!\nReason: ' + err + '\n\nProbably this is happening due this animation is not implemented on R3ditor V2 Database!');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to open edit form! <br>Reason: ' + err + ' <br>(Probably this is happening due this animation is not implemented yet!)');
+		R3_SYSTEM.alert('WARN: Unable to open edit form!\nReason: ' + err + '\n\nProbably this is happening due this animation is not implemented on R3ditor V2 Database!');
 		setTimeout(function(){
 			R3_SCD_cancelFunctionEdit(true);
 		}, 100);
@@ -5276,8 +5276,8 @@ function R3_SCD_FUNCTION_READ_CHECK_LENGTH_SPECIAL(hex, start, parentOpcode){
 				};
 			} else {
 				done = true;
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to get function check length! (Special) <br>Parent Opcode: ' + parentOpcode.toUpperCase() + ' (' + R3_SCD_DATABASE[parentOpcode][1] + ') Request: ' + hex.toUpperCase() + ' (' + desire + ')');
+				R3_SYSTEM.log('separator');
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to get function check length! (Special) <br>Parent Opcode: ' + parentOpcode.toUpperCase() + ' (' + R3_SCD_DATABASE[parentOpcode][1] + ') Request: ' + hex.toUpperCase() + ' (' + desire + ')');
 			};
 		};
 		return counter;
@@ -5619,9 +5619,9 @@ function R3_SCD_getDoorParams(mode, sLocation, sFunction){
 */
 function R3_SCD_WARN(msg, txtVar){
 	if (msg === 0){
-		R3_DESIGN_MINIWINDOW_OPEN(0);
-		R3_SYSTEM_LOG('separator');
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (SCD) Unable to jump to script ' + txtVar + ' because it does not exist! <br><u>WARNING</u>: If you are seeing this message, this <i>(probably)</i> means this code is broken! ' + 
+		R3_MINIWINDOW.open(0);
+		R3_SYSTEM.log('separator');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (SCD) Unable to jump to script ' + txtVar + ' because it does not exist! <br><u>WARNING</u>: If you are seeing this message, this <i>(probably)</i> means this code is broken! ' + 
 							  '<br>Create script ' + txtVar + ' before saving this code on RDT!');
 	};
 };
@@ -5647,8 +5647,8 @@ function R3_SCD_JS_START_COMPILER(){
 		/*
 			Start compiler
 		*/
-		R3_SYSTEM_LOG('separator');
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Start SCD Compiler...');
+		R3_SYSTEM.log('separator');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Start SCD Compiler...');
 		/*
 			Code Checks
 			1 / 2
@@ -5666,9 +5666,9 @@ function R3_SCD_JS_START_COMPILER(){
 				INCLUDE_SCD_CODE_VARIABLE.forEach(function(cItem){
 					if (cFunction.indexOf(cItem) !== -1){
 						canProcessFunction = false;
-						R3_SYSTEM_LOG('separator');
-						R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: (Compiler) You can\'t declare variables using \"var\", \"let\" or \"const\"! <br>Use internal variable functions to store data instead.');
-						R3_SYSTEM_LOG('separator');
+						R3_SYSTEM.log('separator');
+						R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (Compiler) You can\'t declare variables using \"var\", \"let\" or \"const\"! <br>Use internal variable functions to store data instead.');
+						R3_SYSTEM.log('separator');
 					};
 				});
 				// End
@@ -5697,12 +5697,12 @@ function R3_SCD_JS_START_COMPILER(){
 		*/
 		if (canFinalize === true){
 			// console.info(finalCodeArray);
-			R3_SYSTEM_LOG('separator');
+			R3_SYSTEM.log('separator');
 			codeCompiled = R3_unsolveHEX(finalCodeArray.toString().replace(new RegExp(',', 'gi'), ''));
-			R3_SYSTEM_ALERT('INFO: The JS compiler run sucessfully!');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: The JS compiler run sucessfully! <br>Compiled Hex: <font class="user-can-select">' + codeCompiled + '</font>');
+			R3_SYSTEM.alert('INFO: The JS compiler run sucessfully!');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: The JS compiler run sucessfully! <br>Compiled Hex: <font class="user-can-select">' + codeCompiled + '</font>');
 			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = finalCodeArray;
-			R3_SYSTEM_LOG('separator');
+			R3_SYSTEM.log('separator');
 			// Fix control hold
 			R3_KEYPRESS_releaseKeys();
 			// Compile using final compiler!
@@ -5713,14 +5713,14 @@ function R3_SCD_JS_START_COMPILER(){
 				}, 20);
 			};
 		} else {
-			R3_SYSTEM_LOG('separator');
-			R3_SYSTEM_ALERT('ERROR: Unable to compile SCD Script!\nReason: (Compiler Error) ' + errorReason);
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to compile SCD Script! <br>Reason: (Compiler Error) ' + errorReason);
+			R3_SYSTEM.log('separator');
+			R3_SYSTEM.alert('ERROR: Unable to compile SCD Script!\nReason: (Compiler Error) ' + errorReason);
+			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to compile SCD Script! <br>Reason: (Compiler Error) ' + errorReason);
 		};
 	} catch (errTry){
-		R3_SYSTEM_LOG('separator');
-		R3_SYSTEM_ALERT('ERROR: Unable to compile SCD Script!\nReason: (R3V2 Internal Error) ' + errTry);
-		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to compile SCD Script! <br>Reason: (Internal Error) ' + errTry);
+		R3_SYSTEM.log('separator');
+		R3_SYSTEM.alert('ERROR: Unable to compile SCD Script!\nReason: (R3V2 Internal Error) ' + errTry);
+		R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to compile SCD Script! <br>Reason: (Internal Error) ' + errTry);
 	};
 };
 /*
@@ -5730,7 +5730,7 @@ function R3_SCD_JS_START_COMPILER(){
 function R3_SCD_COMPILER_checkConditionalOpcodes(mode){
 	if (SCD_arquivoBruto !== undefined){
 		var c = 0, makeFunctionLength, cOpcodeList = [], cFunction, cOpcode, endList = [], checkList = [], processList, cScript = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT];
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (SCD) Generating conditional opcode list...');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (SCD) Generating conditional opcode list...');
 		while (c < cScript.length){
 			cFunction = cScript[c];
 			cOpcode   = cFunction.slice(0, 2);
@@ -5749,7 +5749,7 @@ function R3_SCD_COMPILER_checkConditionalOpcodes(mode){
 		if (checkList !== []){
 			c = 0;
 			cFunction = cOpcode = undefined;
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (SCD) Updating check functions length...');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (SCD) Updating check functions length...');
 			processList = checkList.reverse();
 			// This is where things goes nuts
 			makeFunctionLength = function(fPosition){
@@ -5877,14 +5877,14 @@ function R3_SCD_COMPILE(mode){
 					mode = 1;
 				} else {
 					APP_FS.writeFileSync(R3_SCD_path, FINAL_HEX, 'hex');
-					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Save Successful! File: <font class="user-can-select">' + R3_SCD_path + '</font>');
+					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Save Successful! File: <font class="user-can-select">' + R3_SCD_path + '</font>');
 				};
 			};
 			// Save As
 			if (mode === 1){
 				R3_FILE_SAVE(R3_SCD_fileName + '.SCD', FINAL_HEX, 'hex', '.SCD', function(newLoc){
 					R3_SCD_path = newLoc;
-					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Save Successful! File: <font class="user-can-select">' + R3_SCD_path + '</font>');
+					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Save Successful! File: <font class="user-can-select">' + R3_SCD_path + '</font>');
 				});
 			};
 			// Inject to RDT and GOTO RDT Menu
@@ -5895,7 +5895,7 @@ function R3_SCD_COMPILE(mode){
 			// Just Compile
 			if (mode === 3){
 				if (R3_SETTINGS.SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true){
-					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Updating SCD...');
+					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Updating SCD...');
 				};
 			};
 			// Just Inject to RDT
@@ -5913,10 +5913,10 @@ function R3_SCD_COMPILE(mode){
 			R3_SCD_START_DECOMPILER(FINAL_HEX);
 			R3_SCD_displayScript(gotoScript);
 		} catch (err) {
-			R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to Compile / Save SCD! <br>Reason: ' + err);
+			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to Compile / Save SCD! <br>Reason: ' + err);
 			alert('ERROR: Unable to Save / Recompile SCD!\nReason: ' + err);
 		};
 	} else {
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: You need to open or create a new file beafore saving!');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: You need to open or create a new file beafore saving!');
 	};
 };

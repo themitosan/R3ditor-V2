@@ -53,10 +53,10 @@ function R3_WIZARD_checkProcess(){
 			Start Process
 		*/
 		if (canStart === true){
-			R3_DESIGN_MINIWINDOW_CLOSE('all');
+			R3_MINIWINDOW.close('all');
 			R3_WIZARD_startProcess();
 		} else {
-			R3_SYSTEM_ALERT('ERROR: Unable to start R3V2 Wizard!\n' + eReason);
+			R3_SYSTEM.alert('ERROR: Unable to start R3V2 Wizard!\n' + eReason);
 		};
 	};
 };
@@ -84,7 +84,7 @@ function R3_WIZARD_startProcess(){
 						R3_WIZARD_EXTRACT_ROFS(currentRofs);
 						currentRofs++;
 					} else {
-						R3_SYSTEM_LOG('warn', 'WARN - Something went wrong while extracting Rofs ' + currentRofs + '!');
+						R3_SYSTEM.log('warn', 'WARN - Something went wrong while extracting Rofs ' + currentRofs + '!');
 						R3_UTILS_LOADING_UPDATE('Something went wrong while extracting Rofs ' + currentRofs + '!', 100);
 						clearInterval(rofsTimer);
 					};
@@ -124,7 +124,7 @@ function R3_WIZARD_copyMissingFiles(){
 			process.chdir(ORIGINAL_APP_PATH);
 			// Skip making config file if current version is Gemini REbirth
 			if (RE3_LIVE_CURRENTMOD !== 4){
-				R3_INI_MAKEFILE(0, R3_WIZARD_KEEP_ROFS11);
+				R3_INI.generateIni(0, R3_WIZARD_KEEP_ROFS11);
 			};
 			R3_WIZARD_FINAL_CHECK_RE3_PATH();
 			clearInterval(syncInterval);
@@ -166,7 +166,7 @@ function R3_WIZARD_FINAL_CHECK_MERCE_PATH(){
 function R3_WIZARD_FINAL_CHECK_DOORLINK(){
 	if (R3_WEBMODE === false){
 		if (R3_WIZARD_ENABLE_DOORLINK === true){
-			R3_DOORLINK_INIT();
+			R3_DOORLINK.generateDatabase();
 		} else {
 			R3_WIZARD_FINISH();
 		};
@@ -179,7 +179,7 @@ function R3_WIZARD_FINISH(){
 					  RE3_LIVE_CURRENTMOD + '}';
 		APP_FS.writeFileSync(APP_PATH + '/ModInfo.R3MOD', R3MOD, 'utf-8');
 		R3_SAVE_SETTINGS(false);
-		R3_SYSTEM_CLEAR_LOG(false);
+		R3_SYSTEM.clearLog(false);
 		R3_UTILS_LOADING_CLOSE();
 		R3_LOAD_SETTINGS();
 		R3_RDT_FILELIST_UPDATELIST();
@@ -199,7 +199,7 @@ function R3_WIZARD_openMod(){
 			R3_MOD_PATH = R3_WIZARD_modFile.modPath;
 			R3_MOD_NAME = R3_WIZARD_modFile.modName;
 			RE3_LIVE_CURRENTMOD = parseInt(R3_WIZARD_modFile.gameMode);
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Mod loaded sucessfully! <br>Mod Name: ' + R3_MOD_NAME + ' <br>Game Mode: ' + RE3_LIVE_CURRENTMOD);
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Mod loaded sucessfully! <br>Mod Name: ' + R3_MOD_NAME + ' <br>Game Mode: ' + RE3_LIVE_CURRENTMOD);
 			R3_SAVE_SETTINGS(false);
 		});
 	};

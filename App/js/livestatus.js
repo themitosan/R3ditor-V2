@@ -53,8 +53,8 @@ function R3_MEMORY_JS_checkStillOpen(){
 			};
 			// End
 			if (isOpen === false){
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: Closing Livestatus / MemoryJS because the game is not running anymore!');
+				R3_SYSTEM.log('separator');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Closing Livestatus / MemoryJS because the game is not running anymore!');
 				R3_LIVESTATUS_CLOSE_BAR();
 				RE3_RUNNING = false;
 				R3_MEMJS_PROCESS_OBJ = undefined;
@@ -136,7 +136,7 @@ function R3_LIVESTATUS_gotoTitleScreen(){
 			APP_MEMJS.writeMemory(R3_MEMJS_PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_goto_titleScreen'][1], 0, APP_MEMJS.BYTE);
 			APP_MEMJS.writeMemory(R3_MEMJS_PROCESS_OBJ.handle, MEMJS_HEXPOS['RE3_mode_' + RE3_LIVE_CURRENTMOD + '_currentPlayer'][0],    0, APP_MEMJS.BYTE);
 		} else {
-			R3_SYSTEM_ALERT('WARN: This option is not available on this game version.');
+			R3_SYSTEM.alert('WARN: This option is not available on this game version.');
 		};
 	};
 };
@@ -294,6 +294,6 @@ function R3_LIVESTATUS_openCurrentMap(){
 			R3_RDT_LOAD(fPath, true);
 		};
 	} else {
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to load file! Reason: File not found! (404)');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to load file! Reason: File not found! (404)');
 	};
 };

@@ -16,7 +16,7 @@ tempFn_R3_rdtOBJ['extractObjFromString'] = function(hexString, cObject, location
 		tempObjLength = (parseInt(R3_parseEndian(hexString.slice((location + tempHeaderLength), ((location + tempHeaderLength) + 8))), 16) * 2);
 		finalObj = tempHeader + hexString.slice((location + tempHeaderLength), ((location + tempHeaderLength) + tempObjLength));
 	} else {
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to read 3D Object ' + cObject + ' because it\'s location are null! (Location: 0)');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to read 3D Object ' + cObject + ' because it\'s location are null! (Location: 0)');
 	};
 	return finalObj;
 };
@@ -31,9 +31,9 @@ tempFn_R3_objManager['import'] = function(){
 			finalPath = 'Path: <font class="user-can-select">' + fPath + '</font>';
 		};
 		R3_RDT_ARRAY_OBJ[R3_RDT_currentObjFile] = hexData;
-		R3_SYSTEM_LOG('separator');
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (OBJ Manager) Import Successful! ' + finalPath);
-		R3_SYSTEM_ALERT('INFO: (OBJ Manager) Import Successful!');
+		R3_SYSTEM.log('separator');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (OBJ Manager) Import Successful! ' + finalPath);
+		R3_SYSTEM.alert('INFO: (OBJ Manager) Import Successful!');
 	});
 };
 // Export OBJ
@@ -44,9 +44,9 @@ tempFn_R3_objManager['export'] = function(){
 			if (R3_WEBMODE === false){
 				finalPath = 'Path: <font class="user-can-select">' + fPath + '</font>';
 			};
-			R3_SYSTEM_LOG('separator');
-			R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (OBJ Manager) Export Successful! ' + finalPath);
-			R3_SYSTEM_ALERT('INFO: (OBJ Manager) Export Successful!');
+			R3_SYSTEM.log('separator');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (OBJ Manager) Export Successful! ' + finalPath);
+			R3_SYSTEM.alert('INFO: (OBJ Manager) Export Successful!');
 		});
 	};
 };

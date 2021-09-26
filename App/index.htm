@@ -195,8 +195,8 @@
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open R3V2 Help center main menu" onclick="R3_HC_OPEN_PAGE(4);">R3V2 Help Center</div>
 						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">About R3V2</div>
 						<div class="R3_MENU_SEPARATOR"></div>
-						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_GITHUB_UPDATER" title="Click here to open GitHub Updater" onclick="R3_UPDATER_GET_BRANCHES();">GitHub Updater</div>
-						<div class="R3_MENU_ITEM_NORMAL" title="Click here to reload R3V2" onclick="R3_RELOAD();">Reload</div>
+						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_GITHUB_UPDATER" title="Click here to open GitHub Updater" onclick="R3_UPDATER.getUpdates();">GitHub Updater</div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to reload R3V2" onclick="R3_SYSTEM.reload();">Reload</div>
 					</div>
 				</div>
 			</div>
@@ -296,7 +296,7 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_2">
 				<div id="R3V2_MINI_WINDOW_2_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					Xdelta Patcher
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(2);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(2);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="MENU_XDELTA_INNERINFOS">
 					Xdelta file: <font id="R3_XDELTA_LBL_XFILE" class="lbl-path XDELTA_LBL_FIX">No file selected</font><input type="button" value="Select File" class="BTN_R3CLASSIC XDELTA_BTN_PATH" onclick="R3_XDELTA.loadFiles(0);" title="Click here to select the Xdelta file"><br>
@@ -312,7 +312,7 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_15">
 				<div id="R3V2_MINI_WINDOW_15_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					Item Database
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(15);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(15);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<input type="text" onkeyup="R3_ITEM_DATABASE_SEARCH_INFO();" id="R3_ITEM_DATABASE_SEARCH" placeholder="Insert Item Hex Here" maxlength="2" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent">
 				<div class="align-center R3_ITEM_DATABASE_BG">
@@ -327,7 +327,7 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_18">
 				<div id="R3V2_MINI_WINDOW_18_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					R3V2 Backup Manager
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(18);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(18);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="R3_BACKUP_MANAGER_LIST">
 					<div class="R3_BACKUP_MANAGER_BG"></div>
@@ -340,7 +340,7 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_11">
 				<div id="R3V2_MINI_WINDOW_11_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					<font id="R3_HELP_CENTER_MINILABEL">???</font> - R3V2 Help Center
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(11);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(11);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="R3_HC_TITLE_HOLDER" id="R3_HC_TITLE_HOLDER">
 					<img ondragstart="return false;" class="R3_HELP_CENTER_ICON_HOLDER" id="R3_HELP_CENTER_ICON_HOLDER"> 
@@ -355,7 +355,7 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_19">
 				<div id="R3V2_MINI_WINDOW_19_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					RE3 Livestatus
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(19);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(19);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<!-- Main Tabs -->
 				<div class="R3_TABHOLDER TAB_1">
@@ -507,13 +507,13 @@
 			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_0" id="R3V2_MINI_WINDOW_0">
 				<div id="R3V2_MINI_WINDOW_0_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					<font id="R3V2_TITLE_LOG_WINDOW">R3ditor V2 Log</font>
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(0);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_MAXIMIZE(0);" title="Click here to maximize this window" class="R3V2_MINI_WINDOW_MAXIMIZE" value="Maximize" id="R3V2_MINI_WINDOW_MAXIMIZE_0">
+					<input type="button" onclick="R3_MINIWINDOW.close(0);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.maximize(0);" title="Click here to maximize this window" class="R3V2_MINI_WINDOW_MAXIMIZE" value="Maximize" id="R3V2_MINI_WINDOW_MAXIMIZE_0">
 				</div>
 				<!-- Menu -->
 				<div class="R3V2_MENU">
-					<input type="button" class="R3V2_BUTTON" value="Save Log" onclick="R3_SYSTEM_SAVE_LOG();" title="Click here to save current log">
-					<input type="button" class="R3V2_BUTTON" value="Clear Log" onclick="R3_SYSTEM_CLEAR_LOG();" title="Click here to clear log window">
+					<input type="button" class="R3V2_BUTTON" value="Save Log" onclick="R3_SYSTEM.saveLog();" title="Click here to save current log">
+					<input type="button" class="R3V2_BUTTON" value="Clear Log" onclick="R3_SYSTEM.clearLog();" title="Click here to clear log window">
 					<!-- Right -->
 					<input type="button" class="R3V2_BUTTON right none" value="View Full Log" onclick="R3_DESIGN_seeFullLog();" title="Click here to see full log info" id="R3V2_LOG_FULLVIEW">
 				</div>
@@ -530,8 +530,8 @@
 			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_13" id="R3V2_MINI_WINDOW_13">
 				<div id="R3V2_MINI_WINDOW_13_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					eNGE Emulator
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(13);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_MAXIMIZE(13);" title="Click here to maximize this window" class="R3V2_MINI_WINDOW_MAXIMIZE" value="Maximize" id="R3V2_MINI_WINDOW_MAXIMIZE_13">
+					<input type="button" onclick="R3_MINIWINDOW.close(13);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.maximize(13);" title="Click here to maximize this window" class="R3V2_MINI_WINDOW_MAXIMIZE" value="Maximize" id="R3V2_MINI_WINDOW_MAXIMIZE_13">
 				</div>
 				<!-- Menu -->
 				<div class="R3V2_MENU">
@@ -544,7 +544,7 @@
 			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_22" id="R3V2_MINI_WINDOW_22">
 				<div id="R3V2_MINI_WINDOW_22_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					GitHub Updater
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(22);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(22);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="R3_UPDATER_BG"></div>
 				<div class="R3_UPDATER_FORM">
@@ -569,7 +569,7 @@
 					</div>
 					<!-- Update -->
 					<div class="R3_UPDATER_APPLY_DIV">
-						<input type="button" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" title="Click here to update R3V2" value="Update" onclick="R3_UPDATER_START();">
+						<input type="button" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" title="Click here to update R3V2" value="Update" onclick="R3_UPDATER.startUpdate();">
 					</div>
 				</div>
 			</div>
@@ -577,7 +577,7 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_21">
 				<div id="R3V2_MINI_WINDOW_21_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					New Mod (R3V2 Wizard)
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(21);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(21);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="R3_WIZARD_HOLDER">
 					<div class="R3_WIZARD_BG"></div>
@@ -611,10 +611,10 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_23">
 				<div id="R3V2_MINI_WINDOW_23_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					<font id="R3V2_TITLE_SCD_OPCODE_FINDER">SCD Opcode Finder</font>
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(23);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(23);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
-					<input type="text" maxlength="2" id="R3_OPCODE_FINDER_SEARCH" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DOORLINK_SEARCH();"><br>
+					<input type="text" maxlength="2" id="R3_OPCODE_FINDER_SEARCH" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DOORLINK.searchScdOpcode();"><br>
 				</div>
 				<div class="R3_OPCODE_FINDER_VALUE" id="R3_OPCODE_FINDER_opName"></div>
 				<div class="R3_OPCODE_FINDER_RESULT" id="R3_OPCODE_FINDER_RESULT">
@@ -625,7 +625,7 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_24">
 				<div id="R3V2_MINI_WINDOW_24_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					<font>Leo's Hub</font>
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(24);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(24);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<!-- Main Tabs -->
 				<div class="R3_TABHOLDER TAB_2">
@@ -699,7 +699,7 @@
 					<!-- Open in Hex & Compile -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on Hex editor" onclick="R3_SYSTEM_openInHex();">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_HEX" title="Click here to open Hex Preview" onclick="R3_DESIGN_MINIWINDOW_OPEN(3);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_HEX" title="Click here to open Hex Preview" onclick="R3_MINIWINDOW.open(3);">
 					</div>
 					<!-- Add / Remove Script -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
@@ -709,19 +709,19 @@
 					</div>
 					<!-- Script Navigation -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_28" title="Click here to open script list" onclick="R3_DESIGN_MINIWINDOW_OPEN(4);">
+						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_28" title="Click here to open script list" onclick="R3_MINIWINDOW.open(4);">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_PREV" title="Click here to load previous script" onclick="R3_SCD_SKIPSCRIPT(0);">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_NEXT" title="Click here to load next script" onclick="R3_SCD_SKIPSCRIPT(1);">
 					</div>
 					<!-- Script Utility -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR" id="R3_SUBMENU_BUTTONS_COPYPASTE">
-						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_54" title="Click here to open a list with all functions ID's" onclick="R3_DESIGN_MINIWINDOW_OPEN(12, 'center');">
+						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_54" title="Click here to open a list with all functions ID's" onclick="R3_MINIWINDOW.open(12, 'center');">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_47" title="Click here to search an specific function on this script" onclick="R3_DESIGN_OPEN_FIND_FUNCTION();">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_29" title="Click here to copy this function" onclick="R3_SCD_COPY_FUNCTION();">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_30" title="Click here to paste this function" onclick="R3_SCD_PASTE_FUNCTION();">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_42" title="Click here to insert a hex function" onclick="R3_SCD_INSERT_HEX();">
 						<input type="button" class="BTN_ICON_BASE none" id="BTN_MAIN_52" title="Click here to preview SCD hex code" onclick="R3_SCD_FUNCTION_APPLY(false, undefined, false, true);">
-						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_45" title="Click here to open preset window" onclick="R3_DESIGN_MINIWINDOW_OPEN(8);">
+						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_45" title="Click here to open preset window" onclick="R3_MINIWINDOW.open(8);">
 					</div>
 					<!-- Import / Export Scripts -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
@@ -949,7 +949,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_3">
 					<div id="R3V2_MINI_WINDOW_3_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Script Hex View - Length: <font class="monospace"><font id="R3_SCD_LBL_hexLength">00</font>(h)</font>
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(3);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(3);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_MSG_HEX_RAW" id="R3_SCD_HEX_RAW">
 						<!-- Hex goes here -->
@@ -959,7 +959,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_4">
 					<div id="R3V2_MINI_WINDOW_4_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Script List
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(4);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(4);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div id="R3_SCD_SCRIPT_LISTS" class="R3_SCD_SCRIPT_LISTS_HOLDER BG_COLOR_SCD">
 						<!-- Script List Goes Here -->
@@ -969,7 +969,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_8">
 					<div id="R3V2_MINI_WINDOW_8_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Preset List
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(8);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(8);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div id="R3_SCD_SCRIPT_PRESET_LIST" class="R3_SCD_SCRIPT_LISTS_HOLDER BG_COLOR_SCD">
 						<!-- Preset List Goes Here -->
@@ -979,7 +979,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_9">
 					<div id="R3V2_MINI_WINDOW_9_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Search SCD Function
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(9);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(9);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<!-- Search Form -->
 					<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM R3_SCD_SEARCH_SCD_SCRIPT_FORM_LBL_FIX">
@@ -997,7 +997,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_12">
 					<div id="R3V2_MINI_WINDOW_12_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						SCD ID List
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(12);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(12);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<!-- Main Tabs -->
 					<div class="R3_TABHOLDER TAB_2">
@@ -1062,7 +1062,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_20">
 					<div id="R3V2_MINI_WINDOW_20_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						SCD DoorLink
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(20);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(20);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
 						<input type="text" maxlength="3" id="R3_SCD_DOORLINK_MAP_INPUT" placeholder="Insert Stage + Room Number" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_DOORLINK_RENDER();">
@@ -1094,7 +1094,7 @@
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on hex editor" onclick="R3_SYSTEM_openInHex();">
 						<input type="button" id="BTN_MAIN_24" class="BTN_ICON_BASE" title="Click here to open msg hex translator" onclick="R3_MSG_openTranslator();">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_HEX" title="Click here to open hex preview" onclick="R3_DESIGN_MINIWINDOW_OPEN(1);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_HEX" title="Click here to open hex preview" onclick="R3_MINIWINDOW.open(1);">
 					</div>
 					<!-- Add Remove Message -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
@@ -1103,7 +1103,7 @@
 					</div>
 					<!-- Next Prev -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" id="BTN_MAIN_32" class="BTN_ICON_BASE none" title="Click here to open message list" onclick="R3_DESIGN_MINIWINDOW_OPEN(5);">
+						<input type="button" id="BTN_MAIN_32" class="BTN_ICON_BASE none" title="Click here to open message list" onclick="R3_MINIWINDOW.open(5);">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_PREV" title="Click here to load previous message" onclick="R3_MSG_SKIPSCRIPT(0);">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_NEXT" title="Click here to load next message" onclick="R3_MSG_SKIPSCRIPT(1);">
 					</div>
@@ -1160,7 +1160,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_1">
 					<div id="R3V2_MINI_WINDOW_1_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Hex View - Length: <font class="monospace"><font id="R3_MSG_LBL_hexLength">0</font>(h)</font>
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(1);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(1);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_MSG_HEX_RAW user-can-select" id="R3_MSG_HEX_RAW">
 						<!-- Hex goes here -->
@@ -1170,7 +1170,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_5">
 					<div id="R3V2_MINI_WINDOW_5_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						MSG List
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(5);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(5);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div id="R3_MSG_SCRIPT_LISTS" class="R3_MSG_SCRIPT_LISTS_HOLDER">
 						<!-- Message List Goes Here -->
@@ -1180,7 +1180,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_7">
 					<div id="R3V2_MINI_WINDOW_7_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						MSG Hex Translator
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(7);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(7);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<textarea placeholder="Translator: Insert MSG code here..." onkeyup="R3_MSG_translateHex();" onclick="R3_MSG_clearTranslateField();" class="R3_MSG_TRANSLATE_TEXTAREA" id="R3_MSG_TRANSLATE_TEXTAREA" spellcheck="false"></textarea>
 				</div>
@@ -1279,7 +1279,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_6">
 					<div id="R3V2_MINI_WINDOW_6_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						RID Editor - Camera <font id="R3_RID_lblTitleCurrentCam" class="monospace mono_xyzr">???</font>
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(6);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(6);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_RID_EDIT_FORM" id="R3_RID_EDIT_FORM">
 						<!-- Top Menu -->
@@ -1351,7 +1351,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_10">
 					<div id="R3V2_MINI_WINDOW_10_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Export Sections
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(10);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(10);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_MSG_HEX_RAW">
 						<input type="button" value="Export VB"  class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('VB');" title="Click here to export VB section">
@@ -1372,7 +1372,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_16">
 					<div id="R3V2_MINI_WINDOW_16_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						TIM Manager
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(16);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(16);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="align-center R3_TIM_MANAGER_BG">
 						<select id="R3_RDT_timManagerList" class="SELECT_SETTINGS auto" onchange="R3_DESIGN_updateSelectedTimManager();"></select><br>
@@ -1384,7 +1384,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_17">
 					<div id="R3V2_MINI_WINDOW_17_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						OBJ Manager
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(17);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(17);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="align-center R3_OBJ_MANAGER_BG">
 						<select id="R3_RDT_objManagerList" class="SELECT_SETTINGS auto" onchange="R3_DESIGN_updateSelectedObjManager();"></select><br>
@@ -1430,7 +1430,7 @@
 				<div class="R3_SUBMENU" id="SUBMENU_0">
 					<!-- General -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" onclick="R3_INI_MAKEFILE(1);" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new config. file">
+						<input type="button" onclick="R3_INI.generateIni(1);" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new config. file">
 						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open a file">
 					</div>
 					<!-- Exit -->
@@ -1609,7 +1609,7 @@
 							<input type="checkbox" id="R3_SETTINGS_SCD_AUTO_OPEN_SCRIPT_LIST"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_AUTO_OPEN_SCRIPT_LIST', true);">- Open Script List when you open / create a new file</font>
 						</li>
 						<li id="SETTINGS_LI_UPDATE_DOORLINK">
-							<input type="button" value="Update DoorLink Database" title="Click here to update DoorLink database manually" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_DOORLINK_INIT();">
+							<input type="button" value="Update DoorLink Database" title="Click here to update DoorLink database manually" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_DOORLINK.generateDatabase();">
 						</li>
 						<!-- List Mode -->
 						<br><font class="LBL_smallTitle">List Mode</font><br>
@@ -1634,7 +1634,7 @@
 						<div class="SEPARATOR-0"></div>
 						<li>
 							<font title="This will define how big Hex View will be">Window Size: 
-								<select id="R3_SETTINGS_SCD_HEX_VIEW_SIZE" onchange="R3_SETTINGS_UPDATE_SELECT();R3_DESIGN_MINIWINDOW_CLOSE(3);" class="SELECT_SETTINGS auto">
+								<select id="R3_SETTINGS_SCD_HEX_VIEW_SIZE" onchange="R3_SETTINGS_UPDATE_SELECT();R3_MINIWINDOW.close(3);" class="SELECT_SETTINGS auto">
 									<!-- Hex View Sizes goes here -->
 								</select>
 							</font>

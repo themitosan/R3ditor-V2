@@ -29,7 +29,7 @@ function R3_RID_START_DECOMPILER(){
 		// End
 		R3_RID_OPEN_CAMERA(0);
 	} else {
-		R3_SYSTEM_LOG('error', 'R3ditor V2 - WARN: Unable to read RID! <br>Reason: RID is not defined!');
+		R3_SYSTEM.log('error', 'R3ditor V2 - WARN: Unable to read RID! <br>Reason: RID is not defined!');
 	};
 };
 // Extract Camera

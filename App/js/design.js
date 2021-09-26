@@ -25,33 +25,33 @@ var R3_HAS_CRITICAL_ERROR = false,
 	R3_MINI_WINDOW_DATABASE = {
 		/*
 			Order:
-			Width, Height, Top, Left, Z-index, Status Focus DOM element after opening
+			Width, Height, Top, Left, Z-index,  Status Focus DOM element after opening
 		*/
-		0:  [670,  294,    68,  4,   9999999,  false, ''], 									// R3V2 Log
-		1:  [380,  178,    68,  4,    	 100,  false, ''], 									// MSG Hex View
-		2:  [700,  130,    68,  4,   9999998,  false, ''], 									// Xdelta Patcher
-		3:  [414,  310,    68,  4,    	 100,  false, ''], 									// SCD Hex View
-		4:  [274,  560,    44,  426,  	 101,  false, ''], 									// SCD Script List
-		5:  [232,  560,    68,  858,  	 101,  false, ''], 									// MSG List
-		6:  [860,  342,    68,  4,    	 100,  false, ''], 									// RID Editor
-		7:  [392,  178,    44,  138,  	 100,  false, ''], 									// MSG Hex Translator
-		8:  [300,  124,    44,  744,  	 104,  false, ''], 									// SCD Preset Window
-		9:  [310,  442,    44,  586,  	 103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	// SCD Search Form
-		10: [200,  408,    44,  570,   	 101,  false, ''],									// RDT Export Sections
-		11: [780,  294,    68,  4,    100000,  false, ''],									// R3V2 Help Center
-		12: [580,  416,    226, 466,  	 102,  false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
-		13: [640,  480,    68,  4,   9999999,  false, 'R3_PS1_DISPLAY'],					// eNGE PS1 Canvas
-		14: [760,  480,    68,  12,      105,  false, ''],									// SCD edit form
-		15: [400,  358,    68,  4, 	  999999,  false, 'R3_ITEM_DATABASE_SEARCH'],			// Item Database
-		16: [220,  88,     44,  444, 	 101,  false, 'R3_RDT_timManagerList'],				// RDT TIM Manager
-		17: [220,  88,     44,  486, 	 102,  false, 'R3_RDT_objManagerList'],				// RDT OBJ Manager
-		18: [680,  434,    68,  4, 	 9999998,  false, ''],									// Backup Manager
-		19: [1194, 620,    68,  4, 	 9999998,  false, ''],									// RE3 Livestatus
-		20: [416,  482,    44,  4, 		 105,  false, 'R3_SCD_DOORLINK_MAP_INPUT'],			// SCD DoorLink
-		21: [482,  520,    44,  4,   9999998,  false, 'R3_WIZARD_MOD_NAME'],				// R3V2 Wizard
-		22: [522,  376,    44,  4,   9999999,  false, 'R3_UPDATER_CURRENT_BRANCH'],			// R3V2 Updater
-		23: [350,  438,    44,  4,   9999997,  false, 'R3_OPCODE_FINDER_SEARCH'],			// SCD Opcode Finder
-		24: [404,  454,    44,  4,		 106,  false, ''] 									// Leo's Hub
+		0:  [670,  294,    68,  4,    9999999,  false, ''], 								 // R3V2 Log
+		1:  [380,  178,    68,  4,    	  100,  false, ''], 								 // MSG Hex View
+		2:  [700,  130,    68,  4,    9999998,  false, ''], 								 // Xdelta Patcher
+		3:  [414,  310,    68,  4,    	  100,  false, ''], 								 // SCD Hex View
+		4:  [274,  560,    44,  426,  	  101,  false, ''], 								 // SCD Script List
+		5:  [232,  560,    68,  858,  	  101,  false, ''], 								 // MSG List
+		6:  [860,  342,    68,  4,    	  100,  false, ''], 								 // RID Editor
+		7:  [392,  178,    44,  138,  	  100,  false, ''], 								 // MSG Hex Translator
+		8:  [300,  124,    44,  744,  	  104,  false, ''], 								 // SCD Preset Window
+		9:  [310,  442,    44,  586,  	  103,  false, 'R3_SCD_SEARCH_SCD_SCRIPT_INPUT'],	 // SCD Search Form
+		10: [200,  408,    44,  570,   	  101,  false, ''],									 // RDT Export Sections
+		11: [780,  294,    68,  4,     100000,  false, ''],									 // R3V2 Help Center
+		12: [580,  416,    226, 466,  	  102,  false, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT'], // SCD ID List
+		13: [640,  480,    68,  4,    9999999,  false, 'R3_PS1_DISPLAY'],					 // eNGE PS1 Canvas
+		14: [760,  480,    68,  12,       105,  false, ''],									 // SCD edit form
+		15: [400,  358,    68,  4, 	  999999,   false, 'R3_ITEM_DATABASE_SEARCH'],			 // Item Database
+		16: [220,  88,     44,  444, 	  101,  false, 'R3_RDT_timManagerList'],			 // RDT TIM Manager
+		17: [220,  88,     44,  486, 	  102,  false, 'R3_RDT_objManagerList'],			 // RDT OBJ Manager
+		18: [680,  434,    68,  4, 	  9999998,  false, ''],									 // Backup Manager
+		19: [1194, 620,    68,  4, 	  9999998,  false, ''],									 // RE3 Livestatus
+		20: [416,  482,    44,  4, 		  105,  false, 'R3_SCD_DOORLINK_MAP_INPUT'],		 // SCD DoorLink
+		21: [482,  520,    44,  4,    9999998,  false, 'R3_WIZARD_MOD_NAME'],				 // R3V2 Wizard
+		22: [522,  376,    44,  4,    9999999,  false, 'R3_UPDATER_CURRENT_BRANCH'],		 // R3V2 Updater
+		23: [350,  438,    44,  4,    9999997,  false, 'R3_OPCODE_FINDER_SEARCH'],			 // SCD Opcode Finder
+		24: [404,  454,    44,  4,		  106,  false, ''] 									 // Leo's Hub
 	};
 /*
 	Main Consts
@@ -168,11 +168,11 @@ function R3_INIT_APPEND(){
 
 	} catch (err) {
 		APP_CAN_START = false;
-		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to append main data! [R3_INIT_APPEND] <br>Reason: ' + err);
+		R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to append main data! [R3_INIT_APPEND] <br>Reason: ' + err);
 		if (APP_ON_BOOT === true){
 			R3_DESIGN_CRITIAL_ERROR(err);
 		} else {
-			R3_SYSTEM_ALERT('ERROR: Unable to append main data! [R3_INIT_APPEND]\nReason: ' + err);
+			R3_SYSTEM.alert('ERROR: Unable to append main data! [R3_INIT_APPEND]\nReason: ' + err);
 		};
 	};
 };
@@ -198,7 +198,7 @@ function R3_SHOW_MENU(menuId){
 				if (RE3_RUNNING === true){
 					R3_LIVESTATUS_CLOSE_BAR();
 				};
-				R3_DESIGN_MINIWINDOW_CLOSE(0);
+				R3_MINIWINDOW.close(0);
 				TMS.css('R3_MENU_MAIN_TOP', {'display': 'none'});
 				TMS.css('MENU_1', {'height': '100%', 'top': '0px'});
 				TMS.fadeIn('ABOUT_BG', 21000);
@@ -221,7 +221,7 @@ function R3_SHOW_MENU(menuId){
 			};
 			// SCD Editor
 			if (menuId === 9){
-				R3_DESIGN_MINIWINDOW_CLOSE([3, 12]);
+				R3_MINIWINDOW.close([3, 12]);
 				// Fix Scroll
 				TMS.scrollTop({
 					'SCD_FUNCTION_LIST': 0,
@@ -256,11 +256,11 @@ function R3_SHOW_MENU(menuId){
 					document.title = APP_TITLE + ' - RDT Editor - File: ' + R3_RDT_mapName + '.RDT';
 				};
 			} else {
-				R3_DESIGN_closeAllRdtMiniWindows();
+				R3_MINIWINDOW.closeAllRdtMiniWindows();
 			};
 			// Main Menu
 			if (menuId !== 4){
-				R3_DESIGN_MINIWINDOW_CLOSE(23);
+				R3_MINIWINDOW.close(23);
 				R3_DESIGN_OPEN_CLOSE_LATEST(1);
 				TMS.css('MENU_' + menuId, {'display': 'block'});
 				TMS.css('R3_MENU_ITEM_OPCODE_FINDER', {'display': 'none'});
@@ -282,7 +282,7 @@ function R3_SHOW_MENU(menuId){
 			};
 			// Loading screen
 			if (menuId === 2){
-				R3_DESIGN_MINIWINDOW_CLOSE([0, 2, 11, 15]);
+				R3_MINIWINDOW.close([0, 2, 11, 15]);
 			};
 			R3_DESIGN_CHECK_SHOW_EXECS();
 			// Append dropdown menu
@@ -301,27 +301,10 @@ function R3_SHOW_MENU(menuId){
 				document.getElementById('MAIN_HIDDEN_CANVAS').innerHTML = '';
 			};
 			R3_DISC_setActivity(R3_DISC_MENUS[menuId][0], R3_DISC_MENUS[menuId][1]);
-			R3_DESIGN_MINIWINDOW_CLOSE(11);
+			R3_MINIWINDOW.close(11);
 			R3_MENU_HISTORY.push(menuId);
 			R3_WEB_ALERT();
 		};
-	};
-};
-// Disable PC version exec buttons if emu
-function R3_DESIGN_CHECK_SHOW_EXECS(){
-	if (R3_WEBMODE === false){
-		if (R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === true){
-			TMS.css('R3_MENU_RUN_GAME', {'display': 'none'});
-		} else {
-			TMS.css('R3_MENU_RUN_GAME', {'display': 'inline-block'});
-		};
-	};
-};
-// Web Alert
-function R3_WEB_ALERT(){
-	if (APP_CAN_RENDER_DEV === true && R3_WEBMODE === true){
-		R3_FILEGEN_selectTextColor(0);
-		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'You are running R3ditor V2 web version!\nTo have all features (Like RE3 Livestatus, Previews, ARD Extractor and more), download the local version!\n\nVisit https://themitosan.github.io/ to get download link.', 'RE1', 10);
 	};
 };
 // Menu Navigation
@@ -350,6 +333,23 @@ function R3_MENU_EXIT(){
 	R3_UTILS_CLEANTOOLS();
 	R3_UTILS_VAR_CLEAN();
 	R3_SHOW_MENU(4);
+};
+// Disable PC version exec buttons if emu
+function R3_DESIGN_CHECK_SHOW_EXECS(){
+	if (R3_WEBMODE === false){
+		if (R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === true){
+			TMS.css('R3_MENU_RUN_GAME', {'display': 'none'});
+		} else {
+			TMS.css('R3_MENU_RUN_GAME', {'display': 'inline-block'});
+		};
+	};
+};
+// Web Alert
+function R3_WEB_ALERT(){
+	if (APP_CAN_RENDER_DEV === true && R3_WEBMODE === true){
+		R3_FILEGEN_selectTextColor(0);
+		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'You are running R3ditor V2 web version!\nTo have all features (Like RE3 Livestatus, Previews, ARD Extractor and more), download the local version!\n\nVisit https://themitosan.github.io/ to get download link.', 'RE1', 10);
+	};
 };
 // Show Tabs
 function R3_DESIGN_SHOWTABS(tabIndex, id){
@@ -380,7 +380,7 @@ function R3_DESIGN_ADJUST(){
 	Object.keys(R3_MINI_WINDOW_DATABASE).forEach(function(cItem, cIndex){
 		cMiniWindow = document.getElementById('R3V2_MINI_WINDOW_' + cIndex);
 		if (cMiniWindow !== null){
-			R3_DESIGN_enableDragElement('R3V2_MINI_WINDOW_' + cIndex);
+			R3_MINIWINDOW.INIT('R3V2_MINI_WINDOW_' + cIndex);
 		};
 	});
 	// Prepare SCD editor
@@ -566,172 +566,92 @@ function R3_DESIGN_SHOW_INTERFACE(){
 		};
 		R3_MENU_CURRENT = 4;
 	} else {
-		R3_RELOAD();
-	};
-};
-/*
-	R3_SYSTEM_PROMPT
-	Prompt replace
-*/
-function R3_SYSTEM_PROMPT(txt){
-	var res = window.prompt(txt);
-	R3_KEYPRESS_releaseKeys();
-	return res;
-};
-/*
-	R3_SYSTEM_CONFIRM
-	Confirm replace
-*/
-function R3_SYSTEM_CONFIRM(conf){
-	var res = window.confirm(conf);
-	R3_KEYPRESS_releaseKeys();
-	return res;
-};
-/*
-	R3_SYSTEM_ALERT
-	Alert system 
-*/
-function R3_SYSTEM_ALERT(msg){
-	if (msg !== undefined){
-		window.alert(msg);
-		R3_KEYPRESS_releaseKeys();
-	};
-};
-/*
-	R3_SYSTEM_LOG
-	Log system
-*/
-function R3_SYSTEM_LOG(mode, text){
-	if (R3_SETTINGS.SETTINGS_DISABLE_LOG === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_LOG === false){
-		var lastLog, isSeparator = false, HTML_LOG_TEMPLATE = logCSS = textClean = '', canLog = true,
-			defaultCheck = [undefined, '', 'log', 'ok', 'info'];
-		if (text === undefined){
-			text = '';
-		};
-		if (R3_SYSTEM_LOG_RESET === true){
-			document.getElementById('R3_LOG_HOLDER').innerHTML = '';
-			R3_SYSTEM_LOG_RESET = false;
-		} else {
-			textClean = R3_removeHtmlFromString(text);
-		};
-		// Avoid eNGE null messages
-		if (textClean === 'R3ditor V2 - INFO: (eNGE) \n'){
-			textClean = text = '';
-			canLog = false;
-		};
-		lastLog = document.getElementById('R3_LOG_ID_N_' + (R3_LOG_ID - 1));
-		if (lastLog !== null && lastLog.className === 'SEPARATOR-3' && mode === 'separator'){
-			canLog = false;
-		};
-		/*
-			Final checks
-		*/
-		if (canLog === true){
-			if (defaultCheck.indexOf(mode) !== -1){
-				logCSS = 'R3_LOG_OK';
-				R3_LOG_COUNTER_INFO++;
-			};
-			if (mode === 'warn'){
-				console.warn(textClean);
-				logCSS = 'R3_LOG_WARN';
-				R3_LOG_COUNTER_WARN++;
-			};
-			if (mode === 'error'){
-				console.error(textClean);
-				logCSS = 'R3_LOG_ERROR';
-				R3_LOG_COUNTER_ERROR++;
-			};
-			if (mode === 'separator'){
-				isSeparator = true;
-				textClean = SYSTEM_LOG_SEPARATOR_TEXT;
-				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="SEPARATOR-3"></div>';
-			} else {
-				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_LOG_ID + '" class="R3_LOG_ITEM ' + logCSS + '">' + text + '</div>';
-			};
-			// Open on warn / error
-			if (mode === 'warn' || mode === 'error'){
-				if (R3_SETTINGS.SETTINGS_OPEN_LOG_ON_WARN_ERROR === true){
-					R3_DESIGN_MINIWINDOW_OPEN(0);
-				};
-			};
-			// Return from full log
-			if (R3_SYSTEM_LOG_RETURN === true){
-				R3_SYSTEM_LOG_RETURN = false;
-				TMS.setInnerHtml('R3_LOG_HOLDER', '');
-				TMS.css('R3V2_LOG_FULLVIEW', {'display': 'block'});
-			};
-			// Fix performance - too much nodes
-			if ((R3_LOG_COUNTER_INFO + R3_LOG_COUNTER_WARN + R3_LOG_COUNTER_ERROR) > 160 && R3_DOORLINK_RUNNING === false){
-				R3_SYSTEM_CLEAR_LOG(false, true);
-				if (TMS.getCssData('R3V2_LOG_FULLVIEW', 'display') !== 'block'){
-					TMS.css('R3V2_LOG_FULLVIEW', {'display': 'block'});
-				};
-				TMS.setInnerHtml('R3_LOG_HOLDER', '<div id="R3_LOG_ID_RESET" class="R3_LOG_ITEM R3_LOG_WARN">R3ditor V2 - WARN: The log was cleared to avoid performance issues. ' +
-												  '<br><i>(Click on \"View Full Log\" to see full info)</i></div>');
-			};
-			/*
-				End
-			*/
-			R3_SYSTEM_LOG_TEXT = R3_SYSTEM_LOG_TEXT + textClean + '\n';
-			R3_SYSTEM_LOG_INTERNAL = R3_SYSTEM_LOG_INTERNAL + HTML_LOG_TEMPLATE;
-			R3_LOG_ID++;
-			TMS.append('R3_LOG_HOLDER', HTML_LOG_TEMPLATE);
-			document.getElementById('R3_LOG_HOLDER').scrollTop = document.getElementById('R3_LOG_HOLDER').scrollHeight;
-			document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>';
-		};
-	} else {
-		if (text !== undefined){
-			if (mode === undefined || mode.toLowerCase() === 'log'){
-				console.info(R3_removeHtmlFromString(text));
-			} else {
-				if (mode.toLowerCase() === 'warn'){
-					console.warn(R3_removeHtmlFromString(text));
-				};
-				if (mode.toLowerCase() === 'error'){
-					console.error(R3_removeHtmlFromString(text));
-				};
-			};
-		};
-	};
-};
-// Clear Log
-function R3_SYSTEM_CLEAR_LOG(resetConsole, pFix){
-	R3_LOG_ID = R3_LOG_COUNTER_INFO = R3_LOG_COUNTER_WARN = R3_LOG_COUNTER_ERROR = 0;
-	if (pFix === true){
-		R3_SYSTEM_LOG_TEXT = R3_SYSTEM_LOG_TEXT + '\nINFO: The log was cleared to avoid loss of performance.\n';
-	};
-	TMS.setInnerHtml('R3_LOG_HOLDER', '');
-	R3_SYSTEM_LOG('log', 'R3ditor V2 - The log was cleared');
-	R3_SYSTEM_LOG('separator');
-	if (resetConsole === true){
-		console.clear();
+		R3_SYSTEM.reload();
 	};
 };
 // Open Log window
 function R3_DESIGN_openLogWindow(){
 	if (R3_SETTINGS.SETTINGS_DISABLE_LOG === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_LOG === false){
-		R3_DESIGN_MINIWINDOW_OPEN(0);
+		R3_MINIWINDOW.open(0);
 	};
 };
 // See full log
 function R3_DESIGN_seeFullLog(){
 	if (R3_SETTINGS.SETTINGS_DISABLE_LOG === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_LOG === false){
-		TMS.setInnerHtml('R3_LOG_HOLDER', R3_SYSTEM_LOG_INTERNAL);
+		TMS.setInnerHtml('R3_LOG_HOLDER', R3_SYSTEM.log_INTERNAL);
 		TMS.css('R3V2_LOG_FULLVIEW', {'display': 'none'});
-		R3_SYSTEM_LOG_RETURN = true;
+		R3_SYSTEM.log_RETURN = true;
 	};
 };
+
+
 /*
-	Open / Close Mini Window
+	MiniWindow API
 */
-// Open Mini Window
-function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
+tempFn_R3_MINIWINDOW = {};
+/*
+	Drag Elements R3_DESIGN_enableDragElement
+	Original Code: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable
+*/
+tempFn_R3_MINIWINDOW['INIT'] = function(elementId){
+	var elmnt = document.getElementById(elementId), pos1 = pos2 = pos3 = pos4 = 0, finalTop, finalLeft;
+	if (document.getElementById(elementId + '_HEADER') !== null){
+		document.getElementById(elementId + '_HEADER').onmousedown = MINI_WINDOW_dragMouseDown;
+	} else {
+		elmnt.onmousedown = MINI_WINDOW_dragMouseDown;
+	};
+	function MINI_WINDOW_dragMouseDown(e){
+		e = e || window.event;
+		e.preventDefault();
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		document.onmousemove = MINI_WINDOW_elementDrag;
+		document.onmouseup = MINI_WINDOW_closeDragElement;
+	};
+	function MINI_WINDOW_elementDrag(e){
+		// console.info(domId);
+		var domId = elmnt.id;
+		e = e || window.event;
+		e.preventDefault();
+		pos1 = (pos3 - e.clientX);
+		pos2 = (pos4 - e.clientY);
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		finalTop = (elmnt.offsetTop - pos2);
+		finalLeft = (elmnt.offsetLeft - pos1);
+		if (finalTop < 30){
+			finalTop = 30;
+		};
+		if (finalLeft < 4){
+			finalLeft = 4;
+		};
+		if (domId === 'R3V2_MINI_WINDOW_14'){
+			// Snap Search function with edit form
+			if (R3_MINI_WINDOW_DATABASE[9][5] === true && R3_SETTINGS.SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM === true){
+				R3_MINIWINDOW.snap(14, 9, true);
+			};
+			// Snap DoorLink
+			if (R3_MINI_WINDOW_DATABASE[20][5] === true){
+				R3_MINIWINDOW.snap(14, 20, true);
+			};
+		};
+		// End
+		elmnt.style.top = finalTop + 'px';
+		elmnt.style.left = finalLeft + 'px';
+	};
+	function MINI_WINDOW_closeDragElement(){
+		document.onmouseup = null;
+		document.onmousemove = null;
+	};
+};
+// Open Mini Window R3_DESIGN_MINIWINDOW_OPEN
+tempFn_R3_MINIWINDOW['open'] = function(windowId, mode){
 	// console.info('Window ID: ' + windowId + ' - ' + R3_MINI_WINDOW_DATABASE[windowId][5]);
 	if (R3_MINI_WINDOW_DATABASE[windowId] !== undefined){
 		var focusDomName, scrollSize, fixLeft = '792px';
 		// Close all Mini-Windows if RDT editor is active
 		if (R3_MENU_CURRENT === 10){
-			R3_DESIGN_closeAllRdtMiniWindows();
+			R3_MINIWINDOW.closeAllRdtMiniWindows();
 		};
 		if (R3_MENU_CURRENT !== 1 && R3_MINI_WINDOW_DATABASE[windowId][5] === false){
 			if (windowId !== 0 && windowId !== 11){
@@ -804,7 +724,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 		};
 		// Close DoorLink if SCD Search Form
 		if (windowId === 9){
-			R3_DESIGN_MINIWINDOW_CLOSE(20);
+			R3_MINIWINDOW.close(20);
 		};
 		// Disable shortcuts if eNGE is opened
 		if (windowId === 13){
@@ -813,7 +733,7 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 		// Adjust window size if SCD edit form
 		if (windowId === 14 && R3_SCD_DATABASE[R3_SCD_currentOpcode] !== undefined){
 			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'width': R3_SCD_DATABASE[R3_SCD_currentOpcode][6] + 'px', 'height': R3_SCD_DATABASE[R3_SCD_currentOpcode][7] + 'px'});
-			R3_DESIGN_adjustMiniWindowForm();
+			R3_MINIWINDOW.adjustMiniWindowForm();
 		};
 		// Process opening mode
 		if (mode !== undefined && R3_MINI_WINDOW_DATABASE[windowId][5] === false){
@@ -834,27 +754,11 @@ function R3_DESIGN_MINIWINDOW_OPEN(windowId, mode){
 		*/
 		R3_MINI_WINDOW_DATABASE[windowId][5] = true;
 	} else {
-		R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: Unable to open window! <br>Reason: Window ID does not exist!');
+		R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to open window! <br>Reason: Window ID does not exist!');
 	};
 };
-// Adjust miniwindow if are SCD Edit Form (Advanced stuff)
-function R3_DESIGN_adjustMiniWindowForm(){
-	// Adjust window size on Set Interactive Object [AOT_SET]
-	if (R3_SCD_currentOpcode === '63'){
-		var cType = document.getElementById('R3_SCD_EDIT_63_aot').value;
-		if (cType === '04'){
-			TMS.css('R3V2_MINI_WINDOW_14', {'height': '380px'});
-		} else {
-			TMS.css('R3V2_MINI_WINDOW_14', {'height': '260px'});
-		};
-	};
-};
-// Close all miniwindows from RDT editor
-function R3_DESIGN_closeAllRdtMiniWindows(){
-	R3_DESIGN_MINIWINDOW_CLOSE([6, 9, 10, 16, 17, 20]);
-};
-// Close Mini Window
-function R3_DESIGN_MINIWINDOW_CLOSE(windowId){
+// Close Mini Window R3_DESIGN_MINIWINDOW_CLOSE
+tempFn_R3_MINIWINDOW['close'] = function(windowId){
 	var checkButton, closeList = [];
 	if (windowId === 'all'){
 		Object.keys(R3_MINI_WINDOW_DATABASE).forEach(function(cItem, cIndex){
@@ -895,8 +799,8 @@ function R3_DESIGN_MINIWINDOW_CLOSE(windowId){
 		R3_MINI_WINDOW_DATABASE[windowId][5] = false;
 	});
 };
-// Maximize window
-function R3_DESIGN_MINIWINDOW_MAXIMIZE(windowId){
+// Maximize window R3_DESIGN_MINIWINDOW_MAXIMIZE
+tempFn_R3_MINIWINDOW['maximize'] = function(windowId){
 	if (windowId !== undefined){
 		if (R3_SETTINGS.ENABLE_ANIMATIONS === false){
 			TMS.fadeOut('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId, 100);
@@ -911,11 +815,52 @@ function R3_DESIGN_MINIWINDOW_MAXIMIZE(windowId){
 			TMS.css('R3V2_MINI_WINDOW_CLEAR_LOG', {'right': '32px'});
 		};
 		// Last file opened fix
-		if (R3_MENU_CURRENT === 4 && SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
+		if (R3_MENU_CURRENT === 4 && R3_SETTINGS.SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
 			R3_DESIGN_OPEN_CLOSE_LATEST(1);
 		};
 	};
 };
+// Snap two mini windows R3_DESIGN_MINIWINDOW_SNAP
+tempFn_R3_MINIWINDOW['snap'] = function(windowA, windowB, fixDrag){
+	var winA = document.getElementById('R3V2_MINI_WINDOW_' + windowA), winB = document.getElementById('R3V2_MINI_WINDOW_' + windowB);
+	if (winA !== null && winB !== null){
+		if (fixDrag !== true){
+			var calcNextX = (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).x - (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowB).w / 2));
+			if (calcNextX < 4){
+				calcNextX = 4;
+			};
+			if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
+				TMS.animate('R3V2_MINI_WINDOW_' + windowA, {'left': calcNextX + 'px'}, 400, 'cubic-bezier(0, 1.06, 0, 1.02)');
+			} else {
+				TMS.css('R3V2_MINI_WINDOW_' + windowA, {'left': calcNextX + 'px'});
+			};
+		};
+		TMS.css('R3V2_MINI_WINDOW_' + windowB, {
+			'top': R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).y + 'px',
+			'left': (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).x + (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).w + 10)) + 'px'
+		});
+	};
+};
+// Adjust miniwindow if are SCD Edit Form (Advanced stuff) R3_DESIGN_adjustMiniWindowForm
+tempFn_R3_MINIWINDOW['adjustMiniWindowForm'] = function(){
+	// Adjust window size on Set Interactive Object [AOT_SET]
+	if (R3_SCD_currentOpcode === '63'){
+		var cType = document.getElementById('R3_SCD_EDIT_63_aot').value;
+		if (cType === '04'){
+			TMS.css('R3V2_MINI_WINDOW_14', {'height': '380px'});
+		} else {
+			TMS.css('R3V2_MINI_WINDOW_14', {'height': '260px'});
+		};
+	};
+};
+// Close all miniwindows from RDT editor R3_DESIGN_closeAllRdtMiniWindows
+tempFn_R3_MINIWINDOW['closeAllRdtMiniWindows'] = function(){
+	R3_MINIWINDOW.close([6, 9, 10, 16, 17, 20]);
+};
+const R3_MINIWINDOW = tempFn_R3_MINIWINDOW;
+delete tempFn_R3_MINIWINDOW;
+
+
 /*
 	Ranges
 */
@@ -934,82 +879,6 @@ function R3_DESIGN_UPDATE_RANGES(rangeId, lblId, usePercentage, maxPercent){
 				document.getElementById(lblId).innerHTML = rangeValue;
 			};
 		};
-	};
-};
-/*
-	Drag Elements - MINI_WINDOW
-	Original Code: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable
-*/
-function R3_DESIGN_enableDragElement(elementId){
-	var elmnt = document.getElementById(elementId), pos1 = pos2 = pos3 = pos4 = 0, finalTop, finalLeft;
-	if (document.getElementById(elementId + '_HEADER') !== null){
-		document.getElementById(elementId + '_HEADER').onmousedown = MINI_WINDOW_dragMouseDown;
-	} else {
-		elmnt.onmousedown = MINI_WINDOW_dragMouseDown;
-	};
-	function MINI_WINDOW_dragMouseDown(e){
-		e = e || window.event;
-		e.preventDefault();
-		pos3 = e.clientX;
-		pos4 = e.clientY;
-		document.onmousemove = MINI_WINDOW_elementDrag;
-		document.onmouseup = MINI_WINDOW_closeDragElement;
-	};
-	function MINI_WINDOW_elementDrag(e){
-		// console.info(domId);
-		var domId = elmnt.id;
-		e = e || window.event;
-		e.preventDefault();
-		pos1 = (pos3 - e.clientX);
-		pos2 = (pos4 - e.clientY);
-		pos3 = e.clientX;
-		pos4 = e.clientY;
-		finalTop = (elmnt.offsetTop - pos2);
-		finalLeft = (elmnt.offsetLeft - pos1);
-		if (finalTop < 30){
-			finalTop = 30;
-		};
-		if (finalLeft < 4){
-			finalLeft = 4;
-		};
-		if (domId === 'R3V2_MINI_WINDOW_14'){
-			// Snap Search function with edit form
-			if (R3_MINI_WINDOW_DATABASE[9][5] === true && R3_SETTINGS.SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM === true){
-				R3_DESIGN_MINIWINDOW_SNAP(14, 9, true);
-			};
-			// Snap DoorLink
-			if (R3_MINI_WINDOW_DATABASE[20][5] === true){
-				R3_DESIGN_MINIWINDOW_SNAP(14, 20, true);
-			};
-		};
-		// End
-		elmnt.style.top = finalTop + 'px';
-		elmnt.style.left = finalLeft + 'px';
-	};
-	function MINI_WINDOW_closeDragElement(){
-		document.onmouseup = null;
-		document.onmousemove = null;
-	};
-};
-// Snap two mini windows
-function R3_DESIGN_MINIWINDOW_SNAP(windowA, windowB, fixDrag){
-	var winA = document.getElementById('R3V2_MINI_WINDOW_' + windowA), winB = document.getElementById('R3V2_MINI_WINDOW_' + windowB);
-	if (winA !== null && winB !== null){
-		if (fixDrag !== true){
-			var calcNextX = (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).x - (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowB).w / 2));
-			if (calcNextX < 4){
-				calcNextX = 4;
-			};
-			if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
-				TMS.animate('R3V2_MINI_WINDOW_' + windowA, {'left': calcNextX + 'px'}, 400, 'cubic-bezier(0, 1.06, 0, 1.02)');
-			} else {
-				TMS.css('R3V2_MINI_WINDOW_' + windowA, {'left': calcNextX + 'px'});
-			};
-		};
-		TMS.css('R3V2_MINI_WINDOW_' + windowB, {
-			'top': R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).y + 'px',
-			'left': (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).x + (R3_DESIGN_getCssParams('R3V2_MINI_WINDOW_' + windowA).w + 10)) + 'px'
-		});
 	};
 };
 // Get CSS pos. from DOM
@@ -1178,7 +1047,7 @@ function R3_HC_OPEN_PAGE(pageId){
 		};
 		// End
 		document.getElementById('R3_HELP_CENTER_HOLDER').scrollTop = 0;
-		R3_DESIGN_MINIWINDOW_OPEN(11, 'center');
+		R3_MINIWINDOW.open(11, 'center');
 	};
 };
 /*
@@ -1251,19 +1120,19 @@ function R3_DESIGN_SCD_openDoorLink(){
 	if (SCD_arquivoBruto !== undefined && R3_SCD_IS_EDITING === true && R3_MINI_WINDOW_DATABASE[20][5] === false){
 		if (R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === false){
 			if (Object.keys(R3_DOORLINK_DATABASE).length !== 0){
-				R3_DESIGN_MINIWINDOW_CLOSE(9);
+				R3_MINIWINDOW.close(9);
 				document.getElementById('R3_SCD_DOORLINK_MAP_INPUT').value = '';
 				document.getElementById('R3_SCD_DOORLINK_mapName').innerHTML = 'Unknwon Location';
 				document.getElementById('R3_SCD_DOORLINK_mapLocation').innerHTML = 'Unknwon Location';
 				document.getElementById('R3_SCD_DOORLINK_doorHolder').innerHTML = '<br><div class="align-center">There\'s nothing to show up here!</div>';
-				R3_DESIGN_MINIWINDOW_OPEN(20);
-				R3_DESIGN_MINIWINDOW_SNAP(14, 20);
+				R3_MINIWINDOW.open(20);
+				R3_MINIWINDOW.snap(14, 20);
 			} else {
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open DoorLink! <br>Reason: You must generate DoorLink database before using this option! <br>If you already extracted game assets: Go to settings, navigate to SCD Settings and click on \"Update DoorLink Database\".');
+				R3_SYSTEM.log('separator');
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to open DoorLink! <br>Reason: You must generate DoorLink database before using this option! <br>If you already extracted game assets: Go to settings, navigate to SCD Settings and click on \"Update DoorLink Database\".');
 			};
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open DoorLink! <br>Reason: DoorLink was disabled on run args!');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to open DoorLink! <br>Reason: DoorLink was disabled on run args!');
 		};
 	};
 };
@@ -1461,7 +1330,7 @@ function R3_DESIGN_SEARCH_SCD_ID_LIST(evt, valueInput, inputDom, listHolder, out
 				document.getElementById(output).innerHTML = seekResult.outerHTML;
 			} else {
 				document.getElementById(valueInput).value = '';
-				R3_SYSTEM_ALERT('WARN: Unable to find ' + seekId + '!');
+				R3_SYSTEM.alert('WARN: Unable to find ' + seekId + '!');
 				canCloseRes = true;
 			};
 		} else {
@@ -1547,9 +1416,9 @@ function R3_DESIGN_UPDATE_INSERT_HEX_POS(){
 function R3_DESIGN_OPEN_FIND_FUNCTION(){
 	if (SCD_arquivoBruto !== undefined){
 		if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
-			R3_DESIGN_MINIWINDOW_OPEN(9);
+			R3_MINIWINDOW.open(9);
 		} else {
-			R3_DESIGN_MINIWINDOW_CLOSE(9);
+			R3_MINIWINDOW.close(9);
 		};
 	};
 };
@@ -1756,7 +1625,7 @@ function R3_DESIGN_JS_CODE_FOCUS(){
 function R3_SCD_OPEN_CLOSE_CODE_EDITOR(){
 	if (R3_SCD_IS_EDITING === false){
 		if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
-			R3_DESIGN_MINIWINDOW_CLOSE(9);
+			R3_MINIWINDOW.close(9);
 			R3_SCD_SWAP_EDITOR_MODE(1);
 		} else {
 			R3_SCD_SWAP_EDITOR_MODE(0);
@@ -1873,7 +1742,7 @@ function R3_SCD_openFunctionEdit(cOpcode, isInsert, isExtra, extraTitle){
 		document.getElementById('R3_SCD_editFunction_pos').disabled = '';
 	};
 	// Close miniwindows
-	R3_DESIGN_MINIWINDOW_CLOSE([8, 11]);
+	R3_MINIWINDOW.close([8, 11]);
 	// Hide some buttons
 	TMS.css('BTN_MAIN_45', {'display': 'none'});
 	TMS.css('BTN_MAIN_42', {'display': 'none'});
@@ -1892,7 +1761,7 @@ function R3_SCD_openFunctionEdit(cOpcode, isInsert, isExtra, extraTitle){
 	};
 	// Open form
 	if (R3_MINI_WINDOW_DATABASE[14][5] === false){
-		R3_DESIGN_MINIWINDOW_OPEN(14, 'center');
+		R3_MINIWINDOW.open(14, 'center');
 	};
 };
 // Close Edit
@@ -1907,7 +1776,7 @@ function R3_SCD_cancelFunctionEdit(exitFromEditForm){
 	TMS.css('SCD_FUNCTION_LIST', {'display': 'block'});
 	TMS.css('R3_SCD_FUNCTIONS_SEARCH', {'display': 'none'});
 	document.getElementById('SCD_FUNCTION_SEARCH_FIELD').value = '';
-	R3_DESIGN_MINIWINDOW_CLOSE([14, 20]);
+	R3_MINIWINDOW.close([14, 20]);
 	// End
 	document.getElementById('R3_SCD_BTN_APPLY').onclick = null;
 	if (R3_SETTINGS.ENABLE_ANIMATIONS !== true){
@@ -1930,7 +1799,7 @@ function R3_SCD_cancelFunctionEdit(exitFromEditForm){
 // Open Script List
 function R3_DESIGN_SCD_openScriptList(){
 	if (SCD_arquivoBruto !== undefined && R3_SETTINGS.SETTINGS_SCD_AUTO_OPEN_SCRIPT_LIST === true){
-		R3_DESIGN_MINIWINDOW_OPEN(4);
+		R3_MINIWINDOW.open(4);
 	};
 };
 // Hover Function on Hex View
@@ -2070,9 +1939,9 @@ function R3_SCD_FUNCTIONEDIT_updateAotSetLabels(){
 		} else {
 			TMS.css('R3_SCD_EDIT_63_msgPrevDiv', {'display': 'none'});
 		};
-		R3_DESIGN_adjustMiniWindowForm();
+		R3_MINIWINDOW.adjustMiniWindowForm();
 	} else {
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to set AOT labels!');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to set AOT labels!');
 	};
 };
 // Update message preview on [AOT_SET] if AOT is Text Message
@@ -2104,7 +1973,7 @@ function R3_SCD_openOpcodeFinder(){
 		document.getElementById('R3_OPCODE_FINDER_opName').innerHTML = '';
 		document.getElementById('R3_OPCODE_FINDER_RESULT').innerHTML = '';
 		document.getElementById('R3V2_TITLE_SCD_OPCODE_FINDER').innerHTML = 'SCD Opcode Finder';
-		R3_DESIGN_MINIWINDOW_OPEN(23, 'center');
+		R3_MINIWINDOW.open(23, 'center');
 	};
 };
 /*
@@ -2113,7 +1982,7 @@ function R3_SCD_openOpcodeFinder(){
 // Open Translator
 function R3_MSG_openTranslator(){
 	document.getElementById('R3_MSG_TRANSLATE_TEXTAREA').value = '';
-	R3_DESIGN_MINIWINDOW_OPEN(7);
+	R3_MINIWINDOW.open(7);
 	setTimeout(function(){
 		document.getElementById('R3_MSG_TRANSLATE_TEXTAREA').focus();
 	}, 70);
@@ -2167,11 +2036,11 @@ function R3_DESIGN_updateScdHack(){
 	if (R3_RDT_SCD_HACK_ENABLED === true){
 		TMS.css('BTN_SCD_HACK', {'display': 'inline'});
 		TMS.css('R3_RDT_BTN_ENABLE_SCD_HACK', {'display': 'none'});
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) SCD Hack is enabled on this map!');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) SCD Hack is enabled on this map!');
 	} else {
 		TMS.css('BTN_SCD_HACK', {'display': 'none'});
 		TMS.css('R3_RDT_BTN_ENABLE_SCD_HACK', {'display': 'inline'});
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (RDT) SCD Hack is disbled on this map!');
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) SCD Hack is disbled on this map!');
 	};
 };
 // Open Next / Prev Map
@@ -2203,12 +2072,12 @@ function R3_RDT_openNextPrevMap(mode){
 // Reset Interface
 function R3_RDT_DESIGN_resetInterface(){
 	if (R3_DOORLINK_RUNNING === false && R3_MINI_WINDOW_DATABASE[23][5] === true){
-		R3_DESIGN_MINIWINDOW_CLOSE(23);
+		R3_MINIWINDOW.close(23);
 	};
 };
 // Show RDT
 function R3_RDT_DESIGN_enableInterface(showInterface){
-	R3_DESIGN_closeAllRdtMiniWindows();
+	R3_MINIWINDOW.closeAllRdtMiniWindows();
 	// Background image
 	if (R3_SETTINGS.SETTINGS_DISABLE_RDT_BACKGROUND === false){
 		const mapFirstCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_fixVars(R3_genRandomNumber(R3_RDT_MAP_totalCams).toString(16), 2) + '.JPG',
@@ -2321,7 +2190,7 @@ function R3_RDT_FILELIST_GENERATE(currentMode){
 				document.getElementById('R3_RDT_FILELIST_HOLDER').scrollTop = 0;
 			};
 		} else {
-			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to get RDT file list!');
+			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to get RDT file list!');
 			document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">The path for this game mode are not available!</div>';
 		};
 	};
@@ -2368,7 +2237,7 @@ function R3_DESIGN_RDT_openForm(formId){
 };
 // Open RDT List
 function R3_DESIGN_RDT_openFileList(){
-	R3_DESIGN_MINIWINDOW_CLOSE([6, 10]);
+	R3_MINIWINDOW.close([6, 10]);
 	TMS.css('R3_MENU_BTNS_NEXTPREV', {'display': 'none'});
 	TMS.css('R3_MENU_BTNS_RDT_UTILITY', {'display': 'none'});
 	TMS.css('R3_MENU_BTNS_RDT_MINIWINDOWS', {'display': 'none'});
@@ -2428,17 +2297,17 @@ function R3_DESIGN_RID_updateCamSelected(camId){
 	RID_currentCamera = parseInt(camId);
 };
 document.FOR_HACKERS_ONLY = function(){
-	R3_SYSTEM_CLEAR_LOG();
-	R3_SYSTEM_LOG_RESET = true;
-	R3_SYSTEM_LOG('separator');
-	R3_SYSTEM_LOG('log', '<div class="align-center">' + atob('TG9va2luZyBpbnNpZGUgUjNWMiBDb2RlPyBKdXN0IGhvcGUgeW91IGhhdmUgYSBnb29kIHRpbWUhPGJyPjxicj5EbyB5b3Ugd2FubmEgcGxheSBhIGNvb2wgZ2FtZT8gVHJ5IDx1IHRpdGxlPSJIaSEiPkNyb3NzQ29kZTwvdT4hPGJyPkl0IGlzIGF2YWlsYWJsZSBvbiBTdGVhbSAoV2luLCBtYWNPUyBhbmQgTGludXgpLCBQUzQgYW5kIGV2ZW4gb24gTmludGVuZG8gU3dpdGNoITxicj48YnI+VGhlcmUgaXMgYSB3ZWJkZW1vIGlmIHlvdSB3YW50IHRyeSB0aGUgZ2FtZSBiZWZvcmUgcHVyY2hhc2luZyBpdDo8YnI+PGEgaHJlZj0iaHR0cHM6Ly9jcm9zcy1jb2RlLmNvbS9lbi9zdGFydCIgdGFyZ2V0PSJfYmxhbmsiPmh0dHBzOi8vY3Jvc3MtY29kZS5jb20vZW4vc3RhcnQ8L2E+PGJyPjxicj5Ob3cgLSBpZiB5b3Ugd2FudCBrbm93IGFib3V0IHRoaXMgc29mdHdhcmUsIDxhIGhyZWY9Imh0dHBzOi8vdHdpdHRlci5jb20vdGhlbWl0b3NhbiIgdGFyZ2V0PSJfYmxhbmsiPkRNIG1lIG9uIFR3aXR0ZXI8L2E+ITxicj48YnI+U2VlIHlvdSBsYXRlciE8YnI+PGJyPjxhIGhyZWY9Imh0dHBzOi8vdGhlbWl0b3Nhbi5naXRodWIuaW8vIiB0YXJnZXQ9Il9ibGFuayI+VGhlTWl0b1NhbjwvYT4u') + '</div>');
-	R3_SYSTEM_LOG('separator');
+	R3_SYSTEM.clearLog();
+	R3_SYSTEM.log_RESET = true;
+	R3_SYSTEM.log('separator');
+	R3_SYSTEM.log('log', '<div class="align-center">' + atob('TG9va2luZyBpbnNpZGUgUjNWMiBDb2RlPyBKdXN0IGhvcGUgeW91IGhhdmUgYSBnb29kIHRpbWUhPGJyPjxicj5EbyB5b3Ugd2FubmEgcGxheSBhIGNvb2wgZ2FtZT8gVHJ5IDx1IHRpdGxlPSJIaSEiPkNyb3NzQ29kZTwvdT4hPGJyPkl0IGlzIGF2YWlsYWJsZSBvbiBTdGVhbSAoV2luLCBtYWNPUyBhbmQgTGludXgpLCBQUzQgYW5kIGV2ZW4gb24gTmludGVuZG8gU3dpdGNoITxicj48YnI+VGhlcmUgaXMgYSB3ZWJkZW1vIGlmIHlvdSB3YW50IHRyeSB0aGUgZ2FtZSBiZWZvcmUgcHVyY2hhc2luZyBpdDo8YnI+PGEgaHJlZj0iaHR0cHM6Ly9jcm9zcy1jb2RlLmNvbS9lbi9zdGFydCIgdGFyZ2V0PSJfYmxhbmsiPmh0dHBzOi8vY3Jvc3MtY29kZS5jb20vZW4vc3RhcnQ8L2E+PGJyPjxicj5Ob3cgLSBpZiB5b3Ugd2FudCBrbm93IGFib3V0IHRoaXMgc29mdHdhcmUsIDxhIGhyZWY9Imh0dHBzOi8vdHdpdHRlci5jb20vdGhlbWl0b3NhbiIgdGFyZ2V0PSJfYmxhbmsiPkRNIG1lIG9uIFR3aXR0ZXI8L2E+ITxicj48YnI+U2VlIHlvdSBsYXRlciE8YnI+PGJyPjxhIGhyZWY9Imh0dHBzOi8vdGhlbWl0b3Nhbi5naXRodWIuaW8vIiB0YXJnZXQ9Il9ibGFuayI+VGhlTWl0b1NhbjwvYT4u') + '</div>');
+	R3_SYSTEM.log('separator');
 	document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'I S33 Y0U!';
 	TMS.addClass('R3_LOG_ID_N_2', 'SEPARATOR-5');
 	TMS.addClass('R3_LOG_ID_N_4', 'SEPARATOR-5');
 	TMS.removeClass('R3_LOG_ID_N_2', 'SEPARATOR-3');
 	TMS.removeClass('R3_LOG_ID_N_4', 'SEPARATOR-3');
-	R3_DESIGN_MINIWINDOW_OPEN(0, 'center');
+	R3_MINIWINDOW.open(0, 'center');
 };
 // Update Range
 function R3_DESIGN_RID_updateRange(){
@@ -2485,7 +2354,7 @@ function R3_DESIGN_RID_seekCamera(mode){
 function R3_LIVESTATUS_OPEN_MENU(){
 	if (R3_WEBMODE === false && RE3_RUNNING === true){
 		R3_DESIGN_SHOWTABS(0, 0);
-		R3_DESIGN_MINIWINDOW_OPEN(19);
+		R3_MINIWINDOW.open(19);
 	};
 };
 // Open Bar
@@ -2515,7 +2384,7 @@ function R3_LIVESTATUS_CLOSE_BAR(){
 	};
 	// End
 	if (R3_MINI_WINDOW_DATABASE[19][5] === true){
-		R3_DESIGN_MINIWINDOW_CLOSE(19);
+		R3_MINIWINDOW.close(19);
 	};
 };
 // Adjust Interface
@@ -2703,7 +2572,7 @@ function R3_LIVESTATUS_RENDER_INVENT_SLOT(sID, IT, QT, AT){
 		TMS.css('R3_LIVESTATUS_LBL_INVENT_' + slotId, {'color': itColor, 'text-shadow': itShadow, 'display': itDisplay});
 		document.getElementById('R3_LIVESTATUS_INVENT_ICON_' + slotId).title = DATABASE_ITEM[IT][0] + ' (Click to edit this slot)\n\n' + DATABASE_ITEM[IT][1].replace(new RegExp('<br>', 'gi'), '\n');
 	} else {
-		R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unknown Item Attr! [' + AT + ']');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unknown Item Attr! [' + AT + ']');
 	};
 };
 // Edit Item Slot
@@ -2783,21 +2652,21 @@ function R3_LIVESTATUS_EDIT_INVENT_CANCEL(){
 // Close RE3 Livestatus
 function R3_LIVESTATUS_CLOSEMENU(){
 	R3_LIVESTATUS_OPEN = false;
-	R3_DESIGN_MINIWINDOW_CLOSE(19);
+	R3_MINIWINDOW.close(19);
 };
 /*
 	eNGE Design Functions
 */
 function R3_eNGE_openEmuWindow(){
 	if (R3_WEBMODE === false && R3_SETTINGS.SETTINGS_DISABLE_ENGE === false){
-		R3_DESIGN_MINIWINDOW_OPEN(13, 'center');
+		R3_MINIWINDOW.open(13, 'center');
 	};
 };
 // Make eNGE window visisble on settings
 function R3_eNGE_makeWindowVisible(mode){
 	if (mode === 0){
 		if (R3_MINI_WINDOW_DATABASE[13][5] === false && R3_SETTINGS.SETTINGS_DISABLE_ENGE === false){
-			R3_DESIGN_MINIWINDOW_OPEN(13);
+			R3_MINIWINDOW.open(13);
 		};
 		TMS.css('R3V2_MINI_WINDOW_13', {'z-index': '10000010'});
 	} else {
@@ -2812,7 +2681,7 @@ function R3_DESIGN_displayWizard(){
 	if (R3_WEBMODE === false && R3_MENU_CURRENT !== 0){
 		document.getElementById('R3_WIZARD_GAME_PATH').title = '';
 		document.getElementById('R3_WIZARD_GAME_PATH').innerHTML = 'Unknown Location';
-		R3_DESIGN_MINIWINDOW_OPEN(21, 'center');
+		R3_MINIWINDOW.open(21, 'center');
 	} else {
 		if (R3_WEBMODE === true){
 			R3_WEBWARN();
@@ -2883,7 +2752,7 @@ function R3_DESIGN_renderBackupManager(){
 		} else {
 			document.getElementById('R3_BACKUP_MANAGER_ITEMS').innerHTML = '<br><div class="align-center txt-italic">There\'s nothing to display here!</div>';
 		};
-		R3_DESIGN_MINIWINDOW_OPEN(18, 'center');
+		R3_MINIWINDOW.open(18, 'center');
 	};
 };
 /*
@@ -2948,7 +2817,7 @@ function R3_DESIGN_loadSettingsGUI(){
 */
 function R3_DESIGN_openXdeltaPatcher(){
 	if (R3_WEBMODE === false){
-		R3_DESIGN_MINIWINDOW_OPEN(2, 'center');
+		R3_MINIWINDOW.open(2, 'center');
 	} else {
 		R3_WEBWARN();
 	};
