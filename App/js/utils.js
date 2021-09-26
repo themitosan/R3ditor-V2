@@ -16,6 +16,11 @@ var OBJ_arquivoBruto,
 	R3_TEMP_STAGE = '1',
 	R3_TEMP_ROOM = '100',
 	R3_TEMP_X = R3_TEMP_Y = R3_TEMP_Z = R3_TEMP_R = '0000';
+
+/*
+	Temp Functions
+*/
+tempFn_R3_XDELTA = {};
 /*
 	ROFS
 */
@@ -52,8 +57,7 @@ function R3_ROFS_EXTRACT(){
 	Xdelta Patcher
 */
 // Load Files
-
-function R3_XDELTA_loadFiles(mode){
+tempFn_R3_XDELTA['loadFiles'] = function(mode){
 	if (R3_WEBMODE === false){
 		if (mode === 0){
 			R3_FILE_LOAD('.xdelta', function(xPath){
@@ -73,10 +77,10 @@ function R3_XDELTA_loadFiles(mode){
 	};
 };
 // Apply Xdelta Patch
-function R3_XDELTA_APPLY(){
+tempFn_R3_XDELTA['applyPatch'] = function(){
 	if (R3_XDELTA_PATCH !== undefined && R3_XDELTA_ORIGINALFILE !== undefined && R3_WEBMODE === false){
 		// Prepare R3 to make it!
-		var R3_XDELTA_INTERVAL, R3_rearm = false, origName;
+		var R3_XDELTA_INTERVAL, R3_rearm = false, origName, newFilePath;
 		if (R3_RE3_CANRUN !== false){
 			R3_rearm = true;
 			R3_RE3_CANRUN = false;
@@ -89,16 +93,29 @@ function R3_XDELTA_APPLY(){
 		R3_runExec(APP_TOOLS + '/xdelta.exe', ['-d', '-s', R3_XDELTA_ORIGINALFILE, R3_XDELTA_PATCH , 'XDELTA_PATCH_FILE.bin']);
 		R3_XDELTA_INTERVAL = setInterval(function(){
 			if (EXTERNAL_APP_RUNNING !== false){
-				console.info('Waiting XDELTA...');
+				console.info('External - Waiting XDELTA...');
 			} else {
 				if (EXTERNAL_APP_EXITCODE !== 0){
 					R3_SYSTEM_LOG('error', 'R3ditor V2 - ERROR: (Xdelta) Something went wrong while applying Xdelta Patch!');
-					R3_UTILS_LOADING_UPDATE('Something went wrong while applying Xdelta Patch!', 100);
+					R3_UTILS_LOADING_UPDATE('Something went wrong while applying Xdelta Patch! R3V2 Will reload in 5 seconds...', 100);
 					setTimeout(function(){
 						R3_RELOAD();
 					}, 5000);
 				} else {
-					R3_XDELTA_FINISH(origName, origExt, R3_rearm);
+					// Finish Path
+					R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Xdelta) Process complete!');
+					newFilePath = APP_TOOLS + '/XDELTA_PATCH_FILE.bin', R3_XDELTA_newFile;
+					if (R3_rearm === true){
+						R3_RE3_CANRUN = true;
+					};
+					if (APP_FS.existsSync(newFilePath) !== false){
+						R3_XDELTA_newFile = APP_FS.readFileSync(newFilePath, 'hex');
+						R3_FILE_SAVE(origName + '_patch', R3_XDELTA_newFile, 'hex', '');
+						if (APP_FS.existsSync(APP_TOOLS + '/XDELTA_PATCH_FILE.bin') !== false){
+							APP_FS.unlinkSync(APP_TOOLS + '/XDELTA_PATCH_FILE.bin');
+						};
+						R3_UTILS_LOADING_CLOSE();
+					};
 				};
 				process.chdir(ORIGINAL_APP_PATH);
 				clearInterval(R3_XDELTA_INTERVAL);
@@ -106,24 +123,9 @@ function R3_XDELTA_APPLY(){
 		}, 100);
 	};
 };
-// Finish Path
-function R3_XDELTA_FINISH(fName, ext, rearm){
-	if (R3_WEBMODE === false){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (Xdelta) Process complete!');
-		var newFilePath = APP_TOOLS + '/XDELTA_PATCH_FILE.bin', R3_XDELTA_newFile;
-		if (rearm === true){
-			R3_RE3_CANRUN = true;
-		};
-		if (APP_FS.existsSync(newFilePath) !== false){
-			R3_XDELTA_newFile = APP_FS.readFileSync(newFilePath, 'hex');
-			R3_FILE_SAVE(fName + '_patch', R3_XDELTA_newFile, 'hex', '');
-			if (APP_FS.existsSync(APP_TOOLS + '/XDELTA_PATCH_FILE.bin') !== false){
-				APP_FS.unlinkSync(APP_TOOLS + '/XDELTA_PATCH_FILE.bin');
-			};
-			R3_UTILS_LOADING_CLOSE();
-		};
-	};
-};
+// Finish
+const R3_XDELTA = tempFn_R3_XDELTA;
+delete tempFn_R3_XDELTA;
 /*
 	OBJ Patcher
 
@@ -791,9 +793,9 @@ function R3_leosHub_openWindow(){
 // Open File
 function R3_leosHub_openFile(fPath, mode){
 	if (R3_WEBMODE === false){
-		var cExec = R3_RE3MV_PATH;
+		var cExec = R3_SETTINGS.R3_RE3MV_PATH;
 		if (mode === 1){
-			cExec = R3_RE3PLWE_PATH;
+			cExec = R3_SETTINGS.R3_RE3PLWE_PATH;
 		};
 		// End
 		R3_runExec(cExec, [fPath], 2);

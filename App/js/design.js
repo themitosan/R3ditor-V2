@@ -620,10 +620,8 @@ function R3_SYSTEM_LOG(mode, text){
 			canLog = false;
 		};
 		lastLog = document.getElementById('R3_LOG_ID_N_' + (R3_LOG_ID - 1));
-		if (lastLog !== null){
-			if (lastLog.className === 'SEPARATOR-3' && mode === 'separator'){
-				canLog = false;
-			};
+		if (lastLog !== null && lastLog.className === 'SEPARATOR-3' && mode === 'separator'){
+			canLog = false;
 		};
 		/*
 			Final checks
@@ -677,18 +675,15 @@ function R3_SYSTEM_LOG(mode, text){
 			R3_SYSTEM_LOG_TEXT = R3_SYSTEM_LOG_TEXT + textClean + '\n';
 			R3_SYSTEM_LOG_INTERNAL = R3_SYSTEM_LOG_INTERNAL + HTML_LOG_TEMPLATE;
 			R3_LOG_ID++;
-			if (R3_MINI_WINDOW_DATABASE[0][5] === true){
-				TMS.append('R3_LOG_HOLDER', HTML_LOG_TEMPLATE);
-				document.getElementById('R3_LOG_HOLDER').scrollTop = document.getElementById('R3_LOG_HOLDER').scrollHeight;
-				document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>';
-			};
+			TMS.append('R3_LOG_HOLDER', HTML_LOG_TEMPLATE);
+			document.getElementById('R3_LOG_HOLDER').scrollTop = document.getElementById('R3_LOG_HOLDER').scrollHeight;
+			document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'R3ditor V2 Log <i>[' + R3_LOG_COUNTER_INFO + ' Infos, ' + R3_LOG_COUNTER_WARN + ' Warns and ' + R3_LOG_COUNTER_ERROR + ' Errors]</i>';
 		};
 	} else {
 		if (text !== undefined){
 			if (mode === undefined || mode.toLowerCase() === 'log'){
 				console.info(R3_removeHtmlFromString(text));
 			} else {
-				// Warn
 				if (mode.toLowerCase() === 'warn'){
 					console.warn(R3_removeHtmlFromString(text));
 				};
@@ -1087,7 +1082,7 @@ function R3_LATEST_OPEN(){
 	if (R3_SETTINGS.SETTINGS_RECENT_FILE_PATH !== ''){
 		// RDT
 		if (R3_SETTINGS.SETTINGS_RECENT_FILE_TYPE === 0){
-			R3_RDT_LOAD(R3_SETTINGS.SETTINGS_RECENT_FILE_PATH, true);
+			R3_RDT.readMap(R3_SETTINGS.SETTINGS_RECENT_FILE_PATH, true);
 			R3_DESIGN_RDT_closeFileList();
 			R3_SHOW_MENU(10);
 		};
@@ -1711,9 +1706,9 @@ function R3_SCD_SWAP_EDITOR_MODE(mode){
 			if (R3_ENABLE_ANIMATIONS === true){
 				TMS.fadeIn('R3_SCD_FUNCTIONS_HOLDER', dTime);
 				TMS.animate('R3_SCD_FUNCTIONS_HOLDER', {'opacity': '1', 'top': '40px', 'filter': 'blur(0px)'}, dTime);
-				TMS.animate('R3_SCD_SCRIPT_VIEW_DIV', {'width': '70%'}, (dTime + 10));
+				TMS.animate('R3_SCD_SCRIPT_VIEW_DIV', {'width': '73%'}, (dTime + 10));
 			} else {
-				TMS.css('R3_SCD_SCRIPT_VIEW_DIV', {'width': '70%'});
+				TMS.css('R3_SCD_SCRIPT_VIEW_DIV', {'width': '73%'});
 				TMS.css('R3_SCD_FUNCTIONS_HOLDER', {'display': 'inline', 'top': '40px', 'filter': 'blur(0px)'});
 			};
 		} else {
@@ -2199,7 +2194,7 @@ function R3_RDT_openNextPrevMap(mode){
 				};
 				// End
 				if (mapList[nextMap] !== undefined && R3_DESIGN_RDT_LOADLOCK === false){
-					R3_RDT_LOAD(nmPath + mapList[nextMap], true);
+					R3_RDT.readMap(nmPath + mapList[nextMap], true);
 				};
 			};
 		};
@@ -2315,7 +2310,7 @@ function R3_RDT_FILELIST_GENERATE(currentMode){
 							mapIcon = 'file://' + mapIcon;
 						};
 						rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
-						HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT_LOAD(\'' + R3_fixPath(rdtPath).replace('//', '/') +
+						HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT.readMap(\'' + R3_fixPath(rdtPath).replace('//', '/') +
 										currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' +
 										currentMap + '</font><br>Location: <font class="monospace mono_xyzr">' + RDT_locations[currentMap][0] + '</font>, <font class="monospace mono_xyzr">' + RDT_locations[currentMap][1] +
 										'</font><br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
@@ -2886,7 +2881,7 @@ function R3_DESIGN_renderBackupManager(){
 			};
 			document.getElementById('R3_BACKUP_MANAGER_ITEMS').innerHTML = HTML_TEMPLATE;
 		} else {
-			document.getElementById('R3_BACKUP_MANAGER_ITEMS').innerHTML = '<br><div class="align-center">There\'s nothing to display here!</div>';
+			document.getElementById('R3_BACKUP_MANAGER_ITEMS').innerHTML = '<br><div class="align-center txt-italic">There\'s nothing to display here!</div>';
 		};
 		R3_DESIGN_MINIWINDOW_OPEN(18, 'center');
 	};

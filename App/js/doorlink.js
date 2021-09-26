@@ -42,8 +42,8 @@ function R3_DOORLINK_INIT(){
 					cLocation = APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
 					fName = R3_getFileName(cFile).toUpperCase();
 					// Start this madness
-					R3_RDT_LOAD(cLocation, false, APP_FS.readFileSync(cLocation, 'hex'));
-					R3_SCD_START_DECOMPILER(R3_RDT_RAWSECTION_SCD);
+					R3_RDT.readMap(cLocation, false, APP_FS.readFileSync(cLocation, 'hex'));
+					R3_SCD_START_DECOMPILER(R3_RDT_rawSections.RAWSECTION_SCD);
 					// Set Door [DOOR_AOT_SET]
 					tempDoorList = R3_SCD_SEARCH_SCRIPT_FUNCTION('61', true);
 					if (tempDoorList !== undefined){
@@ -112,8 +112,8 @@ function R3_DOORLINK_SEARCH(){
 						cLocation = APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
 						fName = R3_getFileName(cFile).toUpperCase();
 						console.info('DoorLink - Current Map: ' + cFile + ' - (' + (cIndex + 1) + ' of ' + fileList.length + ')');
-						R3_RDT_LOAD(cLocation, false, APP_FS.readFileSync(cLocation, 'hex'));
-						R3_SCD_START_DECOMPILER(R3_RDT_RAWSECTION_SCD);
+						R3_RDT.readMap(cLocation, false, APP_FS.readFileSync(cLocation, 'hex'));
+						R3_SCD_START_DECOMPILER(R3_RDT_rawSections.RAWSECTION_SCD);
 						// Search Opcode
 						tempFunctionOpcode = R3_SCD_SEARCH_SCRIPT_FUNCTION(opcodeId, true);
 						if (tempFunctionOpcode !== undefined){
@@ -145,7 +145,7 @@ function R3_DOORLINK_SEARCH(){
 								} else {
 									cScript = R3_fixVars(cScript, 4);
 								};
-								HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_OPCODE_FINDER_RES_MAP" onclick="R3_RDT_LOAD(\'' + APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cItem + '.RDT\', true);R3_SHOW_MENU(10);">' +
+								HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_OPCODE_FINDER_RES_MAP" onclick="R3_RDT.readMap(\'' + APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cItem + '.RDT\', true);R3_SHOW_MENU(10);">' +
 												'<font title="' + RDT_locations[cItem][0] + ', ' + RDT_locations[cItem][1] + '">Map ' + cItem + '</font> - Script ' + cScript + ', Function ' + R3_fixVars(cPosition, 3) + '</div>';
 								c++;
 							});

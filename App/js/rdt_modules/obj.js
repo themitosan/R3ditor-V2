@@ -37,7 +37,7 @@ function R3_OBJ_MANAGER_importExport(mode){
 				};
 			});
 		} else {
-			R3_FILE_SAVE('OBJ_' + R3_RDT_mapName + '_' + (R3_RDT_currentObjFile + 1) + '.obj', R3_RDT_ARRAY_OBJ[R3_RDT_currentObjFile], 'hex', '.obj', function(fName){
+			R3_FILE_SAVE('OBJ_' + R3_RDT_mapName + '_' + (R3_RDT_currentObjFile + 1) + '.obj', R3_RDT_rawSections.ARRAY_OBJ[R3_RDT_currentObjFile], 'hex', '.obj', function(fName){
 				R3_SYSTEM_ALERT('INFO: (OBJ Manager) Export Successful!');
 				R3_SYSTEM_LOG('separator');
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (OBJ Manager) Export Successful!');

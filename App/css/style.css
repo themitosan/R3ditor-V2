@@ -361,7 +361,6 @@ blockquote {
     width: auto;
     display: block;
     z-index: 999990;
-    min-width: 238px;
     margin-left: -6px;
     position: absolute;
     box-shadow: 8px 8px 10px #0008;
@@ -377,6 +376,7 @@ blockquote {
 }
 .R3_MENU_ITEM_BIG {
     width: auto;
+    min-width: 172px;
     cursor: pointer;
     padding-top: 2px;
     padding-left: 12px;
@@ -393,6 +393,7 @@ blockquote {
     padding: 6px;
     cursor: pointer;
     margin-top: 2px;
+    min-width: 130px;
     border-radius: 6px;
     margin-bottom: 2px;
     text-align: center;
@@ -1427,7 +1428,7 @@ blockquote {
 .R3_SCD_FUNCTIONS_HOLDER {
     top: 40px;
     right: 6px;
-    width: 29%;
+    width: 26%;
     z-index: 4;
     overflow: hidden;
     position: absolute;
@@ -1886,7 +1887,7 @@ blockquote {
     background-image: linear-gradient(to bottom, #000, #3c3c3c);   
 }
 .R3_MSG_SCRIPT_HOLDER {
-    width: 70%;
+    width: 73%;
     z-index: 6;
     position: sticky;
     margin-top: -2px;
@@ -3570,7 +3571,7 @@ blockquote {
     background-image: linear-gradient(to bottom, #000, #081a23);
 }
 .BG_COLOR_SCD {
-    background-image: linear-gradient(to bottom, #000, #1f0101);
+    background-image: linear-gradient(to bottom, #000, #330d0d);
 }
 /*
     MSG Colors

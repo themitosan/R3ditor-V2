@@ -62,7 +62,7 @@ function R3_MSG_startLoadMsg(fPath){
 };
 // Decompile MSG From RDT
 function R3_MSG_decompileRDT(openEditor){
-	if (RDT_arquivoBruto !== undefined && R3_RDT_RAWSECTION_MSG !== undefined){
+	if (RDT_arquivoBruto !== undefined && R3_RDT_rawSections.RAWSECTION_MSG !== undefined){
 		R3_DESIGN_CLEAN_MSG();
 		R3_UTILS_VAR_CLEAN_MSG();
 		if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE !== 3){
@@ -70,8 +70,8 @@ function R3_MSG_decompileRDT(openEditor){
 			R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE = 3;
 			R3_SAVE_SETTINGS(false);
 		};
-		var pointersLength = (parseInt(R3_parseEndian(R3_RDT_RAWSECTION_MSG.slice(0, 2)), 16) * 2),
-			R3_MSG_RDT_POINTERS_TEMP = R3_RDT_RAWSECTION_MSG.slice(0, pointersLength).match(/.{4,4}/g).forEach(function(tmpPointer){
+		var pointersLength = (parseInt(R3_parseEndian(R3_RDT_rawSections.RAWSECTION_MSG.slice(0, 2)), 16) * 2),
+			R3_MSG_RDT_POINTERS_TEMP = R3_RDT_rawSections.RAWSECTION_MSG.slice(0, pointersLength).match(/.{4,4}/g).forEach(function(tmpPointer){
 			R3_MSG_RDT_POINTERS.push(R3_parseEndian(tmpPointer));
 		});
 		// Push all messages to MSG List
@@ -115,7 +115,7 @@ function R3_MSG_readMessage(msgId){
 // Add MSG ID to MSG List
 function R3_MSG_addToMSGList(msgId, openEditor){
 	if (msgId < R3_MSG_RDT_POINTERS.length){
-		var tmpMsgRaw = R3_RDT_RAWSECTION_MSG,
+		var tmpMsgRaw = R3_RDT_rawSections.RAWSECTION_MSG,
 			pointersLength = (parseInt(R3_MSG_RDT_POINTERS[msgId], 16) * 2),
 			msgStart = tmpMsgRaw.slice(pointersLength, tmpMsgRaw.length),
 			msgFinal = msgStart.slice(0, (msgStart.indexOf('fe') + 4));
@@ -133,7 +133,7 @@ function R3_MSG_addToMSGList(msgId, openEditor){
 function R3_MSG_addMessage(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_MSG_RDT_MESSAGES.push('fa02fcfe00');
-		R3_MSG_RDT_POINTERS.push(R3_fixVars((R3_RDT_RAWSECTION_MSG.length / 2).toString(16), 4));
+		R3_MSG_RDT_POINTERS.push(R3_fixVars((R3_RDT_rawSections.RAWSECTION_MSG.length / 2).toString(16), 4));
 		R3_MSG_recompileWithPointers(1);
 		R3_MSG_readMessage((R3_MSG_RDT_MESSAGES.length - 1));
 	};
@@ -497,12 +497,12 @@ function R3_MSG_recompileWithPointers(mode){
 		mode = 0;
 	};
 	if (mode === 0){
-		R3_RDT_RAWSECTION_MSG = HEX_FINAL;
+		R3_RDT_rawSections.RAWSECTION_MSG = HEX_FINAL;
 		R3_SHOW_MENU(10);
 		R3_RDT_generateMsgPreview();
 	};
 	if (mode === 1){
-		R3_RDT_RAWSECTION_MSG = HEX_FINAL;
+		R3_RDT_rawSections.RAWSECTION_MSG = HEX_FINAL;
 		R3_MSG_decompileRDT(true);
 		R3_RDT_generateMsgPreview();
 	};
@@ -510,8 +510,8 @@ function R3_MSG_recompileWithPointers(mode){
 		console.info(HEX_FINAL);
 	};
 	if (mode === 3){
-		R3_RDT_RAWSECTION_MSG = HEX_FINAL;
-		R3_RDT_SCD_HACK_APPLY(true);
+		R3_RDT_rawSections.RAWSECTION_MSG = HEX_FINAL;
+		R3_RDT.scdHack.applyHack(true);
 		R3_MSG_decompileRDT(true);
 		R3_RDT_generateMsgPreview();
 	};

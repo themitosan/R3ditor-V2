@@ -129,7 +129,7 @@ function R3_TIM_MANAGER_importExport(mode){
 				};
 			}, undefined, 'hex');
 		} else {
-			R3_FILE_SAVE('TIM_' + R3_RDT_mapName + '_' + (R3_RDT_currentTimFile + 1) + '.tim', R3_RDT_ARRAY_TIM[R3_RDT_currentTimFile], 'hex', '.tim', function(fName){
+			R3_FILE_SAVE('TIM_' + R3_RDT_mapName + '_' + (R3_RDT_currentTimFile + 1) + '.tim', R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile], 'hex', '.tim', function(fName){
 				R3_SYSTEM_ALERT('INFO: (TIM Manager) Export Successful!');
 				R3_SYSTEM_LOG('separator');
 				R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (TIM Manager) Export Successful!');

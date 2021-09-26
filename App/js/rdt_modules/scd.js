@@ -236,7 +236,7 @@ function R3_SCD_OPEN_JS_FILE(){
 // Save JS Script
 function R3_SCD_SAVE_JS_FILE(){
 	if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){
-		var canSave = true, fName = errorReason = '', textCode = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value;
+		var pathLbl = '', canSave = true, fName = errorReason = '', textCode = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value;
 		if (textCode === ''){
 			canSave = false;
 			errorReason = errorReason + '\nThe JS script are blank! Please, insert required function to proceed.';
@@ -245,11 +245,11 @@ function R3_SCD_SAVE_JS_FILE(){
 		if (canSave === true){
 			fName = 'R3_JS_' + R3_SCD_fileName + '_S' + R3_SCD_CURRENT_SCRIPT + '.js';
 			R3_FILE_SAVE(fName, textCode, 'utf-8', '.js, .txt', function(finalPath){
-				R3_SYSTEM_LOG('separator');
-				R3_SYSTEM_LOG('log', 'R3ditor V2 - Save Successful! - File: ' + fName);
 				if (R3_WEBMODE === false){
-					R3_SYSTEM_LOG('log', 'Path: <font class="user-can-select">' + finalPath + '</font>');
+					pathLbl = ' Path: <font class="user-can-select">' + finalPath + '</font>'
 				};
+				R3_SYSTEM_LOG('separator');
+				R3_SYSTEM_LOG('log', 'R3ditor V2 - Save Successful! - File: ' + fName + pathLbl);
 				R3_DESIGN_JS_CODE_FOCUS();
 			});
 		} else {

@@ -1148,7 +1148,7 @@ const R3_internalHoldTime = 2800,
 		'8d': '[SPL_WEAPON_CHG]',
 		'8e': '[PLC_MOT_NUM]',
 		'8f': '[EM_RESET]\nThis function will reset a enemy animation'
-	}, R3_MP_WM = atob('ZmZmZmZmZmY1NDY4Njk3MzIwNjY2OTZjNjUyMDc3NjE3MzIwNmQ2MTY0NjUyMDc1NzM2OTZlNjcyMDUyMzM2NDY5NzQ2ZjcyMjA1NjMyMjAyZDIwNDM3MjY1NjE3NDY1NjQyMDQyNzkyMDUyMzM2NDY5NzQ2ZjcyMjA1NDY1NjE2ZGZmZmZmZmZm'),
+	}, R3_RDT_DIVISOR = atob('ZmZmZmZmZmY1NDY4Njk3MzIwNjY2OTZjNjUyMDc3NjE3MzIwNmQ2MTY0NjUyMDc1NzM2OTZlNjcyMDUyMzM2NDY5NzQ2ZjcyMjA1NjMyMjAyZDIwNDM3MjY1NjE3NDY1NjQyMDQyNzkyMDUyMzM2NDY5NzQ2ZjcyMjA1NDY1NjE2ZGZmZmZmZmZm'),
 	/*
 		SCD Code Function Decompilation 
 		This will migrate a lot of content originally stored in RANGES
@@ -3417,7 +3417,7 @@ const R3_internalHoldTime = 2800,
 		4:  ['NO_DROPDOWN'],
 		// File Generator
 		5:  ['File Generator Options', '<div class="R3_MENU_ITEM_NORMAL" title="Click here to close File Generator" onclick="R3_MENU_EXIT();">Exit</div>',
-			60],
+			80],
 		// INI Editor
 		6:  ['NO_DROPDOWN'],
 		7:  ['NO_DROPDOWN'],
@@ -3425,12 +3425,12 @@ const R3_internalHoldTime = 2800,
 		// SCD Editor
 		9:  ['NO_DROPDOWN'],
 		// RDT Editor
-		10: ['RDT Options', '<div class="R3_MENU_ITEM_NORMAL" title="Click here to Extract all RDT sections (Like BIOFAT)" onclick="R3_RDT_EXTRACT_ALL_SECTIONS();">Extract all sections</div>' +
-							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to Import all RDT sections from already extracted files" onclick="R3_RDT_IMPORT_ALL_SECTIONS();">Import all sections</div>' +
+		10: ['RDT Options', '<div class="R3_MENU_ITEM_NORMAL" title="Click here to Extract all RDT sections (Like BIOFAT)" onclick="R3_RDT.sections.exportAll();">Extract all sections</div>' +
+							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to Import all RDT sections from already extracted files" onclick="R3_RDT.sections.importAll();">Import all sections</div>' +
 							'<div class="R3_MENU_ITEM_BIG" title="Click here to open export window" onclick="R3_DESIGN_MINIWINDOW_OPEN(10);"><img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-51.png"><div class="R3_MENU_BIG_LBL">Export Sections Menu</div></div>' +
 							'<div class="R3_MENU_SEPARATOR"></div>' +
-							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to open VB file for this map on Hex Editor" onclick="R3_RDT_openVbOnHex();">Open VB file on Hex Editor</div>',
-			164],
+							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to open VB file for this map on Hex Editor" onclick="R3_RDT.openVbOnHex();">Open VB file on Hex Editor</div>',
+			216],
 		11: ['NO_DROPDOWN'],
 		// SAV Editor
 		12: ['NO_DROPDOWN'],

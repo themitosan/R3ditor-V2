@@ -170,16 +170,16 @@
 					Run Game
 					<div class="R3_MENU_DROPDOWN">
 						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3" onclick="R3_runGame(0);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-0.png"><div class="R3_MENU_BIG_LBL">Run Resident Evil 3</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-0.png"><div class="R3_MENU_BIG_LBL">Run RE3</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries" onclick="R3_runGame(1);">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-2.png"><div class="R3_MENU_BIG_LBL">Run Mercenaries</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3 (With Mod)" onclick="R3_runGame(2);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-3.png"><div class="R3_MENU_BIG_LBL">Run Resident Evil 3 (Mod)</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-3.png"><div class="R3_MENU_BIG_LBL">Run RE3 (Mod)</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries (With Mod)" onclick="R3_runGame(3);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-4.png"><div class="R3_MENU_BIG_LBL">Run Mercenaries (Mod)</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-4.png"><div class="R3_MENU_BIG_LBL">Run Mercs. (Mod)</div>
 						</div>
 					</div>
 				</div>
@@ -299,12 +299,12 @@
 					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(2);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="MENU_XDELTA_INNERINFOS">
-					Xdelta file: <font id="R3_XDELTA_LBL_XFILE" class="lbl-path XDELTA_LBL_FIX">No file selected</font><input type="button" value="Select File" class="BTN_R3CLASSIC XDELTA_BTN_PATH" onclick="R3_XDELTA_loadFiles(0);" title="Click here to select the Xdelta file"><br>
+					Xdelta file: <font id="R3_XDELTA_LBL_XFILE" class="lbl-path XDELTA_LBL_FIX">No file selected</font><input type="button" value="Select File" class="BTN_R3CLASSIC XDELTA_BTN_PATH" onclick="R3_XDELTA.loadFiles(0);" title="Click here to select the Xdelta file"><br>
 					<div class="XDELTA_SEPARATOR">
-						Original file: <font id="R3_XDELTA_LBL_ORIGFILE" class="lbl-path XDELTA_LBL_FIX">No file selected</font><input type="button" value="Select File" class="BTN_R3CLASSIC XDELTA_BTN_PATH" onclick="R3_XDELTA_loadFiles(1);" title="Click here to select the original file">
+						Original file: <font id="R3_XDELTA_LBL_ORIGFILE" class="lbl-path XDELTA_LBL_FIX">No file selected</font><input type="button" value="Select File" class="BTN_R3CLASSIC XDELTA_BTN_PATH" onclick="R3_XDELTA.loadFiles(1);" title="Click here to select the original file">
 					</div><br>
 					<div class="lbl-center">
-						<input type="button" title="Click here to apply" value="Apply Patch" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_XDELTA_APPLY();">
+						<input type="button" title="Click here to apply" value="Apply Patch" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_XDELTA.applyPatch();">
 					</div>
 				</div>
 			</div>
@@ -382,18 +382,20 @@
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_2">
 						<div class="R3_LIVESTATUS_MINITAB_2_BG" id="R3_LIVESTATUS_MINITAB_2_BG"></div>
-						Current Player: <font id="R3_LIVESTATUS_LBL_PLR_CURRENT">???</font>
+						Current Player: <font id="R3_LIVESTATUS_LBL_PLR_CURRENT" class="monospace">???</font>
 						<div class="SEPARATOR-2"></div>
-						Current Weapon: <font id="R3_LIVESTATUS_LBL_PLR_WEAPON">???</font>
+						Current Weapon: <font id="R3_LIVESTATUS_LBL_PLR_WEAPON" class="monospace">???</font>
 						<div class="SEPARATOR-2"></div>
-						HP: <font id="R3_LIVESTATUS_LBL_PLR_HP" class="sticky R3_LIVESTATUS_LBL_1 monospace mono_xyzr">???</font> <font class="sticky monospace R3_LIVESTATUS_LBL_2">(<font class="user-can-select" id="R3_LIVESTATUS_LBL_PLR_HP_HEX">???</font>)</font><br>
+						HP: <font id="R3_LIVESTATUS_LBL_PLR_HP" class="sticky R3_LIVESTATUS_LBL_1">???</font> <font class="sticky monospace R3_LIVESTATUS_LBL_2">(<font class="user-can-select" id="R3_LIVESTATUS_LBL_PLR_HP_HEX">???</font>)</font><br>
 						Poisoned: <font id="R3_LIVESTATUS_LBL_PLR_POISON" class="sticky R3_LIVESTATUS_LBL_1">[WIP]</font><br>
 						Condition: <font id="R3_LIVESTATUS_LBL_PLR_CONDITION" class="sticky R3_LIVESTATUS_LBL_1">???</font>
 						<div class="SEPARATOR-2"></div>
-						IGT: <font id="R3_LIVESTATUS_LBL_IGT">[WIP]</font>
+						IGT: <font id="R3_LIVESTATUS_LBL_IGT" class="monospace mono_xyzr">[WIP]</font>
 						<div class="SEPARATOR-2"></div>
-						<input type="checkbox" id="R3_LIVESTATUS_OPTION_INFINITE_HP"><font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_LIVESTATUS_OPTION_INFINITE_HP');"> - Enable Infinite HP</font><br>
-						<div class="align-center"><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Add 30K HP (God Mode)" onclick="R3_LIVESTATUS_addGodHp();"></div>
+						<input type="checkbox" id="R3_LIVESTATUS_OPTION_INFINITE_HP"><font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_LIVESTATUS_OPTION_INFINITE_HP');" title="Set this option enabled to always reset your HP to 200 if you get hurt"> - Enable Infinite HP</font><br>
+						<div class="align-center">
+							<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Add 30K HP (God Mode)" onclick="R3_LIVESTATUS_addGodHp();">
+						</div>
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_3">
 						<div class="R3_LIVESTATUS_INVENT_HOLDER">
@@ -1190,33 +1192,33 @@
 				<div class="R3_SUBMENU" id="SUBMENU_4">
 					<!-- General -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new RDT file">
-						<input type="button" onclick="R3_RDT_loadFile();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open RDT file">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new map">
+						<input type="button" onclick="R3_RDT.newFile();" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new RDT file"/>
+						<input type="button" onclick="R3_RDT.loadFile();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open RDT file"/>
+						<input type="button" onclick="R3_RDT.compile();" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes"/>
+						<input type="button" onclick="R3_RDT.compile();" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new map"/>
 					</div>
 					<!-- Functions -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR none" id="R3_MENU_BTNS_RDT_MINIWINDOWS">
-						<input type="button" id="BTN_MAIN_26" class="BTN_ICON_BASE" title="Click here to open the map list" onclick="R3_DESIGN_RDT_openFileList();">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on Hex editor" onclick="R3_SYSTEM_openInHex();">
+						<input type="button" id="BTN_MAIN_26" class="BTN_ICON_BASE" title="Click here to open the map list" onclick="R3_DESIGN_RDT_openFileList();"/>
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on Hex editor" onclick="R3_SYSTEM_openInHex();"/>
 					</div>
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR none" id="R3_MENU_BTNS_RDT_OPENSECTIONS">
-						<input type="button" id="BTN_MAIN_25" class="BTN_ICON_BASE" title="[SCD] Click here to edit scripts on SCD Editor" onclick="R3_RDT_OPEN_SCD();">
-						<input type="button" id="BTN_MAIN_31" class="BTN_ICON_BASE" title="[MSG] Click here to edit messages on MSG Editor" onclick="R3_RDT_OPEN_MSG();">
-						<input type="button" id="BTN_MAIN_39" class="BTN_ICON_BASE" title="[RID] Click here to edit camera angles on RID Editor" onclick="R3_RDT_OPEN_RID();">
-						<input type="button" id="BTN_MAIN_41" class="BTN_ICON_BASE" title="[LIT] Click here to edit light data on LIT Editor" onclick="R3_RDT_OPEN_LIT();">
-						<input type="button" id="BTN_MAIN_46" class="BTN_ICON_BASE" title="[PRI] Click here to edit masks on PRI Editor" onclick="R3_RDT_OPEN_PRI();">
-						<input type="button" id="BTN_MAIN_50" class="BTN_ICON_BASE" title="[SCA] Click here to edit boundaries on SCA Editor" onclick="R3_RDT_OPEN_SCA();">
-						<input type="button" id="BTN_MAIN_62" class="BTN_ICON_BASE" title="[TIM] Click here to view TIM Manager" onclick="R3_RDT_OPEN_TIM();">
-						<input type="button" id="BTN_MAIN_63" class="BTN_ICON_BASE" title="[OBJ] Click here to view Obj Manager" onclick="R3_RDT_OPEN_OBJ();">
+						<input type="button" id="BTN_MAIN_25" class="BTN_ICON_BASE" title="[SCD] Click here to edit scripts on SCD Editor" onclick="R3_RDT.sections.openSCD();"/>
+						<input type="button" id="BTN_MAIN_31" class="BTN_ICON_BASE" title="[MSG] Click here to edit messages on MSG Editor" onclick="R3_RDT.sections.openMSG();"/>
+						<input type="button" id="BTN_MAIN_39" class="BTN_ICON_BASE" title="[RID] Click here to edit camera angles on RID Editor" onclick="R3_RDT.sections.openRID();"/>
+						<input type="button" id="BTN_MAIN_41" class="BTN_ICON_BASE" title="[LIT] Click here to edit light data on LIT Editor" onclick="R3_RDT.sections.openLIT();"/>
+						<input type="button" id="BTN_MAIN_46" class="BTN_ICON_BASE" title="[PRI] Click here to edit masks on PRI Editor" onclick="R3_RDT.sections.openPRI();"/>
+						<input type="button" id="BTN_MAIN_50" class="BTN_ICON_BASE" title="[SCA] Click here to edit boundaries on SCA Editor" onclick="R3_RDT.sections.openSCA();"/>
+						<input type="button" id="BTN_MAIN_62" class="BTN_ICON_BASE" title="[TIM] Click here to view TIM Manager" onclick="R3_RDT.sections.openTimManager();"/>
+						<input type="button" id="BTN_MAIN_63" class="BTN_ICON_BASE" title="[OBJ] Click here to view Obj Manager" onclick="R3_RDT.sections.openObjManager();"/>
 					</div>
 					<!-- Utility -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR none" id="R3_MENU_BTNS_RDT_UTILITY">
 						<!-- Leo2236 RE3SLDE Tool -->
-						<input type="button" id="BTN_MAIN_38" class="BTN_ICON_BASE" title="[SLD] Click here to open SLD file for this map on Leo2236 RE3SLDE" onclick="R3_RDT_OPEN_SLD();">
+						<input type="button" id="BTN_MAIN_38" class="BTN_ICON_BASE" title="[SLD] Click here to open SLD file for this map on Leo2236 RE3SLDE" onclick="R3_RDT.sections.openSLD();"/>
 						<!-- RDT Hacks -->
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_ENABLE_HACK" id="R3_RDT_BTN_ENABLE_SCD_HACK" title="Click here to enable SCD Hack on this map!" onclick="R3_RDT_SCD_HACK_ENABLE();">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_HACK" id="BTN_SCD_HACK" title="Click here to apply SCD Hack!" onclick="R3_RDT_SCD_HACK_APPLY(true);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_ENABLE_HACK" id="R3_RDT_BTN_ENABLE_SCD_HACK" title="Click here to enable SCD Hack on this map!" onclick="R3_RDT.scdHack.enableHack();">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_HACK" id="BTN_SCD_HACK" title="Click here to apply SCD Hack!" onclick="R3_RDT.scdHack.applyHack(true);">
 					</div>
 					<!-- Next Prev -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR none" id="R3_MENU_BTNS_NEXTPREV">
@@ -1352,18 +1354,18 @@
 						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(10);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_MSG_HEX_RAW">
-						<input type="button" value="Export VB"  class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(0);" title="Click here to export VB section">
-						<input type="button" value="Export SCA" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(1);" title="Click here to export SCA section">
-						<input type="button" value="Export RID" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(2);" title="Click here to export RID section">
-						<input type="button" value="Export RVD" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(3);" title="Click here to export RVD section">
-						<input type="button" value="Export OBJ" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(4);" title="Click here to export OBJ section">
-						<input type="button" value="Export LIT" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(5);" title="Click here to export LIT section">
-						<input type="button" value="Export MSG" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(6);" title="Click here to export MSG section">
-						<input type="button" value="Export SCD" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(7);" title="Click here to export SCD section">
-						<input type="button" value="Export EFF" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(8);" title="Click here to export EFF section">
-						<input type="button" value="Export SND" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(9);" title="Click here to export SND section">
-						<input type="button" value="Export FLR" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(10);" title="Click here to export FLR section">
-						<input type="button" value="Export BLK" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(11);" title="Click here to export BLK section">
+						<input type="button" value="Export VB"  class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('VB');" title="Click here to export VB section">
+						<input type="button" value="Export SCA" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('SCA');" title="Click here to export SCA section">
+						<input type="button" value="Export RID" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('RID');" title="Click here to export RID section">
+						<input type="button" value="Export RVD" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('RVD');" title="Click here to export RVD section">
+						<input type="button" value="Export OBJ" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('OBJ');" title="Click here to export OBJ section">
+						<input type="button" value="Export LIT" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('LIT');" title="Click here to export LIT section">
+						<input type="button" value="Export MSG" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('MSG');" title="Click here to export MSG section">
+						<input type="button" value="Export SCD" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('SCD');" title="Click here to export SCD section">
+						<input type="button" value="Export EFF" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('EFF');" title="Click here to export EFF section">
+						<input type="button" value="Export SND" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('SND');" title="Click here to export SND section">
+						<input type="button" value="Export FLR" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('FLR');" title="Click here to export FLR section">
+						<input type="button" value="Export BLK" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('BLK');" title="Click here to export BLK section">
 					</div>
 				</div>
 				<!-- R3V2 - TIM Manager -->

@@ -165,27 +165,27 @@ document.addEventListener('keyup', function(kp){
 				if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === false){
 					// SCD [CTRL + 1]
 					if (kp.keyCode === 49){
-						R3_RDT_OPEN_SCD();
+						R3_RDT.sections.openSCD();
 					};
 					// MSG [CTRL + 2]
 					if (kp.keyCode === 50){
-						R3_RDT_OPEN_MSG();
+						R3_RDT.sections.openMSG();
 					};
 					// RID [CTRL + 3]
 					if (kp.keyCode === 51){
-						R3_RDT_OPEN_RID();
+						R3_RDT.sections.openRID();
 					};
 					// LIT [CTRL + 4]
 					if (kp.keyCode === 52){
-						R3_RDT_OPEN_LIT();
+						R3_RDT.sections.openLIT();
 					};
 					// PRI [CTRL + 5]
 					if (kp.keyCode === 53){
-						R3_RDT_OPEN_PRI();
+						R3_RDT.sections.openPRI();
 					};
 					// SCA [CTRL + 6]
 					if (kp.keyCode === 54){
-						R3_RDT_OPEN_SCA();
+						R3_RDT.sections.openSCA();
 					};
 				};
 				// Open windows / editors on main menu [CTRL + Number]
@@ -478,7 +478,7 @@ document.addEventListener('keyup', function(kp){
 					Remove the lines below when this feature becomes obsolete
 				*/
 				if (R3_KEYPRESS_SHIFT === true){
-					R3_RDT_SCD_HACK_APPLY(true);
+					R3_RDT.scdHack.applyHack(true);
 				} else {
 					R3_DESIGN_MINIWINDOW_OPEN(3);
 				};
@@ -514,7 +514,7 @@ function R3_SCD_CODE_EDITOR_KEYFIX(evt){
 };
 // Enhance code typing
 function R3_SCD_CODE_EDITOR_enhanceType(evt){
-	var textData = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value,
+	const textData = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value,
 		latestChar = textData.slice(textData.length - 1), autoCompleteDatabase = {
 			'{': '}',
 			'[': ']',

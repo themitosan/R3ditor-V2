@@ -396,8 +396,8 @@ function R3_killExternalSoftware(processID){
 // Open file in Hex Editor
 function R3_SYSTEM_openInHex(){
 	if (R3_WEBMODE === false){
-		if (APP_FS.existsSync(R3_HEX_PATH) !== false && APP_FS.existsSync(ORIGINAL_FILENAME) !== false){
-			R3_runExec(R3_HEX_PATH, [ORIGINAL_FILENAME]);
+		if (APP_FS.existsSync(R3_SETTINGS.R3_HEX_PATH) !== false && APP_FS.existsSync(ORIGINAL_FILENAME) !== false){
+			R3_runExec(R3_SETTINGS.R3_HEX_PATH, [ORIGINAL_FILENAME]);
 		} else {
 			R3_SYSTEM_LOG('warn', 'R3ditor V2 - WARN: Unable to open file in hex, since the Hex Viewer or file was not found!');
 		};
@@ -1273,45 +1273,31 @@ function R3_UTILS_VAR_CLEAN_SCD(){
 };
 function R3_UTILS_VAR_CLEAN_RDT(){
 	R3_RDT_LOADED = false;
-	R3_RDT_ARRAY_TIM = [];
-	R3_RDT_ARRAY_OBJ = [];
 	R3_RDT_MAP_totalCams = 0;
 	R3_RDT_currentTimFile = 0;
 	RDT_arquivoBruto = undefined;
 	R3_RDT_MAP_HEADER = undefined;
 	R3_RDT_MAP_HEADER_POINTERS = [];
 	// Raw Sections
-	R3_RDT_RAWSECTION_VB  = undefined;
-	R3_RDT_RAWSECTION_SCA = undefined;
-	R3_RDT_RAWSECTION_RID = undefined;
-	R3_RDT_RAWSECTION_OBJ = undefined;
-	R3_RDT_RAWSECTION_RVD = undefined;
-	R3_RDT_RAWSECTION_LIT = undefined;
-	R3_RDT_RAWSECTION_PRI = undefined;
-	R3_RDT_RAWSECTION_MSG = undefined;
-	R3_RDT_RAWSECTION_SCD = undefined;
-	R3_RDT_RAWSECTION_EFF = undefined;
-	R3_RDT_RAWSECTION_SND = undefined;
-	R3_RDT_RAWSECTION_BLK = undefined;
-	R3_RDT_RAWSECTION_FLR = undefined;
-	R3_RDT_RAWSECTION_RBJ = undefined;
-	R3_RDT_RAWSECTION_EFFSPR = undefined;
-	// Original copy
-	R3_RDT_ORIGINAL_VB = undefined;
-	R3_RDT_ORIGINAL_SCA = undefined;
-	R3_RDT_ORIGINAL_RID = undefined;
-	R3_RDT_ORIGINAL_RVD = undefined;
-	R3_RDT_ORIGINAL_OBJ = undefined;
-	R3_RDT_ORIGINAL_LIT = undefined;
-	R3_RDT_ORIGINAL_PRI = undefined;
-	R3_RDT_ORIGINAL_MSG = undefined;
-	R3_RDT_ORIGINAL_SCD = undefined;
-	R3_RDT_ORIGINAL_EFF = undefined;
-	R3_RDT_ORIGINAL_SND = undefined;
-	R3_RDT_ORIGINAL_BLK = undefined;
-	R3_RDT_ORIGINAL_FLR = undefined;
-	R3_RDT_ORIGINAL_RBJ = undefined;
-	R3_RDT_ORIGINAL_EFFSPR = undefined;
+	R3_RDT_rawSections = {
+		RAWSECTION_VB: '', 	   ORIGINAL_VB: '',
+		RAWSECTION_SCA: '',    ORIGINAL_SCA: '',
+		RAWSECTION_RID: '',    ORIGINAL_RID: '',
+		RAWSECTION_RVD: '',    ORIGINAL_RVD: '',
+		RAWSECTION_OBJ: '',    ORIGINAL_OBJ: '',
+		RAWSECTION_LIT: '',    ORIGINAL_LIT: '',
+		RAWSECTION_PRI: '',    ORIGINAL_PRI: '',
+		RAWSECTION_FLR: '',    ORIGINAL_FLR: '',
+		RAWSECTION_MSG: '',    ORIGINAL_MSG: '',
+		RAWSECTION_SCD: '',    ORIGINAL_SCD: '',
+		RAWSECTION_EFF: '',    ORIGINAL_EFF: '',
+		RAWSECTION_SND: '',    ORIGINAL_SND: '',
+		RAWSECTION_BLK: '',    ORIGINAL_BLK: '',
+		RAWSECTION_RBJ: '',    ORIGINAL_RBJ: '',
+		RAWSECTION_EFFSPR: '', ORIGINAL_EFFSPR: '',
+		ARRAY_TIM: [],
+		ARRAY_OBJ: []
+	};
 };
 function R3_UTILS_VAR_CLEAN_ARD(){
 	ARD_filePath = '';
