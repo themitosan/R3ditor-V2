@@ -241,7 +241,7 @@ function R3_LOAD_CHECK_EXTRA(){
 	if (R3_getDate(2) === '09' && R3_getDate(1) === '28'){
 		APP_CAN_RENDER_DEV = false;
 		var diff = (parseInt(R3_getDate(3)) - 1999);
-		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', atob(FG_HIDDENSTRINGS[0][0]) + diff + atob(FG_HIDDENSTRINGS[0][1]), 'RE3', 144);
+		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', atob(FG_HIDDENSTRINGS[0][0]) + diff + atob(FG_HIDDENSTRINGS[0][1]), 'RE3', 140);
 	} else {
 		R3_WEB_ALERT();
 	};
