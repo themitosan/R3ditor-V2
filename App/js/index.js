@@ -128,55 +128,55 @@ function R3_INIT_REQUIRE(){
 				End
 			*/
 			APP_REQUIRE_SUCESS = true;
-		} else {
-			/*
-				Web Mode
-			*/
-			try {
-				R3_WEB_checkBrowser();
-				// Try to port some nw functions to web
-				APP_FS = {
-					readFileSync: function(path, options){
-						if (path !== undefined && path !== ''){
-							var fReader = new FileReader;
-							if (options === undefined){
-								options = 'hex';
-							}
-							/*
-								Read Modes
-								Original Code: https://stackoverflow.com/questions/40031688/javascript-arraybuffer-to-hex
-							*/
-							// Hex
-							if (options === 'hex'){
-								fReader.readAsArrayBuffer(path);
-								fReader.onload = function(){
-									R3_WEB_FILE_BRIDGE = Array.prototype.map.call(new Uint8Array(fReader.result), function(x){
-										return ('00' + x.toString(16)).slice(-2);
-									}).join('');
-								};
-							};
-							// Text
-							if (options === 'utf-8'){
-								fReader.readAsText(path);
-								fReader.onload = function(){
-									R3_WEB_FILE_BRIDGE = fReader.result;
-								};
-							};
-							// End
-							fReader.onerror = function(){
-								R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to read file! <br>Reason: ' + fReader.error);
-								console.error('APP_FS ERROR!\n' + fReader.error);
-								R3_SYSTEM.alert('ERROR: \n' + fReader.error);
+		};
+	} else {
+		/*
+			Web Mode
+		*/
+		try {
+			R3_WEB_checkBrowser();
+			// Try to port some nw functions to web
+			APP_FS = {
+				readFileSync: function(path, options){
+					if (path !== undefined && path !== ''){
+						var fReader = new FileReader;
+						if (options === undefined){
+							options = 'hex';
+						}
+						/*
+							Read Modes
+							Original Code: https://stackoverflow.com/questions/40031688/javascript-arraybuffer-to-hex
+						*/
+						// Hex
+						if (options === 'hex'){
+							fReader.readAsArrayBuffer(path);
+							fReader.onload = function(){
+								R3_WEB_FILE_BRIDGE = Array.prototype.map.call(new Uint8Array(fReader.result), function(x){
+									return ('00' + x.toString(16)).slice(-2);
+								}).join('');
 							};
 						};
-					},
-					writeFileSync: function(path, fData, mode){
-						R3_FILE_SAVE(R3_getFileName(path.name) + '.' + R3_getFileExtension(path.name), fData, mode, R3_getFileExtension(path.name));
-					}
-				};
-			} catch (err) {
-				R3_DESIGN_CRITIAL_ERROR(err);
+						// Text
+						if (options === 'utf-8'){
+							fReader.readAsText(path);
+							fReader.onload = function(){
+								R3_WEB_FILE_BRIDGE = fReader.result;
+							};
+						};
+						// End
+						fReader.onerror = function(){
+							R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to read file! <br>Reason: ' + fReader.error);
+							console.error('APP_FS ERROR!\n' + fReader.error);
+							R3_SYSTEM.alert('ERROR: \n' + fReader.error);
+						};
+					};
+				},
+				writeFileSync: function(path, fData, mode){
+					R3_FILE_SAVE(R3_getFileName(path.name) + '.' + R3_getFileExtension(path.name), fData, mode, R3_getFileExtension(path.name));
+				}
 			};
+		} catch (err) {
+			R3_DESIGN_CRITIAL_ERROR(err);
 		};
 	};
 };
@@ -222,13 +222,12 @@ function R3_LOAD(){
 		// Init modules
 		if (typeof process !== 'undefined' && startInWebMode === false){
 			R3_WEBMODE = false;
-			R3_INIT_REQUIRE();
 		} else {
 			INT_VERSION = INT_VERSION + ' [WEB]';
 			APP_TITLE = APP_TITLE + ' [WEB]';
 			R3_WEBMODE = true;
-			R3_INIT_REQUIRE();
 		};
+		R3_INIT_REQUIRE();
 		if (R3_WEBMODE === true){
 			R3_INIT_DATABASE_GENERATE();
 			R3_LOAD_SETTINGS();
