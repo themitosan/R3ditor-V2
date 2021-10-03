@@ -392,7 +392,7 @@ function R3_DESIGN_ADJUST(){
 		// Mod Menu
 		TMS.css('R3_MENU_MOD', {'display': 'block'});
 		TMS.css('SETTINGS_LI_CLEARCACHE', {'display': 'none'});
-		if (INT_VERSION === 'DEV_VERSION'){
+		if (INT_VERSION.indexOf('DEV_VERSION') !== -1){
 			TMS.css('R3_MENU_ITEM_GITHUB_UPDATER', {'display': 'block'});
 		};
 		if (process.platform !== 'win32'){

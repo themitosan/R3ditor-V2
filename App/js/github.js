@@ -17,7 +17,7 @@ tempFn_R3_UPDATER = {};
 */
 // Get branches list R3_UPDATER_GET_BRANCHES
 tempFn_R3_UPDATER['getUpdates'] = function(){
-	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION' && R3_ELECTRON === undefined){
+	if (R3_WEBMODE === false && INT_VERSION.indexOf('DEV_VERSION') !== -1 && R3_ELECTRON === undefined){
 		var HTML_TEMPLATE = '';
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (GitHub) Fetching branches - Please wait...');
 		fetch(R3_GITHUB_FETCH_URL + 'branches').then(resp => resp.json()).then(function(dat){
@@ -33,10 +33,9 @@ tempFn_R3_UPDATER['getUpdates'] = function(){
 };
 // Get commits list R3_UPDATER_GET_COMMITS
 tempFn_R3_UPDATER['getCommits'] = function(){
-	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION'){
+	if (R3_WEBMODE === false && INT_VERSION.indexOf('DEV_VERSION') !== -1){
 		var cBranch = document.getElementById('R3_UPDATER_CURRENT_BRANCH').value, parseTimestamp = function(str){
-				const day = str.slice(0, str.indexOf('T')),
-					  time = str.slice(parseInt(str.indexOf('T') + 1)).replace('Z', '');
+				const day = str.slice(0, str.indexOf('T')), time = str.slice(parseInt(str.indexOf('T') + 1)).replace('Z', '');
 				return day + ' - ' + time;
 			};
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (GitHub) Reading latest commit from ' + R3_GITHUB_BRANCHES_LIST[cBranch].name + ' - Please wait...');
@@ -65,9 +64,9 @@ tempFn_R3_UPDATER['getCommits'] = function(){
 	https://github.com/nwjs/nw.js/issues/149#issuecomment-299653483
 */
 tempFn_R3_UPDATER['startUpdate'] = function(){
-	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION'){
+	if (R3_WEBMODE === false && INT_VERSION.indexOf('DEV_VERSION') !== -1){
 		try {
-			var c = 0, maxSteps = 8;
+			var c = 0;
 			R3_UPDATER_RUNNING = true;
 			R3_UPDATER_INTERVAL = setInterval(function(){
 				if (R3_UPDATER_LOCK === false){
@@ -84,7 +83,7 @@ tempFn_R3_UPDATER['startUpdate'] = function(){
 };
 // Updater Actions R3_UPDATER_ACTION
 tempFn_R3_UPDATER['execAction'] = function(actionId){
-	if (R3_WEBMODE === false && INT_VERSION === 'DEV_VERSION' && R3_UPDATER_RUNNING === true && actionId !== undefined){
+	if (R3_WEBMODE === false && INT_VERSION.indexOf('DEV_VERSION') !== -1 && R3_UPDATER_RUNNING === true && actionId !== undefined){
 		console.info('Running Step ' + actionId);
 		R3_UPDATER_LOCK = true;
 		var sysInterval, ACTION_updateCrash = function(reason){
