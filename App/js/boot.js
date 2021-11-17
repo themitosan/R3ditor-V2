@@ -686,7 +686,7 @@ function R3_UTILS_VAR_CLEAN_RDT(){
 	R3_RDT_currentTimFile = 0;
 	RDT_arquivoBruto = undefined;
 	R3_RDT_MAP_HEADER = undefined;
-	R3_RDT_MAP_HEADER_POINTERS = [];
+	R3_RDT.HEADER_POINTERS = [];
 	// Raw Sections
 	R3_RDT_rawSections = {
 		RAWSECTION_VB: '', 	   ORIGINAL_VB: '',

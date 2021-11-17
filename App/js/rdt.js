@@ -16,11 +16,9 @@ var RDT_arquivoBruto,
 	R3_RDT_LOADED = false,
 	R3_RDT_currentTimFile = 0,
 	R3_RDT_currentObjFile = 0,
-	R3_RDT_SCD_HACK_ENABLED = false,
-	R3_RDT_MAP_HEADER_POINTERS = [],
 	/*
 		RDT Positions [WIP]
-		Header Positions (R3_RDT_MAP_HEADER_POINTERS)
+		Header Positions (R3_RDT.HEADER_POINTERS)
 	
 		00: RID + OBJ - Total Cameras and Objects
 		01: ???		  - Unk Data (That seems to be some variable)
@@ -66,7 +64,10 @@ var RDT_arquivoBruto,
 		ARRAY_TIM: [], ARRAY_OBJ: []
 	};
 // Temp Objects
-tempFn_R3_RDT = {};
+tempFn_R3_RDT = {
+	HEADER_POINTERS: [],
+	scdHackEnabled: false
+};
 tempFn_scdHack = {};
 tempFn_sections = {};
 /*
@@ -140,15 +141,15 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 				*/ 
 				headersTemp.forEach(function(a, b){
 					if (b === 0){
-						R3_RDT_MAP_HEADER_POINTERS.push(a);
+						R3_RDT.HEADER_POINTERS.push(a);
 					} else {
-						R3_RDT_MAP_HEADER_POINTERS.push(R3_tools.parseEndian(a));
+						R3_RDT.HEADER_POINTERS.push(R3_tools.parseEndian(a));
 					};
 				});
 				/*
 					Get Extra Info From RDT
 				*/
-				R3_RDT_MAP_totalCams = parseInt(R3_RDT_MAP_HEADER_POINTERS[0].slice(0, 4), 16);
+				R3_RDT_MAP_totalCams = parseInt(R3_RDT.HEADER_POINTERS[0].slice(0, 4), 16);
 				/*
 					Extract Sections
 					Note: PRI extraction function will be executed inside LIT.
@@ -213,7 +214,7 @@ tempFn_R3_RDT['backupSections'] = function(){
 tempFn_R3_RDT['errorBlankSection'] = function(section){
 	if (RDT_arquivoBruto !== undefined && section !== undefined){
 		R3_SYSTEM.log('separator');
-		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to extract ' + section + ' since the pointers are blank! (<font class="user-can-select">00000000</font>) <br>Check pointers array [R3_RDT_MAP_HEADER_POINTERS] to know more about.');
+		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to extract ' + section + ' since the pointers are blank! (<font class="user-can-select">00000000</font>) <br>Check pointers array [R3_RDT.HEADER_POINTERS] to know more about.');
 		R3_SYSTEM.log('separator');
 	};
 };
@@ -232,9 +233,9 @@ tempFn_R3_RDT['errorBlankSection'] = function(section){
 tempFn_sections['readFLR'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading FLR...');
-		if (R3_RDT_MAP_HEADER_POINTERS[13] !== '00000000'){
+		if (R3_RDT.HEADER_POINTERS[13] !== '00000000'){
 			// It seems to always ends on SCD Start
-			const flrStart = (parseInt(R3_RDT_MAP_HEADER_POINTERS[13], 16) * 2),
+			const flrStart = (parseInt(R3_RDT.HEADER_POINTERS[13], 16) * 2),
 				flrEnd = RDT_arquivoBruto.indexOf(R3_RDT_rawSections.RAWSECTION_SCD);
 			R3_RDT_rawSections.RAWSECTION_FLR = RDT_arquivoBruto.slice(flrStart, flrEnd);
 		} else {
@@ -254,9 +255,9 @@ tempFn_sections['openFLR'] = function(){
 tempFn_sections['readBLK'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading BLK...');
-		if (R3_RDT_MAP_HEADER_POINTERS[14] !== '00000000'){
+		if (R3_RDT.HEADER_POINTERS[14] !== '00000000'){
 			var blkArray 	 = [],
-				blkStart 	 = (parseInt(R3_RDT_MAP_HEADER_POINTERS[14], 16) * 2),
+				blkStart 	 = (parseInt(R3_RDT.HEADER_POINTERS[14], 16) * 2),
 				blkCounter   = RDT_arquivoBruto.slice(blkStart, (blkStart + 4)),
 				headerLength = RDT_arquivoBruto.slice((blkStart + 4), (blkStart + 8)),
 				blkHeader 	 = RDT_arquivoBruto.slice(blkStart, (blkStart + (parseInt(R3_tools.parseEndian(headerLength), 16) * 2))),
@@ -287,10 +288,10 @@ tempFn_sections['openBLK'] = function(){
 tempFn_sections['readVB'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading VB... [WIP]');
-		if (R3_RDT_MAP_HEADER_POINTERS[2] !== '00000000'){
+		if (R3_RDT.HEADER_POINTERS[2] !== '00000000'){
 			var VB_headerHex, VB_dataCounter, VB_useCounter, VB_dataHex,
-				VB_location_A  = (parseInt(R3_RDT_MAP_HEADER_POINTERS[2], 16) * 2),
-				VB_locationEnd = ((parseInt(R3_RDT_MAP_HEADER_POINTERS[3], 16) * 2) + 16), // It seems length is always C8 (200)
+				VB_location_A  = (parseInt(R3_RDT.HEADER_POINTERS[2], 16) * 2),
+				VB_locationEnd = ((parseInt(R3_RDT.HEADER_POINTERS[3], 16) * 2) + 16), // It seems length is always C8 (200)
 				VB_idListHex   = RDT_arquivoBruto.slice(VB_location_A, VB_locationEnd),
 				VB_startHeader = RDT_arquivoBruto.slice(VB_locationEnd);
 				VB_firstIndex  = VB_startHeader.indexOf('0000b1b2');
@@ -333,8 +334,8 @@ tempFn_R3_RDT['openVbOnHex'] = function(){
 tempFn_sections['readRVD'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading RVD...');
-		if (R3_RDT_MAP_HEADER_POINTERS[10] !== '00000000'){
-			const RVD_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[10], 16) * 2),
+		if (R3_RDT.HEADER_POINTERS[10] !== '00000000'){
+			const RVD_location = (parseInt(R3_RDT.HEADER_POINTERS[10], 16) * 2),
 				tempRVD = RDT_arquivoBruto.slice(RVD_location);
 			R3_RDT_rawSections.RAWSECTION_RVD = tempRVD.slice(0, tempRVD.indexOf('ffffffff'));
 		} else {
@@ -354,9 +355,9 @@ tempFn_sections['openRVD'] = function(){
 tempFn_sections['readOBJ'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading OBJ / TIM...');
-		if (R3_RDT_MAP_HEADER_POINTERS[12] !== '00000000'){
-			const OBJ_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[12], 16) * 2),
-				totalObjects = parseInt(R3_RDT_MAP_HEADER_POINTERS[0].slice(4, 6), 16);
+		if (R3_RDT.HEADER_POINTERS[12] !== '00000000'){
+			const OBJ_location = (parseInt(R3_RDT.HEADER_POINTERS[12], 16) * 2),
+				totalObjects = parseInt(R3_RDT.HEADER_POINTERS[0].slice(4, 6), 16);
 			var	tempTim, temp3dObj, tempRDT = RDT_arquivoBruto.slice(OBJ_location, RDT_arquivoBruto.length).match(/.{16,16}/g);
 			if (totalObjects !== 0){
 				R3_RDT_rawSections.RAWSECTION_OBJ = tempRDT.slice(0, totalObjects).toString().replace(new RegExp(',', 'gi'), '');
@@ -427,8 +428,8 @@ tempFn_sections['openObjManager'] = function(){
 tempFn_sections['readSCA'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading SCA...');
-		if (R3_RDT_MAP_HEADER_POINTERS[8] !== '00000000'){
-			const SCA_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[8], 16) * 2),
+		if (R3_RDT.HEADER_POINTERS[8] !== '00000000'){
+			const SCA_location = (parseInt(R3_RDT.HEADER_POINTERS[8], 16) * 2),
 				SCA_itemStart = parseInt(SCA_location + 32),
 				SCA_unkArrayStart = parseInt(SCA_location + 8),
 				SCA_totalItems = parseInt(R3_tools.parseEndianToInt(R3_tools.parseEndian(RDT_arquivoBruto.slice(SCA_location, SCA_unkArrayStart))) - 1),
@@ -452,8 +453,8 @@ tempFn_sections['openSCA'] = function(){
 tempFn_sections['readRID'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading RID...');
-		const RID_totalCameras = parseInt(R3_RDT_MAP_HEADER_POINTERS[0].slice(2, 4), 16),
-			RID_startLocation = (parseInt(R3_RDT_MAP_HEADER_POINTERS[9], 16) * 2);
+		const RID_totalCameras = parseInt(R3_RDT.HEADER_POINTERS[0].slice(2, 4), 16),
+			RID_startLocation = (parseInt(R3_RDT.HEADER_POINTERS[9], 16) * 2);
 		R3_RDT_rawSections.RAWSECTION_RID = RDT_arquivoBruto.slice(RID_startLocation, parseInt(RID_startLocation + parseInt(64 * RID_totalCameras)));
 	};
 };
@@ -477,7 +478,7 @@ tempFn_sections['openRID'] = function(){
 tempFn_sections['readLIT'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading LIT...');
-		var c = 0, reachEnd = false, LIT_TEMP = '', LIT_startPos = (parseInt(R3_RDT_MAP_HEADER_POINTERS[11], 16) * 2),
+		var c = 0, reachEnd = false, LIT_TEMP = '', LIT_startPos = (parseInt(R3_RDT.HEADER_POINTERS[11], 16) * 2),
 			LIT_pointerLength = RDT_arquivoBruto.slice(LIT_startPos, parseInt(LIT_startPos + 4)),
 			LIT_pointers = RDT_arquivoBruto.slice(LIT_startPos, parseInt(LIT_startPos + (parseInt(R3_tools.parseEndian(LIT_pointerLength), 16) * 2))),
 			LIT_tempLightsArray = RDT_arquivoBruto.slice(parseInt(LIT_startPos + LIT_pointers.length), RDT_arquivoBruto.length).match(/.{80,80}/g);
@@ -552,8 +553,8 @@ tempFn_sections['openSLD'] = function(){
 tempFn_sections['readMSG'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading MSG...');
-		if (R3_RDT_MAP_HEADER_POINTERS[15] !== '00000000'){
-			var	MSG_HEX_STARTPOS 		= (parseInt(R3_RDT_MAP_HEADER_POINTERS[15], 16) * 2),
+		if (R3_RDT.HEADER_POINTERS[15] !== '00000000'){
+			var	MSG_HEX_STARTPOS 		= (parseInt(R3_RDT.HEADER_POINTERS[15], 16) * 2),
 				MSG_POINTER_LENGTH 		= (parseInt(R3_tools.parseEndian(RDT_arquivoBruto.slice(MSG_HEX_STARTPOS, (MSG_HEX_STARTPOS + 4))), 16) * 2),
 				MSG_POINTERS			= RDT_arquivoBruto.slice(MSG_HEX_STARTPOS, (MSG_HEX_STARTPOS + MSG_POINTER_LENGTH)),
 				MSG_LAST_POINTER_LENGTH = (parseInt(R3_tools.parseEndian(MSG_POINTERS.slice(MSG_POINTERS.length - 4, MSG_POINTERS.length)), 16) * 2),
@@ -574,7 +575,7 @@ tempFn_sections['readMSG'] = function(){
 // Open MSG Section R3_RDT_OPEN_MSG
 tempFn_sections['openMSG'] = function(){
 	if (RDT_arquivoBruto !== undefined){
-		if (R3_RDT_MAP_HEADER_POINTERS[15] !== '00000000'){
+		if (R3_RDT.HEADER_POINTERS[15] !== '00000000'){
 			R3_MSG_decompileRDT(true);
 			if (R3_SETTINGS.SETTINGS_MSG_AUTO_OPEN_MESSAGE_LIST === true){
 				R3_MINIWINDOW.open(5);
@@ -621,7 +622,7 @@ tempFn_sections['readSCD'] = function(){
 			console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading SCD...');
 		};
 		var c = 0, opcodeLength, RDT_SCD_SEEK_AREA, foundEnd = false, cOpcode = '', tmpStart = 0, tmpEnd = 2, lastScript = '',
-			SCD_HEX_STARTPOS  = (parseInt(R3_RDT_MAP_HEADER_POINTERS[18], 16) * 2),
+			SCD_HEX_STARTPOS  = (parseInt(R3_RDT.HEADER_POINTERS[18], 16) * 2),
 			SCD_POINTER_START = R3_tools.parseEndian(RDT_arquivoBruto.slice(SCD_HEX_STARTPOS, (SCD_HEX_STARTPOS + 4))),
 			SCD_POINTER_END   = SCD_HEX_STARTPOS + (parseInt(SCD_POINTER_START, 16) * 2),
 			SCD_LENGTH 		  = (parseInt(R3_tools.parseEndian(RDT_arquivoBruto.slice((SCD_POINTER_END - 4), SCD_POINTER_END)), 16) * 2),
@@ -682,7 +683,7 @@ tempFn_sections['readEFF'] = function(){
 		Since EFF and SND are sequent, this extraction method is kinda simple.
 		I still think there is a more logical way to make this work properly...
 	*/
-	var tempSize, RDT_EFF_POINTER = R3_RDT_MAP_HEADER_POINTERS[19], RDT_SND_POINTER = R3_RDT_MAP_HEADER_POINTERS[20];
+	var tempSize, RDT_EFF_POINTER = R3_RDT.HEADER_POINTERS[19], RDT_SND_POINTER = R3_RDT.HEADER_POINTERS[20];
 	if (RDT_EFF_POINTER !== '00000000' && RDT_SND_POINTER !== '00000000'){
 		tempSize = R3_tools.parsePositive(parseInt((parseInt(RDT_EFF_POINTER, 16) * 2) - (parseInt(RDT_SND_POINTER, 16) * 2)));
 		R3_RDT_rawSections.RAWSECTION_EFF = RDT_arquivoBruto.slice((parseInt(RDT_EFF_POINTER, 16) * 2), ((parseInt(RDT_EFF_POINTER, 16) * 2) + tempSize));
@@ -832,16 +833,16 @@ tempFn_sections['importAll'] = function(sectionId){
 tempFn_scdHack['checkHack'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		if (RDT_arquivoBruto.indexOf(R3_RDT_DIVISOR) !== -1){
-			R3_RDT_SCD_HACK_ENABLED = true;
+			R3_RDT.scdHackEnabled = true;
 		} else {
-			R3_RDT_SCD_HACK_ENABLED = false;
+			R3_RDT.scdHackEnabled = false;
 		};
 		R3_DESIGN_updateScdHack();
 	};
 };
 // Enable Hack R3_RDT_SCD_HACK_ENABLE
 tempFn_scdHack['enableHack'] = function(){
-	if (RDT_arquivoBruto !== undefined && R3_RDT_SCD_HACK_ENABLED === false){
+	if (RDT_arquivoBruto !== undefined && R3_RDT.scdHackEnabled === false){
 		var cEditor = R3_DISC_MENUS[R3_MENU_CURRENT][0], RDT_HACK_FINAL, fName,
 			conf = R3_SYSTEM.confirm('WARNING:\nThis process will copy the current SCD and MSG sections to the end of the file.\n\nThis is not recomended because this process is used only for debugging and will make the file larger / messy.\n\nIt\'s not recomended do this process on maps that haves enemies / npc\'s (SCD 7D Opcode), otherwise it will crash!\n\nAlso: DON\'T RUN THIS PROCESS TWICE IN THE SAME FILE!!!\n\nDo you want to continue anyway?');
 		if (conf === true){
@@ -879,7 +880,7 @@ tempFn_scdHack['enableHack'] = function(){
 // Apply Hack Check R3_RDT_SCD_HACK_APPLY
 tempFn_scdHack['applyHack'] = function(skip){
 	if (RDT_arquivoBruto !== undefined){
-		if (R3_RDT_SCD_HACK_ENABLED === true){
+		if (R3_RDT.scdHackEnabled === true){
 			if (skip === true){
 				R3_SCD_COMPILE(4);
 				R3_RDT.scdHack.injectSections();
@@ -896,7 +897,7 @@ tempFn_scdHack['applyHack'] = function(skip){
 };
 // Inject Code R3_RDT_SCD_HACK_INJECT_SCD
 tempFn_scdHack['injectSections'] = function(){
-	if (RDT_arquivoBruto !== undefined && R3_RDT_SCD_HACK_ENABLED === true){
+	if (RDT_arquivoBruto !== undefined && R3_RDT.scdHackEnabled === true){
 		try {
 			var fName, RDT_HACK_FINAL, cEditor = R3_DISC_MENUS[R3_MENU_CURRENT][0], pointerPos, RDT_HACK_START, RDT_HACK_END, RDT_HACK_SCD, newMSGPointer;
 			if (R3_WEBMODE === false){
@@ -929,7 +930,7 @@ tempFn_scdHack['injectSections'] = function(){
 };
 /*
 	RDT Compiler [WIP]
-	Tests on R100.RDT
+	Code written with base on R100.RDT
 
 	The compiler will generate a temp pointer to calculate the position of other objects.
 	After that, it will create new pointers and attach it on the same location of the temp pointer.
@@ -937,10 +938,12 @@ tempFn_scdHack['injectSections'] = function(){
 */
 tempFn_R3_RDT['compile'] = function(){
 	if (RDT_arquivoBruto !== undefined){
-		// var tempOBJ = R3_RDT_rawSections.RAWSECTION_OBJ,
-		//	tempPointers = R3_RDT_MAP_HEADER_POINTERS.toString().replace(new RegExp(',', 'gi'), ''),
-		//	tempHEX = tempPointers + R3_RDT_rawSections.RAWSECTION_RID + R3_RDT_rawSections.RAWSECTION_OBJ + R3_RDT_rawSections.RAWSECTION_RVD + 'ffffffff' + R3_RDT_rawSections.RAWSECTION_LIT + 'ffffffff' + R3_RDT_rawSections.RAWSECTION_PRI + R3_RDT_rawSections.RAWSECTION_SCA;
-		R3_WIP();
+		var tempOBJ = R3_RDT_rawSections.RAWSECTION_OBJ,
+			tempPointers = R3_RDT.HEADER_POINTERS.toString().replace(new RegExp(',', 'gi'), ''),
+			tempHEX = tempPointers + R3_RDT_rawSections.RAWSECTION_RID + R3_RDT_rawSections.RAWSECTION_OBJ + R3_RDT_rawSections.RAWSECTION_RVD + 'ffffffff' + R3_RDT_rawSections.RAWSECTION_LIT + 'ffffffff' + R3_RDT_rawSections.RAWSECTION_PRI + R3_RDT_rawSections.RAWSECTION_SCA;
+		console.clear();
+		console.info(tempHEX);
+		// R3_WIP();
 	};
 };
 /*

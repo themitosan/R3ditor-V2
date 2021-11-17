@@ -96,8 +96,8 @@ tempFn_R3_rdtRID['compileRID'] = function(){
 		R3_rdtRID.cameraList[R3_rdtRID.currentCamera] = RID_type + RID_unk0 + RID_R + 'ffff' + RID_Z + 'ffff' + RID_Y + 'ffff' + RID_X + 'ffff' + RID_unk1 + 'ffff' + RID_unk2 + 'ffff' + RID_unk3 + RID_unk4;
 		// Pass all info to RDT - This also will increase the number of total cameras on RDT pointers
 		R3_RDT_rawSections.RAWSECTION_RID = R3_rdtRID.cameraList.toString().replace(RegExp(',', 'gi'), '');
-		newPointer = R3_tools.fixVars(parseInt(R3_rdtRID.cameraList.length).toString(16), 4) + R3_RDT_MAP_HEADER_POINTERS[0].slice(4, R3_RDT_MAP_HEADER_POINTERS[0].length);
-		R3_RDT_MAP_HEADER_POINTERS[0] = newPointer;
+		newPointer = R3_tools.fixVars(parseInt(R3_rdtRID.cameraList.length).toString(16), 4) + R3_RDT.HEADER_POINTERS[0].slice(4, R3_RDT.HEADER_POINTERS[0].length);
+		R3_RDT.HEADER_POINTERS[0] = newPointer;
 		// End
 		R3_rdtRID.readRID();
 		R3_rdtRID.readCamera(cCam);

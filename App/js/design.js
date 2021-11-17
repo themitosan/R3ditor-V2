@@ -55,7 +55,7 @@ var R3_HAS_CRITICAL_ERROR = false,
 		21: [482,  520,    44,  4,    9999998,  false, 'R3_WIZARD_MOD_NAME'],				 // R3V2 Wizard
 		22: [522,  376,    44,  4,    9999999,  false, 'R3_UPDATER_CURRENT_BRANCH'],		 // R3V2 Updater
 		23: [350,  438,    44,  4,    9999997,  false, 'R3_OPCODE_FINDER_SEARCH'],			 // SCD Opcode Finder
-		24: [404,  454,    44,  4,		  106,  false, ''] 									 // Leo's Hub
+		24: [404,  454,    44,  4,		  106,  false, '']									 // Leo's Hub
 	};
 /*
 	Main Consts
@@ -868,8 +868,6 @@ tempFn_R3_MINIWINDOW['closeAllRdtMiniWindows'] = function(){
 };
 const R3_MINIWINDOW = tempFn_R3_MINIWINDOW;
 delete tempFn_R3_MINIWINDOW;
-
-
 /*
 	Ranges
 */
@@ -2041,7 +2039,7 @@ function R3_DESIGN_updateSelectedObjManager(){
 // Update if SCD Hack is present
 function R3_DESIGN_updateScdHack(){
 	var hStatus = 'Enabled';
-	if (R3_RDT_SCD_HACK_ENABLED === true){
+	if (R3_RDT.scdHackEnabled === true){
 		TMS.css('BTN_SCD_HACK', {'display': 'inline'});
 		TMS.css('R3_RDT_BTN_ENABLE_SCD_HACK', {'display': 'none'});
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) SCD Hack is enabled on this map!');
