@@ -1,6 +1,11 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - scd.js
-	Aka: The largest file inside R3V2!
+	By TheMitoSan
+
+	This file is responsible for reading and writting Sript Code Data (SCD) from 
+	RDT maps.
+	*******************************************************************************
 */
 var R3_SCD_path = '',
 	SCD_arquivoBruto,
@@ -44,7 +49,7 @@ function R3_SCD_NEW_FILE(){
 };
 // Load SCD / RDT File
 function R3_SCD_LOAD_FILE(){
-	R3_FILE_LOAD('.scd, .rdt', function(scdFile, hxFile){
+	R3_fileManager.loadFile('.scd, .rdt', function(scdFile, hxFile){
 		R3_SCD_STARTLOAD(scdFile, hxFile);
 	});
 };
@@ -52,9 +57,9 @@ function R3_SCD_LOAD_FILE(){
 function R3_SCD_STARTLOAD(scdFile, hxFile){
 	var fName, loaderInterval;
 	if (R3_WEBMODE === false){
-		fName = R3_getFileExtension(scdFile).toLowerCase();
+		fName = R3_tools.getFileExtension(scdFile).toLowerCase();
 	} else {
-		fName = R3_getFileExtension(scdFile.name).toLowerCase();
+		fName = R3_tools.getFileExtension(scdFile.name).toLowerCase();
 	};
 	R3_SCD_HIGHLIGHT_FUNCTION = 0;
 	if (fName !== 'scd' && fName !== 'rdt'){
@@ -74,9 +79,9 @@ function R3_SCD_STARTLOAD(scdFile, hxFile){
 		};
 		// Start
 		if (R3_WEBMODE === false){
-			R3_SCD_fileName = R3_getFileName(scdFile).toUpperCase();
+			R3_SCD_fileName = R3_tools.getFileName(scdFile).toUpperCase();
 		} else {
-			R3_SCD_fileName = R3_getFileName(scdFile.name).toUpperCase();
+			R3_SCD_fileName = R3_tools.getFileName(scdFile.name).toUpperCase();
 		};
 		R3_SYSTEM.log('log', 'SCD - Loading file: <font class="user-can-select">' + scdFile + '</font>');
 		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_SCD_fileName + '.' + fName.toUpperCase();
@@ -96,15 +101,15 @@ function R3_SCD_STARTLOAD(scdFile, hxFile){
 function R3_SCD_EXTRACT_FROM_RDT(rdtFile, hx){
 	R3_RDT_LOAD(rdtFile, false, hx);
 	if (R3_WEBMODE === false){
-		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_getFileName(rdtFile).toUpperCase() + '.RDT';
+		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_tools.getFileName(rdtFile).toUpperCase() + '.RDT';
 	} else {
-		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_getFileName(rdtFile.name).toUpperCase() + '.RDT';
+		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_tools.getFileName(rdtFile.name).toUpperCase() + '.RDT';
 	};
 	// End
 	var lInterval = setInterval(function(){
 		if (R3_RDT_LOADED === true){
-			SCD_arquivoBruto = R3_RDT_RAWSECTION_SCD;
-			R3_SCD_START_DECOMPILER(R3_RDT_RAWSECTION_SCD);
+			SCD_arquivoBruto = R3_RDT_rawSections.RAWSECTION_SCD;
+			R3_SCD_START_DECOMPILER(SCD_arquivoBruto);
 			clearInterval(lInterval);
 		} else {
 			console.info('SCD - Waiting RDT to load...');
@@ -123,12 +128,12 @@ function R3_SCD_START_DECOMPILER(hex){
 	// Start process
 	var TEMP_R3_SCD_POINTERS;
 	R3_SCD_OVERALL_TOTAL_FUNCTIONS = 0;
-	SCD_HEADER_LENGTH = R3_getPosFromHex(hex.slice(0, 4));
+	SCD_HEADER_LENGTH = R3_tools.getPosFromHex(hex.slice(0, 4));
 	// Add INIT pointer to script list
-	R3_SCD_POINTERS.push(R3_parseEndian(hex.slice(0, 4)));
+	R3_SCD_POINTERS.push(R3_tools.parseEndian(hex.slice(0, 4)));
 	// Add EXECS pointers
 	TEMP_R3_SCD_POINTERS = hex.slice(4, (SCD_HEADER_LENGTH)).match(/.{4,4}/g).forEach(function(tmpPointer){
-		R3_SCD_POINTERS.push(R3_parseEndian(tmpPointer));
+		R3_SCD_POINTERS.push(R3_tools.parseEndian(tmpPointer));
 	});
 	// console.info(TEMP_R3_SCD_POINTERS);
 	R3_SCD_TOTAL_SCRITPS = R3_SCD_POINTERS.length;
@@ -227,7 +232,7 @@ function R3_SCD_OPEN_SCRIPT_SHORTCUT(){
 // Open JS Script
 function R3_SCD_OPEN_JS_FILE(){
 	if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){
-		R3_FILE_LOAD('.js, .txt', function(jsFile, jsFile){
+		R3_fileManager.loadFile('.js, .txt', function(jsFile, jsFile){
 			document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = jsFile;
 			R3_SCD_CODE_updateTextData();
 		}, undefined, 'utf-8');
@@ -244,7 +249,7 @@ function R3_SCD_SAVE_JS_FILE(){
 		// End
 		if (canSave === true){
 			fName = 'R3_JS_' + R3_SCD_fileName + '_S' + R3_SCD_CURRENT_SCRIPT + '.js';
-			R3_FILE_SAVE(fName, textCode, 'utf-8', '.js, .txt', function(finalPath){
+			R3_fileManager.saveFile(fName, textCode, 'utf-8', '.js, .txt', function(finalPath){
 				if (R3_WEBMODE === false){
 					pathLbl = ' Path: <font class="user-can-select">' + finalPath + '</font>'
 				};
@@ -267,8 +272,8 @@ function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 	if (SCD_arquivoBruto !== undefined){
 		var canSearch = true, opcodeSearch, tempScript, SCD_SEARCH_RESULTS = [];
 		if (R3_DOORLINK_RUNNING === false){
-			R3_cleanHexFromInput('R3_SCD_SEARCH_SCD_SCRIPT_INPUT');
-			opcodeSearch = R3_cleanHex(document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_INPUT').value).toLowerCase();
+			R3_tools.cleanHexFromInput('R3_SCD_SEARCH_SCD_SCRIPT_INPUT');
+			opcodeSearch = R3_tools.cleanHex(document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_INPUT').value).toLowerCase();
 		};
 		if (functionOpcode !== undefined && functionOpcode !== ''){
 			opcodeSearch = functionOpcode.toLowerCase();
@@ -317,11 +322,11 @@ function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 					var cScript, HTML_RESULT_TEMPLATE = '';
 					SCD_SEARCH_RESULTS.forEach(function(rItem, rIndex){
 						cScript = SCD_SEARCH_RESULTS[rIndex][0], cFunction = SCD_SEARCH_RESULTS[rIndex][1], cLabel = cScript;
-						cLabel = R3_fixVars(cScript, 3);
+						cLabel = R3_tools.fixVars(cScript, 3);
 						if (SCD_scriptNames[cLabel] !== undefined){
 							cLabel = SCD_scriptNames[cLabel];
 						};
-						HTML_RESULT_TEMPLATE = HTML_RESULT_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SEARCH_FIND_FN_' + rIndex + '">Script <font class="monospace mono_xyzr">' + cLabel + '</font> - Function <font class="monospace mono_xyzr">' + R3_fixVars(parseInt(cFunction + 1), 3) +
+						HTML_RESULT_TEMPLATE = HTML_RESULT_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCRIPT_LIST_ITEM_NORMAL" id="R3_SCD_SEARCH_FIND_FN_' + rIndex + '">Script <font class="monospace mono_xyzr">' + cLabel + '</font> - Function <font class="monospace mono_xyzr">' + R3_tools.fixVars(parseInt(cFunction + 1), 3) +
 											   '</font><input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="GOTO" onclick="R3_DESIGN_SCD_focusResultFromSearchForm(' + rIndex + ');R3_SCD_SEARCH_GOTO_FUNCTION(' + cScript + ', ' + cFunction + ');"></div>';
 					});
 					// End
@@ -406,8 +411,8 @@ function R3_SCD_INSERT_HEX(){
 		askForHex = R3_SYSTEM.prompt('Please, insert the hex code below:\n(It must be only one function, more than one will break!)');
 		if (askForHex !== null && askForHex !== ''){
 			// Check function length
-			sortHex = R3_solveHEX(askForHex);
-			if (R3_isInteger(sortHex.length) === true){
+			sortHex = R3_tools.solveHex(askForHex);
+			if (R3_tools.isInteger(sortHex.length) === true){
 				var cOpcode = sortHex.slice(0, 2),
 					cLength = parseInt(R3_SCD_DATABASE[cOpcode][0] * 2),
 					canApplyHex = true, reason = '',
@@ -481,7 +486,7 @@ function R3_SCD_COMPILE_INSERT_HEX(hex, pos){
 */
 function R3_SCD_IMPORT_SCRIPT(){
 	if (SCD_arquivoBruto !== undefined){
-		R3_FILE_LOAD('.R3SCRIPT', function(fileName, tempHex){
+		R3_fileManager.loadFile('.R3SCRIPT', function(fileName, tempHex){
 			var c = 0, canImport = true, reason, tempArray = [];
 			// Checks
 			if (tempHex === '0100' || tempHex === ''){
@@ -492,7 +497,7 @@ function R3_SCD_IMPORT_SCRIPT(){
 				canImport = false;
 				reason = 'This script does not finalize the code! (Error Code: 01)';
 			};
-			if (R3_isInteger(tempHex.length / 2) === false){
+			if (R3_tools.isInteger(tempHex.length / 2) === false){
 				canImport = false;
 				reason = 'The hex code is broken! (Error Code: 02)';
 			};
@@ -539,12 +544,12 @@ function R3_SCD_EXPORT_SCRIPT(mode){
 		// End
 		if (canExport === true){
 			try {
-				fileName = R3_SCD_fileName + '_S' + R3_fixVars(R3_SCD_CURRENT_SCRIPT, 2) + '.R3SCRIPT';
+				fileName = R3_SCD_fileName + '_S' + R3_tools.fixVars(R3_SCD_CURRENT_SCRIPT, 2) + '.R3SCRIPT';
 				if (SCD_scriptNames[R3_SCD_CURRENT_SCRIPT] !== undefined){
 					fileName = R3_SCD_fileName + '_S' + SCD_scriptNames[R3_SCD_CURRENT_SCRIPT] + '.R3SCRIPT';
 				};
 				if (mode === 0){
-					R3_FILE_SAVE(fileName, tempHex, 'hex', '.R3SCRIPT', function(scdPath){
+					R3_fileManager.saveFile(fileName, tempHex, 'hex', '.R3SCRIPT', function(scdPath){
 						if (R3_WEBMODE === false){
 							R3_SYSTEM.alert('Export Successful!\nPath: ' + scdPath);
 						} else {
@@ -605,7 +610,7 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 	try {
 		R3_SCD_SCRIPTS_LIST[pointerPos] = [];
 		var c = d = cFunction = 0, TEMP_SCD_READ = TEMP_SCD_SETTINGS = HTML_INIT_SCRIPT_TEMP = INIT_TEXT = scriptOff = textLabel = '', END_SCRIPT = false;
-		TEMP_SCD_READ = SCD_RAW.slice(R3_parseHexLengthToString(R3_SCD_POINTERS[pointerPos])).match(/.{2,2}/g);
+		TEMP_SCD_READ = SCD_RAW.slice(R3_tools.parseHexLengthToString(R3_SCD_POINTERS[pointerPos])).match(/.{2,2}/g);
 		if (debugLog === true){
 			R3_SYSTEM.log('separator');
 			if (SCD_scriptNames[pointerPos] !== undefined){
@@ -624,9 +629,9 @@ function R3_SCD_GENERATE_LIST(pointerPos, SCD_RAW, debugLog){
 						R3_SCD_OVERALL_TOTAL_FUNCTIONS++;
 						var opcodeInfo,	OPCODE_HEX = TEMP_SCD_READ[c].toLowerCase(), OPCODE_LENGTH = R3_SCD_DATABASE[OPCODE_HEX][0];
 						if (debugLog === true && R3_DOORLINK_RUNNING === false){
-							opcodeInfo = 'SCD: Script ' + pointerPos + ' - Function: ' + R3_fixVars(cFunction, 4) + ' \nOpcode: <font class="R3_SCD_function_' + R3_SCD_DATABASE[OPCODE_HEX.toLowerCase()][2] + 
+							opcodeInfo = 'SCD: Script ' + pointerPos + ' - Function: ' + R3_tools.fixVars(cFunction, 4) + ' \nOpcode: <font class="R3_SCD_function_' + R3_SCD_DATABASE[OPCODE_HEX.toLowerCase()][2] + 
 										 ' no-bg-image user-can-select">' + OPCODE_HEX.toUpperCase() + '</font> (<font class="R3_SCD_function_' + R3_SCD_DATABASE[OPCODE_HEX.toLowerCase()][2] + ' no-bg-image">' + R3_SCD_DATABASE[OPCODE_HEX][1] + 
-										 '</font>)\nHex length: <font class="user-can-select">' + R3_fixVars(OPCODE_LENGTH.toString(16), 2).toUpperCase() + '</font>';
+										 '</font>)\nHex length: <font class="user-can-select">' + R3_tools.fixVars(OPCODE_LENGTH.toString(16), 2).toUpperCase() + '</font>';
 							R3_SYSTEM.log('log', opcodeInfo);
 						};
 						// Retreive all subcodes and add to string
@@ -759,12 +764,12 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				// Sleep [SLEEP]
 				if (cOpcode === '09'){
 					var SLEEP_count = cFunction.slice(R3_SCD_DEC_DB.count[0], R3_SCD_DEC_DB.count[1]);
-					cProp = 'Wait <font class="monospace mono_xyzr">' + parseInt(R3_parseEndian(SLEEP_count), 16) + '</font> ticks';
+					cProp = 'Wait <font class="monospace mono_xyzr">' + parseInt(R3_tools.parseEndian(SLEEP_count), 16) + '</font> ticks';
 				};
 				// Sleeping [SLEEPING]
 				if (cOpcode === '0a'){
 					var SLEEP_count = cFunction.slice(R3_SCD_DEC_DB.count[0], R3_SCD_DEC_DB.count[1]);
-					cProp = 'Wait <font class="monospace mono_xyzr">' + parseInt(R3_parseEndian(SLEEP_count), 16) + '</font> ticks';
+					cProp = 'Wait <font class="monospace mono_xyzr">' + parseInt(R3_tools.parseEndian(SLEEP_count), 16) + '</font> ticks';
 				};
 				// [WSLEEP]
 				if (cOpcode === '0b'){
@@ -779,7 +784,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					var FOR_length 		= cFunction.slice(R3_SCD_DEC_DB.length[0], R3_SCD_DEC_DB.length[1]),
 						FOR_sizeCounter = R3_SCD_FUNCTION_READ_CHECK_LENGTH_SPECIAL(FOR_length, c, '0d'),
 						FOR_loopCount   = cFunction.slice(R3_SCD_DEC_DB.loopCount[0], R3_SCD_DEC_DB.loopCount[1]),
-						FOR_loopConvert = parseInt(R3_parseEndian(FOR_loopCount), 16);
+						FOR_loopConvert = parseInt(R3_tools.parseEndian(FOR_loopCount), 16);
 					cProp = 'This check holds ' + FOR_sizeCounter + ' (<font class="monospace mono_xyzr">' + FOR_length.toUpperCase() + '</font>) functions and will loop for ' + FOR_loopConvert + ' times.';
 				};
 				// End For [END_FOR]
@@ -822,12 +827,12 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						SET_time   = cFunction.slice(R3_SCD_DEC_DB.time[0], R3_SCD_DEC_DB.time[1]),
 						SET_label  = R3_SCD_SET_TIMER_TARGET[SET_target];
 					if (SET_target === '29'){
-						cProp = 'Target: ' + SET_label + ' - Countdown: <font class="monospace mono_xyzr">' + R3_TIME_parseHexTime(SET_time, 3) + '</font>';
+						cProp = 'Target: ' + SET_label + ' - Countdown: <font class="monospace mono_xyzr">' + R3_tools.parseHexTime(SET_time, 3) + '</font>';
 					} else {
 						if (R3_SCD_SET_TIMER_TARGET[SET_target] === undefined){
 							SET_label = '<font class="monospace mono_xyzr">' + R3_SCD_SET_TIMER_TARGET[SET_target] + '</font> (<font class="monospace mono_xyzr">Hex: ' + SET_target.toUpperCase() + '</font>)';
 						};
-						cProp = 'Set the ' + SET_label + ' with value <font class="monospace mono_xyzr">' + R3_TIME_parseHexTime(SET_time, 4) + '</font>';
+						cProp = 'Set the ' + SET_label + ' with value <font class="monospace mono_xyzr">' + R3_tools.parseHexTime(SET_time, 4) + '</font>';
 					};
 				};
 				// [SET_DO]
@@ -1095,7 +1100,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					var CMP_varType = cFunction.slice(R3_SCD_DEC_DB.varType[0],	R3_SCD_DEC_DB.varType[1]),
 						CMP_cmpType = cFunction.slice(R3_SCD_DEC_DB.cmpType[0],	R3_SCD_DEC_DB.cmpType[1]),
 						CMP_value   = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]),
-						CMP_finalValue = R3_parseEndian(CMP_value).toUpperCase(),
+						CMP_finalValue = R3_tools.parseEndian(CMP_value).toUpperCase(),
 						CMP_operator = R3_SCD_COMPARE_VALUES[CMP_cmpType][0],
 						CMP_options = '';
 					// Check for unk variable
@@ -1106,7 +1111,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					};
 					// If Compare is an item
 					if (CMP_cmpType === '02'){
-						var tempItem = DATABASE_ITEM[R3_fixVars(CMP_value, 2)];
+						var tempItem = DATABASE_ITEM[R3_tools.fixVars(CMP_value, 2)];
 						if (tempItem !== undefined){
 							CMP_finalValue = tempItem[0];
 						};
@@ -1208,7 +1213,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						MESSAGE_dMode = cFunction.slice(R3_SCD_DEC_DB.displayMode[0], R3_SCD_DEC_DB.displayMode[1]),
 						msgPrev = R3_MSG_RDT_MESSAGES_PREVIEW[parseInt(MESSAGE_id, 16)];
 					if (msgPrev !== undefined){
-						fnHint = R3_SCD_INFO_DATABASE[cOpcode] + '\n\nMessage Preview:\n' + R3_removeHtmlFromString(msgPrev).replace(RegExp('[(]Line Break[)]', 'gi'), '\n');
+						fnHint = R3_SCD_INFO_DATABASE[cOpcode] + '\n\nMessage Preview:\n' + R3_tools.removeHtmlFromString(msgPrev).replace(RegExp('[(]Line Break[)]', 'gi'), '\n');
 					} else {
 						fnHint = R3_SCD_INFO_DATABASE[cOpcode] + '\n\nWARN: Unable to find message ' + parseInt(MESSAGE_id, 16) + ' on this map!';
 					};
@@ -1431,7 +1436,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						BGM_value  = cFunction.slice(R3_SCD_DEC_DB.value[0], R3_SCD_DEC_DB.value[1]),
 						BGM_volume = cFunction.slice(R3_SCD_DEC_DB.volume[0], R3_SCD_DEC_DB.volume[1]);
 					cProp = 'ID: <font class="monospace mono_xyzr">' + BGM_id.toUpperCase() + '</font> - Value: <font class="monospace mono_xyzr">' + BGM_value.toUpperCase() + '</font> - Volume: <font class="monospace mono_xyzr">' +
-							R3_parsePercentage(parseInt(BGM_volume, 16), 255) + '%</font>';
+							R3_tools.parsePercentage(parseInt(BGM_volume, 16), 255) + '%</font>';
 				};
 				// [XA_ON]
 				if (cOpcode === '79'){
@@ -1571,7 +1576,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					Generate HTML and Stuff
 				*/
 				SCD_HTML_TEMPLATE = SCD_HTML_TEMPLATE + '<div class="R3_SCD_functionBase R3_SCD_function_' + cmdType + '" title="' + fnHint + '" id="R3_SCD_scriptCommand_' + c + '" ondblclick="R3_SCD_FUNCTION_EDIT(' + c + ');" onclick="R3_SCD_navigateFunctions(5, ' + c + ', true);">' + cEdit + 
-									cRemove + '(<font class="monospace mono_xyzr">' + R3_fixVars(parseInt(c + 1), 3) + '</font>) - Function: ' + cName + ' ' + opcodeHint_HEX + '<br>' + cProp + '</div>';
+									cRemove + '(<font class="monospace mono_xyzr">' + R3_tools.fixVars(parseInt(c + 1), 3) + '</font>) - Function: ' + cName + ' ' + opcodeHint_HEX + '<br>' + cProp + '</div>';
 				// Hex View checks
 				if (R3_SETTINGS.SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR === true){
 					changeColorCSS = 'R3_SCD_function_' + cmdType + ' no-bg-image';
@@ -1579,8 +1584,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				if (R3_SETTINGS.SETTINGS_SCD_SELECT_HEX_AS_TEXT === true){
 					hexSelectMode = 'user-select-normal';
 				};
-				scriptHex = scriptHex + '<font id="R3_SCD_HEX_VIEW_FN_' + c + '" onmouseover="R3_DESIGN_SCD_hoverFunction(' + c + ', true);" onmouseout="R3_DESIGN_SCD_hoverFunction(0, false);" class="' + hexSelectMode + ' ' + changeColorCSS + '" title="(' + parseInt(c + 1) + ') ' + fnHint + '">' + R3_unsolveHEX(cFunction) + '</font> ';
-				tempScriptHex = tempScriptHex + R3_unsolveHEX(cFunction);
+				scriptHex = scriptHex + '<font id="R3_SCD_HEX_VIEW_FN_' + c + '" onmouseover="R3_DESIGN_SCD_hoverFunction(' + c + ', true);" onmouseout="R3_DESIGN_SCD_hoverFunction(0, false);" class="' + hexSelectMode + ' ' + changeColorCSS + '" title="(' + parseInt(c + 1) + ') ' + fnHint + '">' + R3_tools.unsolveHex(cFunction) + '</font> ';
+				tempScriptHex = tempScriptHex + R3_tools.unsolveHex(cFunction);
 				// End
 				c++;
 			};
@@ -2316,8 +2321,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					hexSelectMode = 'user-select-normal';
 				};
 				var fnHint = '';
-				scriptHex = scriptHex + '<font id="R3_SCD_HEX_VIEW_FN_' + c + '" onmouseover="R3_DESIGN_SCD_hoverFunction(' + c + ', true);" onmouseout="R3_DESIGN_SCD_hoverFunction(0, false);" class="' + hexSelectMode + ' ' + changeColorCSS + '" title="(' + parseInt(c + 1) + ') ' + fnHint + '">' + R3_unsolveHEX(cFunction) + '</font> ';
-				tempScriptHex = tempScriptHex + R3_unsolveHEX(cFunction);
+				scriptHex = scriptHex + '<font id="R3_SCD_HEX_VIEW_FN_' + c + '" onmouseover="R3_DESIGN_SCD_hoverFunction(' + c + ', true);" onmouseout="R3_DESIGN_SCD_hoverFunction(0, false);" class="' + hexSelectMode + ' ' + changeColorCSS + '" title="(' + parseInt(c + 1) + ') ' + fnHint + '">' + R3_tools.unsolveHex(cFunction) + '</font> ';
+				tempScriptHex = tempScriptHex + R3_tools.unsolveHex(cFunction);
 				c++;
 			};
 			lblId = id;
@@ -2421,7 +2426,7 @@ function R3_SCD_COPY_FUNCTION(isCrop){
 				R3_SCD_FUNCTION_REMOVE(R3_SCD_HIGHLIGHT_FUNCTION);
 			};
 			var cOpcode = R3_SCD_TEMP_COPY_PASTE_FUNCTION.slice(0, 2), cColor = R3_SCD_DATABASE[cOpcode][2];
-			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Function copied sucessfully! <br>Function: ' + R3_fixVars(R3_SCD_HIGHLIGHT_FUNCTION, 4) + ' - Opcode: <font class="R3_SCD_function_' +
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Function copied sucessfully! <br>Function: ' + R3_tools.fixVars(R3_SCD_HIGHLIGHT_FUNCTION, 4) + ' - Opcode: <font class="R3_SCD_function_' +
 								 cColor + ' no-bg-image user-can-select">' + cOpcode.toUpperCase() + '</font> (<font class="R3_SCD_function_' + cColor + ' no-bg-image">' + R3_SCD_DATABASE[cOpcode][1] + '</font>)');
 		};
 	} else {
@@ -3189,13 +3194,13 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 				var SLEEP_sleeping = cFunction.slice(R3_SCD_DEC_DB.sleeping[0], R3_SCD_DEC_DB.sleeping[1]),
 					SLEEP_count    = cFunction.slice(R3_SCD_DEC_DB.count[0], R3_SCD_DEC_DB.count[1]);
 				document.getElementById('R3_SCD_EDIT_09_sleeping').value = SLEEP_sleeping;
-				document.getElementById('R3_SCD_EDIT_09_count').value = parseInt(R3_parseEndian(SLEEP_count), 16);
+				document.getElementById('R3_SCD_EDIT_09_count').value = parseInt(R3_tools.parseEndian(SLEEP_count), 16);
 				focusDomId = 'R3_SCD_EDIT_09_count';
 			};
 			// Sleeping [SLEEPING]
 			if (cOpcode === '0a'){
 				var SLEEPING_count = cFunction.slice(R3_SCD_DEC_DB.count[0], R3_SCD_DEC_DB.count[1]);
-				document.getElementById('R3_SCD_EDIT_0a_count').value = parseInt(R3_parseEndian(SLEEPING_count), 16);
+				document.getElementById('R3_SCD_EDIT_0a_count').value = parseInt(R3_tools.parseEndian(SLEEPING_count), 16);
 				focusDomId = 'R3_SCD_EDIT_0a_count';
 			};
 			// For [FOR]
@@ -3203,7 +3208,7 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 				var FOR_length 		= cFunction.slice(R3_SCD_DEC_DB.length[0], R3_SCD_DEC_DB.length[1]),
 					FOR_counts 		= R3_SCD_FUNCTION_READ_CHECK_LENGTH_SPECIAL(FOR_length, fnId, '0d'),
 					FOR_loopCount   = cFunction.slice(R3_SCD_DEC_DB.loopCount[0], R3_SCD_DEC_DB.loopCount[1]),
-					FOR_loopConvert = parseInt(R3_parseEndian(FOR_loopCount), 16);
+					FOR_loopConvert = parseInt(R3_tools.parseEndian(FOR_loopCount), 16);
 				document.getElementById('R3_SCD_EDIT_0d_length').value = FOR_counts;
 				document.getElementById('R3_SCD_EDIT_0d_loop').value = FOR_loopConvert;
 				R3_SCD_FUNCTION_CHECK_LENGTH_GENERATOR_SPECIAL('0d');
@@ -3223,8 +3228,8 @@ function R3_SCD_FUNCTION_EDIT(functionId){
 				TMS.append('R3_SCD_EDIT_1e_target', INCLUDE_EDIT_SCD_SET_TIMER_TARGET);
 				var SET_target 	  = cFunction.slice(R3_SCD_DEC_DB.target[0], R3_SCD_DEC_DB.target[1]),
 					SET_timeHex	  = cFunction.slice(R3_SCD_DEC_DB.time[0],   R3_SCD_DEC_DB.time[1]);
-					SET_timeArray = R3_TIME_parseHexTime(SET_timeHex, 1),
-					SET_timeInt   = R3_TIME_parseHexTime(SET_timeHex, 4);
+					SET_timeArray = R3_tools.parseHexTime(SET_timeHex, 1),
+					SET_timeInt   = R3_tools.parseHexTime(SET_timeHex, 4);
 				document.getElementById('R3_SCD_EDIT_1e_target').value = SET_target;
 				document.getElementById('R3_SCD_EDIT_1e_timeHH').value = SET_timeArray[0];
 				document.getElementById('R3_SCD_EDIT_1e_timeMM').value = SET_timeArray[1];
@@ -4218,12 +4223,12 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	*/
 	// Execute Event [EVT_EXEC]
 	if (R3_SCD_currentOpcode === '04'){
-		var EVT_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_04_id').value, 2);
+		var EVT_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_04_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + EVT_id;
 	};
 	// Event Kill [EVT_KILL]
 	if (R3_SCD_currentOpcode === '05'){
-		var EVT_target = R3_fixVars(document.getElementById('R3_SCD_EDIT_05_id').value, 2);
+		var EVT_target = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_05_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + EVT_target;
 	};
 	/*
@@ -4244,7 +4249,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	// Sleep [SLEEP]
 	if (R3_SCD_currentOpcode === '09'){
 		var SLEEP_sleeping = document.getElementById('R3_SCD_EDIT_09_sleeping').value;
-			SLEEP_count = R3_parseEndian(R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_09_count').value).toString(16), 4));
+			SLEEP_count = R3_tools.parseEndian(R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_09_count').value).toString(16), 4));
 		if (document.getElementById('R3_SCD_EDIT_09_count').value === 0){
 			SLEEP_count = '01';
 		};
@@ -4252,13 +4257,13 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// Sleeping [SLEEPING]
 	if (R3_SCD_currentOpcode === '0a'){
-		var SLEEPING_count = R3_parseEndian(R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_0a_count').value).toString(16), 4));
+		var SLEEPING_count = R3_tools.parseEndian(R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_0a_count').value).toString(16), 4));
 		HEX_FINAL = R3_SCD_currentOpcode + SLEEPING_count;
 	};
 	// For [FOR]
 	if (R3_SCD_currentOpcode === '0d'){
 		var FOR_length = R3_SCD_FUNCTION_GENERATE_CHECK_LENGTH_SPECIAL('0d'),
-			FOR_loopCount = R3_parseEndian(R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_0d_loop').value).toString(16), 4));
+			FOR_loopCount = R3_tools.parseEndian(R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_0d_loop').value).toString(16), 4));
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + FOR_length + FOR_loopCount;
 	};
 	// Run Script [GO_SUB]
@@ -4278,29 +4283,29 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		};
 		// End
 		if (subLoopCheck === true){
-			SUB_final = R3_fixVars(parseInt(SUB_Id).toString(16), 2);
+			SUB_final = R3_tools.fixVars(parseInt(SUB_Id).toString(16), 2);
 		} else {
-			SUB_final = R3_fixVars(parseInt(R3_SCD_TEMP_GOSUB_VALUE).toString(16), 2);
+			SUB_final = R3_tools.fixVars(parseInt(R3_SCD_TEMP_GOSUB_VALUE).toString(16), 2);
 		};
 		HEX_FINAL = R3_SCD_currentOpcode + SUB_final;
 	};
 	// Set Timer / Value [SET_TIMER]
 	if (R3_SCD_currentOpcode === '1e'){
 		var SET_target = document.getElementById('R3_SCD_EDIT_1e_target').value,
-			SET_time   = R3_fixVars(document.getElementById('R3_SCD_EDIT_1e_hex').innerHTML, 4);
+			SET_time   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_1e_hex').innerHTML, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + SET_target + SET_time;
 	};
 	// Execute Calculation [CALC_OP]
 	if (R3_SCD_currentOpcode === '20'){
-		var CALC_unk0 	   = R3_fixVars(document.getElementById('R3_SCD_EDIT_20_unk0').value, 2),
+		var CALC_unk0 	   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_20_unk0').value, 2),
 			CALC_operation = document.getElementById('R3_SCD_EDIT_20_operation').value,
-			CALC_accmId    = R3_fixVars(document.getElementById('R3_SCD_EDIT_20_accmId').value, 2),
-			CALC_value 	   = R3_fixVars(document.getElementById('R3_SCD_EDIT_20_value').value, 4);
+			CALC_accmId    = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_20_accmId').value, 2),
+			CALC_value 	   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_20_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + CALC_unk0 + CALC_operation + CALC_accmId + CALC_value;
 	};
 	// [EVT_CUT]
 	if (R3_SCD_currentOpcode === '22'){
-		var EVT_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_22_value').value, 2);
+		var EVT_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_22_value').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + EVT_value;
 	};
 	// [CHASER_EVT_CLR]
@@ -4309,8 +4314,8 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// Open Map [MAP_OPEN]
 	if (R3_SCD_currentOpcode === '25'){
-		var MAP_Id = R3_fixVars(document.getElementById('R3_SCD_EDIT_25_id').value, 2),
-			MAP_room = R3_fixVars(document.getElementById('R3_SCD_EDIT_25_room').value, 4);
+		var MAP_Id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_25_id').value, 2),
+			MAP_room = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_25_room').value, 4);
 		if (MAP_room === '0000'){
 			MAP_room = '0100';
 		};
@@ -4321,40 +4326,40 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		Skip Z-Align!
 	*/
 	if (R3_SCD_currentOpcode === '26'){
-		var POINT_data0 = R3_fixVars(document.getElementById('R3_SCD_EDIT_26_data0').value, 4),
-			POINT_data1 = R3_fixVars(document.getElementById('R3_SCD_EDIT_26_data1').value, 4);
+		var POINT_data0 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_26_data0').value, 4),
+			POINT_data1 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_26_data1').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + POINT_data0 + POINT_data1;
 	};
 	// [DIR_CK] - No more Z-Aling!
 	if (R3_SCD_currentOpcode === '29'){
-		var DIR_data0 = R3_fixVars(document.getElementById('R3_SCD_EDIT_29_data0').value, 4),
-			DIR_data1 = R3_fixVars(document.getElementById('R3_SCD_EDIT_29_data1').value, 4),
-			DIR_data2 = R3_fixVars(document.getElementById('R3_SCD_EDIT_29_data2').value, 4);
+		var DIR_data0 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_29_data0').value, 4),
+			DIR_data1 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_29_data1').value, 4),
+			DIR_data2 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_29_data2').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + DIR_data0 + DIR_data1 + DIR_data2;
 	};
 	// [PARTS_SET]
 	if (R3_SCD_currentOpcode === '2a'){
-		var PARTS_id	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_2a_id').value, 2),
-			PARTS_type   = R3_fixVars(document.getElementById('R3_SCD_EDIT_2a_type').value, 2),
-			PARTS_value	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_2a_value').value, 4);
+		var PARTS_id	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_2a_id').value, 2),
+			PARTS_type   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_2a_type').value, 2),
+			PARTS_value	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_2a_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + PARTS_id + PARTS_type + PARTS_value;
 	};
 	// [VLOOP_SET]
 	if (R3_SCD_currentOpcode === '2b'){
-		var VLOOP_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_2b_value').value, 2);
+		var VLOOP_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_2b_value').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + VLOOP_value;
 	};
 	// [OTA_BE_SET]
 	if (R3_SCD_currentOpcode === '2c'){
-		var OTA_data0 = R3_fixVars(document.getElementById('R3_SCD_EDIT_2c_data0').value, 2),
-			OTA_data1 = R3_fixVars(document.getElementById('R3_SCD_EDIT_2c_data1').value, 2),
-			OTA_flag  = R3_fixVars(document.getElementById('R3_SCD_EDIT_2c_flag').value, 2);
+		var OTA_data0 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_2c_data0').value, 2),
+			OTA_data1 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_2c_data1').value, 2),
+			OTA_flag  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_2c_flag').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + OTA_data0 + OTA_data1 + OTA_flag;
 	};
 	// [LINE_START]
 	if (R3_SCD_currentOpcode === '2d'){
-		var LINE_id    = R3_fixVars(document.getElementById('R3_SCD_EDIT_2d_id').value, 2),
-			LINE_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_2d_value').value, 4);
+		var LINE_id    = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_2d_id').value, 2),
+			LINE_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_2d_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + LINE_id + LINE_value;
 	};
 	// [LINE_END]
@@ -4363,18 +4368,18 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// Set LIT Position [LIGHT_POS_SET]
 	if (R3_SCD_currentOpcode === '30'){
-		var LIGHT_id  = R3_fixVars(document.getElementById('R3_SCD_EDIT_30_id').value, 2),
-			LIGHT_X   = R3_fixVars(document.getElementById('R3_SCD_EDIT_30_posX').value, 4),
-			LIGHT_Y   = R3_fixVars(document.getElementById('R3_SCD_EDIT_30_posY').value, 4);
+		var LIGHT_id  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_30_id').value, 2),
+			LIGHT_X   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_30_posX').value, 4),
+			LIGHT_Y   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_30_posY').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + LIGHT_id + LIGHT_X + LIGHT_Y;
 	};
 	// Set LIT Color [LIGHT_COLOR_SET]
 	if (R3_SCD_currentOpcode === '32'){
-		var LIGHT_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_32_lightId').value, 2),
-			LIGHT_unk0 = R3_fixVars(document.getElementById('R3_SCD_EDIT_32_unk0').value, 2),
-			LIGHT_R = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_32_colorR').value).toString(16), 2),
-			LIGHT_G = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_32_colorG').value).toString(16), 2),
-			LIGHT_B = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_32_colorB').value).toString(16), 2);
+		var LIGHT_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_32_lightId').value, 2),
+			LIGHT_unk0 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_32_unk0').value, 2),
+			LIGHT_R = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_32_colorR').value).toString(16), 2),
+			LIGHT_G = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_32_colorG').value).toString(16), 2),
+			LIGHT_B = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_32_colorB').value).toString(16), 2);
 		if (parseInt(document.getElementById('R3_SCD_EDIT_32_colorR').value) > 255){
 			LIGHT_R = 'ff';
 		};
@@ -4388,7 +4393,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// [AHEAD_ROOM_SET]
 	if (R3_SCD_currentOpcode === '33'){
-		var AHEAD_value  = R3_fixVars(document.getElementById('R3_SCD_EDIT_33_value').value, 4);
+		var AHEAD_value  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_33_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + AHEAD_value;
 	};
 	/*
@@ -4396,73 +4401,73 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		Skipping zAlign!
 	*/
 	if (R3_SCD_currentOpcode === '35'){
-		var BGM_data0 = R3_fixVars(document.getElementById('R3_SCD_EDIT_35_data0').value, 2),
-			BGM_data1 = R3_fixVars(document.getElementById('R3_SCD_EDIT_35_data1').value, 2),
-			BGM_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_35_value').value, 4);
+		var BGM_data0 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_35_data0').value, 2),
+			BGM_data1 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_35_data1').value, 2),
+			BGM_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_35_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + BGM_data0 + BGM_data1 + BGM_value;
 	};
 	// [ITEM_GET_CK]
 	if (R3_SCD_currentOpcode === '36'){
-		var ITEM_code = R3_fixVars(document.getElementById('R3_SCD_EDIT_36_itemCode').value, 2),
-			ITEM_quant = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_36_quant').value).toString(16), 2);
+		var ITEM_code = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_36_itemCode').value, 2),
+			ITEM_quant = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_36_quant').value).toString(16), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + ITEM_code + ITEM_quant;
 	};
 	// [OM_REV]
 	if (R3_SCD_currentOpcode === '37'){
-		var OM_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_37_id').value, 2);
+		var OM_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_37_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + OM_id;
 	};
 	// [CHASER_LIFE_INIT]
 	if (R3_SCD_currentOpcode === '38'){
-		var CHASER_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_38_id').value, 2);
+		var CHASER_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_38_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + CHASER_id;
 	};
 	// [CHASER_ITEM_SET]
 	if (R3_SCD_currentOpcode === '3b'){
-		var CHASER_emId  = R3_fixVars(document.getElementById('R3_SCD_EDIT_3b_emId').value, 2),
-			CHASER_objId = R3_fixVars(document.getElementById('R3_SCD_EDIT_3b_objId').value, 2);
+		var CHASER_emId  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_3b_emId').value, 2),
+			CHASER_objId = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_3b_objId').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + CHASER_emId + CHASER_objId;
 	};
 	// [SEL_EVT_ON]
 	if (R3_SCD_currentOpcode === '3d'){
-		var SEL_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_3d_id').value, 2);
+		var SEL_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_3d_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + SEL_id;
 	};
 	// Remove Item [ITEM_LOST]
 	if (R3_SCD_currentOpcode === '3e'){
-		var ITEM_code = R3_fixVars(document.getElementById('R3_SCD_EDIT_3e_item').value, 2);
+		var ITEM_code = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_3e_item').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + ITEM_code;
 	};
 	// [FLR_SET]
 	if (R3_SCD_currentOpcode === '3f'){
-		var FLR_id   = R3_fixVars(document.getElementById('R3_SCD_EDIT_3f_id').value, 2),
-			FLR_flag = R3_fixVars(document.getElementById('R3_SCD_EDIT_3f_flag').value, 2);
+		var FLR_id   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_3f_id').value, 2),
+			FLR_flag = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_3f_flag').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + FLR_id + FLR_flag;
 	};
 	// Set Variable [MEMB_SET]
 	if (R3_SCD_currentOpcode === '40'){
-		var MEMB_id 	  = R3_fixVars(document.getElementById('R3_SCD_EDIT_40_id').value, 2),
-			MEMB_variable = R3_fixVars(document.getElementById('R3_SCD_EDIT_40_var').value, 4);
+		var MEMB_id 	  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_40_id').value, 2),
+			MEMB_variable = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_40_var').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + MEMB_id + MEMB_variable;
 	};
 	// Set Variable 2 [MEMB_SET2]
 	if (R3_SCD_currentOpcode === '41'){
-		var MEMB_id 	  = R3_fixVars(document.getElementById('R3_SCD_EDIT_41_id').value, 2),
-			MEMB_variable = R3_fixVars(document.getElementById('R3_SCD_EDIT_41_variable').value, 4);
+		var MEMB_id 	  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_41_id').value, 2),
+			MEMB_variable = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_41_variable').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + MEMB_id + MEMB_variable;
 	};
 	// Set Fade [FADE_SET]
 	if (R3_SCD_currentOpcode === '46'){
-		var FADE_id 	  = R3_fixVars(document.getElementById('R3_SCD_EDIT_46_id').value, 2),
-			FADE_unk0 	  = R3_fixVars(document.getElementById('R3_SCD_EDIT_46_unk0').value, 2),
+		var FADE_id 	  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_46_id').value, 2),
+			FADE_unk0 	  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_46_unk0').value, 2),
 			FADE_type 	  = document.getElementById('R3_SCD_EDIT_46_type').value,
-			FADE_colorB   = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorB').value).toString(16), 2),
-			FADE_colorG   = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorG').value).toString(16), 2),
-			FADE_colorR   = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorR').value).toString(16), 2),
-			FADE_colorY   = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorY').value).toString(16), 2),
-			FADE_colorM   = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorM').value).toString(16), 2),
-			FADE_colorC   = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorC').value).toString(16), 2),
-			FADE_duration = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_duration').value).toString(16), 2);
+			FADE_colorB   = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorB').value).toString(16), 2),
+			FADE_colorG   = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorG').value).toString(16), 2),
+			FADE_colorR   = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorR').value).toString(16), 2),
+			FADE_colorY   = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorY').value).toString(16), 2),
+			FADE_colorM   = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorM').value).toString(16), 2),
+			FADE_colorC   = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_colorC').value).toString(16), 2),
+			FADE_duration = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_46_duration').value).toString(16), 2);
 		if (parseInt(document.getElementById('R3_SCD_EDIT_46_colorB').value) > 255){
 			FADE_colorB = 'ff';
 		};
@@ -4489,26 +4494,26 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// Char Trigger [WORK_SET]
 	if (R3_SCD_currentOpcode === '47'){
-		var WORK_target = R3_fixVars(document.getElementById('R3_SCD_EDIT_47_target').value, 2),
-			WORK_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_47_value').value, 2);
+		var WORK_target = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_47_target').value, 2),
+			WORK_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_47_value').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + WORK_target + WORK_value;
 	};
 	// [SPD_SET]
 	if (R3_SCD_currentOpcode === '48'){
-		var SPD_id    = R3_fixVars(document.getElementById('R3_SCD_EDIT_48_id').value, 2),
-			SPD_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_48_value').value, 4);
+		var SPD_id    = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_48_id').value, 2),
+			SPD_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_48_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + SPD_id + SPD_value;
 	};
 	// Check Boolean [CK]
 	if (R3_SCD_currentOpcode === '4c'){
 		var CK_event = document.getElementById('R3_SCD_EDIT_4c_event').value;
-			CK_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_4c_value').value, 2);
+			CK_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_4c_value').value, 2);
 			CK_flag  = document.getElementById('R3_SCD_EDIT_4c_flag').value;
 		HEX_FINAL = R3_SCD_currentOpcode + CK_event + CK_value + CK_flag;
 	};
 	// Set Event Value [SET]
 	if (R3_SCD_currentOpcode === '4d'){
-		var SET_id   = R3_fixVars(document.getElementById('R3_SCD_EDIT_4d_id').value, 2),
+		var SET_id   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_4d_id').value, 2),
 			SET_var  = document.getElementById('R3_SCD_EDIT_4d_var').value,
 			SET_flag = document.getElementById('R3_SCD_EDIT_4d_boolean').value;
 		HEX_FINAL = R3_SCD_currentOpcode + SET_id + SET_var + SET_flag;
@@ -4519,42 +4524,42 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		if (CUT_id === NaN){
 			CUT_id = '00';
 		} else {
-			CUT_id = R3_fixVars(CUT_id, 2);
+			CUT_id = R3_tools.fixVars(CUT_id, 2);
 		};
 		HEX_FINAL = R3_SCD_currentOpcode + CUT_id;
 	};
 	// Lock Camera [CUT_AUTO]
 	if (R3_SCD_currentOpcode === '52'){
-		var CUT_flag = R3_fixVars(document.getElementById('R3_SCD_EDIT_52_flag').value, 2);
+		var CUT_flag = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_52_flag').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + CUT_flag;
 	};
 	// Swap Camera [CUT_REPLACE]
 	if (R3_SCD_currentOpcode === '53'){
-		var CUT_id = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_prevCamValue').value).toString(16), 2),
-			CUT_value = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_nextCamValue').value).toString(16), 2);
+		var CUT_id = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_prevCamValue').value).toString(16), 2),
+			CUT_value = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_nextCamValue').value).toString(16), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + CUT_id + CUT_value;
 	};
 	// [CUT_BE_SET]
 	if (R3_SCD_currentOpcode === '54'){
-		var CUT_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_54_id').value, 2),
-			CUT_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_54_value').value, 2),
-			CUT_flag = R3_fixVars(document.getElementById('R3_SCD_EDIT_54_flag').value, 2);
+		var CUT_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_54_id').value, 2),
+			CUT_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_54_value').value, 2),
+			CUT_flag = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_54_flag').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + CUT_id + CUT_value + CUT_flag;
 	};
 	// Set Target Position [POS_SET]
 	if (R3_SCD_currentOpcode === '55'){
-		var POS_target = R3_fixVars(document.getElementById('R3_SCD_EDIT_55_target').value, 2),
-			POS_X =	R3_fixVars(document.getElementById('R3_SCD_EDIT_55_posX').value, 4),
-			POS_Y = R3_fixVars(document.getElementById('R3_SCD_EDIT_55_posY').value, 4),
-			POS_Z = R3_fixVars(document.getElementById('R3_SCD_EDIT_55_posZ').value, 4);
+		var POS_target = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_55_target').value, 2),
+			POS_X =	R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_55_posX').value, 4),
+			POS_Y = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_55_posY').value, 4),
+			POS_Z = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_55_posZ').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + POS_target + POS_X + POS_Z + POS_Y;
 	};
 	// [DIR_SET]
 	if (R3_SCD_currentOpcode === '56'){
-		var DIR_target = R3_fixVars(document.getElementById('R3_SCD_EDIT_56_target').value, 2),
-			DIR_X =	R3_fixVars(document.getElementById('R3_SCD_EDIT_56_posX').value, 4),
-			DIR_Y = R3_fixVars(document.getElementById('R3_SCD_EDIT_56_posY').value, 4),
-			DIR_Z = R3_fixVars(document.getElementById('R3_SCD_EDIT_56_posZ').value, 4);
+		var DIR_target = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_56_target').value, 2),
+			DIR_X =	R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_56_posX').value, 4),
+			DIR_Y = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_56_posY').value, 4),
+			DIR_Z = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_56_posZ').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + DIR_target + DIR_X + DIR_Z + DIR_Y;
 	};
 	/*
@@ -4562,26 +4567,26 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		No more zAlign!
 	*/
 	if (R3_SCD_currentOpcode === '57'){
-		var SET_data0 = R3_fixVars(document.getElementById('R3_SCD_EDIT_57_data0').value, 4),
-			SET_data1 = R3_fixVars(document.getElementById('R3_SCD_EDIT_57_data1').value, 4);
+		var SET_data0 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_57_data0').value, 4),
+			SET_data1 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_57_data1').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + SET_data0 + SET_data1;
 	};
 	// [SET_VIB1]
 	if (R3_SCD_currentOpcode === '58'){
-		var SET_id 	  = R3_fixVars(document.getElementById('R3_SCD_EDIT_58_id').value, 2),
-			SET_data0 = R3_fixVars(document.getElementById('R3_SCD_EDIT_58_data0').value, 4),
-			SET_data1 = R3_fixVars(document.getElementById('R3_SCD_EDIT_58_data1').value, 4);
+		var SET_id 	  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_58_id').value, 2),
+			SET_data0 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_58_data0').value, 4),
+			SET_data1 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_58_data1').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + SET_id + SET_data0 + SET_data1;
 	};
 	// RBJ Trigger [RBJ_SET]
 	if (R3_SCD_currentOpcode === '5a'){
-		var RBJ_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_5a_id').value, 2);
+		var RBJ_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_5a_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + RBJ_id;
 	};
 	// Display Message [MESSAGE_ON]
 	if (R3_SCD_currentOpcode === '5b'){
-		var MESSAGE_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_5b_id').value.toString(16), 2);
-			MESSAGE_data0 = R3_fixVars(document.getElementById('R3_SCD_EDIT_5b_data0').value, 4);
+		var MESSAGE_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_5b_id').value.toString(16), 2);
+			MESSAGE_data0 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_5b_data0').value, 4);
 			MESSAGE_dMode = document.getElementById('R3_SCD_EDIT_5b_displayMode').value;
 		if (MESSAGE_id === NaN){
 			MESSAGE_id = '00';
@@ -4590,13 +4595,13 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// [RAIN_SET]
 	if (R3_SCD_currentOpcode === '5c'){
-		var RAIN_flag = R3_fixVars(document.getElementById('R3_SCD_EDIT_5c_flag').value, 2);
+		var RAIN_flag = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_5c_flag').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + RAIN_flag;
 	};
 	// [SHAKE_ON]
 	if (R3_SCD_currentOpcode === '5e'){
-		var SHAKE_id 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_5e_id').value, 2),
-			SHAKE_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_5e_value').value, 2);
+		var SHAKE_id 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_5e_id').value, 2),
+			SHAKE_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_5e_value').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + SHAKE_id + SHAKE_value;
 	};
 	// Change Weapon [WEAPON_CHG]
@@ -4606,26 +4611,26 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// Set Door [DOOR_AOT_SET]
 	if (R3_SCD_currentOpcode === '61'){
-		var door_Id     = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_id').value, 2),
-			door_aot 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_61_aot').value, 8),
-			door_XPos   = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_posX').value, 4),
-			door_YPos   = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_posY').value, 4),
-			door_ZPos   = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_posZ').value, 4),
-			door_RPos   = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_posR').value, 4),
-			door_nextX  = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_nextX').value, 4),
-			door_nextY  = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_nextY').value, 4),
-			door_nextZ  = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_nextZ').value, 4),
-			door_nextR  = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_nextR').value, 4),
-			door_nStage = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_61_stage').value - 1).toString(16), 2),
-			door_nRoom  = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_roomNumber').value, 2),
-			door_nCam   = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_61_nextCam').value).toString(16), 2),
-			door_zIndex = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_zIndex').value, 2),
-			door_type   = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_doorType').value, 2),
-			door_orient = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_openOrient').value, 2),
-			door_unk0 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_61_unk0').value, 2),
-			door_lkFlag = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_lockFlag').value, 2),
-			door_lkKey  = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_lockKey').value, 2),
-			door_dText  = R3_fixVars(document.getElementById('R3_SCD_EDIT_61_displayText').value, 2),
+		var door_Id     = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_id').value, 2),
+			door_aot 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_aot').value, 8),
+			door_XPos   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_posX').value, 4),
+			door_YPos   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_posY').value, 4),
+			door_ZPos   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_posZ').value, 4),
+			door_RPos   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_posR').value, 4),
+			door_nextX  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_nextX').value, 4),
+			door_nextY  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_nextY').value, 4),
+			door_nextZ  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_nextZ').value, 4),
+			door_nextR  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_nextR').value, 4),
+			door_nStage = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_61_stage').value - 1).toString(16), 2),
+			door_nRoom  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_roomNumber').value, 2),
+			door_nCam   = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_61_nextCam').value).toString(16), 2),
+			door_zIndex = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_zIndex').value, 2),
+			door_type   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_doorType').value, 2),
+			door_orient = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_openOrient').value, 2),
+			door_unk0 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_unk0').value, 2),
+			door_lkFlag = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_lockFlag').value, 2),
+			door_lkKey  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_lockKey').value, 2),
+			door_dText  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_61_displayText').value, 2),
 			// Magic Door
 			R3_MAGIC_DOOR = document.getElementById('R3_SCD_EDIT_61_checkMagicDoor').checked;
 		if (R3_MAGIC_DOOR === true){
@@ -4637,27 +4642,27 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// Set Door 4P [DOOR_AOT_SET_4P]
 	if (R3_SCD_currentOpcode === '62'){
-		var door_Id     = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_id').value, 2),
-			door_aot 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_62_aot').value, 8),
-			door_XPos   = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_posX').value, 4),
-			door_YPos   = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_posY').value, 4),
-			door_ZPos   = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_posZ').value, 4),
-			door_RPos   = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_posR').value, 4),
-			door_4P 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_62_4P').value, 16),
-			door_nextX  = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_nextX').value, 4),
-			door_nextY  = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_nextY').value, 4),
-			door_nextZ  = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_nextZ').value, 4),
-			door_nextR  = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_nextR').value, 4),
-			door_nStage = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_62_stage').value - 1).toString(16), 2),
-			door_nRoom  = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_roomNumber').value, 2),
-			door_nCam   = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_62_nextCam').value).toString(16), 2),
-			door_zIndex = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_zIndex').value, 2),
-			door_type   = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_doorType').value, 2),
-			door_orient = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_openOrient').value, 2),
-			door_unk0 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_62_unk0').value, 2),
-			door_lkFlag = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_lockFlag').value, 2),
-			door_lkKey  = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_lockKey').value, 2),
-			door_dText  = R3_fixVars(document.getElementById('R3_SCD_EDIT_62_displayText').value, 2),
+		var door_Id     = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_id').value, 2),
+			door_aot 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_aot').value, 8),
+			door_XPos   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_posX').value, 4),
+			door_YPos   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_posY').value, 4),
+			door_ZPos   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_posZ').value, 4),
+			door_RPos   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_posR').value, 4),
+			door_4P 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_4P').value, 16),
+			door_nextX  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_nextX').value, 4),
+			door_nextY  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_nextY').value, 4),
+			door_nextZ  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_nextZ').value, 4),
+			door_nextR  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_nextR').value, 4),
+			door_nStage = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_62_stage').value - 1).toString(16), 2),
+			door_nRoom  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_roomNumber').value, 2),
+			door_nCam   = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_62_nextCam').value).toString(16), 2),
+			door_zIndex = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_zIndex').value, 2),
+			door_type   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_doorType').value, 2),
+			door_orient = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_openOrient').value, 2),
+			door_unk0 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_unk0').value, 2),
+			door_lkFlag = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_lockFlag').value, 2),
+			door_lkKey  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_lockKey').value, 2),
+			door_dText  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_62_displayText').value, 2),
 			// Magic Door
 			R3_MAGIC_DOOR = document.getElementById('R3_SCD_EDIT_62_checkMagicDoor').checked;
 		if (R3_MAGIC_DOOR === true){
@@ -4668,90 +4673,90 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// Set Interactive Object [AOT_SET]
 	if (R3_SCD_currentOpcode === '63'){
-		var AOT_id 		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_id').value, 2),
-			AOT_aot 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_aot').value, 2),
-			AOT_type 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_type').value, 2),
-			AOT_nFloor 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_nFloor').value, 2),
-			AOT_aotSuper = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_super').value, 2),
-			AOT_X		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_posX').value, 4),
-			AOT_Y		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_posY').value, 4),
-			AOT_W		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_width').value, 4),
-			AOT_H		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_height').value, 4),
-			AOT_data0 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_data0').value, 2),
-			AOT_data1 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_data1').value, 2),
-			AOT_data2 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_data2').value, 2),
-			AOT_data3 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_data3').value, 2),
-			AOT_dMode 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_63_displayMode').value, 4);
+		var AOT_id 		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_id').value, 2),
+			AOT_aot 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_aot').value, 2),
+			AOT_type 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_type').value, 2),
+			AOT_nFloor 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_nFloor').value, 2),
+			AOT_aotSuper = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_super').value, 2),
+			AOT_X		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_posX').value, 4),
+			AOT_Y		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_posY').value, 4),
+			AOT_W		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_width').value, 4),
+			AOT_H		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_height').value, 4),
+			AOT_data0 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_data0').value, 2),
+			AOT_data1 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_data1').value, 2),
+			AOT_data2 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_data2').value, 2),
+			AOT_data3 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_data3').value, 2),
+			AOT_dMode 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_63_displayMode').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + AOT_id + AOT_aot + AOT_type + AOT_nFloor + AOT_aotSuper + AOT_X + AOT_Y + AOT_W + AOT_H + AOT_data0 + AOT_data1 +
 					AOT_data2 + AOT_data3 + AOT_dMode;
 	};
 	// [AOT_RESET]
 	if (R3_SCD_currentOpcode === '65'){
-		var AOT_aot    = R3_fixVars(document.getElementById('R3_SCD_EDIT_65_aot').value, 2),
-			AOT_id     = R3_fixVars(document.getElementById('R3_SCD_EDIT_65_id').value, 2),
-			AOT_type   = R3_fixVars(document.getElementById('R3_SCD_EDIT_65_type').value, 2),
-			AOT_unk3   = R3_fixVars(document.getElementById('R3_SCD_EDIT_65_unk3').value, 2),
-			AOT_unk0   = R3_fixVars(document.getElementById('R3_SCD_EDIT_65_unk0').value, 2),
-			AOT_num    = R3_fixVars(document.getElementById('R3_SCD_EDIT_65_num').value, 2),
-			AOT_unk1   = R3_fixVars(document.getElementById('R3_SCD_EDIT_65_unk1').value, 2),
-			AOT_flag   = R3_fixVars(document.getElementById('R3_SCD_EDIT_65_flag').value, 2),
-			AOT_unk2   = R3_fixVars(document.getElementById('R3_SCD_EDIT_65_unk2').value, 2);
+		var AOT_aot    = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_65_aot').value, 2),
+			AOT_id     = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_65_id').value, 2),
+			AOT_type   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_65_type').value, 2),
+			AOT_unk3   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_65_unk3').value, 2),
+			AOT_unk0   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_65_unk0').value, 2),
+			AOT_num    = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_65_num').value, 2),
+			AOT_unk1   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_65_unk1').value, 2),
+			AOT_flag   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_65_flag').value, 2),
+			AOT_unk2   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_65_unk2').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + AOT_aot + AOT_id + AOT_type + AOT_unk3 + AOT_unk0 + AOT_num + AOT_unk1 + AOT_flag + AOT_unk2;
 	};
 	// Run Interactive Object [AOT_ON]
 	if (R3_SCD_currentOpcode === '66'){
-		var AOT_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_66_id').value, 2);
+		var AOT_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_66_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + AOT_id;
 	};
 	// Set Item [ITEM_AOT_SET]
 	if (R3_SCD_currentOpcode === '67'){
-		var item_Id 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_id').value, 2),
-			item_aot 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_aot').value, 8),
-			item_Xpos 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_posX').value, 4),
-			item_Ypos 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_posY').value, 4),
-			item_Zpos 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_posZ').value, 4),
-			item_Rpos 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_posR').value, 4),
-			item_code 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_item').value, 2),
-			item_unk0 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_unk0').value, 2),
-			item_quant 	 = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_67_quant').value).toString(16), 2),
-			item_unk1 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_unk1').value, 2),
-			item_unk2 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_unk2').value, 2),
-			item_flag 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_iFlag').value, 2),
-			item_modelId = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_modelId').value, 2),
-			item_MP 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_67_blinkColor').value + R3_SCD_JS.tools.parseCrouch(1, 'R3_SCD_EDIT_67_playerCrouch'), 2);
+		var item_Id 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_id').value, 2),
+			item_aot 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_aot').value, 8),
+			item_Xpos 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_posX').value, 4),
+			item_Ypos 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_posY').value, 4),
+			item_Zpos 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_posZ').value, 4),
+			item_Rpos 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_posR').value, 4),
+			item_code 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_item').value, 2),
+			item_unk0 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_unk0').value, 2),
+			item_quant 	 = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_67_quant').value).toString(16), 2),
+			item_unk1 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_unk1').value, 2),
+			item_unk2 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_unk2').value, 2),
+			item_flag 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_iFlag').value, 2),
+			item_modelId = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_modelId').value, 2),
+			item_MP 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_67_blinkColor').value + R3_SCD_JS.tools.parseCrouch(1, 'R3_SCD_EDIT_67_playerCrouch'), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + item_Id + item_aot + item_Xpos + item_Ypos + item_Zpos + item_Rpos + item_code + item_unk0 + item_quant + 
 					item_unk1 + item_unk2 + item_flag + item_modelId + item_MP;
 	}
 	// Set Item 4P [ITEM_AOT_SET_4P]
 	if (R3_SCD_currentOpcode === '68'){
-		var item_Id 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_id').value, 2),
-			item_aot 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_aot').value, 8),
-			item_Xpos 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_posX').value, 4),
-			item_Ypos 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_posY').value, 4),
-			item_Zpos 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_posZ').value, 4),
-			item_Rpos 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_posR').value, 4),
-			item_4P 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_4P').value, 16),
-			item_code 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_item').value, 2),
-			item_unk0 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_unk0').value, 2),
-			item_quant 	 = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_68_quant').value).toString(16), 2),
-			item_unk1 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_unk1').value, 2),
-			item_unk2 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_unk2').value, 2),
-			item_flag 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_iFlag').value, 2),
-			item_modelId = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_modelId').value, 2),
-			item_MP 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_68_blinkColor').value + R3_SCD_JS.tools.parseCrouch(1, 'R3_SCD_EDIT_68_playerCrouch'), 2);
+		var item_Id 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_id').value, 2),
+			item_aot 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_aot').value, 8),
+			item_Xpos 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_posX').value, 4),
+			item_Ypos 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_posY').value, 4),
+			item_Zpos 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_posZ').value, 4),
+			item_Rpos 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_posR').value, 4),
+			item_4P 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_4P').value, 16),
+			item_code 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_item').value, 2),
+			item_unk0 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_unk0').value, 2),
+			item_quant 	 = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_68_quant').value).toString(16), 2),
+			item_unk1 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_unk1').value, 2),
+			item_unk2 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_unk2').value, 2),
+			item_flag 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_iFlag').value, 2),
+			item_modelId = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_modelId').value, 2),
+			item_MP 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_68_blinkColor').value + R3_SCD_JS.tools.parseCrouch(1, 'R3_SCD_EDIT_68_playerCrouch'), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + item_Id + item_aot + item_Xpos + item_Ypos + item_Zpos + item_Rpos + item_4P + item_code + item_unk0 + item_quant + 
 					item_unk1 + item_unk2 + item_flag + item_modelId + item_MP;
 	};
 	// [SUPER_SET] - No More Z-Align
 	if (R3_SCD_currentOpcode === '6a'){
-		var SUPER_aot 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_6a_aot').value, 2),
-			SUPER_id 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_6a_id').value, 2),
-			SUPER_data0  = R3_fixVars(document.getElementById('R3_SCD_EDIT_6a_data0').value, 4),
-			SUPER_data1  = R3_fixVars(document.getElementById('R3_SCD_EDIT_6a_data1').value, 4),
-			SUPER_data2  = R3_fixVars(document.getElementById('R3_SCD_EDIT_6a_data2').value, 4),
-			SUPER_X 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_6a_posX').value, 4),
-			SUPER_Y 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_6a_posY').value, 4),
-			SUPER_Z 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_6a_posZ').value, 4);
+		var SUPER_aot 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6a_aot').value, 2),
+			SUPER_id 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6a_id').value, 2),
+			SUPER_data0  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6a_data0').value, 4),
+			SUPER_data1  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6a_data1').value, 4),
+			SUPER_data2  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6a_data2').value, 4),
+			SUPER_X 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6a_posX').value, 4),
+			SUPER_Y 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6a_posY').value, 4),
+			SUPER_Z 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6a_posZ').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + SUPER_aot + SUPER_id + SUPER_data0 + SUPER_data1 + SUPER_data2 + SUPER_X + SUPER_Y + SUPER_Z;
 	};
 	// Check Item [KEEP_ITEM_CK]
@@ -4762,19 +4767,19 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	// [KEY_CK]
 	if (R3_SCD_currentOpcode === '6c'){
 		var KEY_flag = document.getElementById('R3_SCD_EDIT_6c_flag').value,
-			KEY_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_6c_value').value, 4);
+			KEY_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6c_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + KEY_flag + KEY_value;
 	};
 	// [TRG_CK]
 	if (R3_SCD_currentOpcode === '6d'){
-		var TRG_flag = R3_fixVars(document.getElementById('R3_SCD_EDIT_6d_flag').value, 2),
-			TRG_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_6d_value').value, 4);
+		var TRG_flag = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6d_flag').value, 2),
+			TRG_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6d_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + TRG_flag + TRG_value;
 	};
 	// [SCA_ID_SET]
 	if (R3_SCD_currentOpcode === '6e'){
-		var SCA_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_6e_id').value, 2),
-			SCA_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_6e_value').value, 4);
+		var SCA_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6e_id').value, 2),
+			SCA_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_6e_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + SCA_id + SCA_value;
 	};
 	// [OM_BOMB]
@@ -4784,40 +4789,40 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// [ESPR_KILL2]
 	if (R3_SCD_currentOpcode === '75'){
-		var ESPR_Id = R3_fixVars(document.getElementById('R3_SCD_EDIT_75_id').value, 2);
+		var ESPR_Id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_75_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + ESPR_Id;
 	};
 	// [ESPR_KILL_ALL]
 	if (R3_SCD_currentOpcode === '76'){
-		var ESPR_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_76_id').value, 2),
-			ESPR_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_76_value').value, 2);
+		var ESPR_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_76_id').value, 2),
+			ESPR_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_76_value').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + ESPR_id + ESPR_value;
 	};
 	// Play SE [SE_ON]
 	if (R3_SCD_currentOpcode === '77'){
-		var SE_id  	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_77_id').value, 2),
-			SE_type  = R3_fixVars(document.getElementById('R3_SCD_EDIT_77_type').value, 2),
-			SE_data1 = R3_fixVars(document.getElementById('R3_SCD_EDIT_77_data1').value, 2),
-			SE_work  = R3_fixVars(document.getElementById('R3_SCD_EDIT_77_work').value, 2),
-			SE_data3 = R3_fixVars(document.getElementById('R3_SCD_EDIT_77_data3').value, 2),
-			SE_X 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_77_posX').value, 4),
-			SE_Y 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_77_posY').value, 4),
-			SE_Z 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_77_posZ').value, 4);
+		var SE_id  	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_77_id').value, 2),
+			SE_type  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_77_type').value, 2),
+			SE_data1 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_77_data1').value, 2),
+			SE_work  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_77_work').value, 2),
+			SE_data3 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_77_data3').value, 2),
+			SE_X 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_77_posX').value, 4),
+			SE_Y 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_77_posY').value, 4),
+			SE_Z 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_77_posZ').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + SE_id + SE_type + SE_data1 + SE_work + SE_data3 + SE_X + SE_Y + SE_Z;
 	};
 	// [BGM_CTL]
 	if (R3_SCD_currentOpcode === '78'){
-		var BGM_id     = R3_fixVars(document.getElementById('R3_SCD_EDIT_78_id').value, 2),
-			BGM_op 	   = R3_fixVars(document.getElementById('R3_SCD_EDIT_78_op').value, 2),
-			BGM_type   = R3_fixVars(document.getElementById('R3_SCD_EDIT_78_type').value, 2),
-			BGM_value  = R3_fixVars(document.getElementById('R3_SCD_EDIT_78_value').value, 2);
-			BGM_volume = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_78_volume').value).toString(16), 2);
+		var BGM_id     = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_78_id').value, 2),
+			BGM_op 	   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_78_op').value, 2),
+			BGM_type   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_78_type').value, 2),
+			BGM_value  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_78_value').value, 2);
+			BGM_volume = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_78_volume').value).toString(16), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + BGM_id + BGM_op + BGM_type + BGM_value + BGM_volume;
 	};
 	// [XA_ON]
 	if (R3_SCD_currentOpcode === '79'){
-		var XA_Id   = R3_fixVars(document.getElementById('R3_SCD_EDIT_79_id').value, 2),
-			XA_data = R3_fixVars(document.getElementById('R3_SCD_EDIT_79_data').value, 4);
+		var XA_Id   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_79_id').value, 2),
+			XA_data = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_79_data').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + XA_Id + XA_data;
 	};
 	// Call Cinematic [MOVIE_ON]
@@ -4827,73 +4832,73 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// [BGM_TBL_SET]
 	if (R3_SCD_currentOpcode === '7b'){
-		var BGM_id0  = R3_fixVars(document.getElementById('R3_SCD_EDIT_7b_id0').value, 2),
-			BGM_id1  = R3_fixVars(document.getElementById('R3_SCD_EDIT_7b_id1').value, 2),
-			BGM_type = R3_fixVars(document.getElementById('R3_SCD_EDIT_7b_type').value, 4);
+		var BGM_id0  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7b_id0').value, 2),
+			BGM_id1  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7b_id1').value, 2),
+			BGM_type = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7b_type').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + BGM_id0 + BGM_id1 + BGM_type;
 	};
 	// Set Enemy / NPC [EM_SET]
 	if (R3_SCD_currentOpcode === '7d'){
-		var EM_unk0 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_unk0').value, 2),
-			EM_enemyId   = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_id').value, 2),
-			EM_enemyType = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_type').value, 2),
-			EM_enemyPose = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_pose').value, 2),
-			EM_unk1 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_unk1').value, 2),
-			EM_unk2 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_unk2').value, 6),
-			EM_soundSet  = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_soundSet').value, 2),
-			EM_texture 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_texture').value, 2),
-			EM_flag 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_flag').value, 2),
-			EM_X 		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_posX').value, 4),
-			EM_Y 		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_posY').value, 4),
-			EM_Z 		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_posZ').value, 4),
-			EM_R 		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_posR').value, 4),
-			EM_motion 	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_motion').value, 4),
-			EM_ctrlFlag  = R3_fixVars(document.getElementById('R3_SCD_EDIT_7d_ctrlFlag').value, 4);
+		var EM_unk0 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_unk0').value, 2),
+			EM_enemyId   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_id').value, 2),
+			EM_enemyType = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_type').value, 2),
+			EM_enemyPose = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_pose').value, 2),
+			EM_unk1 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_unk1').value, 2),
+			EM_unk2 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_unk2').value, 6),
+			EM_soundSet  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_soundSet').value, 2),
+			EM_texture 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_texture').value, 2),
+			EM_flag 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_flag').value, 2),
+			EM_X 		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_posX').value, 4),
+			EM_Y 		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_posY').value, 4),
+			EM_Z 		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_posZ').value, 4),
+			EM_R 		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_posR').value, 4),
+			EM_motion 	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_motion').value, 4),
+			EM_ctrlFlag  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7d_ctrlFlag').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + EM_unk0 + EM_enemyId + EM_enemyType + EM_enemyPose + EM_unk1 + EM_unk2 + EM_soundSet + EM_texture + 
 					EM_flag + EM_X + EM_Y + EM_Z + EM_R + EM_motion + EM_ctrlFlag;
 	};
 	// [MIZU_DIV]
 	if (R3_SCD_currentOpcode === '7e'){
-		var MIZU_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_7e_id').value, 2);
+		var MIZU_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7e_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + MIZU_id;
 	};
 	// Set 3D Object [OM_SET]
 	if (R3_SCD_currentOpcode === '7f'){
-		var OM_id  		= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_id').value, 2),
+		var OM_id  		= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_id').value, 2),
 			OM_AOT 		= document.getElementById('R3_SCD_EDIT_7f_AOT').value,
-			OM_moveType = R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_moveType').value, 2),
-			OM_pattern  = R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_pattern').value, 4),
-			OM_data0 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_data0').value, 2),
-			OM_speed 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_speed').value, 2),
-			OM_zIndex 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_zIndex').value, 2),
-			OM_superId  = R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_superID').value, 2),
-			OM_setFlag  = R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_setFlag').value, 2),
-			OM_beFlag   = R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_beFlag').value, 2),
-			OM_boolType = R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_boolType').value, 2),
-			OM_setCol   = R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_setColission').value, 2),
-			OM_visib 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_visibility').value, 2),
+			OM_moveType = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_moveType').value, 2),
+			OM_pattern  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_pattern').value, 4),
+			OM_data0 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_data0').value, 2),
+			OM_speed 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_speed').value, 2),
+			OM_zIndex 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_zIndex').value, 2),
+			OM_superId  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_superID').value, 2),
+			OM_setFlag  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_setFlag').value, 2),
+			OM_beFlag   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_beFlag').value, 2),
+			OM_boolType = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_boolType').value, 2),
+			OM_setCol   = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_setColission').value, 2),
+			OM_visib 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_visibility').value, 2),
 			OM_colType  = document.getElementById('R3_SCD_EDIT_7f_colType').value,
-			OM_posX 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_xPos').value, 4),
-			OM_posY 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_yPos').value, 4),
-			OM_posZ 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_zPos').value, 4),
-			OM_dirX 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_xDir').value, 4),
-			OM_dirY 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_yDir').value, 4),
-			OM_dirZ 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_zDir').value, 4),
-			OM_colPosX 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_xColPos').value, 4),
-			OM_colPosY 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_yColPos').value, 4),
-			OM_colPosZ 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_zColPos').value, 4),
-			OM_colDirX 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_xColDir').value, 4),
-			OM_colDirY 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_yColDir').value, 4),
-			OM_colDirZ 	= R3_fixVars(document.getElementById('R3_SCD_EDIT_7f_zColDir').value, 4);
+			OM_posX 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_xPos').value, 4),
+			OM_posY 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_yPos').value, 4),
+			OM_posZ 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_zPos').value, 4),
+			OM_dirX 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_xDir').value, 4),
+			OM_dirY 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_yDir').value, 4),
+			OM_dirZ 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_zDir').value, 4),
+			OM_colPosX 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_xColPos').value, 4),
+			OM_colPosY 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_yColPos').value, 4),
+			OM_colPosZ 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_zColPos').value, 4),
+			OM_colDirX 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_xColDir').value, 4),
+			OM_colDirY 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_yColDir').value, 4),
+			OM_colDirZ 	= R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_7f_zColDir').value, 4);
 	HEX_FINAL = R3_SCD_currentOpcode + OM_id + OM_AOT + OM_moveType + OM_pattern + OM_data0 + OM_speed + OM_zIndex + OM_superId + OM_setFlag + OM_beFlag +
 				OM_boolType + OM_setCol + OM_visib + OM_colType + OM_posX + OM_posZ + OM_posY + OM_dirX + OM_dirY + OM_dirZ + OM_colPosX + OM_colPosY + OM_colPosZ +
 				OM_colDirX + OM_colDirY + OM_colDirZ;
 	};
 	// Motion Trigger [PLC_MOTION]
 	if (R3_SCD_currentOpcode === '80'){
-		var PLC_id    = R3_fixVars(document.getElementById('R3_SCD_EDIT_80_id').value, 2),
-			PLC_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_80_value').value, 2),
-			PLC_type  = R3_fixVars(document.getElementById('R3_SCD_EDIT_80_type').value, 2);
+		var PLC_id    = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_80_id').value, 2),
+			PLC_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_80_value').value, 2),
+			PLC_type  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_80_type').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + PLC_id + PLC_value + PLC_type;
 	};
 	/*
@@ -4901,54 +4906,54 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		Skip zAlign
 	*/
 	if (R3_SCD_currentOpcode === '81'){
-		var PLC_animation	 = R3_fixVars(document.getElementById('R3_SCD_EDIT_81_animation').value, 2),
-			PLC_animModifier = R3_fixVars(document.getElementById('R3_SCD_EDIT_81_animModifier').value, 2),
-			PLC_dataA		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_81_dataA').value, 4),
-			PLC_dataB		 = R3_fixVars(document.getElementById('R3_SCD_EDIT_81_dataB').value, 4);
+		var PLC_animation	 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_81_animation').value, 2),
+			PLC_animModifier = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_81_animModifier').value, 2),
+			PLC_dataA		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_81_dataA').value, 4),
+			PLC_dataB		 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_81_dataB').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + '00' + PLC_animation + PLC_animModifier + PLC_dataA + PLC_dataB;
 	};
 	// Set Head Animation [PLC_NECK]
 	if (R3_SCD_currentOpcode === '82'){
 		var PLC_type = document.getElementById('R3_SCD_EDIT_82_type').value,
-			PLC_repeat = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_82_repeat').value).toString(16), 2),
-			PLC_data0 = R3_fixVars(document.getElementById('R3_SCD_EDIT_82_DATA_0').value, 2),
-			PLC_data1 = R3_fixVars(document.getElementById('R3_SCD_EDIT_82_DATA_1').value, 4),
-			PLC_data2 = R3_fixVars(document.getElementById('R3_SCD_EDIT_82_DATA_2').value, 4),
-			PLC_data3 = R3_fixVars(document.getElementById('R3_SCD_EDIT_82_DATA_3').value, 2),
-			PLC_speed = R3_fixVars(parseInt(document.getElementById('R3_SCD_EDIT_82_speed').value).toString(16), 2);
+			PLC_repeat = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_82_repeat').value).toString(16), 2),
+			PLC_data0 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_82_DATA_0').value, 2),
+			PLC_data1 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_82_DATA_1').value, 4),
+			PLC_data2 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_82_DATA_2').value, 4),
+			PLC_data3 = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_82_DATA_3').value, 2),
+			PLC_speed = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_82_speed').value).toString(16), 2);
 		HEX_FINAL = R3_SCD_currentOpcode + PLC_type + PLC_repeat + PLC_data0 + PLC_data1 + PLC_data2 + PLC_data3 + PLC_speed;
 	};
 	// [PLC_FLG]
 	if (R3_SCD_currentOpcode === '84'){
-		var PLC_id 	  = R3_fixVars(document.getElementById('R3_SCD_EDIT_84_id').value, 2),
-			PLC_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_84_value').value, 4);
+		var PLC_id 	  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_84_id').value, 2),
+			PLC_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_84_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + PLC_id + PLC_value;
 	};
 	// [PLC_GUN]
 	if (R3_SCD_currentOpcode === '85'){
-		var PLC_Id = R3_fixVars(document.getElementById('R3_SCD_EDIT_85_id').value, 2);
+		var PLC_Id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_85_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + PLC_Id;
 	};
 	// [PLC_ROT]
 	if (R3_SCD_currentOpcode === '88'){
-		var PLC_id 	  = R3_fixVars(document.getElementById('R3_SCD_EDIT_88_id').value, 2),
-			PLC_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_88_value').value, 4);
+		var PLC_id 	  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_88_id').value, 2),
+			PLC_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_88_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + PLC_id + PLC_value;
 	};
 	// [PLC_CNT]
 	if (R3_SCD_currentOpcode === '89'){
-		var PLC_Id = R3_fixVars(document.getElementById('R3_SCD_EDIT_89_id').value, 2);
+		var PLC_Id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_89_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + PLC_Id;
 	};
 	// [PLC_MOT_NUM]
 	if (R3_SCD_currentOpcode === '8e'){
-		var PLC_id 	  = R3_fixVars(document.getElementById('R3_SCD_EDIT_8e_id').value, 2),
-			PLC_value = R3_fixVars(document.getElementById('R3_SCD_EDIT_8e_value').value, 4);
+		var PLC_id 	  = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_8e_id').value, 2),
+			PLC_value = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_8e_value').value, 4);
 		HEX_FINAL = R3_SCD_currentOpcode + PLC_id + PLC_value;
 	};
 	// Reset Enemy Animation [EM_RESET]
 	if (R3_SCD_currentOpcode === '8f'){
-		var EM_id = R3_fixVars(document.getElementById('R3_SCD_EDIT_8f_id').value, 2);
+		var EM_id = R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_8f_id').value, 2);
 		HEX_FINAL = R3_SCD_currentOpcode + EM_id;
 	};
 	/*
@@ -4988,7 +4993,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		if (isHexPreview === true && R3_SCD_IS_EDITING === true && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 			if (R3_SCD_currentOpcode !== ''){
 				R3_SYSTEM.log('separator');
-				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: SCD Hex Preview for ' + R3_SCD_DATABASE[R3_SCD_currentOpcode][1] + ': <font class="user-can-select">' + R3_unsolveHEX(HEX_FINAL).toUpperCase() + '</font>');
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: SCD Hex Preview for ' + R3_SCD_DATABASE[R3_SCD_currentOpcode][1] + ': <font class="user-can-select">' + R3_tools.unsolveHex(HEX_FINAL).toUpperCase() + '</font>');
 				R3_MINIWINDOW.open(0);
 			} else {
 				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: The preview for this opcode is not ready yet!');
@@ -5242,7 +5247,7 @@ function R3_SCD_FUNCTION_READ_CHECK_LENGTH(hex, start){
 					var cOpcode = cFunctionHex.slice(0, 2),
 						cLength = R3_SCD_DATABASE[cOpcode][0];
 					tempCounter = parseInt(tempCounter + cLength);
-					hexTemp = R3_parseEndian(R3_fixVars(tempCounter.toString(16), 4));
+					hexTemp = R3_tools.parseEndian(R3_tools.fixVars(tempCounter.toString(16), 4));
 					start++;
 					counter++;
 				} else {
@@ -5263,7 +5268,7 @@ function R3_SCD_FUNCTION_READ_CHECK_LENGTH(hex, start){
 */
 function R3_SCD_FUNCTION_READ_CHECK_LENGTH_SPECIAL(hex, start, parentOpcode){
 	if (hex !== undefined && start !== undefined && parentOpcode !== undefined){
-		var cFunction, cOpcode, cStart = parseInt(start + 1), desire = (parseInt(R3_parseEndian(hex), 16) * 2), counter = 0, current = 0, done = false;
+		var cFunction, cOpcode, cStart = parseInt(start + 1), desire = (parseInt(R3_tools.parseEndian(hex), 16) * 2), counter = 0, current = 0, done = false;
 		while (done === false){
 			cStart++;
 			counter++;
@@ -5313,7 +5318,7 @@ function R3_SCD_FUNCTION_GENERATE_CHECK_LENGTH_SPECIAL(source){
 				tempLength = (tempLength + parseInt(R3_SCD_DATABASE[cOpcode][0] * 2));
 			cFunction++;
 		};
-		return R3_parseEndian(R3_fixVars((tempLength / 2).toString(16), 4));
+		return R3_tools.parseEndian(R3_tools.fixVars((tempLength / 2).toString(16), 4));
 	};
 };
 // Update RGB
@@ -5340,9 +5345,9 @@ function R3_SCD_FUNCTION_UPDATE_RGB(cOpcode){
 		document.getElementById('R3_SCD_EDIT_' + cOpcode + '_colorG_range').value = cG;
 		document.getElementById('R3_SCD_EDIT_' + cOpcode + '_colorB_range').value = cB;
 		// End
-		finalR = R3_fixVars(parseInt(cR).toString(16), 2);
-		finalG = R3_fixVars(parseInt(cG).toString(16), 2);
-		finalB = R3_fixVars(parseInt(cB).toString(16), 2);
+		finalR = R3_tools.fixVars(parseInt(cR).toString(16), 2);
+		finalG = R3_tools.fixVars(parseInt(cG).toString(16), 2);
+		finalB = R3_tools.fixVars(parseInt(cB).toString(16), 2);
 		if (document.getElementById('R3_SCD_EDIT_' + cOpcode + '_rgbDivPreview') !== null){
 			TMS.css('R3_SCD_EDIT_' + cOpcode + '_rgbDivPreview', {'background-color': '#' + finalR + finalG + finalB});
 		};
@@ -5428,9 +5433,9 @@ function R3_SCD_EDIT_FUNCTION_SET_TIMER_CONVERT(){
 	var editMode = document.getElementById('R3_SCD_EDIT_1e_target').value;
 	if (editMode === '29'){
 		var c0x00, c0x01 = 0,
-			HH = parseInt(R3_fixVars(document.getElementById('R3_SCD_EDIT_1e_timeHH').value, 2)),
-			MM = parseInt(R3_fixVars(document.getElementById('R3_SCD_EDIT_1e_timeMM').value, 2)),
-			SS = parseInt(R3_fixVars(document.getElementById('R3_SCD_EDIT_1e_timeSS').value, 2));
+			HH = parseInt(R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_1e_timeHH').value, 2)),
+			MM = parseInt(R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_1e_timeMM').value, 2)),
+			SS = parseInt(R3_tools.fixVars(document.getElementById('R3_SCD_EDIT_1e_timeSS').value, 2));
 		if (HH > 18){
 			HH = 18;
 			document.getElementById('R3_SCD_EDIT_1e_timeHH').value = HH;
@@ -5450,7 +5455,7 @@ function R3_SCD_EDIT_FUNCTION_SET_TIMER_CONVERT(){
 		};
 		c0x00 = totalSec;
 		// End
-		return R3_fixVars(parseInt(c0x00).toString(16), 2).toUpperCase() + R3_fixVars(parseInt(c0x01).toString(16), 2).toUpperCase();
+		return R3_tools.fixVars(parseInt(c0x00).toString(16), 2).toUpperCase() + R3_tools.fixVars(parseInt(c0x01).toString(16), 2).toUpperCase();
 	} else {
 		var initialIntValue = document.getElementById('R3_SCD_EDIT_1e_varInt').value;
 		if (initialIntValue === '' || parseInt(initialIntValue) === NaN || parseInt(initialIntValue) < 0){
@@ -5468,13 +5473,13 @@ function R3_SCD_EDIT_FUNCTION_SET_TIMER_CONVERT(){
 		};
 		c0x00 = initialIntValue;
 		// End
-		return R3_fixVars(parseInt(c0x00).toString(16), 2).toUpperCase() + R3_fixVars(parseInt(c0x01).toString(16), 2).toUpperCase();
+		return R3_tools.fixVars(parseInt(c0x00).toString(16), 2).toUpperCase() + R3_tools.fixVars(parseInt(c0x01).toString(16), 2).toUpperCase();
 	};
 };
 // Search hex for Set Event Value [SET]
 function R3_SCD_FUNCTION_SEARCH_SETVAR(){
 	if (SCD_arquivoBruto !== undefined){
-		var hexSearch = R3_cleanHex(document.getElementById('R3_SCD_EDIT_4d_varSearch').value);
+		var hexSearch = R3_tools.cleanHex(document.getElementById('R3_SCD_EDIT_4d_varSearch').value);
 		document.getElementById('R3_SCD_EDIT_4d_varSearch').value = hexSearch;
 		if (hexSearch.length > 1){
 			document.getElementById('R3_SCD_EDIT_4d_varSearch').value = '';
@@ -5501,7 +5506,7 @@ function R3_SCD_FUNCTION_LIT_COLOR_PICKER(opcodeId){
 // Update camera preview in a few opcodes
 function R3_SCD_FUNCTION_CAM_PREVIEW(domId, imgId){
 	if (R3_RDT_mapName !== '' && R3_WEBMODE === false){
-		var camId = R3_fixVars(parseInt(document.getElementById(domId).value).toString(16), 2).toUpperCase(), imgFix = '';
+		var camId = R3_tools.fixVars(parseInt(document.getElementById(domId).value).toString(16), 2).toUpperCase(), imgFix = '';
 			fPath = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + camId.toUpperCase() + '.JPG';
 		if (APP_FS.existsSync(fPath) === true){
 			document.getElementById(imgId).src = fPath;
@@ -5551,8 +5556,8 @@ function R3_SCD_FUNCION_displayMsgPreview(messageId){
 function R3_SCD_FUNCTION_updateAotOnPreview(){
 	var txtInput = document.getElementById('R3_SCD_EDIT_66_id').value,
 		aotId = 'No preview available';
-	if (txtInput.length > 1 && R3_SCD_ID_LIST_ENTRIES[R3_fixVars(txtInput, 2).toLowerCase()] !== undefined){
-		aotId = R3_SCD_ID_LIST_ENTRIES[R3_fixVars(txtInput, 2).toLowerCase()][2];
+	if (txtInput.length > 1 && R3_SCD_ID_LIST_ENTRIES[R3_tools.fixVars(txtInput, 2).toLowerCase()] !== undefined){
+		aotId = R3_SCD_ID_LIST_ENTRIES[R3_tools.fixVars(txtInput, 2).toLowerCase()][2];
 	};
 	document.getElementById('R3_SCD_EDIT_66_lblTarget').innerHTML = aotId;
 };
@@ -5575,7 +5580,7 @@ function R3_SCD_getFreeIdForFunction(mode){
 		};
 		// Start
 		while (canFinish === false){
-			cId = R3_fixVars(c, 2);
+			cId = R3_tools.fixVars(c, 2);
 			if (seekObject[cId] !== undefined){
 				c++;
 			} else {
@@ -5610,7 +5615,7 @@ function R3_SCD_getDoorParams(mode, sLocation, sFunction){
 			DOOR_stage 	 = cFunction.slice(decDb.nextStage[0], decDb.nextStage[1]),
 			DOOR_rNumber = cFunction.slice(decDb.nextRoom[0],  decDb.nextRoom[1]),
 			DOOR_nCam 	 = cFunction.slice(decDb.nextCam[0],   decDb.nextCam[1]),
-			nFile = 'R' + (parseInt(DOOR_stage) + 1) + R3_fixVars(DOOR_rNumber, 2).toUpperCase();
+			nFile = 'R' + (parseInt(DOOR_stage) + 1) + R3_tools.fixVars(DOOR_rNumber, 2).toUpperCase();
 		return [nFile, DOOR_xPos, DOOR_yPos, DOOR_zPos, DOOR_rPos, DOOR_zIndex, DOOR_stage, DOOR_rNumber, DOOR_nCam, R3_RDT_mapName];
 	};
 };
@@ -5698,7 +5703,7 @@ function R3_SCD_JS_START_COMPILER(){
 		if (canFinalize === true){
 			// console.info(finalCodeArray);
 			R3_SYSTEM.log('separator');
-			codeCompiled = R3_unsolveHEX(finalCodeArray.toString().replace(new RegExp(',', 'gi'), ''));
+			codeCompiled = R3_tools.unsolveHex(finalCodeArray.toString().replace(new RegExp(',', 'gi'), ''));
 			R3_SYSTEM.alert('INFO: The JS compiler run sucessfully!');
 			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: The JS compiler run sucessfully! <br>Compiled Hex: <font class="user-can-select">' + codeCompiled + '</font>');
 			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = finalCodeArray;
@@ -5816,7 +5821,7 @@ function R3_SCD_FUNCTION_GENERATE_CHECK_LENGTH(source, endOpcode, cIndex, finish
 					endBefore = true;
 				};
 				tempLength = (tempLength + cLength);
-				finalHex = R3_parseEndian(R3_fixVars(tempLength.toString(16), 4));
+				finalHex = R3_tools.parseEndian(R3_tools.fixVars(tempLength.toString(16), 4));
 				cIndex++;
 				// Finish this shit
 				if (cOpcode === endOpcode || endBefore === true){
@@ -5849,16 +5854,16 @@ function R3_SCD_COMPILE(mode){
 		};
 		// Generate Pointers
 		R3_SCD_POINTERS.forEach(function(cPointer){
-			tempHex = tempHex + R3_parseEndian(cPointer);
+			tempHex = tempHex + R3_tools.parseEndian(cPointer);
 		});
 		pointersLength = tempHex.length;
-		R3_SCD_POINTERS[0] = R3_parseEndian(R3_fixVars((pointersLength / 2).toString(16), 4));
+		R3_SCD_POINTERS[0] = R3_tools.parseEndian(R3_tools.fixVars((pointersLength / 2).toString(16), 4));
 		// Calc Script Length
 		tempHex = '';
 		while (d < R3_SCD_POINTERS.length){
 			tempHex = R3_SCD_SCRIPTS_LIST[cScript].toString().replace(RegExp(',', 'gi'), '');
 			pointersLength = (tempHex.length + pointersLength);
-			R3_SCD_POINTERS[d] = R3_parseEndian(R3_fixVars((pointersLength / 2).toString(16), 4));
+			R3_SCD_POINTERS[d] = R3_tools.parseEndian(R3_tools.fixVars((pointersLength / 2).toString(16), 4));
 			cScript++;
 			d++;
 		};
@@ -5882,14 +5887,14 @@ function R3_SCD_COMPILE(mode){
 			};
 			// Save As
 			if (mode === 1){
-				R3_FILE_SAVE(R3_SCD_fileName + '.SCD', FINAL_HEX, 'hex', '.SCD', function(newLoc){
+				R3_fileManager.saveFile(R3_SCD_fileName + '.SCD', FINAL_HEX, 'hex', '.SCD', function(newLoc){
 					R3_SCD_path = newLoc;
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Save Successful! File: <font class="user-can-select">' + R3_SCD_path + '</font>');
 				});
 			};
 			// Inject to RDT and GOTO RDT Menu
 			if (mode === 2){
-				R3_RDT_RAWSECTION_SCD = FINAL_HEX;
+				R3_RDT_rawSections.RAWSECTION_SCD = FINAL_HEX;
 				R3_SHOW_MENU(10);
 			};
 			// Just Compile
@@ -5900,7 +5905,7 @@ function R3_SCD_COMPILE(mode){
 			};
 			// Just Inject to RDT
 			if (mode === 4){
-				R3_RDT_RAWSECTION_SCD = FINAL_HEX;
+				R3_RDT_rawSections.RAWSECTION_SCD = FINAL_HEX;
 			};
 			/*
 				End

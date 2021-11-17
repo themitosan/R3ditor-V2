@@ -394,7 +394,7 @@
 						<div class="SEPARATOR-2"></div>
 						<input type="checkbox" id="R3_LIVESTATUS_OPTION_INFINITE_HP"><font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_LIVESTATUS_OPTION_INFINITE_HP');" title="Set this option enabled to always reset your HP to 200 if you get hurt"> - Enable Infinite HP</font><br>
 						<div class="align-center">
-							<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Add 30K HP (God Mode)" onclick="R3_LIVESTATUS_addGodHp();">
+							<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Add 30K HP (God Mode)" onclick="R3_LIVESTATUS.addGodHp();">
 						</div>
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_3">
@@ -423,18 +423,19 @@
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_4" id="R3_LIVESTATUS_MINISECTION_4">
 						<div class="R3_LIVESTATUS_IMG_ITEM_BG" id="R3_LIVESTATUS_IMG_ITEM_BG"></div>
-						Item: <input type="text" spellcheck="false" class="R3_MSG_EDIT_FF_NUMBER" minlength="1" maxlength="2" placeholder="01" onkeyup="R3_LIVESTATUS_SEARCH_ITEM_HEX_SLOT();" id="R3_LIVESTATUS_SELECT_ITEM_HEX_SEARCH" autocomplete="off"> <select id="R3_LIVESTATUS_SELECT_ITEM_HEX" class="SELECT_SETTINGS R3_LIVESTATUS_ITEMSELECT_INVENT_FIX" onchange="R3_LIVESTATUS_EDIT_INVENT_RENDERIMG();">
-							<!-- Items goes here -->
-						</select>
 						<div class="align-center">
+							Item: <input type="text" spellcheck="false" class="R3_MSG_EDIT_FF_NUMBER" minlength="1" maxlength="2" placeholder="01" onkeyup="R3_LIVESTATUS_SEARCH_ITEM_HEX_SLOT();" id="R3_LIVESTATUS_SELECT_ITEM_HEX_SEARCH" autocomplete="off">
+							<select id="R3_LIVESTATUS_SELECT_ITEM_HEX" class="SELECT_SETTINGS R3_LIVESTATUS_ITEMSELECT_INVENT_FIX" onchange="R3_LIVESTATUS_EDIT_INVENT_RENDERIMG();">
+								<!-- Items goes here -->
+							</select>
 							Quantity: <input type="number" autocomplete="off" placeholder="15" min="0" max="255" maxlength="3" step="1" class="R3_MSG_EDIT_FF_NUMBER" id="R3_LIVESTATUS_SELECT_ITEM_QT"> 
 							Attr: <select class="SELECT_SETTINGS auto" id="R3_LIVESTATUS_SELECT_ITEM_AT">
 								<!-- Item Attr goes here -->
 							</select><br>
-							<img ondragstart="return false;" src="img/items/details/00.png" class="R3_LIVESTATUS_IMG_ITEM_SETSLOT" id="R3_LIVESTATUS_IMG_ITEM_SETSLOT">
+							<img ondragstart="return false;" src="img/items/details/00.png" class="R3_LIVESTATUS_IMG_ITEM_SETSLOT" id="R3_LIVESTATUS_IMG_ITEM_SETSLOT"><br>
+							<input type="button" id="R3_LIVESTATUS_EDIT_INVENT_APPLY" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" title="Click here to apply" value="APPLY ITEM">
+							<input type="button" onclick="R3_LIVESTATUS_EDIT_INVENT_CANCEL();" class="SETTINGS_APPLY" title="Click here to cancel" value="Cancel">
 						</div>
-						<input type="button" id="R3_LIVESTATUS_EDIT_INVENT_APPLY" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" title="Click here to apply" value="APPLY ITEM">
-						<input type="button" onclick="R3_LIVESTATUS_EDIT_INVENT_CANCEL();" class="SETTINGS_APPLY" title="Click here to cancel" value="Cancel">
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_5">
 						<div class="R3_LIVESTATUS_BOX_HOLDER" id="R3_LIVESTATUS_BOX_HOLDER">
@@ -469,7 +470,7 @@
 							<input type="button" class="BTN_R3CLASSIC" title="Click here to paste position" value="Paste Pos." onclick="R3_SYS_PASTE_POS(0);">
 						</div>
 						<div class="align-center">
-							<input type="button" title="Click here to apply player pos." value="Apply Position" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN R3_LIVESTATUS_PLAYERPOS_APPLYBTN" onclick="R3_LIVESTATUS_APPLY_PLAYERPOS();">
+							<input type="button" title="Click here to apply player pos." value="Apply Position" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN R3_LIVESTATUS_PLAYERPOS_APPLYBTN" onclick="R3_LIVESTATUS.applyPlayerPos();">
 						</div>
 					</div>
 					<!-- Current Map -->
@@ -482,7 +483,7 @@
 						<div class="align-center">
 							Current camera: <font id="R3_LIVESTATUS_LBL_CURRENT_CAM" class="monospace user-can-select mono_xyzr">??</font><br>
 							<img ondragstart="return false;" src="img/404.png" id="R3_LIVESTATUS_IMG_CURRENT_CAM" class="R3_LIVESTATUS_IMG_CURRENT_CAM"><br>
-							<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" title="Click here to open this map on RDT Editor" onclick="R3_LIVESTATUS_openCurrentMap();" value="Open on RDT Editor">
+							<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" title="Click here to open this map on RDT Editor" onclick="R3_LIVESTATUS.openCurrentMap();" value="Open on RDT Editor">
 						</div>
 					</div>
 				</div>
@@ -1242,7 +1243,9 @@
 						<font id="R3_RDT_GENERAL_LOCALNAME">???</font><br>
 						<div id="R3_RDT_LBL_FILESIZE">
 							File Path: <font id="R3_RDT_GENERAL_FILEPATH" class="user-can-select monospace">???</font><br>
-							File Size: <font id="R3_RDT_GENERAL_FILESIZE" class="monospace mono_xyzr">???</font>
+							File Size: <font id="R3_RDT_GENERAL_FILESIZE" class="monospace mono_xyzr">???</font><br><br>
+							<!-- SCD Hack Status -->
+							SCD Hack Status: <font class="monospace mono_xyzr" id="R3_RDT_GENERAL_SCDHACKSTATUS">???</font>
 						</div>
 					</div>
 				</div>
@@ -1284,13 +1287,13 @@
 					<div class="R3_RID_EDIT_FORM" id="R3_RID_EDIT_FORM">
 						<!-- Top Menu -->
 						<div class="R3_RID_EDIT_MENU">
-							<input type="button" class="R3V2_MINI_MENU_BUTTON" value="+" title="Click here to insert a new camera" onclick="R3_RID_addCamera();">
-							<input type="button" class="R3V2_MINI_MENU_BUTTON" value="-" title="Click here to delete this camera" onclick="R3_RID_removeCamera();">
+							<input type="button" class="R3V2_MINI_MENU_BUTTON" value="+" title="Click here to insert a new camera" onclick="R3_rdtRID.addCamera();">
+							<input type="button" class="R3V2_MINI_MENU_BUTTON" value="-" title="Click here to delete this camera" onclick="R3_rdtRID.removeCamera();">
 							<div class="R3_RID_EDIT_MENU_NAVIGATE">
 								<input type="button" class="R3V2_MINI_MENU_BUTTON" value="<" onclick="R3_DESIGN_RID_seekCamera(0);" title="Click here to open previous camera">
 								<input type="button" class="R3V2_MINI_MENU_BUTTON" value=">" onclick="R3_DESIGN_RID_seekCamera(1);" title="Click here to open next camera">
 								<!-- Right -->
-								<input type="button" onclick="R3_RID_recompile();" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Apply RID">
+								<input type="button" onclick="R3_rdtRID.compileRID();" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Apply RID">
 							</div>
 						</div>
 						<!-- Edit Form -->
@@ -1793,7 +1796,9 @@
 				<!-- Main code -->
 				<script defer type="text/javascript" src="js/database.js"></script>
 				<script defer type="text/javascript" src="js/design.js"></script>
-				<script defer type="text/javascript" src="js/index.js"></script>
+				<script defer type="text/javascript" src="js/boot.js"></script>
+				<script defer type="text/javascript" src="js/tools.js"></script>
+				<script defer type="text/javascript" src="js/file_manager.js"></script>
 				<script defer type="text/javascript" src="js/configs.js"></script>
 				<script defer type="text/javascript" src="js/utils.js"></script>
 				<script defer type="text/javascript" src="js/wizard.js"></script>

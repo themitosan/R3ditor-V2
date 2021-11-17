@@ -1,6 +1,11 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - rdt.js
-	Let's see how big this file will be!
+	By TheMitoSan
+
+	This file is responsible for reading RDT data and install SCD Hack - a temp 
+	process used to debug current editors
+	*******************************************************************************
 */
 // General Vars
 var RDT_arquivoBruto,
@@ -58,8 +63,7 @@ var RDT_arquivoBruto,
 		RAWSECTION_BLK: '',    ORIGINAL_BLK: '',
 		RAWSECTION_RBJ: '',    ORIGINAL_RBJ: '',
 		RAWSECTION_EFFSPR: '', ORIGINAL_EFFSPR: '',
-		ARRAY_TIM: [],
-		ARRAY_OBJ: []
+		ARRAY_TIM: [], ARRAY_OBJ: []
 	};
 // Temp Objects
 tempFn_R3_RDT = {};
@@ -74,7 +78,7 @@ tempFn_R3_RDT['newFile'] = function(){
 };
 // Load files R3_RDT_loadFile
 tempFn_R3_RDT['loadFile'] = function(){
-	R3_FILE_LOAD('.rdt', function(rdtFile, hFile){
+	R3_fileManager.loadFile('.rdt', function(rdtFile, hFile){
 		R3_RDT.readMap(rdtFile, true, hFile);
 	});
 };
@@ -83,9 +87,9 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 	var headersTemp, fName, loaderInterval, errMsg, mapPath = '';
 	// Web fix
 	if (R3_WEBMODE === false){
-		fName = R3_getFileExtension(rdtFile).toLowerCase();
+		fName = R3_tools.getFileExtension(rdtFile).toLowerCase();
 	} else {
-		fName = R3_getFileExtension(rdtFile.name).toLowerCase();
+		fName = R3_tools.getFileExtension(rdtFile.name).toLowerCase();
 	};
 	// Moving on...
 	if (fName !== 'rdt' && fName !== 'ard'){
@@ -99,7 +103,7 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 		if (fName === 'rdt'){
 			if (R3_WEBMODE === false){
 				mapPath = rdtFile;
-				R3_RDT_mapName = R3_getFileName(rdtFile).toUpperCase();
+				R3_RDT_mapName = R3_tools.getFileName(rdtFile).toUpperCase();
 			} else {
 				mapPath = rdtFile.name;
 				R3_RDT_mapName = rdtFile.name.toUpperCase().replace('.RDT', '');
@@ -111,6 +115,9 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 				R3_SYSTEM.log('separator');
 			};
 			// Start
+			if (R3_MINI_WINDOW_DATABASE[0][5] === true){
+				R3_MINIWINDOW.close(0);
+			};
 			R3_UTILS_VAR_CLEAN();
 			R3_RDT_LOADED = false;
 			ORIGINAL_FILENAME = rdtFile;
@@ -135,7 +142,7 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 					if (b === 0){
 						R3_RDT_MAP_HEADER_POINTERS.push(a);
 					} else {
-						R3_RDT_MAP_HEADER_POINTERS.push(R3_parseEndian(a));
+						R3_RDT_MAP_HEADER_POINTERS.push(R3_tools.parseEndian(a));
 					};
 				});
 				/*
@@ -252,9 +259,9 @@ tempFn_sections['readBLK'] = function(){
 				blkStart 	 = (parseInt(R3_RDT_MAP_HEADER_POINTERS[14], 16) * 2),
 				blkCounter   = RDT_arquivoBruto.slice(blkStart, (blkStart + 4)),
 				headerLength = RDT_arquivoBruto.slice((blkStart + 4), (blkStart + 8)),
-				blkHeader 	 = RDT_arquivoBruto.slice(blkStart, (blkStart + (parseInt(R3_parseEndian(headerLength), 16) * 2))),
-				totalBlk	 = parseInt(R3_parseEndian(blkCounter), 16),
-				blkStartPos  = parseInt(blkStart + (parseInt(R3_parseEndian(headerLength), 16) * 2));
+				blkHeader 	 = RDT_arquivoBruto.slice(blkStart, (blkStart + (parseInt(R3_tools.parseEndian(headerLength), 16) * 2))),
+				totalBlk	 = parseInt(R3_tools.parseEndian(blkCounter), 16),
+				blkStartPos  = parseInt(blkStart + (parseInt(R3_tools.parseEndian(headerLength), 16) * 2));
 			// Start
 			for (var i = 0; i < totalBlk; i++){
 				blkStart = RDT_arquivoBruto.slice(blkStartPos);
@@ -290,8 +297,8 @@ tempFn_sections['readVB'] = function(){
 			// Check if exist 0x0000B1B2
 			if (VB_firstIndex !== -1){ // This is the start of first VB Data
 				VB_headerHex   = VB_startHeader.slice(0, VB_startHeader.indexOf('0000b1b2'));
-				VB_dataCounter = parseInt(R3_parseEndian(VB_headerHex.slice(40, 44)), 16);
-				VB_useCounter  = parseInt(R3_parseEndian(VB_headerHex.slice(44, 48)), 16);
+				VB_dataCounter = parseInt(R3_tools.parseEndian(VB_headerHex.slice(40, 44)), 16);
+				VB_useCounter  = parseInt(R3_tools.parseEndian(VB_headerHex.slice(44, 48)), 16);
 				VB_dataHex 	   = VB_startHeader.slice(VB_firstIndex, (VB_firstIndex + (64 * VB_dataCounter)));
 				// End
 				R3_RDT_rawSections.RAWSECTION_VB = VB_idListHex + VB_headerHex + VB_dataHex;
@@ -355,8 +362,8 @@ tempFn_sections['readOBJ'] = function(){
 				R3_RDT_rawSections.RAWSECTION_OBJ = tempRDT.slice(0, totalObjects).toString().replace(new RegExp(',', 'gi'), '');
 				// Get all TIM / OBJ Files
 				tempRDT = R3_RDT_rawSections.RAWSECTION_OBJ.match(/.{16,16}/g).forEach(function(cItem, cIndex){
-					tempTim = R3_TIM.getTimFromString(RDT_arquivoBruto, (parseInt(R3_parseEndian(cItem.slice(0, 8)), 16) * 2));
-					temp3dObj = R3_RDT.obj.extractObjFromString(RDT_arquivoBruto, cIndex, (parseInt(R3_parseEndian(cItem.slice(8, 16)), 16) * 2));
+					tempTim = R3_TIM.getTimFromString(RDT_arquivoBruto, (parseInt(R3_tools.parseEndian(cItem.slice(0, 8)), 16) * 2));
+					temp3dObj = R3_RDT.obj.extractObjFromString(RDT_arquivoBruto, cIndex, (parseInt(R3_tools.parseEndian(cItem.slice(8, 16)), 16) * 2));
 					if (R3_RDT_rawSections.ARRAY_TIM.indexOf(tempTim) === -1){
 						console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading TIM file ' + cIndex);
 						R3_RDT_rawSections.ARRAY_TIM.push(tempTim);
@@ -414,7 +421,7 @@ tempFn_sections['readSCA'] = function(){
 			const SCA_location = (parseInt(R3_RDT_MAP_HEADER_POINTERS[8], 16) * 2),
 				SCA_itemStart = parseInt(SCA_location + 32),
 				SCA_unkArrayStart = parseInt(SCA_location + 8),
-				SCA_totalItems = parseInt(R3_parseEndianToInt(R3_parseEndian(RDT_arquivoBruto.slice(SCA_location, SCA_unkArrayStart))) - 1),
+				SCA_totalItems = parseInt(R3_tools.parseEndianToInt(R3_tools.parseEndian(RDT_arquivoBruto.slice(SCA_location, SCA_unkArrayStart))) - 1),
 				SCA_header = RDT_arquivoBruto.slice(SCA_location, SCA_itemStart),
 				SCA_boundaries = RDT_arquivoBruto.slice(SCA_itemStart, parseInt(SCA_itemStart + (SCA_totalItems * 32))); // 32 = Length per colission
 			R3_RDT_rawSections.RAWSECTION_SCA = SCA_header + SCA_boundaries;
@@ -445,9 +452,8 @@ tempFn_sections['openRID'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_MINIWINDOW.close([16, 17]);
 		R3_UTILS_VAR_CLEAN_RID();
-		RID_arquivoBruto = R3_RDT_rawSections.RAWSECTION_RID;
-		RID_cameraList = RID_arquivoBruto.match(/.{64,64}/g);
-		R3_RID_START_DECOMPILER();
+		R3_rdtRID.cameraList = R3_RDT_rawSections.RAWSECTION_RID.match(/.{64,64}/g);
+		R3_rdtRID.readRID();
 		R3_MINIWINDOW.open(6, 'center');
 	};
 };
@@ -463,7 +469,7 @@ tempFn_sections['readLIT'] = function(){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading LIT...');
 		var c = 0, reachEnd = false, LIT_TEMP = '', LIT_startPos = (parseInt(R3_RDT_MAP_HEADER_POINTERS[11], 16) * 2),
 			LIT_pointerLength = RDT_arquivoBruto.slice(LIT_startPos, parseInt(LIT_startPos + 4)),
-			LIT_pointers = RDT_arquivoBruto.slice(LIT_startPos, parseInt(LIT_startPos + (parseInt(R3_parseEndian(LIT_pointerLength), 16) * 2))),
+			LIT_pointers = RDT_arquivoBruto.slice(LIT_startPos, parseInt(LIT_startPos + (parseInt(R3_tools.parseEndian(LIT_pointerLength), 16) * 2))),
 			LIT_tempLightsArray = RDT_arquivoBruto.slice(parseInt(LIT_startPos + LIT_pointers.length), RDT_arquivoBruto.length).match(/.{80,80}/g);
 		/*
 			This does not feels fine for me but... Will do the trick. (For now)
@@ -489,7 +495,6 @@ tempFn_sections['readLIT'] = function(){
 tempFn_sections['openLIT'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_UTILS_VAR_CLEAN_LIT();
-		LIT_arquivoBruto = R3_RDT_rawSections.RAWSECTION_LIT;
 		R3_LIT_DECOMPILE();
 	};
 };
@@ -539,9 +544,9 @@ tempFn_sections['readMSG'] = function(){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading MSG...');
 		if (R3_RDT_MAP_HEADER_POINTERS[15] !== '00000000'){
 			var	MSG_HEX_STARTPOS 		= (parseInt(R3_RDT_MAP_HEADER_POINTERS[15], 16) * 2),
-				MSG_POINTER_LENGTH 		= (parseInt(R3_parseEndian(RDT_arquivoBruto.slice(MSG_HEX_STARTPOS, (MSG_HEX_STARTPOS + 4))), 16) * 2),
+				MSG_POINTER_LENGTH 		= (parseInt(R3_tools.parseEndian(RDT_arquivoBruto.slice(MSG_HEX_STARTPOS, (MSG_HEX_STARTPOS + 4))), 16) * 2),
 				MSG_POINTERS			= RDT_arquivoBruto.slice(MSG_HEX_STARTPOS, (MSG_HEX_STARTPOS + MSG_POINTER_LENGTH)),
-				MSG_LAST_POINTER_LENGTH = (parseInt(R3_parseEndian(MSG_POINTERS.slice(MSG_POINTERS.length - 4, MSG_POINTERS.length)), 16) * 2),
+				MSG_LAST_POINTER_LENGTH = (parseInt(R3_tools.parseEndian(MSG_POINTERS.slice(MSG_POINTERS.length - 4, MSG_POINTERS.length)), 16) * 2),
 				MSG_RAW_SECTION 		= RDT_arquivoBruto.slice(MSG_HEX_STARTPOS, parseInt(MSG_HEX_STARTPOS + MSG_LAST_POINTER_LENGTH));
 				/*
 					Okay - Last message now.
@@ -607,9 +612,9 @@ tempFn_sections['readSCD'] = function(){
 		};
 		var c = 0, opcodeLength, RDT_SCD_SEEK_AREA, foundEnd = false, cOpcode = '', tmpStart = 0, tmpEnd = 2, lastScript = '',
 			SCD_HEX_STARTPOS  = (parseInt(R3_RDT_MAP_HEADER_POINTERS[18], 16) * 2),
-			SCD_POINTER_START = R3_parseEndian(RDT_arquivoBruto.slice(SCD_HEX_STARTPOS, (SCD_HEX_STARTPOS + 4))),
+			SCD_POINTER_START = R3_tools.parseEndian(RDT_arquivoBruto.slice(SCD_HEX_STARTPOS, (SCD_HEX_STARTPOS + 4))),
 			SCD_POINTER_END   = SCD_HEX_STARTPOS + (parseInt(SCD_POINTER_START, 16) * 2),
-			SCD_LENGTH 		  = (parseInt(R3_parseEndian(RDT_arquivoBruto.slice((SCD_POINTER_END - 4), SCD_POINTER_END)), 16) * 2),
+			SCD_LENGTH 		  = (parseInt(R3_tools.parseEndian(RDT_arquivoBruto.slice((SCD_POINTER_END - 4), SCD_POINTER_END)), 16) * 2),
 			SCD_RAW_SECTION   = RDT_arquivoBruto.slice(SCD_HEX_STARTPOS, (SCD_HEX_STARTPOS + SCD_LENGTH));
 		/*
 			Now, let's try extract the last script from RDT:
@@ -643,7 +648,7 @@ tempFn_sections['openSCD'] = function(){
 		R3_UTILS_VAR_CLEAN_SCD();
 		SCD_arquivoBruto = R3_RDT_rawSections.RAWSECTION_SCD;
 		if (R3_WEBMODE === false){
-			R3_SCD_fileName = R3_getFileName(ORIGINAL_FILENAME).toUpperCase();
+			R3_SCD_fileName = R3_tools.getFileName(ORIGINAL_FILENAME).toUpperCase();
 		} else {
 			R3_SCD_fileName = ORIGINAL_FILENAME.name.replace('.RDT', '');
 		};
@@ -669,7 +674,7 @@ tempFn_sections['readEFF'] = function(){
 	*/
 	var tempSize, RDT_EFF_POINTER = R3_RDT_MAP_HEADER_POINTERS[19], RDT_SND_POINTER = R3_RDT_MAP_HEADER_POINTERS[20];
 	if (RDT_EFF_POINTER !== '00000000' && RDT_SND_POINTER !== '00000000'){
-		tempSize = R3_parsePositive(parseInt((parseInt(RDT_EFF_POINTER, 16) * 2) - (parseInt(RDT_SND_POINTER, 16) * 2)));
+		tempSize = R3_tools.parsePositive(parseInt((parseInt(RDT_EFF_POINTER, 16) * 2) - (parseInt(RDT_SND_POINTER, 16) * 2)));
 		R3_RDT_rawSections.RAWSECTION_EFF = RDT_arquivoBruto.slice((parseInt(RDT_EFF_POINTER, 16) * 2), ((parseInt(RDT_EFF_POINTER, 16) * 2) + tempSize));
 	} else {
 		R3_RDT.errorBlankSection('EFF');
@@ -684,7 +689,7 @@ tempFn_sections['readEFF'] = function(){
 tempFn_sections['export'] = function(sectionName){
 	const rawHex = R3_RDT_rawSections['RAWSECTION_' + sectionName];
 	if (RDT_arquivoBruto !== undefined && rawHex !== undefined){
-		R3_FILE_SAVE(R3_RDT_mapName + '_' + sectionName, rawHex, 'hex', '.' + sectionName.toLowerCase(), function(fPath){
+		R3_fileManager.saveFile(R3_RDT_mapName + '_' + sectionName, rawHex, 'hex', '.' + sectionName.toLowerCase(), function(fPath){
 			R3_SYSTEM.log('separator');
 			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Process complete! (' + sectionName + ') <br>Path: <font class="user-can-select">' + fPath + '</font>');
 		});
@@ -695,7 +700,7 @@ tempFn_sections['exportAll'] = function(sectionId){
 	if (R3_WEBMODE === false){
 		if (RDT_arquivoBruto !== undefined){
 			try {
-				const fPath = R3_getMapPath()[1] + R3_RDT_mapName;
+				const fPath = R3_tools.getMapPath()[1] + R3_RDT_mapName;
 				if (APP_FS.existsSync(fPath) !== true){
 					APP_FS.mkdirSync(fPath);
 				};
@@ -726,7 +731,7 @@ tempFn_sections['importAll'] = function(sectionId){
 	if (R3_WEBMODE !== true){
 		if (RDT_arquivoBruto !== undefined){
 			try {
-				const fPath = R3_getMapPath()[1] + R3_RDT_mapName;
+				const fPath = R3_tools.getMapPath()[1] + R3_RDT_mapName;
 				if (APP_FS.existsSync(fPath) === true){
 					// Reading files
 					R3_SYSTEM.log('separator');
@@ -831,17 +836,17 @@ tempFn_scdHack['enableHack'] = function(){
 			conf = R3_SYSTEM.confirm('WARNING:\nThis process will copy the current SCD and MSG sections to the end of the file.\n\nThis is not recomended because this process is used only for debugging and will make the file larger / messy.\n\nIt\'s not recomended do this process on maps that haves enemies / npc\'s (SCD 7D Opcode), otherwise it will crash!\n\nAlso: DON\'T RUN THIS PROCESS TWICE IN THE SAME FILE!!!\n\nDo you want to continue anyway?');
 		if (conf === true){
 			if (R3_WEBMODE === false){
-				fName = R3_getFileName(ORIGINAL_FILENAME).toUpperCase();
+				fName = R3_tools.getFileName(ORIGINAL_FILENAME).toUpperCase();
 			} else {
-				fName = R3_getFileName(ORIGINAL_FILENAME.name).toUpperCase();
+				fName = R3_tools.getFileName(ORIGINAL_FILENAME.name).toUpperCase();
 			};
 			R3_UTILS_BACKUP(RDT_arquivoBruto, fName, '.RDT', APP_PATH + '/Configs/Backup/RDT', cEditor);
 			var newHackRDT = RDT_arquivoBruto + R3_RDT_rawSections.RAWSECTION_SCD + R3_RDT_DIVISOR + R3_RDT_rawSections.RAWSECTION_MSG,
-				newSCDPointer  = R3_parseEndian(R3_fixVars((RDT_arquivoBruto.length / 2).toString(16), 8)),
+				newSCDPointer  = R3_tools.parseEndian(R3_tools.fixVars((RDT_arquivoBruto.length / 2).toString(16), 8)),
 				RDT_HACK_START = RDT_arquivoBruto.slice(0, 144),
 				RDT_HACK_END   = newHackRDT.slice(152, newHackRDT.length),
 				RDT_HACK_SCD   = RDT_HACK_START + newSCDPointer + RDT_HACK_END,
-				newMSGPointer  = R3_parseEndian(R3_fixVars(parseInt((RDT_HACK_SCD.indexOf(R3_RDT_DIVISOR) + R3_RDT_DIVISOR.length) / 2).toString(16), 8));
+				newMSGPointer  = R3_tools.parseEndian(R3_tools.fixVars(parseInt((RDT_HACK_SCD.indexOf(R3_RDT_DIVISOR) + R3_RDT_DIVISOR.length) / 2).toString(16), 8));
 			// Update MSG Pointer
 			RDT_HACK_START = RDT_HACK_SCD.slice(0, 120);
 			RDT_HACK_END   = RDT_HACK_SCD.slice(128, RDT_HACK_SCD.length);
@@ -885,15 +890,15 @@ tempFn_scdHack['injectSections'] = function(){
 		try {
 			var fName, RDT_HACK_FINAL, cEditor = R3_DISC_MENUS[R3_MENU_CURRENT][0], pointerPos, RDT_HACK_START, RDT_HACK_END, RDT_HACK_SCD, newMSGPointer;
 			if (R3_WEBMODE === false){
-				fName = R3_getFileName(ORIGINAL_FILENAME).toUpperCase();
+				fName = R3_tools.getFileName(ORIGINAL_FILENAME).toUpperCase();
 			} else {
-				fName = R3_getFileName(ORIGINAL_FILENAME.name).toUpperCase();
+				fName = R3_tools.getFileName(ORIGINAL_FILENAME.name).toUpperCase();
 			};
 			R3_UTILS_BACKUP(RDT_arquivoBruto, fName, '.RDT', APP_PATH + '/Configs/Backup/RDT', cEditor);
-			pointerPos 	   = parseInt(R3_parseEndian(RDT_arquivoBruto.slice(144, 152)), 16) * 2, RDT_HACK_END;
+			pointerPos 	   = parseInt(R3_tools.parseEndian(RDT_arquivoBruto.slice(144, 152)), 16) * 2, RDT_HACK_END;
 			RDT_HACK_START = RDT_arquivoBruto.slice(0, pointerPos);
 			RDT_HACK_SCD   = RDT_HACK_START + R3_RDT_rawSections.RAWSECTION_SCD + R3_RDT_DIVISOR + R3_RDT_rawSections.RAWSECTION_MSG;
-			newMSGPointer  = R3_parseEndian(R3_fixVars(parseInt((RDT_HACK_SCD.indexOf(R3_RDT_DIVISOR) + R3_RDT_DIVISOR.length) / 2).toString(16), 8));
+			newMSGPointer  = R3_tools.parseEndian(R3_tools.fixVars(parseInt((RDT_HACK_SCD.indexOf(R3_RDT_DIVISOR) + R3_RDT_DIVISOR.length) / 2).toString(16), 8));
 			// Update Pointer for MSG
 			RDT_HACK_START = RDT_HACK_SCD.slice(0, 120);
 			RDT_HACK_END   = RDT_HACK_SCD.slice(128, RDT_HACK_SCD.length);

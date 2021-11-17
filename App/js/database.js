@@ -1,6 +1,11 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - database.js
-	Hölerò!
+	By TheMitoSan
+
+	This file is responsible for containing major content for edit forms, settings,
+	RE3 Opcodes and more.
+	*******************************************************************************
 */
 var INT_VERSION = 'DEV_VERSION',
 	R3_DOORLINK_DATABASE = {},

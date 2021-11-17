@@ -1,6 +1,11 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - doorlink.js
-	Hoo~
+	By TheMitoSan
+
+	This file is responsible for Doorlink - a feature that collects all SCD Doors
+	and creates a database that can be used on SCD editor. 
+	*******************************************************************************
 */
 // Variables
 var R3_DOORLINK_DATABASE = {},
@@ -36,13 +41,13 @@ tempFn_R3_DOORLINK['generateDatabase'] = function(){
 			R3_DOORLINK_RUNNING = true;
 			fileList = APP_FS.readdirSync(APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
 			fileList.forEach(function(cFile, cIndex){
-				if (R3_getFileExtension(cFile).toLowerCase() === 'rdt' && R3_DOORLINK_RUNNING === true){
+				if (R3_tools.getFileExtension(cFile).toLowerCase() === 'rdt' && R3_DOORLINK_RUNNING === true){
 					console.info('DoorLink - Current Map: ' + cFile + ' - (' + (cIndex + 1) + ' of ' + fileList.length + ')');
 					if (R3_DESIGN_LOADING_ACTIVE === true){
-						R3_UTILS_LOADING_UPDATE('R3ditor is scanning all maps to generate DoorLink database (Map: ' + cFile + ', ' + (cIndex + 1) + ' of ' + fileList.length + ' )', R3_parsePercentage(cIndex, fileList.length));
+						R3_UTILS_LOADING_UPDATE('R3ditor is scanning all maps to generate DoorLink database (Map: ' + cFile + ', ' + (cIndex + 1) + ' of ' + fileList.length + ' )', R3_tools.parsePercentage(cIndex, fileList.length));
 					};
 					cLocation = APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
-					fName = R3_getFileName(cFile).toUpperCase();
+					fName = R3_tools.getFileName(cFile).toUpperCase();
 					// Start this madness
 					R3_RDT.readMap(cLocation, false, APP_FS.readFileSync(cLocation, 'hex'));
 					R3_SCD_START_DECOMPILER(R3_RDT_rawSections.RAWSECTION_SCD);
@@ -110,9 +115,9 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 				var HTML_TEMPLATE = '', cLocation, fName, tmpRes, fileList, tempFunctionOpcode, tempList = {};
 				fileList = APP_FS.readdirSync(APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
 				fileList.forEach(function(cFile, cIndex){
-					if (R3_getFileExtension(cFile).toLowerCase() === 'rdt'){
+					if (R3_tools.getFileExtension(cFile).toLowerCase() === 'rdt'){
 						cLocation = APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
-						fName = R3_getFileName(cFile).toUpperCase();
+						fName = R3_tools.getFileName(cFile).toUpperCase();
 						console.info('DoorLink - Current Map: ' + cFile + ' - (' + (cIndex + 1) + ' of ' + fileList.length + ')');
 						R3_RDT.readMap(cLocation, false, APP_FS.readFileSync(cLocation, 'hex'));
 						R3_SCD_START_DECOMPILER(R3_RDT_rawSections.RAWSECTION_SCD);
@@ -145,10 +150,10 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 								if (cScript === 0){
 									cScript = 'INIT';
 								} else {
-									cScript = R3_fixVars(cScript, 4);
+									cScript = R3_tools.fixVars(cScript, 4);
 								};
 								HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_OPCODE_FINDER_RES_MAP" onclick="R3_RDT.readMap(\'' + APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cItem + '.RDT\', true);R3_SHOW_MENU(10);">' +
-												'<font title="' + RDT_locations[cItem][0] + ', ' + RDT_locations[cItem][1] + '">Map ' + cItem + '</font> - Script ' + cScript + ' - Function ' + R3_fixVars(cPosition, 3) + '</div>';
+												'<font title="' + RDT_locations[cItem][0] + ', ' + RDT_locations[cItem][1] + '">Map ' + cItem + '</font> - Script ' + cScript + ' - Function ' + R3_tools.fixVars(cPosition, 3) + '</div>';
 								c++;
 							});
 						});

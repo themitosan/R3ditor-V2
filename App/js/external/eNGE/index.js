@@ -1,8 +1,10 @@
 /*
+  *******************************************************************************
 	eNGE - index.js
 	Original project created by Rene Kootstra
 
-	Changes written by themitosan
+	Changes written by TheMitoSan
+  *******************************************************************************
 */
 'use strict';
 var SETTINGS_ENGE_BIOS = '', ENGE_INIT_OK = false, running = false, originalSpeed = true, realtimeStart = 0, samplesStart = 0, loading = 0, renderer = undefined, canvas = undefined, emulationTime = 0.0, context = undefined, abort = function(){
@@ -295,7 +297,7 @@ function loadFileData(arrayBuffer){
 // Handle loading by file selection
 function R3_eNGE_START_LOAD(){
 	if (ENGE_INIT_OK === true){
-		R3_FILE_LOAD('.bin, .iso, .dat', function(fData){
+		R3_fileManager.loadFile('.bin, .iso, .dat', function(fData){
 			openFile(fData);
 		}, true, null, true);
 	};

@@ -1,6 +1,11 @@
 /*
-	github.js
-	Let's have some fun!
+	*******************************************************************************
+	R3ditor V2 - github.js
+	By TheMitoSan
+
+	This file is responsible for GitHub Updater - a simple tool that allows the
+	user update R3V2 from a GitHub Branch. 
+	*******************************************************************************
 */
 // Consts
 const R3_GITHUB_FETCH_URL = 'https://api.github.com/repos/themitosan/R3ditor-V2/';
@@ -21,7 +26,7 @@ tempFn_R3_UPDATER['getUpdates'] = function(){
 		var HTML_TEMPLATE = '';
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (GitHub) Fetching branches - Please wait...');
 		fetch(R3_GITHUB_FETCH_URL + 'branches').then(resp => resp.json()).then(function(dat){
-			R3_GITHUB_BRANCHES_LIST = dat
+			R3_GITHUB_BRANCHES_LIST = dat;
 			Object.keys(R3_GITHUB_BRANCHES_LIST).forEach(function(cItem, cIndex){
 				HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + cItem + '">' + R3_GITHUB_BRANCHES_LIST[cItem].name + '</option>';
 			});
@@ -125,7 +130,7 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 		if (actionId === 2){
 			var cBranch = document.getElementById('R3_UPDATER_CURRENT_BRANCH').value;
 			R3_UTILS_LOADING_UPDATE('Downloading files from ' + R3_GITHUB_BRANCHES_LIST[cBranch].name + ' branch - Please wait', 20);
-			R3_FILE_DOWNLOAD('https://codeload.github.com/themitosan/R3ditor-V2/zip/refs/heads/' + R3_GITHUB_BRANCHES_LIST[cBranch].name, APP_PATH + '/Update/Update.zip', function(){
+			R3_fileManager.downloadFile('https://codeload.github.com/themitosan/R3ditor-V2/zip/refs/heads/' + R3_GITHUB_BRANCHES_LIST[cBranch].name, APP_PATH + '/Update/Update.zip', function(){
 				R3_UPDATER_LOCK = false;
 			});
 		};
@@ -159,7 +164,7 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			R3_UTILS_LOADING_UPDATE('Moving extracted files - Please wait...', 60);
 			var cBranch =  document.getElementById('R3_UPDATER_CURRENT_BRANCH').value,
 				fPath = 'R3ditor-V2-' + R3_GITHUB_BRANCHES_LIST[cBranch].name;
-			R3_SYS_copyFiles(APP_PATH + '/Update/' + fPath + '/', APP_EXEC_PATH, function(){
+			R3_fileManager.copyFiles(APP_PATH + '/Update/' + fPath + '/', APP_EXEC_PATH, function(){
 				R3_UPDATER_LOCK = false;
 			});
 		};

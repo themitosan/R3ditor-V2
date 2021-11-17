@@ -2599,7 +2599,7 @@ blockquote {
 }
 .R3_LIVESTATUS_IMG_ITEM_SETSLOT {
     z-index: -1;
-    width: 160px;
+    width: 172px;
     margin-top: 4px;
     position: relative;
     box-shadow: 0px 0px 40px #000040;
@@ -2611,12 +2611,12 @@ blockquote {
     filter: blur(2px);
     position: absolute;
     border-radius: 6px;
-    background-color: #000040;
+    background-color: #004;
     background-size: auto 434px;
     background-position: center;
     background-repeat: no-repeat;
     background-image: url('../img/items/details/00.png');
-    -webkit-mask-image: linear-gradient(to left, #0000002b, #0004);
+    -webkit-mask-image: linear-gradient(to left, #0002, #0004);
 }
 .R3_LIVESTATUS_LBL_INVENT_1 {
     top: 34px;
@@ -2673,17 +2673,17 @@ blockquote {
     height: 266px;
 }
 .R3_LIVESTATUS_MINISECTION_4 {
-    left: 4px;
-    top: 348px;
-    width: 414px;
-    height: 200px;
+    left: 278px;
+    top: 358px;
+    width: 560px;
+    height: 208px;
     display: none;
 }
 .R3_LIVESTATUS_MINISECTION_5 {
     top: 26px;
     left: 430px;
     width: 408px;
-    height: 522px;
+    height: 320px;
 }
 .R3_LIVESTATUS_MINISECTION_6 {
     top: 26px;
@@ -2695,7 +2695,7 @@ blockquote {
     top: 268px;
     left: 850px;
     width: 332px;
-    height: 280px;
+    height: 298px;
 }
 .R3_LIVESTATUS_MINISECTION_8 {
     top: 26px;
@@ -2728,8 +2728,8 @@ blockquote {
     left: 278px;
 }
 .R3_LIVESTATUS_MINITAB_4 {
-    top: 326px;
-    left: 4px;
+    top: 336px;
+    left: 278px;
     display: none;
 }
 .R3_LIVESTATUS_MINITAB_5 {
@@ -2819,7 +2819,7 @@ blockquote {
     position: sticky;
 }
 .R3_LIVESTATUS_IMG_CURRENT_CAM {
-    width: 246px;
+    width: 272px;
     margin-top: 4px;
     border-radius: 6px;
     box-shadow: 0px 0px 10px #3d3d3d;

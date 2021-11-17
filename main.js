@@ -1,6 +1,10 @@
 /*
-    main.js
-    This file was created baseo on electron-quick-start project
+    *******************************************************************************
+    R3ditor V2 - main.js
+    By TheMitoSan
+
+    This file was created based on electron-quick-start project
+    *******************************************************************************
 */
 const {app, BrowserWindow} = require('electron'), path = require('path');
 // Create R3V2 window
@@ -15,8 +19,7 @@ function R3_createMainWindow(){
         icon: __dirname + '/App/img/logo_ico.ico',
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false,
-            preload: path.join(__dirname, 'preload.js')
+            contextIsolation: false
         }
     });
     R3_mainWindow.loadFile('App/index.htm');

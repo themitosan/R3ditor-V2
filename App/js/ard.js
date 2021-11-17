@@ -1,9 +1,13 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - ard.js
-	Oh dear, romance me with small talk! *giggles*
+	By TheMitoSan
+
+	This file is responsible for creating functions to deal with PS1 ARD Files.
 
 	ARD info by Patrice Mandin (pmandin)
 	https://github.com/pmandin/reevengi-tools/wiki/.ARD
+	*******************************************************************************
 */
 var ARD_fileSize, ARD_arquivoBruto, ARD_totalObjects, ARD_sections = ARD_objectsMetadata = [], ARD_filePath = ARD_fileName = ARD_fileName = '';
 /*
@@ -12,17 +16,17 @@ var ARD_fileSize, ARD_arquivoBruto, ARD_totalObjects, ARD_sections = ARD_objects
 // Load Files
 function ARD_loadFile(){
 	if (R3_WEBMODE === false){
-		R3_FILE_LOAD('.ard', function(ardFile){
+		R3_fileManager.loadFile('.ard', function(ardFile){
 			R3_UTILS_VAR_CLEAN_ARD();
-			ARD_filePath = R3_getFilePath(ardFile);
-			ARD_fileName = R3_getFileName(ardFile);
+			ARD_filePath = R3_tools.getFilePath(ardFile);
+			ARD_fileName = R3_tools.getFileName(ardFile);
 			ARD_arquivoBruto = APP_FS.readFileSync(ardFile, 'hex');
-			ARD_fileSize = R3_parseEndian(ARD_arquivoBruto.slice(0, 8));
-			ARD_totalObjects = parseInt(R3_parseEndian(ARD_arquivoBruto.slice(8, 16)), 16);
+			ARD_fileSize = R3_tools.parseEndian(ARD_arquivoBruto.slice(0, 8));
+			ARD_totalObjects = parseInt(R3_tools.parseEndian(ARD_arquivoBruto.slice(8, 16)), 16);
 			const tempMetadata = ARD_arquivoBruto.slice(16, ((ARD_totalObjects * 16) + 24)).match(/.{8,8}/g);
 			for (var c = 0; c < (ARD_totalObjects * 2); c++){
-				if (R3_isInteger(c / 2) === true){
-					ARD_objectsMetadata.push(R3_parseEndian(tempMetadata[c]));
+				if (R3_tools.isInteger(c / 2) === true){
+					ARD_objectsMetadata.push(R3_tools.parseEndian(tempMetadata[c]));
 				};
 			};
 			// End
@@ -66,7 +70,7 @@ function ARD_extractSections(){
 // Check Compiler
 function ARD_checkCompiler(){
 	if (R3_WEBMODE === false){
-		R3_FILE_LOAD('.R3ARD', function(recompilerFile){
+		R3_fileManager.loadFile('.R3ARD', function(recompilerFile){
 			R3_UTILS_VAR_CLEAN_ARD();
 			// Start Getting Infos
 			var rebuildFile = [], mapName;
@@ -74,8 +78,8 @@ function ARD_checkCompiler(){
 				rebuildFile.push(line); 
 			});
 			mapName = rebuildFile[1].replace('MAP = ', '');
-			if (APP_FS.existsSync(R3_getFilePath(recompilerFile) + '/' + mapName + '.RDT') === true){
-				ARD_startRecompiler(rebuildFile, R3_getFilePath(recompilerFile) + mapName + '.RDT');
+			if (APP_FS.existsSync(R3_tools.getFilePath(recompilerFile) + '/' + mapName + '.RDT') === true){
+				ARD_startRecompiler(rebuildFile, R3_tools.getFilePath(recompilerFile) + mapName + '.RDT');
 			} else {
 				R3_SYSTEM.alert('WARN - Unable to find RDT file!');
 			};
@@ -100,13 +104,13 @@ function ARD_startRecompiler(ardInfos, rdtPath){
 			c++;
 		};
 		ARD_temp = DATA_0 + RDT_target + RDT_nextOffset + DATA_1;
-		var newFileSize = R3_parseEndian(R3_fixVars((ARD_temp.length / 2).toString(16), 8)),
+		var newFileSize = R3_tools.parseEndian(R3_tools.fixVars((ARD_temp.length / 2).toString(16), 8)),
 			ARD_temp_sizeFix = newFileSize + ARD_temp.slice(8, ARD_temp.length),
-			newRDTLength = R3_parseEndian(R3_fixVars((RDT_target.length / 2).toString(16), 8)),
+			newRDTLength = R3_tools.parseEndian(R3_tools.fixVars((RDT_target.length / 2).toString(16), 8)),
 			HEX_START = ARD_temp_sizeFix.slice(0, 144),
 			HEX_END = ARD_temp_sizeFix.slice(152, ARD_temp_sizeFix.length);
 			HEX_FINAL = HEX_START + newRDTLength + HEX_END;
-		R3_FILE_SAVE(fileName + '.ARD', HEX_FINAL, 'hex', '.ARD');
+		R3_fileManager.saveFile(fileName + '.ARD', HEX_FINAL, 'hex', '.ARD');
 	} else {
 		R3_WEBWARN();
 	};

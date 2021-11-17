@@ -1,6 +1,11 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - msg.js
-	Hölero!
+	By TheMitoSan
+
+	This file is responsible for reading and writting text messages (MSG) data 
+	extracted from RDT maps
+	*******************************************************************************
 */
 var R3_MSG_fPath,
 	R3_MSG_tempHex,
@@ -29,7 +34,7 @@ function R3_MSG_NEW_FILE(){
 };
 // Load MSG File
 function R3_MSG_LOADFILE(){
-	R3_FILE_LOAD('.msg', function(fPath){
+	R3_fileManager.loadFile('.msg', function(fPath){
 		R3_UTILS_VAR_CLEAN();
 		R3_UTILS_CLEANTOOLS();
 		R3_MSG_startLoadMsg(fPath);
@@ -43,9 +48,9 @@ function R3_MSG_startLoadMsg(fPath){
 	var fileName, loaderInterval = setInterval(function(){
 		if (MSG_arquivoBruto !== undefined && MSG_arquivoBruto !== ''){
 			if (R3_WEBMODE === false){
-				fileName = R3_getFileName(fPath);
+				fileName = R3_tools.getFileName(fPath);
 			} else {
-				fileName = R3_getFileName(fPath.name);
+				fileName = R3_tools.getFileName(fPath.name);
 			};
 			document.title = APP_TITLE + ' - MSG Editor - File: ' + fileName + '.MSG';
 			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (MSG) Loading file: <font class="user-can-select">' + fPath + '</font>');
@@ -70,9 +75,9 @@ function R3_MSG_decompileRDT(openEditor){
 			R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE = 3;
 			R3_SAVE_SETTINGS(false);
 		};
-		var pointersLength = (parseInt(R3_parseEndian(R3_RDT_rawSections.RAWSECTION_MSG.slice(0, 2)), 16) * 2),
+		var pointersLength = (parseInt(R3_tools.parseEndian(R3_RDT_rawSections.RAWSECTION_MSG.slice(0, 2)), 16) * 2),
 			R3_MSG_RDT_POINTERS_TEMP = R3_RDT_rawSections.RAWSECTION_MSG.slice(0, pointersLength).match(/.{4,4}/g).forEach(function(tmpPointer){
-			R3_MSG_RDT_POINTERS.push(R3_parseEndian(tmpPointer));
+			R3_MSG_RDT_POINTERS.push(R3_tools.parseEndian(tmpPointer));
 		});
 		// Push all messages to MSG List
 		R3_MSG_RDT_POINTERS.forEach(function(cItem, cIndex){
@@ -133,7 +138,7 @@ function R3_MSG_addToMSGList(msgId, openEditor){
 function R3_MSG_addMessage(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_MSG_RDT_MESSAGES.push('fa02fcfe00');
-		R3_MSG_RDT_POINTERS.push(R3_fixVars((R3_RDT_rawSections.RAWSECTION_MSG.length / 2).toString(16), 4));
+		R3_MSG_RDT_POINTERS.push(R3_tools.fixVars((R3_RDT_rawSections.RAWSECTION_MSG.length / 2).toString(16), 4));
 		R3_MSG_recompileWithPointers(1);
 		R3_MSG_readMessage((R3_MSG_RDT_MESSAGES.length - 1));
 	};
@@ -182,7 +187,7 @@ function R3_MSG_clearScript(){
 function R3_MSG_DECOMPILER_START(hex, compileMode){
 	if (hex !== undefined && hex !== ''){
 		var hexLen = (hex.length / 2);
-		if (R3_isInteger(hexLen) !== false){
+		if (R3_tools.isInteger(hexLen) !== false){
 			R3_MSG_textMode = '';
 			R3_MSG_commands = {};
 			R3_MSG_totalCommands = 0;
@@ -190,7 +195,7 @@ function R3_MSG_DECOMPILER_START(hex, compileMode){
 			if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE === 3){
 				R3_msgCurrentDatabase = MSG_RE3_DATABASE;
 			};
-			var d = c = 0, cLength, tempFunc, currentText = '', formatHex = R3_solveHEX(hex), RAW_DATA = formatHex.match(/.{1,2}/g), currentCommand, needReleaseText = false;
+			var d = c = 0, cLength, tempFunc, currentText = '', formatHex = R3_tools.solveHex(hex), RAW_DATA = formatHex.match(/.{1,2}/g), currentCommand, needReleaseText = false;
 			while (c < RAW_DATA.length){
 				currentCommand = RAW_DATA[c];
 				// console.info(currentCommand);
@@ -254,7 +259,7 @@ function R3_MSG_renderCommands(){
 // Translate Hex
 function R3_MSG_translateHex(){
 	document.getElementById('R3_MSG_EDIT_TEXTAREA').value = '';
-	var c = 0, fHex = R3_solveHEX(document.getElementById('R3_MSG_TRANSLATE_TEXTAREA').value.replace(new RegExp('\n', 'gi'), ''));
+	var c = 0, fHex = R3_tools.solveHex(document.getElementById('R3_MSG_TRANSLATE_TEXTAREA').value.replace(new RegExp('\n', 'gi'), ''));
 	if (fHex !== ''){
 		Object.keys(R3_HEX_FORMAT_EXCLUDE).forEach(function(cItem){
 			fHex = fHex.replace(new RegExp(cItem, 'gi'), '').replace(/[^a-z0-9]/gi,'');
@@ -263,7 +268,7 @@ function R3_MSG_translateHex(){
 	} else {
 		R3_MSG_NEW_FILE();
 	};
-	document.getElementById('R3_MSG_TRANSLATE_TEXTAREA').value = R3_unsolveHEX(R3_solveHEX(fHex), 0);
+	document.getElementById('R3_MSG_TRANSLATE_TEXTAREA').value = R3_tools.unsolveHex(R3_tools.solveHex(fHex), 0);
 };
 // Convert msg hex text to decoded text
 function R3_MSG_convertHexToPureText(hex, isMsgEditor){
@@ -377,7 +382,7 @@ function R3_MSG_EDIT_APPLY(mode){
 			var cNextPos = c + (textArray.slice(c).indexOf('}') + 1),
 				cFunctionHex = textArray.slice(c, cNextPos).toString().replace(RegExp(',', 'gi'), '').toUpperCase(),
 				cFunction = cFunctionHex.slice(1, cFunctionHex.indexOf(':')),
-				cArgs = R3_fixVars(cFunctionHex.slice((cFunctionHex.indexOf(':') + 1), cFunctionHex.indexOf('}')), 2);
+				cArgs = R3_tools.fixVars(cFunctionHex.slice((cFunctionHex.indexOf(':') + 1), cFunctionHex.indexOf('}')), 2);
 			// console.info('Function: ' + cFunctionHex);
 			if (cArgs === ''){
 				cArgs = '00';
@@ -435,9 +440,9 @@ function R3_MSG_COMPILE(mode){
 		// Save As
 		if (mode === 1){
 			if (RDT_arquivoBruto !== undefined){
-				fName = R3_RDT_mapName + '_MSG_' + R3_fixVars(R3_MSG_currentMessage, 2);
+				fName = R3_RDT_mapName + '_MSG_' + R3_tools.fixVars(R3_MSG_currentMessage, 2);
 			}
-			R3_FILE_SAVE(fName + '.msg', HEX_FINAL, 'hex', '.msg', function(loc){
+			R3_fileManager.saveFile(fName + '.msg', HEX_FINAL, 'hex', '.msg', function(loc){
 				R3_MSG_fPath = loc;
 			});
 		};
@@ -465,21 +470,21 @@ function R3_MSG_COMPILE(mode){
 function R3_MSG_recompileWithPointers(mode){
 	R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (MSG) Compiling new MSG pointers...');
 	var c = 1, HEX_FINAL = '', endianPointers = '', cMessage = R3_MSG_currentMessage,
-		MSG_FINAL_POINTERS_TEMP = [R3_fixVars((R3_MSG_RDT_MESSAGES.length * 2).toString(16), 4)],
+		MSG_FINAL_POINTERS_TEMP = [R3_tools.fixVars((R3_MSG_RDT_MESSAGES.length * 2).toString(16), 4)],
 		finalPointerLength = (parseInt(MSG_FINAL_POINTERS_TEMP[0], 16) * 2),
 		tempMsgHex = R3_MSG_RDT_MESSAGES[0];
-	MSG_FINAL_POINTERS_TEMP.push(R3_fixVars((parseInt(tempMsgHex.length + finalPointerLength) / 2).toString(16), 4));
+	MSG_FINAL_POINTERS_TEMP.push(R3_tools.fixVars((parseInt(tempMsgHex.length + finalPointerLength) / 2).toString(16), 4));
 	while (c < R3_MSG_RDT_MESSAGES.length){
 		tempMsgHex = tempMsgHex + R3_MSG_RDT_MESSAGES[c];
 		if (c !== (R3_MSG_RDT_MESSAGES.length - 1)){
-			MSG_FINAL_POINTERS_TEMP.push(R3_fixVars((parseInt(tempMsgHex.length + finalPointerLength) / 2).toString(16), 4));
+			MSG_FINAL_POINTERS_TEMP.push(R3_tools.fixVars((parseInt(tempMsgHex.length + finalPointerLength) / 2).toString(16), 4));
 		};
 		c++;
 	};
 	// Let's fix the pointers to endian
 	MSG_FINAL_POINTERS_TEMP.forEach(function(cPointer){
-		R3_parseEndian(cPointer);
-		endianPointers = endianPointers + R3_parseEndian(cPointer);
+		R3_tools.parseEndian(cPointer);
+		endianPointers = endianPointers + R3_tools.parseEndian(cPointer);
 	});
 	HEX_FINAL = endianPointers + tempMsgHex;
 	/*

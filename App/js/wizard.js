@@ -1,6 +1,11 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - wizard.js
-	Hoo~
+	By TheMitoSan
+
+	This file is responsible for main game extraction process, making possible
+	creating mods.
+	*******************************************************************************
 */
 // Wizard variables
 var R3_WIZARD_modFile,
@@ -19,10 +24,10 @@ var R3_WIZARD_modFile,
 // Get game path
 function R3_WIZARD_getMainGamePath(){
 	if (R3_WEBMODE === false){
-		R3_FOLDER_SELECT(function(gamePath){
+		R3_fileManager.selectPath(function(gamePath){
 			R3_WIZARD_GAME_PATH = gamePath;
 			document.getElementById('R3_WIZARD_GAME_PATH').title = R3_WIZARD_GAME_PATH;
-			document.getElementById('R3_WIZARD_GAME_PATH').innerHTML = R3_fixPathSize(R3_WIZARD_GAME_PATH, 120);
+			document.getElementById('R3_WIZARD_GAME_PATH').innerHTML = R3_tools.fixPathSize(R3_WIZARD_GAME_PATH, 120);
 		});
 	};
 };
@@ -112,7 +117,7 @@ function R3_WIZARD_copyMissingFiles(){
 		if (parseInt(cItem) === 2 && R3_WIZARD_REPLACE_WARN === false){
 			console.info('Skipping WARNE.TIM');
 		} else {
-			R3_SYS_copyFiles(fileList[cItem][0], fileList[cItem][1], function(){
+			R3_fileManager.copyFiles(fileList[cItem][0], fileList[cItem][1], function(){
 				R3_UTILS_LOADING_UPDATE('Now R3ditor V2 is getting all missing files...', 90);
 			});
 		};
@@ -123,7 +128,7 @@ function R3_WIZARD_copyMissingFiles(){
 			APP_ENABLE_MOD = true;
 			process.chdir(ORIGINAL_APP_PATH);
 			// Skip making config file if current version is Gemini REbirth
-			if (RE3_LIVE_CURRENTMOD !== 4){
+			if (R3_LIVESTATUS.currentMode !== 4){
 				R3_INI.generateIni(0, R3_WIZARD_KEEP_ROFS11);
 			};
 			R3_WIZARD_FINAL_CHECK_RE3_PATH();
@@ -134,7 +139,7 @@ function R3_WIZARD_copyMissingFiles(){
 // Extract Rofs (Wizard)
 function R3_WIZARD_EXTRACT_ROFS(rofsId){
 	if (R3_WEBMODE === false){
-		R3_UTILS_LOADING_UPDATE('Extracting <font class="R3_HC_LBL_CODE user-cant-select">Rofs' + rofsId + '.dat</font> - ' + ROFS_FILE_DESC[rofsId] + ' - Please wait...', R3_parsePercentage(rofsId, 15));
+		R3_UTILS_LOADING_UPDATE('Extracting <font class="R3_HC_LBL_CODE user-cant-select">Rofs' + rofsId + '.dat</font> - ' + ROFS_FILE_DESC[rofsId] + ' - Please wait...', R3_tools.parsePercentage(rofsId, 15));
 		R3_runExec(APP_TOOLS + '/rofs.exe', [R3_WIZARD_GAME_PATH + '/Rofs' + rofsId + '.dat'], 1);
 	};
 };
@@ -145,7 +150,7 @@ function R3_WIZARD_EXTRACT_ROFS(rofsId){
 function R3_WIZARD_FINAL_CHECK_RE3_PATH(){
 	if (R3_WEBMODE === false){
 		R3_UTILS_LOADING_UPDATE('Now R3ditor V2 is Checking main game executables (1 of 2)...', 92);
-		var fName = R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][3];
+		var fName = R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
 		if (R3_WIZARD_SET_RE3_PATH === true && APP_FS.existsSync(R3_WIZARD_GAME_PATH + '/' + fName) === true){
 			R3_RE3_PATH = R3_WIZARD_GAME_PATH + '/' + fName;
 		};
@@ -176,7 +181,7 @@ function R3_WIZARD_FINAL_CHECK_DOORLINK(){
 function R3_WIZARD_FINISH(){
 	if (R3_WEBMODE === false){
 		const R3MOD = '{"modName": \"' + R3_WIZARD_MOD_NAME + '\", "appVersion": \"' + INT_VERSION + '\", "modPath": \"' + R3_MOD_PATH + '\", "gameMode": ' +
-					  RE3_LIVE_CURRENTMOD + '}';
+					  R3_LIVESTATUS.currentMode + '}';
 		APP_FS.writeFileSync(APP_PATH + '/ModInfo.R3MOD', R3MOD, 'utf-8');
 		R3_SAVE_SETTINGS(false);
 		R3_SYSTEM.clearLog(false);
@@ -192,14 +197,14 @@ function R3_WIZARD_FINISH(){
 */
 function R3_WIZARD_openMod(){
 	if (R3_WEBMODE === false){
-		R3_FILE_LOAD('.R3MOD, .R3V2', function(fName){
+		R3_fileManager.loadFile('.R3MOD, .R3V2', function(fName){
 			R3_MENU_EXIT();
 			var mFile = APP_FS.readFileSync(fName, 'utf-8');
 			R3_WIZARD_modFile = JSON.parse(mFile);
 			R3_MOD_PATH = R3_WIZARD_modFile.modPath;
 			R3_MOD_NAME = R3_WIZARD_modFile.modName;
-			RE3_LIVE_CURRENTMOD = parseInt(R3_WIZARD_modFile.gameMode);
-			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Mod loaded sucessfully! <br>Mod Name: ' + R3_MOD_NAME + ' <br>Game Mode: ' + RE3_LIVE_CURRENTMOD);
+			R3_LIVESTATUS.currentMode = parseInt(R3_WIZARD_modFile.gameMode);
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Mod loaded sucessfully! <br>Mod Name: ' + R3_MOD_NAME + ' <br>Game Mode: ' + R3_LIVESTATUS.currentMode);
 			R3_SAVE_SETTINGS(false);
 		});
 	};

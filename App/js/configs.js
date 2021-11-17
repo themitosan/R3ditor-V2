@@ -1,9 +1,12 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - configs.js
 	By TheMitoSan
-	Sorry Again.
+
+	This file is responsible for storing all functions / variables related to 
+	main app settings.
+	*******************************************************************************
 */
-// Main Vars
 var R3_SETTINGS = {
 		// Paths
 		'R3_RE3_PATH': '',
@@ -178,8 +181,8 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		// Check if Executable Exists (RE3)
 		if (APP_FS.existsSync(R3_SETTINGS.R3_RE3_PATH) === true){
 			R3_RE3_CANRUN = true;
-			if (APP_ENABLE_MOD === true && R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][2] === false){
-				R3_RE3_MOD_PATH = APP_PATH + '/Assets/' + R3_GAME_VERSIONS[RE3_LIVE_CURRENTMOD][3];
+			if (APP_ENABLE_MOD === true && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === false){
+				R3_RE3_MOD_PATH = APP_PATH + '/Assets/' + R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
 			};
 		};
 		// Check MERCE path
@@ -235,12 +238,13 @@ function R3_LOAD_PROCESS_SETTINGS(){
 function R3_LOAD_CHECK_EXTRA(){
 	R3_DESIGN_CHECKRES();
 	// Try to detect if game is open
-	if (R3_WEBMODE === false && MEM_JS_requreSucess === true){
-		R3_CHECK_GAME_IS_RUNNING();
+	if (R3_WEBMODE === false && R3_MEMJS.requireSucess === true){
+		R3_MEMJS.checkIfGameIsRunning();
 	};
-	if (R3_getDate(2) === '09' && R3_getDate(1) === '28'){
+	// One of the best musics from EW&F! (Do you remember...)
+	if (R3_tools.getDate(2) === '09' && R3_tools.getDate(1) === '28'){
 		APP_CAN_RENDER_DEV = false;
-		var diff = (parseInt(R3_getDate(3)) - 1999);
+		const diff = (parseInt(R3_tools.getDate(3)) - 1999);
 		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', atob(FG_HIDDENSTRINGS[0][0]) + diff + atob(FG_HIDDENSTRINGS[0][1]), 'RE3', 140);
 	} else {
 		R3_WEB_ALERT();
@@ -254,7 +258,7 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 	R3_LOAD_CHECKFILES();
 	// Fix ORIGINAL_APP_PATH
 	if (ORIGINAL_APP_PATH !== '' && ORIGINAL_APP_PATH !== undefined){
-		ORIGINAL_APP_PATH = R3_fixPath(ORIGINAL_APP_PATH);
+		ORIGINAL_APP_PATH = R3_tools.fixPath(ORIGINAL_APP_PATH);
 	};
 	// Get eNGE Res.
 	R3_ENGE_updateResVars();
@@ -320,7 +324,7 @@ function R3_SETTINGS_UPDATE_CHECKBOX(){
 };
 // Update select
 function R3_SETTINGS_UPDATE_SELECT(){
-	RE3_LIVE_CURRENTMOD = parseInt(document.getElementById('R3_SETTINGS_RE3_VERSION').value);
+	R3_LIVESTATUS.currentMode = parseInt(document.getElementById('R3_SETTINGS_RE3_VERSION').value);
 	R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE = parseInt(document.getElementById('R3_SETTINGS_SCD_EDITOR_MODE').value);
 	R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE = parseInt(document.getElementById('R3_SETTINGS_MSG_DATABASE_MODE').value);
 	R3_SETTINGS.SETTINGS_LIVESTATUS_BAR_POS = parseInt(document.getElementById('R3_SETTINGS_LIVESTATUS_POSITION').value);
@@ -339,8 +343,8 @@ function R3_SETTINGS_UPDATE_RANGE(mode){
 function R3_SETTINGS_SET_PATH(mode){
 	if (mode !== 4){
 		if (mode !== 5){
-			R3_FILE_LOAD('.exe', function(pathFuture){
-				var fixPath = R3_fixPath(pathFuture);
+			R3_fileManager.loadFile('.exe', function(pathFuture){
+				var fixPath = R3_tools.fixPath(pathFuture);
 				if (mode === 0){
 					// R3_SETTINGS_RE3_PATH
 					R3_SETTINGS.R3_RE3_PATH = fixPath;
@@ -373,13 +377,13 @@ function R3_SETTINGS_SET_PATH(mode){
 				};
 			});
 		} else {
-			R3_FILE_LOAD('.R3V2', function(biosPath){
-				R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH = R3_fixPath(biosPath);
+			R3_fileManager.loadFile('.R3V2', function(biosPath){
+				R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH = R3_tools.fixPath(biosPath);
 				document.getElementById('R3_SETTINGS_eNGE_BIOS_PATH').innerHTML = R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH;
 			});
 		};
 	} else {
-		R3_FOLDER_SELECT(function(pathFuture){
+		R3_fileManager.selectPath(function(pathFuture){
 			var fileCheck = pathFuture + '/bio3.ini';
 			if (APP_FS.existsSync(fileCheck) === true){
 				R3_MOD_PATH = fileCheck.slice(0, (fileCheck.length - 8));
@@ -433,7 +437,7 @@ function R3_ENGE_updateResScale(mode){
 	} else {
 		videoX = parseInt(document.getElementById('R3_SETTINGS_ENGE_WIDTH').value);
 	};
-	videoY = R3_parsePSXRes(0, videoX);
+	videoY = R3_tools.parsePSRes(0, videoX);
 	// Apply values
 	document.getElementById('R3_SETTINGS_ENGE_WIDTH').value = videoX;
 	document.getElementById('R3_SETTINGS_ENGE_HEIGHT').value = videoY;
@@ -468,17 +472,17 @@ function R3_INIT_generateSelectValues(db, mode, prevHTML, limit){
 	for (var c = 0; c < maxLimit; c++){
 		// Modes
 		if (mode === 'hex'){
-			modeType = R3_fixVars(tempAttr[c], 2);
+			modeType = R3_tools.fixVars(tempAttr[c], 2);
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType][0] + '</option>';
 		};
 		// Item
 		if (mode === 'item'){
-			modeType = R3_fixVars(c.toString(16), 2);
+			modeType = R3_tools.fixVars(c.toString(16), 2);
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType][0] + '</option>';
 		};
 		// Files
 		if (mode === 'files'){
-			modeType = R3_fixVars(tempAttr[c], 2);
+			modeType = R3_tools.fixVars(tempAttr[c], 2);
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType] + '</option>';
 		};
 		// Set Variables

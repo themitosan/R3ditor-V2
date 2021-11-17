@@ -1,8 +1,13 @@
 /*
+	*******************************************************************************
 	TMS.js
-	Because I don't want to deal with jQuery anymore!
+	By TheMitoSan
+	
+	This file is an original replacement - Because I don't want to deal with jQuery
+	anymore!
 
 	Original source / motivation: http://youmightnotneedjquery.com/
+	*******************************************************************************
 */
 tmsTemp = {};
 tmsTemp['logWarnings'] = false;

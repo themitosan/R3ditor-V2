@@ -1,6 +1,11 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - gamepad.js
-	This is a test baby!
+	By TheMitoSan
+
+	This file is responsible for reading gamepad input and use it on R3V2.
+	PS: This is pretty-much WIP!
+	*******************************************************************************
 */
 // Main variables
 var R3_GAMEPAD, R3_GAMEPAD_1P, R3_GAMEPAD_INTERVAL,

@@ -1,10 +1,14 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - tim.js
-	Oh dear... Why?
+	By TheMitoSan
 
-	These functions was written using Klarth TIM Tutorial as base
+	This file is responsible for reading, deconding and extracting TIM files.
+	Some functions inside this file was written using Klarth TIM Tutorial as base.
+	
 	http://rpgd.emulationworld.com/klarth
 	Email: stevemonaco@hotmail.com
+	*******************************************************************************
 */
 // Variables
 var TIM_CLUT, TIM_header, TIM_bppType, TIM_RAW_IMG, TIM_clutSize, TIM_totalCLUT, TIM_arquivoBruto, TIM_colorsPerCLUT, TIM_VRAM_palleteOrgX, TIM_VRAM_palleteOrgY;
@@ -16,7 +20,7 @@ tempFn_timManager = {};
 */
 // Load File TIM_loadFile
 tempFn_R3_TIM['loadFile'] = function(){
-	R3_FILE_LOAD('.tim', function(timFile, timHex){
+	R3_fileManager.loadFile('.tim', function(timFile, timHex){
 		R3_UTILS_VAR_CLEAN_TIM();
 		TIM_arquivoBruto = timHex;
 		TIM.decompileFile();
@@ -37,7 +41,7 @@ tempFn_R3_TIM['decompileFile'] = function(){
 			TIM_colorsPerCLUT	 = TIM_arquivoBruto.slice(32, 36);
 			TIM_totalCLUT   	 = TIM_arquivoBruto.slice(36, 40);
 			// Extract All CLUTS
-			var clutSizeConvert = parseInt((R3_parseEndianToInt(R3_parseEndian(TIM_clutSize)) - 12) * 2);
+			var clutSizeConvert = parseInt((R3_tools.parseEndianToInt(R3_tools.parseEndian(TIM_clutSize)) - 12) * 2);
 			CLUT_RAW = TIM_arquivoBruto.slice(40, parseInt(clutSizeConvert + 40));
 			TIM_CLUT = CLUT_RAW.match(new RegExp('.{' + clutSizeConvert + ',' + clutSizeConvert + '}', 'g'));
 			// Extract Metadata
@@ -47,7 +51,7 @@ tempFn_R3_TIM['decompileFile'] = function(){
 				META_imgOrgY   = TIM_arquivoBruto.slice(parseInt(metadataStart + 12), parseInt(metadataStart + 16)),
 				META_imgWidth  = TIM_arquivoBruto.slice(parseInt(metadataStart + 16), parseInt(metadataStart + 20)),
 				META_imgHeight = TIM_arquivoBruto.slice(parseInt(metadataStart + 20), parseInt(metadataStart + 24)),
-				convertImgSize = parseInt((R3_parseEndianToInt(R3_parseEndian(META_imgSize)) - 12) * 2);
+				convertImgSize = parseInt((R3_tools.parseEndianToInt(R3_tools.parseEndian(META_imgSize)) - 12) * 2);
 			// Extract Image
 			TIM_RAW_IMG = TIM_arquivoBruto.slice(parseInt(metadataStart + 24), (parseInt(metadataStart + 24) + convertImgSize));
 		};
@@ -68,11 +72,11 @@ tempFn_R3_TIM['getTimFromString'] = function(hex, location){
 		*/
 		if (TIM_bppType === '09000000'){
 			TIM_clutSize = hex.slice((location + 16), (location + 24));
-			const clutSizeConvert = parseInt((R3_parseEndianToInt(R3_parseEndian(TIM_clutSize)) - 12) * 2);
+			const clutSizeConvert = parseInt((R3_tools.parseEndianToInt(R3_tools.parseEndian(TIM_clutSize)) - 12) * 2);
 			CLUT_RAW = hex.slice((location + 40), (location + (clutSizeConvert + 40)));
 			var metadataStart  = parseInt(hex.indexOf(CLUT_RAW) + CLUT_RAW.length),
 				META_imgSize   = hex.slice(metadataStart, parseInt(metadataStart + 8)),
-				convertImgSize = parseInt((R3_parseEndianToInt(R3_parseEndian(META_imgSize)) - 12) * 2);
+				convertImgSize = parseInt((R3_tools.parseEndianToInt(R3_tools.parseEndian(META_imgSize)) - 12) * 2);
 			TIM_RAW_IMG = hex.slice(parseInt(metadataStart + 24), (parseInt(metadataStart + 24) + convertImgSize));
 			// End
 			return hex.slice(location, (hex.indexOf(TIM_RAW_IMG) + TIM_RAW_IMG.length));
@@ -110,7 +114,7 @@ delete tempFn_R3_TIM;
 // Import TIM R3_TIM_MANAGER_importExport
 tempFn_timManager['import'] = function(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_FILE_LOAD('.tim', function(fPath, hxFile){
+		R3_fileManager.loadFile('.tim', function(fPath, hxFile){
 			if (R3_TIM.checkIntegrity(hxFile) === true){
 				R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile] = hxFile;
 				var finalLbl = '';
@@ -129,7 +133,7 @@ tempFn_timManager['import'] = function(){
 // Export TIM
 tempFn_timManager['export'] = function(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_FILE_SAVE('TIM_' + R3_RDT_mapName + '_' + (R3_RDT_currentTimFile + 1) + '.tim', R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile], 'hex', '.tim', function(fName){
+		R3_fileManager.saveFile('TIM_' + R3_RDT_mapName + '_' + (R3_RDT_currentTimFile + 1) + '.tim', R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile], 'hex', '.tim', function(fName){
 			var finalLbl = '';
 			if (R3_WEBMODE === true){
 				finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';

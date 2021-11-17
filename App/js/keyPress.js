@@ -1,6 +1,13 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - keyPress.js
-	Help!
+	By TheMitoSan
+
+	This file is responsible for dealing with keyboard / mouse input to be used on
+	R3V2 tools and more.
+
+	PS: I'm not happy about This file and it will suffer major rework soon!
+	*******************************************************************************
 */
 var R3_KEYUP_TOOGLE_TIMEOUT = R3_KEYPRESS_CONTROL = R3_KEYPRESS_ALT = R3_KEYPRESS_SHIFT = false, R3_KB_ENABLE_SHORTCUTS = true;
 /*
@@ -469,7 +476,7 @@ document.addEventListener('keyup', function(kp){
 			};
 			// [F9]: Go to title screen
 			if (kp.keyCode === 120 && RE3_RUNNING === true){
-				R3_LIVESTATUS_gotoTitleScreen();
+				R3_LIVESTATUS.gotoTitleScreen();
 			};
 			// Apply SCD Hack / Open Hex Window
 			if (R3_KEYPRESS_CONTROL === true && RDT_arquivoBruto !== undefined && kp.keyCode === 72){

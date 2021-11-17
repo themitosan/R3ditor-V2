@@ -1,6 +1,10 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - ini.js
-	One more time...
+	By TheMitoSan
+
+	This file is responsible for handling / creating INI files for RE3 PC version.
+	*******************************************************************************
 */
 // Variables
 var BIO3INI_Save, BIO3INI_Movie, BIO3INI_Regist, BIO3INI_Rofs1, BIO3INI_Rofs2, BIO3INI_Rofs3, BIO3INI_Rofs4, BIO3INI_Rofs5, BIO3INI_Rofs6, BIO3INI_Rofs7, BIO3INI_Rofs8, BIO3INI_Rofs9, BIO3INI_Rofs10, BIO3INI_Rofs11, BIO3INI_Rofs12, BIO3INI_Rofs13, BIO3INI_Rofs14, BIO3INI_Rofs15,
@@ -24,20 +28,20 @@ var BIO3INI_Save, BIO3INI_Movie, BIO3INI_Regist, BIO3INI_Rofs1, BIO3INI_Rofs2, B
 	BIO3INI_f_driver = 'NULL',
 	BIO3INI_f_device = '0ed36e48aa64fc1118f600000c0251e6',
 	// Keyboard
-	BIO3INI_kb_key1 = '17,200', 	 // Up
-	BIO3INI_kb_key2 = '31,208', 	 // Down
-	BIO3INI_kb_key3 = '30,203', 	 // Left
-	BIO3INI_kb_key4 = '32,205', 	 // Right
-	BIO3INI_kb_key5 = '', 			 // ???
-	BIO3INI_kb_key6 = '75,72,36,23', // Cancel / Run
-	BIO3INI_kb_key7 = '72,82,57', 	 // View Map
-	BIO3INI_kb_key8 = '71,22', 		 // Change Target
-	BIO3INI_kb_key9 = '73,24',		 // Draw Weapon (Enemy)
-	BIO3INI_kb_keyA = '78,25',		 // Draw Weapon (Objects)
-	BIO3INI_kb_keyB = '16',			 // ???
-	BIO3INI_kb_keyC = '77,38',		 // Status Screen
-	BIO3INI_kb_keyD = '76,37,156',	 // Select / Action
-	BIO3INI_kb_keyE = '', 			 // ???
+	BIO3INI_kb_key1 = '17,200', 	 	// Up
+	BIO3INI_kb_key2 = '31,208', 	 	// Down
+	BIO3INI_kb_key3 = '30,203', 	 	// Left
+	BIO3INI_kb_key4 = '32,205', 	 	// Right
+	BIO3INI_kb_key5 = '', 			 	// ???
+	BIO3INI_kb_key6 = '75,72,36,23,57', // Cancel / Run
+	BIO3INI_kb_key7 = '72,82,57', 	 	// View Map
+	BIO3INI_kb_key8 = '71,22', 		 	// Change Target
+	BIO3INI_kb_key9 = '73,24',		 	// Draw Weapon (Enemy)
+	BIO3INI_kb_keyA = '78,25',		 	// Draw Weapon (Objects)
+	BIO3INI_kb_keyB = '16',			 	// ???
+	BIO3INI_kb_keyC = '77,38',		 	// Status Screen
+	BIO3INI_kb_keyD = '76,37,156',	 	// Select / Action
+	BIO3INI_kb_keyE = '', 			 	// ???
 	// Sound
 	BIO3INI_sound_seVol = BIO3INI_sound_bgmVol = 65534,
 	BIO3INI_sound_device = 'NULL',
@@ -172,7 +176,7 @@ tempFn_R3_INI['saveIni'] = function(path, mode){
 			};
 		};
 	} else {
-		R3_FILE_SAVE(path, FINAL, 'utf-8', '.ini');
+		R3_fileManager.saveFile(path, FINAL, 'utf-8', '.ini');
 	};
 };
 /*

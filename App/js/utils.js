@@ -1,6 +1,11 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - utils.js
-	Here we gooooo~
+	By TheMitoSan
+
+	This is a script with some minor / misc functions inside R3V2.
+	My life objective is to sort all info from this file to delete it later!
+	*******************************************************************************
 */
 // OBJ Patcher
 var OBJ_arquivoBruto,
@@ -28,8 +33,8 @@ tempFn_R3_leosHub = {};
 // Extract Rofs individually 
 function R3_ROFS_EXTRACT(){
 	if (R3_WEBMODE === false){
-		R3_FILE_LOAD('.dat', function(rofsFile){
-			process.chdir(R3_getFilePath(rofsFile));
+		R3_fileManager.loadFile('.dat', function(rofsFile){
+			process.chdir(R3_tools.getFilePath(rofsFile));
 			R3_UTILS_CALL_LOADING('Extracting ROFS', 'Please wait while R3ditor V2 extracts ' + rofsFile, 50);
 			R3_runExec(APP_TOOLS + '/rofs.exe', [rofsFile], 3, rofsFile);
 			var rofsTimer = setInterval(function(){
@@ -61,18 +66,18 @@ function R3_ROFS_EXTRACT(){
 tempFn_R3_XDELTA['loadFiles'] = function(mode){
 	if (R3_WEBMODE === false){
 		if (mode === 0){
-			R3_FILE_LOAD('.xdelta', function(xPath){
+			R3_fileManager.loadFile('.xdelta', function(xPath){
 				R3_XDELTA_PATCH = xPath;
 				R3_SYSTEM.log('log', 'R3ditor V2 - Xdelta: Patch File: ' + xPath);
 				document.getElementById('R3_XDELTA_LBL_XFILE').title = xPath;
-				document.getElementById('R3_XDELTA_LBL_XFILE').innerHTML = R3_fixPathSize(xPath, 60);
+				document.getElementById('R3_XDELTA_LBL_XFILE').innerHTML = R3_tools.fixPathSize(xPath, 60);
 			});
 		} else {
-			R3_FILE_LOAD('.exe, .bin, .iso, .dat, .23, .raw', function(origFile){
+			R3_fileManager.loadFile('.exe, .bin, .iso, .dat, .23, .raw', function(origFile){
 				R3_XDELTA_ORIGINALFILE = origFile;
 				R3_SYSTEM.log('log', 'R3ditor V2 - Xdelta: Target File: ' + origFile);
 				document.getElementById('R3_XDELTA_LBL_ORIGFILE').title = origFile;
-				document.getElementById('R3_XDELTA_LBL_ORIGFILE').innerHTML = R3_fixPathSize(origFile, 60);
+				document.getElementById('R3_XDELTA_LBL_ORIGFILE').innerHTML = R3_tools.fixPathSize(origFile, 60);
 			});
 		};
 	};
@@ -90,7 +95,7 @@ tempFn_R3_XDELTA['applyPatch'] = function(){
 		process.chdir(APP_TOOLS);
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Xdelta) Starting Process - Please wait...');
 		R3_UTILS_CALL_LOADING('Xdelta Patcher', 'Please wait while Xdelta does his job...', 50);
-		origName = R3_getFileName(R3_XDELTA_ORIGINALFILE), origExt = R3_getFileExtension(R3_XDELTA_ORIGINALFILE);
+		origName = R3_tools.getFileName(R3_XDELTA_ORIGINALFILE), origExt = R3_tools.getFileExtension(R3_XDELTA_ORIGINALFILE);
 		R3_runExec(APP_TOOLS + '/xdelta.exe', ['-d', '-s', R3_XDELTA_ORIGINALFILE, R3_XDELTA_PATCH , 'XDELTA_PATCH_FILE.bin']);
 		R3_XDELTA_INTERVAL = setInterval(function(){
 			if (EXTERNAL_APP_RUNNING !== false){
@@ -111,7 +116,7 @@ tempFn_R3_XDELTA['applyPatch'] = function(){
 					};
 					if (APP_FS.existsSync(newFilePath) !== false){
 						R3_XDELTA_newFile = APP_FS.readFileSync(newFilePath, 'hex');
-						R3_FILE_SAVE(origName + '_patch', R3_XDELTA_newFile, 'hex', '');
+						R3_fileManager.saveFile(origName + '_patch', R3_XDELTA_newFile, 'hex', '');
 						if (APP_FS.existsSync(APP_TOOLS + '/XDELTA_PATCH_FILE.bin') !== false){
 							APP_FS.unlinkSync(APP_TOOLS + '/XDELTA_PATCH_FILE.bin');
 						};
@@ -136,7 +141,7 @@ delete tempFn_R3_XDELTA;
 // Load File
 function R3_OBJ_PATCHER(){
 	if (R3_WEBMODE === false){
-		R3_FILE_LOAD('.obj', function(objFile, tempObj){
+		R3_fileManager.loadFile('.obj', function(objFile, tempObj){
 			OBJ_arquivoBruto = '';
 			var c = tPaches = 0, OBJ_array = [], linePatch;
 			tempObj.toString().split('\n').forEach(function(line){ 
@@ -161,7 +166,7 @@ function R3_OBJ_PATCHER(){
 			};
 			if (tPaches !== 0){
 				OBJ_arquivoBruto = '# OBJ Converted using ' + APP_TITLE + '\n' + OBJ_arquivoBruto.slice(1, OBJ_arquivoBruto.length);
-				R3_FILE_SAVE(R3_getFileName(objFile).toLowerCase().replace('.obj', '') + '_converted', OBJ_arquivoBruto, 'utf-8', 'obj');
+				R3_fileManager.saveFile(R3_tools.getFileName(objFile).toLowerCase().replace('.obj', '') + '_converted', OBJ_arquivoBruto, 'utf-8', 'obj');
 			} else {
 				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (OBJ Patcher) This file doesn\'t need patching!');
 				R3_SYSTEM.alert('INFO - This file doesn\'t need patching!');
@@ -178,7 +183,7 @@ function R3_OBJ_PATCHER(){
 function R3_FILEGEN_selectBG(mode){
 	if (R3_WEBMODE === false){
 		if (mode === 0){
-			R3_FILE_LOAD('.png, .jpg, .jpeg, .bmp', function(newBgFile){
+			R3_fileManager.loadFile('.png, .jpg, .jpeg, .bmp', function(newBgFile){
 				var fileFix = '';
 				if (R3_WEBMODE === true){
 					fileFix = 'file://';
@@ -204,10 +209,10 @@ function R3_FILEGEN_BG_UPDATE_FILTERS(){
 		document.getElementById('R3_FILEGEN_LBL_BG_HUE').innerHTML = bgHUE;
 		document.getElementById('R3_FILEGEN_LBL_BG_SIZE').innerHTML = bgSize;
 		document.getElementById('R3_FILEGEN_LBL_BG_BLUR').innerHTML = bgBlur;
-		document.getElementById('R3_FILEGEN_LBL_BG_SAT').innerHTML = R3_parsePercentage(bgSat, 30);
-		document.getElementById('R3_FILEGEN_LBL_BG_SEPIA').innerHTML = R3_parsePercentage(bgSepia, 1);
-		document.getElementById('R3_FILEGEN_LBL_BG_INVERT').innerHTML = R3_parsePercentage(bgInvert, 1);
-		document.getElementById('R3_FILEGEN_LBL_BG_OPACITY').innerHTML = R3_parsePercentage(bgOpacity, 1);
+		document.getElementById('R3_FILEGEN_LBL_BG_SAT').innerHTML = R3_tools.parsePercentage(bgSat, 30);
+		document.getElementById('R3_FILEGEN_LBL_BG_SEPIA').innerHTML = R3_tools.parsePercentage(bgSepia, 1);
+		document.getElementById('R3_FILEGEN_LBL_BG_INVERT').innerHTML = R3_tools.parsePercentage(bgInvert, 1);
+		document.getElementById('R3_FILEGEN_LBL_BG_OPACITY').innerHTML = R3_tools.parsePercentage(bgOpacity, 1);
 		// Update BG
 		TMS.css('R3_FILEGEN_RENDERAREA_BG', {'background-size': 'auto ' + bgSize + '%', 'opacity': bgOpacity, 'filter': 'blur(' + bgBlur + 'px) hue-rotate(' + bgHUE + 'deg) saturate(' + bgSat + ') invert(' + bgInvert + ') sepia(' + bgSepia + ')'});
 	};
@@ -323,7 +328,7 @@ function R3_FILEGEN_RENDER_EXTERNAL(location, text, font, interval){
 function R3_DISC_setActivity(det, stat){
 	if (R3_SETTINGS.SETTINGS_USE_DISCORD !== false && rpcReady !== false && R3_WEBMODE === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_DISCORD === false){
 		if (RE3_RUNNING !== false){
-			RPC.setActivity({'details': 'Running RE3', 'state': 'On ' + RDT_locations[REALTIME_CurrentRDT][0], 'largeImageKey': 'app_logo', 'maxpartysize': 0});
+			RPC.setActivity({'details': 'Running RE3', 'state': 'On ' + RDT_locations[R3_LIVESTATUS.currentRDT][0], 'largeImageKey': 'app_logo', 'maxpartysize': 0});
 		} else {
 			RPC.setActivity({'details': det, 'state': stat, 'largeImageKey': atob(special_day_02[3] + '='), 'maxpartysize': 0});
 		};
@@ -523,7 +528,7 @@ function R3_RDT_importMap(ev){
 // Process Drop File
 function R3_RDT_checkMap(file){
 	if (file !== undefined && file !== '' && R3_WEBMODE === false){
-		var fileExt = R3_getFileExtension(file), fileName = R3_getFileName(file), msgError = '', tempFile, impEasy, impHard;
+		var fileExt = R3_tools.getFileExtension(file), fileName = R3_tools.getFileName(file), msgError = '', tempFile, impEasy, impHard;
 		if (fileExt.toUpperCase() === 'RDT'){
 			// Check file name
 			if (fileName.length === 4){
@@ -573,16 +578,16 @@ function R3_RDT_checkMap(file){
 */
 function R3_SYS_COLOR_PICKER(colorArray, hexMode, nextFn){
 	if (colorArray !== undefined && colorArray.length === 3){
-		var colorR = R3_fixVars(parseInt(colorArray[0]).toString(16), 2),
-			colorG = R3_fixVars(parseInt(colorArray[1]).toString(16), 2),
-			colorB = R3_fixVars(parseInt(colorArray[2]).toString(16), 2);
+		var colorR = R3_tools.fixVars(parseInt(colorArray[0]).toString(16), 2),
+			colorG = R3_tools.fixVars(parseInt(colorArray[1]).toString(16), 2),
+			colorB = R3_tools.fixVars(parseInt(colorArray[2]).toString(16), 2);
 		document.getElementById('R3_COLOR_PICKER').value = '#' + colorR + colorG + colorB;
 	};
 	TMS.triggerClick('R3_COLOR_PICKER');
 	document.getElementById('R3_COLOR_PICKER').onchange = function(){
 		var newColor = document.getElementById('R3_COLOR_PICKER').value;
 		if (hexMode === false){
-			var tempColor = newColor.slice(1).match(/.{2,2}/g);
+			var tempColor = newColor.slice(1).match(/.{2,2}/g),
 				colorR = parseInt(tempColor[0], 16),
 				colorG = parseInt(tempColor[1], 16),
 				colorB = parseInt(tempColor[2], 16);
@@ -611,7 +616,7 @@ function R3_SYS_CLEAR_CACHE(){
 	Item database functions
 */
 function R3_ITEM_DATABASE_SEARCH_INFO(){
-	R3_cleanHexFromInput('R3_ITEM_DATABASE_SEARCH');
+	R3_tools.cleanHexFromInput('R3_ITEM_DATABASE_SEARCH');
 	var itemInput = document.getElementById('R3_ITEM_DATABASE_SEARCH').value;
 	if (itemInput.length === 2){
 		document.getElementById('R3_ITEM_DATABASE_SEARCH').value = '';
@@ -631,7 +636,7 @@ function R3_ITEM_DATABASE_SEARCH_INFO(){
 // Backup File
 function R3_UTILS_BACKUP(data, fileName, extension, backupPath, type){
 	if (fileName !== undefined && backupPath !== undefined && extension !== undefined && R3_WEBMODE === false){
-		var cDate = R3_getDate(), BCK_fName = fileName + '_' + cDate + extension, bckPath = backupPath + '/' + BCK_fName;
+		var cDate = R3_tools.getDate(), BCK_fName = fileName + '_' + cDate + extension, bckPath = backupPath + '/' + BCK_fName;
 		try {
 			APP_FS.writeFileSync(bckPath, data, 'hex');
 			// End
@@ -671,7 +676,7 @@ function R3_BACKUP_MANAGER_LOAD(openBackupList){
 function R3_BACKUP_MANAGER_INSERT(fileName, originalFileName, type, date, path, editorName){
 	if (R3_WEBMODE === false){
 		var ext = type.replace('.', '');
-		R3_SYSTEM_BACKUP_LIST[fileName] = [originalFileName, R3_LATEST_FILE_TYPES[R3_BACKUP_MANAGER_EDITORS[ext][0]], editorName, R3_readDate(date, 0), R3_readDate(date, 1), path, ext];
+		R3_SYSTEM_BACKUP_LIST[fileName] = [originalFileName, R3_LATEST_FILE_TYPES[R3_BACKUP_MANAGER_EDITORS[ext][0]], editorName, R3_tools.readDate(date, 0), R3_tools.readDate(date, 1), path, ext];
 		// Save List
 		try {
 			APP_FS.writeFileSync(APP_PATH + '/Configs/Backup/R3V2_BCK.R3V2', btoa(JSON.stringify(R3_SYSTEM_BACKUP_LIST)), 'utf-8');
@@ -757,7 +762,7 @@ tempFn_R3_leosHub['openWindow'] = function(){
 					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3MV" onclick="R3_leosHub.openFile(\'' + cPath + '/' + cItem + '\', 0);">' +
 									'<img src="img/icons/Leo/RE3MV.png" class="right R3_leosHub_RE3MV_ICON" alt="R3_leos_MV">' +
 									'File: <font class="monospace mono_xyzr" title="' + cPath + '/' + cItem + '">' + cItem + '</font><br>' +
-									'Size: <font class="monospace mono_xyzr">' + R3_getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
+									'Size: <font class="monospace mono_xyzr">' + R3_tools.getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
 				};
 			});
 			document.getElementById('R3_leosHub_RE3MV_LIST').innerHTML = HTML_TEMPLATE;
@@ -773,7 +778,7 @@ tempFn_R3_leosHub['openWindow'] = function(){
 					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3PLWE" onclick="R3_leosHub.openFile(\'' + cPath + '/' + cItem + '\', 1);">' +
 									'<img src="img/icons/Leo/RE3PLWE.png" class="right R3_leosHub_RE3PLWE_ICON" alt="R3_leos_PLW">' +
 									'File: <font class="monospace mono_xyzr" title="' + cPath + '/' + cItem + '">' + cItem + '</font><br>' +
-									'Size: <font class="monospace mono_xyzr">' + R3_getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
+									'Size: <font class="monospace mono_xyzr">' + R3_tools.getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
 				};
 			});
 			document.getElementById('R3_leosHub_RE3PLWE_LIST').innerHTML = HTML_TEMPLATE;

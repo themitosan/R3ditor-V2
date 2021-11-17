@@ -5,8 +5,7 @@ function setController(type) {
 }
 
 window.addEventListener('keydown', function (e) {
-  const mapping = keyboard.get(e.keyCode),
-        device = joy.devices[0];
+  const mapping = keyboard.get(e.keyCode), device = joy.devices[0];
   if (mapping !== undefined) {
     device[mapping.property] &= ~mapping.bits;
     setController('keyboard');
@@ -14,8 +13,7 @@ window.addEventListener('keydown', function (e) {
 }, false);
 
 window.addEventListener('keyup', function(e) {
-  const mapping = keyboard.get(e.keyCode),
-        device = joy.devices[0];
+  const mapping = keyboard.get(e.keyCode), device = joy.devices[0];
   if (mapping !== undefined) {
     device[mapping.property] |= mapping.bits;
   }
