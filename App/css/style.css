@@ -291,7 +291,7 @@ blockquote {
     background-color: #0000;
     background-size: auto 900px;
     background-repeat: no-repeat;
-    background-image: url('../img/warn.png');
+    background-image: url('../img/warn.webp');
     -webkit-mask-image: linear-gradient(to left, #0003, #000);
 }
 .R3_SPLASH_BG_FRAME_TOP {
@@ -568,7 +568,7 @@ blockquote {
     background-size: auto 374px;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/404.png');
+    background-image: url('../img/404.webp');
 }
 /*
     Menu Top
@@ -674,7 +674,7 @@ blockquote {
     background-size: auto 50%;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/logoWm.png');
+    background-image: url('../img/logoWm.webp');
 }
 .R3_HC_fnIcon {
     margin-right: 6px;
@@ -735,7 +735,7 @@ blockquote {
     background-size: auto 60%;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/logoWm.png');
+    background-image: url('../img/logoWm.webp');
 }
 .R3V2_LOG_DATA {
     z-index: 1;
@@ -1453,7 +1453,7 @@ blockquote {
     background-size: auto 200px;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/logoWm.png');
+    background-image: url('../img/logoWm.webp');
 }
 .R3_SCD_SCRIPTITEM_ITEM_IMG {
     width: 44px;
@@ -1712,7 +1712,7 @@ blockquote {
     background-position: center;
     background-repeat: no-repeat;
     background-size: auto calc(100% - -100px);
-    background-image: url('../img/PLR_01.png');
+    background-image: url('../img/PLR_01.webp');
     -webkit-mask-image: linear-gradient(to left, #00000066, #0000);
 }
 .R3_RDT_IMPORT_RDT {
@@ -1782,7 +1782,7 @@ blockquote {
     background-position: center;
     background-repeat: no-repeat;
     border-top-right-radius: 6px;
-    background-image: url('../img/logoWm.png');
+    background-image: url('../img/logoWm.webp');
 }
 .R3_RDT_MAIN_BG {
     top: 0px;
@@ -1942,7 +1942,7 @@ blockquote {
     background-size: auto 200px;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/logoWm.png');
+    background-image: url('../img/logoWm.webp');
 }
 .MSG_FUNCTION_BUTTON {
     width: 92%;
@@ -1980,7 +1980,7 @@ blockquote {
     background-size: auto 240px;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/logo.png');
+    background-image: url('../img/logo.webp');
     -webkit-mask-image: linear-gradient(to left, #00000066, #0000);
 }
 .R3_MSG_SCRIPT_INNER {
@@ -2225,7 +2225,7 @@ blockquote {
     background-size: auto 50%;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(../img/logo.png);
+    background-image: url(../img/logo.webp);
 }
 .R3_FILEGEN_RANGE_BG {
     left: 92px;
@@ -2307,7 +2307,7 @@ blockquote {
     background-size: cover;
     background-color: #0000;
     background-repeat: no-repeat;
-    background-image: url('../img/FRAME_BG.png');
+    background-image: url('../img/FRAME_BG.webp');
 }
 /*
     About
@@ -2343,7 +2343,7 @@ blockquote {
     background-color: #000;
     background-size: auto 120%;
     background-repeat: no-repeat;
-    background-image: url('../img/agree.png');
+    background-image: url('../img/agree.webp');
     -webkit-mask-image: linear-gradient(to left, #000a, #0000);
 }
 .ABOUT_manyThanks_DIV {
@@ -2615,7 +2615,7 @@ blockquote {
     background-size: auto 434px;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/items/details/00.png');
+    background-image: url('../img/items/details/00.webp');
     -webkit-mask-image: linear-gradient(to left, #0002, #0004);
 }
 .R3_LIVESTATUS_LBL_INVENT_1 {
@@ -2976,7 +2976,7 @@ blockquote {
     background-size: auto 173px;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/PLR_00.png');
+    background-image: url('../img/PLR_00.webp');
     -webkit-mask-image: linear-gradient(to left, #000000ad, #00000014);
 }
 .R3_LIVESTATUS_PLAYERCONDITION_DIV {
@@ -3126,7 +3126,7 @@ blockquote {
     background-size: auto 80%;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/logoWm.png');
+    background-image: url('../img/logoWm.webp');
 }
 .R3_BACKUP_MANAGER_ITEMS {
     z-index: 10;
@@ -3344,7 +3344,7 @@ blockquote {
     cursor: alias;
     position: absolute;
     z-index: 9999999999999;
-    background-image: url('../img/icons/icon-exit.png');
+    background-image: url('../img/icons/icon-exit.webp');
 }
 .BTN_ICON_CLOSE_GAME {
     top: 4px;
@@ -3352,82 +3352,82 @@ blockquote {
     position: absolute;
 }
 .BTN_ICON_NEW {
-    background-image: url('../img/icons/icon-new.png');
+    background-image: url('../img/icons/icon-new.webp');
 }
 .BTN_ICON_OPEN {
-    background-image: url('../img/icons/icon-open.png');
+    background-image: url('../img/icons/icon-open.webp');
 }
 .BTN_ICON_SAVE {
-    background-image: url('../img/icons/icon-save.png');
+    background-image: url('../img/icons/icon-save.webp');
 }
 .BTN_ICON_SAVE_AS {
-    background-image: url('../img/icons/icon-save-as.png');
+    background-image: url('../img/icons/icon-save-as.webp');
 }
 .BTN_ICON_HEX {
     background-color: #000;
-    background-image: url('../img/icons/icon-hex.png');
+    background-image: url('../img/icons/icon-hex.webp');
 }
 .BTN_ICON_OPEN_HEX {
-    background-image: url('../img/icons/icon-open-hex.png');
+    background-image: url('../img/icons/icon-open-hex.webp');
 }
 .BTN_ICON_RDT_APPLY {
     width: 74px;
-    background-image: url('../img/icons/icon-rdt-apply.png');
+    background-image: url('../img/icons/icon-rdt-apply.webp');
 }
 .BTN_ICON_MOD_EXPORT {
     width: 74px;
     margin-left: 40px;
-    background-image: url('../img/icons/icon-export.png');
+    background-image: url('../img/icons/icon-export.webp');
 }
 .BTN_ICON_NEXT {
-    background-image: url('../img/icons/icon-next.png');
+    background-image: url('../img/icons/icon-next.webp');
 }
 .BTN_ICON_PREV {
-    background-image: url('../img/icons/icon-prev.png');
+    background-image: url('../img/icons/icon-prev.webp');
 }
 .BTN_ICON_ADD {
-    background-image: url('../img/icons/icon-add.png');
+    background-image: url('../img/icons/icon-add.webp');
 }
 .BTN_ICON_REMOVE {
-    background-image: url('../img/icons/icon-rem.png');
+    background-image: url('../img/icons/icon-rem.webp');
 }
 .BTN_ICON_HELP {
     right: 40px;
     cursor: help;
     position: absolute;
-    background-image: url('../img/icons/icon-53.png');
+    background-image: url('../img/icons/icon-53.webp');
 }
 .BTN_ICON_BACKUP {
     width: 74px;
     background-color: #004;
-    background-image: url('../img/icons/icon-backup.png');
+    background-image: url('../img/icons/icon-backup.webp');
 }
 .BTN_ICON_ENABLE_HACK {
     width: 74px;
     margin-left: 38px;
     background-color: #000;
-    background-image: url('../img/icons/icon-enable-hack.png');
+    background-image: url('../img/icons/icon-enable-hack.webp');
 }
 .BTN_ICON_HACK {
     width: 74px;
     display: none;
     margin-left: 38px;
     background-color: #000;
-    background-image: url('../img/icons/icon-hack.png');
+    background-image: url('../img/icons/icon-hack.webp');
 }
 .BTN_ICON_COMPILE {
     width: 74px;
     margin-left: 38px;
     margin-right: 38px;
     background-size: auto;
-    background-image: url('../img/icons/icon-compile.png');
+    background-image: url('../img/icons/icon-compile.webp');
 }
 .BTN_ICON_HOOK {
     width: 74px;
     display: none;
     margin-left: 40px;
     background-size: auto;
-    background-image: url('../img/icons/icon-hook.png');
+    background-image: url('../img/icons/icon-hook.webp');
 }
 /*
     R3V2 Updater
@@ -3440,7 +3440,7 @@ blockquote {
     background-size: auto 58%;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/logoWm.png');
+    background-image: url('../img/logoWm.webp');
 }
 .R3_UPDATER_COMMIT_MESSAGE {
     padding: 6px;
@@ -3514,7 +3514,7 @@ blockquote {
     background-size: auto 80%;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url('../img/logoWm.png');
+    background-image: url('../img/logoWm.webp');
 }
 .R3_WIZARD_MAIN {
     z-index: 10;

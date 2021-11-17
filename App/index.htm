@@ -6,10 +6,10 @@
 		<meta charset="utf-8"/>
 		<title>R3ditor V2 - Please Wait...</title>
 		<link rel="manifest" href="webPackage.json"/>
-		<link rel="apple-touch-icon" href="img/logo.png">
+		<link rel="apple-touch-icon" href="img/logo.webp">
 		<link rel="shortcut icon" href="img/logo_ico.ico"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<link rel="icon" type="image/png" href="img/logo.png"/>
+		<link rel="icon" type="image/webp" href="img/logo.webp"/>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,9 +24,9 @@
 		<meta name="description" content="R3ditor V2 (aka. R3V2) is the second version of the multi-editing tool for classic Resident Evil 3 modding.">
 		<meta name="keywords" content="Resident Evil 3, R3V2, R3, R3ditor V2, R3ditor, Classic, RE3, Resident Evil, Modding, Mod, Tool, RDT, SCD, MSG, RID, JavaScript, JS, PC, TMS, TheMitoSan, Team"/>
 		<!-- OG Meta Tags -->
-		<meta property="og:image" content="img/logo.png"/>
+		<meta property="og:image" content="img/logo.webp"/>
 		<meta property="og:site_name" content="R3ditor V2"/>
-		<meta property="og:image:type" content="image/png"/>
+		<meta property="og:image:type" content="image/webp"/>
 		<meta property="og:title" content="R3ditor V2 (R3V2)"/>
 		<meta property="og:url" content="https://themitosan.github.io/R3V2"/>
 		<meta property="og:description" content="R3ditor V2 (aka. R3V2) is the second version of the multi-editing tool for classic Resident Evil 3 modding."/>
@@ -48,7 +48,7 @@
 				<div class="R3_SPLASH_BG_FRAME_BOTOM" id="R3_SPLASH_BG_FRAME_BOTOM"></div>
 				<div class="R3_SPLASH_BG" id="R3_SPLASH_BG"></div>
 				<!-- Content -->
-				<img ondragstart="return false;" src="img/logo.png" class="R3_SPLASH_LOGO" alt="R3V2_LOGO_SPLASH"/>
+				<img ondragstart="return false;" src="img/logo.webp" class="R3_SPLASH_LOGO" alt="R3V2_LOGO_SPLASH"/>
 				<div class="R3_SPLASH_LBL">
 					<font class="monospace" id="R3_SPLASH_VER">???</font>
 				</div>
@@ -71,8 +71,8 @@
 		<!-- App Holder -->
 		<div class="R3_APP_HOLDER" id="R3_APP_HOLDER">
 			<!-- App Logo -->
-			<img ondragstart="return false;" src="img/logo.png" class="APP_LOGO" alt="R3V2_LOGO">
-			<img ondragstart="return false;" src="img/FRAME_BG.png" class="FRAME_TITLE" alt="R3V2_FRAME">
+			<img ondragstart="return false;" src="img/logo.webp" class="APP_LOGO" alt="R3V2_LOGO">
+			<img ondragstart="return false;" src="img/FRAME_BG.webp" class="FRAME_TITLE" alt="R3V2_FRAME">
 			<img ondragstart="return false;" id="R3_HOME_BG" class="R3_HOME_BG" alt="R3_HOME_BG">
 			<!-- Main Menu -->
 			<div class="R3_MENU_MAIN_TOP" id="R3_MENU_MAIN_TOP">
@@ -81,14 +81,14 @@
 					Main Menu
 					<div class="R3_MENU_DROPDOWN">
 						<div class="R3_MENU_ITEM_BIG" title="(Project Wizard) Click here to open assistant for creating a new mod" onclick="R3_DESIGN_displayWizard();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-12.png"><div class="R3_MENU_BIG_LBL">New Mod (Wizard)</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-12.webp"><div class="R3_MENU_BIG_LBL">New Mod (Wizard)</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="Click here to load your mod" onclick="R3_WIZARD_openMod();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-open-win.png"><div class="R3_MENU_BIG_LBL">Load Mod</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-open-win.webp"><div class="R3_MENU_BIG_LBL">Load Mod</div>
 						</div>
 						<div class="R3_MENU_SEPARATOR"></div>
 						<div class="R3_MENU_ITEM_BIG" title="Click here to export your mod" onclick="R3_WIP();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-export.png">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-export.webp">
 							<div class="R3_MENU_BIG_LBL R3_MENU_BIG_LBL_ICON_FIX">Export Mod</div>
 						</div>
 					</div>
@@ -98,22 +98,22 @@
 					Main Tools
 					<div class="R3_MENU_DROPDOWN">
 						<div class="R3_MENU_ITEM_BIG" title="(RDT Editor) Click here to open RE3 RDT Editor" onclick="R3_SHOW_MENU(10);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-7.png"><div class="R3_MENU_BIG_LBL">RDT Editor</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-7.webp"><div class="R3_MENU_BIG_LBL">RDT Editor</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(SCD Editor) Click here to open RE3 SCD Editor" onclick="R3_SHOW_MENU(9);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-9.png"><div class="R3_MENU_BIG_LBL">SCD Editor</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-9.webp"><div class="R3_MENU_BIG_LBL">SCD Editor</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(MSG Editor) Click here to open RE3 MSG Editor" onclick="R3_SHOW_MENU(7);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-10.png"><div class="R3_MENU_BIG_LBL">MSG Editor</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-10.webp"><div class="R3_MENU_BIG_LBL">MSG Editor</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(SAV Editor) Click here to open RE3 SAV Editor [NOT IMPLEMENETED YET!]" onclick="R3_WIP();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-13.png"><div class="R3_MENU_BIG_LBL">SAV Editor</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-13.webp"><div class="R3_MENU_BIG_LBL">SAV Editor</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(INI Editor) Click here to open RE3 INI Editor [WIP]" onclick="R3_SHOW_MENU(6);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-17.png"><div class="R3_MENU_BIG_LBL">INI Editor</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-17.webp"><div class="R3_MENU_BIG_LBL">INI Editor</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(RE3SET Editor) Click here to edit Resident Evil 3 General settings [NOT IMPLEMENETED YET!]" onclick="R3_SHOW_MENU(13);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-19.png"><div class="R3_MENU_BIG_LBL">RE3SET Editor</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-19.webp"><div class="R3_MENU_BIG_LBL">RE3SET Editor</div>
 						</div>
 					</div>
 				</div>
@@ -122,30 +122,30 @@
 					R3V2 Utility Tools
 					<div class="R3_MENU_DROPDOWN">
 						<div class="R3_MENU_ITEM_BIG" title="(File Generator) Click here to write files using Resident Evil Fonts [WIP]" onclick="R3_SHOW_MENU(5);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-18.png"><div class="R3_MENU_BIG_LBL">File Generator</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-18.webp"><div class="R3_MENU_BIG_LBL">File Generator</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(OBJ Patcher) Click here to fix OBJ files generated with Blender to use on RE3MV" onclick="R3_OBJ_PATCHER();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-15.png"><div class="R3_MENU_BIG_LBL">OBJ Patcher</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-15.webp"><div class="R3_MENU_BIG_LBL">OBJ Patcher</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(Xdelta Patcher) Click here to apply Xdelta patches" onclick="R3_DESIGN_openXdeltaPatcher();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-14.png"><div class="R3_MENU_BIG_LBL">Xdelta Patcher</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-14.webp"><div class="R3_MENU_BIG_LBL">Xdelta Patcher</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(ROFS Extractor) Click here to extract ROFS Files" onclick="R3_ROFS_EXTRACT();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-11.png"><div class="R3_MENU_BIG_LBL">ROFS Extractor</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-11.webp"><div class="R3_MENU_BIG_LBL">ROFS Extractor</div>
 						</div>
 						<div class="R3_MENU_SEPARATOR"></div>
 						<div class="R3_MENU_ITEM_BIG" title="(eNGE) Click here to open eNGE PS1 Emulator" onclick="R3_eNGE_openEmuWindow();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-55.png"><div class="R3_MENU_BIG_LBL">eNGE PS1 Emulator</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-55.webp"><div class="R3_MENU_BIG_LBL">eNGE PS1 Emulator</div>
 						</div>
 						<div class="R3_MENU_SEPARATOR"></div>
 						<div class="R3_MENU_ITEM_BIG" title="(ARD Extractor) Click here to extract PS ARD file" onclick="ARD_loadFile();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-16.png"><div class="R3_MENU_BIG_LBL">ARD Extractor</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-16.webp"><div class="R3_MENU_BIG_LBL">ARD Extractor</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="(ARD Compiler) Click here to compile PS ARD File" onclick="ARD_checkCompiler();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-33.png"><div class="R3_MENU_BIG_LBL">ARD Compiler</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-33.webp"><div class="R3_MENU_BIG_LBL">ARD Compiler</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG none" id="R3_MENU_ITEM_LEOS_HUB" title="(Leo's Hub) Click here to open a list of files that can be opened with Leo2236 tools" onclick="R3_leosHub.openWindow();">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-leo.png"><div class="R3_MENU_BIG_LBL">Leo's Hub</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-leo.webp"><div class="R3_MENU_BIG_LBL">Leo's Hub</div>
 						</div>
 						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_OPCODE_FINDER" title="(SCD Opcode Finder) This is a simple tool that allows you to search for a specific SCD opcode across all extracted maps" onclick="R3_SCD_openOpcodeFinder();">
 							SCD Opcode Finder
@@ -153,7 +153,7 @@
 						<div id="BTN_PS1_HOOK" class="none">
 							<div class="R3_MENU_SEPARATOR"></div>
 							<div class="R3_MENU_ITEM_BIG" title="Click here to hook on PS1 emulator!" onclick="R3_MEMJS.HOOK_EMU();">
-								<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-hook.png"><div class="R3_MENU_BIG_LBL">Hook on Emulator</div>
+								<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-hook.webp"><div class="R3_MENU_BIG_LBL">Hook on Emulator</div>
 							</div>
 						</div>
 					</div>
@@ -170,16 +170,16 @@
 					Run Game
 					<div class="R3_MENU_DROPDOWN">
 						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3" onclick="R3_runGame(0);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-0.png"><div class="R3_MENU_BIG_LBL">Run RE3</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-0.webp"><div class="R3_MENU_BIG_LBL">Run RE3</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries" onclick="R3_runGame(1);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-2.png"><div class="R3_MENU_BIG_LBL">Run Mercenaries</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-2.webp"><div class="R3_MENU_BIG_LBL">Run Mercenaries</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3 (With Mod)" onclick="R3_runGame(2);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-3.png"><div class="R3_MENU_BIG_LBL">Run RE3 (Mod)</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-3.webp"><div class="R3_MENU_BIG_LBL">Run RE3 (Mod)</div>
 						</div>
 						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries (With Mod)" onclick="R3_runGame(3);">
-							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-4.png"><div class="R3_MENU_BIG_LBL">Run Mercs. (Mod)</div>
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-4.webp"><div class="R3_MENU_BIG_LBL">Run Mercs. (Mod)</div>
 						</div>
 					</div>
 				</div>
@@ -205,9 +205,9 @@
 				<div id="R3_LIVESTATUS_FOOTER_VALUES" class="display-box">
 					<!-- Player -->
 					<div class="R3_LIVESTATUS_PLAYERICON_DIV">
-						<img ondragstart="return false;" src="img/PLR_00.png" class="R3_LIVESTATUS_PLAYERICON" id="R3_LIVESTATUS_0_PLAYERICON">
+						<img ondragstart="return false;" src="img/PLR_00.webp" class="R3_LIVESTATUS_PLAYERICON" id="R3_LIVESTATUS_0_PLAYERICON">
 					</div>
-					<img ondragstart="return false;" src="img/items/00.png" class="R3_LIVESTATUS_WEAPONICON" id="R3_LIVESTATUS_0_WEAPONICON">
+					<img ondragstart="return false;" src="img/items/00.webp" class="R3_LIVESTATUS_WEAPONICON" id="R3_LIVESTATUS_0_WEAPONICON">
 					<!-- Life -->
 					<div class="R3_LIVESTATUS_PLAYERCONDITION_DIV R3_COLOR_FINE" id="R3_LIVESTATUS_0_PLAYERCONDITION_DIV">
 						HP: <font id="R3_LIVESTATUS_LBL_0_HP" class="monospace mono_xyzr">200</font><br>
@@ -251,9 +251,9 @@
 				<div id="R3_LIVESTATUS_RIGHT_VALUES" class="display-box">
 					<!-- Player -->
 					<div class="R3_LIVESTATUS_PLAYERICON_RIGHT_DIV">
-						<img ondragstart="return false;" src="img/PLR_00.png" class="R3_LIVESTATUS_PLAYERICON" id="R3_LIVESTATUS_1_PLAYERICON">
+						<img ondragstart="return false;" src="img/PLR_00.webp" class="R3_LIVESTATUS_PLAYERICON" id="R3_LIVESTATUS_1_PLAYERICON">
 					</div>
-					<img ondragstart="return false;" src="img/items/00.png" class="R3_LIVESTATUS_WEAPONICON" id="R3_LIVESTATUS_1_WEAPONICON"><br>
+					<img ondragstart="return false;" src="img/items/00.webp" class="R3_LIVESTATUS_WEAPONICON" id="R3_LIVESTATUS_1_WEAPONICON"><br>
 					<!-- Life -->
 					<div class="R3_LIVESTATUS_PLAYERCONDITION_RIGHT_DIV R3_COLOR_FINE" id="R3_LIVESTATUS_1_PLAYERCONDITION_DIV">
 						HP: <font id="R3_LIVESTATUS_LBL_1_HP" class="monospace mono_xyzr">200</font><br>
@@ -316,7 +316,7 @@
 				</div>
 				<input type="text" onkeyup="R3_ITEM_DATABASE_SEARCH_INFO();" id="R3_ITEM_DATABASE_SEARCH" placeholder="Insert Item Hex Here" maxlength="2" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent">
 				<div class="align-center R3_ITEM_DATABASE_BG">
-					<img ondragstart="return false;" src="img/items/details/00.png" class="R3_ITEM_DATABASE_ICON" id="R3_ITEM_DATABASE_ICON"><br>
+					<img ondragstart="return false;" src="img/items/details/00.webp" class="R3_ITEM_DATABASE_ICON" id="R3_ITEM_DATABASE_ICON"><br>
 					<font class="LBL_subTitle" id="R3_ITEM_DATABASE_TITLE"></font><br>
 					<div class="align-left R3_ITEM_DATABASE_DETAILS" id="R3_ITEM_DATABASE_DETAILS">
 						<!-- Item Description goes here -->
@@ -363,7 +363,7 @@
 					<input type="button" id="R3_TABS_0_1" onclick="R3_DESIGN_SHOWTABS(0, 1);" class="R3_TAB_BASE none" value="WIP">
 				</div>
 				<div class="R3_TAB_MENU" id="R3_MENU_0_0">
-					<img ondragstart="return false;" src="img\FRAME_LS.png" class="FRAME_R3LS">
+					<img ondragstart="return false;" src="img\FRAME_LS.webp" class="FRAME_R3LS">
 					<!-- Mini Tabs -->
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_1" id="R3_LIVESTATUS_MINITAB_1" value="Process">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_2" id="R3_LIVESTATUS_MINITAB_2" value="Player Status">
@@ -400,25 +400,25 @@
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_3">
 						<div class="R3_LIVESTATUS_INVENT_HOLDER">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_1" id="R3_LIVESTATUS_LBL_INVENT_1" onclick="R3_LIVESTATUS_EDIT_INVENT(1);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(1);" class="R3_LIVESTATUS_INVENT_ICON_BASE R3_LIVESTATUS_INVENT_ICON_1" id="R3_LIVESTATUS_INVENT_ICON_1">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(1);" class="R3_LIVESTATUS_INVENT_ICON_BASE R3_LIVESTATUS_INVENT_ICON_1" id="R3_LIVESTATUS_INVENT_ICON_1">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_2" id="R3_LIVESTATUS_LBL_INVENT_2" onclick="R3_LIVESTATUS_EDIT_INVENT(2);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(2);" class="R3_LIVESTATUS_INVENT_ICON_BASE R3_LIVESTATUS_INVENT_ICON_2" id="R3_LIVESTATUS_INVENT_ICON_2">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(2);" class="R3_LIVESTATUS_INVENT_ICON_BASE R3_LIVESTATUS_INVENT_ICON_2" id="R3_LIVESTATUS_INVENT_ICON_2">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_3" id="R3_LIVESTATUS_LBL_INVENT_3" onclick="R3_LIVESTATUS_EDIT_INVENT(3);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(3);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_3">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(3);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_3">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_4" id="R3_LIVESTATUS_LBL_INVENT_4" onclick="R3_LIVESTATUS_EDIT_INVENT(4);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(4);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_4">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(4);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_4">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_5" id="R3_LIVESTATUS_LBL_INVENT_5" onclick="R3_LIVESTATUS_EDIT_INVENT(5);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(5);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_5">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(5);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_5">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_6" id="R3_LIVESTATUS_LBL_INVENT_6" onclick="R3_LIVESTATUS_EDIT_INVENT(6);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(6);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_6">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(6);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_6">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_7" id="R3_LIVESTATUS_LBL_INVENT_7" onclick="R3_LIVESTATUS_EDIT_INVENT(7);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(7);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_7">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(7);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_7">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_8" id="R3_LIVESTATUS_LBL_INVENT_8" onclick="R3_LIVESTATUS_EDIT_INVENT(8);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(8);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_8">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(8);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_8">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_9" id="R3_LIVESTATUS_LBL_INVENT_9" onclick="R3_LIVESTATUS_EDIT_INVENT(9);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(9);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_9">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(9);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_9">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_10" id="R3_LIVESTATUS_LBL_INVENT_10" onclick="R3_LIVESTATUS_EDIT_INVENT(10);">0</div>
-							<img ondragstart="return false;" src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(10);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_10">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(10);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_10">
 						</div>
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_4" id="R3_LIVESTATUS_MINISECTION_4">
@@ -432,7 +432,7 @@
 							Attr: <select class="SELECT_SETTINGS auto" id="R3_LIVESTATUS_SELECT_ITEM_AT">
 								<!-- Item Attr goes here -->
 							</select><br>
-							<img ondragstart="return false;" src="img/items/details/00.png" class="R3_LIVESTATUS_IMG_ITEM_SETSLOT" id="R3_LIVESTATUS_IMG_ITEM_SETSLOT"><br>
+							<img ondragstart="return false;" src="img/items/details/00.webp" class="R3_LIVESTATUS_IMG_ITEM_SETSLOT" id="R3_LIVESTATUS_IMG_ITEM_SETSLOT"><br>
 							<input type="button" id="R3_LIVESTATUS_EDIT_INVENT_APPLY" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" title="Click here to apply" value="APPLY ITEM">
 							<input type="button" onclick="R3_LIVESTATUS_EDIT_INVENT_CANCEL();" class="SETTINGS_APPLY" title="Click here to cancel" value="Cancel">
 						</div>
@@ -482,14 +482,14 @@
 						<div class="SEPARATOR-2"></div>
 						<div class="align-center">
 							Current camera: <font id="R3_LIVESTATUS_LBL_CURRENT_CAM" class="monospace user-can-select mono_xyzr">??</font><br>
-							<img ondragstart="return false;" src="img/404.png" id="R3_LIVESTATUS_IMG_CURRENT_CAM" class="R3_LIVESTATUS_IMG_CURRENT_CAM"><br>
+							<img ondragstart="return false;" src="img/404.webp" id="R3_LIVESTATUS_IMG_CURRENT_CAM" class="R3_LIVESTATUS_IMG_CURRENT_CAM"><br>
 							<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" title="Click here to open this map on RDT Editor" onclick="R3_LIVESTATUS.openCurrentMap();" value="Open on RDT Editor">
 						</div>
 					</div>
 				</div>
 				<!-- Tab 2 - [WIP] -->
 				<div class="R3_TAB_MENU none" id="R3_MENU_0_1">
-					<img ondragstart="return false;" src="img\FRAME_LS.png" class="FRAME_R3LS">
+					<img ondragstart="return false;" src="img\FRAME_LS.webp" class="FRAME_R3LS">
 					<!-- Mini Tabs -->
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_8" value="Enemies Info">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_10 none" value="WIP">
@@ -1243,10 +1243,10 @@
 						<font id="R3_RDT_GENERAL_LOCALNAME">???</font><br>
 						<div id="R3_RDT_LBL_FILESIZE">
 							File Path: <font id="R3_RDT_GENERAL_FILEPATH" class="user-can-select monospace">???</font><br>
-							File Size: <font id="R3_RDT_GENERAL_FILESIZE" class="monospace mono_xyzr">???</font><br><br>
-							<!-- SCD Hack Status -->
-							SCD Hack Status: <font class="monospace mono_xyzr" id="R3_RDT_GENERAL_SCDHACKSTATUS">???</font>
-						</div>
+							File Size: <font id="R3_RDT_GENERAL_FILESIZE" class="monospace mono_xyzr">???</font>
+						</div><br><br>
+						<!-- SCD Hack Status -->
+						SCD Hack Status: <font class="monospace mono_xyzr" id="R3_RDT_GENERAL_SCDHACKSTATUS">???</font>
 					</div>
 				</div>
 				<!-- Inicial Page -->
@@ -1332,7 +1332,7 @@
 								Unk 0: <input type="text" spellcheck="false" placeholder="B773" id="R3_RID_EDIT_unk0" maxlength="4" class="R3_EDIT_TEXT_XYZR"><br><br>
 								<div class="align-center">
 									Background Image:<br>
-									<img ondragstart="return false;" src="img/404.png" class="R3_RID_CAMERA_BSS" id="R3_RID_CAMERA_BSS">
+									<img ondragstart="return false;" src="img/404.webp" class="R3_RID_CAMERA_BSS" id="R3_RID_CAMERA_BSS">
 								</div>
 							</div>
 							<!-- Original Hex -->
@@ -1740,7 +1740,7 @@
 			<div class="MENU_DIV" id="MENU_1">
 				<div id="ABOUT_BG" class="ABOUT_BG"></div>
 				<div class="ABOUT_LEFT">
-					<img ondragstart="return false;" src="img/logo.png" class="ABOUT_LOGO"><br>
+					<img ondragstart="return false;" src="img/logo.webp" class="ABOUT_LOGO"><br>
 					<font class="LBL_appTitle">R3ditor V2</font><br>
 					Ver. <font id="ABOUT_LBL_R3_VERSION">???</font><br>
 					<div id="DIV_ABOUT_NW"><font id="ABOUT_LBL_NW_VERSION">???</font></div><br>

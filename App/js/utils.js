@@ -183,7 +183,7 @@ function R3_OBJ_PATCHER(){
 function R3_FILEGEN_selectBG(mode){
 	if (R3_WEBMODE === false){
 		if (mode === 0){
-			R3_fileManager.loadFile('.png, .jpg, .jpeg, .bmp', function(newBgFile){
+			R3_fileManager.loadFile('.png, .jpg, .jpeg, .bmp, .webp', function(newBgFile){
 				var fileFix = '';
 				if (R3_WEBMODE === true){
 					fileFix = 'file://';
@@ -261,7 +261,7 @@ function R3_FILEGEN_renderText(renderOnFilegen, otherCanvas, textRender){
 							distance = parseInt(FG_RE3_DICIONARIO[text[c]][1]) + x_offset;
 						};
 						FG_HTML_TEMPLATE = FG_HTML_TEMPLATE + '<img ondragstart="return false;" src="img/fonts/chars_' + FILEGEN_currentFont + '_' + FILEGEN_currentColor +
-											  '.png" style="clip-path: inset(' + dic + '); position: absolute; left: ' + distance + 'px;top: ' + y_offset + 'px; filter: invert(' + textInvert + ');">';
+											  '.webp" style="clip-path: inset(' + dic + '); position: absolute; left: ' + distance + 'px;top: ' + y_offset + 'px; filter: invert(' + textInvert + ');">';
 						// Post
 						if (FILEGEN_currentFont === 'RE1'){
 							x_offset = x_offset + FG_DICIONARIO[text[c]][2];
@@ -621,7 +621,7 @@ function R3_ITEM_DATABASE_SEARCH_INFO(){
 	if (itemInput.length === 2){
 		document.getElementById('R3_ITEM_DATABASE_SEARCH').value = '';
 		if (DATABASE_ITEM[itemInput] !== undefined){
-			document.getElementById('R3_ITEM_DATABASE_ICON').src = 'img/items/details/' + itemInput + '.png';
+			document.getElementById('R3_ITEM_DATABASE_ICON').src = 'img/items/details/' + itemInput + '.webp';
 			document.getElementById('R3_ITEM_DATABASE_TITLE').innerHTML = DATABASE_ITEM[itemInput][0];
 			document.getElementById('R3_ITEM_DATABASE_DETAILS').innerHTML = DATABASE_ITEM[itemInput][1].replace(DATABASE_ITEM[itemInput][0] + '<br>', '');
 			document.getElementById('R3_ITEM_DATABASE_SEARCH').focus();
@@ -760,7 +760,7 @@ tempFn_R3_leosHub['openWindow'] = function(){
 			tempFileList.forEach(function(cItem){
 				if (cItem.indexOf('.PLD') !== -1){
 					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3MV" onclick="R3_leosHub.openFile(\'' + cPath + '/' + cItem + '\', 0);">' +
-									'<img src="img/icons/Leo/RE3MV.png" class="right R3_leosHub_RE3MV_ICON" alt="R3_leos_MV">' +
+									'<img src="img/icons/Leo/RE3MV.webp" class="right R3_leosHub_RE3MV_ICON" alt="R3_leos_MV">' +
 									'File: <font class="monospace mono_xyzr" title="' + cPath + '/' + cItem + '">' + cItem + '</font><br>' +
 									'Size: <font class="monospace mono_xyzr">' + R3_tools.getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
 				};
@@ -776,7 +776,7 @@ tempFn_R3_leosHub['openWindow'] = function(){
 			tempFileList.forEach(function(cItem){
 				if (cItem.indexOf('.PLW') !== -1){
 					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_leosHub_item R3_leosHub_RE3PLWE" onclick="R3_leosHub.openFile(\'' + cPath + '/' + cItem + '\', 1);">' +
-									'<img src="img/icons/Leo/RE3PLWE.png" class="right R3_leosHub_RE3PLWE_ICON" alt="R3_leos_PLW">' +
+									'<img src="img/icons/Leo/RE3PLWE.webp" class="right R3_leosHub_RE3PLWE_ICON" alt="R3_leos_PLW">' +
 									'File: <font class="monospace mono_xyzr" title="' + cPath + '/' + cItem + '">' + cItem + '</font><br>' +
 									'Size: <font class="monospace mono_xyzr">' + R3_tools.getFileSize(cPath + '/' + cItem, 1) + ' KB</font></div>';
 				};

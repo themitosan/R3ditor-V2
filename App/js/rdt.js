@@ -390,7 +390,12 @@ tempFn_sections['openTimManager'] = function(){
 		});
 		document.getElementById('R3_RDT_timManagerList').innerHTML = HTML_TEMPLATE;
 		// End
-		R3_MINIWINDOW.open(16);
+		if (R3_RDT_rawSections.ARRAY_TIM.length !== 0){
+			R3_MINIWINDOW.open(16);
+		} else {
+			// No Object - Fix this later
+			R3_SYSTEM.alert('ERROR: This map does not have any object (OBJ)');
+		};
 	};
 };
 // Open OBJ Manager R3_RDT_OPEN_OBJ
@@ -406,7 +411,12 @@ tempFn_sections['openObjManager'] = function(){
 		});
 		document.getElementById('R3_RDT_objManagerList').innerHTML = HTML_TEMPLATE;
 		// End
-		R3_MINIWINDOW.open(17);
+		if (R3_RDT_rawSections.ARRAY_OBJ.length !== 0){
+			R3_MINIWINDOW.open(17);
+		} else {
+			// No Object - Fix this later
+			R3_SYSTEM.alert('ERROR: This map does not have any object (OBJ)');
+		};
 	};
 };
 /*
@@ -495,7 +505,7 @@ tempFn_sections['readLIT'] = function(){
 tempFn_sections['openLIT'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_UTILS_VAR_CLEAN_LIT();
-		R3_LIT_DECOMPILE();
+		R3_rdtLIT.readLIT();
 	};
 };
 /*
