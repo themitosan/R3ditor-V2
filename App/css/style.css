@@ -25,7 +25,11 @@
 }
 @font-face {
     font-family: 'mSpace';
-    src: url('consolas.ttf') format('truetype');
+    src: url('Consolas.woff2') format('woff2'),
+        url('Consolas.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 a {
     color: #fff;
@@ -514,7 +518,7 @@ blockquote {
     color: #fff;
     left: -44px;
     width: 500px;
-    height: 144px;
+    height: 122px;
     z-index: 100;
     display: none;
     overflow: hidden;
@@ -547,7 +551,7 @@ blockquote {
     position: -webkit-sticky;
 }
 .R3_LATEST_OPEN_BTN {
-    top: 100px;
+    bottom: 6px;
     left: 46px;
     position: absolute;
     text-align: center;

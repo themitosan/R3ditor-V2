@@ -406,7 +406,7 @@ document.addEventListener('keyup', function(kp){
 			if (R3_KEYPRESS_CONTROL === true && kp.keyCode === 79){
 				// RDT Editor
 				if (R3_MENU_CURRENT === 10){
-					R3_RDT_loadFile();
+					R3_RDT.loadFile();
 				};
 				// SCD Editor
 				if (R3_MENU_CURRENT === 9){
@@ -421,7 +421,7 @@ document.addEventListener('keyup', function(kp){
 			if (R3_KEYPRESS_CONTROL === true && kp.keyCode === 78){
 				// RDT Editor
 				if (R3_MENU_CURRENT === 10){
-					R3_RDT_NEW_FILE();
+					R3_RDT.newFile();
 				};
 				// SCD Editor
 				if (R3_MENU_CURRENT === 9){
@@ -436,7 +436,7 @@ document.addEventListener('keyup', function(kp){
 			if (R3_KEYPRESS_CONTROL === true && kp.keyCode === 83){
 				// RDT Editor
 				if (R3_MENU_CURRENT === 10 && RDT_arquivoBruto !== undefined){
-					R3_RDT_RECOMPILE();
+					R3_RDT.compile();
 				};
 				// SCD Editor
 				if (R3_MENU_CURRENT === 9 && SCD_arquivoBruto !== undefined){

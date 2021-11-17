@@ -81,12 +81,15 @@ tempFn_R3_TOOLS['parsePercentage'] = function(current, maximum){
 };
 // Fix Path Size
 tempFn_R3_TOOLS['fixPathSize'] = function(path, limit){
-	var res = '';
+	var res = '', limit = parseInt(limit), factor = 2;
 	if (path !== undefined && path !== ''){
-		if (path.length < 50){
+		if (path.length < limit){
 			res = path;
 		} else {
-			res = '...' + path.slice(parseInt(path.length - limit), path.length);
+			if (path.length > 140){
+				factor = 1.5;
+			};
+			res = '...' + path.slice(parseInt(path.length / factor), path.length);
 		};
 	};
 	return res;

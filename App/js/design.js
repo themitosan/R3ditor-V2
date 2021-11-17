@@ -15,7 +15,6 @@ var R3_HAS_CRITICAL_ERROR = false,
 	R3_INTERNAL_functionBtnArray = [], R3_INTERNAL_functionBtnScdArray = [],
 	// RDT Menu Vars
 	R3_RDT_FILELIST_MAPS = {}, R3_RDT_FILELIST_CURRENTMODE = [], R3_RDT_MENU_LABEL_FIX_NUMBER = 110, R3_DESIGN_RDT_LOADLOCK = false, APP_CAN_RENDER_DEV = true,
-	R3_RDT_FILELIST_MAPS = {}, R3_RDT_FILELIST_CURRENTMODE = [], R3_RDT_MENU_LABEL_FIX_NUMBER = 110, R3_DESIGN_RDT_LOADLOCK = false, APP_CAN_RENDER_DEV = true,
 	// SCD Editor Vars
 	R3_SCD_HIGHLIGHT_FUNCTION = 0, R3_SCD_SEARCH_HIGHLIGHT_FUNCTION = 0,
 	// SCD JS Editor Vars
@@ -993,9 +992,7 @@ function R3_LATEST_SET_FILE(name, type, location){
 function R3_DESIGN_UPDATE_LATEST_LABELS(){
 	if (R3_WEBMODE === false){
 		document.getElementById('R3_LBL_RECENT_FILE').innerHTML = R3_SETTINGS.SETTINGS_RECENT_FILE_NAME;
-		document.getElementById('R3_LBL_RECENT_FILE_PATH').title = R3_SETTINGS.SETTINGS_RECENT_FILE_PATH;
 		document.getElementById('R3_LBL_RECENT_FILE_TYPE').innerHTML = R3_LATEST_FILE_TYPES[R3_SETTINGS.SETTINGS_RECENT_FILE_TYPE];
-		document.getElementById('R3_LBL_RECENT_FILE_PATH').innerHTML = R3_tools.fixPathSize(R3_SETTINGS.SETTINGS_RECENT_FILE_PATH, (R3_RDT_MENU_LABEL_FIX_NUMBER - 8)).replace('//', '/');
 		if (R3_SETTINGS.SETTINGS_RECENT_FILE_TYPE === 0){
 			var fName = R3_SETTINGS.SETTINGS_RECENT_FILE_NAME.toLowerCase().replace('.rdt', '').toUpperCase(),
 				fPath_00 = R3_MOD_PATH + '/DATA_A/BSS/' + fName + '00.JPG',	fPath_01 = R3_MOD_PATH + '/DATA_A/BSS/' + fName + '01.JPG', fFix = '';
@@ -2132,7 +2129,7 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 		};
 		document.getElementById('R3_RDT_GENERAL_FILEPATH').title = ORIGINAL_FILENAME.replace('//', '/');
 		document.getElementById('R3_RDT_GENERAL_FILESIZE').innerHTML = R3_tools.getFileSize(ORIGINAL_FILENAME, 1) + ' KB';
-		document.getElementById('R3_RDT_GENERAL_FILEPATH').innerHTML = R3_tools.fixPathSize(ORIGINAL_FILENAME, R3_RDT_MENU_LABEL_FIX_NUMBER).replace('//', '/');
+		document.getElementById('R3_RDT_GENERAL_FILEPATH').innerHTML = R3_tools.fixPathSize(ORIGINAL_FILENAME, (ORIGINAL_FILENAME.length / 2)).replace('//', '/');
 	} else {
 		TMS.css('R3_PAGE_ICON_BG_7', {'display': 'none'});
 		TMS.disableElement(['BTN_MAIN_38', 'BTN_MAIN_26']);

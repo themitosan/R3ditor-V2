@@ -431,6 +431,7 @@ function R3_runGame(mode){
 tempFn_R3_SYSTEM = {
 	// Log Variables
 	logText: '',
+	logList: {},
 	logInternal: '',
 	currentLogId: 0,
 	logCounter_INFO: 0,
@@ -488,8 +489,8 @@ tempFn_R3_SYSTEM['log'] = function(mode, text){
 			textClean = text = '';
 			canLog = false;
 		};
-		lastLog = document.getElementById('R3_LOG_ID_N_' + (R3_SYSTEM.currentLogId - 1));
-		if (lastLog !== null && lastLog.className === 'SEPARATOR-3' && mode === 'separator'){
+		lastLog = R3_SYSTEM.logList[(R3_SYSTEM.currentLogId - 1)];
+		if (lastLog !== undefined && lastLog.type === 'separator' && mode === 'separator'){
 			canLog = false;
 		};
 		/*
@@ -528,6 +529,7 @@ tempFn_R3_SYSTEM['log'] = function(mode, text){
 			*/
 			R3_SYSTEM.logText = R3_SYSTEM.logText + textClean + '\n';
 			R3_SYSTEM.logInternal = R3_SYSTEM.logInternal + HTML_LOG_TEMPLATE;
+			R3_SYSTEM.logList[R3_SYSTEM.currentLogId] = {type: mode, message: text};
 			R3_SYSTEM.RELEASE_LOG_DATA = true;
 			R3_SYSTEM.currentLogId++;
 			// Execute log if window is opened
@@ -560,7 +562,9 @@ tempFn_R3_SYSTEM['appendLog'] = function(){
 };
 // Clear Log R3_SYSTEM_CLEAR_LOG
 tempFn_R3_SYSTEM['clearLog'] = function(resetConsole){
-	TMS.setInnerHtml('R3_LOG_HOLDER', '');
+	R3_SYSTEM.logList = {};
+	R3_SYSTEM.logText = R3_SYSTEM.logInternal = '';
+	document.getElementById('R3_LOG_HOLDER').innerHTML = '';
 	R3_SYSTEM.currentLogId = R3_SYSTEM.logCounter_INFO = R3_SYSTEM.logCounter_WARN = R3_SYSTEM.logCounter_ERROR = 0;
 	R3_SYSTEM.log('log', 'R3ditor V2 - The log was cleared');
 	R3_SYSTEM.log('separator');
