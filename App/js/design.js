@@ -2193,6 +2193,8 @@ function R3_RDT_FILELIST_GENERATE(currentMode){
 										currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' +
 										currentMap + '</font><br>Location: <font class="monospace mono_xyzr">' + RDT_locations[currentMap][0] + '</font>, <font class="monospace mono_xyzr">' + RDT_locations[currentMap][1] +
 										'</font><br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_tools.fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
+					} else {
+						R3_RDT_FILELIST_MAPS[mode].splice(R3_RDT_FILELIST_MAPS[mode].indexOf(cItem), 1);
 					};
 				});
 				// End

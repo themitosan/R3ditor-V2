@@ -31,7 +31,11 @@ tempFn_R3_TOOLS['getFileName'] = function(filePath){
 tempFn_R3_TOOLS['getFileExtension'] = function(file){
 	var res = '';
 	if (file !== '' && file !== undefined){
-		res = file.split('.').pop();
+		if (R3_WEBMODE === true){
+			res = APP_REQUIRE_PATH.extname(file);
+		} else {
+			res = file.split('.').pop();
+		};
 	};
 	return res;
 };
