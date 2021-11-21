@@ -1095,6 +1095,9 @@ function R3_DESIGN_DOORLINK_RENDER(){
 					cArray = checkResult[cIndex];
 					cCam = cArray[8].toUpperCase();
 					cCamPath = APP_PATH + '/Assets/DATA_A/BSS/R' + mapInput + cCam + '.JPG';
+					if (process.platform !== 'win32'){
+						cCamPath = 'file://' + cCamPath;
+					};
 					if (APP_FS.existsSync(cCamPath) !== true){
 						cCamPath = 'img/404.webp';
 					};

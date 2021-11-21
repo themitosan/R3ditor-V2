@@ -15,13 +15,14 @@
         "node-webkit"
     ],
     "window": {
-        "width": 1316,
-        "height": 684,
+        "width": 1280,
+        "height": 700,
         "frame": true,
         "toolbar": false,
-        "min_width": 1316,
-        "min_height": 684,
+        "min_width": 1280,
+        "min_height": 700,
         "fullscreen": false,
+        "position": "center",
         "theme-color": "#000",
         "icon": "App/img/logo.png",
         "title": "R3ditor V2 - Please wait..."

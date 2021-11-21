@@ -1133,6 +1133,9 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						CUT_camPath = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + CUT_id.toUpperCase() + '.JPG',
 						CUT_camPreview = '';
 					if (APP_ENABLE_MOD === true && APP_FS.existsSync(CUT_camPath) === true){
+						if (process.platform === 'linux'){
+							CUT_camPath = 'file://' + CUT_camPath;
+						};
 						CUT_camPreview = '<img src="' + CUT_camPath + '" alt="R3_SCD_CAM_' + CUT_id.toUpperCase() + '_PREVIEW" class="R3_SCD_SCRIPTITEM_ITEM_IMG">';
 					};
 					cProp = 'Next Camera: <font class="monospace mono_xyzr">' + parseInt(CUT_id, 16) + '</font>' + CUT_camPreview;
@@ -5516,19 +5519,16 @@ function R3_SCD_FUNCTION_CAM_PREVIEW(domId, imgId){
 	if (R3_RDT_mapName !== '' && R3_WEBMODE === false){
 		var camId = R3_tools.fixVars(parseInt(document.getElementById(domId).value).toString(16), 2).toUpperCase(), imgFix = '';
 			fPath = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + camId.toUpperCase() + '.JPG';
-		if (APP_FS.existsSync(fPath) === true){
-			document.getElementById(imgId).src = fPath;
-		} else {
+		if (APP_FS.existsSync(fPath) !== true){
 			fPath = 'img/404.webp';
-			if (process.platform !== 'win32'){
-				imgFix = 'file://';
-			};
-			document.getElementById(imgId).src = imgFix + fPath;
-		};
-		if (fPath !== 'img/404.webp'){
-			TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'url(' + fPath + ')'});
-		} else {
 			TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)'});
+		};
+		if (process.platform !== 'win32'){
+			imgFix = 'file://';
+		};
+		document.getElementById(imgId).src = imgFix + fPath;
+		if (fPath !== 'img/404.webp'){
+			TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'url(' + imgFix + fPath + ')'});
 		};
 		TMS.css('R3_SCD_CAMERA_PREVIEW', {'display': 'inline'});
 	} else {
