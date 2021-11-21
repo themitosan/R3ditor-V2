@@ -51,6 +51,7 @@ The only difference is - To run R3V2:
 
 * Open your terminal and navigate to R3V2 folder
 * Run <code>./nw</code>
+(Important: You will need to install <code>wine</code> to be able to execute some actions)
 
 Download Links: [ <a href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0.38.4-linux-ia32.tar.gz" target="_blank">x86 / 32 Bits</a> or <a target="_blank" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0.38.4-linux-x64.tar.gz">x64 / 64 Bits</a> ]
 
