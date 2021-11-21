@@ -409,7 +409,7 @@ function R3_runGame(mode){
 				if (R3_MEMJS.processObj !== undefined){
 					R3_LIVESTATUS_OPEN_BAR();
 				} else {
-					R3_runExec(R3_SETTINGS.R3_RE3_MOD_PATH, undefined, 1);
+					R3_runExec(R3_SETTINGS.R3_RE3_PATH, undefined, 1);
 				};
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3 (Mod)');
 			};
