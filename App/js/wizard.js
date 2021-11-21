@@ -25,7 +25,7 @@ var R3_WIZARD_modFile,
 function R3_WIZARD_getMainGamePath(){
 	if (R3_WEBMODE === false){
 		R3_fileManager.selectPath(function(gamePath){
-			R3_WIZARD_GAME_PATH = gamePath;
+			R3_WIZARD_GAME_PATH = R3_tools.fixPath(gamePath);
 			document.getElementById('R3_WIZARD_GAME_PATH').title = R3_WIZARD_GAME_PATH;
 			document.getElementById('R3_WIZARD_GAME_PATH').innerHTML = R3_tools.fixPathSize(R3_WIZARD_GAME_PATH, 120);
 		});
@@ -126,7 +126,14 @@ function R3_WIZARD_copyMissingFiles(){
 	syncInterval = setInterval(function(){
 		if (c > (Object.keys(fileList).length - 1)){
 			APP_ENABLE_MOD = true;
-			process.chdir(ORIGINAL_APP_PATH);
+			// Mod Path
+			if (process.platform === 'win32'){
+				process.chdir(ORIGINAL_APP_PATH);	
+			};
+			// Linux (Tested on Ubuntu)
+			if (process.platform === 'linux'){
+				process.chdir(APP_PATH);
+			};
 			// Skip making config file if current version is Gemini REbirth
 			if (R3_LIVESTATUS.currentMode !== 4){
 				R3_INI.generateIni(0, R3_WIZARD_KEEP_ROFS11);

@@ -10,11 +10,11 @@
 var R3_SETTINGS = {
 		// Paths
 		'R3_RE3_PATH': '',
-		'R3_MERCE_PATH': '',
-		'R3_RE3_MOD_PATH': '',
 		'R3_HEX_PATH': '',
-		'R3_RE3SLDE_PATH': '',
+		'R3_MERCE_PATH': '',
 		'R3_RE3MV_PATH': '',
+		'R3_RE3_MOD_PATH': '',
+		'R3_RE3SLDE_PATH': '',
 		'R3_RE3PLWE_PATH': '',
 		// General
 		'APP_useImageFix': false,
@@ -271,7 +271,7 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 			localStorage.setItem('R3V2_SETTINGS', newConfigFile);
 		};
 		if (logSaving !== false){
-			R3_SYSTEM.log('log', 'R3ditor V2 - Saving settings...');
+			R3_SYSTEM.log('log', 'R3ditor V2 - Settings: Saving changes...');
 		};
 		if (reload === true){
 			R3_SYSTEM.reload();

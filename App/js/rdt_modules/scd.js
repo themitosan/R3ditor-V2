@@ -1257,9 +1257,13 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						DOOR_nCam   = cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]).toUpperCase(),
 						DOOR_nRDT 	= 'R' + DOOR_nStage + DOOR_nRoom;
 						DOOR_nMap 	= RDT_locations[DOOR_nRDT][0],
-						DOOR_cPrev  = '';
+						DOOR_cPrev  = '',
+						DOOR_camUrl = APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG';
+					if (R3_SETTINGS.APP_useImageFix === true){
+						DOOR_camUrl = 'file://' + DOOR_camUrl;
+					};
 					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/' + DOOR_nRDT + DOOR_nCam + '.JPG') === true){
-						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" title="Next Cam: ' + parseInt(DOOR_nCam, 16) + '" alt="R3_SCD_DOOR_PREVIEW_' + DOOR_nRDT + '_' + DOOR_nCam + '" src="' + APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG">';
+						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" title="Next Cam: ' + parseInt(DOOR_nCam, 16) + '" alt="R3_SCD_DOOR_PREVIEW_' + DOOR_nRDT + '_' + DOOR_nCam + '" src="' + DOOR_camUrl + '">';
 					};
 					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">' + DOOR_nRDT + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
 				};
@@ -1271,9 +1275,13 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						DOOR_nCam   = cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]).toUpperCase(),
 						DOOR_nRDT 	= 'R' + DOOR_nStage + DOOR_nRoom;
 						DOOR_nMap 	= RDT_locations[DOOR_nRDT][0],
-						DOOR_cPrev  = '';
+						DOOR_cPrev  = '',
+						DOOR_camUrl = APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG';
+					if (R3_SETTINGS.APP_useImageFix === true){
+						DOOR_camUrl = 'file://' + DOOR_camUrl;
+					};
 					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/' + DOOR_nRDT + DOOR_nCam + '.JPG') === true){
-						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" title="Next Cam: ' + parseInt(DOOR_nCam, 16) + '" alt="R3_SCD_DOOR_PREVIEW_' + DOOR_nRDT + '_' + DOOR_nCam + '" src="' + APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG">';
+						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" title="Next Cam: ' + parseInt(DOOR_nCam, 16) + '" alt="R3_SCD_DOOR_PREVIEW_' + DOOR_nRDT + '_' + DOOR_nCam + '" src="' + DOOR_camUrl + '">';
 					};
 					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">' + DOOR_nRDT + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
 				};

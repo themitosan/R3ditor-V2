@@ -2088,7 +2088,7 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 	R3_MINIWINDOW.closeAllRdtMiniWindows();
 	// Background image
 	if (R3_SETTINGS.SETTINGS_DISABLE_RDT_BACKGROUND === false){
-		const mapFirstCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_tools.fixVars(R3_tools.genRandomNumber(R3_RDT_MAP_totalCams).toString(16), 2) + '.JPG',
+		var mapFirstCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_tools.fixVars(R3_tools.genRandomNumber(R3_RDT_MAP_totalCams).toString(16), 2) + '.JPG',
 			  mapSecondCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + '01.JPG';
 		if (R3_WEBMODE === false){
 			if (APP_FS.existsSync(mapFirstCamera) === true){

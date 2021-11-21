@@ -13,7 +13,7 @@ var R3_APP_START = false, APP_ON_BOOT = true, APP_CAN_START = true, R3_ELECTRON,
 	// Mod Vars
 	R3_MOD_PATH, R3_MOD_NAME,
 	// External Modules
-	APP_FS, APP_MEMJS, APP_GUI, DiscordRPC, APP_REQUIRE_PATH, APP_CHILD_PROCESS,
+	APP_FS, APP_MEMJS, APP_GUI, DiscordRPC, APP_REQUIRE_PATH, APP_CHILD_PROCESS, APP_OS,
 	// Executable Vars
 	EXTERNAL_APP_PID, EXTERNAL_APP_EXITCODE = 0, EXTERNAL_APP_RUNNING = false,
 	// Game Vars
@@ -36,6 +36,7 @@ var R3_APP_START = false, APP_ON_BOOT = true, APP_CAN_START = true, R3_ELECTRON,
 	R3_SYSTEM_BACKUP_LIST = {},
 	// Temp Coords
 	TEMP_X_Pos, TEMP_Y_Pos, TEMP_Z_Pos, TEMP_R_Pos, TEMP_zIndex;
+
 /*
 	Onload
 */
@@ -92,6 +93,7 @@ function R3_INIT_REQUIRE(){
 			APP_ONLINE = navigator.onLine;
 			APP_PATH = ORIGINAL_APP_PATH;
 			APP_FS = require('fs-extra');
+			APP_OS = require('os');
 			// NW.gui
 			if (R3_WEB_IS_NW === true){
 				APP_GUI = require('nw.gui');
@@ -124,11 +126,13 @@ function R3_INIT_REQUIRE(){
 				APP_TOOLS = R3_tools.fixPath(APP_EXEC_PATH + '/Tools');
 				APP_PATH = R3_tools.fixPath(tempPath) + '/R3V2';
 			} else {
-				APP_useImageFix = true;
+				R3_SETTINGS.APP_useImageFix = true;
 			};
-			// Linux (Tested on Ubuntu)
+			// Linux (Tested on Ubuntu 20.04.3 LTS)
 			if (process.platform === 'linux'){
-				APP_PATH = ORIGINAL_APP_PATH;
+				APP_PATH = APP_OS.homedir() + '/R3V2';
+				APP_EXEC_PATH = R3_tools.fixPath(ORIGINAL_APP_PATH);
+				APP_TOOLS = R3_tools.fixPath(ORIGINAL_APP_PATH + '/Tools');
 			};
 			/*
 				End
@@ -300,67 +304,71 @@ function R3_WEBWARN(){
 // Run Executable
 function R3_runExec(exe, args, mode, newFilePath){
 	if (R3_WEBMODE === false){
-		if (process.platform === 'win32'){
-			/*
-				Modes:
-				0: Use executable path as chdir
-				1: Use Internal assets path as chdir
-				2: Don't set chdir
-				3: Set custom chdir
-			*/
-			if (mode === 0){
-				process.chdir(R3_tools.getFilePath(exe));
-			};
-			if (mode === 1){
-				process.chdir(R3_MOD_PATH);
-				console.info('External Executable: Running ' + exe + ' with chdir in ' + R3_MOD_PATH);
-			};
-			if (mode === 2){
-				console.info('INFO - Skipping chdir...');
-			};
-			if (mode === 3){
-				process.chdir(R3_tools.getFilePath(newFilePath));
-				console.info('External Executable: Running ' + exe + ' with chdir in ' + R3_tools.getFilePath(newFilePath));
-			};
-			if (args === undefined || args === '' || args === null){
-				args = [''];
-			};
-			RE3_PID = 0;
-			const PROCESS = APP_CHILD_PROCESS.spawn(exe, args);
-			EXTERNAL_APP_RUNNING = true;
-			if (mode !== 0){
-				RE3_PID = PROCESS.pid;
-			};
-			PROCESS.stdout.on('data', function(data){
-				console.info(data.toString());
-				R3_SYSTEM.log('log', data.toString());
-			});
-			PROCESS.stderr.on('data', function(data){
-				console.info(data.toString());
-				R3_SYSTEM.log('log', data.toString());
-			});
-			PROCESS.on('close', function(code){
-				R3_SYSTEM.log('separator');
-				EXTERNAL_APP_RUNNING = false;
-				process.chdir(ORIGINAL_APP_PATH);
-				if (RE3_RUNNING !== false){
-					RE3_RUNNING = false;
-					R3_LIVESTATUS_CLOSE_BAR();
-					clearInterval(R3_MEMJS.updatePosTimer);
-					if (parseInt(code) < 2){
-						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: The game closed with code <font class="user-can-select">' + code + '</font>');
-					} else {
-						R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: The game closed with code <font class="user-can-select">' + code + '</font>!');
-						R3_MINIWINDOW.open(0);
-					};
-				} else {
-					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: The application closed with code <font class="user-can-select">' + code + '</font>');
-				};
-				return code;
-			});
-		} else {
-			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: You can\'t run external software in non-windows systems!');
+		/*
+			Modes:
+			0: Use executable path as chdir
+			1: Use Internal assets path as chdir
+			2: Don't set chdir
+			3: Set custom chdir
+		*/
+		if (mode === 0){
+			process.chdir(R3_tools.getFilePath(exe));
 		};
+		if (mode === 1){
+			process.chdir(R3_MOD_PATH);
+			console.info('External Executable: Running ' + exe + ' with chdir in ' + R3_MOD_PATH);
+		};
+		if (mode === 2){
+			console.info('INFO - Skipping chdir...');
+		};
+		if (mode === 3){
+			process.chdir(R3_tools.getFilePath(newFilePath));
+			console.info('External Executable: Running ' + exe + ' with chdir in ' + R3_tools.getFilePath(newFilePath));
+		};
+		if (args === undefined || args === '' || args === null){
+			args = [''];
+		};
+		RE3_PID = 0;
+		/*
+			Run windows executable on non-windows platform
+			This will require wine to work
+		*/
+		if (process.platform !== 'win32' && exe.toLowerCase().indexOf('.exe') !== -1){
+			args.splice(0, 0, exe);
+			exe = 'wine';
+		};
+		const PROCESS = APP_CHILD_PROCESS.spawn(exe, args);
+		EXTERNAL_APP_RUNNING = true;
+		if (mode !== 0){
+			RE3_PID = PROCESS.pid;
+		};
+		PROCESS.stdout.on('data', function(data){
+			console.info(data.toString());
+			R3_SYSTEM.log('log', data.toString());
+		});
+		PROCESS.stderr.on('data', function(data){
+			console.info(data.toString());
+			R3_SYSTEM.log('log', data.toString());
+		});
+		PROCESS.on('close', function(code){
+			R3_SYSTEM.log('separator');
+			EXTERNAL_APP_RUNNING = false;
+			process.chdir(ORIGINAL_APP_PATH);
+			if (RE3_RUNNING !== false){
+				RE3_RUNNING = false;
+				R3_LIVESTATUS_CLOSE_BAR();
+				clearInterval(R3_MEMJS.updatePosTimer);
+				if (parseInt(code) < 2){
+					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: The game closed with code <font class="user-can-select">' + code + '</font>');
+				} else {
+					R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: The game closed with code <font class="user-can-select">' + code + '</font>!');
+					R3_MINIWINDOW.open(0);
+				};
+			} else {
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: The application closed with code <font class="user-can-select">' + code + '</font>');
+			};
+			return code;
+		});
 	};
 };
 // Kill Process
@@ -401,7 +409,7 @@ function R3_runGame(mode){
 				if (R3_MEMJS.processObj !== undefined){
 					R3_LIVESTATUS_OPEN_BAR();
 				} else {
-					R3_runExec(R3_RE3_MOD_PATH, undefined, 1);
+					R3_runExec(R3_SETTINGS.R3_RE3_MOD_PATH, undefined, 1);
 				};
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3 (Mod)');
 			};
