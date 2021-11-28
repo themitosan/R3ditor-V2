@@ -559,6 +559,43 @@ tempFn_R3_TOOLS['getMapPath'] = function(){
 	return result;
 };
 /*
+	R3_TOOLS.setImage
+
+	This function will seek the image file and apply path fix if needed.
+	This solves issues with paths on non-windows os
+*/
+tempFn_R3_TOOLS['setImage'] = function(domId, imagePath){
+	if (R3_SYSTEM.web.isBrowser === false){
+		if (domId !== undefined && imagePath !== undefined){
+			var canApply = true, eReason = '';
+			const checkDom = document.getElementById(domId);
+			if (checkDom === null){
+				canApply = false;
+				eReason = eReason + '\nThis DOM does not exists! (DOM: ' + domId + ')';
+			};
+			// Check if everything is ok
+			if (canApply === true){
+				var pathFix = '', finalPath = '';
+				if (process.platform !== 'win32'){
+					pathFix = 'file://';
+				};
+				// Check if path exists
+				if (R3_MODULES.fs.existsSync(imagePath) === true){
+					finalPath = fixPath + imagePath;
+				} else {
+					finalPath = fixPath + 'img/404.webp';
+				};
+				document.getElementById(domId).src = finalPath;
+			} else {
+				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (HTML) Unable set image to dom! <br>Reason: ' + eReason);
+			};
+		};
+	} else {
+		// If web, it will skip this check
+		document.getElementById(domId).src = imagePath;
+	};
+};
+/*
 	END
 */
 const R3_tools = tempFn_R3_TOOLS;

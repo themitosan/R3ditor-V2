@@ -108,7 +108,7 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			clearInterval(MEM_JS_updatePosTimer);
 			clearInterval(R3_CHECK_GAME_INTERVAL);
 			clearInterval(R3_CHECK_ifStillOpenInterval);
-			R3_KB_ENABLE_SHORTCUTS = false;
+			R3_keyPress.enableShortcuts = false;
 			if (R3_GAME.gameRunning === true){
 				R3_SYSTEM.externalSoftware.killPID(R3_GAME.gamePID);
 				R3_GAME.gameRunning = false;

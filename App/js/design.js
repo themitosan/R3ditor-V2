@@ -474,6 +474,9 @@ function R3_DESIGN_ADJUST(){
 			TMS.css('R3_RID_EDIT_rangePosR', {'width': '120px'});
 		};
 	};
+	// Init Keyboard and Mouse
+	R3_keyPress.INIT();
+	R3_mouse.INIT();
 	// Fix percentage design
 	R3_LIVESTATUS_OPEN_BAR();
 	setTimeout(function(){
@@ -1087,7 +1090,7 @@ function R3_DESIGN_DOORLINK_RENDER(){
 	if (SCD_arquivoBruto !== undefined){
 		var mapInput = document.getElementById('R3_SCD_DOORLINK_MAP_INPUT').value.toUpperCase();
 		if (mapInput.length === 3){
-			var HTML_TEMPLATE = '', cArray, cName, cCam, pLocation, pLocationName, cCamPath, cLocation, checkResult = R3_DOORLINK_DATABASE['R' + mapInput];
+			var HTML_TEMPLATE = '', cArray, cName, cCam, pLocation, pLocationName, cCamPath, cCamFix = '', cLocation, checkResult = R3_DOORLINK_DATABASE['R' + mapInput];
 			if (checkResult !== undefined){
 				cName = RDT_locations['R' + mapInput][0];
 				cLocation = RDT_locations['R' + mapInput][1];
@@ -1096,7 +1099,7 @@ function R3_DESIGN_DOORLINK_RENDER(){
 					cCam = cArray[8].toUpperCase();
 					cCamPath = R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/R' + mapInput + cCam + '.JPG';
 					if (process.platform !== 'win32'){
-						cCamPath = 'file://' + cCamPath;
+						cCamFix = 'file://';
 					};
 					if (R3_MODULES.fs.existsSync(cCamPath) !== true){
 						cCamPath = 'img/404.webp';
@@ -1104,7 +1107,7 @@ function R3_DESIGN_DOORLINK_RENDER(){
 					pLocation = cArray[9];
 					pLocationName = RDT_locations[pLocation][0] + ', ' + RDT_locations[pLocation][1];
 					// Template
-					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCD_DOORLINK_itemHolder"><img src="' + cCamPath + '" class="R3_SCD_DOORLINK_camPreview" alt="DOORLINK_PREVIEW_' + cIndex + '">' +
+					HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCD_DOORLINK_itemHolder"><img src="' + cCamFix + cCamPath + '" class="R3_SCD_DOORLINK_camPreview" alt="DOORLINK_PREVIEW_' + cIndex + '">' +
 									'<div class="R3_SCD_DOORLINK_dataInfo">Location <font class="monospace mono_xyzr">' + (cIndex + 1) + '</font> - Camera: <font class="monospace mono_xyzr user-can-select">' + cCam + '</font><br>' +
 									'Parent map: <font class="monospace mono_xyzr" title="' + pLocationName + '">' + pLocation + '</font><br>X: <font class="monospace mono_xyzr user-can-select COLOR_X">' + cArray[1].toUpperCase() +
 									'</font> Y: <font class="monospace mono_xyzr user-can-select COLOR_Y">' + cArray[2].toUpperCase() + '</font> ' + 'Z: <font class="monospace mono_xyzr user-can-select COLOR_Z">' + cArray[3].toUpperCase() +
@@ -1191,7 +1194,7 @@ function R3_DESIGN_navigateResultFromSearchForm(mode){
 			holderHeight = document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_RESULT').offsetHeight;
 		document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_RESULT').scrollTop = ((offTop - (holderHeight / 2)) - 30);
 		// Open edit form if CTRL is pressed
-		if (R3_KEYPRESS_ALT === true){
+		if (R3_keyPress.KEY_ALT === true){
 			R3_SCD_FUNCTION_EDIT(SCD_FN_SEARCH_RESULT[R3_SCD_SEARCH_HIGHLIGHT_FUNCTION][1]);
 		};
 	};
@@ -1652,8 +1655,8 @@ function R3_SCD_CODE_updateTextData(){
 		document.getElementById('R3_SCD_CODE_cursorAt').innerHTML = textTarget.selectionStart;
 		document.getElementById('R3_SCD_CODE_selectionEnd').innerHTML = textTarget.selectionEnd;
 		document.getElementById('R3_SCD_CODE_selectionStart').innerHTML = textTarget.selectionStart;
-		document.getElementById('R3_SCD_CODE_keyShift').innerHTML = R3_KEYPRESS_SHIFT.toString().slice(0, 1).toUpperCase() + R3_KEYPRESS_SHIFT.toString().slice(1);
-		document.getElementById('R3_SCD_CODE_keyCtrl').innerHTML = R3_KEYPRESS_CONTROL.toString().slice(0, 1).toUpperCase() + R3_KEYPRESS_CONTROL.toString().slice(1);
+		document.getElementById('R3_SCD_CODE_keyShift').innerHTML = R3_keyPress.KEY_SHIFT.toString().slice(0, 1).toUpperCase() + R3_keyPress.KEY_SHIFT.toString().slice(1);
+		document.getElementById('R3_SCD_CODE_keyCtrl').innerHTML = R3_keyPress.KEY_CONTROL.toString().slice(0, 1).toUpperCase() + R3_keyPress.KEY_CONTROL.toString().slice(1);
 		// End
 		if (textTarget.selectionStart !== textTarget.selectionEnd){
 			TMS.css('R3_SCD_CODE_selectionDiv', {'display': 'inline'});
@@ -1683,7 +1686,7 @@ function R3_DESIGN_CODE_zoomMode(mode){
 // SCD Seek Function
 function R3_SCD_seekFunction(kPress){
 	var funcSeekName, tmpFunc, cFunc, c = 0, SEEK_RESULTS, kp = kPress.which || kPress.keyCode;
-	if (kp === 8 || R3_KEYPRESS_CONTROL === true){
+	if (kp === 8 || R3_keyPress.KEY_CONTROL === true){
 		document.getElementById('SCD_FUNCTION_SEARCH_FIELD').value = '';
 	};
 	funcSeekName = document.getElementById('SCD_FUNCTION_SEARCH_FIELD').value.toLowerCase().replace(RegExp(' ', 'gi'), '_');
@@ -1705,7 +1708,7 @@ function R3_SCD_seekFunction(kPress){
 		} else {
 			TMS.append('R3_SCD_FUNCTIONS_SEARCH', '<u><b>Whoops</b> - No Result Found!</u> :(');
 		};
-		R3_KEYPRESS_releaseKeys();
+		R3_keyPress.releaseKeys();
 	} else {
 		R3_SCD_closeSeekFunction();
 	};
@@ -2417,11 +2420,11 @@ function R3_LIVESTATUS_BAR_TOGGLEPOS(){
 			R3_SETTINGS.SETTINGS_LIVESTATUS_BAR_POS = 0;
 		};
 		R3_LIVESTATUS_OPEN_BAR();
-		R3_KEYUP_TOOGLE_TIMEOUT = true;
+		R3_keyPress.keyUpToggleTimout = true;
 		R3_LIVESTATUS_FORCE_RENDER = true;
 		R3_SETTINGS_SAVE();
 		setTimeout(function(){
-			R3_KEYUP_TOOGLE_TIMEOUT = false;
+			R3_keyPress.keyUpToggleTimout = false;
 		}, 1000);
 	};
 };

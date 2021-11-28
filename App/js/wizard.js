@@ -70,7 +70,7 @@ function R3_WIZARD_startProcess(){
 	if (R3_SYSTEM.web.isBrowser === false){
 		R3_MENU_EXIT();
 		R3_WIZARD_RUNNING = true;
-		R3_KB_ENABLE_SHORTCUTS = false;
+		R3_keyPress.enableShortcuts = false;
 		R3_UTILS_CALL_LOADING('Running R3V2 Wizard', 'Please wait while R3ditor V2 extracts all game assets...', 10);
 		var currentRofs = 1, rofsTimer, rofsFix;
 		// Create zmovie
@@ -190,6 +190,6 @@ function R3_WIZARD_FINISH(){
 		R3_LOAD_SETTINGS();
 		R3_RDT_FILELIST_UPDATELIST();
 		R3_WIZARD_RUNNING = false;
-		R3_KB_ENABLE_SHORTCUTS = true;
+		R3_keyPress.enableShortcuts = true;
 	};
 };

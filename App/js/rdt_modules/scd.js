@@ -330,7 +330,7 @@ function R3_SCD_SEARCH_SCRIPT_FUNCTION(functionOpcode, skipAlert){
 											   '</font><input type="button" class="BTN_R3CLASSIC R3_SCRIPT_LIST_ITEM_BTN" value="GOTO" onclick="R3_DESIGN_SCD_focusResultFromSearchForm(' + rIndex + ');R3_SCD_SEARCH_GOTO_FUNCTION(' + cScript + ', ' + cFunction + ');"></div>';
 					});
 					// End
-					R3_KEYPRESS_ALT = false;
+					R3_keyPress.KEY_ALT = false;
 					SCD_FN_SEARCH_RESULT = SCD_SEARCH_RESULTS;
 					R3_SCD_SEARCH_OPCODE_ADDCOLOR(R3_SCD_DATABASE[opcodeSearch][2]);
 					document.getElementById('R3_SCD_SEARCH_SCD_SCRIPT_RESULT').scrollTop = 0;
@@ -405,7 +405,7 @@ function R3_SCD_JUMP_GOSUB(){
 function R3_SCD_INSERT_HEX(){
 	if (SCD_arquivoBruto !== undefined){
 		var askForHex, sortHex, skipPreview = false;
-		if (R3_KEYPRESS_CONTROL === true){
+		if (R3_keyPress.KEY_CONTROL === true){
 			skipPreview = true;
 		};
 		askForHex = R3_SYSTEM.prompt('Please, insert the hex code below:\n(It must be only one function, more than one will break!)');
@@ -574,7 +574,7 @@ function R3_SCD_usePreset(presetId){
 	if (SCD_arquivoBruto !== undefined){
 		var c = 0, insertPos, ask, nextPreset = R3_SCD_PRESET_LIST[parseInt(presetId)][1].reverse();
 		if (nextPreset !== undefined){
-			if (R3_KEYPRESS_CONTROL === true){
+			if (R3_keyPress.KEY_CONTROL === true){
 				ask = parseInt(R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length);
 			} else {
 				ask = R3_SYSTEM.prompt('Please, insert the position where \"' + R3_SCD_PRESET_LIST[parseInt(presetId)][0] + '\" will be inserted below:');
@@ -3129,7 +3129,7 @@ function R3_SCD_FUNCTION_ADD(cOpcode){
 				};
 				R3_SCD_openFunctionEdit(cOpcode, true);
 				// Auto-focus
-				if (focusDomId !== '' && R3_KEYPRESS_ALT !== true){
+				if (focusDomId !== '' && R3_keyPress.KEY_ALT !== true){
 					setTimeout(function(){
 						document.getElementById(focusDomId).focus();
 					}, 60);
@@ -4978,7 +4978,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 	};
 	// Auto-Insert Values
 	if (autoInsert === true && hex !== undefined){
-		if (R3_KEYPRESS_CONTROL === false){
+		if (R3_keyPress.KEY_CONTROL === false){
 			SCD_scriptLoc = (R3_SCD_HIGHLIGHT_FUNCTION + 1);
 			R3_SCD_HIGHLIGHT_FUNCTION++;
 			// SCD_scriptLoc = (R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length - 1);
@@ -4996,7 +4996,7 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		};
 		HEX_FINAL = hex;
 		// Fix for control
-		R3_KEYPRESS_releaseKeys();
+		R3_keyPress.releaseKeys();
 	};
 	if (SCD_CAN_APPLY === true){
 		//console.info(HEX_FINAL);
@@ -5717,7 +5717,7 @@ function R3_SCD_JS_START_COMPILER(){
 			R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = finalCodeArray;
 			R3_SYSTEM.log('separator');
 			// Fix control hold
-			R3_KEYPRESS_releaseKeys();
+			R3_keyPress.releaseKeys();
 			// Compile using final compiler!
 			R3_SCD_COMPILE(3);
 			if (R3_SETTINGS.SETTINGS_SCD_JS_COMPILER_KEEP_ORIGINAL_FILE === true){

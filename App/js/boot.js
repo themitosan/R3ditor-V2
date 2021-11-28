@@ -229,20 +229,20 @@ tempFn_R3_SYSTEM = {
 	// Prompt replace
 	prompt: function(txt){
 		var res = window.prompt(txt);
-		R3_KEYPRESS_releaseKeys();
+		R3_keyPress.releaseKeys();
 		return res;
 	},
 	// Confirm replace
 	confirm: function(conf){
 		var res = window.confirm(conf);
-		R3_KEYPRESS_releaseKeys();
+		R3_keyPress.releaseKeys();
 		return res;
 	},
 	// Alert system
 	alert: function(msg){
 		if (msg !== undefined){
 			window.alert(msg);
-			R3_KEYPRESS_releaseKeys();
+			R3_keyPress.releaseKeys();
 		};
 	},
 	/*
