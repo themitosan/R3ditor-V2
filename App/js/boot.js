@@ -146,6 +146,8 @@ function R3_LOAD(){
 			if (nwArgs.indexOf('--webmode') !== -1){
 				startInWebMode = true;
 			};
+		} else {
+			startInWebMode = true;
 		};
 		R3_SYSTEM.web.isBrowser = startInWebMode;
 		// Init modules
