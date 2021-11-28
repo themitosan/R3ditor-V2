@@ -239,6 +239,10 @@ function R3_LOAD_CHECK_EXTRA(){
 	} else {
 		R3_WEB_ALERT();
 	};
+	// Initialize Keyboard and mouse
+	R3_mouse.INIT();
+	R3_keyPress.INIT();
+	// Postboot (debug)
 	R3_POSTBOOT();
 };
 // Function to be overwritten by debug.js

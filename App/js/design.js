@@ -474,9 +474,6 @@ function R3_DESIGN_ADJUST(){
 			TMS.css('R3_RID_EDIT_rangePosR', {'width': '120px'});
 		};
 	};
-	// Init Keyboard and Mouse
-	R3_keyPress.INIT();
-	R3_mouse.INIT();
 	// Fix percentage design
 	R3_LIVESTATUS_OPEN_BAR();
 	setTimeout(function(){
