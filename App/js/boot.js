@@ -7,19 +7,6 @@
 	PS: This file is under sorting process!
 	*******************************************************************************
 */
-// Internal Vars
-var R3_APP_START = false, APP_ON_BOOT = true, APP_CAN_START = true,
-	APP_TITLE, APP_IS_32 = false, APP_ENABLE_MOD = false,
-	// Mod Vars
-	R3_MOD_PATH, R3_MOD_NAME,
-	// Executable Vars
-	EXTERNAL_APP_PID, EXTERNAL_APP_EXITCODE = 0, EXTERNAL_APP_RUNNING = false,
-	// Game Vars
-	R3_RE3_CANRUN = false, R3_MERCE_CANRUN = R3_RE3_CANRUN, RE3_PID, RE3_RUNNING = R3_RE3_CANRUN,
-	// Backup Manager
-	R3_SYSTEM_BACKUP_LIST = {},
-	// Temp Coords
-	TEMP_X_Pos, TEMP_Y_Pos, TEMP_Z_Pos, TEMP_R_Pos, TEMP_zIndex;
 
 /*
 	R3_MODULES
@@ -39,11 +26,12 @@ tempFn_R3_MODULES = {
 };
 // Initialize modules
 tempFn_R3_MODULES['INIT'] = function(){
+	R3_SYSTEM.web.checkBrowser();
 	if (R3_SYSTEM.web.isBrowser === false){
 		var eReason = '', 					   // Error reason
-			engineVersion, 					   // nwjs, Electron
+			engineVersion, 					   // nwjs, Electron...
 			engineArch = process.arch, 		   // x86 / x64
-			enginePlatform = process.platform; // win32, darwin or linux 
+			enginePlatform = process.platform; // win32, darwin, linux... 
 		/*
 			Detect engine (nwjs, electron and etc.)
 		*/
@@ -95,8 +83,7 @@ tempFn_R3_MODULES['INIT'] = function(){
 			Web Mode
 		*/
 		try {
-			R3_SYSTEM.web.checkBrowser();
-			// Try to port some nw functions to web
+			// Try to port some node.js functions to web
 			R3_MODULES.fs = {
 				readFileSync: function(path, options){
 					if (path !== undefined && path !== ''){
@@ -146,19 +133,6 @@ const R3_MODULES = tempFn_R3_MODULES;
 delete tempFn_R3_MODULES;
 
 /*
-	Onload
-*/
-window.addEventListener('DOMContentLoaded', function(evt){
-	try {
-		if (R3_APP_START === false){
-			R3_LOAD();
-		};
-	} catch (err) {
-		console.error(err + '\nEvent: ' + evt);
-		R3_DESIGN_CRITIAL_ERROR(err);
-	};
-});
-/*
 	Functions
 */
 // Start Process
@@ -167,23 +141,18 @@ function R3_LOAD(){
 		R3_APP_START = true;
 		var startInWebMode = false, nwArgs = [], nwFlavor = '';
 		// Drity code for webmode
-		if (typeof nw !== 'undefined'){
+		if (typeof nw !== 'undefined' && typeof process !== 'undefined'){
 			nwArgs = nw.App.argv;
 			if (nwArgs.indexOf('--webmode') !== -1){
 				startInWebMode = true;
 			};
 		};
+		R3_SYSTEM.web.isBrowser = startInWebMode;
 		// Init modules
-		if (typeof process !== 'undefined' && startInWebMode === false){
-			R3_SYSTEM.web.isBrowser = false;
-		} else {
-			INT_VERSION = INT_VERSION + ' [WEB]';
-			APP_TITLE = APP_TITLE + ' [WEB]';
-			R3_SYSTEM.web.isBrowser = true;
-		};
 		R3_MODULES.INIT();
 		R3_SYSTEM.getPaths();
 		if (R3_SYSTEM.web.isBrowser === true){
+			INT_VERSION = INT_VERSION + ' [WEB]';
 			R3_INIT_DATABASE_GENERATE();
 			R3_LOAD_SETTINGS();
 			R3_DESIGN_ADJUST();
@@ -206,8 +175,8 @@ function R3_LOAD(){
 			};
 		};
 		// End
-		APP_TITLE = 'R3ditor V2 - Ver. ' + INT_VERSION;
-		R3_SYSTEM.log('log', APP_TITLE);
+		R3_SYSTEM.appTitle = 'R3ditor V2 - Ver. ' + INT_VERSION;
+		R3_SYSTEM.log('log', R3_SYSTEM.appTitle);
 		// Log args
 		if (nwArgs.length !== 0){
 			R3_SYSTEM.log('log', 'Run Args: <font class="user-can-select">' + nwArgs.toString().replace(RegExp(',', 'gi'), ' ') + '</font>');
@@ -223,8 +192,8 @@ function R3_LOAD(){
 			// eNGE Start
 			eNGE_INIT();
 		};
-		document.title = APP_TITLE;
-		console.info(APP_TITLE);
+		document.title = R3_SYSTEM.appTitle;
+		console.info(R3_SYSTEM.appTitle);
 	} catch (err) {
 		console.error(err);
 		R3_DESIGN_CRITIAL_ERROR(err);
@@ -235,6 +204,12 @@ function R3_LOAD(){
 	System Variables and Functions
 */
 tempFn_R3_SYSTEM = {
+	/*
+		Init Variables
+	*/
+	appTitle: '',
+	APP_ON_BOOT: true, // "APP_ON_BOOT" is responsible for avoiding some functions to run when app is already loaded
+	appCanStart: true,
 	/*
 		Log Variables / functions
 	*/
@@ -269,16 +244,20 @@ tempFn_R3_SYSTEM = {
 		};
 	},
 	/*
-		External Software Handler
+		External Software
 	*/
-	externalSoftware: {},
+	externalSoftware: {
+		processPID: 0,
+		processExitCode: 0,
+		processRunning: false
+	},
 	/*
 		Web Variables / Functions
 	*/
 	web: {
-		online: navigator.onLine, // APP_ONLINE
 		FILE_BRIDGE: '',
 		isBrowser: false,
+		online: navigator.onLine, // APP_ONLINE
 		// Web Modes
 		is_IE: false,	    // Internet Explorer
 		is_NW: false,	    // NW.js (Node Webkit)
@@ -392,8 +371,8 @@ tempFn_R3_SYSTEM.externalSoftware['runExec'] = function(exe, args, mode, newFile
 			process.chdir(R3_tools.getFilePath(exe));
 		};
 		if (mode === 1){
-			process.chdir(R3_MOD_PATH);
-			console.info('External Executable: Running ' + exe + ' with chdir in ' + R3_MOD_PATH);
+			process.chdir(R3_MOD.path);
+			console.info('External Executable: Running ' + exe + ' with chdir in ' + R3_MOD.path);
 		};
 		if (mode === 2){
 			console.info('INFO - Skipping chdir...');
@@ -405,7 +384,7 @@ tempFn_R3_SYSTEM.externalSoftware['runExec'] = function(exe, args, mode, newFile
 		if (args === undefined || args === '' || args === null){
 			args = [''];
 		};
-		RE3_PID = 0;
+		R3_GAME.gamePID = 0;
 		/*
 			Run windows executable on non-windows platform
 			This will require wine to work
@@ -415,9 +394,9 @@ tempFn_R3_SYSTEM.externalSoftware['runExec'] = function(exe, args, mode, newFile
 			exe = 'wine';
 		};
 		const PROCESS = R3_MODULES.childProcess.spawn(exe, args);
-		EXTERNAL_APP_RUNNING = true;
+		R3_SYSTEM.externalSoftware.processRunning = true;
 		if (mode !== 0){
-			RE3_PID = PROCESS.pid;
+			R3_GAME.gamePID = PROCESS.pid;
 		};
 		PROCESS.stdout.on('data', function(data){
 			console.info(data.toString());
@@ -429,10 +408,10 @@ tempFn_R3_SYSTEM.externalSoftware['runExec'] = function(exe, args, mode, newFile
 		});
 		PROCESS.on('close', function(code){
 			R3_SYSTEM.log('separator');
-			EXTERNAL_APP_RUNNING = false;
+			R3_SYSTEM.externalSoftware.processRunning = false;
 			process.chdir(R3_SYSTEM.paths.path_original);
-			if (RE3_RUNNING !== false){
-				RE3_RUNNING = false;
+			if (R3_GAME.gameRunning !== false){
+				R3_GAME.gameRunning = false;
 				R3_LIVESTATUS_CLOSE_BAR();
 				clearInterval(R3_MEMJS.updatePosTimer);
 				if (parseInt(code) < 2){
@@ -455,58 +434,12 @@ tempFn_R3_SYSTEM.externalSoftware['killPID'] = function(processID){
 			if (processID !== '' && processID !== undefined && processID !== null){
 				process.kill(parseInt(processID));
 			} else {
-				if (EXTERNAL_APP_PID !== 0 && EXTERNAL_APP_PID !== undefined){
-					process.kill(EXTERNAL_APP_PID);
+				if (R3_SYSTEM.externalSoftware.processPID !== 0 && R3_SYSTEM.externalSoftware.processPID !== undefined){
+					process.kill(R3_SYSTEM.externalSoftware.processPID);
 				};
 			};
 		} catch (err) {
 			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to kill process ' + processID + '! <br>Details: ' + err);
-		};
-	};
-};
-// Run Game R3_SYSTEM.externalSoftware.runGame
-tempFn_R3_SYSTEM.externalSoftware['runGame'] = function(mode){
-	if (R3_SYSTEM.web.isBrowser === false && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === false && R3_UPDATER_RUNNING === false){
-		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3_PATH) === true){
-			if (mode === 0 && R3_RE3_CANRUN === true){
-				R3_MEMJS.seekProcess();
-				if (R3_MEMJS.processObj !== undefined){
-					R3_LIVESTATUS_OPEN_BAR();
-				} else {
-					R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_RE3_PATH, undefined, 0);
-				};
-				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3...');
-			};
-			if (mode === 1 && R3_MERCE_CANRUN === true){
-				R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_MERCE_PATH, undefined, 0);
-				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries');
-			};
-			if (mode === 2 && R3_RE3_CANRUN === true){
-				R3_MEMJS.seekProcess();
-				if (R3_MEMJS.processObj !== undefined){
-					R3_LIVESTATUS_OPEN_BAR();
-				} else {
-					R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_RE3_PATH, undefined, 1);
-				};
-				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3 (Mod)');
-			};
-			if (mode === 3 && R3_MERCE_CANRUN === true){
-				R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_MERCE_PATH, undefined, 1);
-				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries (Mod)');
-			};
-			// 32-bit check
-			if (APP_IS_32 !== true && R3_MEMJS.requireSucess === true && R3_MERCE_CANRUN === true && R3_RE3_CANRUN === true){
-				if (mode === 0 || mode === 2){
-					R3_MEMJS.seekProcess();
-					R3_LIVESTATUS_OPEN_BAR();
-				};
-			};
-		} else {
-			R3_SYSTEM.log('error', 'ERROR - Unable to start game! <br>Reason: The file was not found! (404)');
-		};
-	} else {
-		if (R3_SYSTEM.web.isBrowser === true){
-			R3_SYSTEM.web.webWarn();
 		};
 	};
 };
@@ -643,8 +576,8 @@ tempFn_R3_SYSTEM['openInHex'] = function(){
 // Reload App
 tempFn_R3_SYSTEM['reload'] = function(){
 	R3_DISC_clearActivity();
-	if (RE3_RUNNING === true){
-		R3_SYSTEM.externalSoftware.killPID(RE3_PID);
+	if (R3_GAME.gameRunning === true){
+		R3_SYSTEM.externalSoftware.killPID(R3_GAME.gamePID);
 	};
 	if (R3_SYSTEM.web.isBrowser !== true){
 		localStorage.clear();
@@ -654,8 +587,98 @@ tempFn_R3_SYSTEM['reload'] = function(){
 		location.reload(true);
 	};
 };
+// End
 const R3_SYSTEM = tempFn_R3_SYSTEM;
 delete tempFn_R3_SYSTEM;
+
+/*
+	R3_MOD
+	Functions / Variables for mod
+*/
+tempFn_R3_MOD = {
+	path: '',
+	title: '',
+	enableMod: false
+};
+// Load Mod
+tempFn_R3_MOD['loadMod'] = function(){
+	if (R3_SYSTEM.web.isBrowser === false){
+		R3_fileManager.loadFile('.R3MOD, .R3V2', function(fName){
+			R3_MENU_EXIT();
+			var mFile = R3_MODULES.fs.readFileSync(fName, 'utf-8');
+			R3_WIZARD_modFile = JSON.parse(mFile);
+			R3_MOD.path = R3_WIZARD_modFile.modPath;
+			R3_MOD.title = R3_WIZARD_modFile.modName;
+			R3_LIVESTATUS.currentMode = parseInt(R3_WIZARD_modFile.gameMode);
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Mod loaded sucessfully! <br>Mod Name: ' + R3_MOD.title + ' <br>Game Mode: ' + R3_LIVESTATUS.currentMode);
+			R3_SAVE_SETTINGS(false);
+		});
+	};
+};
+// End
+const R3_MOD = tempFn_R3_MOD;
+delete tempFn_R3_MOD;
+
+/*
+	R3_GAME
+	Functions / Variables for game
+*/
+tempFn_R3_GAME = {
+	gamePID: 0,
+	gameRunning: false,
+	// Game status
+	RE3_canRun: false,
+	MERCE_canRun: false
+};
+// Run Game
+tempFn_R3_GAME['run'] = function(mode){
+	if (R3_SYSTEM.web.isBrowser === false && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === false && R3_UPDATER_RUNNING === false){
+		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3_PATH) === true){
+			if (mode === 0 && R3_GAME.RE3_canRun === true){
+				R3_MEMJS.seekProcess();
+				if (R3_MEMJS.processObj !== undefined){
+					R3_LIVESTATUS_OPEN_BAR();
+				} else {
+					R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_RE3_PATH, undefined, 0);
+				};
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3...');
+			};
+			if (mode === 1 && R3_GAME.MERCE_canRun === true){
+				R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_MERCE_PATH, undefined, 0);
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries');
+			};
+			if (mode === 2 && R3_GAME.RE3_canRun === true){
+				R3_MEMJS.seekProcess();
+				if (R3_MEMJS.processObj !== undefined){
+					R3_LIVESTATUS_OPEN_BAR();
+				} else {
+					R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_RE3_PATH, undefined, 1);
+				};
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Resident Evil 3 (Mod)');
+			};
+			if (mode === 3 && R3_GAME.MERCE_canRun === true){
+				R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_MERCE_PATH, undefined, 1);
+				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Game) Running Mercenaries (Mod)');
+			};
+			// Run check
+			if (R3_MEMJS.requireSucess === true && R3_GAME.MERCE_canRun === true && R3_GAME.RE3_canRun === true){
+				if (mode === 0 || mode === 2){
+					R3_MEMJS.seekProcess();
+					R3_LIVESTATUS_OPEN_BAR();
+				};
+			};
+		} else {
+			R3_SYSTEM.log('error', 'ERROR - Unable to start game! <br>Reason: The file was not found! (404)');
+		};
+	} else {
+		if (R3_SYSTEM.web.isBrowser === true){
+			R3_SYSTEM.web.webWarn();
+		};
+	};
+};
+// End
+const R3_GAME = tempFn_R3_GAME;
+delete tempFn_R3_GAME;
 
 /*
 	Cleaner
@@ -793,4 +816,17 @@ function R3_UTILS_VAR_CLEAN_TIM(){
 	TIM_totalCLUT = undefined;
 	TIM_CLUT = undefined;
 	TIM_RAW_IMG = undefined;
+};
+
+
+/*
+	Window Onload
+*/
+window.onload = function(){
+	try {
+		R3_LOAD();
+	} catch (err) {
+		console.error(err + '\nEvent: ' + evt);
+		R3_DESIGN_CRITIAL_ERROR(err);
+	};
 };

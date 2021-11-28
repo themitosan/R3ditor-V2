@@ -170,7 +170,7 @@ tempFn_R3_INI['saveIni'] = function(path, mode){
 	if (mode === 0){
 		if (R3_SYSTEM.web.isBrowser === false){
 			try {
-				R3_MODULES.fs.writeFileSync(R3_MOD_PATH + '/' + path, FINAL, 'utf-8');
+				R3_MODULES.fs.writeFileSync(R3_MOD.path + '/' + path, FINAL, 'utf-8');
 			} catch (err) {
 				R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to save INI file! <br>Reason: ' + err);
 			};

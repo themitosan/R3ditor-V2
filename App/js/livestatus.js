@@ -33,6 +33,11 @@ tempFn_R3_LIVESTATUS = {
 	playerInventory: '',
 	// Seek game interval (R3_MEMJS.checkIfGameIsRunning)
 	seekGameInterval: undefined,
+	// Copy / Paste Variables
+	tempXPos: '0000',
+	tempYPos: '0000',
+	tempZPos: '0000',
+	tempRPos: '0000',
 	/*
 		Current mod is the version of the game. (R3_LIVESTATUS.currentMode)
 		To add support to other versions, increase this number and add the vars in database.js
@@ -46,7 +51,7 @@ tempFn_R3_LIVESTATUS = {
 */
 // GOTO Title Screen R3_LIVESTATUS_gotoTitleScreen
 tempFn_R3_LIVESTATUS['gotoTitleScreen'] = function(){
-	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && RE3_RUNNING === true && R3_MEMJS.canRender === true){
+	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && R3_GAME.gameRunning === true && R3_MEMJS.canRender === true){
 		if (R3_LIVESTATUS.currentMode === 0){
 			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_goto_titleScreen'][0], 40, R3_MODULES.memoryjs.BYTE);
 			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_goto_titleScreen'][1], 0, R3_MODULES.memoryjs.BYTE);
@@ -58,7 +63,7 @@ tempFn_R3_LIVESTATUS['gotoTitleScreen'] = function(){
 };
 // Infinite HP R3_LIVESTATUS_infiniteHP
 tempFn_R3_LIVESTATUS['infiniteHP'] = function(){
-	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && RE3_RUNNING === true && R3_MEMJS.canRender === true){
+	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && R3_GAME.gameRunning === true && R3_MEMJS.canRender === true){
 		if (R3_LIVESTATUS.currentHP.toLowerCase() !== 'c800'){
 			R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_HP'][0], 'C8', 'hex');
 			R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_HP'][1], '00', 'hex');
@@ -67,7 +72,7 @@ tempFn_R3_LIVESTATUS['infiniteHP'] = function(){
 };
 // Add 30K HP (God Mode) R3_LIVESTATUS_addGodHp
 tempFn_R3_LIVESTATUS['addGodHp'] = function(){
-	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && RE3_RUNNING === true && R3_MEMJS.canRender === true){
+	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && R3_GAME.gameRunning === true && R3_MEMJS.canRender === true){
 		document.getElementById('R3_LIVESTATUS_OPTION_INFINITE_HP').checked = false;
 		R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_HP'][0], 48, 'int');
 		R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_HP'][1], 117, 'int');
@@ -75,7 +80,7 @@ tempFn_R3_LIVESTATUS['addGodHp'] = function(){
 };
 // Apply Item On Invent R3_LIVESTATUS_APPLYITEM
 tempFn_R3_LIVESTATUS['applyInventItem'] = function(slotID){
-	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && RE3_RUNNING === true && R3_MEMJS.canRender === true){
+	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && R3_GAME.gameRunning === true && R3_MEMJS.canRender === true){
 		var inventStartPos, tempInvent, finalInvent, IT, AT, cPlayer = 'J', QT = parseInt(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_QT').value);
 		if (QT === '' || QT === NaN || QT < 0){
 			QT = 1;
@@ -132,7 +137,7 @@ tempFn_R3_LIVESTATUS['applyBoxItem'] = function(itemId){
 };
 // Apply Player Pos. R3_LIVESTATUS_APPLY_PLAYERPOS
 tempFn_R3_LIVESTATUS['applyPlayerPos'] = function(){
-	if (RE3_RUNNING === true && R3_MEMJS.processObj !== undefined){
+	if (R3_GAME.gameRunning === true && R3_MEMJS.processObj !== undefined){
 		const newX = R3_tools.fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_X').value, 4).match(/.{2,2}/g),
 			newY = R3_tools.fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Y').value, 4).match(/.{2,2}/g),
 			newZ = R3_tools.fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_Z').value, 4).match(/.{2,2}/g),
@@ -155,7 +160,7 @@ tempFn_R3_LIVESTATUS['applyPlayerPos'] = function(){
 };
 // Open current map on RDT Editor R3_LIVESTATUS_openCurrentMap
 tempFn_R3_LIVESTATUS['openCurrentMap'] = function(){
-	if (RE3_RUNNING === true && APP_ENABLE_MOD === true){
+	if (R3_GAME.gameRunning === true && R3_MOD.enableMod === true){
 		const fPath = R3_tools.getMapPath()[1] + 'R' + REALTIME_CurrentStage + REALTIME_CurrentRoomNumber + '.RDT';
 		if (R3_MODULES.fs.existsSync(fPath) === true){
 			R3_SHOW_MENU(10);

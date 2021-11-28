@@ -548,13 +548,13 @@ tempFn_R3_TOOLS['isInteger'] = function(value){
 // Get map path
 tempFn_R3_TOOLS['getMapPath'] = function(){
 	var gMode, cPrefix, result = [];
-	if (APP_ENABLE_MOD === true){
+	if (R3_MOD.enableMod === true){
 		gMode = parseInt(document.getElementById('R3_RDT_FILELIST_GAMEMODE').value);
 		cPrefix = R3_RDT_PREFIX_EASY;
 		if (gMode === 1){
 			cPrefix = R3_RDT_PREFIX_HARD;
 		};
-		result = [gMode, R3_MOD_PATH + '/' + cPrefix + '/RDT/'];
+		result = [gMode, R3_MOD.path + '/' + cPrefix + '/RDT/'];
 	};
 	return result;
 };

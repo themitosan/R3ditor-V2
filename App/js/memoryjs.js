@@ -26,7 +26,7 @@ tempFn_MEMJS = {
 tempFn_MEMJS['checkIfGameIsRunning'] = function(){
 	if (R3_SETTINGS.SETTINGS_LIVESTATUS_ENABLE_GAME_DISCOVER === true){
 		R3_LIVESTATUS.seekGameInterval = setInterval(function(){ // R3_CHECK_GAME_INTERVAL
-			if (R3_MEMJS.requireSucess === true && R3_SYSTEM.web.isBrowser === false && RE3_RUNNING === false){
+			if (R3_MEMJS.requireSucess === true && R3_SYSTEM.web.isBrowser === false && R3_GAME.gameRunning === false){
 				R3_MEMJS.seekProcess();
 			};
 		}, 200);
@@ -47,16 +47,16 @@ tempFn_MEMJS['seekProcess'] = function(){
 				R3_SYSTEM.log('separator');
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (MemoryJS) Load Process Done! <br>(Game Mode: ' + R3_LIVESTATUS.currentMode + ', Executable Name: ' + processName + ' - PID: <font class="user-can-select">' + p_info['th32ProcessID'] + '</font>)');
 				R3_MEMJS.processObj = R3_MODULES.memoryjs.openProcess(p_info['th32ProcessID']);
-				if (RE3_RUNNING === false){
-					EXTERNAL_APP_PID = p_info['th32ProcessID'];
-					RE3_PID = EXTERNAL_APP_PID;
+				if (R3_GAME.gameRunning === false){
+					R3_SYSTEM.externalSoftware.processPID = p_info['th32ProcessID'];
+					R3_GAME.gamePID = R3_SYSTEM.externalSoftware.processPID;
 					if (R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === false){
 						R3_LIVESTATUS_OPEN_BAR();
 					} else {
 						TMS.css('BTN_PS1_HOOK', {'display': 'inline-flex'});
 					};
 					R3_MEMJS.canRender = true;
-					RE3_RUNNING = true;
+					R3_GAME.gameRunning = true;
 				};
 				// Add process info
 				document.getElementById('R3_LIVESTATUS_LBL_PROCESS_HANDLE').innerHTML = R3_MEMJS.processObj['handle'];
@@ -250,7 +250,7 @@ tempFn_MEMJS['checkGameProcess'] = function(){
 				R3_SYSTEM.log('separator');
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Closing Livestatus / MemoryJS because the game is not running anymore!');
 				R3_LIVESTATUS_CLOSE_BAR();
-				RE3_RUNNING = false;
+				R3_GAME.gameRunning = false;
 				R3_MEMJS.processObj = undefined;
 				clearInterval(R3_MEMJS.updatePosTimer);
 				clearInterval(R3_MEMJS.checkGameInterval);

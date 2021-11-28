@@ -44,7 +44,7 @@ function R3_SCD_NEW_FILE(){
 		SCD_arquivoBruto = '06000a000c001902010001000100';
 		R3_SCD_START_DECOMPILER(SCD_arquivoBruto);
 		R3_DESIGN_SCD_openScriptList();
-		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_SCD_fileName + '.SCD';
+		document.title = R3_SYSTEM.appTitle + ' - SCD Editor - File: ' + R3_SCD_fileName + '.SCD';
 	};
 };
 // Load SCD / RDT File
@@ -84,7 +84,7 @@ function R3_SCD_STARTLOAD(scdFile, hxFile){
 			R3_SCD_fileName = R3_tools.getFileName(scdFile.name).toUpperCase();
 		};
 		R3_SYSTEM.log('log', 'SCD - Loading file: <font class="user-can-select">' + scdFile + '</font>');
-		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_SCD_fileName + '.' + fName.toUpperCase();
+		document.title = R3_SYSTEM.appTitle + ' - SCD Editor - File: ' + R3_SCD_fileName + '.' + fName.toUpperCase();
 		if (fName === 'scd'){
 			R3_SCD_path = scdFile;
 			R3_SCD_START_DECOMPILER(SCD_arquivoBruto);
@@ -101,9 +101,9 @@ function R3_SCD_STARTLOAD(scdFile, hxFile){
 function R3_SCD_EXTRACT_FROM_RDT(rdtFile, hx){
 	R3_RDT_LOAD(rdtFile, false, hx);
 	if (R3_SYSTEM.web.isBrowser === false){
-		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_tools.getFileName(rdtFile).toUpperCase() + '.RDT';
+		document.title = R3_SYSTEM.appTitle + ' - SCD Editor - File: ' + R3_tools.getFileName(rdtFile).toUpperCase() + '.RDT';
 	} else {
-		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_tools.getFileName(rdtFile.name).toUpperCase() + '.RDT';
+		document.title = R3_SYSTEM.appTitle + ' - SCD Editor - File: ' + R3_tools.getFileName(rdtFile.name).toUpperCase() + '.RDT';
 	};
 	// End
 	var lInterval = setInterval(function(){
@@ -1132,7 +1132,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					var CUT_id = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
 						CUT_camPath = R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + CUT_id.toUpperCase() + '.JPG',
 						CUT_camPreview = '';
-					if (APP_ENABLE_MOD === true && R3_MODULES.fs.existsSync(CUT_camPath) === true){
+					if (R3_MOD.enableMod === true && R3_MODULES.fs.existsSync(CUT_camPath) === true){
 						if (process.platform === 'linux'){
 							CUT_camPath = 'file://' + CUT_camPath;
 						};
@@ -5518,7 +5518,7 @@ function R3_SCD_FUNCTION_LIT_COLOR_PICKER(opcodeId){
 function R3_SCD_FUNCTION_CAM_PREVIEW(domId, imgId){
 	if (R3_RDT_mapName !== '' && R3_SYSTEM.web.isBrowser === false){
 		var camId = R3_tools.fixVars(parseInt(document.getElementById(domId).value).toString(16), 2).toUpperCase(), imgFix = '';
-			fPath = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + camId.toUpperCase() + '.JPG';
+			fPath = R3_MOD.path + '/DATA_A/BSS/' + R3_RDT_mapName + camId.toUpperCase() + '.JPG';
 		if (R3_MODULES.fs.existsSync(fPath) !== true){
 			fPath = 'img/404.webp';
 			TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)'});

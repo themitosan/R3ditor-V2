@@ -83,7 +83,7 @@
 						<div class="R3_MENU_ITEM_BIG" title="(Project Wizard) Click here to open assistant for creating a new mod" onclick="R3_DESIGN_displayWizard();">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-12.webp"><div class="R3_MENU_BIG_LBL">New Mod (Wizard)</div>
 						</div>
-						<div class="R3_MENU_ITEM_BIG" title="Click here to load your mod" onclick="R3_WIZARD_openMod();">
+						<div class="R3_MENU_ITEM_BIG" title="Click here to load your mod" onclick="R3_MOD.loadMod();">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-open-win.webp"><div class="R3_MENU_BIG_LBL">Load Mod</div>
 						</div>
 						<div class="R3_MENU_SEPARATOR"></div>
@@ -169,16 +169,16 @@
 				<div class="R3_MENU_ITEM" id="R3_MENU_RUN_GAME">
 					Run Game
 					<div class="R3_MENU_DROPDOWN">
-						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3" onclick="R3_SYSTEM.externalSoftware.runGame(0);">
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3" onclick="R3_GAME.run(0);">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-0.webp"><div class="R3_MENU_BIG_LBL">Run RE3</div>
 						</div>
-						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries" onclick="R3_SYSTEM.externalSoftware.runGame(1);">
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries" onclick="R3_GAME.run(1);">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-2.webp"><div class="R3_MENU_BIG_LBL">Run Mercenaries</div>
 						</div>
-						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3 (With Mod)" onclick="R3_SYSTEM.externalSoftware.runGame(2);">
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3 (With Mod)" onclick="R3_GAME.run(2);">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-3.webp"><div class="R3_MENU_BIG_LBL">Run RE3 (Mod)</div>
 						</div>
-						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries (With Mod)" onclick="R3_SYSTEM.externalSoftware.runGame(3);">
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries (With Mod)" onclick="R3_GAME.run(3);">
 							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-4.webp"><div class="R3_MENU_BIG_LBL">Run Mercs. (Mod)</div>
 						</div>
 					</div>
@@ -1795,7 +1795,6 @@
 				<!-- Main code -->
 				<script defer type="text/javascript" src="js/database.js"></script>
 				<script defer type="text/javascript" src="js/design.js"></script>
-				<script defer type="text/javascript" src="js/boot.js"></script>
 				<script defer type="text/javascript" src="js/tools.js"></script>
 				<script defer type="text/javascript" src="js/file_manager.js"></script>
 				<script defer type="text/javascript" src="js/configs.js"></script>
@@ -1820,6 +1819,8 @@
 				<script defer type="text/javascript" src="js/rdt_modules/obj.js"></script>
 				<script defer type="text/javascript" src="js/rdt_modules/blk.js"></script>
 				<script defer type="text/javascript" src="js/rdt.js"></script>
+				<!-- Boot -->
+				<script defer type="text/javascript" src="js/boot.js"></script>
 				<!-- Exclude from R3V2 Compiler -->
 				<script defer type="text/javascript" src="js/debug.js"></script>
 			</blockquote>

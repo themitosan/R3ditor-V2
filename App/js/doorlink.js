@@ -23,7 +23,7 @@ tempFn_R3_DOORLINK['checkDatabase'] = function(){
 		if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Configs/DoorLink.R3V2') === true){
 			R3_DOORLINK_DATABASE = JSON.parse(atob(R3_MODULES.fs.readFileSync(R3_SYSTEM.paths.mod + '/Configs/DoorLink.R3V2', 'utf-8')));
 		} else {
-			if (APP_ENABLE_MOD === true){
+			if (R3_MOD.enableMod === true){
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: DoorLink database is missing!');
 			} else {
 				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to load DoorLink database!');
@@ -33,7 +33,7 @@ tempFn_R3_DOORLINK['checkDatabase'] = function(){
 };
 // Generate DoorLink Database R3_DOORLINK_INIT
 tempFn_R3_DOORLINK['generateDatabase'] = function(){
-	if (R3_SYSTEM.web.isBrowser === false && APP_ENABLE_MOD === true && R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === false){
+	if (R3_SYSTEM.web.isBrowser === false && R3_MOD.enableMod === true && R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === false){
 		var dInterval, cLocation, fName, tmpRes, fileList, tempDoorList, tempDoorList4P, tempList = {}, pComplete = false;
 		R3_SYSTEM.log('separator');
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (DoorLink) Starting reading process - Please Wait...');

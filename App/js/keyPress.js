@@ -24,7 +24,7 @@ function R3_KEYPRESS_releaseKeys(){
 */
 document.addEventListener('keydown', function(kd){
 	// console.info(kd.keyCode);
-	if (R3_KB_ENABLE_SHORTCUTS === true && APP_ON_BOOT === false){
+	if (R3_KB_ENABLE_SHORTCUTS === true && R3_SYSTEM.APP_ON_BOOT === false){
 		// Hold shift [SHIFT]
 		if (kd.keyCode === 16){
 			R3_KEYPRESS_SHIFT = true;
@@ -109,7 +109,7 @@ document.addEventListener('keydown', function(kd){
 */
 document.addEventListener('keyup', function(kp){
 	// console.info(kp.keyCode);
-	if (R3_KB_ENABLE_SHORTCUTS === true && APP_ON_BOOT !== true){
+	if (R3_KB_ENABLE_SHORTCUTS === true && R3_SYSTEM.APP_ON_BOOT !== true){
 		// Release Shift [SHIFT]
 		if (kp.keyCode === 16){
 			R3_KEYPRESS_SHIFT = false;
@@ -227,7 +227,7 @@ document.addEventListener('keyup', function(kp){
 					};
 					// Open Mod [CTRL + O]
 					if (kp.keyCode === 79){
-						R3_WIZARD_openMod();
+						R3_MOD.loadMod();
 					};
 				};
 				// Go Back to RDT menu [CTRL + ']
@@ -448,34 +448,34 @@ document.addEventListener('keyup', function(kp){
 				};
 			};
 			// Swap Bar Pos [F3]
-			if (kp.keyCode === 114 && R3_KEYUP_TOOGLE_TIMEOUT !== true && RE3_RUNNING !== false){
+			if (kp.keyCode === 114 && R3_KEYUP_TOOGLE_TIMEOUT !== true && R3_GAME.gameRunning !== false){
 				R3_LIVESTATUS_BAR_TOGGLEPOS();
 			};
 			// Open RE3 Livestatus [F4]
-			if (kp.keyCode === 115 && R3_KEYUP_TOOGLE_TIMEOUT !== true && RE3_RUNNING !== false){
+			if (kp.keyCode === 115 && R3_KEYUP_TOOGLE_TIMEOUT !== true && R3_GAME.gameRunning !== false){
 				R3_LIVESTATUS_OPEN_MENU();
 			};
 			// Run Game
-			if (RE3_RUNNING !== true){
+			if (R3_GAME.gameRunning !== true){
 				// [F5]: Run RE3 (Mod)
 				if (kp.keyCode === 118){
-					R3_SYSTEM.externalSoftware.runGame(0);
+					R3_GAME.run(0);
 				};
 				// [F6]: Run MERCE
 				if (kp.keyCode === 119){
-					R3_SYSTEM.externalSoftware.runGame(1);
+					R3_GAME.run(1);
 				};
 				// [F7]: Run RE3
 				if (kp.keyCode === 116){
-					R3_SYSTEM.externalSoftware.runGame(2);
+					R3_GAME.run(2);
 				};
 				// [F8]: Run MERCE (MOD)
 				if (kp.keyCode === 117){
-					R3_SYSTEM.externalSoftware.runGame(3);
+					R3_GAME.run(3);
 				};
 			};
 			// [F9]: Go to title screen
-			if (kp.keyCode === 120 && RE3_RUNNING === true){
+			if (kp.keyCode === 120 && R3_GAME.gameRunning === true){
 				R3_LIVESTATUS.gotoTitleScreen();
 			};
 			// Apply SCD Hack / Open Hex Window

@@ -109,9 +109,9 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			clearInterval(R3_CHECK_GAME_INTERVAL);
 			clearInterval(R3_CHECK_ifStillOpenInterval);
 			R3_KB_ENABLE_SHORTCUTS = false;
-			if (RE3_RUNNING === true){
-				R3_SYSTEM.externalSoftware.killPID(RE3_PID);
-				RE3_RUNNING = false;
+			if (R3_GAME.gameRunning === true){
+				R3_SYSTEM.externalSoftware.killPID(R3_GAME.gamePID);
+				R3_GAME.gameRunning = false;
 			};
 			R3_UPDATER_LOCK = false;
 		};
@@ -151,7 +151,7 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			};
 			R3_SYSTEM.externalSoftware.runExec(external7zPath, ['x', R3_SYSTEM.paths.mod + '/Update/Update.zip', '-o' + R3_SYSTEM.paths.mod + '/Update/', '-y']);
 			sysInterval = setInterval(function(){
-				if (EXTERNAL_APP_RUNNING === false){
+				if (R3_SYSTEM.externalSoftware.processRunning === false){
 					R3_UPDATER_LOCK = false;
 					clearInterval(sysInterval);
 				} else {

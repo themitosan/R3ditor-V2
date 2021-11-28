@@ -30,7 +30,7 @@ function R3_MSG_NEW_FILE(){
 	R3_UTILS_CLEANTOOLS();
 	MSG_arquivoBruto = 'fa02fcfe00';
 	R3_MSG_DECOMPILER_START(MSG_arquivoBruto);
-	document.title = APP_TITLE + ' - MSG Editor - File: Untitled.MSG';
+	document.title = R3_SYSTEM.appTitle + ' - MSG Editor - File: Untitled.MSG';
 };
 // Load MSG File
 function R3_MSG_LOADFILE(){
@@ -52,7 +52,7 @@ function R3_MSG_startLoadMsg(fPath){
 			} else {
 				fileName = R3_tools.getFileName(fPath.name);
 			};
-			document.title = APP_TITLE + ' - MSG Editor - File: ' + fileName + '.MSG';
+			document.title = R3_SYSTEM.appTitle + ' - MSG Editor - File: ' + fileName + '.MSG';
 			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (MSG) Loading file: <font class="user-can-select">' + fPath + '</font>');
 			R3_MSG_DECOMPILER_START(MSG_arquivoBruto);
 			// End

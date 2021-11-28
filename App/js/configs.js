@@ -104,7 +104,7 @@ function R3_LOAD_CHECKFILES(){
 				});
 			};
 			// Init Backup System
-			R3_BACKUP_MANAGER_LOAD();
+			R3_backupManager.openManager();
 		} catch (err) {
 			R3_DESIGN_CRITIAL_ERROR(err);
 		};
@@ -147,7 +147,7 @@ function R3_LOAD_PROCESS_SETTINGS(){
 	var modPathTest;
 	R3_DESIGN_loadSettingsGUI();
 	// Process args
-	if (APP_ON_BOOT === true){
+	if (R3_SYSTEM.APP_ON_BOOT === true){
 		R3_INIT_PROCESS_ARGS();
 	};
 	// Move Window
@@ -155,7 +155,7 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		window.moveTo(0, 0);
 	};
 	// Open Log at startup
-	if (APP_ON_BOOT === true && R3_SETTINGS.SETTINGS_OPEN_LOG_STARTUP !== false){
+	if (R3_SYSTEM.APP_ON_BOOT === true && R3_SETTINGS.SETTINGS_OPEN_LOG_STARTUP !== false){
 		R3_MINIWINDOW.open(0);
 	};
 	// NW Checks
@@ -163,21 +163,21 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		// Init discord rich presence
 		R3_DISCORD_INIT();
 		// Check for Mod
-		if (R3_MODULES.fs.existsSync(R3_MOD_PATH + '/Bio3.ini') === true){
-			APP_ENABLE_MOD = true;
+		if (R3_MODULES.fs.existsSync(R3_MOD.path + '/Bio3.ini') === true){
+			R3_MOD.enableMod = true;
 		} else {
-			APP_ENABLE_MOD = false;
+			R3_MOD.enableMod = false;
 		};
 		// Check if Executable Exists (RE3)
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3_PATH) === true){
-			R3_RE3_CANRUN = true;
-			if (APP_ENABLE_MOD === true && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === false){
+			R3_GAME.RE3_canRun = true;
+			if (R3_MOD.enableMod === true && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === false){
 				R3_RE3_MOD_PATH = R3_SYSTEM.paths.mod + '/Assets/' + R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
 			};
 		};
 		// Check MERCE path
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_MERCE_PATH) === true){
-			R3_MERCE_CANRUN = true;
+			R3_GAME.MERCE_canRun = true;
 		};
 		// RE3SDLE Path
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3SLDE_PATH) === true){
@@ -195,21 +195,21 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		R3_DOORLINK.checkDatabase();
 	} else {
 		// Variables
-		APP_ENABLE_MOD = false;
+		R3_MOD.enableMod = false;
 		SETTINGS_USE_DISCORD = false;
 		SETTINGS_ENABLE_RE3SLDE = false;
 	};
 	/*
 		MOD Path Fixes
 	*/
-	modPathTest = R3_MOD_PATH.slice(parseInt(R3_MOD_PATH.length - 1), R3_MOD_PATH.length);
+	modPathTest = R3_MOD.path.slice(parseInt(R3_MOD.path.length - 1), R3_MOD.path.length);
 	if (modPathTest === '/' || modPathTest === '\\'){
-		R3_MOD_PATH = R3_MOD_PATH.slice(0, parseInt(R3_MOD_PATH.length - 1));
+		R3_MOD.path = R3_MOD.path.slice(0, parseInt(R3_MOD.path.length - 1));
 	};
 	/*
 		End
 	*/
-	if (APP_ON_BOOT === true){
+	if (R3_SYSTEM.APP_ON_BOOT === true){
 		// Move windows to another display
 		if (R3_SETTINGS.SETTINGS_ENABLE_MOVE_SCREEN === true && R3_SETTINGS.R3_NW_ARGS_OVERWRITE_MOVE_SCREEN === false){
 			R3_SYSTEM_moveWindowToScreen(SETTINGS_ENABLE_MOVE_SCREEN_ID);
@@ -272,7 +272,7 @@ function R3_SAVE_SETTINGS(reload, logSaving){
 // Save Settings
 function R3_SETTINGS_SAVE(){
 	R3_SAVE_SETTINGS(false, false);
-	if (RE3_RUNNING === false){
+	if (R3_GAME.gameRunning === false){
 		R3_MENU_GOBACK();
 	};
 	R3_LOAD_PROCESS_SETTINGS();
@@ -372,8 +372,8 @@ function R3_SETTINGS_SET_PATH(mode){
 		R3_fileManager.selectPath(function(pathFuture){
 			var fileCheck = pathFuture + '/bio3.ini';
 			if (R3_MODULES.fs.existsSync(fileCheck) === true){
-				R3_MOD_PATH = fileCheck.slice(0, (fileCheck.length - 8));
-				document.getElementById('R3_SETTINGS_MOD_PATH').innerHTML = R3_MOD_PATH;
+				R3_MOD.path = fileCheck.slice(0, (fileCheck.length - 8));
+				document.getElementById('R3_SETTINGS_MOD_PATH').innerHTML = R3_MOD.path;
 			} else {
 				R3_SYSTEM.alert('WARN - You selected the wrong path!\nPlease select a path that haves Resident Evil 3 config file! (Bio3.ini)');
 			};
@@ -384,13 +384,13 @@ function R3_SETTINGS_SET_PATH(mode){
 function R3_SETTINGS_getMapPrefix(){
 	if (R3_SYSTEM.web.isBrowser === false){
 		// Easy
-		var mPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT/';
+		var mPath = R3_MOD.path + '/' + R3_RDT_PREFIX_EASY + '/RDT/';
 		if (R3_MODULES.fs.existsSync(mPath) !== true){
 			console.info('INFO: DATA_AJ does not exist! Switching to DATA_AU');
 			R3_RDT_PREFIX_EASY = 'DATA_AU';
 		};
 		// Hard
-		mPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_HARD + '/RDT/';
+		mPath = R3_MOD.path + '/' + R3_RDT_PREFIX_HARD + '/RDT/';
 		if (R3_MODULES.fs.existsSync(mPath) !== true){
 			console.info('INFO: DATA_E does not exist! Switching to DATA_U');
 			R3_RDT_PREFIX_EASY = 'DATA_U';
@@ -491,9 +491,9 @@ function R3_INIT_generateSelectValues(db, mode, prevHTML, limit){
 function R3_INIT_DATABASE_GENERATE(){
 	// Check for Web
 	if (R3_SYSTEM.web.isBrowser === false){
-		R3_MOD_PATH = R3_SYSTEM.paths.mod + '/Assets';
+		R3_MOD.path = R3_SYSTEM.paths.mod + '/Assets';
 	} else {
-		R3_MOD_PATH = '';
+		R3_MOD.path = '';
 	};
 	var tempAttr, TEMP_STR = currentHex = '';
 	// Item
@@ -551,7 +551,7 @@ function R3_INIT_DATABASE_GENERATE(){
 	Process executable flags
 */
 function R3_INIT_PROCESS_ARGS(){
-	if (R3_SYSTEM.web.isBrowser === false && APP_ON_BOOT === true){
+	if (R3_SYSTEM.web.isBrowser === false && R3_SYSTEM.APP_ON_BOOT === true){
 		var runFlags;
 		// NW.js
 		if (R3_SYSTEM.web.is_NW === true){
