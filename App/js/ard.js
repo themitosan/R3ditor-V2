@@ -15,12 +15,12 @@ var ARD_fileSize, ARD_arquivoBruto, ARD_totalObjects, ARD_sections = ARD_objects
 */
 // Load Files
 function ARD_loadFile(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		R3_fileManager.loadFile('.ard', function(ardFile){
 			R3_UTILS_VAR_CLEAN_ARD();
 			ARD_filePath = R3_tools.getFilePath(ardFile);
 			ARD_fileName = R3_tools.getFileName(ardFile);
-			ARD_arquivoBruto = APP_FS.readFileSync(ardFile, 'hex');
+			ARD_arquivoBruto = R3_MODULES.fs.readFileSync(ardFile, 'hex');
 			ARD_fileSize = R3_tools.parseEndian(ARD_arquivoBruto.slice(0, 8));
 			ARD_totalObjects = parseInt(R3_tools.parseEndian(ARD_arquivoBruto.slice(8, 16)), 16);
 			const tempMetadata = ARD_arquivoBruto.slice(16, ((ARD_totalObjects * 16) + 24)).match(/.{8,8}/g);
@@ -33,7 +33,7 @@ function ARD_loadFile(){
 			ARD_extractSections();
 		});
 	} else {
-		R3_WEBWARN();
+		R3_SYSTEM.web.webWarn();
 	};
 };
 // Extract Sections
@@ -53,10 +53,10 @@ function ARD_extractSections(){
 		newFilePath = ARD_filePath + '/' + ARD_fileName.toUpperCase();
 		try {
 			R3_SYSTEM.log('separator');
-			APP_FS.writeFileSync(newFilePath + '.RDT', ARD_sections[8], 'hex');
+			R3_MODULES.fs.writeFileSync(newFilePath + '.RDT', ARD_sections[8], 'hex');
 			R3_SYSTEM.log('log', 'R3ditor V2 - ARD Extractor: RDT extraction complete! <br>Path: <font class="user-can-select">' + newFilePath + '.RDT</font>');
 			setTimeout(function(){
-				APP_FS.writeFileSync(newFilePath + '.R3ARD', finalFile, 'utf-8');
+				R3_MODULES.fs.writeFileSync(newFilePath + '.R3ARD', finalFile, 'utf-8');
 				R3_SYSTEM.log('separator');
 				R3_SYSTEM.log('log', 'R3ditor V2 - ARD Extractor: Save successfull! (R3ARD) <br>Path: <font class="user-can-select">' + newFilePath + '.R3ARD</font>');
 				R3_UTILS_VAR_CLEAN_ARD();
@@ -69,33 +69,33 @@ function ARD_extractSections(){
 };
 // Check Compiler
 function ARD_checkCompiler(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		R3_fileManager.loadFile('.R3ARD', function(recompilerFile){
 			R3_UTILS_VAR_CLEAN_ARD();
 			// Start Getting Infos
 			var rebuildFile = [], mapName;
-			APP_FS.readFileSync(recompilerFile).toString().split('\n').forEach(function(line){ 
+			R3_MODULES.fs.readFileSync(recompilerFile).toString().split('\n').forEach(function(line){ 
 				rebuildFile.push(line); 
 			});
 			mapName = rebuildFile[1].replace('MAP = ', '');
-			if (APP_FS.existsSync(R3_tools.getFilePath(recompilerFile) + '/' + mapName + '.RDT') === true){
+			if (R3_MODULES.fs.existsSync(R3_tools.getFilePath(recompilerFile) + '/' + mapName + '.RDT') === true){
 				ARD_startRecompiler(rebuildFile, R3_tools.getFilePath(recompilerFile) + mapName + '.RDT');
 			} else {
 				R3_SYSTEM.alert('WARN - Unable to find RDT file!');
 			};
 		});
 	} else {
-		R3_WEBWARN();
+		R3_SYSTEM.web.webWarn();
 	};
 };
 // Start Compiler
 function ARD_startRecompiler(ardInfos, rdtPath){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		var c = 0, ARD_temp = RDT_nextOffsetLength = RDT_nextOffset = '',
 			fileName = ardInfos[1].replace('MAP = ', '').toUpperCase(),
 			DATA_0 = ardInfos[3].replace('DATA_0 = ', ''),
 			DATA_1 = ardInfos[4].replace('DATA_1 = ', ''),
-			RDT_target = APP_FS.readFileSync(rdtPath, 'hex'),
+			RDT_target = R3_MODULES.fs.readFileSync(rdtPath, 'hex'),
 			RDT_length = parseInt(DATA_0.length + RDT_target.length),
 			RDT_nextOffsetLength = parseInt(Math.ceil(RDT_length / 4096) * 4096),
 			offsetFix = (RDT_nextOffsetLength - RDT_length);
@@ -112,6 +112,6 @@ function ARD_startRecompiler(ardInfos, rdtPath){
 			HEX_FINAL = HEX_START + newRDTLength + HEX_END;
 		R3_fileManager.saveFile(fileName + '.ARD', HEX_FINAL, 'hex', '.ARD');
 	} else {
-		R3_WEBWARN();
+		R3_SYSTEM.web.webWarn();
 	};
 };

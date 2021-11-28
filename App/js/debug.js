@@ -11,9 +11,9 @@
 R3_SYSTEM.reload = function(){
 	R3_DISC_clearActivity();
 	if (RE3_RUNNING === true){
-		R3_killExternalSoftware(RE3_PID);
+		R3_SYSTEM.externalSoftware.killPID(RE3_PID);
 	};
-	if (R3_WEBMODE !== true){
+	if (R3_SYSTEM.web.isBrowser !== true){
 		localStorage.clear();
 		sessionStorage.clear();
 	};

@@ -19,9 +19,9 @@ tempFn_R3_DOORLINK = {};
 */
 // Check if DoorLink database exists R3_DOORLINK_CHECK
 tempFn_R3_DOORLINK['checkDatabase'] = function(){
-	if (R3_WEBMODE === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === false){
-		if (APP_FS.existsSync(APP_PATH + '/Configs/DoorLink.R3V2') === true){
-			R3_DOORLINK_DATABASE = JSON.parse(atob(APP_FS.readFileSync(APP_PATH + '/Configs/DoorLink.R3V2', 'utf-8')));
+	if (R3_SYSTEM.web.isBrowser === false && R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === false){
+		if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Configs/DoorLink.R3V2') === true){
+			R3_DOORLINK_DATABASE = JSON.parse(atob(R3_MODULES.fs.readFileSync(R3_SYSTEM.paths.mod + '/Configs/DoorLink.R3V2', 'utf-8')));
 		} else {
 			if (APP_ENABLE_MOD === true){
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: DoorLink database is missing!');
@@ -33,23 +33,23 @@ tempFn_R3_DOORLINK['checkDatabase'] = function(){
 };
 // Generate DoorLink Database R3_DOORLINK_INIT
 tempFn_R3_DOORLINK['generateDatabase'] = function(){
-	if (R3_WEBMODE === false && APP_ENABLE_MOD === true && R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === false){
+	if (R3_SYSTEM.web.isBrowser === false && APP_ENABLE_MOD === true && R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === false){
 		var dInterval, cLocation, fName, tmpRes, fileList, tempDoorList, tempDoorList4P, tempList = {}, pComplete = false;
 		R3_SYSTEM.log('separator');
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (DoorLink) Starting reading process - Please Wait...');
 		try {
 			R3_DOORLINK_RUNNING = true;
-			fileList = APP_FS.readdirSync(APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
+			fileList = R3_MODULES.fs.readdirSync(R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
 			fileList.forEach(function(cFile, cIndex){
 				if (R3_tools.getFileExtension(cFile).toLowerCase() === 'rdt' && R3_DOORLINK_RUNNING === true){
 					console.info('DoorLink - Current Map: ' + cFile + ' - (' + (cIndex + 1) + ' of ' + fileList.length + ')');
 					if (R3_DESIGN_LOADING_ACTIVE === true){
 						R3_UTILS_LOADING_UPDATE('R3ditor is scanning all maps to generate DoorLink database (Map: ' + cFile + ', ' + (cIndex + 1) + ' of ' + fileList.length + ' )', R3_tools.parsePercentage(cIndex, fileList.length));
 					};
-					cLocation = APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
+					cLocation = R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
 					fName = R3_tools.getFileName(cFile).toUpperCase();
 					// Start this madness
-					R3_RDT.readMap(cLocation, false, APP_FS.readFileSync(cLocation, 'hex'));
+					R3_RDT.readMap(cLocation, false, R3_MODULES.fs.readFileSync(cLocation, 'hex'));
 					R3_SCD_START_DECOMPILER(R3_RDT_rawSections.RAWSECTION_SCD);
 					// Set Door [DOOR_AOT_SET]
 					tempDoorList = R3_SCD_SEARCH_SCRIPT_FUNCTION('61', true);
@@ -83,7 +83,7 @@ tempFn_R3_DOORLINK['generateDatabase'] = function(){
 			// End
 			R3_DOORLINK_INTERVAL = setInterval(function(){
 				if (R3_DOORLINK_RUNNING === false){
-					APP_FS.writeFileSync(APP_PATH + '/Configs/DoorLink.R3V2', btoa(JSON.stringify(tempList)), 'utf-8');
+					R3_MODULES.fs.writeFileSync(R3_SYSTEM.paths.mod + '/Configs/DoorLink.R3V2', btoa(JSON.stringify(tempList)), 'utf-8');
 					R3_DOORLINK_DATABASE = tempList;
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (DoorLink) Process complete!');
 					R3_UTILS_VAR_CLEAN();
@@ -103,7 +103,7 @@ tempFn_R3_DOORLINK['generateDatabase'] = function(){
 };
 // Search function using doorlink method R3_DOORLINK_SEARCH
 tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		var c = 0, opcodeId = document.getElementById('R3_OPCODE_FINDER_SEARCH').value;
 		if (R3_SCD_DATABASE[opcodeId] !== undefined && opcodeId !== '01'){
 			try {
@@ -113,13 +113,13 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 				R3_DOORLINK_RUNNING = true;
 				R3_OPCODE_SEARCH_DATABASE = {};
 				var HTML_TEMPLATE = '', cLocation, fName, tmpRes, fileList, tempFunctionOpcode, tempList = {};
-				fileList = APP_FS.readdirSync(APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
+				fileList = R3_MODULES.fs.readdirSync(R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
 				fileList.forEach(function(cFile, cIndex){
 					if (R3_tools.getFileExtension(cFile).toLowerCase() === 'rdt'){
-						cLocation = APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
+						cLocation = R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
 						fName = R3_tools.getFileName(cFile).toUpperCase();
 						console.info('DoorLink - Current Map: ' + cFile + ' - (' + (cIndex + 1) + ' of ' + fileList.length + ')');
-						R3_RDT.readMap(cLocation, false, APP_FS.readFileSync(cLocation, 'hex'));
+						R3_RDT.readMap(cLocation, false, R3_MODULES.fs.readFileSync(cLocation, 'hex'));
 						R3_SCD_START_DECOMPILER(R3_RDT_rawSections.RAWSECTION_SCD);
 						// Search Opcode
 						tempFunctionOpcode = R3_SCD_SEARCH_SCRIPT_FUNCTION(opcodeId, true);
@@ -152,7 +152,7 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 								} else {
 									cScript = R3_tools.fixVars(cScript, 4);
 								};
-								HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_OPCODE_FINDER_RES_MAP" onclick="R3_RDT.readMap(\'' + APP_PATH + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cItem + '.RDT\', true);R3_SHOW_MENU(10);">' +
+								HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_OPCODE_FINDER_RES_MAP" onclick="R3_RDT.readMap(\'' + R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cItem + '.RDT\', true);R3_SHOW_MENU(10);">' +
 												'<font title="' + RDT_locations[cItem][0] + ', ' + RDT_locations[cItem][1] + '">Map ' + cItem + '</font> - Script ' + cScript + ' - Function ' + R3_tools.fixVars(cPosition, 3) + '</div>';
 								c++;
 							});

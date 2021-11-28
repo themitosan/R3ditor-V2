@@ -70,28 +70,26 @@ var R3_SETTINGS = {
 */
 // Check Path and Files
 function R3_LOAD_CHECKFILES(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		try {
 			// Path
 			const DATABASE_INIT_CREATE_FOLDER = [
-				APP_PATH + '/Assets',
-				APP_PATH + '/Update',
-				APP_PATH + '/Configs',
-				APP_PATH + '/Assets/Save',
-				APP_PATH + '/Configs/Backup',
-				APP_PATH + '/Configs/Backup/RDT'
+				R3_SYSTEM.paths.mod,
+				R3_SYSTEM.paths.mod + '/Assets',
+				R3_SYSTEM.paths.mod + '/Update',
+				R3_SYSTEM.paths.mod + '/Configs',
+				R3_SYSTEM.paths.mod + '/Assets/Save',
+				R3_SYSTEM.paths.mod + '/Configs/Backup',
+				R3_SYSTEM.paths.mod + '/Configs/Backup/RDT'
 			],
 			DATABASE_INIT_DELETE_FILES = [
-				APP_PATH + '/Update/Update.zip',
-				APP_TOOLS + '/XDELTA_PATCH_FILE.bin'
+				R3_SYSTEM.paths.mod + '/Update/Update.zip',
+				R3_SYSTEM.paths.tools + '/XDELTA_PATCH_FILE.bin'
 			];
 			// Create Paths
-			if (APP_FS.existsSync(APP_PATH) !== true){
-				APP_FS.mkdirSync(APP_PATH);
-			};
 			DATABASE_INIT_CREATE_FOLDER.forEach(function(foldePath){
-				if (APP_FS.existsSync(foldePath) !== true){
-					APP_FS.mkdirSync(foldePath);
+				if (R3_MODULES.fs.existsSync(foldePath) !== true){
+					R3_MODULES.fs.mkdirSync(foldePath);
 				};
 			});
 			/*
@@ -100,8 +98,8 @@ function R3_LOAD_CHECKFILES(){
 			*/
 			if (process.platform !== 'darwin'){
 				DATABASE_INIT_DELETE_FILES.forEach(function(deleteFile){
-					if (APP_FS.existsSync(deleteFile) === true){
-						APP_FS.unlinkSync(deleteFile);
+					if (R3_MODULES.fs.existsSync(deleteFile) === true){
+						R3_MODULES.fs.unlinkSync(deleteFile);
 					};
 				});
 			};
@@ -116,10 +114,10 @@ function R3_LOAD_CHECKFILES(){
 function R3_LOAD_SETTINGS(){
 	try {
 		// Load
-		var requestSave = false, fPath = APP_PATH + '/Configs/configs.R3V2', settingsJson = {};
-		if (R3_WEBMODE === false){
-			if (APP_FS.existsSync(fPath) === true){
-				settingsJson = JSON.parse(APP_FS.readFileSync(fPath, 'utf-8'));
+		var requestSave = false, fPath = R3_SYSTEM.paths.mod + '/Configs/configs.R3V2', settingsJson = {};
+		if (R3_SYSTEM.web.isBrowser === false){
+			if (R3_MODULES.fs.existsSync(fPath) === true){
+				settingsJson = JSON.parse(R3_MODULES.fs.readFileSync(fPath, 'utf-8'));
 			} else {
 				requestSave = true;
 			};
@@ -134,7 +132,7 @@ function R3_LOAD_SETTINGS(){
 		if (requestSave === false){
 			R3_SETTINGS = settingsJson;
 			// Fix eNGE Bios
-			R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH = APP_PATH + '/Configs/PS_BIOS.R3V2';
+			R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH = R3_SYSTEM.paths.mod + '/Configs/PS_BIOS.R3V2';
 			R3_LOAD_PROCESS_SETTINGS();
 		} else {
 			R3_SETTINGS_SAVE(true);
@@ -148,14 +146,6 @@ function R3_LOAD_PROCESS_SETTINGS(){
 	R3_SETTINGS_LOADING = true;
 	var modPathTest;
 	R3_DESIGN_loadSettingsGUI();
-	// Original APP_PATH
-	//if (R3_WEBMODE === false){
-	//	if (process.platform !== 'darwin'){
-	//		if (configsList[20] !== undefined){
-	//			process.chdir(configsList[20]);
-	//		};
-	//	};
-	//};
 	// Process args
 	if (APP_ON_BOOT === true){
 		R3_INIT_PROCESS_ARGS();
@@ -169,28 +159,28 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		R3_MINIWINDOW.open(0);
 	};
 	// NW Checks
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		// Init discord rich presence
 		R3_DISCORD_INIT();
 		// Check for Mod
-		if (APP_FS.existsSync(R3_MOD_PATH + '/Bio3.ini') === true){
+		if (R3_MODULES.fs.existsSync(R3_MOD_PATH + '/Bio3.ini') === true){
 			APP_ENABLE_MOD = true;
 		} else {
 			APP_ENABLE_MOD = false;
 		};
 		// Check if Executable Exists (RE3)
-		if (APP_FS.existsSync(R3_SETTINGS.R3_RE3_PATH) === true){
+		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3_PATH) === true){
 			R3_RE3_CANRUN = true;
 			if (APP_ENABLE_MOD === true && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === false){
-				R3_RE3_MOD_PATH = APP_PATH + '/Assets/' + R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
+				R3_RE3_MOD_PATH = R3_SYSTEM.paths.mod + '/Assets/' + R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
 			};
 		};
 		// Check MERCE path
-		if (APP_FS.existsSync(R3_SETTINGS.R3_MERCE_PATH) === true){
+		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_MERCE_PATH) === true){
 			R3_MERCE_CANRUN = true;
 		};
 		// RE3SDLE Path
-		if (APP_FS.existsSync(R3_SETTINGS.R3_RE3SLDE_PATH) === true){
+		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3SLDE_PATH) === true){
 			SETTINGS_ENABLE_RE3SLDE = true;
 		};
 		// Check for game mode paths
@@ -238,7 +228,7 @@ function R3_LOAD_PROCESS_SETTINGS(){
 function R3_LOAD_CHECK_EXTRA(){
 	R3_DESIGN_CHECKRES();
 	// Try to detect if game is open
-	if (R3_WEBMODE === false && R3_MEMJS.requireSucess === true){
+	if (R3_SYSTEM.web.isBrowser === false && R3_MEMJS.requireSucess === true){
 		R3_MEMJS.checkIfGameIsRunning();
 	};
 	// One of the best musics from EW&F! (Do you remember...)
@@ -256,17 +246,13 @@ function R3_POSTBOOT(){};
 // Save Settings
 function R3_SAVE_SETTINGS(reload, logSaving){
 	R3_LOAD_CHECKFILES();
-	// Fix ORIGINAL_APP_PATH
-	if (ORIGINAL_APP_PATH !== '' && ORIGINAL_APP_PATH !== undefined){
-		ORIGINAL_APP_PATH = R3_tools.fixPath(ORIGINAL_APP_PATH);
-	};
 	// Get eNGE Res.
 	R3_ENGE_updateResVars();
 	const newConfigFile = JSON.stringify(R3_SETTINGS);
 	// Save Data
 	try {
-		if (R3_WEBMODE === false){
-			APP_FS.writeFileSync(APP_PATH + '/Configs/configs.R3V2', newConfigFile, 'utf-8');
+		if (R3_SYSTEM.web.isBrowser === false){
+			R3_MODULES.fs.writeFileSync(R3_SYSTEM.paths.mod + '/Configs/configs.R3V2', newConfigFile, 'utf-8');
 		} else {
 			localStorage.setItem('R3V2_SETTINGS', newConfigFile);
 		};
@@ -385,7 +371,7 @@ function R3_SETTINGS_SET_PATH(mode){
 	} else {
 		R3_fileManager.selectPath(function(pathFuture){
 			var fileCheck = pathFuture + '/bio3.ini';
-			if (APP_FS.existsSync(fileCheck) === true){
+			if (R3_MODULES.fs.existsSync(fileCheck) === true){
 				R3_MOD_PATH = fileCheck.slice(0, (fileCheck.length - 8));
 				document.getElementById('R3_SETTINGS_MOD_PATH').innerHTML = R3_MOD_PATH;
 			} else {
@@ -396,16 +382,16 @@ function R3_SETTINGS_SET_PATH(mode){
 };
 // Generate prefix for map paths [DATA_AU, DATA_E, DATA_AJ]
 function R3_SETTINGS_getMapPrefix(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		// Easy
 		var mPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_EASY + '/RDT/';
-		if (APP_FS.existsSync(mPath) !== true){
+		if (R3_MODULES.fs.existsSync(mPath) !== true){
 			console.info('INFO: DATA_AJ does not exist! Switching to DATA_AU');
 			R3_RDT_PREFIX_EASY = 'DATA_AU';
 		};
 		// Hard
 		mPath = R3_MOD_PATH + '/' + R3_RDT_PREFIX_HARD + '/RDT/';
-		if (APP_FS.existsSync(mPath) !== true){
+		if (R3_MODULES.fs.existsSync(mPath) !== true){
 			console.info('INFO: DATA_E does not exist! Switching to DATA_U');
 			R3_RDT_PREFIX_EASY = 'DATA_U';
 		};
@@ -422,8 +408,8 @@ function R3_SETTINGS_getMapPrefix(){
 // Load bios while R3V2 initial setup
 function R3_SETTINGS_ENGE_LOAD_BIOS(){
 	if (R3_SETTINGS.SETTINGS_DISABLE_ENGE !== true && R3_SETTINGS.R3_NW_ARGS_DISABLE_ENGE !== true){
-		if (APP_FS.existsSync(R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH) === true){
-			SETTINGS_ENGE_BIOS = APP_FS.readFileSync(R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH, 'hex');
+		if (R3_MODULES.fs.existsSync(R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH) === true){
+			SETTINGS_ENGE_BIOS = R3_MODULES.fs.readFileSync(R3_SETTINGS.SETTINGS_ENGE_BIOS_PATH, 'hex');
 		} else {
 			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (eNGE) unable to load bios (The file was not found!)');
 		};
@@ -504,8 +490,8 @@ function R3_INIT_generateSelectValues(db, mode, prevHTML, limit){
 // Generate Database
 function R3_INIT_DATABASE_GENERATE(){
 	// Check for Web
-	if (R3_WEBMODE === false){
-		R3_MOD_PATH = APP_PATH + '/Assets';
+	if (R3_SYSTEM.web.isBrowser === false){
+		R3_MOD_PATH = R3_SYSTEM.paths.mod + '/Assets';
 	} else {
 		R3_MOD_PATH = '';
 	};
@@ -565,14 +551,14 @@ function R3_INIT_DATABASE_GENERATE(){
 	Process executable flags
 */
 function R3_INIT_PROCESS_ARGS(){
-	if (R3_WEBMODE === false && APP_ON_BOOT === true){
+	if (R3_SYSTEM.web.isBrowser === false && APP_ON_BOOT === true){
 		var runFlags;
 		// NW.js
-		if (R3_WEB_IS_NW === true){
+		if (R3_SYSTEM.web.is_NW === true){
 			runFlags = nw.App.argv;
 		};
 		// Electron
-		if (R3_WEB_IS_ELECTRON === true){
+		if (R3_SYSTEM.web.is_ELECTRON === true){
 			runFlags = process.argv;
 		};
 		/*
@@ -622,8 +608,8 @@ function R3_INIT_PROCESS_ARGS(){
 	Original code: https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen
 */
 function R3_SYSTEM_moveWindowToScreen(windowId){
-	if (R3_WEBMODE === false && parseInt(windowId) !== NaN && SETTINGS_ENABLE_FULLSCREEN === false && R3_NW_ARGS_DISABLE_MOVE_SCREEN === false && R3_WEB_IS_ELECTRON === false){
-		var appWindow = APP_GUI.Window.get(), appScreens = APP_GUI.Screen.screens[windowId];
+	if (R3_SYSTEM.web.isBrowser === false && parseInt(windowId) !== NaN && SETTINGS_ENABLE_FULLSCREEN === false && R3_NW_ARGS_DISABLE_MOVE_SCREEN === false && R3_SYSTEM.web.is_ELECTRON === false){
+		var appWindow = R3_MODULES.gui.Window.get(), appScreens = R3_MODULES.gui.Screen.screens[windowId];
 		appWindow.x = appScreens.work_area.x;
 		appWindow.y = 0;
 		appWindow.show();

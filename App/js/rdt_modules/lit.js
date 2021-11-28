@@ -29,7 +29,7 @@ tempFn_R3_rdtLIT['readLIT'] = function(){
 			LIT_rawCamPointers = R3_RDT_rawSections.RAWSECTION_LIT.slice(0, (parseInt(R3_tools.parseEndian(LIT_pointerLength), 16) * 2));
 			R3_rdtLIT.lightArray = R3_RDT_rawSections.RAWSECTION_LIT.slice(LIT_rawCamPointers.length, R3_RDT_rawSections.RAWSECTION_LIT.length).match(/.{80,80}/g);
 		// WIP
-		R3_WIP();
+		R3_SYSTEM.WIP();
 	};
 };
 /*

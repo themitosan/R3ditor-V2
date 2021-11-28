@@ -145,7 +145,7 @@ document.addEventListener('keyup', function(kp){
 			};
 		};
 		// Commands not available on web vesion
-		if (R3_WEBMODE === false){
+		if (R3_SYSTEM.web.isBrowser === false){
 			// Open Help Center [F1]
 			if (kp.keyCode === 112){
 				R3_HC_OPEN_PAGE(R3_MENU_CURRENT);
@@ -211,7 +211,7 @@ document.addEventListener('keyup', function(kp){
 					};
 					// SAV Editor [CTRL + 4]
 					if (kp.keyCode === 52){
-						R3_WIP();
+						R3_SYSTEM.WIP();
 					};
 					// INI Editor [CTRL + 5]
 					if (kp.keyCode === 53){
@@ -219,7 +219,7 @@ document.addEventListener('keyup', function(kp){
 					};
 					// RE3SET Editor [CTRL + 6]
 					if (kp.keyCode === 54){
-						R3_WIP();
+						R3_SYSTEM.WIP();
 					};
 					// New Mod (Wizard) [CTRL + N]
 					if (kp.keyCode === 78){
@@ -459,19 +459,19 @@ document.addEventListener('keyup', function(kp){
 			if (RE3_RUNNING !== true){
 				// [F5]: Run RE3 (Mod)
 				if (kp.keyCode === 118){
-					R3_runGame(0);
+					R3_SYSTEM.externalSoftware.runGame(0);
 				};
 				// [F6]: Run MERCE
 				if (kp.keyCode === 119){
-					R3_runGame(1);
+					R3_SYSTEM.externalSoftware.runGame(1);
 				};
 				// [F7]: Run RE3
 				if (kp.keyCode === 116){
-					R3_runGame(2);
+					R3_SYSTEM.externalSoftware.runGame(2);
 				};
 				// [F8]: Run MERCE (MOD)
 				if (kp.keyCode === 117){
-					R3_runGame(3);
+					R3_SYSTEM.externalSoftware.runGame(3);
 				};
 			};
 			// [F9]: Go to title screen

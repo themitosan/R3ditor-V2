@@ -3,6 +3,7 @@
     R3ditor V2 - main.js
     By TheMitoSan
 
+    This file is responsible to start R3V2 on Electron engine.
     This file was created based on electron-quick-start project
     *******************************************************************************
 */

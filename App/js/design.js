@@ -148,11 +148,11 @@ function R3_INIT_APPEND(){
 		document.getElementById('R3_LIVESTATUS_BOX_HOLDER').innerHTML = HTML_TEMPLATE;
 		// App Version
 		document.getElementById('ABOUT_LBL_R3_VERSION').innerHTML = INT_VERSION;
-		if (R3_WEBMODE === false){
-			if (R3_WEB_IS_NW === true){
+		if (R3_SYSTEM.web.isBrowser === false){
+			if (R3_SYSTEM.web.is_NW === true){
 				verStr = 'NW.js Version: ' + process.versions['node-webkit'] + ' (' + process.arch + ')';
 			};
-			if (R3_WEB_IS_ELECTRON === true){
+			if (R3_SYSTEM.web.is_ELECTRON === true){
 				verStr = 'Electron Version:' + process.versions['electron'] + ' (' + process.arch + ')';
 			};
 		};
@@ -245,7 +245,7 @@ function R3_SHOW_MENU(menuId){
 			};
 			// RDT Editor
 			if (menuId === 10){
-				if (R3_WEBMODE === true){
+				if (R3_SYSTEM.web.isBrowser === true){
 					TMS.css('R3_RDT_FILELIST', {'display': 'none'});
 					TMS.css('R3_RDT_IMPORT_RDT', {'display': 'none'});
 				} else {
@@ -273,7 +273,7 @@ function R3_SHOW_MENU(menuId){
 					document.getElementById('R3_LIVESTATUS_BOX_ITEM_LBL_26').scrollIntoView();
 				};
 			} else {
-				if (R3_WEBMODE === false && APP_ENABLE_MOD === true){
+				if (R3_SYSTEM.web.isBrowser === false && APP_ENABLE_MOD === true){
 					if (R3_THEPIC === 'R50606.JPG' || R3_THEPIC === 'R50605.JPG'){
 						canClearCanvas = false;
 						R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!\n\nTheMitoSan!', 'RE3', 40);
@@ -340,7 +340,7 @@ function R3_MENU_EXIT(){
 };
 // Disable PC version exec buttons if emu
 function R3_DESIGN_CHECK_SHOW_EXECS(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		if (R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === true){
 			TMS.css('R3_MENU_RUN_GAME', {'display': 'none'});
 		} else {
@@ -350,7 +350,7 @@ function R3_DESIGN_CHECK_SHOW_EXECS(){
 };
 // Web Alert
 function R3_WEB_ALERT(){
-	if (APP_CAN_RENDER_DEV === true && R3_WEBMODE === true){
+	if (APP_CAN_RENDER_DEV === true && R3_SYSTEM.web.isBrowser === true){
 		R3_FILEGEN_selectTextColor(0);
 		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'You are running R3ditor V2 web version!\nTo have all features (Like RE3 Livestatus, Previews, ARD Extractor and more), download the local version!\n\nVisit https://themitosan.github.io/ to get download link.', 'RE1', 10);
 	};
@@ -392,7 +392,7 @@ function R3_DESIGN_ADJUST(){
 	// [RE3SET] - Disable WIP Forms
 	TMS.disableElement(['BTN_MAIN_21','BTN_MAIN_58','BTN_MAIN_59','BTN_MAIN_60','BTN_MAIN_61']);
 	// Fix RDT Path Labels and disable some unused functions in non-windows os / web
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		// Mod Menu
 		TMS.css('R3_MENU_MOD', {'display': 'block'});
 		TMS.css('SETTINGS_LI_CLEARCACHE', {'display': 'none'});
@@ -409,7 +409,7 @@ function R3_DESIGN_ADJUST(){
 		// Get random image for main bg
 		if (R3_GET_BG === false){
 			if (APP_ENABLE_MOD === true){
-				getFiles = APP_FS.readdirSync(APP_PATH + '/Assets/DATA_A/BSS/');
+				getFiles = R3_MODULES.fs.readdirSync(R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/');
 				getFiles.forEach(function(cFile, cIndex){
 					if (cFile.indexOf('SLD') !== -1){
 						getFiles.splice(cIndex, 1);
@@ -419,7 +419,7 @@ function R3_DESIGN_ADJUST(){
 				if (R3_SETTINGS.APP_useImageFix === true){
 					fileFix = 'file://';
 				};
-				document.getElementById('R3_HOME_BG').src = fileFix + APP_PATH + '/Assets/DATA_A/BSS/' + getFiles[thePic];
+				document.getElementById('R3_HOME_BG').src = fileFix + R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/' + getFiles[thePic];
 				R3_THEPIC = getFiles[thePic];
 				if (R3_THEPIC === 'R50605.JPG' || R3_THEPIC === 'R50606.JPG'){
 					R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', INCLUDE_RE3_BEEP_BOOP, 'RE3', 40);
@@ -465,7 +465,7 @@ function R3_DESIGN_ADJUST(){
 		// Remove big preview on file generator
 		TMS.css('R3_FILEGEN_RENDERAREA_BIG', {'display': 'none'});
 		// Adjust some ranges if firefox
-		if (R3_WEB_IS_FOX === true){
+		if (R3_SYSTEM.web.is_FIREFOX === true){
 			// Fix log window on Firefox
 			R3_MINI_WINDOW_DATABASE[0][0] = 800;
 			TMS.css('R3_RID_EDIT_rangePosX', {'width': '120px'});
@@ -489,13 +489,13 @@ function R3_DESIGN_ADJUST(){
 */
 function R3_DESIGN_toggleFullScreen(mode){
 	if (mode === 0){
-		if (R3_WEBMODE === false && R3_WEB_IS_NW === true){
+		if (R3_SYSTEM.web.isBrowser === false && R3_SYSTEM.web.is_NW === true){
 			require('nw.gui').Window.get().enterFullscreen();
 		} else {
 			document.documentElement.requestFullscreen();
 		};
 	} else {
-		if (R3_WEBMODE === false && R3_WEB_IS_NW === true){
+		if (R3_SYSTEM.web.isBrowser === false && R3_SYSTEM.web.is_NW === true){
 			nw.Window.get().leaveFullscreen();
 		} else {
 			var webFs = window.fullScreen;
@@ -679,7 +679,7 @@ tempFn_R3_MINIWINDOW['open'] = function(windowId, mode){
 				};
 			} else {
 				// Log window
-				if (R3_WEB_IS_FOX === true){
+				if (R3_SYSTEM.web.is_FIREFOX === true){
 					fixLeft = '872px';
 				};
 				TMS.css('R3V2_MINI_WINDOW_' + windowId, {
@@ -976,7 +976,7 @@ function R3_LATEST_OPEN(){
 };
 // Set Recent File
 function R3_LATEST_SET_FILE(name, type, location){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		if (name !== undefined && type !== undefined && location !== undefined){
 			R3_SETTINGS.SETTINGS_RECENT_FILE_NAME = name;
 			R3_SETTINGS.SETTINGS_RECENT_FILE_TYPE = type;
@@ -988,7 +988,7 @@ function R3_LATEST_SET_FILE(name, type, location){
 };
 // Update Recent File Labels
 function R3_DESIGN_UPDATE_LATEST_LABELS(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		document.getElementById('R3_LBL_RECENT_FILE').innerHTML = R3_SETTINGS.SETTINGS_RECENT_FILE_NAME;
 		document.getElementById('R3_LBL_RECENT_FILE_TYPE').innerHTML = R3_LATEST_FILE_TYPES[R3_SETTINGS.SETTINGS_RECENT_FILE_TYPE];
 		if (R3_SETTINGS.SETTINGS_RECENT_FILE_TYPE === 0){
@@ -997,10 +997,10 @@ function R3_DESIGN_UPDATE_LATEST_LABELS(){
 			if (R3_SETTINGS.APP_useImageFix === true){
 				fFix = 'file://';
 			};
-			if (APP_FS.existsSync(fPath_00) === true){
+			if (R3_MODULES.fs.existsSync(fPath_00) === true){
 				TMS.css('R3_LATEST_FILE_IMG_PREV', {'background-image': 'url(\"' + fFix + fPath_00 + '\")'});
 			} else {
-				if (APP_FS.existsSync(fPath_01) === true){
+				if (R3_MODULES.fs.existsSync(fPath_01) === true){
 					TMS.css('R3_LATEST_FILE_IMG_PREV', {'background-image': 'url(\"' + fFix + fPath_01 + '\")'});
 				} else {
 					TMS.css('R3_LATEST_FILE_IMG_PREV', {'background-image': 'url()'});
@@ -1013,7 +1013,7 @@ function R3_DESIGN_UPDATE_LATEST_LABELS(){
 };
 // Open / Close Recent File Popup
 function R3_DESIGN_OPEN_CLOSE_LATEST(mode){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		if (R3_SETTINGS.SETTINGS_RECENT_FILE_NAME !== '' && R3_SETTINGS.SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === true){
 			// 0 = Open, 1 = Close
 			if (mode === 0 && R3_MENU_CURRENT === 4){
@@ -1094,11 +1094,11 @@ function R3_DESIGN_DOORLINK_RENDER(){
 				checkResult.forEach(function(cItem, cIndex){
 					cArray = checkResult[cIndex];
 					cCam = cArray[8].toUpperCase();
-					cCamPath = APP_PATH + '/Assets/DATA_A/BSS/R' + mapInput + cCam + '.JPG';
+					cCamPath = R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/R' + mapInput + cCam + '.JPG';
 					if (process.platform !== 'win32'){
 						cCamPath = 'file://' + cCamPath;
 					};
-					if (APP_FS.existsSync(cCamPath) !== true){
+					if (R3_MODULES.fs.existsSync(cCamPath) !== true){
 						cCamPath = 'img/404.webp';
 					};
 					pLocation = cArray[9];
@@ -1845,15 +1845,15 @@ function R3_SCD_FUNCTION_EDIT_updateCutReplace(){
 	if (RDT_arquivoBruto !== undefined){
 		prevCamValue = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_prevCamValue').value).toString(16), 2).toUpperCase();
 		nextCamValue = R3_tools.fixVars(parseInt(document.getElementById('R3_SCD_EDIT_53_nextCamValue').value).toString(16), 2).toUpperCase();
-		fPrev = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + prevCamValue + '.JPG';
-		fNext = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + nextCamValue + '.JPG';
-		if (APP_FS.existsSync(fPrev) !== true){
+		fPrev = R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + prevCamValue + '.JPG';
+		fNext = R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + nextCamValue + '.JPG';
+		if (R3_MODULES.fs.existsSync(fPrev) !== true){
 			fPrev = 'img/404.webp';
 			prevTitle = '';
 		} else {
 			prevTitle = 'Camera ' + document.getElementById('R3_SCD_EDIT_53_prevCamValue').value + '\nFile: ' + R3_RDT_mapName + prevCamValue + '.JPG';
 		};
-		if (APP_FS.existsSync(fNext) !== true){
+		if (R3_MODULES.fs.existsSync(fNext) !== true){
 			fNext = 'img/404.webp';
 			nextTitle = '';
 		} else {
@@ -1884,8 +1884,8 @@ function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
 	document.getElementById('R3_SCD_EDIT_' + cOpcode + '_lblNextRoom').innerHTML = door_nRoom.toUpperCase();
 	if (door_nCam.length === 2 && door_nStage.length === 1 && door_nRoom.length === 2){
 		camPrev = R3_MOD_PATH + '/DATA_A/BSS/R' + door_nStage + door_nRoom + door_nCam + '.JPG';
-		if (R3_WEBMODE === false){
-			if (APP_FS.existsSync(camPrev) !== true){
+		if (R3_SYSTEM.web.isBrowser === false){
+			if (R3_MODULES.fs.existsSync(camPrev) !== true){
 				camPrev = 'img/404.webp';
 			} else {
 				// non-windows fix
@@ -1897,7 +1897,7 @@ function R3_SCD_FUNCTIONEDIT_updateCamPreview(cOpcode){
 			camPrev = 'img/404.webp';
 		};
 		document.getElementById('R3_SCD_EDIT_' + cOpcode + '_camPreview').src = camPrev;
-		if (R3_WEBMODE === false){
+		if (R3_SYSTEM.web.isBrowser === false){
 			if (camPrev !== 'img/404.webp'){
 				TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'url(' + camPrev + ')', 'background-size': 'calc(100% + 60px)'});
 			} else {
@@ -1975,7 +1975,7 @@ function R3_SCD_FUNCTIONEDIT_updateSetTimerCanvas(){
 	This tool can find all locations for all SCD opcodes inside RE3
 */
 function R3_SCD_openOpcodeFinder(){
-	if (R3_WEBMODE === false && APP_ENABLE_MOD === true && R3_MENU_CURRENT === 4){
+	if (R3_SYSTEM.web.isBrowser === false && APP_ENABLE_MOD === true && R3_MENU_CURRENT === 4){
 		R3_MENU_EXIT();
 		R3_UTILS_VAR_CLEAN();
 		document.getElementById('R3_OPCODE_FINDER_opName').innerHTML = '';
@@ -2093,14 +2093,14 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 	if (R3_SETTINGS.SETTINGS_DISABLE_RDT_BACKGROUND === false){
 		var mapFirstCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_tools.fixVars(R3_tools.genRandomNumber(R3_RDT_MAP_totalCams).toString(16), 2) + '.JPG',
 			  mapSecondCamera = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + '01.JPG';
-		if (R3_WEBMODE === false){
-			if (APP_FS.existsSync(mapFirstCamera) === true){
+		if (R3_SYSTEM.web.isBrowser === false){
+			if (R3_MODULES.fs.existsSync(mapFirstCamera) === true){
 				if (R3_SETTINGS.APP_useImageFix === true){
 					mapFirstCamera = 'file://' + mapFirstCamera;
 				};
 				TMS.css('R3_RDT_GENERAL_IMG', {'background-image': 'url(' + mapFirstCamera + ')'});
 			} else {
-				if (APP_FS.existsSync(mapSecondCamera) === true){
+				if (R3_MODULES.fs.existsSync(mapSecondCamera) === true){
 					if (R3_SETTINGS.APP_useImageFix === true){
 						mapSecondCamera = 'file://' + mapSecondCamera;
 					};
@@ -2121,16 +2121,16 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 	TMS.css('R3_MENU_BTNS_RDT_UTILITY', {'display': 'inline-flex'});
 	TMS.css('R3_MENU_BTNS_RDT_MINIWINDOWS', {'display': 'inline-flex'});
 	TMS.css('R3_MENU_BTNS_RDT_OPENSECTIONS', {'display': 'inline-flex'});
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		// Next / Previous Map
 		if (APP_ENABLE_MOD === true){
 			TMS.css('R3_MENU_BTNS_NEXTPREV', {'display': 'inline-flex'});
 		} else {
 			TMS.css('R3_MENU_BTNS_NEXTPREV', {'display': 'none'});
 		};
-		document.getElementById('R3_RDT_GENERAL_FILEPATH').title = ORIGINAL_FILENAME.replace('//', '/');
-		document.getElementById('R3_RDT_GENERAL_FILESIZE').innerHTML = R3_tools.getFileSize(ORIGINAL_FILENAME, 1) + ' KB';
-		document.getElementById('R3_RDT_GENERAL_FILEPATH').innerHTML = R3_tools.fixPathSize(ORIGINAL_FILENAME, (ORIGINAL_FILENAME.length / 2)).replace('//', '/');
+		document.getElementById('R3_RDT_GENERAL_FILEPATH').title = R3_fileManager.originalFilename.replace('//', '/');
+		document.getElementById('R3_RDT_GENERAL_FILESIZE').innerHTML = R3_tools.getFileSize(R3_fileManager.originalFilename, 1) + ' KB';
+		document.getElementById('R3_RDT_GENERAL_FILEPATH').innerHTML = R3_tools.fixPathSize(R3_fileManager.originalFilename, (R3_fileManager.originalFilename.length / 2)).replace('//', '/');
 	} else {
 		TMS.css('R3_PAGE_ICON_BG_7', {'display': 'none'});
 		TMS.disableElement(['BTN_MAIN_38', 'BTN_MAIN_26']);
@@ -2143,10 +2143,10 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 		document.getElementById('R3_RDT_GENERAL_LOCALNAME').innerHTML = RDT_locations[R3_RDT_mapName][0] + ', ' + RDT_locations[R3_RDT_mapName][1];
 	} else {
 		document.getElementById('R3_RDT_GENERAL_LOCALNAME').innerHTML = 'Unknown Location';
-		if (R3_WEBMODE === false){
-			document.getElementById('R3_RDT_GENERAL_FILENAME').innerHTML = R3_tools.getFileName(ORIGINAL_FILENAME).toUpperCase();
+		if (R3_SYSTEM.web.isBrowser === false){
+			document.getElementById('R3_RDT_GENERAL_FILENAME').innerHTML = R3_tools.getFileName(R3_fileManager.originalFilename).toUpperCase();
 		} else {
-			document.getElementById('R3_RDT_GENERAL_FILENAME').innerHTML = ORIGINAL_FILENAME.name;
+			document.getElementById('R3_RDT_GENERAL_FILENAME').innerHTML = R3_fileManager.originalFilename.name;
 		};
 	};
 	// End Animation
@@ -2162,7 +2162,7 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 };
 // Filelist
 function R3_RDT_FILELIST_GENERATE(currentMode){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		R3_SETTINGS_getMapPrefix();
 		document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">Generating file list, please wait...</div>';
 		var mode = R3_tools.getMapPath()[0], rPath, fileTest, currentMap, HTML_MAP_LIST = mapIcon = '', gameMode = 'Easy',
@@ -2171,22 +2171,22 @@ function R3_RDT_FILELIST_GENERATE(currentMode){
 			gameMode = 'Hard';
 		};
 		// Start Reading
-		if (APP_FS.existsSync(rdtPath) === true){
-			R3_RDT_FILELIST_MAPS[mode] = APP_FS.readdirSync(rdtPath);
+		if (R3_MODULES.fs.existsSync(rdtPath) === true){
+			R3_RDT_FILELIST_MAPS[mode] = R3_MODULES.fs.readdirSync(rdtPath);
 			if (R3_RDT_FILELIST_CURRENTMODE !== R3_RDT_FILELIST_MAPS[mode]){
 				R3_RDT_FILELIST_CURRENTMODE = R3_RDT_FILELIST_MAPS[mode];
 				R3_RDT_FILELIST_MAPS[mode].forEach(function(cItem){
 					if (R3_tools.getFileExtension(cItem) === 'RDT'){
 						currentMap = R3_tools.getFileName(cItem).toUpperCase();
 						mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '00.JPG';
-						if (APP_FS.existsSync(mapIcon) !== true){
+						if (R3_MODULES.fs.existsSync(mapIcon) !== true){
 							mapIcon = R3_MOD_PATH + '/DATA_A/BSS/' + currentMap + '01.JPG';
-							if (APP_FS.existsSync(mapIcon) !== true){
+							if (R3_MODULES.fs.existsSync(mapIcon) !== true){
 								mapIcon = 'img/404.webp';
 							};
 						};
 						// Non-windows fix
-						if (R3_SETTINGS.APP_useImageFix === true && APP_FS.existsSync(mapIcon) === true){
+						if (R3_SETTINGS.APP_useImageFix === true && R3_MODULES.fs.existsSync(mapIcon) === true){
 							mapIcon = 'file://' + mapIcon;
 						};
 						rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
@@ -2214,7 +2214,7 @@ function R3_RDT_FILELIST_UPDATELIST(){
 };
 // Search map list
 function R3_RDT_FILELIST_SEARCHMAP(event){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		var kp = event.keyCode, seekValue, mapResult;
 		if (kp === 8 || kp === 46){
 			document.getElementById('R3_RDT_FILELIST_SERACH').value = '';
@@ -2279,8 +2279,8 @@ function R3_DESIGN_RDT_closeFileList(){
 function R3_DESIGN_RID_updateCamSelected(camId){
 	// Set BG
 	var mPath, camBss = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + R3_tools.fixVars(parseInt(camId).toString(16), 2) + '.JPG';
-	if (R3_WEBMODE === false){
-		if (APP_FS.existsSync(camBss) === false){
+	if (R3_SYSTEM.web.isBrowser === false){
+		if (R3_MODULES.fs.existsSync(camBss) === false){
 			camBss = 'img/404.webp';
 			TMS.css('R3_RID_EDIT_FORM_INNER_BG', {'background-image': 'url(\'./img/404.webp\')'});
 		} else {
@@ -2365,14 +2365,14 @@ function R3_DESIGN_RID_seekCamera(mode){
 */
 // Open RE3 Livestatus Menu
 function R3_LIVESTATUS_OPEN_MENU(){
-	if (R3_WEBMODE === false && RE3_RUNNING === true){
+	if (R3_SYSTEM.web.isBrowser === false && RE3_RUNNING === true){
 		R3_DESIGN_SHOWTABS(0, 0);
 		R3_MINIWINDOW.open(19);
 	};
 };
 // Open Bar
 function R3_LIVESTATUS_OPEN_BAR(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		for (var c = 0; c < R3_TOTAL_MENUS; c++){
 			if (c !== 2 && document.getElementById('MENU_' + c) !== null){
 				if (R3_SETTINGS.SETTINGS_LIVESTATUS_BAR_POS === 1){
@@ -2409,7 +2409,7 @@ function R3_LIVESTATUS_BAR_ADJUSTINTERFACE(){
 };
 // Toggle Bar Position
 function R3_LIVESTATUS_BAR_TOGGLEPOS(){
-	if (RE3_RUNNING === true && R3_WEBMODE === false){
+	if (RE3_RUNNING === true && R3_SYSTEM.web.isBrowser === false){
 		R3_LIVESTATUS_CLOSE_BAR();
 		if (R3_SETTINGS.SETTINGS_LIVESTATUS_BAR_POS === 0){
 			R3_SETTINGS.SETTINGS_LIVESTATUS_BAR_POS = 1;
@@ -2537,7 +2537,7 @@ function R3_LIVETSTATUS_RENDER(){
 	// Camera
 	if (RE3_LIVE_CAM !== R3_LIVESTATUS.currentCam){
 		var nextCam = R3_MOD_PATH + '/DATA_A/BSS/' + R3_LIVESTATUS.currentRDT + R3_LIVESTATUS.currentCam + '.JPG';
-		if (APP_FS.existsSync(nextCam) !== false){
+		if (R3_MODULES.fs.existsSync(nextCam) !== false){
 			document.getElementById('R3_LIVESTATUS_IMG_CURRENT_CAM').src = nextCam;
 		} else {
 			document.getElementById('R3_LIVESTATUS_IMG_CURRENT_CAM').src = 'img/404.webp';
@@ -2719,7 +2719,7 @@ function RE3_LIVE_COPY_PASTE_LOCATION(mode){
 	eNGE Design Functions
 */
 function R3_eNGE_openEmuWindow(){
-	if (R3_WEBMODE === false && R3_SETTINGS.SETTINGS_DISABLE_ENGE === false){
+	if (R3_SYSTEM.web.isBrowser === false && R3_SETTINGS.SETTINGS_DISABLE_ENGE === false){
 		R3_MINIWINDOW.open(13, 'center');
 	};
 };
@@ -2739,13 +2739,13 @@ function R3_eNGE_makeWindowVisible(mode){
 */
 // Open R3V2 Wizard
 function R3_DESIGN_displayWizard(){
-	if (R3_WEBMODE === false && R3_MENU_CURRENT !== 0){
+	if (R3_SYSTEM.web.isBrowser === false && R3_MENU_CURRENT !== 0){
 		document.getElementById('R3_WIZARD_GAME_PATH').title = '';
 		document.getElementById('R3_WIZARD_GAME_PATH').innerHTML = 'Unknown Location';
 		R3_MINIWINDOW.open(21, 'center');
 	} else {
-		if (R3_WEBMODE === true){
-			R3_WEBWARN();
+		if (R3_SYSTEM.web.isBrowser === true){
+			R3_SYSTEM.web.webWarn();
 		};
 	};
 };
@@ -2791,7 +2791,7 @@ function R3_UTILS_LOADING_CLOSE(){
 	Backup manager
 */
 function R3_DESIGN_renderBackupManager(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		var c = 0, HTML_TEMPLATE = '', fPath, fName, fShort, fType, fEditor, fDate, fileArray = Object.keys(R3_SYSTEM_BACKUP_LIST).reverse();
 		if (Object.keys(R3_SYSTEM_BACKUP_LIST).length !== 0){
 			document.getElementById('R3_BACKUP_MANAGER_ITEMS').innerHTML = '<div class="align-center">Generating backup list - Please wait</div>';
@@ -2877,10 +2877,10 @@ function R3_DESIGN_loadSettingsGUI(){
 	Xdelta Patcher
 */
 function R3_DESIGN_openXdeltaPatcher(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		R3_MINIWINDOW.open(2, 'center');
 	} else {
-		R3_WEBWARN();
+		R3_SYSTEM.web.webWarn();
 	};
 };
 /*

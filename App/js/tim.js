@@ -118,7 +118,7 @@ tempFn_timManager['import'] = function(){
 			if (R3_TIM.checkIntegrity(hxFile) === true){
 				R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile] = hxFile;
 				var finalLbl = '';
-				if (R3_WEBMODE === true){
+				if (R3_SYSTEM.web.isBrowser === true){
 					finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
 				};
 				R3_SYSTEM.log('separator');
@@ -135,7 +135,7 @@ tempFn_timManager['export'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_fileManager.saveFile('TIM_' + R3_RDT_mapName + '_' + (R3_RDT_currentTimFile + 1) + '.tim', R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile], 'hex', '.tim', function(fName){
 			var finalLbl = '';
-			if (R3_WEBMODE === true){
+			if (R3_SYSTEM.web.isBrowser === true){
 				finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
 			};
 			R3_SYSTEM.log('separator');

@@ -26,7 +26,7 @@ tempFn_MEMJS = {
 tempFn_MEMJS['checkIfGameIsRunning'] = function(){
 	if (R3_SETTINGS.SETTINGS_LIVESTATUS_ENABLE_GAME_DISCOVER === true){
 		R3_LIVESTATUS.seekGameInterval = setInterval(function(){ // R3_CHECK_GAME_INTERVAL
-			if (R3_MEMJS.requireSucess === true && R3_WEBMODE === false && RE3_RUNNING === false){
+			if (R3_MEMJS.requireSucess === true && R3_SYSTEM.web.isBrowser === false && RE3_RUNNING === false){
 				R3_MEMJS.seekProcess();
 			};
 		}, 200);
@@ -37,16 +37,16 @@ tempFn_MEMJS['checkIfGameIsRunning'] = function(){
 	Read host processes
 */
 tempFn_MEMJS['seekProcess'] = function(){
-	if (R3_MEMJS.requireSucess === true && R3_WEBMODE === false){
+	if (R3_MEMJS.requireSucess === true && R3_SYSTEM.web.isBrowser === false){
 		R3_MEMJS.processObj = undefined;
 		clearInterval(R3_MEMJS.checkGameInterval);
-		var hostProcessList = APP_MEMJS.getProcesses(), processName = R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3]; // MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_execName'];
+		var hostProcessList = R3_MODULES.memoryjs.getProcesses(), processName = R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3]; // MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_execName'];
 		for (var c = 0; c < hostProcessList.length; c++){
 			if (hostProcessList[c]['szExeFile'] === processName){ // ResidentEvil3.exe, psfin.exe...
 				p_info = hostProcessList[c];
 				R3_SYSTEM.log('separator');
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (MemoryJS) Load Process Done! <br>(Game Mode: ' + R3_LIVESTATUS.currentMode + ', Executable Name: ' + processName + ' - PID: <font class="user-can-select">' + p_info['th32ProcessID'] + '</font>)');
-				R3_MEMJS.processObj = APP_MEMJS.openProcess(p_info['th32ProcessID']);
+				R3_MEMJS.processObj = R3_MODULES.memoryjs.openProcess(p_info['th32ProcessID']);
 				if (RE3_RUNNING === false){
 					EXTERNAL_APP_PID = p_info['th32ProcessID'];
 					RE3_PID = EXTERNAL_APP_PID;
@@ -64,7 +64,7 @@ tempFn_MEMJS['seekProcess'] = function(){
 				document.getElementById('R3_LIVESTATUS_LBL_PROCESS_THREADS').innerHTML = R3_MEMJS.processObj['cntThreads'];
 				document.getElementById('R3_LIVESTATUS_LBL_PROCESS_PARENT').innerHTML = R3_MEMJS.processObj['th32ParentProcessID'];
 				document.getElementById('BTN_MAIN_20').onclick = function(){
-					R3_killExternalSoftware(R3_MEMJS.processObj['th32ProcessID']);
+					R3_SYSTEM.externalSoftware.killPID(R3_MEMJS.processObj['th32ProcessID']);
 					R3_MINIWINDOW.close(19);
 				};
 				// Start Render
@@ -90,7 +90,7 @@ tempFn_MEMJS['seekProcess'] = function(){
 	How it works: Open the game, go to warehouse save room (hard) and run this function (without moving player)
 */
 tempFn_MEMJS['HOOK_EMU'] = function(){
-	if (R3_WEBMODE === false && R3_MEMJS.processObj !== undefined && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === true){
+	if (R3_SYSTEM.web.isBrowser === false && R3_MEMJS.processObj !== undefined && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === true){
 		var foundPos = false, cLocation, ramLimit = 0x7FFFFFFFFFFF, askConf = R3_SYSTEM.confirm('IMPORTANT: To read in-game data, make sure you are exactly on Spawn Pos. of Warehouse Save Room (R100.RDT).\n\nIf so, click on OK and wait.\n\nPS: This probably will consume your CPU Power!');
 		if (askConf === true){
 			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Start reading Emulator RAM - Please wait...');
@@ -179,10 +179,10 @@ tempFn_MEMJS['readValue'] = function(ramPos, limit, mode){
 			limit = 2;
 		};
 		if (mode === undefined || mode === 'int'){
-			res = APP_MEMJS.readMemory(R3_MEMJS.processObj.handle, parseInt(ramPos), APP_MEMJS.BYTE);
+			res = R3_MODULES.memoryjs.readMemory(R3_MEMJS.processObj.handle, parseInt(ramPos), R3_MODULES.memoryjs.BYTE);
 		};
 		if (mode === 'hex'){
-			res = R3_tools.fixVars(APP_MEMJS.readMemory(R3_MEMJS.processObj.handle, parseInt(ramPos.toString().replace('0x', ''), 16), APP_MEMJS.BYTE).toString(16), limit).toUpperCase();
+			res = R3_tools.fixVars(R3_MODULES.memoryjs.readMemory(R3_MEMJS.processObj.handle, parseInt(ramPos.toString().replace('0x', ''), 16), R3_MODULES.memoryjs.BYTE).toString(16), limit).toUpperCase();
 		};
 	};
 	return res;
@@ -207,7 +207,7 @@ tempFn_MEMJS['writeValue'] = function(ramPos, value, mode){
 		if (mode === 'hex'){
 			value = parseInt(value, 16);
 		};
-		APP_MEMJS.writeMemory(R3_MEMJS.processObj.handle, parseInt(ramPos.toString().replace('0x', ''), 16), value, APP_MEMJS.BYTE);
+		R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, parseInt(ramPos.toString().replace('0x', ''), 16), value, R3_MODULES.memoryjs.BYTE);
 	};
 };
 /*
@@ -225,7 +225,7 @@ tempFn_MEMJS['writeArray'] = function(ramPos, values){
 			if (typeof cValue === 'number'){
 				cValue = R3_tools.fixVars(cValue.toString(16), 2);
 			};
-			APP_MEMJS.writeMemory(R3_MEMJS.processObj.handle, parseInt(cPosition.toString().replace('0x', ''), 16), parseInt(cValue, 16), APP_MEMJS.BYTE);
+			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, parseInt(cPosition.toString().replace('0x', ''), 16), parseInt(cValue, 16), R3_MODULES.memoryjs.BYTE);
 		});
 	};
 };
@@ -238,7 +238,7 @@ tempFn_MEMJS['writeArray'] = function(ramPos, values){
 tempFn_MEMJS['checkGameProcess'] = function(){
 	R3_MEMJS.checkGameInterval = setInterval(function(){
 		if (R3_MEMJS.processObj !== undefined){
-			const PROCESSES = APP_MEMJS.getProcesses(), processName = R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
+			const PROCESSES = R3_MODULES.memoryjs.getProcesses(), processName = R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
 			var isOpen = false;
 			for (var c = 0; c < PROCESSES.length; c++){
 				if (PROCESSES[c]['szExeFile'] === processName){

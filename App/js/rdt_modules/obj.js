@@ -32,7 +32,7 @@ tempFn_R3_rdtOBJ['extractObjFromString'] = function(hexString, cObject, location
 tempFn_R3_objManager['import'] = function(){
 	R3_fileManager.loadFile('.obj', function(fPath, hexData){
 		var finalPath = '';
-		if (R3_WEBMODE === false){
+		if (R3_SYSTEM.web.isBrowser === false){
 			finalPath = 'Path: <font class="user-can-select">' + fPath + '</font>';
 		};
 		R3_RDT_ARRAY_OBJ[R3_RDT_currentObjFile] = hexData;
@@ -46,7 +46,7 @@ tempFn_R3_objManager['export'] = function(){
 	if (RDT_arquivoBruto !== undefined){
 		R3_fileManager.saveFile('OBJ_' + R3_RDT_mapName + '_' + (R3_RDT_currentObjFile + 1) + '.obj', R3_RDT_rawSections.ARRAY_OBJ[R3_RDT_currentObjFile], 'hex', '.obj', function(fName){
 			var finalPath = '';
-			if (R3_WEBMODE === false){
+			if (R3_SYSTEM.web.isBrowser === false){
 				finalPath = 'Path: <font class="user-can-select">' + fPath + '</font>';
 			};
 			R3_SYSTEM.log('separator');

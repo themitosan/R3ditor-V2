@@ -56,7 +56,7 @@ function R3_SCD_LOAD_FILE(){
 // Start Load Process
 function R3_SCD_STARTLOAD(scdFile, hxFile){
 	var fName, loaderInterval;
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		fName = R3_tools.getFileExtension(scdFile).toLowerCase();
 	} else {
 		fName = R3_tools.getFileExtension(scdFile.name).toLowerCase();
@@ -67,18 +67,18 @@ function R3_SCD_STARTLOAD(scdFile, hxFile){
 	} else {
 		R3_DESIGN_CLEAN_SCD();
 		R3_UTILS_VAR_CLEAN_SCD();
-		if (R3_WEBMODE === false){
-			ORIGINAL_FILENAME = scdFile;
+		if (R3_SYSTEM.web.isBrowser === false){
+			R3_fileManager.originalFilename = scdFile;
 		} else {
-			ORIGINAL_FILENAME = scdFile.name;
+			R3_fileManager.originalFilename = scdFile.name;
 		};
 		if (hxFile === undefined){
-			SCD_arquivoBruto = APP_FS.readFileSync(scdFile, 'hex');
+			SCD_arquivoBruto = R3_MODULES.fs.readFileSync(scdFile, 'hex');
 		} else {
 			SCD_arquivoBruto = hxFile;
 		};
 		// Start
-		if (R3_WEBMODE === false){
+		if (R3_SYSTEM.web.isBrowser === false){
 			R3_SCD_fileName = R3_tools.getFileName(scdFile).toUpperCase();
 		} else {
 			R3_SCD_fileName = R3_tools.getFileName(scdFile.name).toUpperCase();
@@ -93,14 +93,14 @@ function R3_SCD_STARTLOAD(scdFile, hxFile){
 			R3_SCD_EXTRACT_FROM_RDT(scdFile, SCD_arquivoBruto);
 		};
 		// End
-		R3_LATEST_SET_FILE(R3_SCD_fileName + '.' + fName.toUpperCase(), 2, ORIGINAL_FILENAME);
+		R3_LATEST_SET_FILE(R3_SCD_fileName + '.' + fName.toUpperCase(), 2, R3_fileManager.originalFilename);
 		R3_DESIGN_SCD_openScriptList();
 	};
 };
 // Extract SCD from RDT
 function R3_SCD_EXTRACT_FROM_RDT(rdtFile, hx){
 	R3_RDT_LOAD(rdtFile, false, hx);
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_tools.getFileName(rdtFile).toUpperCase() + '.RDT';
 	} else {
 		document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_tools.getFileName(rdtFile.name).toUpperCase() + '.RDT';
@@ -250,7 +250,7 @@ function R3_SCD_SAVE_JS_FILE(){
 		if (canSave === true){
 			fName = 'R3_JS_' + R3_SCD_fileName + '_S' + R3_SCD_CURRENT_SCRIPT + '.js';
 			R3_fileManager.saveFile(fName, textCode, 'utf-8', '.js, .txt', function(finalPath){
-				if (R3_WEBMODE === false){
+				if (R3_SYSTEM.web.isBrowser === false){
 					pathLbl = ' Path: <font class="user-can-select">' + finalPath + '</font>'
 				};
 				R3_SYSTEM.log('separator');
@@ -511,7 +511,7 @@ function R3_SCD_IMPORT_SCRIPT(){
 				};
 				R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT] = tempArray;
 				R3_SCD_COMPILE(3);
-				if (R3_WEBMODE === false){
+				if (R3_SYSTEM.web.isBrowser === false){
 					R3_SYSTEM.alert('INFO - Import Successful!\nPath: ' + fileName);
 				} else {
 					R3_SYSTEM.alert('INFO - Import Successful!');
@@ -550,7 +550,7 @@ function R3_SCD_EXPORT_SCRIPT(mode){
 				};
 				if (mode === 0){
 					R3_fileManager.saveFile(fileName, tempHex, 'hex', '.R3SCRIPT', function(scdPath){
-						if (R3_WEBMODE === false){
+						if (R3_SYSTEM.web.isBrowser === false){
 							R3_SYSTEM.alert('Export Successful!\nPath: ' + scdPath);
 						} else {
 							R3_SYSTEM.alert('Export Successful!');
@@ -993,8 +993,8 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					var ITEM_Id 	 = cFunction.slice(R3_SCD_DEC_DB.itemCode[0], R3_SCD_DEC_DB.itemCode[1]),
 						ITEM_imgIcon = 'img/items/' + ITEM_Id + '.webp',
 						ITEM_title   = '';
-					if (R3_WEBMODE === false){
-						if (APP_FS.existsSync(ORIGINAL_APP_PATH + '/App/' + ITEM_imgIcon) !== true){
+					if (R3_SYSTEM.web.isBrowser === false){
+						if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.app + '/App/' + ITEM_imgIcon) !== true){
 							ITEM_imgIcon = 'img/items/86.webp';
 						} else {
 							ITEM_title = DATABASE_ITEM[ITEM_Id][0];
@@ -1130,9 +1130,9 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 				// Change Camera [CUT_CHG]
 				if (cOpcode === '50'){
 					var CUT_id = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]),
-						CUT_camPath = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + CUT_id.toUpperCase() + '.JPG',
+						CUT_camPath = R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + CUT_id.toUpperCase() + '.JPG',
 						CUT_camPreview = '';
-					if (APP_ENABLE_MOD === true && APP_FS.existsSync(CUT_camPath) === true){
+					if (APP_ENABLE_MOD === true && R3_MODULES.fs.existsSync(CUT_camPath) === true){
 						if (process.platform === 'linux'){
 							CUT_camPath = 'file://' + CUT_camPath;
 						};
@@ -1258,14 +1258,14 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						DOOR_nStage = (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1]), 16) + 1),
 						DOOR_nRoom  = cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]).toUpperCase(),
 						DOOR_nCam   = cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]).toUpperCase(),
-						DOOR_nRDT 	= 'R' + DOOR_nStage + DOOR_nRoom;
+						DOOR_nRDT 	= 'R' + DOOR_nStage + DOOR_nRoom,
 						DOOR_nMap 	= RDT_locations[DOOR_nRDT][0],
 						DOOR_cPrev  = '',
-						DOOR_camUrl = APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG';
+						DOOR_camUrl = R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG';
 					if (R3_SETTINGS.APP_useImageFix === true){
 						DOOR_camUrl = 'file://' + DOOR_camUrl;
 					};
-					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/' + DOOR_nRDT + DOOR_nCam + '.JPG') === true){
+					if (R3_SYSTEM.web.isBrowser === false && R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/' + DOOR_nRDT + DOOR_nCam + '.JPG') === true){
 						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" title="Next Cam: ' + parseInt(DOOR_nCam, 16) + '" alt="R3_SCD_DOOR_PREVIEW_' + DOOR_nRDT + '_' + DOOR_nCam + '" src="' + DOOR_camUrl + '">';
 					};
 					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">' + DOOR_nRDT + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
@@ -1276,14 +1276,14 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 						DOOR_nStage = (parseInt(cFunction.slice(R3_SCD_DEC_DB.nextStage[0], R3_SCD_DEC_DB.nextStage[1]), 16) + 1),
 						DOOR_nRoom  = cFunction.slice(R3_SCD_DEC_DB.nextRoom[0], R3_SCD_DEC_DB.nextRoom[1]).toUpperCase(),
 						DOOR_nCam   = cFunction.slice(R3_SCD_DEC_DB.nextCam[0], R3_SCD_DEC_DB.nextCam[1]).toUpperCase(),
-						DOOR_nRDT 	= 'R' + DOOR_nStage + DOOR_nRoom;
+						DOOR_nRDT 	= 'R' + DOOR_nStage + DOOR_nRoom,
 						DOOR_nMap 	= RDT_locations[DOOR_nRDT][0],
 						DOOR_cPrev  = '',
-						DOOR_camUrl = APP_PATH + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG';
+						DOOR_camUrl = R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/R' + DOOR_nStage + DOOR_nRoom + DOOR_nCam + '.JPG';
 					if (R3_SETTINGS.APP_useImageFix === true){
 						DOOR_camUrl = 'file://' + DOOR_camUrl;
 					};
-					if (R3_WEBMODE === false && APP_FS.existsSync(APP_PATH + '/Assets/DATA_A/BSS/' + DOOR_nRDT + DOOR_nCam + '.JPG') === true){
+					if (R3_SYSTEM.web.isBrowser === false && R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/' + DOOR_nRDT + DOOR_nCam + '.JPG') === true){
 						DOOR_cPrev = '<img class="R3_SCD_SCRIPTITEM_ITEM_IMG" title="Next Cam: ' + parseInt(DOOR_nCam, 16) + '" alt="R3_SCD_DOOR_PREVIEW_' + DOOR_nRDT + '_' + DOOR_nCam + '" src="' + DOOR_camUrl + '">';
 					};
 					cProp = 'ID: <font class="monospace mono_xyzr">' + DOOR_Id + '</font> - Leads to <font class="monospace mono_xyzr">' + DOOR_nRDT + '.RDT</font> [ ' + DOOR_nMap + ' ]' + DOOR_cPrev;
@@ -5516,10 +5516,10 @@ function R3_SCD_FUNCTION_LIT_COLOR_PICKER(opcodeId){
 };
 // Update camera preview in a few opcodes
 function R3_SCD_FUNCTION_CAM_PREVIEW(domId, imgId){
-	if (R3_RDT_mapName !== '' && R3_WEBMODE === false){
+	if (R3_RDT_mapName !== '' && R3_SYSTEM.web.isBrowser === false){
 		var camId = R3_tools.fixVars(parseInt(document.getElementById(domId).value).toString(16), 2).toUpperCase(), imgFix = '';
 			fPath = R3_MOD_PATH + '/DATA_A/BSS/' + R3_RDT_mapName + camId.toUpperCase() + '.JPG';
-		if (APP_FS.existsSync(fPath) !== true){
+		if (R3_MODULES.fs.existsSync(fPath) !== true){
 			fPath = 'img/404.webp';
 			TMS.css('R3_SCD_editForm_bg_image', {'display': 'inline', 'background-image': 'linear-gradient(0deg, #0000, #0000)'});
 		};
@@ -5889,7 +5889,7 @@ function R3_SCD_COMPILE(mode){
 				if (R3_SCD_path === ''){
 					mode = 1;
 				} else {
-					APP_FS.writeFileSync(R3_SCD_path, FINAL_HEX, 'hex');
+					R3_MODULES.fs.writeFileSync(R3_SCD_path, FINAL_HEX, 'hex');
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Save Successful! File: <font class="user-can-select">' + R3_SCD_path + '</font>');
 				};
 			};

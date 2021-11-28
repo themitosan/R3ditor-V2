@@ -75,7 +75,7 @@ tempFn_sections = {};
 */
 // New file [This will take a long time...]
 tempFn_R3_RDT['newFile'] = function(){
-	R3_WIP();
+	R3_SYSTEM.WIP();
 };
 // Load files R3_RDT_loadFile
 tempFn_R3_RDT['loadFile'] = function(){
@@ -87,7 +87,7 @@ tempFn_R3_RDT['loadFile'] = function(){
 tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 	var headersTemp, fName, loaderInterval, errMsg, mapPath = '';
 	// Web fix
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		fName = R3_tools.getFileExtension(rdtFile).toLowerCase();
 	} else {
 		fName = R3_tools.getFileExtension(rdtFile.name).toLowerCase();
@@ -102,7 +102,7 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 			R3_SYSTEM.alert(errMsg);
 		};
 		if (fName === 'rdt'){
-			if (R3_WEBMODE === false){
+			if (R3_SYSTEM.web.isBrowser === false){
 				mapPath = rdtFile;
 				R3_RDT_mapName = R3_tools.getFileName(rdtFile).toUpperCase();
 			} else {
@@ -121,13 +121,13 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 			};
 			R3_UTILS_VAR_CLEAN();
 			R3_RDT_LOADED = false;
-			ORIGINAL_FILENAME = rdtFile;
+			R3_fileManager.originalFilename = rdtFile;
 			R3_DESIGN_RDT_LOADLOCK = true;
 			R3_RDT_DESIGN_resetInterface();
 			if (hexFile !== undefined){
 				RDT_arquivoBruto = hexFile;
 			} else {
-				RDT_arquivoBruto = APP_FS.readFileSync(rdtFile, 'hex');
+				RDT_arquivoBruto = R3_MODULES.fs.readFileSync(rdtFile, 'hex');
 			};
 			/*
 				Start Decompiler
@@ -175,7 +175,7 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 				if (R3_DOORLINK_RUNNING === false){
 					R3_RDT.backupSections();
 					R3_RDT.scdHack.checkHack();
-					R3_LATEST_SET_FILE(R3_RDT_mapName + '.RDT', 0, ORIGINAL_FILENAME);
+					R3_LATEST_SET_FILE(R3_RDT_mapName + '.RDT', 0, R3_fileManager.originalFilename);
 					R3_RDT_DESIGN_enableInterface(showInterface);
 					R3_SYSTEM.log('separator');
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) ' + R3_RDT_mapName + ' - Loading Complete!');
@@ -245,7 +245,7 @@ tempFn_sections['readFLR'] = function(){
 };
 // Open FLR R3_RDT_OPEN_FLR
 tempFn_sections['openFLR'] = function(){
-	R3_WIP();
+	R3_SYSTEM.WIP();
 };
 /*
 	BLK
@@ -278,7 +278,7 @@ tempFn_sections['readBLK'] = function(){
 };
 // Open BLK R3_RDT_OPEN_BLK
 tempFn_sections['openBLK'] = function(){
-	R3_WIP();
+	R3_SYSTEM.WIP();
 };
 /*
 	VB
@@ -313,17 +313,17 @@ tempFn_sections['readVB'] = function(){
 };
 // Open match VB on Hex Editor
 tempFn_R3_RDT['openVbOnHex'] = function(){
-	if (R3_WEBMODE === false){
-		if (RDT_arquivoBruto !== undefined && APP_ENABLE_MOD === true && APP_FS.existsSync(R3_SETTINGS.R3_HEX_PATH) === true){
-			const fPath = APP_PATH + '/Assets/DATA/SOUND/R_' + R3_RDT_mapName.replace('R', '') + '.VB';
-			if (APP_FS.existsSync(fPath) === true){
-				R3_runExec(R3_SETTINGS.R3_HEX_PATH, [fPath]);
+	if (R3_SYSTEM.web.isBrowser === false){
+		if (RDT_arquivoBruto !== undefined && APP_ENABLE_MOD === true && R3_MODULES.fs.existsSync(R3_SETTINGS.R3_HEX_PATH) === true){
+			const fPath = R3_SYSTEM.paths.mod + '/Assets/DATA/SOUND/R_' + R3_RDT_mapName.replace('R', '') + '.VB';
+			if (R3_MODULES.fs.existsSync(fPath) === true){
+				R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_HEX_PATH, [fPath]);
 			} else {
 				R3_SYSTEM.alert('ERROR: Unable to open VB file because it does not exist! (404)');
 			};
 		};
 	} else {
-		R3_WEBWARN();
+		R3_SYSTEM.web.webWarn();
 	};
 };
 /*
@@ -345,7 +345,7 @@ tempFn_sections['readRVD'] = function(){
 };
 // Open RVD
 tempFn_sections['openRVD'] = function(){
-	R3_WIP();
+	R3_SYSTEM.WIP();
 };
 /*
 	OBJ
@@ -443,7 +443,7 @@ tempFn_sections['readSCA'] = function(){
 };
 // Open SCA R3_RDT_OPEN_SCA
 tempFn_sections['openSCA'] = function(){
-	R3_WIP();
+	R3_SYSTEM.WIP();
 };
 /*
 	RID
@@ -525,20 +525,20 @@ tempFn_sections['readPRI'] = function(){
 // Open PRI on PRI Editor R3_RDT_OPEN_PRI
 tempFn_sections['openPRI'] = function(){
 	if (RDT_arquivoBruto !== undefined){
-		R3_WIP();
+		R3_SYSTEM.WIP();
 	};
 };
 /*
 	SLD
 	Scene Layer Data
 */
-// Open current SLD R3_RDT_OPEN_SLD
+// Open current SLD
 tempFn_sections['openSLD'] = function(){
 	if (RDT_arquivoBruto !== undefined){
-		if (APP_FS.existsSync(R3_SETTINGS.R3_RE3SLDE_PATH) === true){
-			const sldFile = APP_PATH + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + '.SLD';
-			if (APP_FS.existsSync(sldFile) === true){
-				R3_runExec(R3_SETTINGS.R3_RE3SLDE_PATH, [sldFile]);
+		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3SLDE_PATH) === true){
+			const sldFile = R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/' + R3_RDT_mapName + '.SLD';
+			if (R3_MODULES.fs.existsSync(sldFile) === true){
+				R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_RE3SLDE_PATH, [sldFile]);
 			};
 		} else {
 			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to find Leo2236 RE3SLDE! <br>Insert the RE3SLDE path on settings menu and try again.');
@@ -658,10 +658,10 @@ tempFn_sections['openSCD'] = function(){
 		R3_DESIGN_CLEAN_SCD();
 		R3_UTILS_VAR_CLEAN_SCD();
 		SCD_arquivoBruto = R3_RDT_rawSections.RAWSECTION_SCD;
-		if (R3_WEBMODE === false){
-			R3_SCD_fileName = R3_tools.getFileName(ORIGINAL_FILENAME).toUpperCase();
+		if (R3_SYSTEM.web.isBrowser === false){
+			R3_SCD_fileName = R3_tools.getFileName(R3_fileManager.originalFilename).toUpperCase();
 		} else {
-			R3_SCD_fileName = ORIGINAL_FILENAME.name.replace('.RDT', '');
+			R3_SCD_fileName = R3_fileManager.originalFilename.name.replace('.RDT', '');
 		};
 		R3_SCD_START_DECOMPILER(R3_RDT_rawSections.RAWSECTION_SCD);
 	    document.title = APP_TITLE + ' - SCD Editor - File: ' + R3_SCD_fileName + '.RDT';
@@ -708,12 +708,12 @@ tempFn_sections['export'] = function(sectionName){
 };
 // Extract all sections (Like BIOFAT) R3_RDT_EXTRACT_ALL_SECTIONS
 tempFn_sections['exportAll'] = function(sectionId){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		if (RDT_arquivoBruto !== undefined){
 			try {
 				const fPath = R3_tools.getMapPath()[1] + R3_RDT_mapName;
-				if (APP_FS.existsSync(fPath) !== true){
-					APP_FS.mkdirSync(fPath);
+				if (R3_MODULES.fs.existsSync(fPath) !== true){
+					R3_MODULES.fs.mkdirSync(fPath);
 				};
 				// Start
 				R3_SYSTEM.log('separator');
@@ -721,7 +721,7 @@ tempFn_sections['exportAll'] = function(sectionId){
 
 				Object.keys(R3_RDT_rawSections).forEach(function(cItem){
 					if (cItem.toLowerCase().indexOf('rawsection') !== -1 && R3_RDT_rawSections[cItem] !== ''){
-						APP_FS.writeFileSync(fPath + '/' + cItem.replace('RAWSECTION_', '') + '.R3SECTION', R3_RDT_rawSections[cItem], 'hex');
+						R3_MODULES.fs.writeFileSync(fPath + '/' + cItem.replace('RAWSECTION_', '') + '.R3SECTION', R3_RDT_rawSections[cItem], 'hex');
 					};
 				});
 
@@ -734,78 +734,78 @@ tempFn_sections['exportAll'] = function(sectionId){
 			};
 		};
 	} else {
-		R3_WEBWARN();
+		R3_SYSTEM.web.webWarn();
 	};
 };
 // Import all sections from extracted files R3_RDT_IMPORT_ALL_SECTIONS WIP
 tempFn_sections['importAll'] = function(sectionId){
-	if (R3_WEBMODE !== true){
+	if (R3_SYSTEM.web.isBrowser !== true){
 		if (RDT_arquivoBruto !== undefined){
 			try {
 				const fPath = R3_tools.getMapPath()[1] + R3_RDT_mapName;
-				if (APP_FS.existsSync(fPath) === true){
+				if (R3_MODULES.fs.existsSync(fPath) === true){
 					// Reading files
 					R3_SYSTEM.log('separator');
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Start loading process...');
-					if (APP_FS.existsSync(fPath + '/VB.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/VB.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading VB (VB.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_VB = APP_FS.readFileSync(fPath + '/VB.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_VB = R3_MODULES.fs.readFileSync(fPath + '/VB.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/SCA.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/SCA.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading SCA (SCA.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_SCA = APP_FS.readFileSync(fPath + '/SCA.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_SCA = R3_MODULES.fs.readFileSync(fPath + '/SCA.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/RID.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/RID.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading RID (RID.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_RID = APP_FS.readFileSync(fPath + '/RID.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_RID = R3_MODULES.fs.readFileSync(fPath + '/RID.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/RVD.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/RVD.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading RVD (RVD.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_RVD = APP_FS.readFileSync(fPath + '/RVD.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_RVD = R3_MODULES.fs.readFileSync(fPath + '/RVD.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/OBJ.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/OBJ.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading OBJ (OBJ.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_OBJ = APP_FS.readFileSync(fPath + '/OBJ.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_OBJ = R3_MODULES.fs.readFileSync(fPath + '/OBJ.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/LIT.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/LIT.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading LIT (LIT.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_LIT = APP_FS.readFileSync(fPath + '/LIT.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_LIT = R3_MODULES.fs.readFileSync(fPath + '/LIT.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/PRI.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/PRI.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading PRI (PRI.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_PRI = APP_FS.readFileSync(fPath + '/PRI.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_PRI = R3_MODULES.fs.readFileSync(fPath + '/PRI.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/FLR.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/FLR.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading FLR (FLR.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_FLR = APP_FS.readFileSync(fPath + '/FLR.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_FLR = R3_MODULES.fs.readFileSync(fPath + '/FLR.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/MSG.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/MSG.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading MSG (MSG.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_MSG = APP_FS.readFileSync(fPath + '/MSG.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_MSG = R3_MODULES.fs.readFileSync(fPath + '/MSG.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/SCD.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/SCD.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading SCD (SCD.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_SCD = APP_FS.readFileSync(fPath + '/SCD.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_SCD = R3_MODULES.fs.readFileSync(fPath + '/SCD.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/EFF.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/EFF.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading EFF (EFF.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_EFF = APP_FS.readFileSync(fPath + '/EFF.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_EFF = R3_MODULES.fs.readFileSync(fPath + '/EFF.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/SND.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/SND.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading SND (SND.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_SND = APP_FS.readFileSync(fPath + '/SND.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_SND = R3_MODULES.fs.readFileSync(fPath + '/SND.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/BLK.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/BLK.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading BLK (BLK.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_BLK = APP_FS.readFileSync(fPath + '/BLK.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_BLK = R3_MODULES.fs.readFileSync(fPath + '/BLK.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/RBJ.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/RBJ.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading RBJ (RBJ.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_RBJ = APP_FS.readFileSync(fPath + '/RBJ.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_RBJ = R3_MODULES.fs.readFileSync(fPath + '/RBJ.R3SECTION', 'hex');
 					};
-					if (APP_FS.existsSync(fPath + '/EFFSPR.R3SECTION') === true){
+					if (R3_MODULES.fs.existsSync(fPath + '/EFFSPR.R3SECTION') === true){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading EFFSPR (EFFSPR.R3SECTION)');
-						R3_RDT_rawSections.RAWSECTION_EFFSPR = APP_FS.readFileSync(fPath + '/EFFSPR.R3SECTION', 'hex');
+						R3_RDT_rawSections.RAWSECTION_EFFSPR = R3_MODULES.fs.readFileSync(fPath + '/EFFSPR.R3SECTION', 'hex');
 					};
 					R3_SYSTEM.log('separator');
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Import Successful!');
@@ -820,7 +820,7 @@ tempFn_sections['importAll'] = function(sectionId){
 			};
 		};
 	} else{
-		R3_WEBWARN();
+		R3_SYSTEM.web.webWarn();
 	};
 };
 /*
@@ -846,12 +846,12 @@ tempFn_scdHack['enableHack'] = function(){
 		var cEditor = R3_DISC_MENUS[R3_MENU_CURRENT][0], RDT_HACK_FINAL, fName,
 			conf = R3_SYSTEM.confirm('WARNING:\nThis process will copy the current SCD and MSG sections to the end of the file.\n\nThis is not recomended because this process is used only for debugging and will make the file larger / messy.\n\nIt\'s not recomended do this process on maps that haves enemies / npc\'s (SCD 7D Opcode), otherwise it will crash!\n\nAlso: DON\'T RUN THIS PROCESS TWICE IN THE SAME FILE!!!\n\nDo you want to continue anyway?');
 		if (conf === true){
-			if (R3_WEBMODE === false){
-				fName = R3_tools.getFileName(ORIGINAL_FILENAME).toUpperCase();
+			if (R3_SYSTEM.web.isBrowser === false){
+				fName = R3_tools.getFileName(R3_fileManager.originalFilename).toUpperCase();
 			} else {
-				fName = R3_tools.getFileName(ORIGINAL_FILENAME.name).toUpperCase();
+				fName = R3_tools.getFileName(R3_fileManager.originalFilename.name).toUpperCase();
 			};
-			R3_UTILS_BACKUP(RDT_arquivoBruto, fName, '.RDT', APP_PATH + '/Configs/Backup/RDT', cEditor);
+			R3_UTILS_BACKUP(RDT_arquivoBruto, fName, '.RDT', R3_SYSTEM.paths.mod + '/Configs/Backup/RDT', cEditor);
 			var newHackRDT = RDT_arquivoBruto + R3_RDT_rawSections.RAWSECTION_SCD + R3_RDT_DIVISOR + R3_RDT_rawSections.RAWSECTION_MSG,
 				newSCDPointer  = R3_tools.parseEndian(R3_tools.fixVars((RDT_arquivoBruto.length / 2).toString(16), 8)),
 				RDT_HACK_START = RDT_arquivoBruto.slice(0, 144),
@@ -863,16 +863,16 @@ tempFn_scdHack['enableHack'] = function(){
 			RDT_HACK_END   = RDT_HACK_SCD.slice(128, RDT_HACK_SCD.length);
 			RDT_HACK_FINAL = RDT_HACK_START + newMSGPointer + RDT_HACK_END;
 			// I'm Not Proud of this...
-			APP_FS.writeFileSync(ORIGINAL_FILENAME, RDT_HACK_FINAL, 'hex');
-			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Hack done sucessfully! <br>Path: <font class="user-can-select">' + ORIGINAL_FILENAME + '</font>');
+			R3_MODULES.fs.writeFileSync(R3_fileManager.originalFilename, RDT_HACK_FINAL, 'hex');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Hack done sucessfully! <br>Path: <font class="user-can-select">' + R3_fileManager.originalFilename + '</font>');
 			R3_SYSTEM.alert('SCD HACK: Process Complete!');
 			// Update backup manager if it's open
 			if (R3_MINI_WINDOW_DATABASE[18][5] === true){
 				R3_DESIGN_renderBackupManager();
 			};
 			// At least... It works...
-			if (R3_WEBMODE === false){
-				R3_RDT.readMap(ORIGINAL_FILENAME, true);
+			if (R3_SYSTEM.web.isBrowser === false){
+				R3_RDT.readMap(R3_fileManager.originalFilename, true);
 			};
 		};
 	};
@@ -900,12 +900,12 @@ tempFn_scdHack['injectSections'] = function(){
 	if (RDT_arquivoBruto !== undefined && R3_RDT.scdHackEnabled === true){
 		try {
 			var fName, RDT_HACK_FINAL, cEditor = R3_DISC_MENUS[R3_MENU_CURRENT][0], pointerPos, RDT_HACK_START, RDT_HACK_END, RDT_HACK_SCD, newMSGPointer;
-			if (R3_WEBMODE === false){
-				fName = R3_tools.getFileName(ORIGINAL_FILENAME).toUpperCase();
+			if (R3_SYSTEM.web.isBrowser === false){
+				fName = R3_tools.getFileName(R3_fileManager.originalFilename).toUpperCase();
 			} else {
-				fName = R3_tools.getFileName(ORIGINAL_FILENAME.name).toUpperCase();
+				fName = R3_tools.getFileName(R3_fileManager.originalFilename.name).toUpperCase();
 			};
-			R3_UTILS_BACKUP(RDT_arquivoBruto, fName, '.RDT', APP_PATH + '/Configs/Backup/RDT', cEditor);
+			R3_UTILS_BACKUP(RDT_arquivoBruto, fName, '.RDT', R3_SYSTEM.paths.mod + '/Configs/Backup/RDT', cEditor);
 			pointerPos 	   = parseInt(R3_tools.parseEndian(RDT_arquivoBruto.slice(144, 152)), 16) * 2, RDT_HACK_END;
 			RDT_HACK_START = RDT_arquivoBruto.slice(0, pointerPos);
 			RDT_HACK_SCD   = RDT_HACK_START + R3_RDT_rawSections.RAWSECTION_SCD + R3_RDT_DIVISOR + R3_RDT_rawSections.RAWSECTION_MSG;
@@ -915,8 +915,8 @@ tempFn_scdHack['injectSections'] = function(){
 			RDT_HACK_END   = RDT_HACK_SCD.slice(128, RDT_HACK_SCD.length);
 			RDT_HACK_FINAL = RDT_HACK_START + newMSGPointer + RDT_HACK_END;
 			// Let's just hope for this...
-			APP_FS.writeFileSync(ORIGINAL_FILENAME, RDT_HACK_FINAL, 'hex');
-			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: SCD Hack updated sucessfully! <br>Path: <font class="user-can-select">' + ORIGINAL_FILENAME + '</font>');
+			R3_MODULES.fs.writeFileSync(R3_fileManager.originalFilename, RDT_HACK_FINAL, 'hex');
+			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: SCD Hack updated sucessfully! <br>Path: <font class="user-can-select">' + R3_fileManager.originalFilename + '</font>');
 			R3_SYSTEM.alert('SCD HACK: Process Complete!');
 			// Update backup manager if it's open
 			if (R3_MINI_WINDOW_DATABASE[18][5] === true){
@@ -943,7 +943,7 @@ tempFn_R3_RDT['compile'] = function(){
 			tempHEX = tempPointers + R3_RDT_rawSections.RAWSECTION_RID + R3_RDT_rawSections.RAWSECTION_OBJ + R3_RDT_rawSections.RAWSECTION_RVD + 'ffffffff' + R3_RDT_rawSections.RAWSECTION_LIT + 'ffffffff' + R3_RDT_rawSections.RAWSECTION_PRI + R3_RDT_rawSections.RAWSECTION_SCA;
 		console.clear();
 		console.info(tempHEX);
-		// R3_WIP();
+		// R3_SYSTEM.WIP();
 	};
 };
 /*

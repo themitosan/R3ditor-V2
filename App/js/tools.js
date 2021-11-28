@@ -31,8 +31,8 @@ tempFn_R3_TOOLS['getFileName'] = function(filePath){
 tempFn_R3_TOOLS['getFileExtension'] = function(file){
 	var res = '';
 	if (file !== '' && file !== undefined){
-		if (R3_WEBMODE === false){
-			res = APP_REQUIRE_PATH.extname(file).slice(1);
+		if (R3_SYSTEM.web.isBrowser === false){
+			res = R3_MODULES.path.extname(file).slice(1);
 		} else {
 			res = file.split('.').pop();
 		};
@@ -51,7 +51,7 @@ tempFn_R3_TOOLS['solveHex'] = function(hex){
 tempFn_R3_TOOLS['getFilePath'] = function(fileName){
 	var res = '';
 	if (fileName !== undefined && fileName !== ''){
-		res = R3_tools.fixPath(APP_REQUIRE_PATH.dirname(fileName));
+		res = R3_tools.fixPath(R3_MODULES.path.dirname(fileName));
 	};
 	return res;
 };
@@ -132,8 +132,8 @@ tempFn_R3_TOOLS['parseEndian'] = function(str){
 };
 // Get file size
 tempFn_R3_TOOLS['getFileSize'] = function(filePath, mode){
-	if (filePath !== undefined && filePath !== '' && R3_WEBMODE === false){
-		var read = APP_FS.statSync(filePath), fsize = read.size, res = 0;
+	if (filePath !== undefined && filePath !== '' && R3_SYSTEM.web.isBrowser === false){
+		var read = R3_MODULES.fs.statSync(filePath), fsize = read.size, res = 0;
 		// Bytes
 		if (mode === 0 || mode === undefined){
 			res = read.size;
@@ -537,7 +537,7 @@ tempFn_R3_TOOLS['isInteger'] = function(value){
 	var res = false;
 	if (value !== undefined){
 		// If IE
-		if (R3_WEB_IS_IE === true && value.toString().indexOf('.') === -1){
+		if (R3_SYSTEM.web.is_IE === true && value.toString().indexOf('.') === -1){
 			res = true;
 		} else {
 			res = Number.isInteger(value);

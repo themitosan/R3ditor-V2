@@ -7,7 +7,14 @@
 	(Loading, saving and etc).
 	*******************************************************************************
 */
-tempFn_R3_FILEMANAGER = {};
+tempFn_R3_FILEMANAGER = {
+	// Download Variables
+	DOWNLOAD_STATUSCODE: 0,
+	DOWNLOAD_PERCENTAGE: 0,
+	DOWNLOAD_COMPLETE: false,
+	// File Variables
+	originalFilename: '' // ORIGINAL_FILENAME
+};
 // Load files
 tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile, readMode, skipAppFs){
 	if (functionEval !== undefined){
@@ -17,7 +24,7 @@ tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile
 		if (readMode === undefined){
 			readMode = 'hex';
 		};
-		R3_WEB_FILE_BRIDGE = '';
+		R3_SYSTEM.web.FILE_BRIDGE = '';
 		document.getElementById('R3_FILE_LOAD_DOM').value = '';
 		document.getElementById('R3_FILE_LOAD_DOM').files = null;
 		document.getElementById('R3_FILE_LOAD_DOM').accept = extension;
@@ -25,11 +32,11 @@ tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile
 		document.getElementById('R3_FILE_LOAD_DOM').onchange = function(){
 			var hexFile, cFile = document.getElementById('R3_FILE_LOAD_DOM').files[0],
 				fPath = cFile.path, loaderInterval;
-			if (R3_WEBMODE === true){
+			if (R3_SYSTEM.web.isBrowser === true){
 				fPath = cFile;
 			};
 			if (skipAppFs === false || skipAppFs === undefined){
-				hexFile = APP_FS.readFileSync(fPath, readMode);
+				hexFile = R3_MODULES.fs.readFileSync(fPath, readMode);
 			} else {
 				hexFile = null;
 			};
@@ -37,7 +44,7 @@ tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile
 					if (hexFile !== undefined && hexFile !== ''){
 						if (returnFile !== true){
 							if (cFile !== undefined){
-								if (R3_WEBMODE === false){
+								if (R3_SYSTEM.web.isBrowser === false){
 									fPath = R3_tools.fixPath(cFile.path.toString());
 								} else {
 									fPath = cFile;
@@ -49,9 +56,9 @@ tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile
 						};
 						clearInterval(loaderInterval);
 					} else {
-						console.info('Waiting APP_FS...');
-						if (R3_WEBMODE === true){
-							hexFile = R3_WEB_FILE_BRIDGE;
+						console.info('Waiting R3_MODULES.fs...');
+						if (R3_SYSTEM.web.isBrowser === true){
+							hexFile = R3_SYSTEM.web.FILE_BRIDGE;
 						};
 					};
 				}, 100);
@@ -60,7 +67,7 @@ tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile
 };
 // Save files
 tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execNext){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		// Mode: utf-8, hex...
 		var extension = '', location;
 		if (ext !== undefined && ext !== ''){
@@ -72,7 +79,7 @@ tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execN
 			location = document.getElementById('R3_FILE_SAVE_DOM').value;
 			if (location.replace(filename, '') !== ''){
 				try {
-					APP_FS.writeFileSync(location, content, mode);
+					R3_MODULES.fs.writeFileSync(location, content, mode);
 				} catch (err) {
 					R3_SYSTEM.log('error', 'ERROR - Unable to save file!\nReason: ' + err);
 				};
@@ -128,28 +135,28 @@ tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execN
 };
 // Download Files
 tempFn_R3_FILEMANAGER['downloadFile'] = function(url, downloadFileName, execNext){
-	if (R3_WEBMODE === false){
-		var R3_FILE_DOWNLOAD_PG = R3_FILE_DOWNLOAD_LENGTH = R3_FILE_DOWNLOAD_PERCENT = 0, R3_FILE_DOWNLOAD_COMPLETE = false;
-		if (APP_FS.existsSync(downloadFileName) === true){
-			APP_FS.unlinkSync(downloadFileName);
+	if (R3_SYSTEM.web.isBrowser === false){
+		var R3_FILE_DOWNLOAD_PG = R3_FILE_DOWNLOAD_LENGTH = 0;
+		if (R3_MODULES.fs.existsSync(downloadFileName) === true){
+			R3_MODULES.fs.unlinkSync(downloadFileName);
 		};
 		const http = require('https'),
-			file = APP_FS.createWriteStream(downloadFileName),
+			file = R3_MODULES.fs.createWriteStream(downloadFileName),
 			request = http.get(url, function(response){
 				response.pipe(file);
 				response.on('data', function(chunk){
-					R3_FILE_DOWNLOAD_STATUSCODE = response.statusCode;
+					R3_FILEMANAGER.DOWNLOAD_STATUSCODE = response.statusCode;
 					R3_FILE_DOWNLOAD_PG = R3_FILE_DOWNLOAD_PG + parseInt(chunk.length);
 					R3_FILE_DOWNLOAD_LENGTH = parseInt(response.headers['content-length']);
-					R3_FILE_DOWNLOAD_PERCENT = R3_tools.parsePercentage(R3_FILE_DOWNLOAD_PG, R3_FILE_DOWNLOAD_LENGTH);
+					R3_FILEMANAGER.DOWNLOAD_PERCENTAGE = R3_tools.parsePercentage(R3_FILE_DOWNLOAD_PG, R3_FILE_DOWNLOAD_LENGTH);
 				});
 				file.on('finish', function(){
-					R3_FILE_DOWNLOAD_COMPLETE = true;
-					R3_FILE_DOWNLOAD_STATUSCODE = response.statusCode;
-					if (R3_FILE_DOWNLOAD_STATUSCODE === 200){
-						console.info('FILE - Download OK!\nStatus Code: ' + R3_FILE_DOWNLOAD_STATUSCODE);
+					R3_FILEMANAGER.DOWNLOAD_COMPLETE = true;
+					R3_FILEMANAGER.DOWNLOAD_STATUSCODE = response.statusCode;
+					if (R3_FILEMANAGER.DOWNLOAD_STATUSCODE === 200){
+						console.info('FILE - Download OK!\nStatus Code: ' + R3_FILEMANAGER.DOWNLOAD_STATUSCODE);
 					} else {
-						console.warn('FILE - Download Failed!\nStatus Code: ' + R3_FILE_DOWNLOAD_STATUSCODE);
+						console.warn('FILE - Download Failed!\nStatus Code: ' + R3_FILEMANAGER.DOWNLOAD_STATUSCODE);
 					};
 					if (execNext !== undefined){
 						execNext();
@@ -160,7 +167,7 @@ tempFn_R3_FILEMANAGER['downloadFile'] = function(url, downloadFileName, execNext
 };
 // Select Path
 tempFn_R3_FILEMANAGER['selectPath'] = function(functionEval){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		if (functionEval !== undefined){
 			TMS.triggerClick('R3_FOLDER_LOAD_DOM');
 			document.getElementById('R3_FOLDER_LOAD_DOM').onchange = function(){
@@ -178,8 +185,8 @@ tempFn_R3_FILEMANAGER['selectPath'] = function(functionEval){
 };
 // Copy files / folders
 tempFn_R3_FILEMANAGER['copyFiles'] = function(source, destiny, execNext){
-	if (R3_WEBMODE === false){
-		APP_FS.copy(source, destiny, function(err){
+	if (R3_SYSTEM.web.isBrowser === false){
+		R3_MODULES.fs.copy(source, destiny, function(err){
 			if (err){
 				R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to copy! <br>Reason: ' + err);
 			} else {

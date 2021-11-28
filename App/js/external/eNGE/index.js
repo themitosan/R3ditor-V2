@@ -279,7 +279,7 @@ function loadFileData(arrayBuffer){
     const base64text = Base64.encode(arrayBuffer);
     writeStorageStream('bios', arrayBuffer);
     try {
-      APP_FS.writeFileSync(SETTINGS_ENGE_BIOS_PATH, base64text);
+      R3_MODULES.fs.writeFileSync(SETTINGS_ENGE_BIOS_PATH, base64text);
     } catch (err){
       R3_SYSTEM.log('separator');
       R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to save PS1 Bios! <br>Details: ' + err);

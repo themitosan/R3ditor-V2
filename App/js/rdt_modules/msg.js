@@ -43,11 +43,11 @@ function R3_MSG_LOADFILE(){
 // Start Loading MSG
 function R3_MSG_startLoadMsg(fPath){
 	R3_MSG_fPath = fPath;
-	ORIGINAL_FILENAME = fPath;
-	MSG_arquivoBruto = APP_FS.readFileSync(fPath, 'hex');
+	R3_fileManager.originalFilename = fPath;
+	MSG_arquivoBruto = R3_MODULES.fs.readFileSync(fPath, 'hex');
 	var fileName, loaderInterval = setInterval(function(){
 		if (MSG_arquivoBruto !== undefined && MSG_arquivoBruto !== ''){
-			if (R3_WEBMODE === false){
+			if (R3_SYSTEM.web.isBrowser === false){
 				fileName = R3_tools.getFileName(fPath);
 			} else {
 				fileName = R3_tools.getFileName(fPath.name);
@@ -56,11 +56,11 @@ function R3_MSG_startLoadMsg(fPath){
 			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (MSG) Loading file: <font class="user-can-select">' + fPath + '</font>');
 			R3_MSG_DECOMPILER_START(MSG_arquivoBruto);
 			// End
-			R3_LATEST_SET_FILE(fileName + '.MSG', 1, ORIGINAL_FILENAME);
+			R3_LATEST_SET_FILE(fileName + '.MSG', 1, R3_fileManager.originalFilename);
 			clearInterval(loaderInterval);
 		} else {
-			if (R3_WEBMODE === true){
-				MSG_arquivoBruto = R3_WEB_FILE_BRIDGE;
+			if (R3_SYSTEM.web.isBrowser === true){
+				MSG_arquivoBruto = R3_SYSTEM.web.FILE_BRIDGE;
 			};
 		};
 	}, 100);
@@ -423,13 +423,13 @@ function R3_MSG_COMPILE(mode){
 		};
 		MSG_arquivoBruto = HEX_FINAL;
 		// Save
-		if (mode === 0 && R3_WEBMODE === true){
+		if (mode === 0 && R3_SYSTEM.web.isBrowser === true){
 			mode = 1;
 		};
 		if (mode === 0){
 			if (R3_MSG_fPath !== undefined){
 				try {
-					APP_FS.writeFileSync(R3_MSG_fPath, HEX_FINAL, 'hex');
+					R3_MODULES.fs.writeFileSync(R3_MSG_fPath, HEX_FINAL, 'hex');
 				} catch (err) {
 					R3_SYSTEM.log('error', 'ERROR - Unable to save MSG file!\nReason: ' + err);
 				};

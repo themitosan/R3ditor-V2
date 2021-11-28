@@ -48,9 +48,9 @@ tempFn_R3_LIVESTATUS = {
 tempFn_R3_LIVESTATUS['gotoTitleScreen'] = function(){
 	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && RE3_RUNNING === true && R3_MEMJS.canRender === true){
 		if (R3_LIVESTATUS.currentMode === 0){
-			APP_MEMJS.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_goto_titleScreen'][0], 40, APP_MEMJS.BYTE);
-			APP_MEMJS.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_goto_titleScreen'][1], 0, APP_MEMJS.BYTE);
-			APP_MEMJS.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_currentPlayer'][0],    0, APP_MEMJS.BYTE);
+			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_goto_titleScreen'][0], 40, R3_MODULES.memoryjs.BYTE);
+			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_goto_titleScreen'][1], 0, R3_MODULES.memoryjs.BYTE);
+			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_currentPlayer'][0],    0, R3_MODULES.memoryjs.BYTE);
 		} else {
 			R3_SYSTEM.alert('WARN: This option is not available on this game version.');
 		};
@@ -157,7 +157,7 @@ tempFn_R3_LIVESTATUS['applyPlayerPos'] = function(){
 tempFn_R3_LIVESTATUS['openCurrentMap'] = function(){
 	if (RE3_RUNNING === true && APP_ENABLE_MOD === true){
 		const fPath = R3_tools.getMapPath()[1] + 'R' + REALTIME_CurrentStage + REALTIME_CurrentRoomNumber + '.RDT';
-		if (APP_FS.existsSync(fPath) === true){
+		if (R3_MODULES.fs.existsSync(fPath) === true){
 			R3_SHOW_MENU(10);
 			R3_RDT.loadFile(fPath, true);
 		};

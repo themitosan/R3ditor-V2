@@ -30,7 +30,7 @@ var R3_GAMEPAD, R3_GAMEPAD_1P, R3_GAMEPAD_INTERVAL,
 */
 // Init gamepad
 function R3_GAMEPAD_INIT(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		window.addEventListener('gamepadconnected', function(){
 			R3_GAMEPAD_INTERVAL = setInterval(function(){
 				R3_GAMEPAD = navigator.getGamepads && navigator.getGamepads() || navigator.webkitGetGamepads && navigator.webkitGetGamepads() || navigator.webkitGamepads;
