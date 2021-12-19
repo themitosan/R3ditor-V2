@@ -148,7 +148,7 @@ function R3_WIZARD_EXTRACT_ROFS(rofsId){
 function R3_WIZARD_FINAL_CHECK_RE3_PATH(){
 	if (R3_SYSTEM.web.isBrowser === false){
 		R3_UTILS_LOADING_UPDATE('Now R3ditor V2 is Checking main game executables (1 of 2)...', 92);
-		var fName = R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
+		var fName = R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.processName;
 		if (R3_WIZARD_SET_RE3_PATH === true && R3_MODULES.fs.existsSync(R3_WIZARD_GAME_PATH + '/' + fName) === true){
 			R3_RE3_PATH = R3_WIZARD_GAME_PATH + '/' + fName;
 		};

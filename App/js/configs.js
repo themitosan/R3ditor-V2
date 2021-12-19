@@ -106,8 +106,6 @@ function R3_LOAD_CHECKFILES(){
 			};
 			// Init Backup System
 			R3_backupManager.openManager();
-			// Read json files
-			R3_SETTINGS_loadJsonModes();
 		} catch (err) {
 			R3_DESIGN_CRITIAL_ERROR(err);
 		};
@@ -165,6 +163,8 @@ function R3_LOAD_PROCESS_SETTINGS(){
 	if (R3_SYSTEM.web.isBrowser === false){
 		// Init discord rich presence
 		R3_DISCORD_INIT();
+		// Read json files
+		R3_SETTINGS_loadJsonModes();
 		// Check for Mod
 		if (R3_MODULES.fs.existsSync(R3_MOD.path + '/Bio3.ini') === true){
 			R3_MOD.enableMod = true;
@@ -243,9 +243,9 @@ function R3_SETTINGS_loadJsonModes(){
 					c++;
 				};
 			});
-			R3_gameVersionDatabase = tempDB;
 			document.getElementById('R3_SETTINGS_RE3_VERSION').innerHTML = htmlTemp;
 		};
+		R3_gameVersionDatabase = tempDB;
 	};
 };
 // Post-boot action
