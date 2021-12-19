@@ -80,6 +80,7 @@ function R3_LOAD_CHECKFILES(){
 				R3_SYSTEM.paths.mod + '/Configs',
 				R3_SYSTEM.paths.mod + '/Assets/Save',
 				R3_SYSTEM.paths.mod + '/Configs/Backup',
+				R3_SYSTEM.paths.mod + '/Configs/GameModes',
 				R3_SYSTEM.paths.mod + '/Configs/Backup/RDT'
 			],
 			DATABASE_INIT_DELETE_FILES = [
@@ -105,6 +106,8 @@ function R3_LOAD_CHECKFILES(){
 			};
 			// Init Backup System
 			R3_backupManager.openManager();
+			// Read json files
+			R3_SETTINGS_loadJsonModes();
 		} catch (err) {
 			R3_DESIGN_CRITIAL_ERROR(err);
 		};
@@ -171,8 +174,8 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		// Check if Executable Exists (RE3)
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3_PATH) === true){
 			R3_GAME.RE3_canRun = true;
-			if (R3_MOD.enableMod === true && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === false){
-				R3_RE3_MOD_PATH = R3_SYSTEM.paths.mod + '/Assets/' + R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
+			if (R3_MOD.enableMod === true && R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.isConsole === false){
+				R3_RE3_MOD_PATH = R3_SYSTEM.paths.mod + '/Assets/' + R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.processName;
 			};
 		};
 		// Check MERCE path
@@ -223,6 +226,27 @@ function R3_LOAD_PROCESS_SETTINGS(){
 		}, 1400);
 	};
 	R3_SETTINGS_LOADING = false;
+};
+// Load json data
+function R3_SETTINGS_loadJsonModes(){
+	if (R3_SYSTEM.web.isBrowser === false){
+		var c = 2, tempDB = R3_tempGameVersionDB, cPath = R3_SYSTEM.paths.mod + '/Configs/GameModes', htmlTemp = INCLUDE_OPTION_RE3_VERSION, jsonList = R3_MODULES.fs.readdirSync(cPath);
+		if (jsonList.length !== 0){
+			jsonList.forEach(function(cItem){
+				if (R3_tools.getFileExtension(cItem) === 'json'){
+					var gMode = 'PC', cJson = JSON.parse(R3_MODULES.fs.readFileSync(cPath + '/' + cItem, 'utf-8'));
+					if (cJson.gameData.isConsole === true){
+						gMode = 'Emu';
+					};
+					htmlTemp = htmlTemp + '<option value=' + c + '>(' + gMode + ') ' + cJson.gameData.gameVersion + ' (' + cJson.gameData.gameOrigin + ')</option>';
+					tempDB[c] = cJson;
+					c++;
+				};
+			});
+			R3_gameVersionDatabase = tempDB;
+			document.getElementById('R3_SETTINGS_RE3_VERSION').innerHTML = htmlTemp;
+		};
+	};
 };
 // Post-boot action
 function R3_LOAD_CHECK_EXTRA(){
@@ -607,6 +631,7 @@ function R3_INIT_PROCESS_ARGS(){
 		};
 	};
 };
+
 /*
 	NW Window Functions
 	Original code: https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen

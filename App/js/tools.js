@@ -545,6 +545,17 @@ tempFn_R3_TOOLS['isInteger'] = function(value){
 	};
 	return res;
 };
+/*
+	Hex Sum
+	Sum values and output on 0x hex format
+*/
+tempFn_R3_TOOLS['hexSum'] = function(hex, value){
+	var res = '0x000000';
+	if (hex !== undefined && value !== undefined){
+		res = '0x' + (parseInt(hex) + value).toString(16).toUpperCase();
+	};
+	return res;
+};
 // Get map path
 tempFn_R3_TOOLS['getMapPath'] = function(){
 	var gMode, cPrefix, result = [];
@@ -595,6 +606,7 @@ tempFn_R3_TOOLS['setImage'] = function(domId, imagePath){
 		document.getElementById(domId).src = imagePath;
 	};
 };
+
 /*
 	END
 */

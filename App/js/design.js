@@ -341,7 +341,7 @@ function R3_MENU_EXIT(){
 // Disable PC version exec buttons if emu
 function R3_DESIGN_CHECK_SHOW_EXECS(){
 	if (R3_SYSTEM.web.isBrowser === false){
-		if (R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === true){
+		if (R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.isConsole === true){
 			TMS.css('R3_MENU_RUN_GAME', {'display': 'none'});
 		} else {
 			TMS.css('R3_MENU_RUN_GAME', {'display': 'inline-block'});
@@ -2435,7 +2435,7 @@ function R3_LIVETSTATUS_RENDER(){
 	// Map Values
 	if (RE3_LIVE_MAP !== R3_LIVESTATUS.currentRDT || R3_LIVESTATUS_FORCE_RENDER === true){
 		if (RDT_locations[R3_LIVESTATUS.currentRDT] !== undefined){
-			if (R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === true){
+			if (R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.isConsole === true){
 				ext = 'ARD';
 			};
 			document.getElementById('R3_LIVESTATUS_LBL_ROOM_NAME').innerHTML = RDT_locations[R3_LIVESTATUS.currentRDT][0];
@@ -2494,8 +2494,8 @@ function R3_LIVETSTATUS_RENDER(){
 		document.getElementById('R3_LIVESTATUS_LBL_PLR_HP_HEX').innerHTML = R3_LIVESTATUS.currentHP;
 		document.getElementById('R3_LIVESTATUS_LBL_PLR_HP').innerHTML = R3_tools.processPlayerHP(R3_LIVESTATUS.currentHP)[0];
 		document.getElementById('R3_LIVESTATUS_LBL_PLR_CONDITION').innerHTML = R3_tools.processPlayerHP(R3_LIVESTATUS.currentHP)[1];
-		document.getElementById('R3_LIVESTATUS_LBL_PLR_WEAPON').innerHTML = R3_LIVESTATUS_WEAPONS[R3_LIVESTATUS.currentWeapon];
-		document.getElementById('R3_LIVESTATUS_LBL_PLR_CURRENT').innerHTML = R3_LIVESTATUS_playerList[R3_LIVESTATUS.currentPlayer];
+		document.getElementById('R3_LIVESTATUS_LBL_PLR_WEAPON').innerHTML = R3_LIVESTATUS_DB.weaponList[R3_LIVESTATUS.currentWeapon];
+		document.getElementById('R3_LIVESTATUS_LBL_PLR_CURRENT').innerHTML = R3_LIVESTATUS_DB.playerList[R3_LIVESTATUS.currentPlayer];
 		/*
 			End
 		*/

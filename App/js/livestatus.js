@@ -53,9 +53,9 @@ tempFn_R3_LIVESTATUS = {
 tempFn_R3_LIVESTATUS['gotoTitleScreen'] = function(){
 	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && R3_GAME.gameRunning === true && R3_MEMJS.canRender === true){
 		if (R3_LIVESTATUS.currentMode === 0){
-			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_goto_titleScreen'][0], 40, R3_MODULES.memoryjs.BYTE);
-			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_goto_titleScreen'][1], 0, R3_MODULES.memoryjs.BYTE);
-			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_currentPlayer'][0],    0, R3_MODULES.memoryjs.BYTE);
+			R3_MEMJS.writeValue(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].cPlayer, '00', 'hex');
+			R3_MEMJS.writeValue(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].miscGotoTitle, '28', 'hex');
+			R3_MEMJS.writeValue(R3_tools.hexSum(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].miscGotoTitle, 3), '00', 'hex');
 		} else {
 			R3_SYSTEM.alert('WARN: This option is not available on this game version.');
 		};
@@ -65,8 +65,8 @@ tempFn_R3_LIVESTATUS['gotoTitleScreen'] = function(){
 tempFn_R3_LIVESTATUS['infiniteHP'] = function(){
 	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && R3_GAME.gameRunning === true && R3_MEMJS.canRender === true){
 		if (R3_LIVESTATUS.currentHP.toLowerCase() !== 'c800'){
-			R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_HP'][0], 'C8', 'hex');
-			R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_HP'][1], '00', 'hex');
+			R3_MEMJS.writeValue(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].cHP, 'C8', 'hex');
+			R3_MEMJS.writeValue(R3_tools.hexSum(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].cHP, 1), '00', 'hex');
 		};
 	};
 };
@@ -74,8 +74,8 @@ tempFn_R3_LIVESTATUS['infiniteHP'] = function(){
 tempFn_R3_LIVESTATUS['addGodHp'] = function(){
 	if (DEBUG_LOCKRENDER === false && R3_MEMJS.processObj !== undefined && R3_GAME.gameRunning === true && R3_MEMJS.canRender === true){
 		document.getElementById('R3_LIVESTATUS_OPTION_INFINITE_HP').checked = false;
-		R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_HP'][0], 48, 'int');
-		R3_MEMJS.writeValue(MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_HP'][1], 117, 'int');
+		R3_MEMJS.writeValue(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].cHP, '30', 'hex');
+		R3_MEMJS.writeValue(R3_tools.hexSum(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].cHP, 1), '75', 'hex');
 	};
 };
 // Apply Item On Invent R3_LIVESTATUS_APPLYITEM
@@ -91,7 +91,7 @@ tempFn_R3_LIVESTATUS['applyInventItem'] = function(slotID){
 		if (R3_LIVESTATUS.currentPlayer === '02'){
 			cPlayer = 'C';
 		};
-		inventStartPos = MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_' + cPlayer + '_invent_item-1'][0];
+		inventStartPos = R3_gameVersionDatabase[R3_LIVESTATUS.currentMode]['player' + cPlayer].invtLocation;
 		IT = R3_tools.fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value, 2);
 		AT = R3_tools.fixVars(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').value, 2);
 		tempInvent = localStorage.getItem('REALTIME_INVENTORY').match(/.{8,8}/g);
@@ -110,7 +110,7 @@ tempFn_R3_LIVESTATUS['applyInventItem'] = function(slotID){
 // Apply Item on ItemBox R3_LIVESTATUS_APPLYITEMBOX
 tempFn_R3_LIVESTATUS['applyBoxItem'] = function(itemId){
 	var tempFinalHex = '', cPlayer = 'J', R3_IBOX_TEMP = R3_LIVESTATUS.playerItemBox.match(/.{8,8}/g),
-		cLocation = MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_' + cPlayer + '_iBox_Start'][0],
+		cLocation = R3_gameVersionDatabase[R3_LIVESTATUS.currentMode]['player' + cPlayer].itemBoxStart,
 		AT = document.getElementById('R3_LIVESTATUS_SELECT_ITEM_AT').value,
 		IT = document.getElementById('R3_LIVESTATUS_SELECT_ITEM_HEX').value,
 		QT = parseInt(document.getElementById('R3_LIVESTATUS_SELECT_ITEM_QT').value);
@@ -120,7 +120,7 @@ tempFn_R3_LIVESTATUS['applyBoxItem'] = function(itemId){
 	if (QT > 255){
 		QT = 255;
 	};
-	if (REALTIME_CurrentPlayer === '02'){
+	if (R3_LIVESTATUS.currentPlayer === '02'){
 		cPlayer = 'C';
 	};
 	R3_IBOX_TEMP[itemId] = IT + R3_tools.fixVars(QT.toString(16), 2) + AT + '00';
@@ -144,15 +144,15 @@ tempFn_R3_LIVESTATUS['applyPlayerPos'] = function(){
 			newR = R3_tools.fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_R').value, 4).match(/.{2,2}/g),
 			posArray = [...newX, ...newY, ...newZ, ...newR, R3_tools.fixVars(document.getElementById('R3_LIVESTATUS_EDIT_POS_zI').value, 2)],
 			memArray = [
-				MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_xPosition'][0],
-				MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_xPosition'][1],
-				MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_yPosition'][0],
-				MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_yPosition'][1],
-				MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_zPosition'][0],
-				MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_zPosition'][1],
-				MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_rPosition'][0],
-				MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_rPosition'][1],
-				MEMJS_HEXPOS['RE3_mode_' + R3_LIVESTATUS.currentMode + '_zIndex'][0]
+				R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].xPos[0],
+				R3_tools.hexSum(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].xPos, 1),
+				R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].yPos[0],
+				R3_tools.hexSum(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].yPos, 1),
+				R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].zPos[0],
+				R3_tools.hexSum(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].zPos, 1),
+				R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].rPos[0],
+				R3_tools.hexSum(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].rPos, 1),
+				R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].zIndex[0]
 			];
 		// End
 		R3_MEMJS.writeArray(memArray, posArray);

@@ -109,7 +109,7 @@ const R3_internalHoldTime = 2800, INCLUDE_CRX = 'TheMitoSan, Khaled SA and F. Ki
 	// Settings
 	INCLUDE_SCD_OPTION_EDITOR_MODE = '<option value="0" title="This mode will allow you edit SCD like you do on RPG Maker / Impact JS Events (Entities)">List Editor</option><option value="1" title="This mode will allow edit SCD like Bioscript, writing every function!">Code Editor [WIP]</option>',
 	INCLUDE_OPTION_SCD_SIZE = '<option value="0.7">Tiny!</option><option value="0.9">Small</option><option value="1">Normal</option><option value="1.2">x1.2</option><option value="1.5">x1.5</option><option value="1.8">x1.8</option><option value="2">x2</option>',
-	INCLUDE_OPTION_RE3_VERSION = '<option value="0">(PC) USA Version (Eidos)</option><option value="1">(PC) USA Version (Xplosiv)</option><option value="4">(PC) Gemini REbirth W. USA Version (Eidos)</option><option value="2">(Emu) pSX (aka. psfin) - Ver. 1.13, Game: USA</option><option value="3" disabled="disabled">(Emu) ePSXe - Ver. 2.0.5, Game: USA</option>',
+	INCLUDE_OPTION_RE3_VERSION = '<option value="0">(PC) USA Version (Eidos)</option><option value="1">(PC) USA Version (Xplosiv)</option>',
 	INCLUDE_OPTION_LIVESTATUS_POS = '<option value="0">Bottom</option><option value="1">Right</option>',
 	INCLUDE_OPTION_MSG_DECOMPILE = '<option value="3">Resident Evil 3</option>',
 	// File Generattor
@@ -3483,206 +3483,117 @@ const R3_internalHoldTime = 2800, INCLUDE_CRX = 'TheMitoSan, Khaled SA and F. Ki
 		'ini': [5, 'INI Editor']
 	},
 	/*
-		Game Versions
-		Order: Name Version, Origin, Is Emu, Executable name (the name of executable that MemoryJS will try hook into), Search base
+		R3_gameVersionDatabase (Old MEMJS_HEXPOS)
+
+		This is where RAM locations inside main process is stored.
+		You can insert new game versions inserting a json on R3V2/Configs/GameModes
 	*/
-	R3_GAME_VERSIONS = {
-		0: ['Eidos US', 'USA', false, 'ResidentEvil3.exe', null],
-		1: ['Xplosiv', 'USA', false, 'ResidentEvil3.exe', null],
-		2: ['pSX Emulator', 'USA', true, 'psxfin.exe', 0xCB00000],
-		3: ['ePSXe Emulator', 'USA', true, 'ePSXe.exe', 0x1AA0000],
-		4: ['Gemini REBirth (US)', 'USA', false, 'BIOHAZARD(R) 3 PC.exe', null]
-	},
-	/*
-		MEMJS_HEXPOS
-		(This thing here will be checked soon...)
-	
-		Memory postions for reading in-game information.
-		All read commands are processed with MEM_JS.BYTE (int) and converted to hex.
-		
-		J = Jill Valentine
-		C = Carlos Oliveira
-		
-		Title Screen: Set 0xA5C9C0 to 28 and 0xA5C9C3 to 00 make the game go to title screen
-	*/
-	MEMJS_HEXPOS = {
-		/*
-			Mode 0 = RE3 Eidos US
-		*/
-		// Current Map - First Camera (B773...)
-		'RE3_mode_0_firstCameraStart': 	['0x64EB8C'],
-		// Item Box
-		'RE3_mode_0_J_iBox_Start': 		['0xA622CC'],
-		'RE3_mode_0_C_iBox_Start': 		['0xA6240C'],
-		// Jill Inventory
-		'RE3_mode_0_J_invent_item-1':  	['0xA622A4'],
-		// Carlos Inventory
-		'RE3_mode_0_C_invent_item-1':  	['0xA623E4'],
-		// Player Hex Pos.
-		'RE3_mode_0_xPosition': 	    ['0xA5CD68', '0xA5CD69'],
-		'RE3_mode_0_yPosition': 	    ['0xA5CD70', '0xA5CD71'],
-		'RE3_mode_0_zPosition': 	    ['0xA5CD6C', '0xA5CD6D'],
-		'RE3_mode_0_rPosition': 	    ['0xA5CDA2', '0xA5CDA3'],
-		'RE3_mode_0_zIndex': 			['0xA5CD3D'],
-		// Current Stage, Room number & Cam
-		'RE3_mode_0_Stage': 			['0xA620E6'],
-		'RE3_mode_0_currentCam': 		['0xA5CD2E'],
-		'RE3_mode_0_currentRoomNumber': ['0xA620E8'],
-		// HP
-		'RE3_mode_0_HP': 				['0xA5CE00', '0xA5CE01'],
-		// Player current weapon
-		'RE3_mode_0_J_currentWeapon': 	['0xA623CD'],
-		'RE3_mode_0_C_currentWeapon': 	['0xA6250D'],
-		// Current Player
-		'RE3_mode_0_currentPlayer': 	['0x6FA402'],
-		// Title screen
-		'RE3_mode_0_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'],
-		/*
-			Mode 1 = RE3 Xplosiv
-		*/
-		// Item Box
-		'RE3_mode_1_J_iBox_Start': 		['0xA7C62C'],
-		'RE3_mode_1_C_iBox_Start': 		['0xA7C76C'],
-		// Jill Inventory
-		'RE3_mode_1_J_invent_item-1':  	['0xA7C604'],
-		// Carlos Inventory
-		'RE3_mode_1_C_invent_item-1':  	['0xA7C744'],
-		// Player Hex Pos.
-		'RE3_mode_1_xPosition': 	    ['0xA770C8', '0xA770C9'],
-		'RE3_mode_1_yPosition': 	    ['0xA770D0', '0xA770D1'],
-		'RE3_mode_1_zPosition': 	    ['0XA770CC', '0xA770CD'],
-		'RE3_mode_1_rPosition': 	    ['0xA77102', '0xA77103'],
-		'RE3_mode_1_zIndex': 			['0XA7709D'],
-		// Current Stage, Room number & Cam
-		'RE3_mode_1_Stage': 			['0xA7C446'],
-		'RE3_mode_1_currentCam': 		['0xA7708E'],
-		'RE3_mode_1_currentRoomNumber': ['0xA7C448'],
-		// HP
-		'RE3_mode_1_HP': 				['0xA77160', '0xA77161'],
-		// Player current weapon
-		'RE3_mode_1_J_currentWeapon': 	['0xA7C72D'],
-		'RE3_mode_1_C_currentWeapon': 	['0xA7C86D'],
-		// Current Player
-		'RE3_mode_1_currentPlayer': 	['0x71254A'],
-		// Title screen
-		'RE3_mode_1_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'], // WIP
-		/*
-			Mode 2
-			pSX 1.13 PS1 Emulator (Game ver: USA)
-		*/
-		// Item Box
-		'RE3_mode_2_J_iBox_Start': 		['0xE4417C'],
-		'RE3_mode_2_C_iBox_Start': 		['0xE442BC'],
-		// Jill Inventory
-		'RE3_mode_2_J_invent_item-1':  	['0xE44154'],
-		// Carlos Inventory
-		'RE3_mode_2_C_invent_item-1':  	['0xE44294'],
-		// Player Hex Pos.
-		'RE3_mode_2_xPosition': 	    ['0xE3EC18', '0xE3EC19'],
-		'RE3_mode_2_yPosition': 	    ['0xE3EC20', '0xE3EC21'],
-		'RE3_mode_2_zPosition': 	    ['0xE3EC1C', '0xE3EC1D'],
-		'RE3_mode_2_rPosition': 	    ['0xE3EC52', '0xE3EC53'],
-		'RE3_mode_2_zIndex': 			['0xE3EBED'],
-		// Current Stage, Room number & Cam
-		'RE3_mode_2_Stage': 			['0x12D3F96'],
-		'RE3_mode_2_currentCam': 		['0xE3EBDE'],
-		'RE3_mode_2_currentRoomNumber': ['0xE43F98'],
-		// HP
-		'RE3_mode_2_HP': 				['0x12CECB0', '0x12CECB1'],
-		// Player current weapon
-		'RE3_mode_2_J_currentWeapon': 	['0xE4427D'],
-		'RE3_mode_2_C_currentWeapon': 	['0xE443BD'],
-		// Current Player
-		'RE3_mode_2_currentPlayer': 	['0x1B2685E'], // I think this value is wrong
-		// Title screen
-		'RE3_mode_2_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'], // Savestate said hello!
-		/*
-			Mode 3
-			ePSXe 2.0.5 PS1 Emulator (Game ver: USA)
-		*/
-		// Item Box
-		'RE3_mode_3_J_iBox_Start': 		['0xE4417C'],
-		'RE3_mode_3_C_iBox_Start': 		['0xE442BC'],
-		// Jill Inventory
-		'RE3_mode_3_J_invent_item-1':  	['0xE44154'],
-		// Carlos Inventory
-		'RE3_mode_3_C_invent_item-1':  	['0xE44294'],
-		// Player Hex Pos.
-		'RE3_mode_3_xPosition': 	    ['0xE3EC18', '0xE3EC19'],
-		'RE3_mode_3_yPosition': 	    ['0xE3EC20', '0xE3EC21'],
-		'RE3_mode_3_zPosition': 	    ['0xE3EC1C', '0xE3EC1D'],
-		'RE3_mode_3_rPosition': 	    ['0xE3EC52', '0xE3EC53'],
-		'RE3_mode_3_zIndex': 			['0xE3EBED'],
-		// Current Stage, Room number & Cam
-		'RE3_mode_3_Stage': 			['0x12D3F96'],
-		'RE3_mode_3_currentCam': 		['0xE3EBDE'],
-		'RE3_mode_3_currentRoomNumber': ['0xE43F98'],
-		// HP
-		'RE3_mode_3_HP': 				['0x12CECB0', '0x12CECB1'],
-		// Player current weapon
-		'RE3_mode_3_J_currentWeapon': 	['0xE4427D'],
-		'RE3_mode_3_C_currentWeapon': 	['0xE443BD'],
-		// Current Player
-		'RE3_mode_3_currentPlayer': 	['0x1B2685E'], // I think this value is wrong
-		// Title screen
-		'RE3_mode_3_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'], // Savestate said hello!
-		/*
-			Mode 4 - WIP
-			Gemini REBirth Path (Game ver: USA)
-		*/
-		// Item Box
-		'RE3_mode_4_J_iBox_Start': 		['0xA675AC'], // OK
-		'RE3_mode_4_C_iBox_Start': 		['0xA676EC'], // OK 
-		// Jill Inventory
-		'RE3_mode_4_J_invent_item-1':  	['0xA67584'], // OK
-		// Carlos Inventory
-		'RE3_mode_4_C_invent_item-1':  	['0xA676C4'], // OK
-		// Player Hex Pos.
-		'RE3_mode_4_xPosition': 	    ['0xA62048', '0xA62049'], // OK
-		'RE3_mode_4_yPosition': 	    ['0xA62050', '0xA62051'], // OK
-		'RE3_mode_4_zPosition': 	    ['0xA6204C', '0xA6204D'], // OK
-		'RE3_mode_4_rPosition': 	    ['0xA62082', '0xA62083'], // OK
-		'RE3_mode_4_zIndex': 			['0xA6201D'], // OK
-		// Current Stage, Room number & Cam
-		'RE3_mode_4_Stage': 			['0xA673C6'], // OK
-		'RE3_mode_4_currentCam': 		['0xA6200E'], // OK
-		'RE3_mode_4_currentRoomNumber': ['0xA673C8'], // OK (Stage Hex Pos + 2)
-		// HP
-		'RE3_mode_4_HP': 				['0xA620E0', '0xA620E1'], // OK
-		// Player current weapon
-		'RE3_mode_4_J_currentWeapon': 	['0xA676AD'], // OK
-		'RE3_mode_4_C_currentWeapon': 	['0xE443BD'],
-		// Current Player
-		'RE3_mode_4_currentPlayer': 	['0x6FE999'], // Must Check this
-		// Title screen
-		'RE3_mode_4_goto_titleScreen':  ['0xA5C9C0', '0xA5C9C3'] // This is not needed here...
-	},
-	// RE3 Livestatus Player List
-	R3_LIVESTATUS_playerList = {
-		'00': 'No player detected',
-		'01': 'Jill Valentine',
-		'02': 'Carlos Oliveira'
-	},
-	R3_LIVESTATUS_WEAPONS = {
-		'00': 'Bare Hands',
-		'01': 'Combat Knife',
-		'02': 'Sigpro Handgun',
-		'03': 'Handgun M92F',
-		'04': 'Shotgun B. M3S',
-		'05': 'S&W Magnum',
-		'06': 'G. Launcher',
-		'07': 'G. Launcher',
-		'08': 'G. Launcher',
-		'09': 'G. Launcher',
-		'0a': 'R. Launcher',
-		'0b': 'Gatling Gun',
-		'0c': 'Mine Thrower',
-		'0d': 'STI Eagle 6.0',
-		'0e': 'A. Rifle (Auto)',
-		'0f': 'A. Rifle (Manual)',
-		'10': 'Western Custom',
-		'11': 'Sigpro SP 2009 E',
-		'12': 'Beretta M92F E',
-		'13': 'Shotgun B. M3S E',
-		'14': 'Mine Thrower E'
-	};
+	R3_tempGameVersionDB = {
+		// 0: Eidos US
+		0: {
+			// Game metadata
+			gameData: {
+				isConsole: 	 false,				  // Set this true for emulators
+				searchBase:  null,				  // RAM location for seek process
+				gameOrigin:  'USA',				  // Game Location
+				gameVersion: 'Eidos US',		  // Game Version
+				processName: 'ResidentEvil3.exe'  // Executable name
+			},
+			// Player Data
+			'cHP': 				 '0xA5CE00', // Pos + 1 0xA5CE00 & 0xA5CE01
+			'cPlayer': 			 '0x6FA402',
+			// Player Position
+			'xPos':   			 '0xA5CD68', // Pos + (Pos + 1)
+			'yPos':   			 '0xA5CD70', // Pos + (Pos + 1)
+			'zPos':   			 '0xA5CD6C', // Pos + (Pos + 1)
+			'rPos':   			 '0xA5CDA2', // Pos + (Pos + 1)
+			'zIndex': 			 '0xA5CD3D', // Pos + (Pos + 1)
+			// Stage
+			'cCam': 	   		 '0xA5CD2E',
+			'cStage': 	   		 '0xA620E6',
+			'cRoomNumber': 		 '0xA620E8',
+			// Jill Valentine
+			playerJ: {
+				'itemBoxStart':  '0xA622CC',
+				'invtLocation':  '0xA622A4',
+				'currentWeapon': '0xA623CD'
+			},
+			// Carlos Oliveira
+			playerC: {
+				'itemBoxStart':  '0xA6240C',
+				'invtLocation':  '0xA623E4',
+				'currentWeapon': '0xA6250D'
+			},
+			// Misc
+			'miscGotoTitle': 	 '0xA5C9C0', // Set 0xA5C9C0 to 28 (hex) and 0xA5C9C3 to 00 (hex) will return to title screen
+			'misctCameraStart':  '0x64EB8C'
+		},
+		// 1: RE3 Xplosiv (USA)
+		1: {
+			// Game metadata
+			gameData: {
+				isConsole: 	 false,
+				searchBase:  null,
+				gameOrigin:  'USA',
+				gameVersion: 'Xplosiv',
+				processName: 'ResidentEvil3.exe'
+			},
+			// Player Data
+			'cHP': 				 '0xA77160', // Pos + 1 0xA77160 & 0xA77161
+			'cPlayer': 			 '0x6FA402',
+			// Player Position
+			'xPos':   			 '0xA770C8',
+			'yPos':   			 '0xA770D0',
+			'zPos':   			 '0XA770CC',
+			'rPos':   			 '0xA77102',
+			'zIndex': 			 '0XA7709D',
+			// Stage
+			'cCam': 	   		 '0xA7708E',
+			'cStage': 	   		 '0xA7C446',
+			'cRoomNumber': 		 '0xA7C448',
+			// Jill Valentine
+			playerJ: {
+				'itemBoxStart':  '0xA7C604',
+				'invtLocation':  '0xA7C604',
+				'currentWeapon': '0xA7C72D'
+			},
+			// Carlos Oliveira
+			playerC: {
+				'itemBoxStart':  '0xA7C62C',
+				'invtLocation':  '0xA7C744',
+				'currentWeapon': '0xA7C86D'
+			}
+		}
+	}, R3_gameVersionDatabase = {},
+	R3_LIVESTATUS_DB = {
+		// Player list (R3_LIVESTATUS_playerList)
+		playerList: {
+			'00': 'No player detected',
+			'01': 'Jill Valentine',
+			'02': 'Carlos Oliveira'
+		},
+		// Weapons (R3_LIVESTATUS_WEAPONS)
+		weaponList: {
+			'00': 'Bare Hands',
+			'01': 'Combat Knife',
+			'02': 'Sigpro Handgun',
+			'03': 'Handgun M92F',
+			'04': 'Shotgun B. M3S',
+			'05': 'S&W Magnum',
+			'06': 'G. Launcher',
+			'07': 'G. Launcher',
+			'08': 'G. Launcher',
+			'09': 'G. Launcher',
+			'0a': 'R. Launcher',
+			'0b': 'Gatling Gun',
+			'0c': 'Mine Thrower',
+			'0d': 'STI Eagle 6.0',
+			'0e': 'A. Rifle (Auto)',
+			'0f': 'A. Rifle (Manual)',
+			'10': 'Western Custom',
+			'11': 'Sigpro SP 2009 E',
+			'12': 'Beretta M92F E',
+			'13': 'Shotgun B. M3S E',
+			'14': 'Mine Thrower E'
+		}
+	}

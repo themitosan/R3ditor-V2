@@ -128,10 +128,7 @@ function R3_WIZARD_copyMissingFiles(){
 			R3_MOD.enableMod = true;
 			// Mod Path
 			process.chdir(R3_SYSTEM.paths.original);
-			// Skip making config file if current version is Gemini REbirth
-			if (R3_LIVESTATUS.currentMode !== 4){
-				R3_INI.generateIni(0, R3_WIZARD_KEEP_ROFS11);
-			};
+			R3_INI.generateIni(0, R3_WIZARD_KEEP_ROFS11);
 			R3_WIZARD_FINAL_CHECK_RE3_PATH();
 			clearInterval(syncInterval);
 		};

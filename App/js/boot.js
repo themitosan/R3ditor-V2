@@ -352,7 +352,7 @@ tempFn_R3_SYSTEM['getPaths'] = function(){
 		// Linux (Tested on Ubuntu 21.10)
 		if (process.platform === 'linux'){
 			R3_SYSTEM.paths.mod = R3_MODULES.os.homedir() + '/R3V2';
-			R3_SYSTEM.paths.tools = R3_tools.fixPath(R3_SYSTEM.paths.path_original + '/Tools');
+			R3_SYSTEM.paths.tools = R3_tools.fixPath(R3_SYSTEM.paths.original + '/Tools');
 		};
 	};
 };
@@ -411,7 +411,7 @@ tempFn_R3_SYSTEM.externalSoftware['runExec'] = function(exe, args, mode, newFile
 		PROCESS.on('close', function(code){
 			R3_SYSTEM.log('separator');
 			R3_SYSTEM.externalSoftware.processRunning = false;
-			process.chdir(R3_SYSTEM.paths.path_original);
+			process.chdir(R3_SYSTEM.paths.original);
 			if (R3_GAME.gameRunning !== false){
 				R3_GAME.gameRunning = false;
 				R3_LIVESTATUS_CLOSE_BAR();
@@ -634,7 +634,7 @@ tempFn_R3_GAME = {
 };
 // Run Game
 tempFn_R3_GAME['run'] = function(mode){
-	if (R3_SYSTEM.web.isBrowser === false && R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][2] === false && R3_UPDATER_RUNNING === false){
+	if (R3_SYSTEM.web.isBrowser === false && R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.isConsole === false && R3_UPDATER_RUNNING === false){
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3_PATH) === true){
 			if (mode === 0 && R3_GAME.RE3_canRun === true){
 				R3_MEMJS.seekProcess();
