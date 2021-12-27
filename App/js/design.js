@@ -2701,11 +2701,11 @@ function R3_LIVESTATUS_APPLY_PLAYERPOS_BAR(){
 function RE3_LIVE_COPY_PASTE_LOCATION(mode){
 	if (R3_GAME.gameRunning === true && R3_MEMJS.processObj !== undefined){
 		if (mode === 0){
-			R3_LIVESTATUS.tempXPos = REALTIME_X_Pos;
-			R3_LIVESTATUS.tempYPos = REALTIME_Y_Pos;
-			R3_LIVESTATUS.tempZPos = REALTIME_Z_Pos;
-			R3_LIVESTATUS.tempRPos = REALTIME_R_Pos;
-			R3_SYS_copyText('[CURRENT LOCATION]\nCurrent Map: R' + parseInt(REALTIME_CurrentStage) + REALTIME_CurrentRoomNumber + '.RDT\nX Pos: ' + REALTIME_X_Pos + '\nY Pos: ' + REALTIME_Y_Pos + '\nZ Pos: ' + REALTIME_Z_Pos + '\nR Pos: ' + REALTIME_R_Pos);
+			R3_LIVESTATUS.tempXPos = R3_LIVESTATUS.playerXPos;
+			R3_LIVESTATUS.tempYPos = R3_LIVESTATUS.playerYPos;
+			R3_LIVESTATUS.tempZPos = R3_LIVESTATUS.playerZPos;
+			R3_LIVESTATUS.tempRPos = R3_LIVESTATUS.playerRPos;
+			R3_SYS_copyText('[CURRENT LOCATION]\nCurrent Map: R' + parseInt(REALTIME_CurrentStage) + REALTIME_CurrentRoomNumber + '.RDT\nX Pos: ' + R3_LIVESTATUS.playerXPos + '\nY Pos: ' + R3_LIVESTATUS.playerYPos + '\nZ Pos: ' + R3_LIVESTATUS.playerZPos + '\nR Pos: ' + R3_LIVESTATUS.playerRPos);
 			TMS.css('RE3_LIVESTATUS_stageOptions_pastePos', {'display': 'inline'});
 		} else {
 			document.getElementById('RE3_LIVESTATUS_edit_X').value = R3_LIVESTATUS.tempXPos;
