@@ -161,10 +161,10 @@ tempFn_R3_LIVESTATUS['applyPlayerPos'] = function(){
 // Open current map on RDT Editor R3_LIVESTATUS_openCurrentMap
 tempFn_R3_LIVESTATUS['openCurrentMap'] = function(){
 	if (R3_GAME.gameRunning === true && R3_MOD.enableMod === true){
-		const fPath = R3_tools.getMapPath()[1] + 'R' + REALTIME_CurrentStage + REALTIME_CurrentRoomNumber + '.RDT';
+		const fPath = R3_tools.getMapPath()[1] + 'R' +  R3_LIVESTATUS.currentStage + R3_LIVESTATUS.currentRoomNumber + '.RDT';
 		if (R3_MODULES.fs.existsSync(fPath) === true){
 			R3_SHOW_MENU(10);
-			R3_RDT.loadFile(fPath, true);
+			R3_RDT.readMap(fPath, true);
 		};
 	} else {
 		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to load file! Reason: File not found! (404)');

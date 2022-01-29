@@ -5077,118 +5077,118 @@ function R3_SCD_FUNCTION_REMOVE(functionId){
 function R3_SCD_EDIT_FUNCTION_usePlayerPos(where){
 	// 61 Door Pos.
 	if (where === 0){
-		document.getElementById('R3_SCD_EDIT_61_posX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_61_posY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_61_posZ').value = R3_LIVESTATUS.playerZPos;
-		document.getElementById('R3_SCD_EDIT_61_posR').value = R3_LIVESTATUS.playerRPos;
+		document.getElementById('R3_SCD_EDIT_61_posX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_61_posY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_61_posZ').value = REALTIME_Z_Pos;
+		document.getElementById('R3_SCD_EDIT_61_posR').value = REALTIME_R_Pos;
 	};
 	// 61 Spawn Pos.
 	if (where === 1){
-		document.getElementById('R3_SCD_EDIT_61_nextX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_61_nextY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_61_nextZ').value = R3_LIVESTATUS.playerZPos;
-		document.getElementById('R3_SCD_EDIT_61_nextR').value = R3_LIVESTATUS.playerRPos;
-		document.getElementById('R3_SCD_EDIT_61_zIndex').value = R3_LIVESTATUS.playerzIndex;
-		document.getElementById('R3_SCD_EDIT_61_nextCam').value = R3_LIVESTATUS.currentCam;
+		document.getElementById('R3_SCD_EDIT_61_nextX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_61_nextY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_61_nextZ').value = REALTIME_Z_Pos;
+		document.getElementById('R3_SCD_EDIT_61_nextR').value = REALTIME_R_Pos;
+		document.getElementById('R3_SCD_EDIT_61_zIndex').value = REALTIME_zIndex;
+		document.getElementById('R3_SCD_EDIT_61_nextCam').value = REALTIME_CurrentCam;
 		document.getElementById('R3_SCD_EDIT_61_stage').value = parseInt(REALTIME_CurrentStage);
 		document.getElementById('R3_SCD_EDIT_61_roomNumber').value = REALTIME_CurrentRoomNumber;
 		R3_SCD_FUNCTIONEDIT_updateCamPreview('61');
 	};
 	// 62 Door Pos.
 	if (where === 2){
-		document.getElementById('R3_SCD_EDIT_62_posX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_62_posY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_62_posZ').value = R3_LIVESTATUS.playerZPos;
-		document.getElementById('R3_SCD_EDIT_62_posR').value = R3_LIVESTATUS.playerRPos;
+		document.getElementById('R3_SCD_EDIT_62_posX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_62_posY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_62_posZ').value = REALTIME_Z_Pos;
+		document.getElementById('R3_SCD_EDIT_62_posR').value = REALTIME_R_Pos;
 	};
 	// 62 Spawn Pos.
 	if (where === 3){
-		document.getElementById('R3_SCD_EDIT_62_nextX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_62_nextY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_62_nextZ').value = R3_LIVESTATUS.playerZPos;
-		document.getElementById('R3_SCD_EDIT_62_nextR').value = R3_LIVESTATUS.playerRPos;
-		document.getElementById('R3_SCD_EDIT_62_zIndex').value = R3_LIVESTATUS.playerzIndex;
-		document.getElementById('R3_SCD_EDIT_62_nextCam').value = R3_LIVESTATUS.currentCam;
+		document.getElementById('R3_SCD_EDIT_62_nextX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_62_nextY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_62_nextZ').value = REALTIME_Z_Pos;
+		document.getElementById('R3_SCD_EDIT_62_nextR').value = REALTIME_R_Pos;
+		document.getElementById('R3_SCD_EDIT_62_zIndex').value = REALTIME_zIndex;
+		document.getElementById('R3_SCD_EDIT_62_nextCam').value = REALTIME_CurrentCam;
 		document.getElementById('R3_SCD_EDIT_62_stage').value = parseInt(REALTIME_CurrentStage);
 		document.getElementById('R3_SCD_EDIT_62_roomNumber').value = REALTIME_CurrentRoomNumber;
 		R3_SCD_FUNCTIONEDIT_updateCamPreview('62');
 	};
 	// 55 POS_SET XYZ
 	if (where === 4){
-		document.getElementById('R3_SCD_EDIT_55_posX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_55_posY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_55_posZ').value = R3_LIVESTATUS.playerZPos;
+		document.getElementById('R3_SCD_EDIT_55_posX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_55_posY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_55_posZ').value = REALTIME_Z_Pos;
 	};
 	// 56 DIR_SET XYZ
 	if (where === 5){
-		document.getElementById('R3_SCD_EDIT_56_posX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_56_posY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_56_posZ').value = R3_LIVESTATUS.playerZPos;
+		document.getElementById('R3_SCD_EDIT_56_posX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_56_posY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_56_posZ').value = REALTIME_Z_Pos;
 	};
 	// 67 Set Item [ITEM_AOT_SET]
 	if (where === 6){
-		document.getElementById('R3_SCD_EDIT_67_posX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_67_posY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_67_posZ').value = R3_LIVESTATUS.playerZPos;
-		document.getElementById('R3_SCD_EDIT_67_posR').value = R3_LIVESTATUS.playerRPos;
+		document.getElementById('R3_SCD_EDIT_67_posX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_67_posY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_67_posZ').value = REALTIME_Z_Pos;
+		document.getElementById('R3_SCD_EDIT_67_posR').value = REALTIME_R_Pos;
 	};
 	// 77 Play SE [SE_ON]
 	if (where === 7){
-		document.getElementById('R3_SCD_EDIT_77_posX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_77_posY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_77_posZ').value = R3_LIVESTATUS.playerZPos;
+		document.getElementById('R3_SCD_EDIT_77_posX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_77_posY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_77_posZ').value = REALTIME_Z_Pos;
 	}
 	// 81 Set Animation DEST [PLC_DEST] XY DataA and DataB
 	if (where === 8){
-		document.getElementById('R3_SCD_EDIT_81_dataA').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_81_dataB').value = R3_LIVESTATUS.playerYPos;
+		document.getElementById('R3_SCD_EDIT_81_dataA').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_81_dataB').value = REALTIME_Y_Pos;
 	};
 	// 81 Set Animation DEST [PLC_DEST] R DataA
 	if (where === 9){
-		document.getElementById('R3_SCD_EDIT_81_dataA').value = R3_LIVESTATUS.playerRPos;
+		document.getElementById('R3_SCD_EDIT_81_dataA').value = REALTIME_R_Pos;
 	};
 	// 68 Set Item 4P [ITEM_AOT_SET_4P]
 	if (where === 10){
-		document.getElementById('R3_SCD_EDIT_68_posX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_68_posY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_68_posZ').value = R3_LIVESTATUS.playerZPos;
-		document.getElementById('R3_SCD_EDIT_68_posR').value = R3_LIVESTATUS.playerRPos;
+		document.getElementById('R3_SCD_EDIT_68_posX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_68_posY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_68_posZ').value = REALTIME_Z_Pos;
+		document.getElementById('R3_SCD_EDIT_68_posR').value = REALTIME_R_Pos;
 	};
 	// 7D Set Enemy / NPC [EM_SET]
 	if (where === 11){
-		document.getElementById('R3_SCD_EDIT_7d_posX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_7d_posY').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_7d_posZ').value = R3_LIVESTATUS.playerZPos;
-		document.getElementById('R3_SCD_EDIT_7d_posR').value = R3_LIVESTATUS.playerRPos;
+		document.getElementById('R3_SCD_EDIT_7d_posX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_7d_posY').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_7d_posZ').value = REALTIME_Z_Pos;
+		document.getElementById('R3_SCD_EDIT_7d_posR').value = REALTIME_R_Pos;
 	};
 	// 63 Set Interactive Object [AOT_SET]
 	if (where === 12){
-		document.getElementById('R3_SCD_EDIT_63_posX').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_63_posY').value = R3_LIVESTATUS.playerYPos;
+		document.getElementById('R3_SCD_EDIT_63_posX').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_63_posY').value = REALTIME_Y_Pos;
 	};
 	// 7F Set 3D Object [OM_SET] - Object Position
 	if (where === 13){
-		document.getElementById('R3_SCD_EDIT_7f_xPos').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_7f_yPos').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_7f_zPos').value = R3_LIVESTATUS.playerZPos;
+		document.getElementById('R3_SCD_EDIT_7f_xPos').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_7f_yPos').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_7f_zPos').value = REALTIME_Z_Pos;
 	};
 	// 7F Set 3D Object [OM_SET] - Object Direction
 	if (where === 14){
-		document.getElementById('R3_SCD_EDIT_7f_xDir').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_7f_yDir').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_7f_zDir').value = R3_LIVESTATUS.playerZPos;
+		document.getElementById('R3_SCD_EDIT_7f_xDir').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_7f_yDir').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_7f_zDir').value = REALTIME_Z_Pos;
 	};
 	// 7F Set 3D Object [OM_SET] - Colission Position
 	if (where === 15){
-		document.getElementById('R3_SCD_EDIT_7f_xColPos').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_7f_yColPos').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_7f_zColPos').value = R3_LIVESTATUS.playerZPos;
+		document.getElementById('R3_SCD_EDIT_7f_xColPos').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_7f_yColPos').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_7f_zColPos').value = REALTIME_Z_Pos;
 	};
 	// 7F Set 3D Object [OM_SET] - Colission Direction
 	if (where === 16){
-		document.getElementById('R3_SCD_EDIT_7f_xColDir').value = R3_LIVESTATUS.playerXPos;
-		document.getElementById('R3_SCD_EDIT_7f_yColDir').value = R3_LIVESTATUS.playerYPos;
-		document.getElementById('R3_SCD_EDIT_7f_zColDir').value = R3_LIVESTATUS.playerZPos;
+		document.getElementById('R3_SCD_EDIT_7f_xColDir').value = REALTIME_X_Pos;
+		document.getElementById('R3_SCD_EDIT_7f_yColDir').value = REALTIME_Y_Pos;
+		document.getElementById('R3_SCD_EDIT_7f_zColDir').value = REALTIME_Z_Pos;
 	};
 	R3_SCD_FUNCTIONEDIT_showUsePlayerPos(1);
 };
