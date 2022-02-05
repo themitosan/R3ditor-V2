@@ -28,7 +28,7 @@
         "title": "R3ditor V2 - Please wait..."
     },
     "dependencies": {
-        "nw": "0.38.4-sdk",
+        "nw": "0.60.0",
         "memoryjs": "^3.2.3",
         "fs-extra": "^8.1.0",
         "jsonfile": "^4.0.0",
