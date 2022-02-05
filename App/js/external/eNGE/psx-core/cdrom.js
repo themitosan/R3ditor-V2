@@ -357,7 +357,7 @@ const cdr = (() => {
                     cdr.setIrq(3);
                   } break;
 
-        case 0x13:  R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) CdlGetTN');
+        case 0x13:  R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) CdlGetTN');
                     cdr.statusCode |= 0x02;
                     cdr.results.push(cdr.statusCode);
                     cdr.results.push(0x01);

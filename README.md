@@ -13,7 +13,7 @@ It can open maps, text files and SCD Scripts. For now, your best usage is for ed
 - Windows: 7, 8, 8.1, 10 or 11.
 - Linux: Ubuntu 20.00 or higher
 - macOS: 10.15 (Mojave) or higher²
-- Hardware: Any hardware that is capable of running NW.js and the game!
+- Hardware: Any hardware that is capable of running NW.js / Electron and the game!
 
 
 ### How to install
@@ -22,28 +22,36 @@ It's recommended to use our pre-compiled version! You can download on <a href="h
 <i>PS: <a href="https://themitosan.github.io/R3V2" title="Click here to test R3ditor V2 in your browser!" target="_blank">You can try this tool online!</a></i>
 
 ##### Important
-To run this software properly, you will need generate <code>node_modules</code> folder using <code>npm</code> and Visual Studio 2017 <i>(with c++ development tools)</i>.
+To run this software properly, you will need generate <code>node_modules</code>.<br>
+This will require Node.js, Python 2.7.12 and Visual Studio 2017 <i>(with c++ development tools)</i>.
 
-#### Windows (NW.js)
+#### Windows (NW.js - Compiling <code>node_modules</code>)
 * Clone this repository
 * Rename <code>nw_package.json</code> to <code>package.json</code>
-* Run <code>npm install</code> and wait! (Make sure to have VS 2017 installed - otherwise it will fail!)
-* Download NW.js version 0.38.4 [ <a title="x86 Version - Click here to download" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0.38.4-win-ia32.zip" target="_blank">x86 / 32 Bits</a> or <a title="x64 Version - Click here to download" target="_blank" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0.38.4-win-x64.zip">x64 / 64 Bits</a> ]
-* Extract nw contents inside clone folder
+* Open <code>cmd</code> on this location, run <code>npm install</code> and wait! <i>(This process may take a while)</i>
+* Extract <code>memoryjs</code> folder from "nw_easyinstall.zip" inside <code>node_modules</code>
+* Run <code>npm start</code>
+
+#### Windows (NW.js - Easy Install)
+* Clone this repository
+* Extract all contents from "nw_easyinstall.zip" where "nw_package.json" is located
+* Download <a href="https://dl.nwjs.io/v0.38.4/" target="_blank">NW.js 0.38.4</a> and extract it where "nw_package.json" is located 
+* Rename "nw_easyinstall_package.json" to "package.json"
 * Run <code>nw.exe</code>
 
 #### Windows (Electron)
 * Clone this repository
 * Rename <code>electron_package.json</code> to <code>package.json</code>
-* Run <code>npm install</code> and wait! (Make sure to have VS 2017 installed - otherwise it will fail!)
+* Open <code>cmd</code>, run <code>npm install</code> and wait! (Make sure to have VS 2017 installed - otherwise it will fail!)
 * Run <code>npm start</code>
 
 #### Linux
 It's exactly the same process to run on windows (nw)!
-The only difference is: To run R3V2:
+The only difference is - To run R3V2:
 
 * Open your terminal and navigate to R3V2 folder
 * Run <code>./nw</code>
+(Important: You will need to install <code>wine</code> to be able to execute some actions)
 
 Download Links: [ <a href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0.38.4-linux-ia32.tar.gz" target="_blank">x86 / 32 Bits</a> or <a target="_blank" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0.38.4-linux-x64.tar.gz">x64 / 64 Bits</a> ]
 
@@ -63,6 +71,7 @@ Download Link: [ <a target="_blank" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0
 * Electron by OpenJS Foundation
 
 ### External JS Apps / Plugins:
+* TMS.js by TheMitoSan
 * eNGE by Reene-Kootstra
 
 ### NW.js Plugins:

@@ -1,36 +1,41 @@
 <!-- Hällò -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<!-- Meta -->
-		<meta charset="utf-8">
-		<title>R3ditor V2</title>
-		<meta name="theme-color" content="#000"/>
+		<meta charset="utf-8"/>
+		<title>R3ditor V2 - Please Wait...</title>
+		<link rel="manifest" href="webPackage.json"/>
+		<link rel="apple-touch-icon" href="img/logo.webp">
 		<link rel="shortcut icon" href="img/logo_ico.ico"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<link rel="icon" type="image/png" href="img/logo.png"/>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="icon" type="image/webp" href="img/logo.webp"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Theme -->
+		<meta name="theme-color" content="#000"/>
+		<meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000"/>
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#000"/>
 		<!-- Google Tags -->
 		<meta name="google" content="notranslate"/>
-		<meta name="author" content="R3ditor Team">
-		<meta name="robots" content="noindex, nofollow">
+		<meta name="author" content="R3ditor Team"/>
+		<meta name="robots" content="noindex, nofollow"/>
 		<meta name="description" content="R3ditor V2 (aka. R3V2) is the second version of the multi-editing tool for classic Resident Evil 3 modding.">
-		<meta name="keywords" content="Resident Evil 3, R3V2, R3, R3ditor V2, R3ditor, Classic, RE3, Resident Evil, Modding, Mod, Tool, RDT, SCD, MSG, RID, JavaScript, JS, PC, TMS, TheMitoSan, Team">
+		<meta name="keywords" content="Resident Evil 3, R3V2, R3, R3ditor V2, R3ditor, Classic, RE3, Resident Evil, Modding, Mod, Tool, RDT, SCD, MSG, RID, JavaScript, JS, PC, TMS, TheMitoSan, Team"/>
 		<!-- OG Meta Tags -->
-		<meta property="og:image" content="img/logo.png">
-		<meta property="og:site_name" content="R3ditor V2">
-		<meta property="og:image:type" content="image/png">
-		<meta property="og:title" content="R3ditor V2 (R3V2)">
+		<meta property="og:image" content="img/logo.webp"/>
+		<meta property="og:site_name" content="R3ditor V2"/>
+		<meta property="og:image:type" content="image/webp"/>
+		<meta property="og:title" content="R3ditor V2 (R3V2)"/>
 		<meta property="og:url" content="https://themitosan.github.io/R3V2"/>
 		<meta property="og:description" content="R3ditor V2 (aka. R3V2) is the second version of the multi-editing tool for classic Resident Evil 3 modding."/>
 		<!-- Twitter Meta Tags -->
 		<meta name="twitter:card" content="summary"/>
 		<meta name="twitter:site" content="@TheMitoSan"/>
 		<meta name="twitter:creator" content="@TheMitoSan"/>
-		<!-- External Modules -->
-		<script type="text/javascript" src="js/external/jquery-3.6.0.min.js"></script>
-		<script type="text/javascript" src="js/external/jquery-ui.min.js"></script>
+		<!-- Security Tags -->
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
 	</head>
 	<body id="APP_BODY">
 		<!-- Loading Frame -->
@@ -43,12 +48,13 @@
 				<div class="R3_SPLASH_BG_FRAME_BOTOM" id="R3_SPLASH_BG_FRAME_BOTOM"></div>
 				<div class="R3_SPLASH_BG" id="R3_SPLASH_BG"></div>
 				<!-- Content -->
-				<img src="img/logo.png" class="R3_SPLASH_LOGO">
+				<img ondragstart="return false;" src="img/logo.webp" class="R3_SPLASH_LOGO" alt="R3V2_LOGO_SPLASH"/>
 				<div class="R3_SPLASH_LBL">
 					<font class="monospace" id="R3_SPLASH_VER">???</font>
 				</div>
 				<div class="R3_SPLASH_TITLE" id="R3_SPLASH_TITLE">
-					<font class="LBL_title">R3ditor V2</font><br>
+					<font class="LBL_title">R3ditor V2</font> 
+					<font class="monospace txt-italic">(aka. R3V2)</font><br>
 					<font class="monospace mono_xyzr">Created by R3ditor Team<br>
 						<font class="txt-italic" id="R3_SPLASH_CREATORS"></font>
 					</font>
@@ -59,85 +65,149 @@
 			</div>
 			<!-- Canvas -->
 			<div class="R3_MAIN_LOADING_DIV monospace mono_xyzr" id="R3_MAIN_LOADING_DIV">
-				Loading - Please wait...
+				<i>Loading - Please wait...</i>
 			</div>
 		</div>
 		<!-- App Holder -->
 		<div class="R3_APP_HOLDER" id="R3_APP_HOLDER">
-			<!-- Recent File -->
-			<div class="R3_LATEST_FILE_DIV" id="R3_LATEST_FILE_DIV">
-				<div class="R3_LATEST_FILE_TITLE">
-					<div class="align-center"><font class="LBL_subTitle">Last File Opened</font></div>
-					<div class="SEPARATOR-2"></div>
-				</div>
-				<!-- Image -->
-				<div class="R3_LATEST_FILE_IMG_PREV" id="R3_LATEST_FILE_IMG_PREV"></div>
-				<!-- Infos -->
-				<div class="R3_LATEST_FILE_INFO">
-					File: <font class="R3_LATEST_FILE_INFO_LABELS" id="R3_LBL_RECENT_FILE">???</font><br>
-					Type: <font class="R3_LATEST_FILE_INFO_LABELS" id="R3_LBL_RECENT_FILE_TYPE">???</font><br>
-					Path: <font class="R3_LATEST_FILE_INFO_LABELS user-can-select" id="R3_LBL_RECENT_FILE_PATH">???</font>
-				</div>
-				<!-- Open Button -->
-				<div class="R3_LATEST_OPEN_BTN">
-					<input type="button" value="Open" id="R3_BTN_LATEST_FILE" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" onclick="R3_LATEST_OPEN();">
-				</div>
-			</div>
 			<!-- App Logo -->
-			<img src="img/logo.png" class="APP_LOGO">
-			<img src="img/FRAME_BG.png" class="FRAME_TITLE">
-			<img id="R3_HOME_BG" class="R3_HOME_BG">
+			<img ondragstart="return false;" src="img/logo.webp" class="APP_LOGO" alt="R3V2_LOGO">
+			<img ondragstart="return false;" src="img/FRAME_BG.webp" class="FRAME_TITLE" alt="R3V2_FRAME">
+			<img ondragstart="return false;" id="R3_HOME_BG" class="R3_HOME_BG" alt="R3_HOME_BG">
 			<!-- Main Menu -->
 			<div class="R3_MENU_MAIN_TOP" id="R3_MENU_MAIN_TOP">
-				<div id="R3_MENU_MAIN_TOP_HOLDER" class="display-flex">
-					<!-- Editors -->
-					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" id="BTN_MAIN_7" onclick="R3_SHOW_MENU(10);" class="BTN_ICON_BASE" title="(RDT Editor) Click here to open RE3 RDT Editor">
-						<input type="button" id="BTN_MAIN_9" onclick="R3_SHOW_MENU(9);" class="BTN_ICON_BASE" title="(SCD Editor) Click here to open RE3 SCD Editor">
-						<input type="button" id="BTN_MAIN_10" onclick="R3_SHOW_MENU(7);" class="BTN_ICON_BASE" title="(MSG Editor) Click here to open RE3 MSG Editor">
-						<input type="button" id="BTN_MAIN_13" onclick="R3_WIP();" class="BTN_ICON_BASE" title="(SAV Editor) Click here to open RE3 SAV File [NOT IMPLEMENETED YET!]">
-						<input type="button" id="BTN_MAIN_17" onclick="R3_SHOW_MENU(6);" class="BTN_ICON_BASE" title="(INI Editor) Click here to open RE3 INI Editor [WIP]">
-						<input type="button" id="BTN_MAIN_19" onclick="R3_SHOW_MENU(13);" class="BTN_ICON_BASE" title="(RE3SET Editor) Click here to edit Resident Evil 3 General settings [NOT IMPLEMENETED YET!]">
+				<!-- Mod Menu -->
+				<div class="R3_MENU_ITEM none" id="R3_MENU_MOD">
+					Main Menu
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_BIG" title="(Project Wizard) Click here to open assistant for creating a new mod" onclick="R3_DESIGN_displayWizard();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-12.webp"><div class="R3_MENU_BIG_LBL">New Mod (Wizard)</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to load your mod" onclick="R3_MOD.loadMod();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-open-win.webp"><div class="R3_MENU_BIG_LBL">Load Mod</div>
+						</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to export your mod" onclick="R3_SYSTEM.WIP();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-export.webp">
+							<div class="R3_MENU_BIG_LBL R3_MENU_BIG_LBL_ICON_FIX">Export Mod</div>
+						</div>
 					</div>
-					<!-- Utility -->
-					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" id="BTN_MAIN_18" onclick="R3_SHOW_MENU(5);" class="BTN_ICON_BASE" title="(File Generator) Click here to write files using Resident Evil Fonts [WIP]">
-						<input type="button" id="BTN_MAIN_15" onclick="R3_OBJ_PATCHER();" class="BTN_ICON_BASE" title="(OBJ Patcher) Click here to fix OBJ files generated with Blender to use on RE3MV">
-						<input type="button" id="BTN_MAIN_14" onclick="R3_DESIGN_MINIWINDOW_OPEN(2, 'center');" class="BTN_ICON_BASE" title="(Xdelta Patcher) Click here to apply Xdelta patches">
-						<input type="button" id="BTN_MAIN_11" onclick="R3_ROFS_EXTRACT();" class="BTN_ICON_BASE" title="(ROFS Extractor) Click here to extract ROFS Files">
-						<input type="button" id="BTN_MAIN_16" onclick="ARD_loadFile();" class="BTN_ICON_BASE" title="(ARD Decompiler) Click here to decompile PS ARD file">
-						<input type="button" id="BTN_MAIN_33" onclick="ARD_checkRecompiler();" class="BTN_ICON_BASE" title="(ARD Compiler) Click here to compile PS ARD File">
-						<input type="button" id="BTN_MAIN_12" onclick="R3_ROFS_ENABLE_MOD_VERIFY();" class="BTN_ICON_BASE" title="(Wizard) Click here to extract the game assets and enable R3ditor V2 Full-Editing mode!">
-						<input type="button" id="BTN_MAIN_55" onclick="R3_eNGE_openEmuWindow();" class="BTN_ICON_BASE" title="(eNGE) Click here to open eNGE PS1 Emulator">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_MOD_EXPORT" id="BTN_MOD_EXPORT" title="(Export) Click here to your mod! [THIS WILL TAKE SOME TIME BUDDY - NOT IMPLEMENETED YET!]">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_HOOK" id="BTN_PS1_HOOK" title="Click here to hook on PS1 emulator!" onclick="R3_MEMORY_JS_HOOK_EMU();">
+				</div>
+				<!-- Editors -->
+				<div class="R3_MENU_ITEM">
+					Main Tools
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_BIG" title="(RDT Editor) Click here to open RE3 RDT Editor" onclick="R3_SHOW_MENU(10);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-7.webp"><div class="R3_MENU_BIG_LBL">RDT Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(SCD Editor) Click here to open RE3 SCD Editor" onclick="R3_SHOW_MENU(9);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-9.webp"><div class="R3_MENU_BIG_LBL">SCD Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(MSG Editor) Click here to open RE3 MSG Editor" onclick="R3_SHOW_MENU(7);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-10.webp"><div class="R3_MENU_BIG_LBL">MSG Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(SAV Editor) Click here to open RE3 SAV Editor [NOT IMPLEMENETED YET!]" onclick="R3_SYSTEM.WIP();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-13.webp"><div class="R3_MENU_BIG_LBL">SAV Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(INI Editor) Click here to open RE3 INI Editor [WIP]" onclick="R3_SHOW_MENU(6);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-17.webp"><div class="R3_MENU_BIG_LBL">INI Editor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(RE3SET Editor) Click here to edit Resident Evil 3 General settings [NOT IMPLEMENETED YET!]" onclick="R3_SHOW_MENU(13);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-19.webp"><div class="R3_MENU_BIG_LBL">RE3SET Editor</div>
+						</div>
 					</div>
-					<!-- Execs -->
-					<div class="R3_MENU_BTNS_EXECS" id="R3_MENU_MAIN_TOP_EXEC_GAME_DIV">
-						<input type="button" id="BTN_MAIN_0" onclick="R3_runGame(0);" class="BTN_ICON_BASE" disabled="disabled" title="Click here to open Resident Evil 3">
-						<input type="button" id="BTN_MAIN_2" onclick="R3_runGame(1);" class="BTN_ICON_BASE" disabled="disabled" title="Click here to open Mercenaries">
-						<input type="button" id="BTN_MAIN_3" onclick="R3_runGame(2);" class="BTN_ICON_BASE" disabled="disabled" title="Click here to open Resident Evil 3 (Mod)">
-						<input type="button" id="BTN_MAIN_4" onclick="R3_runGame(3);" class="BTN_ICON_BASE" disabled="disabled" title="Click here to open Mercenaries (Mod)">
+				</div>
+				<!-- Utility -->
+				<div class="R3_MENU_ITEM">
+					R3V2 Utility Tools
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_BIG" title="(File Generator) Click here to write files using Resident Evil Fonts [WIP]" onclick="R3_SHOW_MENU(5);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-18.webp"><div class="R3_MENU_BIG_LBL">File Generator</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(OBJ Patcher) Click here to fix OBJ files generated with Blender to use on RE3MV" onclick="R3_OBJ_PATCHER();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-15.webp"><div class="R3_MENU_BIG_LBL">OBJ Patcher</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(Xdelta Patcher) Click here to apply Xdelta patches" onclick="R3_DESIGN_openXdeltaPatcher();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-14.webp"><div class="R3_MENU_BIG_LBL">Xdelta Patcher</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(ROFS Extractor) Click here to extract ROFS Files" onclick="R3_ROFS_EXTRACT();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-11.webp"><div class="R3_MENU_BIG_LBL">ROFS Extractor</div>
+						</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_BIG" title="(eNGE) Click here to open eNGE PS1 Emulator" onclick="R3_eNGE_openEmuWindow();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-55.webp"><div class="R3_MENU_BIG_LBL">eNGE PS1 Emulator</div>
+						</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_BIG" title="(ARD Extractor) Click here to extract PS ARD file" onclick="ARD_loadFile();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-16.webp"><div class="R3_MENU_BIG_LBL">ARD Extractor</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="(ARD Compiler) Click here to compile PS ARD File" onclick="ARD_checkCompiler();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-33.webp"><div class="R3_MENU_BIG_LBL">ARD Compiler</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG none" id="R3_MENU_ITEM_LEOS_HUB" title="(Leo's Hub) Click here to open a list of files that can be opened with Leo2236 tools" onclick="R3_leosHub.openWindow();">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-leo.webp"><div class="R3_MENU_BIG_LBL">Leo's Hub</div>
+						</div>
+						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_OPCODE_FINDER" title="(SCD Opcode Finder) This is a simple tool that allows you to search for a specific SCD opcode across all extracted maps" onclick="R3_SCD_openOpcodeFinder();">
+							SCD Opcode Finder
+						</div>
+						<div id="BTN_PS1_HOOK" class="none">
+							<div class="R3_MENU_SEPARATOR"></div>
+							<div class="R3_MENU_ITEM_BIG" title="Click here to hook on PS1 emulator!" onclick="R3_MEMJS.HOOK_EMU();">
+								<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-hook.webp"><div class="R3_MENU_BIG_LBL">Hook on Emulator</div>
+							</div>
+						</div>
 					</div>
-					<!-- Right -->
-					<div class="R3_MENU_BTNS_OTHER">
-						<input type="button" id="BTN_MAIN_BACKUP" class="BTN_ICON_BASE BTN_ICON_BACKUP" title="Click here to open Backup Manager" onclick="R3_DESIGN_renderBackupManager();">
-						<input type="button" id="BTN_MAIN_22" class="BTN_ICON_BASE" title="Click here to open Log Window" onclick="R3_DESIGN_MINIWINDOW_OPEN(0);">
-						<input type="button" id="BTN_MAIN_53" class="BTN_ICON_BASE" title="Click here to open Help Center" onclick="R3_HC_OPEN_PAGE(4);">
-						<input type="button" id="BTN_MAIN_5" class="BTN_ICON_BASE" title="Click here to change R3ditor V2 Settings" onclick="R3_SHOW_MENU(0);">
-						<input type="button" id="BTN_MAIN_8" class="BTN_ICON_BASE" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">
-						<input type="button" id="BTN_MAIN_1" class="BTN_ICON_BASE" title="Click here to reload R3V2" onclick="R3_RELOAD();">
+				</div>
+				<!-- Current Tool Options -->
+				<div class="R3_MENU_ITEM none" id="R3_MENU_CURRENT_TOOL">
+					<font id="R3_MENU_DROPDOWN_LBL">???</font>
+					<div class="R3_MENU_DROPDOWN" id="R3_MENU_CURRENT_TOOL_HOLDER">
+						<!-- Current Tool options goes here -->					
+					</div>
+				</div>
+				<!-- Run Game -->
+				<div class="R3_MENU_ITEM" id="R3_MENU_RUN_GAME">
+					Run Game
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3" onclick="R3_GAME.run(0);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-0.webp"><div class="R3_MENU_BIG_LBL">Run RE3</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries" onclick="R3_GAME.run(1);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-2.webp"><div class="R3_MENU_BIG_LBL">Run Mercenaries</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Resident Evil 3 (With Mod)" onclick="R3_GAME.run(2);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-3.webp"><div class="R3_MENU_BIG_LBL">Run RE3 (Mod)</div>
+						</div>
+						<div class="R3_MENU_ITEM_BIG" title="Click here to open Mercenaries (With Mod)" onclick="R3_GAME.run(3);">
+							<img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-4.webp"><div class="R3_MENU_BIG_LBL">Run Mercs. (Mod)</div>
+						</div>
+					</div>
+				</div>
+				<!-- Settings -->
+				<div class="R3_MENU_ITEM">
+					Settings / Misc
+					<div class="R3_MENU_DROPDOWN">
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open R3V2 Settings" onclick="R3_SHOW_MENU(0);">R3V2 Settings</div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open Backup Manager" onclick="R3_DESIGN_renderBackupManager();">Backup Manager</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open log window" onclick="R3_DESIGN_openLogWindow();">Open Log Window</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to open R3V2 Help center main menu" onclick="R3_HC_OPEN_PAGE(4);">R3V2 Help Center</div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to see R3ditor V2 about page" onclick="R3_SHOW_MENU(1);">About R3V2</div>
+						<div class="R3_MENU_SEPARATOR"></div>
+						<div class="R3_MENU_ITEM_NORMAL none" id="R3_MENU_ITEM_GITHUB_UPDATER" title="Click here to open GitHub Updater" onclick="R3_UPDATER.getUpdates();">GitHub Updater</div>
+						<div class="R3_MENU_ITEM_NORMAL" title="Click here to reload R3V2" onclick="R3_SYSTEM.reload();">Reload</div>
 					</div>
 				</div>
 			</div>
 			<!-- RE3 Live Status (DOWN) -->
-			<div class="R3_LIVESTATUS_FOOTER none" id="R3_LIVESTATUS_FOOTER_HOLDER">
+			<div class="R3_LIVESTATUS_FOOTER none" id="R3_LIVESTATUS_0_HOLDER">
 				<div id="R3_LIVESTATUS_FOOTER_VALUES" class="display-box">
 					<!-- Player -->
 					<div class="R3_LIVESTATUS_PLAYERICON_DIV">
-						<img src="img/PLR_00.png" class="R3_LIVESTATUS_PLAYERICON" id="R3_LIVESTATUS_0_PLAYERICON">
+						<img ondragstart="return false;" src="img/PLR_00.webp" class="R3_LIVESTATUS_PLAYERICON" id="R3_LIVESTATUS_0_PLAYERICON">
 					</div>
-					<img src="img/items/00.png" class="R3_LIVESTATUS_WEAPONICON" id="R3_LIVESTATUS_0_WEAPONICON">
+					<img ondragstart="return false;" src="img/items/00.webp" class="R3_LIVESTATUS_WEAPONICON" id="R3_LIVESTATUS_0_WEAPONICON">
 					<!-- Life -->
 					<div class="R3_LIVESTATUS_PLAYERCONDITION_DIV R3_COLOR_FINE" id="R3_LIVESTATUS_0_PLAYERCONDITION_DIV">
 						HP: <font id="R3_LIVESTATUS_LBL_0_HP" class="monospace mono_xyzr">200</font><br>
@@ -167,7 +237,7 @@
 						<div id="R3_LIVESTATUS_LBL_0_CAM" class="user-can-select R3_LIVESTATUS_BOTTOMINF monospace">00</div>
 					</div>
 					<!-- Goto Title -->
-					<input type="button" class="R3_LIVESTATUS_BARBTN" value="Go to Title" onclick="R3_LIVESTATUS_gotoTitleScreen();">
+					<input type="button" class="R3_LIVESTATUS_BARBTN" value="Go to Title" onclick="R3_LIVESTATUS.gotoTitleScreen();">
 					<!-- Set Player Pos. -->
 					<input type="button" class="R3_LIVESTATUS_BARBTN R3_LIVESTATUS_BARBTN_usePlayerPos" value="Apply Pos." onclick="R3_LIVESTATUS_APPLY_PLAYERPOS_BAR();">
 					<!-- Toggle Pos. -->
@@ -177,13 +247,13 @@
 				</div>
 			</div>
 			<!-- RE3 Live Status (RIGHT) -->
-			<div class="R3_LIVESTATUS_RIGHT none" id="R3_LIVESTATUS_RIGHT_HOLDER">
+			<div class="R3_LIVESTATUS_RIGHT none" id="R3_LIVESTATUS_1_HOLDER">
 				<div id="R3_LIVESTATUS_RIGHT_VALUES" class="display-box">
 					<!-- Player -->
 					<div class="R3_LIVESTATUS_PLAYERICON_RIGHT_DIV">
-						<img src="img/PLR_00.png" class="R3_LIVESTATUS_PLAYERICON" id="R3_LIVESTATUS_1_PLAYERICON">
+						<img ondragstart="return false;" src="img/PLR_00.webp" class="R3_LIVESTATUS_PLAYERICON" id="R3_LIVESTATUS_1_PLAYERICON">
 					</div>
-					<img src="img/items/00.png" class="R3_LIVESTATUS_WEAPONICON" id="R3_LIVESTATUS_1_WEAPONICON"><br>
+					<img ondragstart="return false;" src="img/items/00.webp" class="R3_LIVESTATUS_WEAPONICON" id="R3_LIVESTATUS_1_WEAPONICON"><br>
 					<!-- Life -->
 					<div class="R3_LIVESTATUS_PLAYERCONDITION_RIGHT_DIV R3_COLOR_FINE" id="R3_LIVESTATUS_1_PLAYERCONDITION_DIV">
 						HP: <font id="R3_LIVESTATUS_LBL_1_HP" class="monospace mono_xyzr">200</font><br>
@@ -213,7 +283,7 @@
 						<div id="R3_LIVESTATUS_LBL_1_CAM" class="user-can-select R3_LIVESTATUS_BOTTOMINF monospace">00</div>
 					</div>
 					<!-- Goto title -->
-					<input type="button" class="R3_LIVESTATUS_BARBTN_RIGHT" value="Go to Title" onclick="R3_LIVESTATUS_gotoTitleScreen();">
+					<input type="button" class="R3_LIVESTATUS_BARBTN_RIGHT" value="Go to Title" onclick="R3_LIVESTATUS.gotoTitleScreen();">
 					<!-- Set Player Pos. -->
 					<input type="button" class="R3_LIVESTATUS_BARBTN_RIGHT R3_LIVESTATUS_BARBTN_RIGHT_usePlayerPos" value="Apply Pos." onclick="R3_LIVESTATUS_APPLY_PLAYERPOS_BAR();">
 					<!-- Toggle Pos. -->
@@ -226,15 +296,15 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_2">
 				<div id="R3V2_MINI_WINDOW_2_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					Xdelta Patcher
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(2);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(2);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="MENU_XDELTA_INNERINFOS">
-					Xdelta file: <font id="R3_XDELTA_LBL_XFILE" class="lbl-path">No file selected</font><input type="button" value="Select File" class="BTN_R3CLASSIC XDELTA_BTN_PATH" onclick="R3_XDELTA_loadFiles(0);" title="Click here to select the Xdelta file"><br>
+					Xdelta file: <font id="R3_XDELTA_LBL_XFILE" class="lbl-path XDELTA_LBL_FIX">No file selected</font><input type="button" value="Select File" class="BTN_R3CLASSIC XDELTA_BTN_PATH" onclick="R3_XDELTA.loadFiles(0);" title="Click here to select the Xdelta file"><br>
 					<div class="XDELTA_SEPARATOR">
-						Original file: <font id="R3_XDELTA_LBL_ORIGFILE" class="lbl-path">No file selected</font><input type="button" value="Select File" class="BTN_R3CLASSIC XDELTA_BTN_PATH" onclick="R3_XDELTA_loadFiles(1);" title="Click here to select the original file">
+						Original file: <font id="R3_XDELTA_LBL_ORIGFILE" class="lbl-path XDELTA_LBL_FIX">No file selected</font><input type="button" value="Select File" class="BTN_R3CLASSIC XDELTA_BTN_PATH" onclick="R3_XDELTA.loadFiles(1);" title="Click here to select the original file">
 					</div><br>
 					<div class="lbl-center">
-						<input type="button" title="Click here to apply" value="Apply Patch" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_XDELTA_APPLY();">
+						<input type="button" title="Click here to apply" value="Apply Patch" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_XDELTA.applyPatch();">
 					</div>
 				</div>
 			</div>
@@ -242,11 +312,11 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_15">
 				<div id="R3V2_MINI_WINDOW_15_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					Item Database
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(15);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(15);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<input type="text" onkeyup="R3_ITEM_DATABASE_SEARCH_INFO();" id="R3_ITEM_DATABASE_SEARCH" placeholder="Insert Item Hex Here" maxlength="2" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent">
 				<div class="align-center R3_ITEM_DATABASE_BG">
-					<img src="img/items/details/00.png" class="R3_ITEM_DATABASE_ICON" id="R3_ITEM_DATABASE_ICON"><br>
+					<img ondragstart="return false;" src="img/items/details/00.webp" class="R3_ITEM_DATABASE_ICON" id="R3_ITEM_DATABASE_ICON"><br>
 					<font class="LBL_subTitle" id="R3_ITEM_DATABASE_TITLE"></font><br>
 					<div class="align-left R3_ITEM_DATABASE_DETAILS" id="R3_ITEM_DATABASE_DETAILS">
 						<!-- Item Description goes here -->
@@ -257,7 +327,7 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_18">
 				<div id="R3V2_MINI_WINDOW_18_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					R3V2 Backup Manager
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(18);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(18);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="R3_BACKUP_MANAGER_LIST">
 					<div class="R3_BACKUP_MANAGER_BG"></div>
@@ -270,10 +340,10 @@
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_11">
 				<div id="R3V2_MINI_WINDOW_11_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					<font id="R3_HELP_CENTER_MINILABEL">???</font> - R3V2 Help Center
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(11);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(11);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<div class="R3_HC_TITLE_HOLDER" id="R3_HC_TITLE_HOLDER">
-					<img class="R3_HELP_CENTER_ICON_HOLDER" id="R3_HELP_CENTER_ICON_HOLDER"> 
+					<img ondragstart="return false;" class="R3_HELP_CENTER_ICON_HOLDER" id="R3_HELP_CENTER_ICON_HOLDER"> 
 					<font class="LBL_title" id="R3_HC_TITLE_LABEL">???</font>
 				</div>
 				<div class="R3_HC_WM"></div>
@@ -281,26 +351,27 @@
 					<!-- Hlep Center Goes Here -->
 				</div>
 			</div>
-
 			<!-- R3V2 - RE3 Livestatus -->
 			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_19">
 				<div id="R3V2_MINI_WINDOW_19_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					RE3 Livestatus
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(19);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.close(19);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 				</div>
 				<!-- Main Tabs -->
 				<div class="R3_TABHOLDER TAB_1">
 					<input type="button" id="R3_TABS_0_0" onclick="R3_DESIGN_SHOWTABS(0, 0);" class="R3_TAB_BASE R3_TAB_SELECT" value="General">
-					<input type="button" id="R3_TABS_0_1" onclick="R3_DESIGN_SHOWTABS(0, 1);" class="R3_TAB_BASE" value="Current Map">
+					<input type="button" id="R3_TABS_0_1" onclick="R3_DESIGN_SHOWTABS(0, 1);" class="R3_TAB_BASE none" value="WIP">
 				</div>
 				<div class="R3_TAB_MENU" id="R3_MENU_0_0">
-					<img src="img\FRAME_LS.png" class="FRAME_R3LS">
+					<img ondragstart="return false;" src="img\FRAME_LS.webp" class="FRAME_R3LS">
 					<!-- Mini Tabs -->
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_1" id="R3_LIVESTATUS_MINITAB_1" value="Process">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_2" id="R3_LIVESTATUS_MINITAB_2" value="Player Status">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_3" id="R3_LIVESTATUS_MINITAB_3" value="Inventory">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_4" id="R3_LIVESTATUS_MINITAB_4" value="Edit Slot 1">
 					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_5" id="R3_LIVESTATUS_MINITAB_5" value="Item Box">
+					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_6" id="R3_LIVESTATUS_MINITAB_6" value="Player Location">
+					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_7" id="R3_LIVESTATUS_MINITAB_7" value="Room Information">
 					<!-- Mini Sections -->
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_1">
 						Handle: <font id="R3_LIVESTATUS_LBL_PROCESS_HANDLE" class="sticky R3_LIVESTATUS_LBL_0">???</font><br>
@@ -311,83 +382,98 @@
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_2">
 						<div class="R3_LIVESTATUS_MINITAB_2_BG" id="R3_LIVESTATUS_MINITAB_2_BG"></div>
-						Current Player: <font id="R3_LIVESTATUS_LBL_PLR_CURRENT">???</font>
+						Current Player: <font id="R3_LIVESTATUS_LBL_PLR_CURRENT" class="monospace">???</font>
 						<div class="SEPARATOR-2"></div>
-						Current Weapon: <font id="R3_LIVESTATUS_LBL_PLR_WEAPON">???</font>
+						Current Weapon: <font id="R3_LIVESTATUS_LBL_PLR_WEAPON" class="monospace">???</font>
 						<div class="SEPARATOR-2"></div>
-						HP: <font id="R3_LIVESTATUS_LBL_PLR_HP" class="sticky R3_LIVESTATUS_LBL_1 monospace mono_xyzr">???</font> <font class="sticky monospace R3_LIVESTATUS_LBL_2">(<font class="user-can-select" id="R3_LIVESTATUS_LBL_PLR_HP_HEX">???</font>)</font><br>
+						HP: <font id="R3_LIVESTATUS_LBL_PLR_HP" class="sticky R3_LIVESTATUS_LBL_1">???</font> <font class="sticky monospace R3_LIVESTATUS_LBL_2">(<font class="user-can-select" id="R3_LIVESTATUS_LBL_PLR_HP_HEX">???</font>)</font><br>
 						Poisoned: <font id="R3_LIVESTATUS_LBL_PLR_POISON" class="sticky R3_LIVESTATUS_LBL_1">[WIP]</font><br>
 						Condition: <font id="R3_LIVESTATUS_LBL_PLR_CONDITION" class="sticky R3_LIVESTATUS_LBL_1">???</font>
 						<div class="SEPARATOR-2"></div>
-						IGT: <font id="R3_LIVESTATUS_LBL_IGT">[WIP]</font>
+						IGT: <font id="R3_LIVESTATUS_LBL_IGT" class="monospace mono_xyzr">[WIP]</font>
 						<div class="SEPARATOR-2"></div>
-						<input type="checkbox" id="R3_LIVESTATUS_OPTION_INFINITE_HP"><font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_LIVESTATUS_OPTION_INFINITE_HP');"> - Enable Infinite HP</font><br>
-						<div class="align-center"><input type="button" class="BTN_R3CLASSIC" value="Add 30K HP (God Mode)" onclick="R3_LIVESTATUS_addGodHp();"></div>
+						<input type="checkbox" id="R3_LIVESTATUS_OPTION_INFINITE_HP"><font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_LIVESTATUS_OPTION_INFINITE_HP');" title="Set this option enabled to always reset your HP to 200 if you get hurt"> - Enable Infinite HP</font><br>
+						<div class="align-center">
+							<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Add 30K HP (God Mode)" onclick="R3_LIVESTATUS.addGodHp();">
+						</div>
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_3">
 						<div class="R3_LIVESTATUS_INVENT_HOLDER">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_1" id="R3_LIVESTATUS_LBL_INVENT_1" onclick="R3_LIVESTATUS_EDIT_INVENT(1);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(1);" class="R3_LIVESTATUS_INVENT_ICON_BASE R3_LIVESTATUS_INVENT_ICON_1" id="R3_LIVESTATUS_INVENT_ICON_1">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(1);" class="R3_LIVESTATUS_INVENT_ICON_BASE R3_LIVESTATUS_INVENT_ICON_1" id="R3_LIVESTATUS_INVENT_ICON_1">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_2" id="R3_LIVESTATUS_LBL_INVENT_2" onclick="R3_LIVESTATUS_EDIT_INVENT(2);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(2);" class="R3_LIVESTATUS_INVENT_ICON_BASE R3_LIVESTATUS_INVENT_ICON_2" id="R3_LIVESTATUS_INVENT_ICON_2">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(2);" class="R3_LIVESTATUS_INVENT_ICON_BASE R3_LIVESTATUS_INVENT_ICON_2" id="R3_LIVESTATUS_INVENT_ICON_2">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_3" id="R3_LIVESTATUS_LBL_INVENT_3" onclick="R3_LIVESTATUS_EDIT_INVENT(3);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(3);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_3">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(3);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_3">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_4" id="R3_LIVESTATUS_LBL_INVENT_4" onclick="R3_LIVESTATUS_EDIT_INVENT(4);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(4);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_4">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(4);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_4">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_5" id="R3_LIVESTATUS_LBL_INVENT_5" onclick="R3_LIVESTATUS_EDIT_INVENT(5);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(5);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_5">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(5);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_5">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_6" id="R3_LIVESTATUS_LBL_INVENT_6" onclick="R3_LIVESTATUS_EDIT_INVENT(6);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(6);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_6">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(6);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_6">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_7" id="R3_LIVESTATUS_LBL_INVENT_7" onclick="R3_LIVESTATUS_EDIT_INVENT(7);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(7);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_7">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(7);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_7">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_8" id="R3_LIVESTATUS_LBL_INVENT_8" onclick="R3_LIVESTATUS_EDIT_INVENT(8);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(8);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_8">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(8);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_8">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_9" id="R3_LIVESTATUS_LBL_INVENT_9" onclick="R3_LIVESTATUS_EDIT_INVENT(9);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(9);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_9">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(9);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_9">
 							<div class="R3_LIVESTATUS_LBL_INVENT_BASE R3_LIVESTATUS_LBL_INVENT_10" id="R3_LIVESTATUS_LBL_INVENT_10" onclick="R3_LIVESTATUS_EDIT_INVENT(10);">0</div>
-							<img src="img\items\00.png" onclick="R3_LIVESTATUS_EDIT_INVENT(10);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_10">
+							<img ondragstart="return false;" src="img\items\00.webp" onclick="R3_LIVESTATUS_EDIT_INVENT(10);" class="R3_LIVESTATUS_INVENT_ICON_BASE" id="R3_LIVESTATUS_INVENT_ICON_10">
 						</div>
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_4" id="R3_LIVESTATUS_MINISECTION_4">
 						<div class="R3_LIVESTATUS_IMG_ITEM_BG" id="R3_LIVESTATUS_IMG_ITEM_BG"></div>
-						Item: <input type="text" spellcheck="false" class="R3_MSG_EDIT_FF_NUMBER" minlength="1" maxlength="2" placeholder="01" onkeyup="R3_LIVESTATUS_SEARCH_ITEM_HEX_SLOT();" id="R3_LIVESTATUS_SELECT_ITEM_HEX_SEARCH" autocomplete="off"> <select id="R3_LIVESTATUS_SELECT_ITEM_HEX" class="SELECT_SETTINGS R3_LIVESTATUS_ITEMSELECT_INVENT_FIX" onchange="R3_LIVESTATUS_EDIT_INVENT_RENDERIMG();">
-							<!-- Items goes here -->
-						</select>
 						<div class="align-center">
+							Item: <input type="text" spellcheck="false" class="R3_MSG_EDIT_FF_NUMBER" minlength="1" maxlength="2" placeholder="01" onkeyup="R3_LIVESTATUS_SEARCH_ITEM_HEX_SLOT();" id="R3_LIVESTATUS_SELECT_ITEM_HEX_SEARCH" autocomplete="off">
+							<select id="R3_LIVESTATUS_SELECT_ITEM_HEX" class="SELECT_SETTINGS R3_LIVESTATUS_ITEMSELECT_INVENT_FIX" onchange="R3_LIVESTATUS_EDIT_INVENT_RENDERIMG();">
+								<!-- Items goes here -->
+							</select>
 							Quantity: <input type="number" autocomplete="off" placeholder="15" min="0" max="255" maxlength="3" step="1" class="R3_MSG_EDIT_FF_NUMBER" id="R3_LIVESTATUS_SELECT_ITEM_QT"> 
 							Attr: <select class="SELECT_SETTINGS auto" id="R3_LIVESTATUS_SELECT_ITEM_AT">
 								<!-- Item Attr goes here -->
 							</select><br>
-							<img src="img/items/details/00.png" class="R3_LIVESTATUS_IMG_ITEM_SETSLOT" id="R3_LIVESTATUS_IMG_ITEM_SETSLOT">
+							<img ondragstart="return false;" src="img/items/details/00.webp" class="R3_LIVESTATUS_IMG_ITEM_SETSLOT" id="R3_LIVESTATUS_IMG_ITEM_SETSLOT"><br>
+							<input type="button" id="R3_LIVESTATUS_EDIT_INVENT_APPLY" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" title="Click here to apply" value="APPLY ITEM">
+							<input type="button" onclick="R3_LIVESTATUS_EDIT_INVENT_CANCEL();" class="SETTINGS_APPLY" title="Click here to cancel" value="Cancel">
 						</div>
-						<input type="button" id="R3_LIVESTATUS_EDIT_INVENT_APPLY" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" title="Click here to apply" value="APPLY ITEM">
-						<input type="button" onclick="R3_LIVESTATUS_EDIT_INVENT_CANCEL();" class="SETTINGS_APPLY" title="Click here to cancel" value="Cancel">
 					</div>
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_5">
 						<div class="R3_LIVESTATUS_BOX_HOLDER" id="R3_LIVESTATUS_BOX_HOLDER">
 							<!-- Item Box Goes Here -->
 						</div>
 					</div>
-				</div>
-				<div class="R3_TAB_MENU none" id="R3_MENU_0_1">
-					<img src="img\FRAME_LS.png" class="FRAME_R3LS">
-					<!-- Mini Tabs -->
-					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_6" value="Player Location">
-					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_7" value="Room Information">
-					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_8" value="Enemies Info">
-					<!-- Mini Sections -->
+					<!-- Player Location -->
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_6">
+						<font class="COLOR_X">X Position</font>: 
+						<input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_X" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_X" autocomplete="off">
+						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_X_INT" oninput="R3_LIVESTATUS_UPDATE_POS(1, 'X');" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_X R3_LIVESTATUS_POS_INT">
+						<input type="range" min="-32767" max="32767" step="80" value="0" id="R3_LIVESTATUS_EDIT_POS_X_RANGE" oninput="R3_LIVESTATUS_UPDATE_POS(0, 'X');" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
+						
+						<font class="COLOR_Y">Y Position</font>: 
+						<input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Y" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Y" autocomplete="off">
+						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_Y_INT" oninput="R3_LIVESTATUS_UPDATE_POS(1, 'Y');" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Y R3_LIVESTATUS_POS_INT">
+						<input type="range" min="-32767" max="32767" step="80" value="0" id="R3_LIVESTATUS_EDIT_POS_Y_RANGE" oninput="R3_LIVESTATUS_UPDATE_POS(0, 'Y');" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
+						
+						<font class="COLOR_Z">Z Position</font>: 
+						<input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Z" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Z" autocomplete="off">
+						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_Z_INT" oninput="R3_LIVESTATUS_UPDATE_POS(1, 'Z');" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Z R3_LIVESTATUS_POS_INT">
+						<input type="range" min="-32767" max="32767" step="80" value="0" id="R3_LIVESTATUS_EDIT_POS_Z_RANGE" oninput="R3_LIVESTATUS_UPDATE_POS(0, 'Z');" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
+						
+						<font class="COLOR_R">R Position</font>: 
+						<input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_R" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_R" autocomplete="off">
+						<input type="number" min="-32767" max="32767" maxlength="5" step="1" value="0" placeholder="0" id="R3_LIVESTATUS_EDIT_POS_R_INT" oninput="R3_LIVESTATUS_UPDATE_POS(1, 'R');" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_R R3_LIVESTATUS_POS_INT">
+						<input type="range" min="-32767" max="32767" step="80" value="0" id="R3_LIVESTATUS_EDIT_POS_R_RANGE" oninput="R3_LIVESTATUS_UPDATE_POS(0, 'R');" class="R3_LIVESTATUS_EDIT_POS_RANGE"><br>
+						
+						<font class="COLOR_zI">Z-Index:</font> <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_zI" maxlength="2" placeholder="00" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_zI" autocomplete="off"><br>
 						<div class="align-center">
-							<font class="COLOR_X">X Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_X" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_X" autocomplete="off"><br>
-							<font class="COLOR_Y">Y Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Y" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Y" autocomplete="off"><br>
-							<font class="COLOR_Z">Z Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_Z" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_Z" autocomplete="off"><br>
-							<font class="COLOR_R">R Position</font>: <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_R" maxlength="4" placeholder="0000" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_R" autocomplete="off"><br>
-							<font class="COLOR_zI">Z-Index Pos:</font> <input type="text" spellcheck="false" id="R3_LIVESTATUS_EDIT_POS_zI" maxlength="2" placeholder="00" class="R3_LIVESTATUS_TEXT_XYZR_BASE COLOR_zI" autocomplete="off"><br>
 							<input type="button" class="BTN_R3CLASSIC" title="Click here to copy player current position" value="Copy Pos." onclick="R3_SYS_COPY_POS(0);">
 							<input type="button" class="BTN_R3CLASSIC" title="Click here to paste position" value="Paste Pos." onclick="R3_SYS_PASTE_POS(0);">
 						</div>
-						<input type="button" title="Click here to apply player pos." value="Apply Position" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN R3_LIVESTATUS_PLAYERPOS_APPLYBTN" onclick="R3_LIVESTATUS_APPLY_PLAYERPOS();">
+						<div class="align-center">
+							<input type="button" title="Click here to apply player pos." value="Apply Position" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN R3_LIVESTATUS_PLAYERPOS_APPLYBTN" onclick="R3_LIVESTATUS.applyPlayerPos();">
+						</div>
 					</div>
+					<!-- Current Map -->
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_7">
 						<div class="align-center">
 							File: <font id="R3_LIVESTATUS_LBL_ROOM_FILENAME" class="monospace mono_xyzr">???</font><br>
@@ -396,35 +482,41 @@
 						<div class="SEPARATOR-2"></div>
 						<div class="align-center">
 							Current camera: <font id="R3_LIVESTATUS_LBL_CURRENT_CAM" class="monospace user-can-select mono_xyzr">??</font><br>
-							<img src="img/404.png" id="R3_LIVESTATUS_IMG_CURRENT_CAM" class="R3_LIVESTATUS_IMG_CURRENT_CAM">
+							<img ondragstart="return false;" src="img/404.webp" id="R3_LIVESTATUS_IMG_CURRENT_CAM" class="R3_LIVESTATUS_IMG_CURRENT_CAM"><br>
+							<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" title="Click here to open this map on RDT Editor" onclick="R3_LIVESTATUS.openCurrentMap();" value="Open on RDT Editor">
 						</div>
 					</div>
+				</div>
+				<!-- Tab 2 - [WIP] -->
+				<div class="R3_TAB_MENU none" id="R3_MENU_0_1">
+					<img ondragstart="return false;" src="img\FRAME_LS.webp" class="FRAME_R3LS">
+					<!-- Mini Tabs -->
+					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_8" value="Enemies Info">
+					<input type="button" class="R3_MINI_TABS R3_LIVESTATUS_MINITAB_10 none" value="WIP">
+					<!-- Mini Sections -->
 					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_8">
 						<div class="align-center">
 							This will be WIP for some time... Sorry. :/<br>
 						</div>
 					</div>
+					<div class="R3_MINI_SECTION R3_LIVESTATUS_MINISECTION_10 none">
+						<!-- Free Space -->
+					</div>
 				</div>
 			</div>
-
-
-			<!-- Hidden Canvas -->
-			<div id="MAIN_HIDDEN_CANVAS" class="MAIN_HIDDEN_CANVAS"></div>
-
-			<!-- MENU 8 - FREE SLOT -->
-			<div class="MENU_DIV" id="MENU_8"></div>
-
-			<!-- R3V2 - Log -->
+			<!-- R3V2 - Log window -->
 			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_0" id="R3V2_MINI_WINDOW_0">
 				<div id="R3V2_MINI_WINDOW_0_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 					<font id="R3V2_TITLE_LOG_WINDOW">R3ditor V2 Log</font>
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(0);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_MAXIMIZE(0);" title="Click here to maximize this window" class="R3V2_MINI_WINDOW_MAXIMIZE" value="Maximize" id="R3V2_MINI_WINDOW_MAXIMIZE_0">
+					<input type="button" onclick="R3_MINIWINDOW.close(0);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.maximize(0);" title="Click here to maximize this window" class="R3V2_MINI_WINDOW_MAXIMIZE" value="Maximize" id="R3V2_MINI_WINDOW_MAXIMIZE_0">
 				</div>
 				<!-- Menu -->
 				<div class="R3V2_MENU">
-					<input type="button" class="R3V2_BUTTON" value="Save Log" onclick="R3_SYSTEM_SAVE_LOG();" title="Click here to save current log">
-					<input type="button" class="R3V2_BUTTON" value="Clear Log" onclick="R3_SYSTEM_CLEAR_LOG();" title="Click here to clear log window">
+					<input type="button" class="R3V2_BUTTON" value="Save Log" onclick="R3_SYSTEM.saveLog();" title="Click here to save current log">
+					<input type="button" class="R3V2_BUTTON" value="Clear Log" onclick="R3_SYSTEM.clearLog();" title="Click here to clear log window">
+					<!-- Right -->
+					<input type="button" class="R3V2_BUTTON right none" value="View Full Log" onclick="R3_DESIGN_seeFullLog();" title="Click here to see full log info" id="R3V2_LOG_FULLVIEW">
 				</div>
 				<div class="R3V2_LOG_HOLDER">
 					<!-- BG -->
@@ -435,12 +527,12 @@
 					</div>
 				</div>
 			</div>
-			<!-- eNGE Emulator -->
+			<!-- R3V2 - eNGE Emulator -->
 			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_13" id="R3V2_MINI_WINDOW_13">
 				<div id="R3V2_MINI_WINDOW_13_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
-					<font id="R3V2_TITLE_LOG_WINDOW">eNGE Emulator</font>
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(13);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
-					<input type="button" onclick="R3_DESIGN_MINIWINDOW_MAXIMIZE(13);" title="Click here to maximize this window" class="R3V2_MINI_WINDOW_MAXIMIZE" value="Maximize" id="R3V2_MINI_WINDOW_MAXIMIZE_13">
+					eNGE Emulator
+					<input type="button" onclick="R3_MINIWINDOW.close(13);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					<input type="button" onclick="R3_MINIWINDOW.maximize(13);" title="Click here to maximize this window" class="R3V2_MINI_WINDOW_MAXIMIZE" value="Maximize" id="R3V2_MINI_WINDOW_MAXIMIZE_13">
 				</div>
 				<!-- Menu -->
 				<div class="R3V2_MENU">
@@ -449,8 +541,147 @@
 				<!-- eNGE Canvas -->
 				<canvas id="R3_ENGE_CANVAS" class="eNGE_CANVAS"></canvas>
 			</div>
+			<!-- R3V2 - GitHub Updater -->
+			<div class="R3V2_MINI_WINDOW R3V2_MINI_WINDOW_22" id="R3V2_MINI_WINDOW_22">
+				<div id="R3V2_MINI_WINDOW_22_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+					GitHub Updater
+					<input type="button" onclick="R3_MINIWINDOW.close(22);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+				</div>
+				<div class="R3_UPDATER_BG"></div>
+				<div class="R3_UPDATER_FORM">
+					<div class="align-center">
+						Current Branch: 
+						<select class="SELECT_SETTINGS auto" id="R3_UPDATER_CURRENT_BRANCH" onchange="R3_UPDATER.getCommits();" onkeyup="R3_UPDATER.getCommits();"></select>
+					</div>
+					<div class="SEPARATOR-2"></div>
+					<div class="align-center">
+						<font class="LBL_subTitle">Latest Commit</font>
+					</div>
+					SHA: <font class="R3_HC_LBL_CODE" title="SHA" id="R3_UPDATER_COMMIT_SHA">???</font><br>
+					Time: <font class="monospace mono_xyzr" id="R3_UPDATER_COMMIT_DATE">???</font><br>
+					Commit URL: <a href="#" target="_blank" rel="noreferrer" id="R3_UPDATER_COMMIT_URL">Click here to open</a><br><br>
+					Author: <font class="monospace mono_xyzr" id="R3_UPDATER_COMMIT_AUTHOR">Unknown</font><br>
+					User ID: <font class="R3_HC_LBL_CODE" id="R3_UPDATER_AUTHOR_ID">???</font>
+					<div class="R3_UPDATER_AUTHOR_DIV">
+						<img ondragstart="return false;" alt="R3_UPDATER_COMMIT_AUTHOR_PIC" id="R3_UPDATER_COMMIT_AUTHOR_PIC" class="R3_UPDATER_AUTHOR_ICON">
+					</div>
+					<div id="R3_UPDATER_COMMIT_MESSAGE" class="R3_UPDATER_COMMIT_MESSAGE">
+						<!-- Commit Message Goes Here -->
+					</div>
+					<!-- Update -->
+					<div class="R3_UPDATER_APPLY_DIV">
+						<input type="button" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" title="Click here to update R3V2" value="Update" onclick="R3_UPDATER.startUpdate();">
+					</div>
+				</div>
+			</div>
+			<!-- R3V2 - Wizard -->
+			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_21">
+				<div id="R3V2_MINI_WINDOW_21_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+					New Mod (R3V2 Wizard)
+					<input type="button" onclick="R3_MINIWINDOW.close(21);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+				</div>
+				<div class="R3_WIZARD_HOLDER">
+					<div class="R3_WIZARD_BG"></div>
+					<div class="R3_WIZARD_MAIN">
+						This is the first step to create a perfect enviroment for modding RE3.<br>
+						This assistant will unpack all game assets, generating a new version of the game built for testing and even more! 
+						All files will be installed on a specific path created by R3V2. By default, this is located on <u>your documents folder</u>.<br>
+						<br>To start, please select your main game location.<br><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Select Game Path" title="Click here to select the main game location" onclick="R3_WIZARD_getMainGamePath();"><br><br>
+						Location: <font class="R3_HC_LBL_CODE" id="R3_WIZARD_GAME_PATH">Unknown Location</font><br><br>
+						You can change how R3V2 will run this process below:
+					</div>
+					<!-- Wizard Options -->
+					<div class="R3_WIZARD_OPTIONS" id="R3_WIZARD_OPTIONS">
+						<input type="checkbox" id="R3_WIZARD_KEEP_ROFS11" checked="true"> - <font title="Enabling this option will keep Rofs11.dat inside extracted folder, avoiding some crashes due bad rofs extraction issues. (It will be extracted, but disabled by default on Bio3.ini)" onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_KEEP_ROFS11');" class="cursor-pointer">Keep <font class="R3_HC_LBL_CODE user-cant-select">Rofs11.dat</font></font><br>
+						<input type="checkbox" id="R3_WIZARD_ENABLE_DOORLINK" checked="true"> - <font title="Enabling this option will read all doors inside the game, generating a database with all spawn locations to be used while editing SCD scripts." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_DOORLINK');" class="cursor-pointer">Enable SCD DoorLink</font><br>
+						<input type="checkbox" id="R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT" checked="true"> - <font title="Enabling this option will replace the original warning screen (This game contains scenes of explicit violence and gore, WARNE.TIM) with a custom image, indicating that user are running the beta version." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_ENABLE_CUSTOM_R3V2_BOOT');" class="cursor-pointer">Replace warning message</font><br>
+						<input type="checkbox" id="R3_WIZARD_SET_RE3_PATH" checked="true"> - <font title="Enabling this option will search for RE3 main executable using selected path. If exists, R3V2 will set RE3 Main Game Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_RE3_PATH');" class="cursor-pointer">(Settings) Set Main Game Path</font><br>
+						<input type="checkbox" id="R3_WIZARD_SET_MERCE_PATH" checked="true"> - <font title="Enabling this option will search for RE3 Mercenaries executable using selected path. If exists, R3V2 will set RE3 Mercenaries Path automatically." onclick="R3_DESIGN_UTILS_processCheckBox('R3_WIZARD_SET_MERCE_PATH');" class="cursor-pointer">(Settings) Set Mercenaries Path</font>
+					</div>
+					<!-- Mod Name -->
+					<div class="R3_WIZARD_MOD_NAME_HOLDER">
+						Mod Name: <input type="text" placeholder="My New RE3 Mod" class="R3_WIZARD_MOD_NAME" id="R3_WIZARD_MOD_NAME">
+					</div>
+					<!-- Start -->
+					<div class="align-center R3_WIZARD_START_HOLDER" id="R3_WIZARD_START_HOLDER">
+						<input type="button" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" value="Run Wizard" title="Click here to start R3V2 Wizard Process" onclick="R3_WIZARD_checkProcess();">
+					</div>
+				</div>
+			</div>
+			<!-- R3V2 - SCD Opcode Finder -->
+			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_23">
+				<div id="R3V2_MINI_WINDOW_23_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+					<font id="R3V2_TITLE_SCD_OPCODE_FINDER">SCD Opcode Finder</font>
+					<input type="button" onclick="R3_MINIWINDOW.close(23);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+				</div>
+				<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
+					<input type="text" maxlength="2" id="R3_OPCODE_FINDER_SEARCH" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DOORLINK.searchScdOpcode();"><br>
+				</div>
+				<div class="R3_OPCODE_FINDER_VALUE" id="R3_OPCODE_FINDER_opName"></div>
+				<div class="R3_OPCODE_FINDER_RESULT" id="R3_OPCODE_FINDER_RESULT">
+					<!-- Opcode List Goes Here -->
+				</div>
+			</div>
+			<!-- R3V2 - Leo's Hub -->
+			<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_24">
+				<div id="R3V2_MINI_WINDOW_24_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+					<font>Leo's Hub</font>
+					<input type="button" onclick="R3_MINIWINDOW.close(24);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+				</div>
+				<!-- Main Tabs -->
+				<div class="R3_TABHOLDER TAB_2">
+					<input type="button" id="R3_TABS_2_0" onclick="R3_DESIGN_SHOWTABS(2, 0);" class="R3_TAB_BASE R3_TAB_SELECT" value="PLD 3D Models (RE3MV)">
+					<input type="button" id="R3_TABS_2_1" onclick="R3_DESIGN_SHOWTABS(2, 1);" class="R3_TAB_BASE" value="Weapon 3D Models (RE3PLWE)">
+				</div>
+				<!-- RE3MV -->
+				<div class="R3_TAB_MENU" id="R3_MENU_2_0">
+					<div class="R3_leosHub_list" id="R3_leosHub_RE3MV_LIST">
+						<!-- Player / NPC 3D Model list goes here -->
+					</div>
+				</div>
+				<!-- RE3PLWE -->
+				<div class="R3_TAB_MENU none" id="R3_MENU_2_1">
+					<div class="R3_leosHub_list" id="R3_leosHub_RE3PLWE_LIST">
+						<!-- Weapon 3D Model list goes here -->
+					</div>
+				</div>
+			</div>
+			<!-- Recent File -->
+			<div class="R3_LATEST_FILE_DIV" id="R3_LATEST_FILE_DIV">
+				<div class="R3_LATEST_FILE_TITLE">
+					<div class="align-center"><font class="LBL_subTitle">Last File Opened</font></div>
+					<div class="SEPARATOR-2"></div>
+				</div>
+				<!-- Image -->
+				<div class="R3_LATEST_FILE_IMG_PREV" id="R3_LATEST_FILE_IMG_PREV"></div>
+				<!-- Infos -->
+				<div class="R3_LATEST_FILE_INFO">
+					File: <font class="R3_LATEST_FILE_INFO_LABELS" id="R3_LBL_RECENT_FILE">???</font><br>
+					Type: <font class="R3_LATEST_FILE_INFO_LABELS" id="R3_LBL_RECENT_FILE_TYPE">???</font>
+				</div>
+				<!-- Open Button -->
+				<div class="R3_LATEST_OPEN_BTN">
+					<input type="button" value="Open" id="R3_BTN_LATEST_FILE" class="SETTINGS_APPLY SETTINGS_APPLY_GREEN" onclick="R3_LATEST_OPEN();">
+				</div>
+			</div>
+			<!-- Hidden Canvas -->
+			<div id="MAIN_HIDDEN_CANVAS" class="MAIN_HIDDEN_CANVAS"></div>
+			<!-- MENU - Loading -->
+			<div class="MENU_DIV MENU_DIV_LOADING" id="MENU_2">
+				<div class="LOADING_BG"></div>
+				<div class="R3_LOADING_HOLDER">
+					<div class="align-center"><font class="LBL_title" id="R3_LOADING_TITLE">???</font></div>
+					<font id="R3_LOADING_STATUS">Please wait</font><br>
+					<div id="R3_LOADING_PGBAR_DIV" class="R3_LOADING_PGBAR_DIV">
+						<font id="R3_LOADING_PGBAR_LABEL">???</font>%
+					</div>
+				</div>
+			</div>
 
 			<!-- MAIN TOOLS -->
+
+			<!-- MENU 8 - FREE SLOT -->
+			<div class="MENU_DIV" id="MENU_8"></div>
 
 			<!-- SCD Editor -->
 			<div class="MENU_DIV" id="MENU_9">
@@ -461,14 +692,14 @@
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
 						<input type="button" onclick="R3_SCD_NEW_FILE();" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new SCD file">
 						<input type="button" onclick="R3_SCD_LOAD_FILE();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open a SCD file">
-						<input type="button" onclick="R3_SCD_RECOMPILE(0);" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
-						<input type="button" onclick="R3_SCD_RECOMPILE(1);" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new file">
-						<input type="button" id="R3_SCD_BTN_APPLYRDT" onclick="R3_SCD_RECOMPILE(2);" class="BTN_ICON_BASE BTN_ICON_RDT_APPLY none" title="Click here to apply your changes on current RDT">
+						<input type="button" onclick="R3_SCD_COMPILE(0);" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
+						<input type="button" onclick="R3_SCD_COMPILE(1);" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new file">
+						<input type="button" id="R3_SCD_BTN_APPLYRDT" onclick="R3_SCD_COMPILE(2);" class="BTN_ICON_BASE BTN_ICON_RDT_APPLY none" title="Click here to apply your changes on current RDT">
 					</div>
 					<!-- Open in Hex & Compile -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on Hex editor" onclick="R3_SYSTEM_openInHex();">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_HEX" title="Click here to open Hex Preview" onclick="R3_DESIGN_MINIWINDOW_OPEN(3);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on Hex editor" onclick="R3_SYSTEM.openInHex();">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_HEX" title="Click here to open Hex Preview" onclick="R3_MINIWINDOW.open(3);">
 					</div>
 					<!-- Add / Remove Script -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
@@ -476,21 +707,21 @@
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_ADD" title="Click here to add a new script" onclick="R3_SCD_SCRIPT_ADD();">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_REMOVE" title="Click here to delete the current script" onclick="R3_SCD_SCRIPT_REMOVE();">
 					</div>
+					<!-- Script Navigation -->
+					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
+						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_28" title="Click here to open script list" onclick="R3_MINIWINDOW.open(4);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_PREV" title="Click here to load previous script" onclick="R3_SCD_SKIPSCRIPT(0);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_NEXT" title="Click here to load next script" onclick="R3_SCD_SKIPSCRIPT(1);">
+					</div>
 					<!-- Script Utility -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR" id="R3_SUBMENU_BUTTONS_COPYPASTE">
-						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_54" title="Click here to open a list with all functions ID's" onclick="R3_DESIGN_MINIWINDOW_OPEN(12);">
+						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_54" title="Click here to open a list with all functions ID's" onclick="R3_MINIWINDOW.open(12, 'center');">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_47" title="Click here to search an specific function on this script" onclick="R3_DESIGN_OPEN_FIND_FUNCTION();">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_29" title="Click here to copy this function" onclick="R3_SCD_COPY_FUNCTION();">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_30" title="Click here to paste this function" onclick="R3_SCD_PASTE_FUNCTION();">
 						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_42" title="Click here to insert a hex function" onclick="R3_SCD_INSERT_HEX();">
 						<input type="button" class="BTN_ICON_BASE none" id="BTN_MAIN_52" title="Click here to preview SCD hex code" onclick="R3_SCD_FUNCTION_APPLY(false, undefined, false, true);">
-						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_45" title="Click here to open preset window" onclick="R3_DESIGN_MINIWINDOW_OPEN(8);">
-					</div>
-					<!-- Script Navigation -->
-					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_28" title="Click here to open script list" onclick="R3_DESIGN_MINIWINDOW_OPEN(4);">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_PREV" title="Click here to load previous script" onclick="R3_SCD_SKIPSCRIPT(0);">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_NEXT" title="Click here to load next script" onclick="R3_SCD_SKIPSCRIPT(1);">
+						<input type="button" class="BTN_ICON_BASE" id="BTN_MAIN_45" title="Click here to open preset window" onclick="R3_MINIWINDOW.open(8);">
 					</div>
 					<!-- Import / Export Scripts -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
@@ -513,6 +744,7 @@
 					</div>
 					<!-- Info -->
 					<div class="align-center">
+						<div class="R3_SCD_SCRIPT_ACTIVE" id="R3_SCD_SCRIPT_ACTIVE"></div>
 						<font class="LBL_title txt-italic">Script <font id="R3_SCD_LBL_currentScript">0</font> - Total: <font id="R3_SCD_LBL_TOTALFUNCTIONS">0</font></font>
 					</div>
 					<input type="button" id="R3_SCD_CLEAR_SCRIPT_BTN" title="Click here to clear all functions from this script" class="R3_MSG_CLEAR_SCRIPT_BTN" value="Clear Script" onclick="R3_SCD_CLEAR_SCRIPT();">
@@ -531,7 +763,7 @@
 				<!-- Functions List -->
 				<div class="R3_SCD_FUNCTIONS_HOLDER" id="R3_SCD_FUNCTIONS_HOLDER">
 					<div class="align-center"><font class="LBL_title">Function List</font></div>
-					<input type="text" spellcheck="false" id="SCD_FUNCTION_SEARCH_FIELD" placeholder="Search SCD function..." class="MSG_FUNCTION_SEARCH_FIELD" onkeyup="R3_SCD_seekFunction(event);" autocomplete="off" onfocus="R3_DESIGN_MINIWINDOW_CLOSE(4);">
+					<input type="text" spellcheck="false" id="SCD_FUNCTION_SEARCH_FIELD" placeholder="Search SCD function..." class="MSG_FUNCTION_SEARCH_FIELD" onkeyup="R3_SCD_seekFunction(event);" autocomplete="off">
 					<!-- Functions List -->
 					<div class="SCD_FUNCTION_LIST" id="SCD_FUNCTION_LIST">
 						<!-- Script Execution -->
@@ -541,12 +773,12 @@
 						<input type="button" class="SCD_FUNCTION_BUTTON cursor-not-allowed" value="(01) End Script [EVT_END]" disabled="disabled" title="You don't need to use this function since it is hardcoded.">
 						<input type="button" id="BTN_SCD_02_Next_Event_EVT_NEXT" class="SCD_FUNCTION_BUTTON" value="(02) Next Event [EVT_NEXT]" onclick="R3_SCD_FUNCTION_AUTOINSERT('02');">
 						<input type="button" id="BTN_SCD_03_Event_Chain_EVT_CHAIN" class="SCD_FUNCTION_BUTTON" value="(03) Event Chain [EVT_CHAIN]" onclick="R3_SCD_FUNCTION_AUTOINSERT('0300');">
-						<input type="button" id="BTN_SCD_04_Execute_Function_EVT_EXEC" class="SCD_FUNCTION_BUTTON" value="(04) Execute Function [EVT_EXEC]" onclick="R3_SCD_FUNCTION_ADD('04');">
+						<input type="button" id="BTN_SCD_04_Execute_Event_EVT_EXEC" class="SCD_FUNCTION_BUTTON" value="(04) Execute Event [EVT_EXEC]" onclick="R3_SCD_FUNCTION_ADD('04');">
 						<input type="button" id="BTN_SCD_05_Event_Kill_EVT_KILL" class="SCD_FUNCTION_BUTTON" value="(05) Event Kill [EVT_KILL]" onclick="R3_SCD_FUNCTION_ADD('05');">
-						<input type="button" id="BTN_SCD_18_Go_To_GOTO" class="SCD_FUNCTION_BUTTON" value="(18) Go To [GOTO]" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_18_Go_To_GOTO" class="SCD_FUNCTION_BUTTON" value="(18) Go To [GOTO]" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_19_Run_Script_GO_SUB" class="SCD_FUNCTION_BUTTON" value="(19) Run Script [GO_SUB]" onclick="R3_SCD_FUNCTION_ADD('19');">
-						<input type="button" id="BTN_SCD_1A_RETURN" class="SCD_FUNCTION_BUTTON" value="(1A) RETURN" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_1B_BREAK" class="SCD_FUNCTION_BUTTON" value="(1B) BREAK" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_1A_RETURN" class="SCD_FUNCTION_BUTTON" value="(1A) RETURN" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_1B_BREAK" class="SCD_FUNCTION_BUTTON" value="(1B) BREAK" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_1C_BREAK_POINT" class="SCD_FUNCTION_BUTTON" value="(1C) BREAK_POINT" onclick="R3_SCD_FUNCTION_AUTOINSERT('1c');">
 
 						<!-- Check Functions -->
@@ -557,20 +789,21 @@
 						<input type="button" id="BTN_SCD_08_End_If_END_IF" class="SCD_FUNCTION_BUTTON" value="(08) End If [END_IF]" onclick="R3_SCD_FUNCTION_AUTOINSERT('0800');">
 						<input type="button" id="BTN_SCD_0D_For_FOR" class="SCD_FUNCTION_BUTTON" value="(0D) For [FOR]" onclick="R3_SCD_FUNCTION_ADD('0d');">
 						<input type="button" id="BTN_SCD_0F_End_For_END_FOR" class="SCD_FUNCTION_BUTTON" value="(0F) End For [END_FOR]" onclick="R3_SCD_FUNCTION_AUTOINSERT('0f00');">
-						<input type="button" id="BTN_SCD_10_While_WHILE" class="SCD_FUNCTION_BUTTON" value="(10) While [WHILE]" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_10_While_WHILE" class="SCD_FUNCTION_BUTTON" value="(10) While [WHILE]" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_11_End_While_END_WHILE" class="SCD_FUNCTION_BUTTON" value="(11) End While [END_WHILE]" onclick="R3_SCD_FUNCTION_AUTOINSERT('1100');">
-						<input type="button" id="BTN_SCD_12_Do_Function_DO_START" class="SCD_FUNCTION_BUTTON" value="(12) Do Function [DO_START]" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_13_End_Do_END_DO" class="SCD_FUNCTION_BUTTON" value="(13) End Do [END_DO]" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_14_SWITCH" class="SCD_FUNCTION_BUTTON" value="(14) SWITCH" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_15_CASE" class="SCD_FUNCTION_BUTTON" value="(15) CASE" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_16_SWITCH" class="SCD_FUNCTION_BUTTON" value="(16) SWITCH" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_17_END_SWITCH" class="SCD_FUNCTION_BUTTON" value="(17) END_SWITCH" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_1D_EVAL_CC" class="SCD_FUNCTION_BUTTON" value="(1D) EVAL_CC" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_12_Do_Function_DO_START" class="SCD_FUNCTION_BUTTON" value="(12) Do Function [DO_START]" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_13_End_Do_END_DO" class="SCD_FUNCTION_BUTTON" value="(13) End Do [END_DO]" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_14_SWITCH" class="SCD_FUNCTION_BUTTON" value="(14) SWITCH" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_15_CASE" class="SCD_FUNCTION_BUTTON" value="(15) CASE" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_16_SWITCH" class="SCD_FUNCTION_BUTTON" value="(16) SWITCH" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_17_END_SWITCH" class="SCD_FUNCTION_BUTTON" value="(17) END_SWITCH" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_1D_EVAL_CC" class="SCD_FUNCTION_BUTTON" value="(1D) EVAL_CC" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_20_Execute_Calculation_CALC_OP" class="SCD_FUNCTION_BUTTON" value="(20) Execute Calculation [CALC_OP]" onclick="R3_SCD_FUNCTION_ADD('20');">
 						<input type="button" id="BTN_SCD_35_BGM_TBL_CK" class="SCD_FUNCTION_BUTTON" value="(35) BGM_TBL_CK" onclick="R3_SCD_FUNCTION_ADD('35');">
 						<input type="button" id="BTN_SCD_4C_Check_Boolean_CK" class="SCD_FUNCTION_BUTTON" value="(4C) Check Boolean [CK]" onclick="R3_SCD_FUNCTION_ADD('4c');">
-						<input type="button" id="BTN_SCD_4E_Compare_Values_CMP" class="SCD_FUNCTION_BUTTON" value="(4E) Compare Values [CMP]" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_4E_Compare_Values_CMP" class="SCD_FUNCTION_BUTTON" value="(4E) Compare Values [CMP]" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_6B_Check_Item_KEEP_ITEM_CK" class="SCD_FUNCTION_BUTTON" value="(6B) Check Item [KEEP_ITEM_CK]" onclick="R3_SCD_FUNCTION_ADD('6b');">
+						<input type="button" id="BTN_SCD_6C_KEY_CK" class="SCD_FUNCTION_BUTTON" value="(6C) KEY_CK" onclick="R3_SCD_FUNCTION_ADD('6c');">
 
 						<!-- Cutscene Functions -->
 						<br><br><font class="LBL_subTitle">Cutscene Functions</font><br>
@@ -578,10 +811,10 @@
 						<input type="button" id="BTN_SCD_5A_RBJ_Trigger_RBJ_SET" class="SCD_FUNCTION_BUTTON" value="(5A) RBJ Trigger [RBJ_SET]" onclick="R3_SCD_FUNCTION_ADD('5a');">
 						<input type="button" id="BTN_SCD_09_Sleep_SLEEP" class="SCD_FUNCTION_BUTTON" value="(09) Sleep [SLEEP]" onclick="R3_SCD_FUNCTION_ADD('09');">
 						<input type="button" id="BTN_SCD_0A_Sleeping_SLEEPING" class="SCD_FUNCTION_BUTTON" value="(0A) Sleeping [SLEEPING]" onclick="R3_SCD_FUNCTION_ADD('0a');">
-						<input type="button" id="BTN_SCD_0B_WSLEEP" class="SCD_FUNCTION_BUTTON" value="(0B) WSLEEP" onclick="R3_SCD_FUNCTION_AUTOINSERT('0b');">
-						<input type="button" id="BTN_SCD_0C_WSLEEPING" class="SCD_FUNCTION_BUTTON" value="(0C) WSLEEPING" onclick="R3_SCD_FUNCTION_AUTOINSERT('0c');">
-						<input type="button" id="BTN_SCD_21_UNK_OPCODE_1" class="SCD_FUNCTION_BUTTON" value="(21) UNK_OPCODE_1" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_50_Change Camera_CUT_CHG" class="SCD_FUNCTION_BUTTON" value="(50) Change Camera [CUT_CHG]" onclick="R3_SCD_FUNCTION_ADD('50');">
+						<input type="button" id="BTN_SCD_0B_WSLEEP_WSLEEP" class="SCD_FUNCTION_BUTTON" value="(0B) WSLEEP" onclick="R3_SCD_FUNCTION_AUTOINSERT('0b');">
+						<input type="button" id="BTN_SCD_0C_WSLEEPING_WSLEEPING" class="SCD_FUNCTION_BUTTON" value="(0C) WSLEEPING" onclick="R3_SCD_FUNCTION_AUTOINSERT('0c');">
+						<input type="button" id="BTN_SCD_21_UNK_OPCODE_1" class="SCD_FUNCTION_BUTTON" value="(21) UNK_OPCODE_1" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_50_Change_Camera_CUT_CHG" class="SCD_FUNCTION_BUTTON" value="(50) Change Camera [CUT_CHG]" onclick="R3_SCD_FUNCTION_ADD('50');">
 						<input type="button" id="BTN_SCD_51_CUT_OLD" class="SCD_FUNCTION_BUTTON" value="(51) CUT_OLD" onclick="R3_SCD_FUNCTION_AUTOINSERT('51');">
 						<input type="button" id="BTN_SCD_52_Lock_Camera_CUT_AUTO" class="SCD_FUNCTION_BUTTON" value="(52) Lock Camera [CUT_AUTO]" onclick="R3_SCD_FUNCTION_ADD('52');">
 						<input type="button" id="BTN_SCD_53_Swap_Camera_CUT_REPLACE" class="SCD_FUNCTION_BUTTON" value="(53) Swap Camera [CUT_REPLACE]" onclick="R3_SCD_FUNCTION_ADD('53');">
@@ -591,10 +824,10 @@
 						<input type="button" id="BTN_SCD_5B_Display_Message_MESSAGE_ON" class="SCD_FUNCTION_BUTTON" value="(5B) Display Message [MESSAGE_ON]" onclick="R3_SCD_FUNCTION_ADD('5b');">
 						<input type="button" id="BTN_SCD_5D_MESSAGE_OFF" class="SCD_FUNCTION_BUTTON" value="(5D) MESSAGE_OFF" onclick="R3_SCD_FUNCTION_AUTOINSERT('5d');">
 						<input type="button" id="BTN_SCD_5F_Change_Weapon_WEAPON_CHG" class="SCD_FUNCTION_BUTTON" value="(5F) Change Weapon [WEAPON_CHG]" onclick="R3_SCD_FUNCTION_ADD('5f');">
-						<input type="button" id="BTN_SCD_69_Shadow_Effect_KAGE_SET" class="SCD_FUNCTION_BUTTON" value="(69) Shadow Effect [KAGE_SET]" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_69_Shadow_Effect_KAGE_SET" class="SCD_FUNCTION_BUTTON" value="(69) Shadow Effect [KAGE_SET]" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_77_Play_SE_SE_ON" class="SCD_FUNCTION_BUTTON" value="(77) Play SE [SE_ON]" onclick="R3_SCD_FUNCTION_ADD('77');">
 						<input type="button" id="BTN_SCD_7A_Call_Cinematic_MOVIE_ON" class="SCD_FUNCTION_BUTTON" value="(7A) Call Cinematic [MOVIE_ON]" onclick="R3_SCD_FUNCTION_ADD('7a');">
-						<input type="button" id="BTN_SCD_80_Motion_trigger_PLC_MOTION" class="SCD_FUNCTION_BUTTON" value="(80) Motion trigger [PLC_MOTION]" onclick="R3_SCD_FUNCTION_ADD('80');">
+						<input type="button" id="BTN_SCD_80_Motion_Trigger_PLC_MOTION" class="SCD_FUNCTION_BUTTON" value="(80) Motion trigger [PLC_MOTION]" onclick="R3_SCD_FUNCTION_ADD('80');">
 						<input type="button" id="BTN_SCD_81_Set_Animation_DEST_PLC_DEST" class="SCD_FUNCTION_BUTTON" value="(81) Set Animation DEST [PLC_DEST]" onclick="R3_SCD_FUNCTION_ADD('81');">
 						<input type="button" id="BTN_SCD_82_Set_Head_Animation_PLC_NECK" class="SCD_FUNCTION_BUTTON" value="(82) Set Head Animation [PLC_NECK]" onclick="R3_SCD_FUNCTION_ADD('82');">
 						<input type="button" id="BTN_SCD_83_Player_Return_PLC_RET" class="SCD_FUNCTION_BUTTON" value="(83) Player Return [PLC_RET]" onclick="R3_SCD_FUNCTION_AUTOINSERT('83');">
@@ -615,15 +848,16 @@
 						<br><br><font class="LBL_subTitle">Variables Functions</font><br>
 						<div class="SEPARATOR-2"></div>
 						<input type="button" id="BTN_SCD_1E_Set_Timer_Value_SET_TIMER" class="SCD_FUNCTION_BUTTON" value="(1E) Set Timer / Value [SET_TIMER]" onclick="R3_SCD_FUNCTION_ADD('1e');">
-						<input type="button" id="BTN_SCD_1F_SET_DO" class="SCD_FUNCTION_BUTTON" value="(1F) SET_DO" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_1F_SET_DO" class="SCD_FUNCTION_BUTTON" value="(1F) SET_DO" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_40_Set_Variable_MEMB_SET" class="SCD_FUNCTION_BUTTON" value="(40) Set Variable [MEMB_SET]" onclick="R3_SCD_FUNCTION_ADD('40');">
+						<input type="button" id="BTN_SCD_41_Set_Variable_2_MEMB_SET2" class="SCD_FUNCTION_BUTTON" value="(41) Set Variable 2 [MEMB_SET2]" onclick="R3_SCD_FUNCTION_ADD('41');">
 						<input type="button" id="BTN_SCD_4D_Set_Event_Value_SET" class="SCD_FUNCTION_BUTTON" value="(4D) Set Event Value [SET]" onclick="R3_SCD_FUNCTION_ADD('4d');">
 
 						<!-- Game Interaction -->
 						<br><br><font class="LBL_subTitle">Game Interaction</font><br>
 						<div class="SEPARATOR-2"></div>
 						<input type="button" id="BTN_SCD_25_Open_Map_MAP_OPEN" class="SCD_FUNCTION_BUTTON" value="(25) Open Map [MAP_OPEN]" onclick="R3_SCD_FUNCTION_ADD('25');">
-						<input type="button" id="BTN_SCD_28_Call_Game_Over_DIEDEMO_ON" class="SCD_FUNCTION_BUTTON" value="(28) Call Game Over [DIEDEMO_ON]" onclick="R3_SCD_FUNCTION_AUTOINSERT('28');">
+						<input type="button" id="BTN_SCD_28_Game_Over_DIEDEMO_ON" class="SCD_FUNCTION_BUTTON" value="(28) Game Over [DIEDEMO_ON]" onclick="R3_SCD_FUNCTION_AUTOINSERT('28');">
 						<input type="button" id="BTN_SCD_3E_Remove_Item_ITEM_LOST" class="SCD_FUNCTION_BUTTON" value="(3E) Remove Item [ITEM_LOST]" onclick="R3_SCD_FUNCTION_ADD('3e');">
 						<input type="button" id="BTN_SCD_7C_Open_Inventory_STATUS_ON" class="SCD_FUNCTION_BUTTON" value="(7C) Open Inventory [STATUS_ON]" onclick="R3_SCD_FUNCTION_AUTOINSERT('7c');">
 
@@ -631,23 +865,23 @@
 						<br><br><font class="LBL_subTitle">Map Functions</font><br>
 						<div class="SEPARATOR-2"></div>
 						<input type="button" id="BTN_SCD_30_Set_LIT_Position_LIGHT_POS_SET" class="SCD_FUNCTION_BUTTON" value="(30) Set LIT Position [LIGHT_POS_SET]" onclick="R3_SCD_FUNCTION_ADD('30');">
-						<input type="button" id="BTN_SCD_31_LIGHT_KIDO_SET" class="SCD_FUNCTION_BUTTON" value="(31) LIGHT_KIDO_SET" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_31_LIGHT_KIDO_SET" class="SCD_FUNCTION_BUTTON" value="(31) LIGHT_KIDO_SET" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_32_Set_LIT_Color_LIGHT_COLOR_SET" class="SCD_FUNCTION_BUTTON" value="(32) Set LIT Color [LIGHT_COLOR_SET]" onclick="R3_SCD_FUNCTION_ADD('32');">
 						<input type="button" id="BTN_SCD_46_Set_Fade_FADE_SET" class="SCD_FUNCTION_BUTTON" value="(46) Set Fade [FADE_SET]" onclick="R3_SCD_FUNCTION_ADD('46');">
 						<input type="button" id="BTN_SCD_47_Char_Trigger_WORK_SET" class="SCD_FUNCTION_BUTTON" value="(47) Char Trigger [WORK_SET]" onclick="R3_SCD_FUNCTION_ADD('47');">
 						<input type="button" id="BTN_SCD_61_Set_Door_DOOR_AOT_SET" class="SCD_FUNCTION_BUTTON" value="(61) Set Door [DOOR_AOT_SET]" onclick="R3_SCD_FUNCTION_ADD('61');">
 						<input type="button" id="BTN_SCD_62_Set_Door_4P_DOOR_AOT_SET_4P" class="SCD_FUNCTION_BUTTON" value="(62) Set Door 4P [DOOR_AOT_SET_4P]" onclick="R3_SCD_FUNCTION_ADD('62');">
 						<input type="button" id="BTN_SCD_63_Set_Interactive_Object_AOT_SET" class="SCD_FUNCTION_BUTTON" value="(63) Set Interactive Object [AOT_SET]" onclick="R3_SCD_FUNCTION_ADD('63');">
-						<input type="button" id="BTN_SCD_64_Set_Object_4P_AOT_SET_4P" class="SCD_FUNCTION_BUTTON" value="(64) Set Object 4P [AOT_SET_4P]" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_64_Set_Interactive_Object_4P_AOT_SET_4P" class="SCD_FUNCTION_BUTTON" value="(64) Set Object 4P [AOT_SET_4P]" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_65_AOT_RESET" class="SCD_FUNCTION_BUTTON" value="(65) AOT_RESET" onclick="R3_SCD_FUNCTION_ADD('65');">
 						<input type="button" id="BTN_SCD_66_Run_Interactive_Object_AOT_ON" class="SCD_FUNCTION_BUTTON" value="(66) Run Interactive Object [AOT_ON]" onclick="R3_SCD_FUNCTION_ADD('66');">
 						<input type="button" id="BTN_SCD_67_Set_Item_ITEM_AOT_SET" class="SCD_FUNCTION_BUTTON" value="(67) Set Item [ITEM_AOT_SET]" onclick="R3_SCD_FUNCTION_ADD('67');">
 						<input type="button" id="BTN_SCD_68_Set_Item_4P_ITEM_AOT_SET_4P" class="SCD_FUNCTION_BUTTON" value="(68) Set Item 4P [ITEM_AOT_SET_4P]" onclick="R3_SCD_FUNCTION_ADD('68');">
-						<input type="button" id="BTN_SCD_70_ESPR_ON" class="SCD_FUNCTION_BUTTON" value="(70) ESPR_ON" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_71_ESPR_ON2" class="SCD_FUNCTION_BUTTON" value="(71) ESPR_ON2" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_72_ESPR3D_ON" class="SCD_FUNCTION_BUTTON" value="(72) ESPR3D_ON" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_73_ESPR3D_ON2" class="SCD_FUNCTION_BUTTON" value="(73) ESPR3D_ON2" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_74_ESPR_KILL" class="SCD_FUNCTION_BUTTON" value="(74) ESPR_KILL" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_70_ESPR_ON" class="SCD_FUNCTION_BUTTON" value="(70) ESPR_ON" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_71_ESPR_ON2" class="SCD_FUNCTION_BUTTON" value="(71) ESPR_ON2" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_72_ESPR3D_ON" class="SCD_FUNCTION_BUTTON" value="(72) ESPR3D_ON" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_73_ESPR3D_ON2" class="SCD_FUNCTION_BUTTON" value="(73) ESPR3D_ON2" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_74_ESPR_KILL" class="SCD_FUNCTION_BUTTON" value="(74) ESPR_KILL" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_75_ESPR_KILL2" class="SCD_FUNCTION_BUTTON" value="(75) ESPR_KILL2" onclick="R3_SCD_FUNCTION_ADD('75');">
 						<input type="button" id="BTN_SCD_76_ESPR_KILL_ALL" class="SCD_FUNCTION_BUTTON" value="(76) ESPR_KILL_ALL" onclick="R3_SCD_FUNCTION_ADD('76');">
 						<input type="button" id="BTN_SCD_7D_Set_Enemy_NPC_EM_SET" class="SCD_FUNCTION_BUTTON" value="(7D) Set Enemy / NPC [EM_SET]" onclick="R3_SCD_FUNCTION_ADD('7d');">
@@ -671,22 +905,21 @@
 						<input type="button" id="BTN_SCD_2B_VLOOP_SET" class="SCD_FUNCTION_BUTTON" value="(2B) VLOOP_SET" onclick="R3_SCD_FUNCTION_ADD('2b');">
 						<input type="button" id="BTN_SCD_2C_OTA_BE_SET" class="SCD_FUNCTION_BUTTON" value="(2C) OTA_BE_SET" onclick="R3_SCD_FUNCTION_ADD('2c');">
 						<input type="button" id="BTN_SCD_2D_LINE_START" class="SCD_FUNCTION_BUTTON" value="(2D) LINE_START" onclick="R3_SCD_FUNCTION_ADD('2d');">
-						<input type="button" id="BTN_SCD_2E_LINE_MAIN" class="SCD_FUNCTION_BUTTON" value="(2E) LINE_MAIN" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_2E_LINE_MAIN" class="SCD_FUNCTION_BUTTON" value="(2E) LINE_MAIN" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_2F_LINE_END" class="SCD_FUNCTION_BUTTON" value="(2F) LINE_END" onclick="R3_SCD_FUNCTION_AUTOINSERT('2f00');">
 						<input type="button" id="BTN_SCD_33_AHEAD_ROOM_SET" class="SCD_FUNCTION_BUTTON" value="(33) AHEAD_ROOM_SET" onclick="R3_SCD_FUNCTION_ADD('33');">
-						<input type="button" id="BTN_SCD_34_ESPR_CTR" class="SCD_FUNCTION_BUTTON" value="(34) ESPR_CTR" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_34_ESPR_CTR" class="SCD_FUNCTION_BUTTON" value="(34) ESPR_CTR" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_36_ITEM_GET_CK" class="SCD_FUNCTION_BUTTON" value="(36) ITEM_GET_CK" onclick="R3_SCD_FUNCTION_ADD('36');">
 						<input type="button" id="BTN_SCD_37_OM_REV" class="SCD_FUNCTION_BUTTON" value="(37) OM_REV" onclick="R3_SCD_FUNCTION_ADD('37');">
-						<input type="button" id="BTN_SCD_39_PARTS_BOMB" class="SCD_FUNCTION_BUTTON" value="(39) PARTS_BOMB" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_3A_PARTS_DOWN" class="SCD_FUNCTION_BUTTON" value="(3A) PARTS_DOWN" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_39_PARTS_BOMB" class="SCD_FUNCTION_BUTTON" value="(39) PARTS_BOMB" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_3A_PARTS_DOWN" class="SCD_FUNCTION_BUTTON" value="(3A) PARTS_DOWN" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_3C_WEAPON_CHG_OLD" class="SCD_FUNCTION_BUTTON" value="(3C) WEAPON_CHG_OLD" onclick="R3_SCD_FUNCTION_AUTOINSERT('3c');">
 						<input type="button" id="BTN_SCD_3D_SEL_EVT_ON" class="SCD_FUNCTION_BUTTON" value="(3D) SEL_EVT_ON" onclick="R3_SCD_FUNCTION_ADD('3d');">
 						<input type="button" id="BTN_SCD_3F_FLR_SET" class="SCD_FUNCTION_BUTTON" value="(3F) FLR_SET" onclick="R3_SCD_FUNCTION_ADD('3f');">
-						<input type="button" id="BTN_SCD_41_MEMB_SET2" class="SCD_FUNCTION_BUTTON" value="(41) MEMB_SET2" onclick="R3_SCD_FUNCTION_ADD('41');">
-						<input type="button" id="BTN_SCD_42_MEMB_CPY" class="SCD_FUNCTION_BUTTON" value="(42) MEMB_CPY" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_43_MEMB_CMP" class="SCD_FUNCTION_BUTTON" value="(43) MEMB_CMP" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_44_MEMB_CALC" class="SCD_FUNCTION_BUTTON" value="(44) MEMB_CALC" onclick="R3_WIP();">
-						<input type="button" id="BTN_SCD_45_MEMB_CALC2" class="SCD_FUNCTION_BUTTON" value="(45) MEMB_CALC2" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_42_MEMB_CPY" class="SCD_FUNCTION_BUTTON" value="(42) MEMB_CPY" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_43_MEMB_CMP" class="SCD_FUNCTION_BUTTON" value="(43) MEMB_CMP" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_44_MEMB_CALC" class="SCD_FUNCTION_BUTTON" value="(44) MEMB_CALC" onclick="R3_SYSTEM.WIP();">
+						<input type="button" id="BTN_SCD_45_MEMB_CALC2" class="SCD_FUNCTION_BUTTON" value="(45) MEMB_CALC2" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_48_SPD_SET" class="SCD_FUNCTION_BUTTON" value="(48) SPD_SET" onclick="R3_SCD_FUNCTION_ADD('48');">
 						<input type="button" id="BTN_SCD_49_ADD_SPD" class="SCD_FUNCTION_BUTTON" value="(49) ADD_SPD" onclick="R3_SCD_FUNCTION_AUTOINSERT('49');">
 						<input type="button" id="BTN_SCD_4A_ADD_ASPD" class="SCD_FUNCTION_BUTTON" value="(4A) ADD_ASPD" onclick="R3_SCD_FUNCTION_AUTOINSERT('4a');">
@@ -694,11 +927,10 @@
 						<input type="button" id="BTN_SCD_4F_RND" class="SCD_FUNCTION_BUTTON" value="(4F) RND" onclick="R3_SCD_FUNCTION_AUTOINSERT('4f');">
 						<input type="button" id="BTN_SCD_57_SET_VIB0" class="SCD_FUNCTION_BUTTON" value="(57) SET_VIB0" onclick="R3_SCD_FUNCTION_ADD('57');">
 						<input type="button" id="BTN_SCD_58_SET_VIB1" class="SCD_FUNCTION_BUTTON" value="(58) SET_VIB1" onclick="R3_SCD_FUNCTION_ADD('58');">
-						<input type="button" id="BTN_SCD_59_SET_VIB_FADE" class="SCD_FUNCTION_BUTTON" value="(59) SET_VIB_FADE" onclick="R3_WIP();">
+						<input type="button" id="BTN_SCD_59_SET_VIB_FADE" class="SCD_FUNCTION_BUTTON" value="(59) SET_VIB_FADE" onclick="R3_SYSTEM.WIP();">
 						<input type="button" id="BTN_SCD_5C_RAIN_SET" class="SCD_FUNCTION_BUTTON" value="(5C) RAIN_SET" onclick="R3_SCD_FUNCTION_ADD('5c');">
 						<input type="button" id="BTN_SCD_5E_SHAKE_ON" class="SCD_FUNCTION_BUTTON" value="(5E) SHAKE_ON" onclick="R3_SCD_FUNCTION_ADD('5e');">
 						<input type="button" id="BTN_SCD_6A_SUPER_SET" class="SCD_FUNCTION_BUTTON" value="(6A) SUPER_SET" onclick="R3_SCD_FUNCTION_ADD('6a');">
-						<input type="button" id="BTN_SCD_6C_KEY_CK" class="SCD_FUNCTION_BUTTON" value="(6C) KEY_CK" onclick="R3_SCD_FUNCTION_ADD('6c');">
 						<input type="button" id="BTN_SCD_6D_TRG_CK" class="SCD_FUNCTION_BUTTON" value="(6D) TRG_CK" onclick="R3_SCD_FUNCTION_ADD('6d');">
 						<input type="button" id="BTN_SCD_6E_SCA_ID_SET" class="SCD_FUNCTION_BUTTON" value="(6E) SCA_ID_SET" onclick="R3_SCD_FUNCTION_ADD('6e');">
 						<input type="button" id="BTN_SCD_6F_OM_BOMB" class="SCD_FUNCTION_BUTTON" value="(6F) OM_BOMB" onclick="R3_SCD_FUNCTION_ADD('6f');">
@@ -717,7 +949,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_3">
 					<div id="R3V2_MINI_WINDOW_3_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Script Hex View - Length: <font class="monospace"><font id="R3_SCD_LBL_hexLength">00</font>(h)</font>
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(3);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(3);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_MSG_HEX_RAW" id="R3_SCD_HEX_RAW">
 						<!-- Hex goes here -->
@@ -727,7 +959,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_4">
 					<div id="R3V2_MINI_WINDOW_4_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Script List
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(4);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(4);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div id="R3_SCD_SCRIPT_LISTS" class="R3_SCD_SCRIPT_LISTS_HOLDER BG_COLOR_SCD">
 						<!-- Script List Goes Here -->
@@ -737,7 +969,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_8">
 					<div id="R3V2_MINI_WINDOW_8_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Preset List
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(8);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(8);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div id="R3_SCD_SCRIPT_PRESET_LIST" class="R3_SCD_SCRIPT_LISTS_HOLDER BG_COLOR_SCD">
 						<!-- Preset List Goes Here -->
@@ -747,13 +979,13 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_9">
 					<div id="R3V2_MINI_WINDOW_9_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Search SCD Function
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(9);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(9);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<!-- Search Form -->
 					<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM R3_SCD_SEARCH_SCD_SCRIPT_FORM_LBL_FIX">
-						<input type="text" minlength="0" maxlength="2" id="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" placeholder="Insert SCD Opcode Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" onkeyup="R3_SCD_SEARCH_SCRIPT_FUNCTION();">
-						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_PREV_BTN" value="<" title="Click here to go to previous function" onclick="R3_DESIGN_navigateResultFromSearchForm(0);">
-						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_NEXT_BTN" value=">" title="Click here to go to next function" onclick="R3_DESIGN_navigateResultFromSearchForm(1);"><br>
+						<input type="text" maxlength="2" id="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" placeholder="Insert SCD Opcode Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT" onkeyup="R3_SCD_SEARCH_SCRIPT_FUNCTION();">
+						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_PREV_BTN" value="<" title="Click here to go to previous function (Hold [ALT] to open current function)" onclick="R3_DESIGN_navigateResultFromSearchForm(0);">
+						<input type="button" class="R3_SCD_SEARCH_NEXTPREV_BTN R3_SCD_SEARCH_NEXT_BTN" value=">" title="Click here to go to next function (Hold [ALT] to open current function)" onclick="R3_DESIGN_navigateResultFromSearchForm(1);"><br>
 						<div class="align-center"><font id="R3_LBL_SCD_SEARCH_FUNCTION_OPCODE" class="monospace no-bg-image"></font></div>
 					</div>
 					<!-- Result List -->
@@ -765,19 +997,41 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_12">
 					<div id="R3V2_MINI_WINDOW_12_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						SCD ID List
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(12);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(12);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
-					<!-- ID List -->
-					<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
-						<input type="text" minlength="0" maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST();">
+					<!-- Main Tabs -->
+					<div class="R3_TABHOLDER TAB_2">
+						<input type="button" id="R3_TABS_1_0" onclick="R3_DESIGN_SHOWTABS(1, 0);" class="R3_TAB_BASE R3_TAB_SELECT" value="General">
+						<input type="button" id="R3_TABS_1_1" onclick="R3_DESIGN_SHOWTABS(1, 1);" class="R3_TAB_BASE" title="Set 3D Object [OM_SET] List" value="3D Objects">
 					</div>
-					<!-- ID List List -->
-					<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG" id="R3_SCD_ID_LIST_HOLDER">
-						<!-- ID List goes here -->
+					<!-- General List -->
+					<div class="R3_TAB_MENU" id="R3_MENU_1_0">
+						<!-- ID List -->
+						<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
+							<input type="text" maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT" placeholder="Insert Function ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST(event, 'R3_SCD_SEARCH_SCD_ID_OPCODE_INPUT', 'R3_SCD_ID_FUNCTION_', 'R3_SCD_ID_LIST_HOLDER', 'R3_SCD_SEARCH_SCD_ID_RESULT');">
+						</div>
+						<!-- ID List List -->
+						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG" id="R3_SCD_ID_LIST_HOLDER">
+							<!-- ID List goes here -->
+						</div>
+						<!-- Search Result -->
+						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG none" id="R3_SCD_SEARCH_SCD_ID_RESULT">
+							<!-- Search Result goes here -->
+						</div>
 					</div>
-					<!-- Search Result -->
-					<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG none" id="R3_SCD_SEARCH_SCD_ID_RESULT">
-						<!-- Search Result goes here -->
+					<!-- Set 3D Object List -->
+					<div class="R3_TAB_MENU none" id="R3_MENU_1_1">
+						<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
+							<input type="text"maxlength="2" id="R3_SCD_SEARCH_SCD_ID_OM_INPUT" placeholder="Insert Object ID Here" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_SEARCH_SCD_ID_LIST(event, 'R3_SCD_SEARCH_SCD_ID_OM_INPUT', 'R3_SCD_OM_FUNCTION_', 'R3_SCD_ID_LIST_HOLDER_OM_SET', 'R3_SCD_SEARCH_SCD_OM_RESULT');">
+						</div>
+						<!-- ID List List -->
+						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG" id="R3_SCD_ID_LIST_HOLDER_OM_SET">
+							<!-- ID List goes here -->
+						</div>
+						<!-- Search Result -->
+						<div class="R3_SCD_SCRIPT_LISTS_HOLDER R3V2_MINI_MENU_HEIGHT_FIX BG_COLOR_MSG none" id="R3_SCD_SEARCH_SCD_OM_RESULT">
+							<!-- Search Result goes here -->
+						</div>
 					</div>
 				</div>
 				<!-- R3V2 - SCD Edit form -->
@@ -789,6 +1043,8 @@
 					<!-- Script Location -->
 					<div class="R3V2_MENU">
 						Function Location: <input type="number" min="1" step="1" maxlength="5" max="10000" placeholder="0" class="R3_SCD_editForm_fnPos" id="R3_SCD_editFunction_pos">
+						<input type="button" class="R3V2_MINI_MENU_BUTTON" onclick="R3_SCD_openPrevNextFunction(0);" value="<" title="Click here to open previous function">
+						<input type="button" class="R3V2_MINI_MENU_BUTTON" onclick="R3_SCD_openPrevNextFunction(1);" value=">" title="Click here to open next function">
 						<!-- Right -->
 						<input type="button" title="Click here to apply!" value="Apply Changes" id="R3_SCD_BTN_APPLY" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY BTN_R3CLASSIC_R3V2_menuFix">
 					</div>
@@ -802,6 +1058,24 @@
 						</div>
 					</div>
 				</div>
+				<!-- R3V2 - SCD DoorLink -->
+				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_20">
+					<div id="R3V2_MINI_WINDOW_20_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
+						SCD DoorLink
+						<input type="button" onclick="R3_MINIWINDOW.close(20);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+					</div>
+					<div class="R3_SCD_SEARCH_SCD_SCRIPT_FORM">
+						<input type="text" maxlength="3" id="R3_SCD_DOORLINK_MAP_INPUT" placeholder="Insert Stage + Room Number" class="R3_SCD_SEARCH_SCD_SCRIPT_INPUT width-100-percent" oninput="R3_DESIGN_DOORLINK_RENDER();">
+					</div>
+					<div class="R3_SCD_DOORLINK_mapInfoDiv">
+						Map Name: <font class="monospace mono_xyzr R3_SCD_DOORLINK_mapInfoLbl" id="R3_SCD_DOORLINK_mapName">Unknwon Location</font><br>
+						Location: <font class="monospace mono_xyzr R3_SCD_DOORLINK_mapInfoLbl" id="R3_SCD_DOORLINK_mapLocation">Unknwon Location</font><br>
+						<div class="align-center LBL_subTitle">Available Locations</div>
+						<div class="R3_SCD_DOORLINK_doorHolder" id="R3_SCD_DOORLINK_doorHolder">
+							<!-- DoorLink Data goes here -->
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- MENU - MSG Editor -->
 			<div class="MENU_DIV" id="MENU_7">
@@ -812,15 +1086,15 @@
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
 						<input type="button" onclick="R3_MSG_NEW_FILE();" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to create a new message file">
 						<input type="button" onclick="R3_MSG_LOADFILE();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open a file">
-						<input type="button" onclick="R3_MSG_RECOMPILE(0);" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
-						<input type="button" onclick="R3_MSG_RECOMPILE(1);" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new message file">
+						<input type="button" onclick="R3_MSG_COMPILE(0);" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
+						<input type="button" onclick="R3_MSG_COMPILE(1);" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new message file">
 						<input type="button" id="R3_MSG_BTN_APPLYRDT" onclick="R3_MSG_EDIT_APPLY(2);" class="BTN_ICON_BASE BTN_ICON_RDT_APPLY none" title="Click here to apply your changes on current RDT">
 					</div>
 					<!-- Utility -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on hex editor" onclick="R3_SYSTEM_openInHex();">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on hex editor" onclick="R3_SYSTEM.openInHex();">
 						<input type="button" id="BTN_MAIN_24" class="BTN_ICON_BASE" title="Click here to open msg hex translator" onclick="R3_MSG_openTranslator();">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_HEX" title="Click here to open hex preview" onclick="R3_DESIGN_MINIWINDOW_OPEN(1);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_HEX" title="Click here to open hex preview" onclick="R3_MINIWINDOW.open(1);">
 					</div>
 					<!-- Add Remove Message -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
@@ -829,12 +1103,12 @@
 					</div>
 					<!-- Next Prev -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" id="BTN_MAIN_32" class="BTN_ICON_BASE none" title="Click here to open message list" onclick="R3_DESIGN_MINIWINDOW_OPEN(5);">
+						<input type="button" id="BTN_MAIN_32" class="BTN_ICON_BASE none" title="Click here to open message list" onclick="R3_MINIWINDOW.open(5);">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_PREV" title="Click here to load previous message" onclick="R3_MSG_SKIPSCRIPT(0);">
 						<input type="button" class="BTN_ICON_BASE BTN_ICON_NEXT" title="Click here to load next message" onclick="R3_MSG_SKIPSCRIPT(1);">
 					</div>
 					<!-- Compile MSG -->
-					<input type="button" class="BTN_ICON_BASE BTN_ICON_COMPILE" id="R3_MSG_CODE_COMPILE" title="Click here to compile current message" onclick="R3_MSG_EDIT_APPLY(3);">
+					<input type="button" class="BTN_ICON_BASE BTN_ICON_COMPILE MSG_COMPILE_FIX" id="R3_MSG_CODE_COMPILE" title="Click here to compile current message" onclick="R3_MSG_EDIT_APPLY(3);">
 					<!-- Exit -->
 					<input type="button" onclick="R3_MENU_EXIT();" class="BTN_ICON_BASE BTN_ICON_EXIT" title="Click here to close this tool">
 				</div>
@@ -845,16 +1119,15 @@
 						<!-- Function List -->
 						<div class="align-center"><font class="LBL_subTitle">Function List</font></div>
 						<div class="SEPARATOR-2"></div>
-						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(1);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_1"><font class="R3_HC_LBL_CODE">$SMS</font>: Start Message</font><br>
-						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(2);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_2"><font class="R3_HC_LBL_CODE">$EMS</font>: End Message</font><br>
-						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(4);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_4"><font class="R3_HC_LBL_CODE">$SSC</font>: Show Special</font> Char<br>
-						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(5);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_5"><font class="R3_HC_LBL_CODE">$SIN</font>: Show Item</font> Name<br>
-						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(6);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_6"><font class="R3_HC_LBL_CODE">$PSE</font>: Play SE</font><br>
-						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(7);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_7"><font class="R3_HC_LBL_CODE">$CHC</font>: Change Camera</font><br>
-						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(8);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_8"><font class="R3_HC_LBL_CODE">$UF5</font>: (UNK)</font> Function <font class="monospace mono_xyzr">F5</font><br>
-						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(9);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_9"><font class="R3_HC_LBL_CODE">$CTC</font>: Change Text</font> Color<br>
-						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(11);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_11"><font class="R3_HC_LBL_CODE">$SHO</font>: Show Options</font><br>
-						<font class="R3_MSG_fnLblFix"><font class="R3_HC_LBL_CODE">$HEX</font>: Insert Hex Value</font><br><br>
+						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(1);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_1"><font class="R3_HC_LBL_CODE">{S:02}</font>: Start Message</font><br>
+						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(2);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_2"><font class="R3_HC_LBL_CODE">{E:00}</font>: End Message</font><br>
+						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(4);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_4"><font class="R3_HC_LBL_CODE">{SC:00}</font>: Show Special Char</font><br>
+						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(5);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_5"><font class="R3_HC_LBL_CODE">{IN:00}</font>: Show Item Name</font><br>
+						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(6);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_6"><font class="R3_HC_LBL_CODE">{SE:00}</font>: Play SE</font><br>
+						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(7);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_7"><font class="R3_HC_LBL_CODE">{CC:00}</font>: Change Camera</font><br>
+						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(8);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_8"><font class="R3_HC_LBL_CODE">{UF:00}</font>: (UNK)</font> Function <font class="monospace mono_xyzr">F5</font><br>
+						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(9);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_9"><font class="R3_HC_LBL_CODE">{C:00}</font>: Change Text Color</font><br>
+						<input type="button" class="SETTINGS_BTN SETTINGS_BTN_FIX" value="Insert" onclick="R3_MSG_insertFn(11);"><font class="R3_MSG_fnLblFix" id="R3_MSG_fnTtitle_11"><font class="R3_HC_LBL_CODE">{O:??}</font>: Show Options</font><br><br>
 						<!-- Text Format -->
 						<div class="align-center"><font class="LBL_subTitle">Text Format</font></div>
 						<div class="SEPARATOR-2"></div>
@@ -887,7 +1160,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_1">
 					<div id="R3V2_MINI_WINDOW_1_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Hex View - Length: <font class="monospace"><font id="R3_MSG_LBL_hexLength">0</font>(h)</font>
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(1);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(1);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_MSG_HEX_RAW user-can-select" id="R3_MSG_HEX_RAW">
 						<!-- Hex goes here -->
@@ -897,7 +1170,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_5">
 					<div id="R3V2_MINI_WINDOW_5_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						MSG List
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(5);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(5);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div id="R3_MSG_SCRIPT_LISTS" class="R3_MSG_SCRIPT_LISTS_HOLDER">
 						<!-- Message List Goes Here -->
@@ -907,7 +1180,7 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_7">
 					<div id="R3V2_MINI_WINDOW_7_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						MSG Hex Translator
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(7);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(7);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<textarea placeholder="Translator: Insert MSG code here..." onkeyup="R3_MSG_translateHex();" onclick="R3_MSG_clearTranslateField();" class="R3_MSG_TRANSLATE_TEXTAREA" id="R3_MSG_TRANSLATE_TEXTAREA" spellcheck="false"></textarea>
 				</div>
@@ -919,35 +1192,33 @@
 				<div class="R3_SUBMENU" id="SUBMENU_4">
 					<!-- General -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new RDT file">
-						<input type="button" onclick="R3_RDT_loadFile();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open RDT file">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new map">
+						<input type="button" onclick="R3_RDT.newFile();" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new RDT file"/>
+						<input type="button" onclick="R3_RDT.loadFile();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open RDT file"/>
+						<input type="button" onclick="R3_RDT.compile();" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes"/>
+						<input type="button" onclick="R3_RDT.compile();" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new map"/>
 					</div>
 					<!-- Functions -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR none" id="R3_MENU_BTNS_RDT_MINIWINDOWS">
-						<input type="button" id="BTN_MAIN_26" class="BTN_ICON_BASE" title="Click here to open the map list" onclick="R3_DESIGN_RDT_openFileList();">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on Hex editor" onclick="R3_SYSTEM_openInHex();">
+						<input type="button" id="BTN_MAIN_26" class="BTN_ICON_BASE" title="Click here to open the map list" onclick="R3_DESIGN_RDT_openFileList();"/>
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on Hex editor" onclick="R3_SYSTEM.openInHex();"/>
 					</div>
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR none" id="R3_MENU_BTNS_RDT_OPENSECTIONS">
-						<input type="button" id="BTN_MAIN_25" class="BTN_ICON_BASE" title="[SCD] Click here to edit scripts on SCD Editor" onclick="R3_RDT_OPEN_SCD();">
-						<input type="button" id="BTN_MAIN_31" class="BTN_ICON_BASE" title="[MSG] Click here to edit messages on MSG Editor" onclick="R3_RDT_OPEN_MSG();">
-						<input type="button" id="BTN_MAIN_39" class="BTN_ICON_BASE" title="[RID] Click here to edit camera angles on RID Editor" onclick="R3_RDT_OPEN_RID();">
-						<input type="button" id="BTN_MAIN_41" class="BTN_ICON_BASE" title="[LIT] Click here to edit light data on LIT Editor" onclick="R3_RDT_OPEN_LIT();">
-						<input type="button" id="BTN_MAIN_46" class="BTN_ICON_BASE" title="[PRI] Click here to edit masks on PRI Editor" onclick="R3_RDT_OPEN_PRI();">
-						<input type="button" id="BTN_MAIN_50" class="BTN_ICON_BASE" title="[SCA] Click here to edit boundaries on SCA Editor" onclick="R3_RDT_OPEN_SCA();">
-						<input type="button" id="BTN_MAIN_62" class="BTN_ICON_BASE" title="[TIM] Click here to view TIM Manager" onclick="R3_RDT_OPEN_TIM();">
-						<input type="button" id="BTN_MAIN_63" class="BTN_ICON_BASE" title="[OBJ] Click here to view Obj Manager" onclick="R3_RDT_OPEN_OBJ();">
+						<input type="button" id="BTN_MAIN_25" class="BTN_ICON_BASE" title="[SCD] Click here to edit scripts on SCD Editor" onclick="R3_RDT.sections.openSCD();"/>
+						<input type="button" id="BTN_MAIN_31" class="BTN_ICON_BASE" title="[MSG] Click here to edit messages on MSG Editor" onclick="R3_RDT.sections.openMSG();"/>
+						<input type="button" id="BTN_MAIN_39" class="BTN_ICON_BASE" title="[RID] Click here to edit camera angles on RID Editor" onclick="R3_RDT.sections.openRID();"/>
+						<input type="button" id="BTN_MAIN_41" class="BTN_ICON_BASE" title="[LIT] Click here to edit light data on LIT Editor" onclick="R3_RDT.sections.openLIT();"/>
+						<input type="button" id="BTN_MAIN_46" class="BTN_ICON_BASE" title="[PRI] Click here to edit masks on PRI Editor" onclick="R3_RDT.sections.openPRI();"/>
+						<input type="button" id="BTN_MAIN_50" class="BTN_ICON_BASE" title="[SCA] Click here to edit boundaries on SCA Editor" onclick="R3_RDT.sections.openSCA();"/>
+						<input type="button" id="BTN_MAIN_62" class="BTN_ICON_BASE" title="[TIM] Click here to view TIM Manager" onclick="R3_RDT.sections.openTimManager();"/>
+						<input type="button" id="BTN_MAIN_63" class="BTN_ICON_BASE" title="[OBJ] Click here to view Obj Manager" onclick="R3_RDT.sections.openObjManager();"/>
 					</div>
 					<!-- Utility -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR none" id="R3_MENU_BTNS_RDT_UTILITY">
-						<!-- Export Sections -->
-						<input type="button" id="BTN_MAIN_51" class="BTN_ICON_BASE" title="Click here to open export window" onclick="R3_DESIGN_MINIWINDOW_OPEN(10);">
 						<!-- Leo2236 RE3SLDE Tool -->
-						<input type="button" id="BTN_MAIN_38" class="BTN_ICON_BASE" title="[SLD] Click here to open SLD file for this map on Leo2236 RE3SLDE" onclick="R3_RDT_OPEN_SLD();">
+						<input type="button" id="BTN_MAIN_38" class="BTN_ICON_BASE" title="[SLD] Click here to open SLD file for this map on Leo2236 RE3SLDE" onclick="R3_RDT.sections.openSLD();"/>
 						<!-- RDT Hacks -->
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_ENABLE_HACK" id="R3_RDT_BTN_ENABLE_SCD_HACK" title="Click here to enable SCD Hack on this map!" onclick="R3_RDT_SCD_HACK_ENABLE();">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_HACK" id="BTN_SCD_HACK" title="Click here to apply SCD Hack!" onclick="R3_RDT_SCD_HACK_APPLY(true);">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_ENABLE_HACK" id="R3_RDT_BTN_ENABLE_SCD_HACK" title="Click here to enable SCD Hack on this map!" onclick="R3_RDT.scdHack.enableHack();">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_HACK" id="BTN_SCD_HACK" title="Click here to apply SCD Hack!" onclick="R3_RDT.scdHack.applyHack(true);">
 					</div>
 					<!-- Next Prev -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR none" id="R3_MENU_BTNS_NEXTPREV">
@@ -964,15 +1235,17 @@
 				</div>
 				<!-- General -->
 				<div class="R3_RDT_MENU_TEMPLATE none" id="R3_RDT_MENU_0">
-					<img class="R3_RDT_GENERAL_IMG" id="R3_RDT_GENERAL_IMG">
+					<div class="R3_RDT_GENERAL_IMG" id="R3_RDT_GENERAL_IMG"></div>
 					<!-- Infos -->
 					<div class="R3_RDT_MENU_GENERAL_INFOS" id="R3_RDT_MENU_GENERAL_INFOS">
-						<font id="R3_RDT_GENERAL_FILENAME" class="LBL_title monospace">???</font><br>
+						<font id="R3_RDT_GENERAL_FILENAME" class="LBL_subTitle monospace">???</font><br>
 						<font id="R3_RDT_GENERAL_LOCALNAME">???</font><br>
 						<div id="R3_RDT_LBL_FILESIZE">
 							File Path: <font id="R3_RDT_GENERAL_FILEPATH" class="user-can-select monospace">???</font><br>
 							File Size: <font id="R3_RDT_GENERAL_FILESIZE" class="monospace mono_xyzr">???</font>
-						</div><br><br>
+						</div><br>
+						<!-- SCD Hack Status -->
+						SCD Hack Status: <font class="monospace mono_xyzr" id="R3_RDT_GENERAL_SCDHACKSTATUS">???</font>
 					</div>
 				</div>
 				<!-- Inicial Page -->
@@ -1008,18 +1281,18 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_6">
 					<div id="R3V2_MINI_WINDOW_6_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						RID Editor - Camera <font id="R3_RID_lblTitleCurrentCam" class="monospace mono_xyzr">???</font>
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(6);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(6);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_RID_EDIT_FORM" id="R3_RID_EDIT_FORM">
 						<!-- Top Menu -->
 						<div class="R3_RID_EDIT_MENU">
-							<input type="button" class="R3V2_MINI_MENU_BUTTON" value="+" title="Click here to insert a new camera" onclick="R3_RID_addCamera();">
-							<input type="button" class="R3V2_MINI_MENU_BUTTON" value="-" title="Click here to delete this camera" onclick="R3_RID_removeCamera();">
+							<input type="button" class="R3V2_MINI_MENU_BUTTON" value="+" title="Click here to insert a new camera" onclick="R3_rdtRID.addCamera();">
+							<input type="button" class="R3V2_MINI_MENU_BUTTON" value="-" title="Click here to delete this camera" onclick="R3_rdtRID.removeCamera();">
 							<div class="R3_RID_EDIT_MENU_NAVIGATE">
 								<input type="button" class="R3V2_MINI_MENU_BUTTON" value="<" onclick="R3_DESIGN_RID_seekCamera(0);" title="Click here to open previous camera">
 								<input type="button" class="R3V2_MINI_MENU_BUTTON" value=">" onclick="R3_DESIGN_RID_seekCamera(1);" title="Click here to open next camera">
 								<!-- Right -->
-								<input type="button" onclick="R3_RID_recompile();" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Apply RID">
+								<input type="button" onclick="R3_rdtRID.compileRID();" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Apply RID">
 							</div>
 						</div>
 						<!-- Edit Form -->
@@ -1030,19 +1303,19 @@
 								<font class="COLOR_X monospace">X Pos: </font>
 								<input type="range" min="-32767" max="32767" maxlength="5" step="1" class="R3_RANGE" id="R3_RID_EDIT_rangePosX" oninput="R3_DESIGN_RID_updateInput();">
 								<font class="COLOR_X monospace user-can-select" id="R3_RID_LBL_POS_X">0000</font>   
-								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posX"><br>
+								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR COLOR_X R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posX"><br>
 								<font class="COLOR_Y monospace">Y Pos: </font>
 								<input type="range" min="-32767" max="32767" maxlength="5" step="1" class="R3_RANGE" id="R3_RID_EDIT_rangePosY" oninput="R3_DESIGN_RID_updateInput();">
 								<font class="COLOR_Y monospace user-can-select" id="R3_RID_LBL_POS_Y">0000</font>   
-								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posY"><br>
+								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR COLOR_Y R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posY"><br>
 								<font class="COLOR_Z monospace">Z Pos: </font>
 								<input type="range" min="-32767" max="32767" maxlength="5" step="1" class="R3_RANGE" id="R3_RID_EDIT_rangePosZ" oninput="R3_DESIGN_RID_updateInput();">
 								<font class="COLOR_Z monospace user-can-select" id="R3_RID_LBL_POS_Z">0000</font>   
-								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posZ"><br>
+								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR COLOR_Z R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posZ"><br>
 								<font class="COLOR_R monospace">R Pos: </font>
 								<input type="range" min="-32767" max="32767" maxlength="5" step="1" class="R3_RANGE" id="R3_RID_EDIT_rangePosR" oninput="R3_DESIGN_RID_updateInput();">
 								<font class="COLOR_R monospace user-can-select" id="R3_RID_LBL_POS_R">0000</font>   
-								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posR"><br>
+								<input type="number" min="-32767" maxlength="32767" step="1" placeholder="0" onchange="R3_DESIGN_RID_updateRange();" class="R3_EDIT_TEXT_XYZR COLOR_R R3_RID_EDIT_numberFix" id="R3_RID_EDIT_posR"><br>
 								<div class="SEPARATOR-2"></div>
 								<div class="align-center">
 									<br>
@@ -1058,7 +1331,7 @@
 								Unk 0: <input type="text" spellcheck="false" placeholder="B773" id="R3_RID_EDIT_unk0" maxlength="4" class="R3_EDIT_TEXT_XYZR"><br><br>
 								<div class="align-center">
 									Background Image:<br>
-									<img src="img/404.png" class="R3_RID_CAMERA_BSS" id="R3_RID_CAMERA_BSS">
+									<img ondragstart="return false;" src="img/404.webp" class="R3_RID_CAMERA_BSS" id="R3_RID_CAMERA_BSS">
 								</div>
 							</div>
 							<!-- Original Hex -->
@@ -1080,44 +1353,45 @@
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_10">
 					<div id="R3V2_MINI_WINDOW_10_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						Export Sections
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(10);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(10);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="R3_MSG_HEX_RAW">
-						<input type="button" value="Export VB"  class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(0);" title="Click here to export VB section">
-						<input type="button" value="Export SCA" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(1);" title="Click here to export SCA section">
-						<input type="button" value="Export RID" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(2);" title="Click here to export RID section">
-						<input type="button" value="Export RVD" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(3);" title="Click here to export RVD section">
-						<input type="button" value="Export OBJ" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(4);" title="Click here to export OBJ section">
-						<input type="button" value="Export LIT" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(5);" title="Click here to export LIT section">
-						<input type="button" value="Export MSG" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(6);" title="Click here to export MSG section">
-						<input type="button" value="Export SCD" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(7);" title="Click here to export SCD section">
-						<input type="button" value="Export EFF" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(8);" title="Click here to export EFF section">
-						<input type="button" value="Export SND" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(9);" title="Click here to export SND section">
-						<input type="button" value="Export FLR" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT_EXPORT_SECTION(10);" title="Click here to export FLR section">
+						<input type="button" value="Export VB"  class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('VB');" title="Click here to export VB section">
+						<input type="button" value="Export SCA" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('SCA');" title="Click here to export SCA section">
+						<input type="button" value="Export RID" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('RID');" title="Click here to export RID section">
+						<input type="button" value="Export RVD" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('RVD');" title="Click here to export RVD section">
+						<input type="button" value="Export OBJ" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('OBJ');" title="Click here to export OBJ section">
+						<input type="button" value="Export LIT" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('LIT');" title="Click here to export LIT section">
+						<input type="button" value="Export MSG" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('MSG');" title="Click here to export MSG section">
+						<input type="button" value="Export SCD" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('SCD');" title="Click here to export SCD section">
+						<input type="button" value="Export EFF" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('EFF');" title="Click here to export EFF section">
+						<input type="button" value="Export SND" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('SND');" title="Click here to export SND section">
+						<input type="button" value="Export FLR" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('FLR');" title="Click here to export FLR section">
+						<input type="button" value="Export BLK" class="SCD_FUNCTION_BUTTON" onclick="R3_RDT.sections.export('BLK');" title="Click here to export BLK section">
 					</div>
 				</div>
 				<!-- R3V2 - TIM Manager -->
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_16">
 					<div id="R3V2_MINI_WINDOW_16_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						TIM Manager
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(16);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(16);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="align-center R3_TIM_MANAGER_BG">
 						<select id="R3_RDT_timManagerList" class="SELECT_SETTINGS auto" onchange="R3_DESIGN_updateSelectedTimManager();"></select><br>
-						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Export TIM" onclick="R3_TIM_MANAGER_importExport(1);" title="Click here to export this file">
-						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Replace TIM" onclick="R3_TIM_MANAGER_importExport(0);" title="Click here to replace this file">
+						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Export TIM" onclick="R3_RDT.tim.export();" title="Click here to export this file">
+						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Replace TIM" onclick="R3_RDT.tim.import();" title="Click here to replace this file">
 					</div>
 				</div>
 				<!-- R3V2 - OBJ Manager -->
 				<div class="R3V2_MINI_WINDOW" id="R3V2_MINI_WINDOW_17">
 					<div id="R3V2_MINI_WINDOW_17_HEADER" class="R3V2_MINI_WINDOW_DRAG_AREA">
 						OBJ Manager
-						<input type="button" onclick="R3_DESIGN_MINIWINDOW_CLOSE(17);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
+						<input type="button" onclick="R3_MINIWINDOW.close(17);" title="Click here to close this window" class="R3V2_MINI_WINDOW_CLOSE_BTN" value="X">
 					</div>
 					<div class="align-center R3_OBJ_MANAGER_BG">
 						<select id="R3_RDT_objManagerList" class="SELECT_SETTINGS auto" onchange="R3_DESIGN_updateSelectedObjManager();"></select><br>
-						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Export OBJ" onclick="R3_OBJ_MANAGER_importExport(1);" title="Click here to export this file">
-						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Replace OBJ" onclick="R3_OBJ_MANAGER_importExport(0);" title="Click here to replace this file">
+						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Export OBJ" onclick="R3_RDT.obj.manager.export();" title="Click here to export this file">
+						<input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Replace OBJ" onclick="R3_RDT.obj.manager.import();" title="Click here to replace this file">
 					</div>
 				</div>
 			</div>
@@ -1128,21 +1402,21 @@
 				<div class="R3_SUBMENU" id="SUBMENU_5">
 					<!-- General -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open game executable">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new executable">
+						<input type="button" onclick="R3_SYSTEM.WIP();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open game executable">
+						<input type="button" onclick="R3_SYSTEM.WIP();" class="BTN_ICON_BASE BTN_ICON_SAVE" title="Click here to save your changes">
+						<input type="button" onclick="R3_SYSTEM.WIP();" class="BTN_ICON_BASE BTN_ICON_SAVE_AS" title="Click here to save your changes in a new executable">
 					</div>
 					<!-- RE3SET Utility -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on Hex editor" onclick="R3_SYSTEM_openInHex();">
+						<input type="button" class="BTN_ICON_BASE BTN_ICON_OPEN_HEX" title="Click here to open this file on Hex editor" onclick="R3_SYSTEM.openInHex();">
 					</div>
 					<!-- RE3SET Editors -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR" id="R3_MENU_BTNS_RE3SET_EDITORS">
-						<input type="button" onclick="R3_WIP();" id="BTN_MAIN_21" class="BTN_ICON_BASE" title="[DROP] Click here to edit Nemesis item drops">
-						<input type="button" onclick="R3_WIP();" id="BTN_MAIN_58" class="BTN_ICON_BASE" title="[ITEM] Click here to edit item settings">
-						<input type="button" onclick="R3_WIP();" id="BTN_MAIN_59" class="BTN_ICON_BASE" title="[MIX] Click here to edit item combinations">
-						<input type="button" onclick="R3_WIP();" id="BTN_MAIN_60" class="BTN_ICON_BASE" title="[START] Click here to edit start location">
-						<input type="button" onclick="R3_WIP();" id="BTN_MAIN_61" class="BTN_ICON_BASE" title="[START ITEMS] Click here to edit initial inventory">
+						<input type="button" onclick="R3_SYSTEM.WIP();" id="BTN_MAIN_21" class="BTN_ICON_BASE" title="[DROP] Click here to edit Nemesis item drops">
+						<input type="button" onclick="R3_SYSTEM.WIP();" id="BTN_MAIN_58" class="BTN_ICON_BASE" title="[ITEM] Click here to edit item settings">
+						<input type="button" onclick="R3_SYSTEM.WIP();" id="BTN_MAIN_59" class="BTN_ICON_BASE" title="[MIX] Click here to edit item combinations">
+						<input type="button" onclick="R3_SYSTEM.WIP();" id="BTN_MAIN_60" class="BTN_ICON_BASE" title="[START] Click here to edit start location">
+						<input type="button" onclick="R3_SYSTEM.WIP();" id="BTN_MAIN_61" class="BTN_ICON_BASE" title="[START ITEMS] Click here to edit initial inventory">
 					</div>
 					<!-- Right -->
 					<div class="R3_MENU_BTNS_OTHER">
@@ -1158,8 +1432,8 @@
 				<div class="R3_SUBMENU" id="SUBMENU_0">
 					<!-- General -->
 					<div class="R3_SUBMENU_BUTTONS_SEPARATOR">
-						<input type="button" onclick="R3_INI_MAKEFILE(1);" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new config. file">
-						<input type="button" onclick="R3_WIP();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open a file">
+						<input type="button" onclick="R3_INI.generateIni(1);" class="BTN_ICON_BASE BTN_ICON_NEW" title="Click here to generate a new config. file">
+						<input type="button" onclick="R3_SYSTEM.WIP();" class="BTN_ICON_BASE BTN_ICON_OPEN" title="Click here to open a file">
 					</div>
 					<!-- Exit -->
 					<input type="button" onclick="R3_MENU_EXIT();" class="BTN_ICON_BASE BTN_ICON_EXIT" title="Click here to close this tool">
@@ -1214,19 +1488,8 @@
 				</div>
 				<div class="R3_FILEGEN_CANVAS_BIG" id="R3_FILEGEN_RENDERAREA_BIG"></div>
 			</div>
-			<!-- MENU - Loading -->
-			<div class="MENU_DIV" id="MENU_2">
-				<div class="LOADING_BG"></div>
-				<div class="R3_LOADING_HOLDER">
-					<div class="align-center"><font class="LBL_title" id="R3_LOADING_TITLE">???</font></div>
-					<font id="R3_LOADING_STATUS">Please wait</font><br>
-					<div id="R3_LOADING_PGBAR_DIV" class="R3_LOADING_PGBAR_DIV">
-						<font id="R3_LOADING_PGBAR_LABEL">???</font>%
-					</div>
-				</div>
-			</div>
 			<!-- MENU - Settings -->
-			<div class="MENU_DIV MENU_SETTINGS_FIX" id="MENU_0">
+			<div class="MENU_DIV" id="MENU_0">
 				<div class="LBL_title">R3ditor V2 Settings</div>
 				<div class="SETTINGS_HOLDER">
 					<!-- Reading Mode -->
@@ -1259,32 +1522,55 @@
 								Hex Editor Path: <font class="monospace lbl-path" id="R3_SETTINGS_HEX_PATH">Undefined</font>
 								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(2);">
 							</li>
-							<li>
-								<u>Leo2236</u> RE3SLDE Path: <font class="monospace lbl-path" id="R3_SETTINGS_RE3SLDE_PATH">Undefined</font>
-								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(3);">
-							</li>
 							<div class="SEPARATOR-0"></div>
 							<li>
-								Extracted Assets (MOD) Path: <font class="monospace lbl-path" id="R3_SETTINGS_MOD_PATH">Undefined</font>
+								Extracted Assets <i>(Mod)</i> Path: <font class="monospace lbl-path" id="R3_SETTINGS_MOD_PATH">Undefined</font>
 								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(4);">
 							</li>
 						</ul>
 					</div>
-					<!-- RE3 Live Status -->
+					<!-- Leo2236 Paths -->
+					<div class="none" id="SETTINGS_DIV_LEO_PATH">
+						<div class="LBL_subTitle">Leo2236 Tools</div>
+						<div class="SEPARATOR-0"></div>
+						<ul>
+							<li>
+								RE3MV Path: <font class="monospace lbl-path" id="R3_SETTINGS_RE3MV_PATH">Undefined</font>
+								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(6);">
+							</li>
+							<li>
+								RE3SLDE Path: <font class="monospace lbl-path" id="R3_SETTINGS_RE3SLDE_PATH">Undefined</font>
+								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(3);">
+							</li>
+							<li>
+								RE3PLWEditor Path: <font class="monospace lbl-path" id="R3_SETTINGS_RE3PLWE_PATH">Undefined</font>
+								<input type="button" class="SETTINGS_BTN" value="Change Path" onclick="R3_SETTINGS_SET_PATH(7);">
+							</li>
+						</ul>
+					</div>
+					<!-- RE3 Livestatus -->
 					<div id="SETTINGS_DIV_LIVESTATUS">
 						<div class="LBL_subTitle">RE3 Livestatus</div>
 						<div class="SEPARATOR-0"></div>
 						<ul>
-							<li>RE3 Live Status Toolbar Position: 
+							<li>
+								RE3 Live Status Toolbar Position: 
 								<select id="R3_SETTINGS_LIVESTATUS_POSITION" title="This is what defines the position of RE3 Livestatus toolbar when it opens" onchange="R3_SETTINGS_UPDATE_SELECT();" class="SELECT_SETTINGS auto">
 									<!-- Options goes here -->
 								</select>
 							</li>
-							<li>RE3 Live Status Update Frenquency: 
-								<input type="range" min="50" max="300" step="2" value="80" class="SETTINGS_RANGE" oninput="R3_SETTINGS_UPDATE_RANGE(0);" id="R3_SETTINGS_RANGE_LIVETSTATUS_FREQUENCY"> <font id="R3_SETTINGS_LIVETSTATUS_FREQUENCY" class="monospace mono_xyzr">???</font>ms<br>
-								<div class="align-center margin-top-fix">
+							<li>
+								RE3 Live Status Update Frenquency: 
+								<input type="range" min="50" max="500" step="2" value="78" class="SETTINGS_RANGE" oninput="R3_SETTINGS_UPDATE_RANGE(0);" id="R3_SETTINGS_RANGE_LIVETSTATUS_FREQUENCY"> <font id="R3_SETTINGS_LIVETSTATUS_FREQUENCY" class="monospace mono_xyzr">???</font>ms<br>
+								<div class="align-center margin-top-fix txt-italic">
 									If you have any issue with performance, set this value <b>higher</b> - since it <u>may cause JS Heap</u>.
 								</div>
+							</li>
+							<li>
+								<input type="checkbox" id="R3_SETTINGS_DISPLAY_POS_INT"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_DISPLAY_POS_INT', true);" title="Enabling this option, R3V2 will show position values as integer instead of hex">- Display player position as <font class="R3_HC_LBL_CODE user-cant-select">integer</font> instead of <font class="R3_HC_LBL_CODE user-cant-select">hex</font></font>
+							</li>
+							<li>
+								<input type="checkbox" id="R3_SETTINGS_LIVESTATUS_DISCOVER"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_LIVESTATUS_DISCOVER', true);" title="Enabling this function, R3V2 will hook on main game case it's open">- Enable game detection</font>
 							</li>
 						</ul>
 					</div>
@@ -1316,55 +1602,67 @@
 							</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_FOCUS_FUNCTION_CLICK"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_FOCUS_FUNCTION_CLICK', true);" title="Enabling this option will scroll the list, setting the focused function at center">- (List Mode) Center function on click</font>
-						</li>
-						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM', true);" title="Enabling this option will make Search SCD Function window always be at right of SCD edit form">- (List Mode) Snap Search SCD Function with Edit Form</font>
-						</li>
-						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_LOG_SHOW_OPCODE_FUNCIONS"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_LOG_SHOW_OPCODE_FUNCIONS', true);" title="This will show the opcode hex value at front of every SCD function">- (List Mode) Show opcode hex after function name in Script List</font>
-						</li>
-						<li>
 							<input type="checkbox" id="R3_SETTINGS_SCD_LOG_WHILE_DECOMPILING"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_LOG_WHILE_DECOMPILING', true);" title="Enabling this option will log every function while readind SCD functions / sections.">- Log functions while decompiling SCD code</font>
 						</li>
 						<li>
 							<input type="checkbox" id="R3_SETTINGS_SCD_DISABLE_SHORTCUTS_NEXT_PREV"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_DISABLE_SHORTCUTS_NEXT_PREV', true);" title="This will disable [CTRL + Right Arrow] and [CTRL + Left Arrow] to avoid skipping current script">- Disable Next / Previous Keyboard Shortcuts</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_JS_COMPILER_KEEP_FILE"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_JS_COMPILER_KEEP_FILE', true);" title="Enabling this option will keep the original file after compile process - with comments and etc.">- (JS Compiler) Keep original file after compiling</font>
-						</li>
-						<li>
 							<input type="checkbox" id="R3_SETTINGS_SCD_AUTO_OPEN_SCRIPT_LIST"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_AUTO_OPEN_SCRIPT_LIST', true);">- Open Script List when you open / create a new file</font>
 						</li>
+						<li id="SETTINGS_LI_UPDATE_DOORLINK">
+							<input type="button" value="Update DoorLink Database" title="Click here to update DoorLink database manually" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_DOORLINK.generateDatabase();">
+						</li>
+						<!-- List Mode -->
+						<br><font class="LBL_smallTitle">List Mode</font><br>
+						<div class="SEPARATOR-0"></div>
 						<li>
-							<font title="This will define how big Hex View will be">(Hex View) Window Size: 
-								<select id="R3_SETTINGS_SCD_HEX_VIEW_SIZE" onchange="R3_SETTINGS_UPDATE_SELECT();" class="SELECT_SETTINGS auto">
+							<input type="checkbox" id="R3_SETTINGS_SCD_FOCUS_FUNCTION_CLICK"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_FOCUS_FUNCTION_CLICK', true);" title="Enabling this option will scroll the list, setting the focused function at center">- Center function on click</font>
+						</li>
+						<li>
+							<input type="checkbox" id="R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM', true);" title="Enabling this option will make Search SCD Function window always be at right of SCD edit form">- Snap Search SCD Function on Edit Form</font>
+						</li>
+						<li>
+							<input type="checkbox" id="R3_SETTINGS_SCD_LOG_SHOW_OPCODE_FUNCIONS"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_LOG_SHOW_OPCODE_FUNCIONS', true);" title="This will show the opcode hex value at front of every SCD function">- Show opcode hex after function name in Script List</font>
+						</li>
+						<!-- JS Editor -->
+						<br><font class="LBL_smallTitle">JS Editor</font><br>
+						<div class="SEPARATOR-0"></div>
+						<li>
+							<input type="checkbox" id="R3_SETTINGS_SCD_JS_COMPILER_KEEP_FILE"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_JS_COMPILER_KEEP_FILE', true);" title="Enabling this option will keep the original file after compile process - with comments and etc.">- Keep original file after compiling</font>
+						</li>
+						<!-- Hex View -->
+						<br><font class="LBL_smallTitle">Hex View</font><br>
+						<div class="SEPARATOR-0"></div>
+						<li>
+							<font title="This will define how big Hex View will be">Window Size: 
+								<select id="R3_SETTINGS_SCD_HEX_VIEW_SIZE" onchange="R3_SETTINGS_UPDATE_SELECT();R3_MINIWINDOW.close(3);" class="SELECT_SETTINGS auto">
 									<!-- Hex View Sizes goes here -->
 								</select>
 							</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR', true);" title="Enabling this function will change all hex colors on Hex view window, matching the function color on script list.">- (Hex View) Change Hex colors to match current functions
+							<input type="checkbox" id="R3_SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_CHANGE_HEX_VIEW_COLOR', true);" title="Enabling this function will change all hex colors on Hex view window, matching the function color on script list.">- Change Hex colors to match current functions
 							</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_HOVER_FUNCTION_HEX"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_HOVER_FUNCTION_HEX', true);" title="This will help you see where is the current function on script list">- (Hex View) Highlight Script list function on mouse hover
+							<input type="checkbox" id="R3_SETTINGS_SCD_HOVER_FUNCTION_HEX"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_HOVER_FUNCTION_HEX', true);" title="This will help you see where is the current function on script list">- Highlight Script list function on mouse hover
 							</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_SCD_SELECT_HEX_FUNCTION"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_SELECT_HEX_FUNCTION', true);" title="This will make you select hex functions as a normal text, instead of selecting only a single function">- (Hex View) Select Hex as text instead of single function
+							<input type="checkbox" id="R3_SETTINGS_SCD_SELECT_HEX_FUNCTION"> <font class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SCD_SELECT_HEX_FUNCTION', true);" title="This will make you select hex functions as a normal text, instead of selecting only a single function">- Select Hex as text instead of single function
 							</font>
 						</li>
 					</ul>
-					<!-- Animations -->
-					<div class="LBL_subTitle">Animations</div>
+					<!-- Animations / Performance -->
+					<div class="LBL_subTitle">Animations / Performance</div>
 					<div class="SEPARATOR-0"></div>
 					<ul>
 						<li>
 							<input type="checkbox" id="R3_SETTINGS_ENABLE_ANIMATIONS"> <font class="cursor-pointer" id="R3_SETTINGS_LBL_enableAnim" title="This option will enable or disable internal animations. Disable this if you have performance issues." onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_ENABLE_ANIMATIONS', true);">- Enable animations</font>
 						</li>
 						<li>
-							<input type="checkbox" id="R3_SETTINGS_ENABLE_RDT_ANIMATIONS"> <font class="cursor-pointer" id="R3_SETTINGS_LBL_enableAnimRDT" title="This option will enable the background animation while opening RDT files. Disable to make loading faster!" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_ENABLE_RDT_ANIMATIONS', true);">- Enable RDT opening animation <i>(Requires "Enable animations" activated!)</i></font>
+							<input type="checkbox" id="R3_SETTINGS_DISABLE_RDT_BACKGROUND"> <font class="cursor-pointer" title="Set this option off to disable background images on RDT editor. (Ideal for slow machines)" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_DISABLE_RDT_BACKGROUND', true);">- Disable Background images on RDT Editor</font>
 						</li>
 					</ul>
 					<!-- eNGE Settings-->
@@ -1372,6 +1670,9 @@
 						<div class="LBL_subTitle">eNGE Settings</div>
 						<div class="SEPARATOR-0"></div>
 						<ul>
+							<li>
+								<input type="checkbox" id="R3_SETTINGS_DISABLE_ENGE"> <font class="cursor-pointer" title="Set this option on to disbale eNGE initialization / background process (Requires restart to apply changes)" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_DISABLE_ENGE', true);">- Disable eNGE <i>(Requires restart)</i></font>
+							</li>
 							<li>
 								Screen Res.: 
 								<input type="number" title="eNGE Width Res." onkeyup="R3_ENGE_updateResScale(1);" value="640" min="360" placeholder="640" step="1" id="R3_SETTINGS_ENGE_WIDTH" class="R3_SCD_EDIT_61_aot"> x 
@@ -1409,6 +1710,9 @@
 					<div class="LBL_subTitle">Other Settings</div>
 					<div class="SEPARATOR-0"></div>
 					<ul>
+						<li>
+							<input type="checkbox" id="R3_SETTINGS_DISABLE_LOG"> <font class="cursor-pointer" title="Set this option on to disable R3V2 log system" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_DISABLE_LOG', true);">- Disable log system</font>
+						</li>
 						<li id="SETTINGS_LI_RECENTPOPUP">
 							<input type="checkbox" id="R3_SETTINGS_SHOW_RECENT_POPUP"> <font class="cursor-pointer" title="This option will show a popup with the last file you opened on main screen" onclick="R3_DESIGN_UTILS_processCheckBox('R3_SETTINGS_SHOW_RECENT_POPUP', true);">- Show last file opened popup</font>
 						</li>
@@ -1435,35 +1739,19 @@
 			<div class="MENU_DIV" id="MENU_1">
 				<div id="ABOUT_BG" class="ABOUT_BG"></div>
 				<div class="ABOUT_LEFT">
-					<img src="img/logo.png" class="ABOUT_LOGO"><br>
+					<img ondragstart="return false;" src="img/logo.webp" class="ABOUT_LOGO"><br>
 					<font class="LBL_appTitle">R3ditor V2</font><br>
 					Ver. <font id="ABOUT_LBL_R3_VERSION">???</font><br>
-					<div id="DIV_ABOUT_NW">NW.js Ver: <font id="ABOUT_LBL_NW_VERSION">???</font></div><br>
-					Created by <a target="_blank" href="https://twitter.com/themitosan">@TheMitoSan</a> / R3V2 Team<br>
-					<a target="_blank" href="https://themitosan.github.io/">Official Website</a><br><br>
-					"Forget the old promise, let's together make it like a dream becoming reality..."<br><br>
+					<div id="DIV_ABOUT_NW"><font id="ABOUT_LBL_NW_VERSION">???</font></div><br>
+					Created by:<br><a target="_blank" rel="noreferrer" href="https://twitter.com/themitosan">@TheMitoSan</a> / R3V2 Team<br>
+					<a target="_blank" rel="noreferrer" href="https://themitosan.github.io/">Official Website</a><br><br>
+					<i>"Forget the old promise, let's together make it like a dream becoming reality..."</i><br><br>
 					<input type="button" title="Click here to go back" class="ABOUT_GOBACK_BTN" value="Go Back" onclick="R3_MENU_GOBACK();">
 				</div>
 				<div class="ABOUT_RIGHT">
 					<div class="SEPARATOR-1"></div>
 					<div class="ABOUT_manyThanks_DIV" id="ABOUT_manyThanks_DIV">
-						<!-- About Goes here -->
-					</div>
-					<div class="ABOUT_specialThanks">
-						<u>Special Thanks To:</u><br><br>
-						<u><a target="_blank" href="https://www.ct-stars.com/">The Entire CT-STARS Team! (Special Mention to <font title="Thanks, Master!">Flag-King</font>!)</a></u><br>
-						<u><a target="_blank" href="https://twitter.com/biohazardEsp" title="Saludos, mi querido amigo!">Biohazard España</a> & <a target="_blank" href="https://twitter.com/khaleed681">Khaled SA</a> - for teaching me several RE3 tricks!</u><br>
-						<u>Kazuhiro Aoyama, Shinji Mikami and <a target="_blank" href="https://twitter.com/dev1_official">Capcom Dev 1 Team</a> - Thanks by creating the game of my life!
-						</u><br><br>
-						RE3SLDE is a software created by <a href="http://lgt.createaforum.com/" target="_blank">Leo2236</a>.<br>
-						eNGE is a PS1 emulator written in JS created by <a href="https://github.com/kootstra-rene" target="_blank">Rene Kootstra</a><br>
-						Some icons was made using shell32.dll icons from Microsoft Windows 98 SE.<br>
-						RDT SLD Edit icon was created using the original icon from <a href="http://lgt.createaforum.com/tools-24/re3slde-a-tool-to-edit-sld-files/" target="_blank">Leo2236 RE3SLDE Editor</a>.<br>
-						The new R3ditor V2 logo was created using <a href="https://www.dafont.com/pix-chicago.font" target="_blank">Pix Chicago</a> and <a href="https://www.fonts.com/font/linotype/plak/black-extra-condensed" target="_blank">Plak® Extra Condensed</a> fonts.<br><br>
-						Biohazard and Resident Evil are trademarks of ©CAPCOM CO., LTD. ALL RIGHTS RESERVED.
-					</div>
-					<div class="ABOUT_LEGAL_INFO">
-						THE LICENSE TO USE THIS SOFTWARE IS FREE FOR PERSONAL AND COMMERCIAL USE SINCE YOU GIVE CREDITS TO CREATOR OF THIS TOOL AND FOR ALL NAMES CITED ABOVE - SINCE THEY ARE OWNERS OF KNOWLEDGE THAT WERE NECESSARY FOR IT'S CREATION.
+						<!-- About goes here -->
 					</div>
 				</div>
 			</div>
@@ -1481,46 +1769,64 @@
 		<!-- Scripts -->
 		<div class="none">
 			<!-- eNGE Stuff -->
-			<script type="text/javascript" src="js/external/eNGE/base64.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/config.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-renderers/webgl2-utils.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-renderers/webGlHQ-old.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/memory.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/enge.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/cdrom.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/recompiler.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/directMemoryAccess.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/geometryTransformEngine.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/graphicsProcessingUnit.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/macroBlockDecoder.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/serialPorts.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/soundProcessingUnit.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/rootCounters.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/psx-core/gamepad.js"></script>
-			<script type="text/javascript" src="js/external/eNGE/index.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/base64.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/config.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-renderers/webgl2-utils.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-renderers/webGlHQ-old.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/memory.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/enge.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/cdrom.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/recompiler.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/directMemoryAccess.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/geometryTransformEngine.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/graphicsProcessingUnit.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/macroBlockDecoder.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/serialPorts.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/soundProcessingUnit.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/rootCounters.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/psx-core/gamepad.js"></script>
+			<script defer type="text/javascript" src="js/external/eNGE/index.js"></script>
 			<!-- eNGE Shaders -->
-<script id="vertex" type="x-shader/x-vertex">#version 300 es;precision highp float;in vec2   a_position;in vec2   a_texcoord;out vec2  v_texcoord;void main() {	gl_Position = vec4(a_position, 0.0, 1.0);	gl_Position.x = (gl_Position.x - 512.0) / +512.0;	gl_Position.y = (gl_Position.y - 256.0) / -256.0;	v_texcoord = a_texcoord;}</script><script id="fragment" type="x-shader/x-fragment">#version 300 es;precision highp float;uniform sampler2D u_texture;in vec2 v_texcoord;out vec4 outColor;void main() {	outColor = texture(u_texture, v_texcoord / vec2(1024.0, 512.0));}</script><script id="displayOff" type="x-shader/x-fragment">#version 300 es;precision highp float;out vec4 outColor;void main() {	outColor = vec4(0,0,0,0);}</script><script id="display16bit" type="x-shader/x-fragment">#version 300 es;precision highp float;uniform sampler2D u_texture;uniform ivec4		u_disp;uniform ivec4		u_draw;in vec2 v_texcoord;out vec4 outColor;vec4 InterleavedGradientNoise(vec2 uv) {	const vec3 magic = vec3( 0.06711056, 0.00583715, 52.9829189 );	float rnd = fract( magic.z * fract( dot( uv, magic.xy ) ) ) / 64.0;	return vec4(rnd, rnd, rnd, 0.0);}void main() {	vec4 noise = InterleavedGradientNoise(floor(v_texcoord));	ivec2 texel = ivec2(v_texcoord.xy);	/*	if (texel.x >= u_draw.x && texel.y >= u_draw.y && texel.x <= u_draw.z && texel.y <= u_draw.w) {		outColor = vec4(1.0, 0.0, 0.0, 1.0);		return;	}	if (texel.x >= u_disp.x && texel.y >= u_disp.y && texel.x < (u_disp.x+u_disp.z) && texel.y < (u_disp.y+u_disp.w)) {		outColor = vec4(0.0, 0.0, 1.0, 1.0);		return;	}	*/	vec4 c = texelFetch(u_texture, texel, 0);	outColor = c + noise;}</script><script id="display24bit" type="x-shader/x-fragment">#version 300 es;precision highp float;precision highp int;uniform sampler2D u_texture;uniform ivec4		u_disp;in vec2 v_texcoord;out vec4 outColor;int getSBGRfromRGBA(vec4 c) {	int sbgr = 0;	sbgr += int(c.r * 32.0);	sbgr += int(c.g * 32.0) * 32;	sbgr += int(c.b * 32.0) * 32 * 32;	if (c.a >= 0.5) sbgr += 32768;	return sbgr;}vec4 InterleavedGradientNoise(vec2 uv) {	const vec3 magic = vec3( 0.06711056, 0.00583715, 52.9829189 );	float rnd = fract( magic.z * fract( dot( uv, magic.xy ) ) ) / 64.0;	return vec4(rnd, rnd, rnd, 0.0);}void main() {	int dsx = int(floor(v_texcoord.x)) - u_disp.x;	int dsy = int(floor(v_texcoord.y)) - u_disp.y;	float tx = float(u_disp.x) + floor(float(dsx) * 1.5);	float ty = floor(v_texcoord.y);	vec4 c1 = texelFetch(u_texture, ivec2(tx + 0.0,ty), 0);	int  sbgr1 = getSBGRfromRGBA(c1);	vec4 c2 = texelFetch(u_texture, ivec2(tx + 1.0,ty), 0);	int  sbgr2 = getSBGRfromRGBA(c2);	vec4 noise = InterleavedGradientNoise( vec2(dsx,dsy) );	if ((dsx & 1) == 1) {		float r = float((sbgr1 >> 8) & 255) / 256.0;		float g = float((sbgr2 >> 0) & 255) / 256.0;		float b = float((sbgr2 >> 8) & 255) / 256.0;		outColor = vec4(r, g, b, 1.0) + noise;	}	else {		float r = float((sbgr1 >> 0) & 255) / 256.0;		float g = float((sbgr1 >> 8) & 255) / 256.0;		float b = float((sbgr2 >> 0) & 255) / 256.0;		outColor = vec4(r, g, b, 1.0) + noise;	}}</script>
+			<script id="vertex" type="x-shader/x-vertex">#version 300 es;precision highp float;in vec2 a_position;in vec2 a_texcoord;out vec2 v_texcoord;void main() { gl_Position = vec4(a_position, 0.0, 1.0);gl_Position.x = (gl_Position.x - 512.0) / +512.0; gl_Position.y = (gl_Position.y - 256.0) / -256.0;v_texcoord = a_texcoord;}</script>
+			<script id="fragment" type="x-shader/x-fragment">#version 300 es;precision highp float;uniform sampler2D u_texture;in vec2 v_texcoord;out vec4 outColor;void main() { outColor = texture(u_texture, v_texcoord / vec2(1024.0, 512.0));}
+			</script><script id="displayOff" type="x-shader/x-fragment">#version 300 es;precision highp float;out vec4 outColor;void main() { outColor = vec4(0,0,0,0);}
+			</script><script id="display16bit" type="x-shader/x-fragment">#version 300 es;precision highp float;uniform sampler2D u_texture;uniform ivec4 u_disp;uniform ivec4 u_draw;in vec2 v_texcoord;out vec4 outColor;vec4 InterleavedGradientNoise(vec2 uv) { const vec3 magic = vec3( 0.06711056, 0.00583715, 52.9829189 ); float rnd = fract( magic.z * fract( dot( uv, magic.xy ) ) ) / 64.0; return vec4(rnd, rnd, rnd, 0.0);}void main() { vec4 noise = InterleavedGradientNoise(floor(v_texcoord)); ivec2 texel = ivec2(v_texcoord.xy); /* if (texel.x >= u_draw.x && texel.y >= u_draw.y && texel.x <= u_draw.z && texel.y <= u_draw.w) { outColor = vec4(1.0, 0.0, 0.0, 1.0); return; } if (texel.x >= u_disp.x && texel.y >= u_disp.y && texel.x < (u_disp.x+u_disp.z) && texel.y < (u_disp.y+u_disp.w)) { outColor = vec4(0.0, 0.0, 1.0, 1.0); return; } */ vec4 c = texelFetch(u_texture, texel, 0); outColor = c + noise;}
+			</script><script id="display24bit" type="x-shader/x-fragment">#version 300 es;precision highp float;precision highp int;uniform sampler2D u_texture;uniform ivec4 u_disp;in vec2 v_texcoord;out vec4 outColor;int getSBGRfromRGBA(vec4 c) { int sbgr = 0;	sbgr += int(c.r * 32.0); sbgr += int(c.g * 32.0) * 32; sbgr += int(c.b * 32.0) * 32 * 32; if (c.a >= 0.5) sbgr += 32768; return sbgr;}vec4 InterleavedGradientNoise(vec2 uv) { const vec3 magic = vec3( 0.06711056, 0.00583715, 52.9829189 ); float rnd = fract( magic.z * fract( dot( uv, magic.xy ) ) ) / 64.0; return vec4(rnd, rnd, rnd, 0.0);}void main() { int dsx = int(floor(v_texcoord.x)) - u_disp.x; int dsy = int(floor(v_texcoord.y)) - u_disp.y; float tx = float(u_disp.x) + floor(float(dsx) * 1.5); float ty = floor(v_texcoord.y); vec4 c1 = texelFetch(u_texture, ivec2(tx + 0.0,ty), 0); int sbgr1 = getSBGRfromRGBA(c1); vec4 c2 = texelFetch(u_texture, ivec2(tx + 1.0,ty), 0); int sbgr2 = getSBGRfromRGBA(c2); vec4 noise = InterleavedGradientNoise( vec2(dsx,dsy) ); if ((dsx & 1) == 1) { float r = float((sbgr1 >> 8) & 255) / 256.0; float g = float((sbgr2 >> 0) & 255) / 256.0; float b = float((sbgr2 >> 8) & 255) / 256.0;outColor = vec4(r, g, b, 1.0) + noise;} else {float r = float((sbgr1 >> 0) & 255) / 256.0;float g = float((sbgr1 >> 8) & 255) / 256.0;float b = float((sbgr2 >> 0) & 255) / 256.0;outColor = vec4(r, g, b, 1.0) + noise;}}</script>
 			<!-- Database - The blockquote tag below will be removed while compiling the code -->
 			<blockquote>
-				<script type="text/javascript" src="js/database.js"></script>
-				<script type="text/javascript" src="js/design.js"></script>
-				<script type="text/javascript" src="js/index.js"></script>
-				<script type="text/javascript" src="js/utils.js"></script>
-				<script type="text/javascript" src="js/livestatus.js"></script>
-				<script type="text/javascript" src="js/configs.js"></script>
-				<script type="text/javascript" src="js/keyPress.js"></script>
-				<script type="text/javascript" src="js/ini.js"></script>
-				<script type="text/javascript" src="js/tim.js"></script>
-				<script type="text/javascript" src="js/msg.js"></script>
-				<script type="text/javascript" src="js/scd.js"></script>
-				<script type="text/javascript" src="js/rdt.js"></script>
-				<script type="text/javascript" src="js/ard.js"></script>
-				<script type="text/javascript" src="js/rid.js"></script>
-				<script type="text/javascript" src="js/lit.js"></script>
-				<script type="text/javascript" src="js/obj.js"></script>
-				<script type="text/javascript" src="js/gamepad.js"></script>
-				<script type="text/javascript" src="js/scd_code_map.js"></script>
-				<script type="text/javascript" src="js/re3set.js"></script>
+				<!-- TMS Plugin -->
+				<script defer type="text/javascript" src="js/TMS.js"></script>
+				<!-- Main code -->
+				<script defer type="text/javascript" src="js/database.js"></script>
+				<script defer type="text/javascript" src="js/design.js"></script>
+				<script defer type="text/javascript" src="js/tools.js"></script>
+				<script defer type="text/javascript" src="js/file_manager.js"></script>
+				<script defer type="text/javascript" src="js/configs.js"></script>
+				<script defer type="text/javascript" src="js/utils.js"></script>
+				<script defer type="text/javascript" src="js/wizard.js"></script>
+				<script defer type="text/javascript" src="js/doorlink.js"></script>
+				<script defer type="text/javascript" src="js/memoryjs.js"></script>
+				<script defer type="text/javascript" src="js/livestatus.js"></script>
+				<script defer type="text/javascript" src="js/keyPress.js"></script>
+				<script defer type="text/javascript" src="js/ini.js"></script>
+				<script defer type="text/javascript" src="js/tim.js"></script>
+				<script defer type="text/javascript" src="js/ard.js"></script>
+				<script defer type="text/javascript" src="js/gamepad.js"></script>
+				<script defer type="text/javascript" src="js/re3set.js"></script>
+				<script defer type="text/javascript" src="js/github.js"></script>
+				<!-- RDT Modules -->
+				<script defer type="text/javascript" src="js/rdt_modules/msg.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/scd.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/scd_js.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/rid.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/lit.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/obj.js"></script>
+				<script defer type="text/javascript" src="js/rdt_modules/blk.js"></script>
+				<script defer type="text/javascript" src="js/rdt.js"></script>
+				<!-- Boot -->
+				<script defer type="text/javascript" src="js/boot.js"></script>
+				<!-- Exclude from R3V2 Compiler -->
+				<script defer type="text/javascript" src="js/debug.js"></script>
 			</blockquote>
 		</div>
 	</body>

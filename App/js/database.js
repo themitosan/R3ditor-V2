@@ -1,42 +1,50 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - database.js
-	Hölerò!
+	By TheMitoSan
+
+	This file is responsible for containing major content for edit forms, settings,
+	RE3 Opcodes and more.
+	*******************************************************************************
 */
 var INT_VERSION = 'DEV_VERSION',
+	R3_DOORLINK_DATABASE = {},
 	// Lists that will be generated at startup
-	INCLUDE_EDIT_MAP,  			 		  // SCD Map Names
-	INCLUDE_EDIT_ATTR, 					  // Item Attr
-	INCLUDE_EDIT_ITEM, 			 		  // SCD Item Names
-	INCLUDE_EDIT_FILE, 			 		  // SCD Files Names
-	INCLUDE_EDIT_WEAPON, 		 		  // Weapon Names
-	INCLUDE_EDIT_AOT_TYPES, 			  // SCD AOT Types
-	INCLUDE_EDIT_SCD_CK_TYPES, 			  // SCD CK Types
-	INCLUDE_EDIT_SCD_SET_VALUES, 		  // SCD SET Vars
-	INCLUDE_EDIT_SCD_FADE_TYPES, 		  // SCD FADE_SET Types
-	INCLUDE_EDIT_SCD_OM_SET_TYPE, 		  // SCD OM_SET Object Type
-	INCLUDE_EDIT_SCD_EM_SET_POSE,		  // SCD EM_SET Pose
-	INCLUDE_EDIT_SCD_PRESET_LIST,		  // SCD Preset List
-	INCLUDE_EDIT_SCD_EM_SET_TYPES,		  // SCD EM_SET Enemy / NPC Types
-	INCLUDE_EDIT_SCD_WORK_SET_TARGET, 	  // SCD Char Trigger [WORK_SET] Targets
-	INCLUDE_EDIT_SCD_OM_SET_COL_TYPE, 	  // SCD OM_SET Colission Type
-	INCLUDE_EDIT_SCD_MSG_DISPLAYMODE, 	  // SCD MSG Display Modes
-	INCLUDE_EDIT_SCD_SET_TIMER_TARGET, 	  // SCD Set Timer Target
-	INCLUDE_EDIT_SCD_OM_SET_COL_SHAPE, 	  // SCD OM_SET Colission Shape
-	INCLUDE_EDIT_SCD_CALC_OP_OPERATIONS,  // SCD CALC_OP Operations
-	INCLUDE_EDIT_SCD_PLC_DEST_ANIMATIONS, // SCD PLC_DEST Animations
-	INCLUDE_EDIT_SCD_PLC_NECK_ANIMATIONS, // SCD PLC_NECK Animations
+	INCLUDE_EDIT_MAP,  			 		  	   // SCD Map Names
+	INCLUDE_EDIT_ATTR, 					  	   // Item Attr
+	INCLUDE_EDIT_ITEM, 			 		  	   // SCD Item Names
+	INCLUDE_EDIT_FILE, 			 		  	   // SCD Files Names
+	INCLUDE_EDIT_WEAPON, 		 		  	   // Weapon Names
+	INCLUDE_EDIT_AOT_TYPES, 			  	   // SCD AOT Types
+	INCLUDE_EDIT_SCD_CK_TYPES, 			  	   // SCD CK Types
+	INCLUDE_EDIT_SCD_SET_VALUES, 		  	   // SCD SET Vars
+	INCLUDE_EDIT_SCD_FADE_TYPES, 		  	   // SCD FADE_SET Types
+	INCLUDE_EDIT_SCD_OM_SET_TYPE, 		  	   // SCD OM_SET Object Type
+	INCLUDE_EDIT_SCD_EM_SET_POSE,		  	   // SCD EM_SET Pose
+	INCLUDE_EDIT_SCD_PRESET_LIST,		  	   // SCD Preset List
+	INCLUDE_EDIT_SCD_EM_SET_TYPES,		  	   // SCD EM_SET Enemy / NPC Types
+	INCLUDE_EDIT_SCD_WORK_SET_TARGET, 	  	   // SCD Char Trigger [WORK_SET] Targets
+	INCLUDE_EDIT_SCD_OM_SET_COL_TYPE, 	  	   // SCD OM_SET Colission Type
+	INCLUDE_EDIT_SCD_MSG_DISPLAYMODE, 	  	   // SCD MSG Display Modes
+	INCLUDE_EDIT_SCD_SET_TIMER_TARGET, 	  	   // SCD Set Timer Target
+	INCLUDE_EDIT_SCD_OM_SET_COL_SHAPE, 	  	   // SCD OM_SET Colission Shape
+	INCLUDE_EDIT_SCD_CALC_OP_OPERATIONS,  	   // SCD CALC_OP Operations
+	INCLUDE_EDIT_SCD_PLC_DEST_ANIMATIONS, 	   // SCD PLC_DEST Animations
+	INCLUDE_EDIT_SCD_PLC_NECK_ANIMATIONS, 	   // SCD PLC_NECK Animations
+	INCLUDE_EDIT_SCD_ITEM_AOT_SET_BLINK_COLOR, // SCD ITEM_AOT_SET Blink Colors
 	// SCD CK Special Conditions
-	INCLUDE_EDIT_SCD_CK_SPECIAL;
+	INCLUDE_EDIT_SCD_CK_SPECIAL,
+	// GitHub Lists
+	INCLUDE_GITHUB_BRANCHES;
 	/*
 		The real database starts here!
 	*/
 	// THX
-const R3_internalHoldTime = 2800,
+const R3_internalHoldTime = 2800, INCLUDE_CRX = 'TheMitoSan, Khaled SA and F. King',
 	INCLUDE_RE3_BEEP_BOOP = 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!',
 	INCLUDE_R3V2_LOWRES = 'So tiny! >.< <br>R3ditor V2 was designed to work with screen res. higher than 1216x711.',
-	INCLUDE_R3V2_CRITICAL_ERROR = '<font class="LBL_title">Oh no!</font><br>Looks like R3ditor V2 crashed! We apologize - this is not something usual to happen!<br>To avoid crashed like this, report this message to <a href="https://twitter.com/themitosan/" target="_blank">TheMitoSan</a> on twitter.<br><br>' +
-								  '<div class="R3_ERROR_CRITICAL_REASON"><div class="R3_ERROR_LOGO_BG"></div><div id="R3_ERROR_CRITICAL_REASON" class="R3_ERROR_TEXT">???</div></div><br><input type="button" class="BTN_R3CLASSIC" title="Click here to reload" value="Restart R3V2" onclick="location.reload();">',
-	INCLUDE_CRX = 'TheMitoSan, Khaled SA, F. King and Biohazard España [BHE]',
+	INCLUDE_R3V2_CRITICAL_ERROR = '<font class="LBL_title">Oh no!</font><br>Looks like R3ditor V2 crashed! We apologize - this is not something usual to happen!<br>To avoid crashed like this, report this message to <a href="https://twitter.com/themitosan/" target="_blank" rel="noreferrer">TheMitoSan</a> on twitter.<br><br>' +
+								  '<div class="R3_ERROR_CRITICAL_REASON"><div id="R3_ERROR_CRITICAL_REASON" class="R3_ERROR_TEXT">???</div></div><br><input type="button" class="BTN_R3CLASSIC" title="Click here to reload" value="Restart R3V2" onclick="location.reload();">',
 	SYSTEM_LOG_SEPARATOR_TEXT = '--------------------------------------------------------------------------------------------------------------------------',
 	INCLUDE_ABOUT_THX = 'discordjs - RPC - <a target="_blank" href="https://discord.js.org/#/docs/rpc/master/general/welcome">Website</a><br>' + 
 						'Rob-- - memoryjs - <a target="_blank" href="https://github.com/Rob--/memoryjs">GitHub</a><br>' + 
@@ -54,7 +62,7 @@ const R3_internalHoldTime = 2800,
 						'matteofumagalli1275 memoryjs Pull Request - <a target="_blank" href="https://github.com/Rob--/memoryjs/pull/53/files">GitHub PR</a><br>' + 
 						'Klarth - TIM Graphic Formats (PSX 2D Graphics) - <a target="_blank" href="http://www.romhacking.net/documents/31/">More Info</a><br>' + 
 						'"Shockproof" Jamo Koivisto - BIO 3 Hex Chest Modding - <a target="_blank" href="https://gamefaqs.gamespot.com/pc/431704-resident-evil-3-nemesis/faqs/36465">More Info</a><br>' + 
-						'Diogo "Flag" Bandeira (Aka. Flag King) - Inicial RDT and MSG infos! - <a href="https://www.ct-stars.com/" target="_blank">CT-STARS</a><br>' + 
+						'Diogo "Flag" Bandeira <i>(Aka. Flag King)</i> - Initial RDT and MSG infos! - <a href="https://www.ct-stars.com/" target="_blank">CT-STARS</a><br>' + 
 						'Patrice Mandin (pmandin) - Reevengi-tools Rofs Extractor, ARD Extract Info and SCD Opcode List - <a target="_blank" href="https://github.com/pmandin/reevengi-tools">GitHub</a><br>' + 
 						'<font title="The real artist!">ResidentEvilArtist</font> - Memory Positions used in IEDIT Editor, MIX Editor and <u>so much more</u>! - <a target="_blank" href="https://www.tapatalk.com/groups/residentevil123/memberlist.php?mode=viewprofile&u=294">Tapatalk Profile</a><br>' + 
 						'<font title="A true hero!">Biohazard España</font> (Aka. <u>BHE</u>)- Fix OBJ to RE3MV (OBJ Patcher), Beta-testing, SLUS / ARD info and even more! - <a target="_blank" href="https://twitter.com/biohazardEsp">More Info</a><br>' + 
@@ -72,6 +80,9 @@ const R3_internalHoldTime = 2800,
 							 '<a href="https://stackoverflow.com/questions/25354313/saving-a-uint8array-to-a-binary-file" target="_blank">' + 
 							 'https://stackoverflow.com/questions/25354313/saving-a-uint8array-to-a-binary-file' + 
 							 '</a><br>' +
+							 '<a href="https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_dropdown_navbar" target="_blank">' + 
+							 'https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_dropdown_navbar' + 
+							 '</a><br>' +
 							 '<a href="https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control" target="_blank">' + 
 							 'https://stackoverflow.com/questions/857618/javascript-how-to-extract-filename-from-a-file-input-control' + 
 							 '</a><br>' +
@@ -84,39 +95,63 @@ const R3_internalHoldTime = 2800,
 							 '<a href="https://stackoverflow.com/questions/38987784/how-to-convert-a-hexadecimal-string-to-uint8array-and-back-in-javascript" target="_blank">' + 
 							 'https://stackoverflow.com/questions/38987784/how-to-convert-a-hexadecimal-string-to-uint8array-and-back-in-javascript' + 
 							 '</a><br>',
-	INCLUDE_THX = 'Many thanks to: CT-STARS, Elric (Aka. 3lric), El rincon del Lobezno, Rene Kootstra, discordjs, Rob--, hongru, Joshua MacDonald,<br> jprichardson, Y <i>(The Artist)</i> zu, Mortican, Angus Johnson, Leo2236, MarkGrass, matteofumagalli1275, Klarth, "Shockproof" Jamo Koivisto, Diogo "Flag" Bandeira (Aka. Flag King), Khaled SA, Patrice Mandin (pmandin), ResidentEvilArtist and Biohazard España <i>(BHE)</i>.',
+	INCLUDE_ENDING = '<br><u>Special Thanks To:</u><br><br><u><a target="_blank" href="https://www.ct-stars.com/">The Entire CT-STARS Team! (Special Mention to <font title="Thanks, Master!">Flag-King</font>!)</a></u><br>' +
+					 '<u><a target="_blank" href="https://twitter.com/biohazardEsp" title="Saludos, mi querido amigo!">Biohazard España</a> & <a target="_blank" href="https://twitter.com/khaleed681">Khaled SA</a> - for teaching me several RE3 tricks!</u><br>' +
+					 '<u>Kazuhiro Aoyama, Shinji Mikami and <a target="_blank" href="https://twitter.com/dev1_official">Capcom Dev 1 Team</a> - Thanks by creating the game of my life!</u><br><br>' +
+					 '<i>RE3SLDE is a software created by <a href="http://lgt.createaforum.com/" target="_blank" rel="noreferrer">Leo2236</a>.<br>' +
+					 'eNGE is a PS1 emulator written in JS created by <a href="https://github.com/kootstra-rene" target="_blank">Rene Kootstra</a><br>' +
+					 'Some icons was made using shell32.dll icons from Microsoft Windows 98 SE.<br>' +
+					 '<i>RE3MV and RE3PLWEditor icons were created by <u>Leo2236</u> and <u>Yusuke Kamiyamane</u></i><br>' +
+					 'RDT SLD Edit icon was created using the original icon from <a href="http://lgt.createaforum.com/tools-24/re3slde-a-tool-to-edit-sld-files/" target="_blank">Leo2236 RE3SLDE Editor</a>.<br>' +
+					 'The new R3ditor V2 logo was created using <a href="https://www.dafont.com/pix-chicago.font" target="_blank">Pix Chicago</a> and <a href="https://www.fonts.com/font/linotype/plak/black-extra-condensed" target="_blank">Plak® Extra Condensed</a> fonts.<br><br>' +
+					 'Biohazard and Resident Evil are trademarks of ©CAPCOM CO., LTD. ALL RIGHTS RESERVED.</i></div><br><br><div class="ABOUT_LEGAL_INFO">THE LICENSE TO USE THIS SOFTWARE IS FREE FOR PERSONAL AND COMMERCIAL USE SINCE YOU GIVE CREDITS TO CREATOR OF THIS TOOL AND FOR ALL NAMES CITED ABOVE - SINCE THEY ARE OWNERS OF KNOWLEDGE THAT WERE NECESSARY FOR IT\'S CREATION.</div>',
+	INCLUDE_THX = 'Many thanks to: CT-STARS, Elric <i>(Aka. 3lric)</i>, El rincon del Lobezno, Rene Kootstra, discordjs, Rob--, hongru, Joshua MacDonald,<br> jprichardson, Y <i>(The Artist)</i> zu, Mortican, Angus Johnson, Leo2236, MarkGrass, matteofumagalli1275, Klarth, "Shockproof" Jamo Koivisto, Diogo "Flag" Bandeira (Aka. Flag King), Khaled SA, Patrice Mandin (pmandin), ResidentEvilArtist and Biohazard España <i>(BHE)</i>.',
 	// Settings
 	INCLUDE_SCD_OPTION_EDITOR_MODE = '<option value="0" title="This mode will allow you edit SCD like you do on RPG Maker / Impact JS Events (Entities)">List Editor</option><option value="1" title="This mode will allow edit SCD like Bioscript, writing every function!">Code Editor [WIP]</option>',
 	INCLUDE_OPTION_SCD_SIZE = '<option value="0.7">Tiny!</option><option value="0.9">Small</option><option value="1">Normal</option><option value="1.2">x1.2</option><option value="1.5">x1.5</option><option value="1.8">x1.8</option><option value="2">x2</option>',
-	INCLUDE_OPTION_RE3_VERSION = '<option value="0">(PC) USA Version (Eidos)</option><option value="1">(PC) USA Version (Xplosiv)</option><option value="4">(PC) Gemini REbirth W. USA Version (Eidos)</option><option value="2">(Emu) pSX (aka. psfin) - Ver. 1.13, Game: USA</option><option value="3" disabled="disabled">(Emu) ePSXe - Ver. 2.0.5, Game: USA</option>',
+	INCLUDE_OPTION_RE3_VERSION = '<option value="0">(PC) USA Version (Eidos)</option><option value="1">(PC) USA Version (Xplosiv)</option>',
 	INCLUDE_OPTION_LIVESTATUS_POS = '<option value="0">Bottom</option><option value="1">Right</option>',
 	INCLUDE_OPTION_MSG_DECOMPILE = '<option value="3">Resident Evil 3</option>',
 	// File Generattor
 	INCLUDE_FILEGEN_FONTSTYLES = '<option value="RE1">Resident Evil 1 [WIP]</option><option value="RE3">Resident Evil 3 [WIP]</option>',
 	// RDT Filelist Game mode
 	INCLUDE_RDT_FILELIST_GAMEMODE = '<option value="0">Easy Mode</option><option value="1">Hard Mode</option>',
+	// SCD Script Names
+	SCD_scriptNames = {
+		0: 'INIT',
+		1: 'AutoExec'
+	},
 	// MSG Function Types
 	MSG_functionTypes = {
 		0:  ['Show Message', 		'',    ''],
-		1:  ['Start Message', 	 	'SMS', 'Usage: $SMS + Text speed (Min: 00, Max: 09)\nThis will set the speed of how text will be rendered.'],
-		2:  ['End Message', 		'EMS', 'Usage: $EMS + Args (Range: 00 to FF)\nThis probably will call other event.'],
-		3:  ['???', 				'UNK', ''],
-		4:  ['Show Special Char', 	'SSC', 'Usage: $SSC + Char Hex (Range: 00 to FF)\nThis will display a special char on current text.'],
-		5:  ['Show Item Name', 		'SIN', 'Usage: $SIN + Item ID (Range: 00 to 85)\nThis will display an Item name on current text.'],
-		6:  ['Play SE', 			'PSE', 'Usage: $PSE + SE ID (Range: 00 to FF)\nThis will play a specific sound, depending of current map.'],
-		7:  ['Change Camera', 		'CHC', 'Usage: $CHC + Camera ID (Range: 00 to FF, Depending of how many cameras are available on current map)\nThis will show a specific camera from current map.'],
-		8:  ['(UNK) Function F5', 	'UF5', 'Unknown\nThis function is present on R101.RDT - Still WIP!'],
-		9:  ['Change Text Color', 	'CTC', 'Usage: $CTC + Color ID (Range: 00 to 0F)\nThis will change the text color depending of inserted value.'],
+		1:  ['Start Message', 	 	'S:',  'Usage: {S: + Text speed (Min: 00, Max: 09) + }\nThis will set the speed of how text will be rendered.'],
+		2:  ['End Message', 		'E:',  'Usage: {E: + Args (Range: 00 to FF) + }\nThis probably will call other event.'],
+		3:  ['???', 				'U:',  ''],
+		4:  ['Show Special Char', 	'SC:', 'Usage: {SC: + Char Hex (Range: 00 to FF) + }\nThis will display a special char on current text.'],
+		5:  ['Show Item Name', 		'IN:', 'Usage: {IN: + Item ID (Range: 00 to 85) + }\nThis will display an Item name on current text.'],
+		6:  ['Play SE', 			'SE:', 'Usage: {SE: + SE ID (Range: 00 to FF) + }\nThis will play a specific sound, depending of current map.'],
+		7:  ['Change Camera', 		'CC:', 'Usage: {CC: + Camera ID (Range: 00 to FF, Depending of how many cameras are available on current map)\nThis will show a specific camera from current map.'],
+		8:  ['(UNK) Function F5', 	'UF:', 'Unknown\nThis function is present on R101.RDT - Still WIP!'],
+		9:  ['Change Text Color', 	'C:',  'Usage: {C: + Color ID (Range: 00 to 0F) + }\nThis will change the text color depending of inserted value.'],
 		10: ['???', 				'',    ''],
-		11: ['Show Options', 		'SHO', 'Still WIP!']
+		11: ['Show Options', 		'O:',  'Still WIP!']
+	},
+	R3_MSG_FUNCTIONS = {
+		'S':  'fa', // Start Message
+		'E':  'fe', // End Message
+		'SC': 'ea', // Show Special Char
+		'IN': 'f8', // Show Item Name
+		'SE': 'f3', // Play SE
+		'CC': 'f4', // Change Camera
+		'UF': 'f5', // (UNK) Function F5
+		'C':  'f9', // Change Text Color
+		'O':  '70'  // Show Options (WIP)
 	},
 	// RDT Camera Types
 	INCLUDE_RDT_CAMERA_TYPES = '<option value="0000">(0000) Normal</option><option value="0100">(0100) Cutscene?</option>',
 	// SCD Door Edit Extra Door Value
 	INCLUDE_SCD_DOOR_KEYFF = '<option disabled></option><option disabled>Special Values:</option><option disabled>The values below are used only as door keys!</option><option disabled></option><option value="fe">(FE) - This door is locked from other side</option><option value="ff">(FF) - Locked from other side</option>',
 	INCLUDE_SCD_DOOR_TEXT = '<option value="00">(00) Nothing</option><option value="40">(40) Will you go down the ladder?</option>',
-	// SCD Item Animation
-	INCLUDE_SCD_ITEM_ANIMATION = '<option value="00">(00) No Animation</option><option value="01">(01) Crouch</option><option value="80">(80) Blink</option><option value="81">(81) Blink + Crouch</option>',
 	// MSG Color
 	INCLUDE_EDIT_COLOR = '<option value="0">Default Color</option><option value="1">Green</option><option value="2">Wine Red</option><option value="3">Dark Grey</option><option value="4">Blue</option><option value="6">Transparent</option><option value="00">Close Tag</option>',
 	// SCD ON / OFF
@@ -125,7 +160,7 @@ const R3_internalHoldTime = 2800,
 		SCD Editor
 	*/
 	INCLUDE_SCD_CODE_VARIABLE = ['var ', 'let ', 'const '],
-	INCLUDE_SCD_CODE_EDITOR = '<textarea class="R3_SCD_CODE_EDITOR_TEXTAREA" id="R3_SCD_CODE_EDITOR_TEXTAREA" onmousedown="R3_SCD_CODE_updateTextData();" onmouseup="R3_SCD_CODE_updateTextData();" onmousemove="R3_SCD_CODE_updateTextData();" onkeydown="R3_SCD_CODE_EDITOR_KEYFIX(event);" onkeyup="R3_SCD_CODE_updateTextData();" placeholder="Please - don\'t leave this blank!\nInsert the code above if you want creating a blank script:\n\nfunction R3_SCD_SCRIPT_START(){\n	EVT_END();\n};" spellcheck="false"></textarea></div><div class="R3_SCD_CODE_TEXT_INFO">Length: <font id="R3_SCD_CODE_codeLength">0</font>, Lines: <font id="R3_SCD_CODE_codeLines">0</font> - Pos: <font id="R3_SCD_CODE_cursorAt">0</font><div id="R3_SCD_CODE_selectionDiv" class="none"> - Selection: From <font id="R3_SCD_CODE_selectionStart">0</font> to <font id="R3_SCD_CODE_selectionEnd">0</font></div> - CTRL: <font id="R3_SCD_CODE_keyCtrl">false</font>, Shift: <font id="R3_SCD_CODE_keyShift">false</font> - Font Size: <font id="R3_SCD_CODE_fontSize">12</font>px</div>',
+	INCLUDE_SCD_CODE_EDITOR = '<textarea class="R3_SCD_CODE_EDITOR_TEXTAREA" id="R3_SCD_CODE_EDITOR_TEXTAREA" onmousedown="R3_SCD_CODE_updateTextData();" onmouseup="R3_SCD_CODE_updateTextData();" onmousemove="R3_SCD_CODE_updateTextData();" onkeydown="R3_SCD_CODE_EDITOR_KEYFIX(event);" onkeyup="R3_SCD_CODE_EDITOR_enhanceType(event);R3_SCD_CODE_updateTextData();" placeholder="Please - don\'t leave this blank!\nInsert the code above if you want creating a blank script:\n\nfunction R3_SCD_SCRIPT_START(){\n	EVT_END();\n};" spellcheck="false"></textarea></div><div class="R3_SCD_CODE_TEXT_INFO">Length: <font id="R3_SCD_CODE_codeLength">0</font>, Lines: <font id="R3_SCD_CODE_codeLines">0</font> - Pos: <font id="R3_SCD_CODE_cursorAt">0</font><div id="R3_SCD_CODE_selectionDiv" class="none"> - Selection: From <font id="R3_SCD_CODE_selectionStart">0</font> to <font id="R3_SCD_CODE_selectionEnd">0</font></div> - CTRL: <font id="R3_SCD_CODE_keyCtrl">false</font>, Shift: <font id="R3_SCD_CODE_keyShift">false</font> - Font Size: <font id="R3_SCD_CODE_fontSize">12</font>px</div>',
 	INCLUDE_SCD_EDIT_WIP = '<div class="align-center"><font class="LBL_title">WARNING</font></div><br>The edit form for this opcode is not ready yet! :(',
 	INCLUDE_SCD_EDIT_FUNCTIONS = {
 		'00': 'NO_EDIT',
@@ -153,7 +188,7 @@ const R3_internalHoldTime = 2800,
 		'16': 'NO_EDIT',
 		'17': 'NO_EDIT',
 		'18': 'NO_EDIT',
-		'19': 'Run Script: <input type="number" autocomplete="off" min="1" maxlength="4" placeholder="1" id="R3_SCD_EDIT_19_scriptId" class="R3_EDIT_TEXT_XYZR" onchange="R3_SCD_FUNCTION_GO_SUB_PREVIEW();" onkeyup="R3_SCD_FUNCTION_GO_SUB_PREVIEW();"><br><br>Script <font id="R3_SCD_EDIT_19_LBL_scriptId">???</font> Preview:<br><br><div class="R3_SCD_EDIT_CHECK_LENGTH" id="R3_SCD_EDIT_19_scriptPreview"></div>',
+		'19': 'Run Script: <input type="number" autocomplete="off" min="1" maxlength="4" placeholder="1" id="R3_SCD_EDIT_19_scriptId" class="R3_EDIT_TEXT_XYZR" onchange="R3_SCD_FUNCTION_GO_SUB_PREVIEW();" oninput="R3_SCD_FUNCTION_GO_SUB_PREVIEW();"><br><br>Script <font id="R3_SCD_EDIT_19_LBL_scriptId">???</font> Preview:<br><br><div class="R3_SCD_EDIT_CHECK_LENGTH" id="R3_SCD_EDIT_19_scriptPreview"></div>',
 		'1a': 'NO_EDIT',
 		'1b': 'NO_EDIT',
 		'1c': 'NO_EDIT',
@@ -164,7 +199,7 @@ const R3_internalHoldTime = 2800,
 		'21': 'NO_EDIT',
 		'22': 'Value: <input type="text" spellcheck="false" id="R3_SCD_EDIT_22_value" class="R3_EDIT_TEXT_XYZR" placeholder="00">',
 		'24': 'NO_EDIT',
-		'25': 'ID: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_25_id" class="R3_EDIT_TEXT_XYZR"> Room: R<input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_25_room" class="R3_EDIT_TEXT_XYZR">',
+		'25': 'ID: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_25_id" class="R3_EDIT_TEXT_XYZR"> Room: R<input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_25_room" class="R3_EDIT_TEXT_XYZR R3_SCD_EDIT_25_mapLocation">',
 		'26': 'Data 0: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_26_data0" class="R3_EDIT_TEXT_XYZR"> Data 1: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_26_data1" class="R3_EDIT_TEXT_XYZR">',
 		'27': 'NO_EDIT',
 		'28': 'NO_EDIT',
@@ -175,21 +210,21 @@ const R3_internalHoldTime = 2800,
 		'2d': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_2d_id"> Value: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_2d_value">',
 		'2e': 'NO_EDIT',
 		'2f': 'NO_EDIT',
-		'30': 'LIT ID: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_30_id" class="R3_EDIT_TEXT_XYZR"> <font class="COLOR_X">X</font>: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_30_posX" class="R3_EDIT_TEXT_XYZR"> <font class="COLOR_Y">Y</font>: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_30_posY" class="R3_EDIT_TEXT_XYZR">',
+		'30': 'Lit ID: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_30_id" class="R3_EDIT_TEXT_XYZR"> <font class="COLOR_X">X</font>: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_30_posX" class="R3_EDIT_TEXT_XYZR"> <font class="COLOR_Y">Y</font>: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_30_posY" class="R3_EDIT_TEXT_XYZR">',
 		'31': 'NO_EDIT',
-		'32': 'LIT ID: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_32_lightId" maxlength="2"> Unk 0: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_32_unk0" maxlength="2"><br><div class="R3_SCD_DIV_COLOR_EDIT"><font class="cType_R">Color R</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorR_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorR" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><font class="cType_G">Color G</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorG_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorG" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><font class="cType_B">Color B</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorB_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorB" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><input type="button" value="Color Picker" onclick="R3_SCD_FUNCTION_LIT_COLOR_PICKER(\'32\');" class="BTN_R3CLASSIC"><br><div class="R3_SCD_DIV_COLOR_PREVIEW" id="R3_SCD_EDIT_32_rgbDivPreview">Color Preview</div></div>',
+		'32': 'Lit ID: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_32_lightId" maxlength="2"> Unk 0: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_32_unk0" maxlength="2"><br><div class="R3_SCD_DIV_COLOR_EDIT"><font class="cType_R">Color R</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorR_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorR" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><font class="cType_G">Color G</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorG_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorG" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><font class="cType_B">Color B</font>: <input type="range" min="0" max="255" step="1" id="R3_SCD_EDIT_32_colorB_range" class="R3_RANGE" oninput="R3_SCD_FUNCTION_UPDATE_RANGE_RGB(\'32\');"> <input type="number" maxlength="3" min="0" max="255" step="1" placeholder="127" id="R3_SCD_EDIT_32_colorB" class="R3_EDIT_TEXT_XYZR" onkeyup="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');" onchange="R3_SCD_FUNCTION_UPDATE_RGB(\'32\');"><br><input type="button" value="Color Picker" onclick="R3_SCD_FUNCTION_LIT_COLOR_PICKER(\'32\');" class="BTN_R3CLASSIC"><br><div class="R3_SCD_DIV_COLOR_PREVIEW" id="R3_SCD_EDIT_32_rgbDivPreview">Color Preview</div></div>',
 		'33': 'Value: <input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_33_value" class="R3_EDIT_TEXT_XYZR">',
 		'34': 'NO_EDIT',
 		'35': 'Data 0: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_35_data0" maxlength="2"> Data 1: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_35_data1" maxlength="2"> Value: <input type="text" spellcheck="false" placeholder="0000" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_35_value" maxlength="4">',
-		'36': 'Item: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_36_itemCode" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_36_itemCode\', \'R3_SCD_EDIT_36_itemPreview\');"></select> Quantity: <input type="number" class="R3_EDIT_TEXT_XYZR" min="0" max="255" maxlength="3" id="R3_SCD_EDIT_36_quant"><br><br><img id="R3_SCD_EDIT_36_itemPreview" class="R3_SCD_EDIT_61_camPreview">',
+		'36': 'Item: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_36_itemCode" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_36_itemCode\', \'R3_SCD_EDIT_36_itemPreview\');"></select> Quantity: <input type="number" class="R3_EDIT_TEXT_XYZR" min="0" max="255" maxlength="3" id="R3_SCD_EDIT_36_quant"><br><br><img ondragstart="return false;" id="R3_SCD_EDIT_36_itemPreview" class="R3_SCD_EDIT_61_camPreview">',
 		'37': 'ID: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_37_id">',
 		'38': 'ID: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_38_id">',
 		'39': 'NO_EDIT',
 		'3a': 'NO_EDIT',
-		'3b': 'EM ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_3b_emId"> Obj ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_3b_objId">',
+		'3b': 'Enemy ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_3b_emId"> Obj ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_3b_objId">',
 		'3c': 'NO_EDIT',
 		'3d': 'ID: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_3d_id">',
-		'3e': 'Remove Item: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_3e_itemSeek" onkeyup="R3_SCD_EDIT_FUNCTION_seekItem(\'3e\');"> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_3e_item" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_3e_item\', \'R3_SCD_EDIT_3e_itemIconPrev\');"></select><br><br><img id="R3_SCD_EDIT_3e_itemIconPrev" class="R3_SCD_EDIT_61_camPreview">',
+		'3e': 'Remove Item: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_3e_itemSeek" onkeyup="R3_SCD_EDIT_FUNCTION_seekItem(\'3e\');"> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_3e_item" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_3e_item\', \'R3_SCD_EDIT_3e_itemIconPrev\');"></select><br><br><img ondragstart="return false;" id="R3_SCD_EDIT_3e_itemIconPrev" class="R3_SCD_EDIT_61_camPreview">',
 		'3f': 'ID: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_3f_id"> Flag: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_3f_flag"></select>',
 		'40': 'Variable: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_40_id"> Value: <input type="text" spellcheck="false" maxlength="4" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="0000" id="R3_SCD_EDIT_40_var">',
 		'41': 'Variable: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_41_id"> Value: <input type="text" spellcheck="false" maxlength="4" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="0000" id="R3_SCD_EDIT_41_variable">',
@@ -207,34 +242,34 @@ const R3_internalHoldTime = 2800,
 		'4d': 'Event Track: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_4d_id"> Set <input type="text" spellcheck="false" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_4d_varSearch" onchange="R3_SCD_FUNCTION_SEARCH_SETVAR();" onkeyup="R3_SCD_FUNCTION_SEARCH_SETVAR();"> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_4d_var"></select> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_4d_boolean"></select>',
 		'4e': 'NO_EDIT',
 		'4f': 'NO_EDIT',
-		'50': 'Next Camera: <input type="number" maxlength="3" autocomplete="off" class="R3_EDIT_TEXT_XYZR" min="0" max="255" step="1" placeholder="0" id="R3_SCD_EDIT_50_id" onkeyup="R3_SCD_FUNCTION_CAM_PREVIEW(\'R3_SCD_EDIT_50_id\', \'R3_SCD_function_50_camPreview\');"><br><div id="R3_SCD_CAMERA_PREVIEW">Camera Preview:<br><br><img id="R3_SCD_function_50_camPreview" class="R3_SCD_EDIT_61_camPreview img-size-60-percent"></div>',
+		'50': 'Next Camera: <input type="number" maxlength="3" autocomplete="off" class="R3_EDIT_TEXT_XYZR" min="0" max="255" step="1" placeholder="0" id="R3_SCD_EDIT_50_id" oninput="R3_SCD_FUNCTION_CAM_PREVIEW(\'R3_SCD_EDIT_50_id\', \'R3_SCD_function_50_camPreview\');"><br><div id="R3_SCD_CAMERA_PREVIEW">Camera Preview:<br><br><img ondragstart="return false;" id="R3_SCD_function_50_camPreview" class="R3_SCD_EDIT_61_camPreview img-size-60-percent"></div>',
 		'51': 'NO_EDIT',
 		'52': 'Flag: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_52_flag"></select>',
-		'53': 'The trigger for camera <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_53_id"> now will display camera <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_53_value">',
+		'53': 'The trigger for camera <input type="number" maxlength="3" min="0" max="255" step="1" autocomplete="off" oninput="R3_SCD_FUNCTION_EDIT_updateCutReplace();" onchange="R3_SCD_FUNCTION_EDIT_updateCutReplace();" class="R3_EDIT_TEXT_XYZR" placeholder="0" id="R3_SCD_EDIT_53_prevCamValue"> now will display camera <input type="number" maxlength="3" step="1" min="0" max="255" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="1" oninput="R3_SCD_FUNCTION_EDIT_updateCutReplace();" onchange="R3_SCD_FUNCTION_EDIT_updateCutReplace();" id="R3_SCD_EDIT_53_nextCamValue"><div class="SEPARATOR-2"></div><br><div class="align-center R3_SCD_EDIT_53_prevDiv">Previous Cam<br><img ondragstart="return false;" src="#" alt="R3_SCD_PREVIOUS_CAM" id="R3_SCD_EDIT_53_previousCam" class="R3_SCD_EDIT_53_camPreview"></div><div class="R3_SCD_EDIT_53_newArrowDiv"><img ondragstart="return false;" src="img/arrowNew.webp" alt="newArrow"></div><div class="align-center R3_SCD_EDIT_53_nextDiv">Next Cam<br><img ondragstart="return false;" src="#" alt="R3_SCD_NEXT_CAM" id="R3_SCD_EDIT_53_nextCam" class="R3_SCD_EDIT_53_camPreview"></div>',
 		'54': 'ID: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_54_id"> Value: <input type="text" spellcheck="false" maxlength="2" autocomplete="off" class="R3_EDIT_TEXT_XYZR" placeholder="00" id="R3_SCD_EDIT_54_value"> Flag: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_54_flag"></select>',
-		'55': 'Target: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_55_target"> <font class="COLOR_X">X: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_55_posX"> <font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_55_posY"> <font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_55_posZ"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" title="Click here to use current player location" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(4);">',
-		'56': 'Target: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_56_target"> <font class="COLOR_X">X: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_56_posX"> <font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_56_posY"> <font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_56_posZ"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" title="Click here to use current player location" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(5);">',
+		'55': 'Target: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_55_target"> <font class="COLOR_X">X: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR COLOR_X" id="R3_SCD_EDIT_55_posX"> <font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR COLOR_Y" id="R3_SCD_EDIT_55_posY"> <font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR COLOR_Z" id="R3_SCD_EDIT_55_posZ"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" title="Click here to use current player location" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(4);">',
+		'56': 'Target: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_56_target"> <font class="COLOR_X">X: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR COLOR_X" id="R3_SCD_EDIT_56_posX"> <font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR COLOR_Y" id="R3_SCD_EDIT_56_posY"> <font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" maxlength="4" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR COLOR_Z" id="R3_SCD_EDIT_56_posZ"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" title="Click here to use current player location" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(5);">',
 		'57': 'Data 0: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_57_data0"> Data 1: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_57_data1">',
 		'58': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_58_id"> Data 0: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_58_data0"> Data 1: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_58_data1">',
 		'59': 'NO_EDIT',
 		'5a': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_5a_id">',
 		'5b': 'Message ID: <input type="number" min="0" max="255" step="1" maxlength="3" placeholder="0" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_5b_id" onchange="R3_SCD_FUNCTIONEDIT_updateData0onAOT();" onkeyup="R3_SCD_FUNCION_displayMsgPreview();"> Data 0: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_5b_data0"> Display Mode: <select id="R3_SCD_EDIT_5b_displayMode" class="SELECT_SETTINGS auto"></select><br><br><div id="R3_SCD_EDIT_5b_msgPrevDiv"><div class="align-center"><font class="LBL_subTitle">Message Preview:</font><br><br><font id="R3_SCD_EDIT_5b_msgPrev" class="monospace mono_xyzr txt-italic">No preview available</font></div></div>',
-		'5c': 'Flag: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_5c_flag"></select>',
+		'5c': 'Value: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_5c_flag">',
 		'5d': 'NO_EDIT',
 		'5e': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_5e_id"> Value: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_5e_value">',
-		'5f': 'Weapon: <select id="R3_SCD_EDIT_5f_weaponId" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_5f_weaponId\', \'R3_SCD_EDIT_5f_itemIconPrev\');" class="SELECT_SETTINGS auto"></select><br><br><img class="R3_SCD_EDIT_61_camPreview" id="R3_SCD_EDIT_5f_itemIconPrev">',
+		'5f': 'Weapon: <select id="R3_SCD_EDIT_5f_weaponId" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_5f_weaponId\', \'R3_SCD_EDIT_5f_itemIconPrev\');" class="SELECT_SETTINGS auto"></select><br><br><img ondragstart="return false;" class="R3_SCD_EDIT_61_camPreview" id="R3_SCD_EDIT_5f_itemIconPrev">',
 		'60': 'NO_EDIT',
-		'61': '<div class="R3_SCD_EDIT_LEFT">Door Position: <div class="R3_SCD_EDIT_61_posAlign"><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_posX" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_posY" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_posZ" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_posR" class="R3_EDIT_TEXT_XYZR"><input type="button" onclick="R3_SYS_COPY_POS(1);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_copyAlign" value="Copy Pos."><input type="button" onclick="R3_SYS_PASTE_POS(1);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_pasteAlign" value="Paste Pos."></div>Spawn Position: <div class="R3_SCD_EDIT_61_posAlign"><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_nextX" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_nextY" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_nextZ" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_nextR" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_zI">Z-Index: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_zIndex" class="R3_EDIT_TEXT_XYZR"><input type="button" onclick="R3_SYS_COPY_POS(2);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_copyAlign" value="Copy Pos."><input type="button" onclick="R3_SYS_PASTE_POS(2);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_pasteAlign" value="Paste Pos."></div></div><input type="button" onclick="R3_SCD_FUNCTIONEDIT_showUsePlayerPos(0);" id="R3_SCD_EDIT_61_usePlayerPosBtn" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos."><div id="R3_SCD_EDIT_61_usePlayerPosDiv" class="none"><input type="button" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(0);" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos. on Door Pos."><input type="button" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(1);" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos. on Spawn Pos."></div><div class="SEPARATOR-4"></div>ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" id="R3_SCD_EDIT_61_id" class="R3_EDIT_TEXT_HEX"> AOT: <input type="text" spellcheck="false" autocomplete="off" max="8" id="R3_SCD_EDIT_61_aot" class="R3_SCD_EDIT_61_aot" placeholder="00000000"> Stage: <input type="number" autocomplete="off" placeholder="00" min="1" max="7" step="1" maxlength="2" id="R3_SCD_EDIT_61_stage" class="R3_EDIT_TEXT_HEX" onchange="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');" onmousewheel="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');"> Room: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_roomNumber" class="R3_EDIT_TEXT_HEX" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');"> Camera: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_nextCam" class="R3_EDIT_TEXT_HEX" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');"> Door Type: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_doorType" class="R3_EDIT_TEXT_HEX"> Open Orientation: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_openOrient" class="R3_EDIT_TEXT_HEX"><br><input type="checkbox" id="R3_SCD_EDIT_61_checkMagicDoor"><font title="Set this option on to disable door animation, making room transition more faster." class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox(\'R3_SCD_EDIT_61_checkMagicDoor\', false);"> - Enable Magic Door</font><br><div class="SEPARATOR-4"></div>Lock Flag: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_lockFlag" class="R3_EDIT_TEXT_HEX"> Lock Key: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_61_lockKey"></select><br>Display Message: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_61_displayText"></select> Unk Value: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_61_unk0" placeholder="00"><br><br>This door will leads to <font class="monospace mono_xyzr">R<font id="R3_SCD_EDIT_61_lblNextStage">???</font><font id="R3_SCD_EDIT_61_lblNextRoom">???</font>.RDT</font><br>Next Cam:<br><br><img class="R3_SCD_EDIT_61_camPreview" id="R3_SCD_EDIT_61_camPreview">',
-		'62': '<div class="R3_SCD_EDIT_LEFT">Door Position: <div class="R3_SCD_EDIT_61_posAlign"><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_posX" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_posY" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_posZ" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_posR" class="R3_EDIT_TEXT_XYZR"><input type="button" onclick="R3_SYS_COPY_POS(3);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_copyAlign" value="Copy Pos."><input type="button" onclick="R3_SYS_PASTE_POS(3);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_pasteAlign" value="Paste Pos."></div>Spawn Position: <div class="R3_SCD_EDIT_61_posAlign"><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_nextX" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_nextY" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_nextZ" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_nextR" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_zI">Z-Index: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_zIndex" class="R3_EDIT_TEXT_XYZR"><input type="button" onclick="R3_SYS_COPY_POS(4);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_copyAlign" value="Copy Pos."><input type="button" onclick="R3_SYS_PASTE_POS(4);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_pasteAlign" value="Paste Pos."></div></div><input type="button" onclick="R3_SCD_FUNCTIONEDIT_showUsePlayerPos(0);" id="R3_SCD_EDIT_62_usePlayerPosBtn" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos."><div id="R3_SCD_EDIT_62_usePlayerPosDiv" class="none"><input type="button" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(2);" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos. on Door Pos."><input type="button" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(3);" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos. on Spawn Pos."></div><div class="SEPARATOR-4"></div>ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" id="R3_SCD_EDIT_62_id" class="R3_EDIT_TEXT_HEX"> AOT: <input type="text" spellcheck="false" autocomplete="off" max="8" id="R3_SCD_EDIT_62_aot" class="R3_SCD_EDIT_61_aot" placeholder="00000000"> Stage: <input type="number" autocomplete="off" placeholder="00" min="1" max="7" step="1" maxlength="2" id="R3_SCD_EDIT_62_stage" class="R3_EDIT_TEXT_HEX" onchange="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');" onmousewheel="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');"> Room: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_roomNumber" class="R3_EDIT_TEXT_HEX" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');"> Camera: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_nextCam" class="R3_EDIT_TEXT_HEX" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');"> Door Type: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_doorType" class="R3_EDIT_TEXT_HEX"> Open Orientation: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_openOrient" class="R3_EDIT_TEXT_HEX"><br><input type="checkbox" id="R3_SCD_EDIT_62_checkMagicDoor"><font title="Set this option on to disable door animation, making room transition more faster." class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox(\'R3_SCD_EDIT_62_checkMagicDoor\', false);"> - Enable Magic Door</font><br><div class="SEPARATOR-4"></div>Lock Flag: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_lockFlag" class="R3_EDIT_TEXT_HEX"> Lock Key: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_62_lockKey"></select><br>Display Message: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_62_displayText"></select> Unk Value: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_62_unk0" placeholder="00"><br>4P: <input type="text" spellcheck="false" autocomplete="off" id="R3_SCD_EDIT_62_4P" maxlength="16" class="R3_SCD_EDIT_4P" placeholder"0000000000000000><br><br>This door will leads to <font class="monospace mono_xyzr">R<font id="R3_SCD_EDIT_62_lblNextStage">???</font><font id="R3_SCD_EDIT_62_lblNextRoom">???</font>.RDT</font><br>Next Cam:<br><br><img class="R3_SCD_EDIT_61_camPreview" id="R3_SCD_EDIT_62_camPreview">',
-		'63': 'AOT: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_63_aot" onchange="R3_SCD_FUNCTIONEDIT_updateAotSetLabels();"></select><br><div class="SEPARATOR-2"></div>ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_id"> Type: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_type"> Z-Index: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_nFloor"> Super: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_super"><br><div class="SEPARATOR-2"></div><font class="COLOR_X">X: </font> <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_posX"> <font class="COLOR_Y">Y: </font> <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_posY"> Width: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_width"> Height: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_height"><br><input type="button" class="BTN_R3CLASSIC" value="Copy Pos." onclick="R3_SYS_COPY_POS(5);"> <input type="button" class="BTN_R3CLASSIC" value="Paste Pos." onclick="R3_SYS_PASTE_POS(5);"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(12);"><br><div class="SEPARATOR-2"></div><font id="R3_SCD_EDIT_63_LBL_data0">Data 0</font>: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_data0" onkeyup="R3_SCD_FUNCTIONEDIT_updateData0onAOT();" onchange="R3_SCD_FUNCTIONEDIT_updateData0onAOT();"> <font id="R3_SCD_EDIT_63_LBL_data1">Data 1</font>: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_data1"> <font id="R3_SCD_EDIT_63_LBL_data2">Data 2</font>: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_data2"> <font id="R3_SCD_EDIT_63_LBL_data3">Data 3</font>: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_data3"><br>Display Mode: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_63_displayMode"></select><br><br><div id="R3_SCD_EDIT_63_msgPrevDiv"><div class="align-center"><font class="LBL_subTitle">Message Preview:</font><br><br><font id="R3_SCD_EDIT_63_msgPrev" class="monospace mono_xyzr txt-italic">No preview available</font></div></div>',
+		'61': '<div class="R3_SCD_EDIT_LEFT">Door Position: <div class="R3_SCD_EDIT_61_posAlign"><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_posX" class="R3_EDIT_TEXT_XYZR COLOR_X"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_posY" class="R3_EDIT_TEXT_XYZR COLOR_Y"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_posZ" class="R3_EDIT_TEXT_XYZR COLOR_Z"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_posR" class="R3_EDIT_TEXT_XYZR COLOR_R"><input type="button" onclick="R3_SYS_COPY_POS(1);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_copyAlign" value="Copy Pos."><input type="button" onclick="R3_SYS_PASTE_POS(1);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_pasteAlign" value="Paste Pos."></div>Spawn Position: <div class="R3_SCD_EDIT_61_posAlign"><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_nextX" class="R3_EDIT_TEXT_XYZR COLOR_X"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_nextY" class="R3_EDIT_TEXT_XYZR COLOR_Y"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_nextZ" class="R3_EDIT_TEXT_XYZR COLOR_Z"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_61_nextR" class="R3_EDIT_TEXT_XYZR COLOR_R"><font class="COLOR_zI">Z-Index: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_zIndex" class="R3_EDIT_TEXT_XYZR"><input type="button" onclick="R3_SYS_COPY_POS(2);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_copyAlign" value="Copy Pos."><input type="button" onclick="R3_SYS_PASTE_POS(2);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_pasteAlign" value="Paste Pos."></div></div><input type="button" onclick="R3_SCD_FUNCTIONEDIT_showUsePlayerPos(0);" id="R3_SCD_EDIT_61_usePlayerPosBtn" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos."><div id="R3_SCD_EDIT_61_usePlayerPosDiv" class="none"><input type="button" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(0);" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos. on Door Pos."><input type="button" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(1);" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos. on Spawn Pos."><input type="button" onclick="R3_SCD_FUNCTIONEDIT_showUsePlayerPos(1);" class="BTN_R3CLASSIC" value="Cancel"></div><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY right" title="Click here to open SCD Door Link" onclick="R3_DESIGN_SCD_openDoorLink();" value="Open SCD DoorLink"><div class="SEPARATOR-4"></div><div class="R3_SCD_EDIT_doorInfos">ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" id="R3_SCD_EDIT_61_id" class="R3_EDIT_TEXT_HEX"> AOT: <input type="text" spellcheck="false" autocomplete="off" max="8" id="R3_SCD_EDIT_61_aot" class="R3_SCD_EDIT_61_aot" placeholder="00000000"> Stage: <input type="number" autocomplete="off" placeholder="00" min="1" max="7" step="1" maxlength="2" id="R3_SCD_EDIT_61_stage" class="R3_EDIT_TEXT_HEX" onchange="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');" onmousewheel="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');"> Room: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_roomNumber" class="R3_EDIT_TEXT_HEX" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');"> Camera: <input type="number" spellcheck="false" autocomplete="off" maxlength="3" min="0" max="255" step="1" placeholder="00" id="R3_SCD_EDIT_61_nextCam" class="R3_EDIT_TEXT_HEX" oninput="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'61\');"><br>Door Type: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_doorType" class="R3_EDIT_TEXT_HEX"> Open Orientation: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_openOrient" class="R3_EDIT_TEXT_HEX"> <input type="checkbox" id="R3_SCD_EDIT_61_checkMagicDoor"><font title="Set this option enabled to disable door animation, making room transition more faster." class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox(\'R3_SCD_EDIT_61_checkMagicDoor\', false);"> - Enable Magic Door</font><br><div class="SEPARATOR-4"></div>Lock Flag: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_61_lockFlag" class="R3_EDIT_TEXT_HEX"> Lock Key: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_61_lockKey"></select><br>Display Message: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_61_displayText"></select> Unk Value: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_61_unk0" placeholder="00"></div><div class="R3_SCD_EDIT_doorPreview">This door will leads to <font class="monospace mono_xyzr">R<font id="R3_SCD_EDIT_61_lblNextStage">???</font><font id="R3_SCD_EDIT_61_lblNextRoom">???</font>.RDT</font><br>Next Cam:<br><br><img ondragstart="return false;" class="R3_SCD_EDIT_61_camPreview" id="R3_SCD_EDIT_61_camPreview"></div>',
+		'62': '<div class="R3_SCD_EDIT_LEFT">Door Position: <div class="R3_SCD_EDIT_61_posAlign"><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_posX" class="R3_EDIT_TEXT_XYZR COLOR_X"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_posY" class="R3_EDIT_TEXT_XYZR COLOR_Y"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_posZ" class="R3_EDIT_TEXT_XYZR COLOR_Z"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_posR" class="R3_EDIT_TEXT_XYZR COLOR_R"><input type="button" onclick="R3_SYS_COPY_POS(3);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_copyAlign" value="Copy Pos."><input type="button" onclick="R3_SYS_PASTE_POS(3);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_pasteAlign" value="Paste Pos."></div>Spawn Position: <div class="R3_SCD_EDIT_61_posAlign"><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_nextX" class="R3_EDIT_TEXT_XYZR COLOR_X"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_nextY" class="R3_EDIT_TEXT_XYZR COLOR_Y"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_nextZ" class="R3_EDIT_TEXT_XYZR COLOR_Z"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_62_nextR" class="R3_EDIT_TEXT_XYZR COLOR_R"><font class="COLOR_zI">Z-Index: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_zIndex" class="R3_EDIT_TEXT_XYZR"><input type="button" onclick="R3_SYS_COPY_POS(4);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_copyAlign" value="Copy Pos."><input type="button" onclick="R3_SYS_PASTE_POS(4);" class="BTN_R3CLASSIC R3_SCD_EDIT_61_pasteAlign" value="Paste Pos."></div></div><input type="button" onclick="R3_SCD_FUNCTIONEDIT_showUsePlayerPos(0);" id="R3_SCD_EDIT_62_usePlayerPosBtn" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos."><div id="R3_SCD_EDIT_62_usePlayerPosDiv" class="none"><input type="button" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(2);" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos. on Door Pos."><input type="button" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(3);" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos. on Spawn Pos."><input type="button" onclick="R3_SCD_FUNCTIONEDIT_showUsePlayerPos(1);" class="BTN_R3CLASSIC" value="Cancel"></div><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY right" title="Click here to open SCD Door Link" onclick="R3_DESIGN_SCD_openDoorLink();" value="Open SCD DoorLink"><div class="SEPARATOR-4"></div><div class="R3_SCD_EDIT_doorInfos">ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" id="R3_SCD_EDIT_62_id" class="R3_EDIT_TEXT_HEX"> AOT: <input type="text" spellcheck="false" autocomplete="off" max="8" id="R3_SCD_EDIT_62_aot" class="R3_SCD_EDIT_61_aot" placeholder="00000000"> Stage: <input type="number" autocomplete="off" placeholder="00" min="1" max="7" step="1" maxlength="2" id="R3_SCD_EDIT_62_stage" class="R3_EDIT_TEXT_HEX" onchange="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');" onmousewheel="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');"> Room: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_roomNumber" class="R3_EDIT_TEXT_HEX" onkeyup="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');"> Camera: <input type="number" spellcheck="false" autocomplete="off" maxlength="3" min="0" max="255" step="1" placeholder="00" id="R3_SCD_EDIT_62_nextCam" class="R3_EDIT_TEXT_HEX" oninput="R3_SCD_FUNCTIONEDIT_updateCamPreview(\'62\');"><br>Door Type: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_doorType" class="R3_EDIT_TEXT_HEX"> Open Orientation: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_openOrient" class="R3_EDIT_TEXT_HEX"> 4P: <input type="text" spellcheck="false" autocomplete="off" id="R3_SCD_EDIT_62_4P" maxlength="16" class="R3_SCD_EDIT_4P" placeholder="0000000000000000"><br><input type="checkbox" id="R3_SCD_EDIT_62_checkMagicDoor"><font title="Set this option enabled to disable door animation, making room transition more faster." class="cursor-pointer" onclick="R3_DESIGN_UTILS_processCheckBox(\'R3_SCD_EDIT_62_checkMagicDoor\', false);"> - Enable Magic Door</font><br><div class="SEPARATOR-4"></div>Lock Flag: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" id="R3_SCD_EDIT_62_lockFlag" class="R3_EDIT_TEXT_HEX"> Lock Key: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_62_lockKey"></select><br>Display Message: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_62_displayText"></select> Unk Value: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_62_unk0" placeholder="00"></div><div class="R3_SCD_EDIT_doorPreview">This door will leads to <font class="monospace mono_xyzr">R<font id="R3_SCD_EDIT_62_lblNextStage">???</font><font id="R3_SCD_EDIT_62_lblNextRoom">???</font>.RDT</font><br>Next Cam:<br><br><img ondragstart="return false;" class="R3_SCD_EDIT_61_camPreview" id="R3_SCD_EDIT_62_camPreview"></div>',
+		'63': 'AOT: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_63_aot" onchange="R3_SCD_FUNCTIONEDIT_updateAotSetLabels();"></select><br><div class="SEPARATOR-2"></div>ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_id"> Type: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_type"> Z-Index: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_nFloor"> Super: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_super"><br><div class="SEPARATOR-2"></div><font class="COLOR_X">X: </font> <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR COLOR_X" id="R3_SCD_EDIT_63_posX"> <font class="COLOR_Y">Y: </font> <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR COLOR_Y" id="R3_SCD_EDIT_63_posY"> Width: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_width"> Height: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_height"><br><input type="button" class="BTN_R3CLASSIC" value="Copy Pos." onclick="R3_SYS_COPY_POS(5);"> <input type="button" class="BTN_R3CLASSIC" value="Paste Pos." onclick="R3_SYS_PASTE_POS(5);"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(12);"><br><div class="SEPARATOR-2"></div><font id="R3_SCD_EDIT_63_LBL_data0">Data 0</font>: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_data0" onkeyup="R3_SCD_FUNCTIONEDIT_updateData0onAOT();" onchange="R3_SCD_FUNCTIONEDIT_updateData0onAOT();"> <font id="R3_SCD_EDIT_63_LBL_data1">Data 1</font>: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_data1"> <font id="R3_SCD_EDIT_63_LBL_data2">Data 2</font>: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_data2"> <font id="R3_SCD_EDIT_63_LBL_data3">Data 3</font>: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_63_data3"><br>Display Mode: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_63_displayMode"></select><br><br><div id="R3_SCD_EDIT_63_msgPrevDiv"><div class="align-center"><font class="LBL_subTitle">Message Preview:</font><br><br><font id="R3_SCD_EDIT_63_msgPrev" class="monospace mono_xyzr txt-italic">No preview available</font></div></div>',
 		'64': 'NO_EDIT',
-		'65': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_id"> AOT: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_aot"> Type: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_type"> Unk 0: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_unk0"> Unk 1: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_unk1"> Unk 2: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_unk2"><br><div class="SEPARATOR-2"></div>Item ID: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_65_itemId"></select> Num: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_num"> Flag: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_flag">',
+		'65': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_id"> AOT: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_aot"> Type: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_type"> Unk 0: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_unk0"> Unk 1: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_unk1"> Unk 2: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_unk2"><br><div class="SEPARATOR-2"></div>Unk 3: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_unk3"> Num: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_num"> Flag: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_65_flag">',
 		'66': 'Object ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_66_id" onchange="R3_SCD_FUNCTION_updateAotOnPreview();" onkeydown="R3_SCD_FUNCTION_updateAotOnPreview();" onkeyup="R3_SCD_FUNCTION_updateAotOnPreview();"><br>Target: <font class="monospace mono_xyzr" id="R3_SCD_EDIT_66_lblTarget">No preview available</font>',
-		'67': 'Item: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_itemSeek" onkeyup="R3_SCD_EDIT_FUNCTION_seekItem(\'67\');"> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_67_item" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_67_item\', \'R3_SCD_EDIT_67_itemIconPrev\');"></select> Quantity: <input type="number" autocomplete="off" placeholder="15" min="0" max="255" maxlength="3" id="R3_SCD_EDIT_67_quant" class="R3_EDIT_TEXT_XYZR"><br><div class="SEPARATOR-2"></div>ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_id"> AOT: <input type="text" spellcheck="false" autocomplete="off" placeholder="00000000" maxlength="2" class="R3_SCD_EDIT_61_aot" id="R3_SCD_EDIT_67_aot"> Animation: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_67_anim"></select> Item Flag: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_iFlag"> Model ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_modelId"><br>Unk 0: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_unk0">Unk 1: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_unk1">Unk 2: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_unk2"><br><div class="SEPARATOR-2"></div><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_67_posX" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_67_posY" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_67_posZ" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_67_posR" class="R3_EDIT_TEXT_XYZR"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(6);" title="Click here to use player pos."><br><br><img id="R3_SCD_EDIT_67_itemIconPrev" class="R3_SCD_EDIT_61_camPreview">',
-		'68': 'Item: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_itemSeek" onkeyup="R3_SCD_EDIT_FUNCTION_seekItem(\'68\');"> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_68_item" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_68_item\', \'R3_SCD_EDIT_68_itemIconPrev\');"></select> Quantity: <input type="number" autocomplete="off" placeholder="15" min="0" max="255" maxlength="3" id="R3_SCD_EDIT_68_quant" class="R3_EDIT_TEXT_XYZR"><br><div class="SEPARATOR-2"></div>ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_id"> AOT: <input type="text" spellcheck="false" autocomplete="off" placeholder="00000000" maxlength="2" class="R3_SCD_EDIT_61_aot" id="R3_SCD_EDIT_68_aot"> Animation: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_68_anim"></select> Item Flag: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_iFlag"> Model ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_modelId"><br>Unk 0: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_unk0"> Unk 1: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_unk1">Unk 2: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_unk2">4P: <input type="text" spellcheck="false" autocomplete="off" id="R3_SCD_EDIT_68_4P" maxlength="16" class="R3_SCD_EDIT_4P" placeholder="0000000000000000"><div class="SEPARATOR-2"></div><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_68_posX" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_68_posY" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_68_posZ" class="R3_EDIT_TEXT_XYZR"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_68_posR" class="R3_EDIT_TEXT_XYZR"><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(10);" title="Click here to use player pos."><br><br><img id="R3_SCD_EDIT_68_itemIconPrev" class="R3_SCD_EDIT_61_camPreview">',
+		'67': 'Item: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_itemSeek" onkeyup="R3_SCD_EDIT_FUNCTION_seekItem(\'67\');"> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_67_item" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_67_item\', \'R3_SCD_EDIT_67_itemIconPrev\');"></select> Quantity: <input type="number" autocomplete="off" placeholder="15" min="0" max="255" maxlength="3" id="R3_SCD_EDIT_67_quant" class="R3_EDIT_TEXT_XYZR"><br><div class="SEPARATOR-2"></div>ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_id"> AOT: <input type="text" spellcheck="false" autocomplete="off" placeholder="00000000" maxlength="2" class="R3_SCD_EDIT_61_aot" id="R3_SCD_EDIT_67_aot"> Item Flag: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_iFlag"> 3D Object ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_modelId"><br>Unk 0: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_unk0"> Unk 1: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_unk1">Unk 2: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_67_unk2"><br><div class="SEPARATOR-2"></div>Blink Color: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_67_blinkColor"></select> <input type="checkbox" id="R3_SCD_EDIT_67_playerCrouch" checked="false"><font class="cursor-pointer" title="Set this enabled to run crouch animation" onclick="R3_DESIGN_UTILS_processCheckBox(\'R3_SCD_EDIT_67_playerCrouch\');"> - Enable Crouch Animation</font><br><div class="SEPARATOR-2"></div><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_67_posX" class="R3_EDIT_TEXT_XYZR COLOR_X"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_67_posY" class="R3_EDIT_TEXT_XYZR COLOR_Y"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_67_posZ" class="R3_EDIT_TEXT_XYZR COLOR_Z"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_67_posR" class="R3_EDIT_TEXT_XYZR COLOR_R"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(6);" title="Click here to use player pos."><br><br><img ondragstart="return false;" id="R3_SCD_EDIT_67_itemIconPrev" class="R3_SCD_EDIT_61_camPreview">',
+		'68': 'Item: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_itemSeek" onkeyup="R3_SCD_EDIT_FUNCTION_seekItem(\'68\');"> <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_68_item" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_68_item\', \'R3_SCD_EDIT_68_itemIconPrev\');"></select> Quantity: <input type="number" autocomplete="off" placeholder="15" min="0" max="255" maxlength="3" id="R3_SCD_EDIT_68_quant" class="R3_EDIT_TEXT_XYZR"><br><div class="SEPARATOR-2"></div>ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_id"> AOT: <input type="text" spellcheck="false" autocomplete="off" placeholder="00000000" maxlength="2" class="R3_SCD_EDIT_61_aot" id="R3_SCD_EDIT_68_aot"> Item Flag: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_iFlag"> 3D Object ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_modelId"><br>Unk 0: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_unk0"> Unk 1: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_unk1">Unk 2: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_68_unk2">4P: <input type="text" spellcheck="false" autocomplete="off" id="R3_SCD_EDIT_68_4P" maxlength="16" class="R3_SCD_EDIT_4P" placeholder="0000000000000000"><br><div class="SEPARATOR-2"></div>Blink Color: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_68_blinkColor"></select> <input type="checkbox" id="R3_SCD_EDIT_68_playerCrouch" checked="false"><font class="cursor-pointer" title="Set this enabled to run crouch animation" onclick="R3_DESIGN_UTILS_processCheckBox(\'R3_SCD_EDIT_68_playerCrouch\');"> - Enable Crouch Animation</font><div class="SEPARATOR-2"></div><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_68_posX" class="R3_EDIT_TEXT_XYZR COLOR_X"><font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_68_posY" class="R3_EDIT_TEXT_XYZR COLOR_Y"><font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_68_posZ" class="R3_EDIT_TEXT_XYZR COLOR_Z"><font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" maxlength="4" placeholder="0000" id="R3_SCD_EDIT_68_posR" class="R3_EDIT_TEXT_XYZR COLOR_R"><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(10);" title="Click here to use player pos."><br><br><img ondragstart="return false;" id="R3_SCD_EDIT_68_itemIconPrev" class="R3_SCD_EDIT_61_camPreview">',
 		'69': 'NO_EDIT',
 		'6a': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6a_id"> AOT: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6a_aot"> Data 0: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6a_data0"> Data 1: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6a_data1"> Data 2: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6a_data2"><br><div class="SEPARATOR-2"></div><font class="COLOR_X">X</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6a_posX"> <font class="COLOR_Y">Y</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6a_posY"> <font class="COLOR_Z">Z</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6a_posZ">',
-		'6b': 'Check if the player have the item: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6b_itemSeek" onkeyup="R3_SCD_EDIT_FUNCTION_seekItem(\'6b\');"> <select id="R3_SCD_EDIT_6b_item" class="SELECT_SETTINGS auto" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_6b_item\', \'R3_SCD_EDIT_6b_itemIconPrev\');"></select><br><br><img id="R3_SCD_EDIT_6b_itemIconPrev" class="R3_SCD_EDIT_61_camPreview">',
+		'6b': 'Check if the player have the item: <input type="text" spellcheck="false" autocomplete="off" maxlength="2" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6b_itemSeek" onkeyup="R3_SCD_EDIT_FUNCTION_seekItem(\'6b\');"> <select id="R3_SCD_EDIT_6b_item" class="SELECT_SETTINGS auto" onchange="R3_SCD_FUNCTIONEDIT_updateItemPreview(\'R3_SCD_EDIT_6b_item\', \'R3_SCD_EDIT_6b_itemIconPrev\');"></select><br><br><img ondragstart="return false;" id="R3_SCD_EDIT_6b_itemIconPrev" class="R3_SCD_EDIT_61_camPreview">',
 		'6c': 'Check if <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6c_value"> is <select id="R3_SCD_EDIT_6c_flag" class="SELECT_SETTINGS auto"></select>',
 		'6d': 'Flag: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6d_flag"> Value: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6d_value">',
 		'6e': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6e_id"> Value: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_6e_value">',
@@ -252,9 +287,9 @@ const R3_internalHoldTime = 2800,
 		'7a': 'Cinematic ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" class="R3_EDIT_TEXT_XYZR" maxlength="2" id="R3_SCD_EDIT_7a_movieId">',
 		'7b': 'ID 0: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7b_id0"> ID 1: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7b_id1"> Type: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7b_type">',
 		'7c': 'NO_EDIT',
-		'7d': 'ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_id"> Unk 0: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_unk0"> Type: <select id="R3_SCD_EDIT_7d_type" class="SELECT_SETTINGS auto"></select> Pose: <select id="R3_SCD_EDIT_7d_pose" class="SELECT_SETTINGS auto"></select><br>Unk 1: <input type="text" spellcheck="false" autocomplete="off" placeholder="44" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_unk1"> Unk 2: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="6" class="R3_SCD_EDIT_61_aot" id="R3_SCD_EDIT_7d_unk2"> Sound Set: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_soundSet"> Texture: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_texture"> Flag: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_flag"> Motion: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_motion">CtrlFlag: <input type="text" spellcheck="false" autocomplete="off" placeholder="00000000" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_ctrlFlag"> <div class="SEPARATOR-2"></div><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_posX"> <font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_posY"> <font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_posZ"> <font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_posR"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(11);" title="Click here to use player pos.">',
+		'7d': 'ID: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_id"> Unk 0: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_unk0"> Type: <select id="R3_SCD_EDIT_7d_type" class="SELECT_SETTINGS auto"></select> Pose: <select id="R3_SCD_EDIT_7d_pose" class="SELECT_SETTINGS auto"></select><br>Unk 1: <input type="text" spellcheck="false" autocomplete="off" placeholder="44" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_unk1"> Unk 2: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="6" class="R3_SCD_EDIT_61_aot" id="R3_SCD_EDIT_7d_unk2"> Sound Set: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_soundSet"> Texture: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_texture"> Flag: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_flag"> Motion: <input type="text" spellcheck="false" autocomplete="off" placeholder="00" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_motion">CtrlFlag: <input type="text" spellcheck="false" autocomplete="off" placeholder="00000000" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7d_ctrlFlag"> <div class="SEPARATOR-2"></div><font class="COLOR_X">X: </font><input type="text" spellcheck="false" autocomplete="off" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR COLOR_X" id="R3_SCD_EDIT_7d_posX"> <font class="COLOR_Y">Y: </font><input type="text" spellcheck="false" autocomplete="off" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR COLOR_Y" id="R3_SCD_EDIT_7d_posY"> <font class="COLOR_Z">Z: </font><input type="text" spellcheck="false" autocomplete="off" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR COLOR_Z" id="R3_SCD_EDIT_7d_posZ"> <font class="COLOR_R">R: </font><input type="text" spellcheck="false" autocomplete="off" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR COLOR_R" id="R3_SCD_EDIT_7d_posR"> <input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(11);" title="Click here to use player pos.">',
 		'7e': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7e_id">',
-		'7f': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_id"> Type: <select id="R3_SCD_EDIT_7f_AOT" class="SELECT_SETTINGS auto"></select> Move Type: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_moveType"> Pattern: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_pattern"> Data 0: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_data0"><br>Speed: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_speed"> Z-Index: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_zIndex"> Super ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_superID"> Set Flag: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_setFlag"> Be Flag: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_beFlag"> Bool Type: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_boolType"><br>Colission: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_7f_setColission"></select> Colission Shape: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_7f_colType"></select> Opacity: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_visibility"><br><div class="SEPARATOR-4"></div><div class="R3_SCD_EDIT_7F_divHolder"><div class="R3_SCD_EDIT_7F_posDiv"><font class="monospace mono_xyzr COLOR_X">X Pos</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR R3_SCD_EDIT_7F_xyzrFix" id="R3_SCD_EDIT_7f_xPos"> <font class="monospace mono_xyzr COLOR_Y"><br>Y Pos</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR R3_SCD_EDIT_7F_xyzrFix" id="R3_SCD_EDIT_7f_yPos"> <font class="monospace mono_xyzr COLOR_Z"><br>Z Pos</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR R3_SCD_EDIT_7F_xyzrFix" id="R3_SCD_EDIT_7f_zPos"><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(13);"></div><div class="R3_SCD_EDIT_7F_posDiv"><font class="monospace mono_xyzr COLOR_X">X Dir</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_xDir"><br><font class="monospace mono_xyzr COLOR_Y">Y Dir</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_yDir"><br><font class="monospace mono_xyzr COLOR_Z">Z Dir</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_zDir"><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(14);"></div><div class="R3_SCD_EDIT_7F_posDiv"><font class="monospace mono_xyzr COLOR_X">Colission X</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_xColPos"><br><font class="monospace mono_xyzr COLOR_Y">Colission Y</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_yColPos"><br><font class="monospace mono_xyzr COLOR_Z">Colission Z</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_zColPos"><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(15);" value="Use Player Pos."></div><div class="R3_SCD_EDIT_7F_posDiv"><font class="monospace mono_xyzr COLOR_X">Colission Dir X</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_xColDir"><br><font class="monospace mono_xyzr COLOR_Y">Colission Dir Y</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_yColDir"><br><font class="monospace mono_xyzr COLOR_Z">Colission Dir Z</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_zColDir"><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(16);"></div>',
+		'7f': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_id"> Type: <select id="R3_SCD_EDIT_7f_AOT" class="SELECT_SETTINGS auto"></select> Move Type: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_moveType"> Pattern: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_pattern"> Data 0: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_data0"><br>Speed: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_speed"> Z-Index: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_zIndex"> Super ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_superID"> Set Flag: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_setFlag"> Be Flag: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_beFlag"> Bool Type: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_boolType"><br>Colission: <input type="text" id="R3_SCD_EDIT_7f_setColission" autocomplete="off" spellcheck="false" maxlength="2" placeholder="00" class="R3_EDIT_TEXT_XYZR"> Colission Shape: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_7f_colType"></select> Opacity: <input type="text" spellcheck="false" placeholder="00" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_visibility"><br><div class="SEPARATOR-4"></div><div class="R3_SCD_EDIT_7F_divHolder"><div class="R3_SCD_EDIT_7F_posDiv"><font class="monospace mono_xyzr COLOR_X">X Pos</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR R3_SCD_EDIT_7F_xyzrFix" id="R3_SCD_EDIT_7f_xPos"> <font class="monospace mono_xyzr COLOR_Y"><br>Y Pos</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR R3_SCD_EDIT_7F_xyzrFix" id="R3_SCD_EDIT_7f_yPos"> <font class="monospace mono_xyzr COLOR_Z"><br>Z Pos</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR R3_SCD_EDIT_7F_xyzrFix" id="R3_SCD_EDIT_7f_zPos"><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(13);"></div><div class="R3_SCD_EDIT_7F_posDiv"><font class="monospace mono_xyzr COLOR_X">X Dir</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_xDir"><br><font class="monospace mono_xyzr COLOR_Y">Y Dir</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_yDir"><br><font class="monospace mono_xyzr COLOR_Z">Z Dir</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_zDir"><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(14);"></div><div class="R3_SCD_EDIT_7F_posDiv"><font class="monospace mono_xyzr COLOR_X">Colission X</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_xColPos"><br><font class="monospace mono_xyzr COLOR_Y">Colission Y</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_yColPos"><br><font class="monospace mono_xyzr COLOR_Z">Colission Z</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_zColPos"><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(15);" value="Use Player Pos."></div><div class="R3_SCD_EDIT_7F_posDiv"><font class="monospace mono_xyzr COLOR_X">Colission Dir X</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_xColDir"><br><font class="monospace mono_xyzr COLOR_Y">Colission Dir Y</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_yColDir"><br><font class="monospace mono_xyzr COLOR_Z">Colission Dir Z</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_7f_zColDir"><br><input type="button" class="BTN_R3CLASSIC BTN_R3CLASSIC_APPLY" value="Use Player Pos." onclick="R3_SCD_EDIT_FUNCTION_usePlayerPos(16);"></div>',
 		'80': 'ID: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_80_id"> Value: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_80_value"> Type: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_80_type">',
 		'81': 'Animation: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_81_animation" onchange="R3_SCD_EDIT_FUNCTION_PLC_DEST();"></select> Anim Modifier: <input type="text" spellcheck="false" maxlength="2" placeholder="00" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_81_animModifier"><br><div class="SEPARATOR-2"></div><font id="R3_SCD_EDIT_81_labelDataA">???</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_81_dataA"> <font id="R3_SCD_EDIT_81_labelDataB">???</font>: <input type="text" spellcheck="false" maxlength="4" placeholder="0000" autocomplete="off" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_81_dataB"><br><div id="R3_SCD_EDIT_81_extraDiv"></div>',
 		'82': 'Animation: <select class="SELECT_SETTINGS auto" id="R3_SCD_EDIT_82_type" onchange="R3_SCD_EDIT_FUNCTION_PLC_NECK_updateLabels();"></select> Repeat: <input type="number" min="0" max="255" maxlength="3" step="1" placeholder="0" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_82_repeat"> Speed: <input type="number" min="0" max="255" step="1" id="R3_SCD_EDIT_82_speed" class="R3_EDIT_TEXT_XYZR"><br><div class="SEPARATOR-2"></div><font id="R3_SCD_EDIT_82_lbl_DATA_0">???</font>: <input type="text" spellcheck="false" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_82_DATA_0"> <font id="R3_SCD_EDIT_82_lbl_DATA_1">???</font>: <input type="text" spellcheck="false" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_82_DATA_1"> <font id="R3_SCD_EDIT_82_lbl_DATA_2">???</font>: <input type="text" spellcheck="false" placeholder="0000" maxlength="4" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_82_DATA_2"> <font id="R3_SCD_EDIT_82_lbl_DATA_3">???</font>: <input type="text" spellcheck="false" placeholder="00" maxlength="2" class="R3_EDIT_TEXT_XYZR" id="R3_SCD_EDIT_82_DATA_3">',
@@ -658,45 +693,46 @@ const R3_internalHoldTime = 2800,
 		'R50E': ['Extraction Point', 			   'Dead Factory'],
 		'R50F': ['Elevator to Extraction Point',   'Dead Factory'],
 		'R510': ['Bridge to Dead Factory', 		   'Park'],
-		'R600': ['Unknown Location', 			   'Unknown'],
-		'R601': ['Unknown Location', 			   'Unknown'],
-		'R607': ['Unknown Location', 			   'Unknown'],
-		'R60B': ['Unknown Location', 			   'Unknown'],
-		'R60E': ['Unknown Location', 			   'Unknown'],
-		'R61B': ['Unknown Location', 			   'Unknown'],
-		'R61C': ['Unknown Location', 			   'Unknown'],
-		'R61D': ['Unknown Location', 			   'Unknown'],
-		'R61E': ['Unknown Location', 			   'Unknown'],
-		'R61F': ['Unknown Location', 			   'Unknown'],
-		'R620': ['Unknown Location', 			   'Unknown'],
-		'R621': ['Unknown Location', 			   'Unknown'],
-		'R622': ['Unknown Location', 			   'Unknown'],
-		'R623': ['Unknown Location', 			   'Unknown'],
-		'R624': ['Unknown Location', 			   'Unknown'],
-		'R700': ['Unknown Location', 			   'Unknown'],
-		'R701': ['Unknown Location', 			   'Unknown'],
-		'R702': ['Unknown Location', 			   'Unknown'],
-		'R703': ['Unknown Location', 			   'Unknown'],
-		'R704': ['Unknown Location', 			   'Unknown'],
-		'R705': ['Unknown Location', 			   'Unknown'],
-		'R706': ['Unknown Location', 			   'Unknown'],
-		'R707': ['Unknown Location', 			   'Unknown'],
-		'R708': ['Unknown Location', 			   'Unknown'],
-		'R709': ['Unknown Location', 			   'Unknown'],
-		'R70A': ['Unknown Location', 			   'Unknown'],
-		'R70B': ['Unknown Location', 			   'Unknown'],
-		'R70C': ['Unknown Location', 			   'Unknown'],
-		'R70D': ['Unknown Location', 			   'Unknown'],
-		'R70E': ['Unknown Location', 			   'Unknown'],
-		'R70F': ['Unknown Location', 			   'Unknown'],
-		'R710': ['Unknown Location', 			   'Unknown'],
-		'R711': ['Unknown Location', 			   'Unknown'],
-		'R712': ['Unknown Location', 			   'Unknown'],
-		'R713': ['Unknown Location', 			   'Unknown'],
-		'R714': ['Unknown Location', 			   'Unknown'],
-		'R718': ['Unknown Location', 			   'Unknown'],
-		'R71A': ['Unknown Location', 			   'Unknown'],
-		'R71B': ['Unknown Location', 			   'Unknown']
+		'R600': ['(Merc) Warehouse Save Room',	   'Uptown'],
+		'R601': ['(Merc) Warehouse',		 	   'Uptown'],
+		'R607': ['(Merc) Bar Jack',			 	   'Uptown'],
+		'R60B': ['(Merc) Pharmacy Street', 		   'Uptown'],
+		'R60E': ['(Merc) Alley 6', 				   'Uptown'],
+		'R60F': ['(Merc) Unknown Location', 	   'Unknown'], // This map is target on mercs mode. Odd!
+		'R61B': ['(Merc) Pharmacy', 	 		   'Uptown'],
+		'R61C': ['(Merc) Pharmacy Product Stock',  'Uptown'],
+		'R61D': ['(Merc) Alley 1', 				   'Uptown'],
+		'R61E': ['(Merc) Street 1',				   'Uptown'],
+		'R61F': ['(Merc) Alley 2', 				   'Uptown'],
+		'R620': ['(Merc) Alley 3',				   'Uptown'],
+		'R621': ['(Merc) Boutique Street',		   'Uptown'],
+		'R622': ['(Merc) Alley 5',				   'Uptown'],
+		'R623': ['(Merc) Passage to Pharmacy', 	   'Uptown'],
+		'R624': ['(Merc) Main Street',		 	   'Uptown'],
+		'R700': ['(Merc) Street 2 ', 	   		   'Downtown'],
+		'R701': ['(Merc) Mechanic Parking Lot',	   'Downtown'],
+		'R702': ['(Merc) Street to Alley 1', 	   'Downtown'],
+		'R703': ['(Merc) Alley 1',				   'Downtown'],
+		'R704': ['(Merc) Energy Station Street',   'Downtown'],
+		'R705': ['(Merc) Grill 13 Street',		   'Downtown'],
+		'R706': ['(Merc) Shopping Dist.',		   'Downtown'],
+		'R707': ['(Merc) Raccon City Hall Street', 'Downtown'],
+		'R708': ['(Merc) Raccon City Hall', 	   'Downtown'],
+		'R709': ['(Merc) Shopping Dist. 2', 	   'Downtown'],
+		'R70A': ['(Merc) Shopping Dist. 3', 	   'Downtown'],
+		'R70B': ['(Merc) Trolley Street',		   'Downtown'],
+		'R70C': ['(Merc) Trolley',				   'Downtown'],
+		'R70D': ['(Merc) Stagla Gas Station',	   'Downtown'],
+		'R70E': ['(Merc) Stagla Street',		   'Downtown'],
+		'R70F': ['(Merc) Press (2F)',			   'Downtown'],
+		'R710': ['(Merc) Press (1F)',			   'Downtown'],
+		'R711': ['(Merc) Grill 13',				   'Downtown'],
+		'R712': ['(Merc) Grill 13 (B1)',		   'Downtown'],
+		'R713': ['(Merc) Energy Station Entrance', 'Downtown'],
+		'R714': ['(Merc) Energy Station',		   'Downtown'],
+		'R718': ['(Merc) Alley to Street 2', 	   'Uptown'],
+		'R71A': ['(Merc) Alley 6',				   'Uptown'],
+		'R71B': ['(Merc) Mechanic\'s Office', 	   'Downtown']
 	},
 	RDT_EMDNAME = {
 		'00': 'Undefined',
@@ -793,6 +829,8 @@ const R3_internalHoldTime = 2800,
 		'51': 'Lying down moving head',
 		'60': 'Normal 6',
 		'80': 'Walking (Dog)',
+		'81': 'Unknown Pose',
+		'82': 'Unknown Pose',
 		'84': 'Getting Up 4',
 		'85': 'Unknown Pose',
 		'86': 'Slow on fire',
@@ -821,7 +859,7 @@ const R3_internalHoldTime = 2800,
 		'02': [1,  'Next Event [EVT_NEXT]', 	  	   		 0,  false, 'EVT_NEXT();', 				false, 720, 480, false],
 		'03': [2,  'Event Chain [EVT_CHAIN]', 	  	   		 0,  false, 'EVT_CHAIN();', 			false, 720, 480, false],
 		'04': [2,  'Execute Event [EVT_EXEC]', 		   		 0,  true,  'EVT_EXEC', 				false, 480, 100, false],
-		'05': [2,  'Event Kill [EVT_KILL]', 	  	   		 0,  true,  'EVT_KILL', 				false, 720, 480, false],
+		'05': [2,  'Event Kill [EVT_KILL]', 	  	   		 0,  true,  'EVT_KILL', 				false, 480, 100, false],
 		'06': [4,  'If [IF]', 					  	   		 4,  false, 'if (',						false, 720, 480, false],
 		'07': [4,  'Else [ELSE]', 				  	   		 4,  false, '} else {', 				false, 720, 480, false],
 		'08': [2,  'End If [END_IF]', 			  	   		 4,  false, '}', 						false, 720, 480, false],
@@ -869,16 +907,16 @@ const R3_internalHoldTime = 2800,
 		'32': [6,  'Set LIT Color [LIGHT_COLOR_SET]',  		 5,  true,  'LIGHT_COLOR_SET',	 		false, 720, 300, false],
 		'33': [4,  'AHEAD_ROOM_SET', 				   		 0,  true,  'AHEAD_ROOM_SET',   		false, 480, 100, false],
 		'34': [10, 'ESPR_CTR', 						   		 0,  false, 'ESPR_CTR();', 				false, 720, 480, false],
-		'35': [6,  'BGM_TBL_CK', 					   		 13, false, 'BGM_TBL_CK',				 true, 720, 480, false],
+		'35': [6,  'BGM_TBL_CK', 					   		 13, false, 'BGM_TBL_CK',				 true, 480, 100, false],
 		'36': [3,  'ITEM_GET_CK', 					   		 13, false, 'ITEM_GET_CK();',			false, 720, 480,  true],
 		'37': [2,  'OM_REV', 						   		 0,  true,  'OM_REV',	 				false, 720, 480, false],
-		'38': [2,  'CHASER_LIFE_INIT', 				   		 0,  true,  'CHASER_LIFE_INIT',			false, 720, 480, false],
+		'38': [2,  'CHASER_LIFE_INIT', 				   		 0,  true,  'CHASER_LIFE_INIT',			false, 480, 100, false],
 		'39': [16, 'PARTS_BOMB', 					   		 0,  false, 'PARTS_BOMB();',			false, 720, 480, false],
 		'3a': [16, 'PARTS_DOWN', 					   		 0,  false, 'PARTS_DOWN();',			false, 720, 480, false],
 		'3b': [3,  'CHASER_ITEM_SET', 				   		 0,  true,  'CHASER_ITEM_SET',			false, 480, 100, false],
 		'3c': [1,  'WEAPON_CHG_OLD', 				   		 11, false, 'WEAPON_CHG_OLD();',		false, 720, 480, false],
 		'3d': [2,  'SEL_EVT_ON', 					   		 0,  true,  'SEL_EVT_ON',				false, 480, 100, false],
-		'3e': [2,  'Remove Item [ITEM_LOST]', 		   		 2,  true,  'ITEM_LOST', 				false, 490, 200,  true],
+		'3e': [2,  'Remove Item [ITEM_LOST]', 		   		 2,  true,  'ITEM_LOST', 				false, 490, 240,  true],
 		'3f': [3,  'FLR_SET', 						   		 0,  true,  'FLR_SET',	 				false, 480, 100, false],
 		'40': [4,  'Set Variable [MEMB_SET]', 		   		 12, true,  'MEMB_SET', 				false, 480, 100, false],
 		'41': [4,  'Set Variable 2 [MEMB_SET2]', 	   		 12, true,  'MEMB_SET2',				false, 480, 100, false],
@@ -889,7 +927,7 @@ const R3_internalHoldTime = 2800,
 		'46': [11, 'Set Fade [FADE_SET]', 			   		 5,  true,  'FADE_SET', 				false, 540, 380, false],
 		'47': [3,  'Char Trigger [WORK_SET]', 		   		 5,  true,  'WORK_SET', 				false, 480, 100, false],
 		'48': [4,  'SPD_SET',  						   		 0,  true,  'SPD_SET',	 				false, 720, 480, false],
-		'49': [1,  'ADD_SPD',  						   		 0,  false, 'ADD_SPD();', 				false, 720, 480, false],
+		'49': [1,  'ADD_SPD',  						   		 0,  false, 'ADD_SPD();', 				false, 480, 100, false],
 		'4a': [1,  'ADD_ASPD', 						   		 0,  false, 'ADD_ASPD();', 				false, 720, 480, false],
 		'4b': [1,  'ADD_VSPD', 						   		 0,  false, 'ADD_VSPD();', 				false, 720, 480, false],
 		'4c': [4,  'Check Boolean [CK]', 			   		 13, false, 'CK',	 					 true, 550, 100, false],
@@ -898,8 +936,8 @@ const R3_internalHoldTime = 2800,
 		'4f': [1,  'RND', 							   		 0,  false, 'RND();', 					false, 720, 480, false],
 		'50': [2,  'Change Camera [CUT_CHG]', 		   		 5,  true,  'CUT_CHG',	 				false, 720, 480,  true],
 		'51': [1,  'CUT_OLD', 				  		   		 0,  false, 'CUT_OLD();', 				false, 720, 480, false],
-		'52': [2,  'Lock Camera [CUT_AUTO]',  		   		 5,  true,  'CUT_AUTO', 				false, 480, 100, false],
-		'53': [3,  'Swap Camera [CUT_REPLACE]', 	   		 5,  true,  'CUT_REPLACE',				false, 520, 100, false],
+		'52': [2,  'Lock Camera [CUT_AUTO]',  		   		 5,  true,  'CUT_AUTO', 				false, 480, 92,  false],
+		'53': [3,  'Swap Camera [CUT_REPLACE]', 	   		 5,  true,  'CUT_REPLACE',				false, 520, 302, false],
 		'54': [4,  'CUT_BE_SET', 					   		 0,  true,  'CUT_BE_SET',   			false, 480, 100, false],
 		'55': [8,  'Set Target Position [POS_SET]',    		 5,  true,  'POS_SET',	 				false, 620, 100, false],
 		'56': [8,  'DIR_SET',  						   		 5,  true,  'DIR_SET',  				false, 620, 100, false],
@@ -908,22 +946,22 @@ const R3_internalHoldTime = 2800,
 		'59': [8,  'SET_VIB_FADE', 					   		 0,  true,  'SET_VIB_FADE', 			false, 720, 480, false],
 		'5a': [2,  'RBJ Trigger [RBJ_SET]', 		   		 5,  true,  'RBJ_SET',	 				false, 480, 100, false],
 		'5b': [6,  'Display Message [MESSAGE_ON]', 	   		 6,  true,  'MESSAGE_ON',	 			false, 782, 240, false],
-		'5c': [2,  'RAIN_SET', 						   		 5,  true,  'RAIN_SET', 				false, 720, 480, false],
+		'5c': [2,  'RAIN_SET', 						   		 5,  true,  'RAIN_SET', 				false, 430, 100, false],
 		'5d': [1,  'MESSAGE_OFF', 					   		 6,  false, 'MESSAGE_OFF();', 			false, 720, 480, false],
 		'5e': [3,  'SHAKE_ON', 						   		 0,  true,  'SHAKE_ON', 				false, 720, 480, false],
 		'5f': [2,  'Change Weapon [WEAPON_CHG]', 	   		 11, true,  'WEAPON_CHG', 				false, 720, 480, false],
 		'60': [22, 'UNK_OPCODE_3', 					   		 9,  false, 'UNK_OPCODE_3();', 			false, 720, 502, false],
-		'61': [32, 'Set Door [DOOR_AOT_SET]', 		   		 1,  true,  'DOOR_AOT_SET', 			false, 780, 480,  true],
-		'62': [40, 'Set Door 4P [DOOR_AOT_SET_4P]',    		 1,  true,  'DOOR_AOT_SET_4P',			false, 780, 480,  true],
+		'61': [32, 'Set Door [DOOR_AOT_SET]', 		   		 1,  true,  'DOOR_AOT_SET', 			false, 726, 350,  true],
+		'62': [40, 'Set Door 4P [DOOR_AOT_SET_4P]',    		 1,  true,  'DOOR_AOT_SET_4P',			false, 726, 350,  true],
 		'63': [20, 'Set Interactive Object [AOT_SET]', 		 6,  true,  'AOT_SET', 					false, 560, 260, false],
 		'64': [28, 'Set Interactive Object 4P [AOT_SET_4P]', 6,  false, 'AOT_SET_4P();', 			false, 720, 480, false],
-		'65': [10, 'AOT_RESET', 							 6,  true,  'AOT_RESET',	 			false, 720, 130, false],
+		'65': [10, 'AOT_RESET', 							 6,  true,  'AOT_RESET',	 			false, 640, 130, false],
 		'66': [2,  'Run Interactive Object [AOT_ON]', 		 6,  true,  'AOT_ON',	 				false, 620, 120, false],
-		'67': [22, 'Set Item [ITEM_AOT_SET]', 				 2,  true,  'ITEM_AOT_SET', 			false, 720, 330,  true],
-		'68': [30, 'Set Item 4P [ITEM_AOT_SET_4P]', 		 2,  true,  'ITEM_AOT_SET_4P', 			false, 720, 330,  true],
+		'67': [22, 'Set Item [ITEM_AOT_SET]', 				 2,  true,  'ITEM_AOT_SET', 			false, 560, 370,  true],
+		'68': [30, 'Set Item 4P [ITEM_AOT_SET_4P]', 		 2,  true,  'ITEM_AOT_SET_4P', 			false, 560, 370,  true],
 		'69': [14, 'Shadow Effect [KAGE_SET]', 				 8,  false, 'KAGE_SET();', 				false, 720, 480, false],
 		'6a': [16, 'SUPER_SET', 							 0,  false, 'SUPER_SET();', 			false, 600, 130, false],
-		'6b': [2,  'Check Item [KEEP_ITEM_CK]', 			 13, false, 'KEEP_ITEM_CK', 			 true, 600, 210,  true],
+		'6b': [2,  'Check Item [KEEP_ITEM_CK]', 			 13, false, 'KEEP_ITEM_CK', 			 true, 600, 240,  true],
 		'6c': [4,  'KEY_CK', 								 13, false, 'KEY_CK',	 				 true, 480, 100, false],
 		'6d': [4,  'TRG_CK', 								 13, false, 'TRG_CK();', 				false, 480, 100, false],
 		'6e': [4,  'SCA_ID_SET', 							 12, true,  'SCA_ID_SET',   			false, 480, 100, false],
@@ -1114,7 +1152,7 @@ const R3_internalHoldTime = 2800,
 		'8d': '[SPL_WEAPON_CHG]',
 		'8e': '[PLC_MOT_NUM]',
 		'8f': '[EM_RESET]\nThis function will reset a enemy animation'
-	}, R3_MP_WM = 'ZmZmZmZmZmY1NDY4Njk3MzIwNjY2OTZjNjUyMDc3NjE3MzIwNmQ2MTY0NjUyMDc1NzM2OTZlNjcyMDUyMzM2NDY5NzQ2ZjcyMjA1NjMyMjAyZDIwNDM3MjY1NjE3NDY1NjQyMDQyNzkyMDUyMzM2NDY5NzQ2ZjcyMjA1NDY1NjE2ZGZmZmZmZmZm',
+	}, R3_RDT_DIVISOR = atob('ZmZmZmZmZmY1NDY4Njk3MzIwNjY2OTZjNjUyMDc3NjE3MzIwNmQ2MTY0NjUyMDc1NzM2OTZlNjcyMDUyMzM2NDY5NzQ2ZjcyMjA1NjMyMjAyZDIwNDM3MjY1NjE3NDY1NjQyMDQyNzkyMDUyMzM2NDY5NzQ2ZjcyMjA1NDY1NjE2ZGZmZmZmZmZm'),
 	/*
 		SCD Code Function Decompilation 
 		This will migrate a lot of content originally stored in RANGES
@@ -1583,7 +1621,7 @@ const R3_internalHoldTime = 2800,
 		// RAIN_SET
 		'5c': {
 			header: [0, 2],
-			flag: 	[2, 4]
+			value: 	[2, 4]
 		},
 		// MESSAGE_OFF
 		'5d': {
@@ -1677,7 +1715,7 @@ const R3_internalHoldTime = 2800,
 			aot: 	[2, 4],
 			id: 	[4, 6],
 			type: 	[6, 8],
-			itemId: [8, 10],
+			unk3:   [8, 10],
 			unk0: 	[10, 12],
 			num: 	[12, 14],
 			unk1: 	[14, 16],
@@ -2019,6 +2057,7 @@ const R3_internalHoldTime = 2800,
 	R3_SCD_OM_SET_AOT_TYPES = {
 		'00': 'Item Model',
 		'01': 'Water',
+		'02': 'Unknown type',
 		'04': 'Target'
 	},
 	// Set 3D Object [OM_SET] Colission Types
@@ -2042,8 +2081,10 @@ const R3_internalHoldTime = 2800,
 		'09': 'Unknown Target',
 		'0a': 'Unknown Target',
 		'0b': 'Unknown Target',
+		'11': 'Unknown Target',
 		'1f': 'Unknown Target',
 		'20': 'Unknown Target',
+		'24': 'Unknown Target',
 		'26': 'Unknown Target',
 		'27': 'Unknown Target',
 		'29': 'Game Over Countdown',
@@ -2076,9 +2117,11 @@ const R3_internalHoldTime = 2800,
 		'07': 'Item flag',
 		'08': 'Item ID',
 		'09': 'Unknown Variable',
+		'1b': 'Unknown Variable',
 		'26': 'Times up',
 		'27': 'Unknown Variable',
 		'29': 'Times down',
+		'2d': 'Unknown Variable',
 		'2f': 'Unknown Variable',
 		'30': 'RNG',
 		'31': 'Door ID'
@@ -2087,7 +2130,8 @@ const R3_internalHoldTime = 2800,
 		CK Special Conditions
 	*/
 	R3_SCD_CK_SPECIAL_CONTITIONS = {
-		'06': 'Unknown Condition'
+		'06': 'Unknown Condition',
+		'07': 'Unknown Condition'
 	},
 	/*
 		Set Event Values Info
@@ -2158,6 +2202,7 @@ const R3_internalHoldTime = 2800,
 		'3d': 'Unknown Value',
 		'3e': 'Unknown Value',
 		'3f': 'Unknown Value',
+		'40': 'Unknown Value',
 		'41': 'Unknown Value',
 		'42': 'Unknown Value',
 		'43': 'Unknown Value',
@@ -2210,6 +2255,7 @@ const R3_internalHoldTime = 2800,
 		'75': 'Unknown Value',
 		'76': 'Unknown Value',
 		'77': 'Unknown Value',
+		'78': 'Unknown Value',
 		'79': 'Unknown Value',
 		'7a': 'Unknown Value',
 		'7b': 'Unknown Value',
@@ -2271,35 +2317,53 @@ const R3_internalHoldTime = 2800,
 		'b3': 'Unknown Value',
 		'b4': 'Unknown Value',
 		'b5': 'Unknown Value',
+		'b6': 'Unknown Value',
+		'b7': 'Unknown Value',
+		'b8': 'Unknown Value',
+		'b9': 'Unknown Value',
 		'bb': 'Unknown Value',
 		'bc': 'Unknown Value',
+		'bd': 'Unknown Value',
 		'bf': 'Unknown Value',
 		'c1': 'Unknown Value',
+		'c2': 'Unknown Value',
 		'c3': 'Unknown Value',
 		'c4': 'Unknown Value',
 		'c5': 'Unknown Value',
+		'c6': 'Unknown Value',
+		'c7': 'Unknown Value',
+		'c8': 'Unknown Value',
+		'c9': 'Unknown Value',
 		'ce': 'Unknown Value',
+		'cf': 'Unknown Value',
+		'd0': 'Unknown Value',
+		'd1': 'Unknown Value',
 		'd2': 'Unknown Value',
+		'd3': 'Unknown Value',
 		'd5': 'Unknown Value',
 		'd7': 'Unknown Value',
 		'd9': 'Unknown Value',
 		'da': 'Unknown Value',
 		'db': 'Unknown Value',
+		'dd': 'Unknown Value',
 		'df': 'Unknown Value',
 		'e1': 'Unknown Value',
 		'e2': 'Unknown Value',
 		'e5': 'Unknown Value',
 		'ea': 'Unknown Value',
+		'eb': 'Unknown Value',
 		'ef': 'Unknown Value',
 		'f1': 'Unknown Value',
 		'f3': 'Unknown Value',
 		'f4': 'Unknown Value',
 		'f5': 'Unknown Value',
 		'f6': 'Unknown Value',
+		'f8': 'Unknown Value',
 		'f9': 'Unknown Value',
 		'fa': 'Unknown Value',
 		'fc': 'Unknown Value',
 		'fd': 'Unknown Value',
+		'fe': 'Unknown Value',
 		'ff': 'Unknown Value'
 	},
 	// KAGE_SET Options
@@ -2318,7 +2382,12 @@ const R3_internalHoldTime = 2800,
 		'07': 'Unknown Value',
 		'08': 'Unknown Value',
 		'09': 'Unknown Value',
+		'0a': 'Unknown Value',
 		'0b': 'Unknown Value',
+		'0c': 'Unknown Value',
+		'0d': 'Unknown Value',
+		'0e': 'Unknown Value',
+		'0f': 'Unknown Value',
 		'1a': 'the Camera',
 		'1b': 'the player returned from',
 		'1c': 'the merceneries Mode',
@@ -2395,6 +2464,7 @@ const R3_internalHoldTime = 2800,
 		'0000': 'Can move',
 		'0f00': 'Unknown mode',
 		'0100': 'Unknown mode',
+		'0400': 'Unknown mode',
 		'fff5': 'Unknown mode',
 		'fffd': 'Unknown mode',
 		'0101': 'Don\'t Freeze + Can\'t move',
@@ -2402,6 +2472,25 @@ const R3_internalHoldTime = 2800,
 		'2010': 'Can move and message dissapears after some seconds',
 		'ffef': 'Normal (Used in some items)'
 	},
+	// SCD Set Item [ITEM_AOT_SET] and Set Item 4P [ITEM_AOT_SET_4P] blink colors
+	R3_SCD_ITEM_AOT_SET_BLINK_COLORS = {
+		'0': 'Transparent',
+		'1': 'Unknown Color',
+		'2': 'Unknown Color',
+		'3': 'Unknown Color',
+		'4': 'Unknown Color',
+		'5': 'Unknown Color',
+		'6': 'Unknown Color',
+		'7': 'Unknown Color',
+		'8': 'White',
+		'9': 'Unknown Color',
+		'a': 'Blue',
+		'b': 'Blue',
+		'c': 'Red',
+		'd': 'Unknown Color',
+		'e': 'Unknown Color',
+		'f': 'Unknown Color'
+	};
 	/*
 		SCD Presets
 	*/
@@ -2413,6 +2502,12 @@ const R3_internalHoldTime = 2800,
 	/*
 		MSG Database
 	*/
+	MSG_RE3_SPECIAL_CHAR_LIST = {
+		'24': 'S.',
+		'25': 'T.',
+		'26': 'A.',
+		'27': 'R.'
+	},
 	MSG_RE3_DATABASE = {
 		'00': [false, ' ', 1],
 		'01': [false, '.', 1],
@@ -2656,13 +2751,13 @@ const R3_internalHoldTime = 2800,
 		'fd': [false, '(Pause)', 		    						1],
 		'ff': [false, '(Unknown CHAR)',     						1],
 		// Special commands (functions)
-		'70': [true, '(Function: Select Option - Args: ',		11, 2],
-		'fa': [true, '(Function: Start Message - Text Speed: ',  1, 2],
-		'fe': [true, '(Function: End Message - Args: ',			 2, 2],
+		'70': [true, '(Function: Select Option - Args:',		11, 2],
+		'fa': [true, '(Function: Start Message - Text Speed:',   1, 2],
+		'fe': [true, '(Function: End Message - Args:',			 2, 2],
 		'ea': [true, '(Function: Show Special Char - Char ID:',  4, 2], // (Relative to modifier)
 		'f0': [true, '(Function: Show Special Char - Char ID:',  4, 2], // (Relative to modifier)
 		'f8': [true, '(Function: Show Item Name - Item ID:', 	 5, 2],
-		'f3': [true, '(Function: Play SE - SE ID: ',  			 6, 2], // (Relative to modifier) 
+		'f3': [true, '(Function: Play SE - SE ID:',  			 6, 2], // (Relative to modifier) 
 		/* 
 			Info: Se o valor na frente de F3 for 43, O game irá executar o som da arma equipada.
 			Mas, quando esse comando for executado, alguns sons de menu / porta irão deixar de ser reproduzidos.
@@ -2670,9 +2765,9 @@ const R3_internalHoldTime = 2800,
 	
 			At least on R105.RDT
 		*/
-		'f4': [true, '(Function: Change Camera - Cam ID: ', 	 7, 2],
-		'f5': [true, '(Function: (UNK) Function F5 - Args: ',	 8, 2], // Used on "Septemer, 28" text
-		'f9': [true, '(Function: Text Color - Color: ',			 9, 2],
+		'f4': [true, '(Function: Change Camera - Cam ID:',		 7, 2],
+		'f5': [true, '(Function: (UNK) Function F5 - Args:',	 8, 2], // Used on "Septemer, 28" text
+		'f9': [true, '(Function: Text Color - Color:',			 9, 2],
 		// CT-STARS PATCH COMPAT
 		'd7': [false, ' ', 											1],
 		'3c': [false, 'ã', 											1],
@@ -2811,17 +2906,6 @@ const R3_internalHoldTime = 2800,
 		'\n': 'fc', // Enter / Break line
 		'|':  'fd' 	// Pause Text
 	},
-	R3_MSG_FUNCTIONS = {
-		'$SMS': 'fa', // Start Message
-		'$EMS': 'fe', // End Message
-		'$SSC': 'ea', // Show Special Char
-		'$SIN': 'f8', // Show Item Name
-		'$PSE': 'f3', // Play SE
-		'$CHC': 'f4', // Chanfe Camera
-		'$UF5': 'f5', // (UNK) Function F5
-		'$CTC': 'f9', // Change Text Color
-		'$SHO': '70'  // Show Options (WIP)
-	},
 	MSG_formatExclude = {
 		0: ['[(]Line Break[)]<br>', '@\n'],
 		1: ['Yes / No', '*'],
@@ -2840,36 +2924,42 @@ const R3_internalHoldTime = 2800,
 	*/
 	R3_HC_DATABASE = {
 		/*
-			HC Main Menu
+			HC Main Menu [R3V2 Main Menu]
 		*/
-		4: ['Help Center Main Menu', '<div class="align-center"><br><img src="img/icons/icon-53.png" class="R3_HC_fnIcon" title="Help Center"><br>Hello and welcome to R3ditor V2 Help Center!<br>Here you can learn more about how this tool works and the tips for best usage!</div><br>' +
+		4: ['Help Center Main Menu', '<div class="align-center"><br><img ondragstart="return false;" src="img/icons/icon-53.webp" class="R3_HC_fnIcon" title="Help Center"><br>Hello and welcome to R3ditor V2 Help Center!<br>Here you can learn more about how this tool works and the tips for best usage!</div><br>' +
 									 // Initial Info
 									 '<div class="align-center"><font class="LBL_subTitle">About R3ditor V2</font></div><br>R3ditor V2 <i>(It reads REditor)</i> is the second version of the most complex tool for Capcom\'s Resident Evil 3 (1999). It was designed to edit the game more or less ' + 
 									 'you would do if it was made using Wolf RPG, RPG Maker or even using Impact.js editor. Simple with <font title="Yes!">old Windows design in mind</font>, it\'s easy to know what to do and where to do, since all the efforts are to create a tool that is easy to learn how ' +
 									 'to use as a novice - but perfect to create new mods, from scratch to final build.<br><br>In case to know what something is / what it does, the best thing to do is hovering your mouse - a popup will show with some explanation about.<br><br>' +
 									 // Keyboard Shortcuts
 									 '<div class="align-center"><font class="LBL_subTitle">Keyboard Shortcuts</font></div><ul>' +
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">F1</font>: Open Help Center</li>' +
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + N</font>: New Mod (Wizard)</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 1</font>: Open RDT Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 2</font>: Open SCD Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 3</font>: Open MSG Editor</li>' +
-									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 4</font>: Open SAV Editor</li>' + 
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 4</font>: Open SAV Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 5</font>: Open INI Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + 6</font>: Open RE3SET Editor</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + L</font>: Open log window</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + I</font>: Open Item Database</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + B</font>: Open Backup Manager</li>' +
 									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + E</font>: Close current tool <i>(Can be disabled on settins)</i></li>' +
-									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + R</font>: Reload</li></ul><br>' +
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + F</font>: Open SCD Opcode Finder <i>(Main menu - Only available on desktop version)</i></li>' +
+									 '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + R</font>: Reload R3V2</li></ul><br>' +
 									 // Backup Manager
-									 '<div class="align-center"><img src="img/icons/icon-backup.png" class="R3_HC_fnIcon" title="Backup Manager"><br><font class="LBL_subTitle">Backup Manager</font></div><br>' +
+									 '<div class="align-center"><img ondragstart="return false;" src="img/icons/icon-backup.webp" class="R3_HC_fnIcon" title="Backup Manager"><br><font class="LBL_subTitle">Backup Manager</font></div><br>' +
 									 'For every time you save your changes in any editor <i>(RDT, SCD, INI and etc.)</i> R3ditor V2 will create a backup for it. It also counts where you did your changes and even <u>when</u> ' +
-									 'you did it.<br>It\'s a matter of looking and you will know how to use it!<br><br><div class="align-center"><img src="img/HC/HC_SCD_IMG_2.png" class="R3_HC_IMG"></div><br>' +
+									 'you did it.<br>It\'s a matter of looking and you will know how to use it!<br><br><div class="align-center"><img ondragstart="return false;" src="img/HC/HC_SCD_IMG_2.webp" class="R3_HC_IMG"></div><br>' +
 									 'To open Backup Manager, you can use the button at top-right corner or use <font class="R3_HC_LBL_CODE user-cant-select">[CTRL + SHIFT + B]</font> shortcut.<br><br>' +
 									 // Executable Flags
 									 '<div class="align-center"><font class="LBL_subTitle">Executable Args.</font><br><font class="LBL_chapter txt-italic">(aka. flags)</font></div><br>You can customize R3ditor V2 options parsing executable arguments / flags on startup via ' +
 									 '<font title="aka. cmd" class="R3_HC_LBL_CODE user-cant-select">Command Prompt</font>, <font class="R3_HC_LBL_CODE user-cant-select">bash</font> and etc. Here is a list of available flags you can use:<br><ul>' +
 									 '<li><font class="R3_HC_LBL_CODE">--webmode</font>: Start R3ditor V2 in Web Mode</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--fullscreen</font>: Start R3ditor V2 in fullscreen</li>' +
+									 '<li><font class="R3_HC_LBL_CODE">--disable-log</font>: Disable internal log</li>' +
+									 '<li><font class="R3_HC_LBL_CODE">--disable-enge</font>: Disable eNGE Emulator</li>' +
+									 '<li><font class="R3_HC_LBL_CODE">--disable-doorlink</font>: Disable SCD DoorLink</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-discord</font>: Disable Discord Rich Presence</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-move-screen</font>: Disable moving window to a another screen</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-animations</font>: Disable all JS animations <i>(ideal for slow machines)</i></li>' +
@@ -2916,21 +3006,21 @@ const R3_internalHoldTime = 2800,
 						  '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + R</font>: Compile script on JS editor</li>' +
 						  '<li><font class="R3_HC_LBL_CODE user-cant-select">F2</font>: Toggle Code Editor / List Mode</li></ul><br>' +
 						  // Editing modes
-						  '<div class="align-center"><img src="img/icons/icon-49.png" class="R3_HC_fnIcon" title="List Mode"> <img src="img/icons/icon-48.png" class="R3_HC_fnIcon" title="Code Mode"><br><font class="LBL_subTitle">Editing modes (Code & List Modes)</font></div><br>There is two editing modes that you can use to create your scripts. ' +
+						  '<div class="align-center"><img ondragstart="return false;" src="img/icons/icon-49.webp" class="R3_HC_fnIcon" title="List Mode"> <img ondragstart="return false;" src="img/icons/icon-48.webp" class="R3_HC_fnIcon" title="Code Mode"><br><font class="LBL_subTitle">Editing modes (Code & List Modes)</font></div><br>There is two editing modes that you can use to create your scripts. ' +
 						  'On List Mode, you see the script as a list, more or less in the same way you visualize it on common editors - like RPG Maker, Impact.js and Wolf RPG Editor. The code editor mode shows the current script like JavaScript code, more or less like BioScript already does with RE2 data. To swap between display modes, you can hit ' +
 						  '<font class="R3_HC_LBL_CODE user-cant-select">F2</font>, click on List / Code modes or even select it on settings.<br><br>' +
 						  // Dev Opinion
 						  '<i><u>Developer Opinion</u>: There isn\'t a fast or <font title="Or even standard... you name it!">correct way</font> to edit SCD Scripts (List or Code modes). Maybe you are the type of person that likes doing it via list mode or code mode. Regardless of how you like doing it, the best way to edit this section is doing it is the way you like best!</i><br><br>' +
 						  // Edit mode: List mode
-						  '<div class="align-center"><img src="img/icons/icon-49.png" class="R3_HC_fnIcon" title="List Mode"><br><font class="LBL_chapter">List Mode</font><br><br><img src="img/HC/HC_SCD_IMG_0.png" class="R3_HC_IMG" title="This is a example of how an RPG Maker MV script looks like."></div><br>The picture above shows how an ' + 
+						  '<div class="align-center"><img ondragstart="return false;" src="img/icons/icon-49.webp" class="R3_HC_fnIcon" title="List Mode"><br><font class="LBL_chapter">List Mode</font><br><br><img ondragstart="return false;" src="img/HC/HC_SCD_IMG_0.webp" class="R3_HC_IMG" title="This is a example of how an RPG Maker MV script looks like."></div><br>The picture above shows how an ' + 
 						  '<a href="https://www.rpgmakerweb.com/products/rpg-maker-mv" target="_blank">RPG Maker MV</a> Editor looks like. Inspired of how organized things are shown, R3ditor V2 uses the same concept - but in a <u>better way</u>!<br><br>' +
 						  'On R3ditor V2, all functions can be found at right side - being separated by function type (Cutscenes, Variables, Items and more). Also, you can use the search field at top to seek your desired function by name, internal name or opcode.<br><br>' +
-						  '<div class="align-center"><img src="img/HC/HC_SCD_IMG_1.gif" class="R3_HC_IMG" title="R3ditor V2 SCD Function List"></div><br><br>' +
+						  '<div class="align-center"><img ondragstart="return false;" src="img/HC/HC_SCD_IMG_1.gif" class="R3_HC_IMG" title="R3ditor V2 SCD Function List"></div><br><br>' +
 						  // Insert Hex
-						  '<div class="align-center"><img src="img/icons/icon-42.png" class="R3_HC_fnIcon" title="Insert Hex"><br><font class="LBL_subTitle">Insert Hex</font></div><br>With this feature, you can insert hex functions directly on your script. To make that, ' +
+						  '<div class="align-center"><img ondragstart="return false;" src="img/icons/icon-42.webp" class="R3_HC_fnIcon" title="Insert Hex"><br><font class="LBL_subTitle">Insert Hex</font></div><br>With this feature, you can insert hex functions directly on your script. To make that, ' +
 						  'click on "Insert Hex" icon, paste your hex code on textbox and hit enter. If everything is correct, it will ask where you want to position your new function.<br><br>To set position automatically, hold <font class="R3_HC_LBL_CODE user-cant-select">CTRL</font> before clicking on \"Insert Hex\" icon - It will set your new function at top.<br><br>' +
 						  // Code Preset
-						  '<div class="align-center"><img src="img/icons/icon-45.png" class="R3_HC_fnIcon" title="Code Preset"><br><font class="LBL_subTitle">Code Preset</font></div><br>With this section, you can use pre-built functions to speed-up your script creation process!<br>To use it, open the mini-window and' +
+						  '<div class="align-center"><img ondragstart="return false;" src="img/icons/icon-45.webp" class="R3_HC_fnIcon" title="Code Preset"><br><font class="LBL_subTitle">Code Preset</font></div><br>With this section, you can use pre-built functions to speed-up your script creation process!<br>To use it, open the mini-window and' +
 						  'select a preset. You will be prompted to insert where those functions will be inserted.<br><br>Tip: You can hold <font class=" user-cant-select">CTRL</font> to quick insert at the end of current script.<br><br>' +
 						  // WIP Info
 						  '<div class="align-center"><i>This document is under development - please wait!</i></div><br>', 9],
@@ -2954,15 +3044,15 @@ const R3_internalHoldTime = 2800,
 						   '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + Left Arrow</font>: Open previous map</li>' +
 						   '<li><font class="R3_HC_LBL_CODE user-cant-select">CTRL + Right Arrow</font>: Open next map</li></ul><br>' +
 						   // Export Sections 
-						   '<div class="align-center"><img src="img/icons/icon-51.png" class="R3_HC_fnIcon"><br><font class="LBL_subTitle">Export Sections</font></div><br>You can export all sections individually by using export button.<br>It will open a new popup ' +
+						   '<div class="align-center"><img ondragstart="return false;" src="img/icons/icon-51.webp" class="R3_HC_fnIcon"><br><font class="LBL_subTitle">Export Sections</font></div><br>You can export all sections individually by using export button.<br>It will open a new popup ' +
 						   'with a list with all available sections to extract.<br><br>' +
 						   // SCD Hack
-						   '<div class="align-center"><img src="img/icons/icon-enable-hack.png" class="R3_HC_fnIcon" title="Install SCD Hack"> <img src="img/icons/icon-hack.png" class="R3_HC_fnIcon" title="Apply SCD Hack"><br><font class="LBL_subTitle">SCD Hack</font></div><br>This is a temp hack that was created to test ' +
-						   'some editors, like SCD and MSG.<br>It creates a copy of some sections and move them to the end of the file - since R3V2 does not recompile RDT files... <u>yet</u>!<br><br>' +
-						   'To enable it, click on \"Inst. Hack\" and press ok. It will create a new patched file.<br>To apply, check if the editor haves the \"SCD Hack\" icon. If haves, just click and it ' +
-						   'will patch the map file! You can use <font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + H</font> shortcut to make it quicker!<br><i>(PS: It also works on other editors as well!)</i><br><br>' +
+						   '<div class="align-center"><img ondragstart="return false;" src="img/icons/icon-enable-hack.webp" class="R3_HC_fnIcon" title="Install SCD Hack"> <img ondragstart="return false;" src="img/icons/icon-hack.webp" class="R3_HC_fnIcon" title="Apply SCD Hack"><br><font class="LBL_subTitle">SCD Hack</font></div><br>' + 
+						   'This is a temp hack that was created to test some editors, like SCD and MSG.<br>It creates a copy of some sections and move them to the end of file - since R3V2 does not recompile RDT files... <u>yet</u>!<br><br>' +
+						   'To enable it, click on \"Inst. Hack\" and press ok. It will create a new patched file.<br>To apply, check if the editor haves the \"SCD Hack\" icon. If haves, just click and it will patch the map file!<br>' +
+						   'You can use <font class="R3_HC_LBL_CODE user-cant-select">CTRL + SHIFT + H</font> shortcut to make it quicker!<br><i>(PS: It also works on other editors as well!)</i><br><br>' +
 						   // Info
-						   '<u><b>WARNING</b></u>: Don\'t run this process on maps that haves enemies or NPC\'S - otherwise it will <u>crash</u> the game!<br><br>', 7],
+						   '<div class="align-center"><u><b>WARNING</b></u>: Don\'t run this process on maps that haves enemies or NPC\'S - otherwise it will <u>crash</u> the game!</div><br>', 7],
 		/*
 			RE3SET Editor
 		*/
@@ -3222,7 +3312,7 @@ const R3_internalHoldTime = 2800,
 		//'ü': ['0px 8px 0px 1102px',   '-1102', 8]
 	},
 	FG_HIDDENSTRINGS = {
-		0: ['U2VwdGVtYmVyIDI4dGgsIGRheWxpZ2h0Li4uIFRoZSBtb3N0ZXJzIGhhdmUgb3ZlcnRha2VuIHRoZSBjaXR5LiBTb21laG93Li4uIEknbSBzdGlsbCBhbGl2ZS6npyAgICAgSmlsbCBWYWxlbnRpbmUsIFJlc2lkZW50IEV2aWwgMy4gKEl0J3MgYmVlbiA=', 'IHllYXJzISmnpyBEb24ndCBsb3NlIHlvdXIgaG9wZSAtIExldCdzIGV2ZXJ5Ym9keSBzdGF5IGFsaXZlIGFzIG11Y2ggYXMgd2UgY2FuLiBZb3UgY2FuIGRvIGl0IaenICAgICAgICBUaGVNaXRvU2FuLg==']
+		0: ['U2VwdGVtYmVyIDI4dGgsIGRheWxpZ2h0Li4uIFRoZSBtb25zdGVycyBoYXZlIG92ZXJ0YWtlbiB0aGUgY2l0eS4gU29tZWhvdy4uLiBJJ20gc3RpbGwgYWxpdmUup6cgICAgICBKaWxsIFZhbGVudGluZSwgUmVzaWRlbnQgRXZpbCAzLiAoSXQncyBiZWVuIA==', 'IHllYXJzISmnp6cgTXkgc3dlZXRpZXMgLSBwbGVhc2UgdGFrZSBhIGxvb2s6IHRoaW5ncyBhcmUgZ2V0dGluZyBiZXR0ZXIhpyBTbyBQbGVhc2UuLi4gTGV0J3MgZXZlcnlib2R5IHN0YXkgYWxpdmUgYXMgbXVjaCBhcyB3ZSBjYW4uIFlvdSBjYW4gZG8gaXQhp6cgICAgICAgIFRoZU1pdG9TYW4u']
 	},
 	MSG_defaultTextModeTemplate = [1, 2, 4, 6, 7],
 	MSG_TEXTCOLOR = {
@@ -3302,30 +3392,54 @@ const R3_internalHoldTime = 2800,
 	/*
 		Compressed Database
 	*/
-	special_day_00 = 'IlNlcHRlbWJlciAyOHRoLCBEYXlsaWdodC4gVGhlIG1vbnN0ZXJzIGhhdmUgb3ZlcnRha2VuIHRoZSBjaXR5LiBTb21laG93Li4uIEknbSBzdGlsbCBhbGl2ZSEiIC0gSmlsbCBWYWxlbnRpbmUsIFJlc2lkZW50IEV2aWwgMyAtIE5lbWVzaXMu',
-	// :):
-	speci_day_ffff = 'Tm8gbWF0dGVyIGhvdyBpIHRyeSB0byBwcm92ZSB0aGF0IGkgY2FuIGJlIGdvb2QgdG9vLi4uIGkgd2lsbCBuZXZlciBiZSBhYmxlIHRvIHByb3ZlIG15IHBvaW50LiBUaGlzIGlzIG5vdCBsaWtlIGEgb2RkLXNoYXBlZCBvYmplY3QgdGhhdCBt' +
-					 'YWtlcyBzZW5zZSB3aGVuIHlvdSBsb29rIG9uIGEgc3BlY2lmaWMgYW5nbGUuIE15IG1pbmQgYWx3YXlzIHRlbGxzIG1lIHRoZSB0cnV0aCAtIHJlZ2FyZGxlc3Mgb2YgaG93IHBhaW5mdWxsIGl0IGNhbiBiZS4=',
-	speci_day_ffef = 'SSBob3BlIG5vdCBiZWluZyB0aGF0IGdvb2QgaW4gcHJldmlzaW9ucy4gSW4gdGhlIGVuZCwgc2hlIGFsd2F5cyB3YW50ZWQgc29tZW9uZSB0aGF0IHBheSBhdHRlbnRpb24gaW4gaGVyIGludGVyZXN0cywgYnV0IHNoZSBhbHdheXMgYXNrZWQg' + 
-					 'Zm9yIG15IGdlbnVpbmUgc2luY2VyaXR5LiBXaHkgdGhpcyBpcyBzbyB3cm9uZz8gV2h5PyBFdmVuIEFubmUgZG9uJ3Qga25vdyB3aHkgdGhpcyBpcyBsaWtlIHRoaXMuIFNvcnJ5IGZvciBiZWluZyBsaWtlIE0uIEhvcm92aXR6Lg==',
-	special_day_01 = 'T2N0b2JlciAxc3QsIG5pZ2h0LiBJIHdva2UgdXAgdG8gdGhlIHNvdW5kIG9mIGZhbGxpbmcgcmFpbi4gSSBjYW4ndCBiZWxpZXZlIEknbSBzdGlsbCBhbGl2ZS4uLiAtIEppbGwgVmFsZW50aW5lLCBSZXNpZGVudCBFdmlsIDMgLSBOZW1lc2lz',
 	special_day_02 = ['NzU1MjA0OTQ1NjQ4NTQ5OTcx', 'Ni1NVnhMVXdLNzVUS3dCajYz', 'Zml6Nlg3dWNDUk16OFk=', 'YXBwX2xvZ28'],
-	special_day_03 = 'SW1wb3J0YW50OiBUaGlzIHdlYnNpdGUgPHU+RE9FUyBOT1QgVVNFIENPT0tJRVMhPC91PiBJdCBvbmx5IHVzZSBuYXRpdmUgSlMgc3RvcmFnZSBmdW5jdGlvbnMgKGxpa2UgPGEgY2xhc3M9ImNvbG9yLWdyZWVuIiBocmVmPSJodHRwczovL3d3' +
-					 'dy5nb29nbGUuY29tL3NlYXJjaD9xPUphdmFTY3JpcHQrbG9jYWxzdG9yYWdlIiB0YXJnZXQ9Il9ibGFuayI+bG9jYWxTdG9yYWdlPC9hPiBhbmQgPGEgY2xhc3M9ImNvbG9yLWdyZWVuIiBocmVmPSJodHRwczovL3d3dy5nb29nbGUuY29tL3Nl' +
-					 'YXJjaD9xPUphdmFTY3JpcHQrc2Vzc2lvblN0b3JhZ2UiIHRhcmdldD0iX2JsYW5rIj5zZXNzaW9uU3RvcmFnZTwvYT4pIHRvIGtlZXAgeW91ciBzZXR0aW5ncy4gWW91IGNhbiBjbGVhbiBldmVyeXRoaW5nIG9uIHNldHRpbmdzIG1lbnUgLSBJ' +
-					 'dCdzIGp1c3QgYSBtYXR0ZXIgb2YgY2xpY2sgIkNsZWFyIGFsbCBjYWNoZXMgLyBzZXR0aW5ncyIuIDxicj48YnI+Q29tbW9uIHdlYnNpdGVzIG5vdGljZXMgb2YgdGhlaXIgY29va2llcyB1c2FnZSwgZ3JlYXQgcGxhY2VzIG9mZmVycyB5b3Ug' +
-					 'PHU+ZnJlZWRvbTwvdT4hIDxicj5UaGVNaXRvU2FuLg==',
+	special_day_03 = 'SW1wb3J0YW50OiBUaGlzIHdlYnNpdGUgPHU+RE9FUyBOT1QgVVNFIENPT0tJRVMhPC91PiBJdCBvbmx5IHVzZSBuYXRpdmUgSlMgc3RvcmFnZSBmdW5jdGlvbnMgKGxpa2UgPGEgcmVsPSJub3JlZmVycmVyIiBjbGFzcz0iY29sb3ItZ3JlZW4iIGhyZWY9Imh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vc2VhcmNoP3E9SmF2YVNjcmlwdCtsb2NhbHN0b3JhZ2UiIHRhcmdldD0iX2JsYW5rIj5sb2NhbFN0b3JhZ2U8L2E+IGFuZCA8YSByZWw9Im5vcmVmZXJyZXIiIGNsYXNzPSJjb2xvci1ncmVlbiIgaHJlZj0iaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9zZWFyY2g/cT1KYXZhU2NyaXB0K3Nlc3Npb25TdG9yYWdlIiB0YXJnZXQ9Il9ibGFuayI+c2Vzc2lvblN0b3JhZ2U8L2E+KSB0byBrZWVwIHlvdXIgc2V0dGluZ3MuIFlvdSBjYW4gY2xlYW4gZXZlcnl0aGluZyBvbiBzZXR0aW5ncyBtZW51IC0gSXQncyBqdXN0IGEgbWF0dGVyIG9mIGNsaWNrICJDbGVhciBhbGwgY2FjaGVzIC8gc2V0dGluZ3MiLiA8YnI+PGJyPkNvbW1vbiB3ZWJzaXRlcyBub3RpY2VzIG9mIHRoZWlyIGNvb2tpZXMgdXNhZ2UsIGdyZWF0IHBsYWNlcyBvZmZlcnMgeW91IDx1PmZyZWVkb208L3U+ISA8YnI+VGhlTWl0b1Nhbi4=',
 	/*
 		TIM Database
 	*/
 	TIM_BPP = {
-		//  HEX      BPP
+		//  HEX		  BPP
 		'08000000': '4 BPP',
 		'09000000': '8 BPP',
 		'02000000': '16 BPP',
 		'03000000': '24 BPP',
 		'00000000': '4 BPP (No CLUT)',
 		'01000000': '8 BPP (No CLUT)'
+	},
+	/*
+		Dropdown buttons
+		This options will be inserted depending of current menu
+
+		Order:
+		Label (NO_DROPDOWN will remove hide it), Options, Min height
+	*/
+	R3_DESIGN_DROPDOWN_DATABASE = {
+		0:  ['NO_DROPDOWN'],
+		1:  ['NO_DROPDOWN'],
+		2:  ['NO_DROPDOWN'],
+		3:  ['NO_DROPDOWN'],
+		4:  ['NO_DROPDOWN'],
+		// File Generator
+		5:  ['File Generator Options', '<div class="R3_MENU_ITEM_NORMAL" title="Click here to close File Generator" onclick="R3_MENU_EXIT();">Exit</div>',
+			80],
+		// INI Editor
+		6:  ['NO_DROPDOWN'],
+		7:  ['NO_DROPDOWN'],
+		8:  ['NO_DROPDOWN'],
+		// SCD Editor
+		9:  ['NO_DROPDOWN'],
+		// RDT Editor
+		10: ['RDT Options', '<div class="R3_MENU_ITEM_NORMAL" title="Click here to Extract all RDT sections (Like BIOFAT)" onclick="R3_RDT.sections.exportAll();">Extract all sections</div>' +
+							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to Import all RDT sections from already extracted files" onclick="R3_RDT.sections.importAll();">Import all sections</div>' +
+							'<div class="R3_MENU_ITEM_BIG" title="Click here to open export window" onclick="R3_MINIWINDOW.open(10);"><img ondragstart="return false;" class="R3_MENU_ICON" src="img/icons/icon-51.webp"><div class="R3_MENU_BIG_LBL">Export Sections Menu</div></div>' +
+							'<div class="R3_MENU_SEPARATOR"></div>' +
+							'<div class="R3_MENU_ITEM_NORMAL" title="Click here to open VB file for this map on Hex Editor" onclick="R3_RDT.openVbOnHex();">Open VB file on Hex Editor</div>',
+			216],
+		11: ['NO_DROPDOWN'],
+		// SAV Editor
+		12: ['NO_DROPDOWN'],
+		// RE3SET Editor
+		13: ['NO_DROPDOWN']
 	},
 	/*
 		Discord Database
@@ -3369,206 +3483,117 @@ const R3_internalHoldTime = 2800,
 		'ini': [5, 'INI Editor']
 	},
 	/*
-		Game Versions
-		Order: Name Version, Origin, Is Emu, Executable name (the name of executable that MemoryJS will try hook into), Search base
+		R3_gameVersionDatabase (Old MEMJS_HEXPOS)
+
+		This is where RAM locations inside main process is stored.
+		You can insert new game versions inserting a json on R3V2/Configs/GameModes
 	*/
-	R3_GAME_VERSIONS = {
-		0: ['Eidos US', 'USA', false, 'ResidentEvil3.exe', null],
-		1: ['Xplosiv', 'USA', false, 'ResidentEvil3.exe', null],
-		2: ['pSX Emulator', 'USA', true, 'psxfin.exe', 0xCB00000],
-		3: ['ePSXe Emulator', 'USA', true, 'ePSXe.exe', 0x1AA0000],
-		4: ['Gemini REBirth (US)', 'USA', false, 'BIOHAZARD(R) 3 PC.exe', null]
-	},
-	/*
-		MEMJS_HEXPOS
-		(This thing here will be checked soon...)
-	
-		Memory postions for reading in-game information.
-		All read commands are processed with MEM_JS.BYTE (int) and converted to hex.
-		
-		J = Jill Valentine
-		C = Carlos Oliveira
-		
-		Title Screen: Set 0xA5C9C0 to 28 and 0xA5C9C3 to 00 make the game go to title screen
-	*/
-	MEMJS_HEXPOS = {
-		/*
-			Mode 0 = RE3 Eidos US
-		*/
-		// Current Map - First Camera (B773...)
-		'RE3_mode_0_firstCameraStart': 	[0x64EB8C],
-		// Item Box
-		'RE3_mode_0_J_iBox_Start': 		[0xA622CC],
-		'RE3_mode_0_C_iBox_Start': 		[0xA6240C],
-		// Jill Inventory
-		'RE3_mode_0_J_invent_item-1':  	[0xA622A4],
-		// Carlos Inventory
-		'RE3_mode_0_C_invent_item-1':  	[0xA623E4],
-		// Player Hex Pos.
-		'RE3_mode_0_xPosition': 	    [0xA5CD68, 0xA5CD69],
-		'RE3_mode_0_yPosition': 	    [0xA5CD70, 0xA5CD71],
-		'RE3_mode_0_zPosition': 	    [0xA5CD6C, 0xA5CD6D],
-		'RE3_mode_0_rPosition': 	    [0xA5CDA2, 0xA5CDA3],
-		'RE3_mode_0_zIndex': 			[0xA5CD3D],
-		// Current Stage, Room number & Cam
-		'RE3_mode_0_Stage': 			[0xA620E6],
-		'RE3_mode_0_currentCam': 		[0xA5CD2E],
-		'RE3_mode_0_currentRoomNumber': [0xA620E8],
-		// HP
-		'RE3_mode_0_HP': 				[0xA5CE00, 0xA5CE01],
-		// Player current weapon
-		'RE3_mode_0_J_currentWeapon': 	[0xA623CD],
-		'RE3_mode_0_C_currentWeapon': 	[0xA6250D],
-		// Current Player
-		'RE3_mode_0_currentPlayer': 	[0x6FA402],
-		// Title screen
-		'RE3_mode_0_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3],
-		/*
-			Mode 1 = RE3 Xplosiv
-		*/
-		// Item Box
-		'RE3_mode_1_J_iBox_Start': 		[0xA7C62C],
-		'RE3_mode_1_C_iBox_Start': 		[0xA7C76C],
-		// Jill Inventory
-		'RE3_mode_1_J_invent_item-1':  	[0xA7C604],
-		// Carlos Inventory
-		'RE3_mode_1_C_invent_item-1':  	[0xA7C744],
-		// Player Hex Pos.
-		'RE3_mode_1_xPosition': 	    [0xA770C8, 0xA770C9],
-		'RE3_mode_1_yPosition': 	    [0xA770D0, 0xA770D1],
-		'RE3_mode_1_zPosition': 	    [0XA770CC, 0xA770CD],
-		'RE3_mode_1_rPosition': 	    [0xA77102, 0xA77103],
-		'RE3_mode_1_zIndex': 			[0XA7709D],
-		// Current Stage, Room number & Cam
-		'RE3_mode_1_Stage': 			[0xA7C446],
-		'RE3_mode_1_currentCam': 		[0xA7708E],
-		'RE3_mode_1_currentRoomNumber': [0xA7C448],
-		// HP
-		'RE3_mode_1_HP': 				[0xA77160, 0xA77161],
-		// Player current weapon
-		'RE3_mode_1_J_currentWeapon': 	[0xA7C72D],
-		'RE3_mode_1_C_currentWeapon': 	[0xA7C86D],
-		// Current Player
-		'RE3_mode_1_currentPlayer': 	[0x71254A],
-		// Title screen
-		'RE3_mode_1_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3], // WIP
-		/*
-			Mode 2
-			pSX 1.13 PS1 Emulator (Game ver: USA)
-		*/
-		// Item Box
-		'RE3_mode_2_J_iBox_Start': 		[0xE4417C],
-		'RE3_mode_2_C_iBox_Start': 		[0xE442BC],
-		// Jill Inventory
-		'RE3_mode_2_J_invent_item-1':  	[0xE44154],
-		// Carlos Inventory
-		'RE3_mode_2_C_invent_item-1':  	[0xE44294],
-		// Player Hex Pos.
-		'RE3_mode_2_xPosition': 	    [0xE3EC18, 0xE3EC19],
-		'RE3_mode_2_yPosition': 	    [0xE3EC20, 0xE3EC21],
-		'RE3_mode_2_zPosition': 	    [0xE3EC1C, 0xE3EC1D],
-		'RE3_mode_2_rPosition': 	    [0xE3EC52, 0xE3EC53],
-		'RE3_mode_2_zIndex': 			[0xE3EBED],
-		// Current Stage, Room number & Cam
-		'RE3_mode_2_Stage': 			[0x12D3F96],
-		'RE3_mode_2_currentCam': 		[0xE3EBDE],
-		'RE3_mode_2_currentRoomNumber': [0xE43F98],
-		// HP
-		'RE3_mode_2_HP': 				[0x12CECB0, 0x12CECB1],
-		// Player current weapon
-		'RE3_mode_2_J_currentWeapon': 	[0xE4427D],
-		'RE3_mode_2_C_currentWeapon': 	[0xE443BD],
-		// Current Player
-		'RE3_mode_2_currentPlayer': 	[0x1B2685E], // I think this value is wrong
-		// Title screen
-		'RE3_mode_2_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3], // Savestate said hello!
-		/*
-			Mode 3
-			ePSXe 2.0.5 PS1 Emulator (Game ver: USA)
-		*/
-		// Item Box
-		'RE3_mode_3_J_iBox_Start': 		[0xE4417C],
-		'RE3_mode_3_C_iBox_Start': 		[0xE442BC],
-		// Jill Inventory
-		'RE3_mode_3_J_invent_item-1':  	[0xE44154],
-		// Carlos Inventory
-		'RE3_mode_3_C_invent_item-1':  	[0xE44294],
-		// Player Hex Pos.
-		'RE3_mode_3_xPosition': 	    [0xE3EC18, 0xE3EC19],
-		'RE3_mode_3_yPosition': 	    [0xE3EC20, 0xE3EC21],
-		'RE3_mode_3_zPosition': 	    [0xE3EC1C, 0xE3EC1D],
-		'RE3_mode_3_rPosition': 	    [0xE3EC52, 0xE3EC53],
-		'RE3_mode_3_zIndex': 			[0xE3EBED],
-		// Current Stage, Room number & Cam
-		'RE3_mode_3_Stage': 			[0x12D3F96],
-		'RE3_mode_3_currentCam': 		[0xE3EBDE],
-		'RE3_mode_3_currentRoomNumber': [0xE43F98],
-		// HP
-		'RE3_mode_3_HP': 				[0x12CECB0, 0x12CECB1],
-		// Player current weapon
-		'RE3_mode_3_J_currentWeapon': 	[0xE4427D],
-		'RE3_mode_3_C_currentWeapon': 	[0xE443BD],
-		// Current Player
-		'RE3_mode_3_currentPlayer': 	[0x1B2685E], // I think this value is wrong
-		// Title screen
-		'RE3_mode_3_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3], // Savestate said hello!
-		/*
-			Mode 4 - WIP
-			Gemini REBirth Path (Game ver: USA)
-		*/
-		// Item Box
-		'RE3_mode_4_J_iBox_Start': 		[0xA675AC], // OK
-		'RE3_mode_4_C_iBox_Start': 		[0xA676EC], // OK 
-		// Jill Inventory
-		'RE3_mode_4_J_invent_item-1':  	[0xA67584], // OK
-		// Carlos Inventory
-		'RE3_mode_4_C_invent_item-1':  	[0xA676C4], // OK
-		// Player Hex Pos.
-		'RE3_mode_4_xPosition': 	    [0xA62048, 0xA62049], // OK
-		'RE3_mode_4_yPosition': 	    [0xA62050, 0xA62051], // OK
-		'RE3_mode_4_zPosition': 	    [0xA6204C, 0xA6204D], // OK
-		'RE3_mode_4_rPosition': 	    [0xA62082, 0xA62083], // OK
-		'RE3_mode_4_zIndex': 			[0xA6201D], // OK
-		// Current Stage, Room number & Cam
-		'RE3_mode_4_Stage': 			[0xA673C6], // OK
-		'RE3_mode_4_currentCam': 		[0xA6200E], // OK
-		'RE3_mode_4_currentRoomNumber': [0xA673C8], // OK (Stage Hex Pos + 2)
-		// HP
-		'RE3_mode_4_HP': 				[0xA620E0, 0xA620E1], // OK
-		// Player current weapon
-		'RE3_mode_4_J_currentWeapon': 	[0xA676AD], // OK
-		'RE3_mode_4_C_currentWeapon': 	[0xE443BD],
-		// Current Player
-		'RE3_mode_4_currentPlayer': 	[0x6FE999], // Must Check this
-		// Title screen
-		'RE3_mode_4_goto_titleScreen':  [0xA5C9C0, 0xA5C9C3] // This is not needed here...
-	},
-	// RE3 Livestatus Player List
-	R3_LIVESTATUS_playerList = {
-		'00': 'No player detected',
-		'01': 'Jill Valentine',
-		'02': 'Carlos Oliveira'
-	},
-	R3_LIVESTATUS_WEAPONS = {
-		'00': 'Bare Hands',
-		'01': 'Combat Knife',
-		'02': 'Sigpro Handgun',
-		'03': 'Handgun M92F',
-		'04': 'Shotgun B. M3S',
-		'05': 'S&W Magnum',
-		'06': 'G. Launcher',
-		'07': 'G. Launcher',
-		'08': 'G. Launcher',
-		'09': 'G. Launcher',
-		'0a': 'R. Launcher',
-		'0b': 'Gatling Gun',
-		'0c': 'Mine Thrower',
-		'0d': 'STI Eagle 6.0',
-		'0e': 'A. Rifle (Auto)',
-		'0f': 'A. Rifle (Manual)',
-		'10': 'Western Custom',
-		'11': 'Sigpro SP 2009 E',
-		'12': 'Beretta M92F E',
-		'13': 'Shotgun B. M3S E',
-		'14': 'Mine Thrower E'
-	};
+	R3_tempGameVersionDB = {
+		// 0: Eidos US
+		0: {
+			// Game metadata
+			gameData: {
+				isConsole: 	 false,				  // Set this true for emulators
+				searchBase:  null,				  // RAM location for seek process
+				gameOrigin:  'USA',				  // Game Location
+				gameVersion: 'Eidos US',		  // Game Version
+				processName: 'ResidentEvil3.exe'  // Executable name
+			},
+			// Player Data
+			'cHP': 				 '0xA5CE00', // Pos + 1 0xA5CE00 & 0xA5CE01
+			'cPlayer': 			 '0x6FA402',
+			// Player Position
+			'xPos':   			 '0xA5CD68', // Pos + (Pos + 1)
+			'yPos':   			 '0xA5CD70', // Pos + (Pos + 1)
+			'zPos':   			 '0xA5CD6C', // Pos + (Pos + 1)
+			'rPos':   			 '0xA5CDA2', // Pos + (Pos + 1)
+			'zIndex': 			 '0xA5CD3D', // Pos + (Pos + 1)
+			// Stage
+			'cCam': 	   		 '0xA5CD2E',
+			'cStage': 	   		 '0xA620E6',
+			'cRoomNumber': 		 '0xA620E8',
+			// Jill Valentine
+			playerJ: {
+				'itemBoxStart':  '0xA622CC',
+				'invtLocation':  '0xA622A4',
+				'currentWeapon': '0xA623CD'
+			},
+			// Carlos Oliveira
+			playerC: {
+				'itemBoxStart':  '0xA6240C',
+				'invtLocation':  '0xA623E4',
+				'currentWeapon': '0xA6250D'
+			},
+			// Misc
+			'miscGotoTitle': 	 '0xA5C9C0', // Set 0xA5C9C0 to 28 (hex) and 0xA5C9C3 to 00 (hex) will return to title screen
+			'misctCameraStart':  '0x64EB8C'
+		},
+		// 1: RE3 Xplosiv (USA)
+		1: {
+			// Game metadata
+			gameData: {
+				isConsole: 	 false,
+				searchBase:  null,
+				gameOrigin:  'USA',
+				gameVersion: 'Xplosiv',
+				processName: 'ResidentEvil3.exe'
+			},
+			// Player Data
+			'cHP': 				 '0xA77160', // Pos + 1 0xA77160 & 0xA77161
+			'cPlayer': 			 '0x6FA402',
+			// Player Position
+			'xPos':   			 '0xA770C8',
+			'yPos':   			 '0xA770D0',
+			'zPos':   			 '0XA770CC',
+			'rPos':   			 '0xA77102',
+			'zIndex': 			 '0XA7709D',
+			// Stage
+			'cCam': 	   		 '0xA7708E',
+			'cStage': 	   		 '0xA7C446',
+			'cRoomNumber': 		 '0xA7C448',
+			// Jill Valentine
+			playerJ: {
+				'itemBoxStart':  '0xA7C604',
+				'invtLocation':  '0xA7C604',
+				'currentWeapon': '0xA7C72D'
+			},
+			// Carlos Oliveira
+			playerC: {
+				'itemBoxStart':  '0xA7C62C',
+				'invtLocation':  '0xA7C744',
+				'currentWeapon': '0xA7C86D'
+			}
+		}
+	}, R3_gameVersionDatabase = R3_tempGameVersionDB,
+	R3_LIVESTATUS_DB = {
+		// Player list (R3_LIVESTATUS_playerList)
+		playerList: {
+			'00': 'No player detected',
+			'01': 'Jill Valentine',
+			'02': 'Carlos Oliveira'
+		},
+		// Weapons (R3_LIVESTATUS_WEAPONS)
+		weaponList: {
+			'00': 'Bare Hands',
+			'01': 'Combat Knife',
+			'02': 'Sigpro Handgun',
+			'03': 'Handgun M92F',
+			'04': 'Shotgun B. M3S',
+			'05': 'S&W Magnum',
+			'06': 'G. Launcher',
+			'07': 'G. Launcher',
+			'08': 'G. Launcher',
+			'09': 'G. Launcher',
+			'0a': 'R. Launcher',
+			'0b': 'Gatling Gun',
+			'0c': 'Mine Thrower',
+			'0d': 'STI Eagle 6.0',
+			'0e': 'A. Rifle (Auto)',
+			'0f': 'A. Rifle (Manual)',
+			'10': 'Western Custom',
+			'11': 'Sigpro SP 2009 E',
+			'12': 'Beretta M92F E',
+			'13': 'Shotgun B. M3S E',
+			'14': 'Mine Thrower E'
+		}
+	}

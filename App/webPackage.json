@@ -1,0 +1,20 @@
+{
+    "lang": "en",
+    "scope": "/",
+    "short_name": "R3V2",
+    "name": "R3ditor V2",
+    "author": "R3V2 Team",
+    "theme_color": "#000",
+    "display": "minimal-ui",
+    "start_url": "index.htm",
+    "orientation": "landscape",
+    "background_color": "#000",
+    "prefer_related_applications": true,
+    "description": "R3ditor V2 (aka. R3V2) is the second version of the multi-editing tool for classic Resident Evil 3 modding.",
+    "icons": [
+        {
+            "src": "https://raw.githubusercontent.com/themitosan/R3ditor-V2/main/App/img/logo_ico.ico",
+            "sizes": "256x256 512x512"
+        }
+    ]
+}

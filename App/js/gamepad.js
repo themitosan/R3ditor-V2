@@ -1,6 +1,11 @@
 /*
+	*******************************************************************************
 	R3ditor V2 - gamepad.js
-	This is a test baby!
+	By TheMitoSan
+
+	This file is responsible for reading gamepad input and use it on R3V2.
+	PS: This is pretty-much WIP!
+	*******************************************************************************
 */
 // Main variables
 var R3_GAMEPAD, R3_GAMEPAD_1P, R3_GAMEPAD_INTERVAL,
@@ -25,7 +30,7 @@ var R3_GAMEPAD, R3_GAMEPAD_1P, R3_GAMEPAD_INTERVAL,
 */
 // Init gamepad
 function R3_GAMEPAD_INIT(){
-	if (R3_WEBMODE === false){
+	if (R3_SYSTEM.web.isBrowser === false){
 		window.addEventListener('gamepadconnected', function(){
 			R3_GAMEPAD_INTERVAL = setInterval(function(){
 				R3_GAMEPAD = navigator.getGamepads && navigator.getGamepads() || navigator.webkitGetGamepads && navigator.webkitGetGamepads() || navigator.webkitGamepads;
@@ -46,9 +51,9 @@ function R3_GAMEPAD_CHECK(){
 */
 // Disabling R3V2 shortcuts to use KB as eNGE controller
 function eNGE_FOCUS(){
-	if (R3_KB_ENABLE_SHORTCUTS === true){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) Disabling general shortcuts...');
-		R3_KB_ENABLE_SHORTCUTS = false;
+	if (R3_keyPress.enableShortcuts === true){
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) Disabling general shortcuts...');
+		R3_keyPress.enableShortcuts = false;
 		if (cdr.cdImage[0] !== undefined){
 			running = true;
 		};
@@ -56,9 +61,9 @@ function eNGE_FOCUS(){
 };
 // Enabling R3V2 shortcuts and stop eNGE emulator
 function eNGE_LOST_FOCUS(){
-	if (R3_KB_ENABLE_SHORTCUTS === false){
-		R3_SYSTEM_LOG('log', 'R3ditor V2 - INFO: (eNGE) Enabling general shortcuts...');
-		R3_KB_ENABLE_SHORTCUTS = true;
+	if (R3_keyPress.enableShortcuts === false){
+		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (eNGE) Enabling general shortcuts...');
+		R3_keyPress.enableShortcuts = true;
 		running = false;
 		spu.silence();
 	};
