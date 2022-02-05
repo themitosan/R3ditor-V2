@@ -35,7 +35,7 @@
         "node-fetch": "^2.6.0",
         "graceful-fs": "^4.2.9",
         "discord-rpc": "^4.0.1",
-        "universalify": "^0.1.2"
+        "universalify": "^2.0.0"
     },
     "webkit": {
         "plugin": true
