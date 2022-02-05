@@ -183,7 +183,6 @@ function R3_WIZARD_FINISH(){
 		R3_MODULES.fs.writeFileSync(R3_SYSTEM.paths.mod + '/ModInfo.R3MOD', R3MOD, 'utf-8');
 		R3_SAVE_SETTINGS(false);
 		R3_SYSTEM.clearLog(false);
-		R3_UTILS_LOADING_CLOSE();
 		R3_SYSTEM.alert('Process complete!\nR3ditor V2 will reload.');
 		R3_SYSTEM.reload();
 	};

@@ -43,9 +43,6 @@ tempFn_R3_DOORLINK['generateDatabase'] = function(){
 			fileList.forEach(function(cFile, cIndex){
 				if (R3_tools.getFileExtension(cFile).toLowerCase() === 'rdt' && R3_DOORLINK_RUNNING === true){
 					console.info('DoorLink - Current Map: ' + cFile + ' - (' + (cIndex + 1) + ' of ' + fileList.length + ')');
-					if (R3_DESIGN_LOADING_ACTIVE === true){
-						R3_UTILS_LOADING_UPDATE('R3ditor is scanning all maps to generate DoorLink database (Map: ' + cFile + ', ' + (cIndex + 1) + ' of ' + fileList.length + ' )', R3_tools.parsePercentage(cIndex, fileList.length));
-					};
 					cLocation = R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
 					fName = R3_tools.getFileName(cFile).toUpperCase();
 					// Start this madness
