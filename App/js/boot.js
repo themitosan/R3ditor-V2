@@ -326,7 +326,7 @@ tempFn_R3_SYSTEM = {
 tempFn_R3_SYSTEM['getPaths'] = function(){
 	if (R3_SYSTEM.web.isBrowser === false){
 		R3_SYSTEM.paths.app = R3_tools.fixPath(process.cwd());
-		R3_SYSTEM.paths.tools = R3_tools.fixPath(R3_SYSTEM.paths.app + '/Tools');
+		R3_SYSTEM.paths.tools = R3_tools.fixPath(process.cwd()) + '/Tools';
 		R3_SYSTEM.paths.original = R3_SYSTEM.paths.app;
 		/*
 			Other OS

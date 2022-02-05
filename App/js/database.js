@@ -3564,7 +3564,7 @@ const R3_internalHoldTime = 2800, INCLUDE_CRX = 'TheMitoSan, Khaled SA and F. Ki
 				'currentWeapon': '0xA7C86D'
 			}
 		}
-	}, R3_gameVersionDatabase = {},
+	}, R3_gameVersionDatabase = R3_tempGameVersionDB,
 	R3_LIVESTATUS_DB = {
 		// Player list (R3_LIVESTATUS_playerList)
 		playerList: {

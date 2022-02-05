@@ -148,9 +148,9 @@ function R3_WIZARD_EXTRACT_ROFS(rofsId){
 function R3_WIZARD_FINAL_CHECK_RE3_PATH(){
 	if (R3_SYSTEM.web.isBrowser === false){
 		R3_UTILS_LOADING_UPDATE('Now R3ditor V2 is Checking main game executables (1 of 2)...', 92);
-		var fName = R3_GAME_VERSIONS[R3_LIVESTATUS.currentMode][3];
+		var fName = R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.processName;
 		if (R3_WIZARD_SET_RE3_PATH === true && R3_MODULES.fs.existsSync(R3_WIZARD_GAME_PATH + '/' + fName) === true){
-			R3_RE3_PATH = R3_WIZARD_GAME_PATH + '/' + fName;
+			R3_SETTINGS.R3_RE3_PATH = R3_WIZARD_GAME_PATH + '/' + fName;
 		};
 		R3_WIZARD_FINAL_CHECK_MERCE_PATH();
 	};
@@ -160,7 +160,7 @@ function R3_WIZARD_FINAL_CHECK_MERCE_PATH(){
 	if (R3_SYSTEM.web.isBrowser === false){
 		R3_UTILS_LOADING_UPDATE('Now R3ditor V2 is Checking main game executables (2 of 2)...', 94);
 		if (R3_WIZARD_SET_MERCE_PATH === true && R3_MODULES.fs.existsSync(R3_WIZARD_GAME_PATH + '/RE3_MERCE.exe') === true){
-			R3_MERCE_PATH = R3_WIZARD_GAME_PATH + '/RE3_MERCE.exe';
+			R3_SETTINGS.R3_MERCE_PATH = R3_WIZARD_GAME_PATH + '/RE3_MERCE.exe';
 		};
 		R3_WIZARD_FINAL_CHECK_DOORLINK();
 	};
@@ -184,9 +184,7 @@ function R3_WIZARD_FINISH(){
 		R3_SAVE_SETTINGS(false);
 		R3_SYSTEM.clearLog(false);
 		R3_UTILS_LOADING_CLOSE();
-		R3_LOAD_SETTINGS();
-		R3_RDT_FILELIST_UPDATELIST();
-		R3_WIZARD_RUNNING = false;
-		R3_keyPress.enableShortcuts = true;
+		R3_SYSTEM.alert('Process complete!\nR3ditor V2 will reload.');
+		R3_SYSTEM.reload();
 	};
 };
