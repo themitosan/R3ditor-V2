@@ -32,7 +32,7 @@
         "memoryjs": "^3.2.3",
         "fs-extra": "^8.1.0",
         "jsonfile": "^4.0.0",
-        "node-fetch": "^2.6.0",
+        "node-fetch": "^2.6.7",
         "graceful-fs": "^4.2.9",
         "discord-rpc": "^4.0.1",
         "universalify": "^2.0.0"
