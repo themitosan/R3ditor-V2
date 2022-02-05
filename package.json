@@ -30,7 +30,7 @@
     "dependencies": {
         "nw": "0.38.4-sdk",
         "memoryjs": "^3.2.3",
-        "fs-extra": "^8.1.0",
+        "fs-extra": "^10.0.0",
         "jsonfile": "^4.0.0",
         "node-fetch": "^2.6.7",
         "graceful-fs": "^4.2.9",
