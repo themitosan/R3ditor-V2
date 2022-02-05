@@ -22,7 +22,7 @@ tempFn_R3_UPDATER = {};
 */
 // Get branches list R3_UPDATER_GET_BRANCHES
 tempFn_R3_UPDATER['getUpdates'] = function(){
-	if (R3_SYSTEM.web.isBrowser === false && INT_VERSION.indexOf('DEV_VERSION') !== -1 && R3_ELECTRON === undefined){
+	if (R3_SYSTEM.web.isBrowser === false && INT_VERSION.indexOf('DEV_VERSION') !== -1 && R3_MODULES.electron === undefined){
 		var HTML_TEMPLATE = '';
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (GitHub) Fetching branches - Please wait...');
 		fetch(R3_GITHUB_FETCH_URL + 'branches').then(resp => resp.json()).then(function(dat){
