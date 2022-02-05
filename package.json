@@ -34,7 +34,7 @@
         "jsonfile": "^4.0.0",
         "node-fetch": "^2.6.0",
         "graceful-fs": "^4.2.2",
-        "discord-rpc": "^3.1.3",
+        "discord-rpc": "^4.0.1",
         "universalify": "^0.1.2"
     },
     "webkit": {
