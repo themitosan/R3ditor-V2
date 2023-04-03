@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - scd.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for reading and writting Sript Code Data (SCD) from 
 	RDT maps.
@@ -1608,7 +1608,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 			if (SCD_scriptNames[R3_SCD_CURRENT_SCRIPT] !== undefined){
 				lblScript = SCD_scriptNames[R3_SCD_CURRENT_SCRIPT];
 			};
-			tempScriptCode = '/*\n	Map ' + R3_SCD_fileName + ', Script ' + lblScript + '\n	This is on Alpha-WIP stage, it means you can\'t edit SCD using this method yet.\n\n	Please, be patient!\n	With love, TheMitoSan <3\n*/', tabCounter = 0;
+			tempScriptCode = '/*\n	Map ' + R3_SCD_fileName + ', Script ' + lblScript + '\n	This is on Alpha-WIP stage, it means you can\'t edit SCD using this method yet.\n\n	Please, be patient!\n	With love, TemmieHeartz <3\n*/', tabCounter = 0;
 			while (c < functionList.length){
 				tCount = 0;
 				cFunction = functionList[c];

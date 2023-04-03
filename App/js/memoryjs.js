@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - memoryjs.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for creating functions that allows MemoryJS read and
 	write RAM from / to RE3 main process, allowing cheats and debug process while

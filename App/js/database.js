@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - database.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for containing major content for edit forms, settings,
 	RE3 Opcodes and more.
@@ -40,10 +40,10 @@ var INT_VERSION = 'DEV_VERSION',
 		The real database starts here!
 	*/
 	// THX
-const R3_internalHoldTime = 2800, INCLUDE_CRX = 'TheMitoSan, Khaled SA and F. King',
+const R3_internalHoldTime = 2800, INCLUDE_CRX = 'TemmieHeartz, Khaled SA and F. King',
 	INCLUDE_RE3_BEEP_BOOP = 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!',
 	INCLUDE_R3V2_LOWRES = 'So tiny! >.< <br>R3ditor V2 was designed to work with screen res. higher than 1216x711.',
-	INCLUDE_R3V2_CRITICAL_ERROR = '<font class="LBL_title">Oh no!</font><br>Looks like R3ditor V2 crashed! We apologize - this is not something usual to happen!<br>To avoid crashed like this, report this message to <a href="https://twitter.com/themitosan/" target="_blank" rel="noreferrer">TheMitoSan</a> on twitter.<br><br>' +
+	INCLUDE_R3V2_CRITICAL_ERROR = '<font class="LBL_title">Oh no!</font><br>Looks like R3ditor V2 crashed! We apologize - this is not something usual to happen!<br>To avoid crashed like this, report this message to <a href="https://twitter.com/TemmieHeartz/" target="_blank" rel="noreferrer">TemmieHeartz</a> on twitter.<br><br>' +
 								  '<div class="R3_ERROR_CRITICAL_REASON"><div id="R3_ERROR_CRITICAL_REASON" class="R3_ERROR_TEXT">???</div></div><br><input type="button" class="BTN_R3CLASSIC" title="Click here to reload" value="Restart R3V2" onclick="location.reload();">',
 	SYSTEM_LOG_SEPARATOR_TEXT = '--------------------------------------------------------------------------------------------------------------------------',
 	INCLUDE_ABOUT_THX = 'discordjs - RPC - <a target="_blank" href="https://discord.js.org/#/docs/rpc/master/general/welcome">Website</a><br>' + 

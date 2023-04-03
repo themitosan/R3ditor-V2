@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - rdt.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for reading RDT data and install SCD Hack - a temp 
 	process used to debug current editors

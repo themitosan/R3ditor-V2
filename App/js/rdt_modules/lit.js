@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - lit.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file will be responsible for reading and writting LIT data extracted from
 	RDT maps.

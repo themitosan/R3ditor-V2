@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - configs.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for storing all functions / variables related to 
 	main app settings.

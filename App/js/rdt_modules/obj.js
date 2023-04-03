@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - obj.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for handling TIM / OBJ files extracted from RDT
 	maps.

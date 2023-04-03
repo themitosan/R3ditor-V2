@@ -3,7 +3,7 @@
 	eNGE - index.js
 	Original project created by Rene Kootstra
 
-	Changes written by TheMitoSan
+	Changes written By TemmieHeartz
   *******************************************************************************
 */
 'use strict';

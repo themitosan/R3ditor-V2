@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - boot.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for startup process and internal functions.
 	PS: This file is under sorting process!
@@ -315,8 +315,8 @@ tempFn_R3_SYSTEM = {
 	*/
 	// WIP Message
 	WIP: function(){
-		R3_SYSTEM.alert('TheMitoSan Says - THIS IS WIP! #Sorry');
-		R3_SYSTEM.log('warn', 'TheMitoSan Says - THIS IS WIP! #Sorry');
+		R3_SYSTEM.alert('TemmieHeartz Says - THIS IS WIP! #Sorry');
+		R3_SYSTEM.log('warn', 'TemmieHeartz Says - THIS IS WIP! #Sorry');
 	}
 };
 /*

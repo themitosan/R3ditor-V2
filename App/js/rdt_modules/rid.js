@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - rid.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for reading and writting RID data extracted from
 	RDT maps.

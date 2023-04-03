@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - doorlink.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for Doorlink - a feature that collects all SCD Doors
 	and creates a database that can be used on SCD editor. 

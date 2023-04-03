@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - gamepad.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for reading gamepad input and use it on R3V2.
 	PS: This is pretty-much WIP!

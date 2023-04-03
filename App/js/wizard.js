@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - wizard.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for main game extraction process, making possible
 	creating mods.

@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - debug.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is only used for debugging process and can't be included on R3V2 
 	compiler!

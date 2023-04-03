@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - ini.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for handling / creating INI files for RE3 PC version.
 	*******************************************************************************

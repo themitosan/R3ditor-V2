@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - msg.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for reading and writting text messages (MSG) data 
 	extracted from RDT maps

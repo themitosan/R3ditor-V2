@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - livestatus.js
-	By TheMitoSan
+	By TemmieHeartz
 	 
 	This file is responsible for storing all functions and database for RE3 
 	Livestatus - reading ingame data to be used on modding / cheats and etc.

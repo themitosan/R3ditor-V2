@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - tim.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for reading, deconding and extracting TIM files.
 	Some functions inside this file was written using Klarth TIM Tutorial as base.

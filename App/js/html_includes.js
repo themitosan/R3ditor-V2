@@ -1,7 +1,7 @@
 ﻿/*
 	*******************************************************************************
 	R3ditor V2 - html_includes.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file contains leftover data from R3ditor OG to be ported to R3V2.
 	PS: This file can't be included on R3V2 Compiler!

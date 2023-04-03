@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - scd_js.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file contains all SCD functions converted to JS and should be used to 
 	compile scripts on JS Editor mode.

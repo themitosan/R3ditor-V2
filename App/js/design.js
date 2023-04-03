@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - design.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	One of the biggest files, This file is responsible for dealing with HTML / CSS 
 	operations inside R3V2.
@@ -276,7 +276,7 @@ function R3_SHOW_MENU(menuId){
 				if (R3_SYSTEM.web.isBrowser === false && R3_MOD.enableMod === true){
 					if (R3_THEPIC === 'R50606.JPG' || R3_THEPIC === 'R50605.JPG'){
 						canClearCanvas = false;
-						R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!\n\nTheMitoSan!', 'RE3', 40);
+						R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!\n\nTemmieHeartz!', 'RE3', 40);
 					};
 					TMS.css('R3_MENU_ITEM_OPCODE_FINDER', {'display': 'block'});
 				};
@@ -352,7 +352,7 @@ function R3_DESIGN_CHECK_SHOW_EXECS(){
 function R3_WEB_ALERT(){
 	if (APP_CAN_RENDER_DEV === true && R3_SYSTEM.web.isBrowser === true){
 		R3_FILEGEN_selectTextColor(0);
-		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'You are running R3ditor V2 web version!\nTo have all features (Like RE3 Livestatus, Previews, ARD Extractor and more), download the local version!\n\nVisit https://themitosan.github.io/ to get download link.', 'RE1', 10);
+		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'You are running R3ditor V2 web version!\nTo have all features (Like RE3 Livestatus, Previews, ARD Extractor and more), download the local version!\n\nVisit https://temmieheartz.github.io/ to get download link.', 'RE1', 10);
 	};
 };
 // Show Tabs

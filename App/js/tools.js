@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - tools.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for storing tools that can be used to manipulate
 	strings, convert values and etc.

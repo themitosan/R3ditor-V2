@@ -1,14 +1,14 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - github.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for GitHub Updater - a simple tool that allows the
 	user update R3V2 from a GitHub Branch. 
 	*******************************************************************************
 */
 // Consts
-const R3_GITHUB_FETCH_URL = 'https://api.github.com/repos/themitosan/R3ditor-V2/';
+const R3_GITHUB_FETCH_URL = 'https://api.github.com/repos/TemmieHeartz/R3ditor-V2/';
 // Variables
 var R3_UPDATER_INTERVAL,
 	R3_UPDATER_LOCK = false,
@@ -130,7 +130,7 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 		if (actionId === 2){
 			var cBranch = document.getElementById('R3_UPDATER_CURRENT_BRANCH').value;
 			R3_UTILS_LOADING_UPDATE('Downloading files from ' + R3_GITHUB_BRANCHES_LIST[cBranch].name + ' branch - Please wait', 20);
-			R3_fileManager.downloadFile('https://codeload.github.com/themitosan/R3ditor-V2/zip/refs/heads/' + R3_GITHUB_BRANCHES_LIST[cBranch].name, R3_SYSTEM.paths.mod + '/Update/Update.zip', function(){
+			R3_fileManager.downloadFile('https://codeload.github.com/TemmieHeartz/R3ditor-V2/zip/refs/heads/' + R3_GITHUB_BRANCHES_LIST[cBranch].name, R3_SYSTEM.paths.mod + '/Update/Update.zip', function(){
 				R3_UPDATER_LOCK = false;
 			});
 		};

@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - file_manager.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for storing functions to deal with OS file management
 	(Loading, saving and etc).

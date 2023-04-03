@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - ard.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for creating functions to deal with PS1 ARD Files.
 

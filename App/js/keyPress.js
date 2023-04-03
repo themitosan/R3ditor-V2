@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - keyPress.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This file is responsible for dealing with keyboard / mouse input to be used on
 	R3V2 tools and more.

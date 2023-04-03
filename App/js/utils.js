@@ -1,7 +1,7 @@
 /*
 	*******************************************************************************
 	R3ditor V2 - utils.js
-	By TheMitoSan
+	By TemmieHeartz
 
 	This is a script with some minor / misc functions inside R3V2.
 	My life objective is to sort all info from this file to delete it later!
