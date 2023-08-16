@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://temmieheartz.github.io/assets/img/R3V2.png" alt="R3V2_LOGO" title="R3ditor V2 (R3V2) Logo" width="100"/>
+  <img src="https://themitosan.github.io/assets/img/R3V2.png" alt="R3V2_LOGO" title="R3ditor V2 (R3V2) Logo" width="100"/>
   <br>R3ditor V2
 </h1>
 
