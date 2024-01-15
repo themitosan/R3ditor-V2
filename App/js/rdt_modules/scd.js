@@ -49,7 +49,7 @@ function R3_SCD_NEW_FILE(){
 };
 // Load SCD / RDT File
 function R3_SCD_LOAD_FILE(){
-	R3_fileManager.loadFile('.scd, .rdt', function(scdFile, hxFile){
+	R3_fileManager.loadFile('.scd', function(scdFile, hxFile){
 		R3_SCD_STARTLOAD(scdFile, hxFile);
 	});
 };
@@ -399,11 +399,12 @@ function R3_SCD_JUMP_GOSUB(){
 		R3_SCD_NEW_FILE();
 	};
 };
+
 /*
 	Inject Hex Function
 */
 function R3_SCD_INSERT_HEX(){
-	if (SCD_arquivoBruto !== undefined){
+	if (SCD_arquivoBruto !== void 0){
 		var askForHex, sortHex, skipPreview = false;
 		if (R3_keyPress.KEY_CONTROL === true){
 			skipPreview = true;
@@ -1093,7 +1094,7 @@ function R3_SCD_RENDER_SCRIPT(id, canDisplayScript){
 					if (SET_varType === undefined){
 						SET_varType = '(<font class="monospace mono_xyzr">' + SET_var.toUpperCase() + '</font>) Unknown Value';
 					};
-					cProp = 'Event Track: <font class="monospace mono_xyzr">' + SET_id.toUpperCase() + '</font> - Set ' + SET_varType + ' ' + R3_SCD_FLAG[SET_flag];
+					cProp = 'Event Track: <font class="monospace mono_xyzr">' + SET_id.toUpperCase() + '</font> - [<font class="monospace mono_xyzr">' + SET_var.toUpperCase() + '</font>] Set ' + SET_varType + ' ' + R3_SCD_FLAG[SET_flag];
 				};
 				// Compare Values [CMP]
 				if (cOpcode === '4e'){
@@ -5003,6 +5004,9 @@ function R3_SCD_FUNCTION_APPLY(autoInsert, hex, isEdit, isHexPreview){
 		// SCD Hex Preview
 		if (isHexPreview === true && R3_SCD_IS_EDITING === true && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 			if (R3_SCD_currentOpcode !== ''){
+				if (R3_keyPress.KEY_CONTROL === !0){
+					R3_SYSTEM.clearLog();
+				}
 				R3_SYSTEM.log('separator');
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: SCD Hex Preview for ' + R3_SCD_DATABASE[R3_SCD_currentOpcode][1] + ': <font class="user-can-select">' + R3_tools.unsolveHex(HEX_FINAL).toUpperCase() + '</font>');
 				R3_MINIWINDOW.open(0);
@@ -5557,6 +5561,7 @@ function R3_SCD_FUNCION_displayMsgPreview(messageId){
 				msgFinalText = R3_MSG_RDT_MESSAGES_PREVIEW[msgId];
 			};
 		};
+		console.info(`INFO - Message Preview: ${msgFinalText}`);
 		document.getElementById('R3_SCD_EDIT_' + R3_SCD_currentOpcode + '_msgPrev').innerHTML = msgFinalText.replace(RegExp('[(]Line Break[)]<br>', 'gi'), '<br>');
 	};
 };
@@ -5761,7 +5766,7 @@ function R3_SCD_COMPILER_checkConditionalOpcodes(mode){
 		// Start the fix
 		if (checkList !== []){
 			c = 0;
-			cFunction = cOpcode = undefined;
+			cFunction = cOpcode = void 0;
 			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (SCD) Updating check functions length...');
 			processList = checkList.reverse();
 			// This is where things goes nuts
@@ -5798,52 +5803,73 @@ function R3_SCD_COMPILER_checkConditionalOpcodes(mode){
 				makeFunctionLength(processList[c]);
 				c++;
 			};
-		};
+		}
+
 		/*
 			Start final compiler
 		*/
 		if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 			R3_SCD_COMPILE(mode);
-		};
-	};
-};
+		}
+
+	}
+}
+
 /*
 	Generate Check Function Length
-	REWORK - THIS IS UNSTABLE
+	REWORK - THIS IS UNSTABLE!!!
+
+	...after all these time, why I'm still dealing with this? My hands are itching to port this madness to TMS Engine :v
 */
 function R3_SCD_FUNCTION_GENERATE_CHECK_LENGTH(source, endOpcode, cIndex, finishBefore){
-	if (source !== undefined){
+
+	if (source !== void 0){
+
 		// cIndex = (parseInt(document.getElementById('R3_SCD_editFunction_pos').value) - 1);
-		var tempLength = 0, fProcess = false, finalHex = '0000';
-		while (fProcess === false){
+		var tempLength = 0, fProcess = !1, finalHex = '0000';
+
+		while (fProcess === !1){
+
 			var cFunction = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][cIndex],
 				nFunction = R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT][(cIndex + 1)];
-			if (cFunction !== undefined){
-				var nOpcode, endBefore = false, cOpcode = cFunction.slice(0, 2),
+
+			if (cFunction !== void 0){
+
+				var nOpcode, endBefore = !1, cOpcode = cFunction.slice(0, 2),
 					cLength = R3_SCD_DATABASE[cOpcode][0];
-				if (nFunction !== undefined){
+				if (nFunction !== void 0){
 					nOpcode = nFunction.slice(0, 2);
-				};
+				}
+
 				// Check if must stop before requested opcode
-				if (finishBefore === true && nOpcode === endOpcode){
-					endBefore = true;
-				};
+				if (finishBefore === !0 && nOpcode === endOpcode){
+					endBefore = !0;
+				}
 				tempLength = (tempLength + cLength);
-				finalHex = R3_tools.parseEndian(R3_tools.fixVars(tempLength.toString(16), 4));
+				finalHex = R3_tools.parseEndian(R3_tools.fixVars((tempLength - 2).toString(16), 4));
 				cIndex++;
+
 				// Finish this shit
-				if (cOpcode === endOpcode || endBefore === true){
-					fProcess = true;
-				};
+				if (cOpcode === endOpcode || endBefore === !0){
+					fProcess = !0;
+				}
+
 			} else {
-				R3_DESIGN_CRITIAL_ERROR('R3_SCD_FUNCTION_GENERATE_CHECK_LENGTH failed since current function are undefined!');
+
 				// Error
-				fProcess = true;
-			};
-		};
+				R3_DESIGN_CRITIAL_ERROR('R3_SCD_FUNCTION_GENERATE_CHECK_LENGTH failed since current function are undefined!');
+				fProcess = !0;
+
+			}
+
+		}
+
 		return finalHex;
-	};
-};
+
+	}
+
+}
+
 /*
 	SCD Final Compiler
 
@@ -5855,17 +5881,22 @@ function R3_SCD_FUNCTION_GENERATE_CHECK_LENGTH(source, endOpcode, cIndex, finish
 	4: Compile and inject to RDT
 */
 function R3_SCD_COMPILE(mode){
+
 	if (Object.keys(R3_SCD_SCRIPTS_LIST).length !== 0){
+
+		// Variables
 		var cScript = pointersLength = 0, d = 1, tempHex = pHex = '', FINAL_HEX, gotoScript = R3_SCD_CURRENT_SCRIPT, fPath = R3_SCD_fileName;
-		if (mode === undefined){
+		if (mode === void 0){
 			mode = 0;
-		};
+		}
+
 		// Generate Pointers
 		R3_SCD_POINTERS.forEach(function(cPointer){
 			tempHex = tempHex + R3_tools.parseEndian(cPointer);
 		});
 		pointersLength = tempHex.length;
 		R3_SCD_POINTERS[0] = R3_tools.parseEndian(R3_tools.fixVars((pointersLength / 2).toString(16), 4));
+
 		// Calc Script Length
 		tempHex = '';
 		while (d < R3_SCD_POINTERS.length){
@@ -5877,13 +5908,16 @@ function R3_SCD_COMPILE(mode){
 		};
 		tempHex = '';
 		pHex = R3_SCD_POINTERS.toString().replace(RegExp(',', 'gi'), '');
+
 		// Now, let's add the scripts
 		Object.keys(R3_SCD_SCRIPTS_LIST).forEach(function(scr, cIndex){
 			tempHex = tempHex + R3_SCD_SCRIPTS_LIST[cIndex].toString().replace(RegExp(',', 'gi'), '');
 		});
 		FINAL_HEX = pHex + tempHex;
+
 		// Save / Inject
 		try {
+
 			// Save
 			if (mode === 0){
 				if (R3_SCD_path === ''){
@@ -5891,45 +5925,55 @@ function R3_SCD_COMPILE(mode){
 				} else {
 					R3_MODULES.fs.writeFileSync(R3_SCD_path, FINAL_HEX, 'hex');
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Save Successful! File: <font class="user-can-select">' + R3_SCD_path + '</font>');
-				};
-			};
+				}
+			}
+
 			// Save As
 			if (mode === 1){
-				R3_fileManager.saveFile(R3_SCD_fileName + '.SCD', FINAL_HEX, 'hex', '.SCD', function(newLoc){
+				R3_fileManager.saveFile(R3_SCD_fileName + '.scd', FINAL_HEX, 'hex', '.scd', function(newLoc){
 					R3_SCD_path = newLoc;
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Save Successful! File: <font class="user-can-select">' + R3_SCD_path + '</font>');
 				});
-			};
+			}
+
 			// Inject to RDT and GOTO RDT Menu
 			if (mode === 2){
 				R3_RDT_rawSections.RAWSECTION_SCD = FINAL_HEX;
 				R3_SHOW_MENU(10);
-			};
+			}
+
 			// Just Compile
 			if (mode === 3){
 				if (R3_SETTINGS.SETTINGS_SCD_DECOMPILER_ENABLE_LOG === true){
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Updating SCD...');
-				};
-			};
+				}
+			}
+
 			// Just Inject to RDT
 			if (mode === 4){
 				R3_RDT_rawSections.RAWSECTION_SCD = FINAL_HEX;
-			};
+			}
+
 			/*
 				End
 			*/
+
 			R3_DESIGN_CLEAN_SCD();
 			R3_UTILS_VAR_CLEAN_SCD();
+
 			// Set some variabled back again
 			R3_SCD_fileName = fPath;
 			SCD_arquivoBruto = FINAL_HEX;
 			R3_SCD_START_DECOMPILER(FINAL_HEX);
 			R3_SCD_displayScript(gotoScript);
+
 		} catch (err) {
 			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to Compile / Save SCD! <br>Reason: ' + err);
-			alert('ERROR: Unable to Save / Recompile SCD!\nReason: ' + err);
+			window.alert('ERROR: Unable to Save / Recompile SCD!\nReason: ' + err);
 		};
+
 	} else {
 		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: You need to open or create a new file beafore saving!');
-	};
-};
+	}
+
+}

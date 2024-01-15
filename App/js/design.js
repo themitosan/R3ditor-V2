@@ -1583,9 +1583,9 @@ function R3_SCD_SWAP_EDITOR_MODE(mode){
 			if (R3_SETTINGS.ENABLE_ANIMATIONS === true){
 				TMS.fadeIn('R3_SCD_FUNCTIONS_HOLDER', dTime);
 				TMS.animate('R3_SCD_FUNCTIONS_HOLDER', {'opacity': '1', 'top': '40px', 'filter': 'blur(0px)'}, dTime);
-				TMS.animate('R3_SCD_SCRIPT_VIEW_DIV', {'width': '73%'}, (dTime + 10));
+				TMS.animate('R3_SCD_SCRIPT_VIEW_DIV', {'width': '77%'}, (dTime + 10));
 			} else {
-				TMS.css('R3_SCD_SCRIPT_VIEW_DIV', {'width': '73%'});
+				TMS.css('R3_SCD_SCRIPT_VIEW_DIV', {'width': '77%'});
 				TMS.css('R3_SCD_FUNCTIONS_HOLDER', {'display': 'inline', 'top': '40px', 'filter': 'blur(0px)'});
 			};
 		} else {
@@ -2160,9 +2160,11 @@ function R3_RDT_DESIGN_enableInterface(showInterface){
 		}, 100);
 	};
 };
+
 // Filelist
 function R3_RDT_FILELIST_GENERATE(currentMode){
 	if (R3_SYSTEM.web.isBrowser === false){
+
 		R3_SETTINGS_getMapPrefix();
 		document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">Generating file list, please wait...</div>';
 		var mode = R3_tools.getMapPath()[0], rPath, fileTest, currentMap, HTML_MAP_LIST = mapIcon = '', gameMode = 'Easy',
@@ -2170,6 +2172,9 @@ function R3_RDT_FILELIST_GENERATE(currentMode){
 		if (mode === 1){
 			gameMode = 'Hard';
 		};
+
+		const path = require('path');
+
 		// Start Reading
 		if (R3_MODULES.fs.existsSync(rdtPath) === true){
 			R3_RDT_FILELIST_MAPS[mode] = R3_MODULES.fs.readdirSync(rdtPath);
@@ -2189,9 +2194,9 @@ function R3_RDT_FILELIST_GENERATE(currentMode){
 						if (R3_SETTINGS.APP_useImageFix === true && R3_MODULES.fs.existsSync(mapIcon) === true){
 							mapIcon = 'file://' + mapIcon;
 						};
-						rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + currentMap + '.RDT';
-						HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT.readMap(\'' + R3_tools.fixPath(rdtPath).replace('//', '/') +
-										currentMap + '.RDT\', true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' +
+						rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + '/' + currentMap + '.RDT';
+						HTML_MAP_LIST = HTML_MAP_LIST + '<div id="R3_RDT_FILELIST_ITEM_' + currentMap + '" class="R3_RDT_FILELIST_ITEM" onclick="R3_RDT.readMap(`' + rdtPath + '/' +
+										currentMap + '.RDT`, true);"><img src="' + mapIcon + '" class="R3_RDT_FILELIST_IMG"><div class="R3_RDT_FILELIST_ITEM_INFOS">Map: <font class="monospace mono_xyzr">' +
 										currentMap + '</font><br>Location: <font class="monospace mono_xyzr">' + RDT_locations[currentMap][0] + '</font>, <font class="monospace mono_xyzr">' + RDT_locations[currentMap][1] +
 										'</font><br><div class="SEPARATOR-0"></div>Path: <font class="monospace" title="' + rPath + '">' + R3_tools.fixPathSize(rPath, R3_RDT_MENU_LABEL_FIX_NUMBER) + '</font></div></div>';
 					} else {

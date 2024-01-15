@@ -551,8 +551,8 @@ tempFn_R3_TOOLS['isInteger'] = function(value){
 */
 tempFn_R3_TOOLS['hexSum'] = function(hex, value){
 	var res = '0x000000';
-	if (hex !== undefined && value !== undefined){
-		res = '0x' + (parseInt(hex) + value).toString(16).toUpperCase();
+	if (hex !== void 0 && value !== void 0){
+		res = `0x${(parseInt(hex) + value).toString(16).toUpperCase()}`;
 	};
 	return res;
 };

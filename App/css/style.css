@@ -49,6 +49,7 @@ body {
     color: #fff;
     overflow: hidden;
     user-select: none;
+    touch-action: none;
     scrollbar-width: thin;
     background-color: #000;
     animation-duration: 0s;
@@ -363,8 +364,8 @@ blockquote {
     padding-right: 8px;
     padding-bottom: 4px;
     background-color: #4e4e4e;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 .R3_MENU_ITEM:hover .R3_MENU_DROPDOWN {
     width: auto;
@@ -417,6 +418,9 @@ blockquote {
 .R3_MENU_ITEM_BIG:hover {
     background-image: none;
     background-color: #8e8e8e;
+}
+.R3_MENU_ITEM_NORMAL:active {
+    box-shadow: 0px 0px 6px #000a inset;
 }
 .R3_MENU_BIG_LBL {
     left: 60px;
@@ -652,6 +656,7 @@ blockquote {
 */
 .R3_HELP_CENTER_HOLDER {
     z-index: 5;
+    font-family: monospace;
     overflow: auto;
     padding-left: 8px;
     padding-right: 8px;
@@ -1437,7 +1442,7 @@ blockquote {
 .R3_SCD_FUNCTIONS_HOLDER {
     top: 40px;
     right: 6px;
-    width: 26%;
+    width: 22%;
     z-index: 4;
     overflow: hidden;
     position: absolute;
@@ -1484,6 +1489,7 @@ blockquote {
     border-radius: 6px;
     padding-bottom: 4px;
     color: #fff !important;
+    backdrop-filter: blur(1px);
 }
 /*
     SCD ID List
@@ -1786,7 +1792,7 @@ blockquote {
     padding-top: 6px;
     position: absolute;
     background-color: #222;
-    height: calc(100% - 98px);
+    height: calc(100% - 137px);
     background-size: auto 200px;
     background-position: center;
     background-repeat: no-repeat;
@@ -1896,7 +1902,7 @@ blockquote {
     background-image: linear-gradient(to bottom, #000, #3c3c3c);   
 }
 .R3_MSG_SCRIPT_HOLDER {
-    width: 73%;
+    width: 77%;
     z-index: 6;
     position: sticky;
     margin-top: -2px;
@@ -2905,7 +2911,7 @@ blockquote {
     position: fixed;
     display: -webkit-box;
     box-shadow: 0px 14px 10px 0px #000;
-    background-image: linear-gradient(to top, #444, #696969);
+    /* background-image: linear-gradient(to top, #444, #696969); */
 }
 .R3_LIVESTATUS_FOOTER {
     width: 100%;
