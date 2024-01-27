@@ -41,7 +41,7 @@ var INT_VERSION = 'DEV_VERSION',
 	*/
 	// THX
 const 
-	R3_internalHoldTime = 2800, INCLUDE_CRX = 'TemmieHeartz, Khaled SA and F. King',
+	R3_internalHoldTime = 2800, INCLUDE_CRX = 'TheMitoSan, Khaled SA and F. King',
 	INCLUDE_RE3_BEEP_BOOP = 'BEEP. BEEP. BOOP. BEBOBEBOBIIIIIP... BOOP!\n\nI see you got a good RNG here!',
 	INCLUDE_R3V2_LOWRES = 'So tiny! >.< <br>R3ditor V2 was designed to work with screen res. higher than 1216x711.',
 	INCLUDE_R3V2_CRITICAL_ERROR = '<font class="LBL_title">Oh no!</font><br>Looks like R3ditor V2 crashed! We apologize - this is not something usual to happen!<br>To avoid crashed like this, report this message to <a href="https://twitter.com/TemmieHeartz/" target="_blank" rel="noreferrer">TemmieHeartz</a> on twitter.<br><br>' +
@@ -104,7 +104,7 @@ const
 					 '<i>RE3MV and RE3PLWEditor icons were created by <u>Leo2236</u> and <u>Yusuke Kamiyamane</u></i><br>' +
 					 'RDT SLD Edit icon was created using the original icon from <a href="http://lgt.createaforum.com/tools-24/re3slde-a-tool-to-edit-sld-files/" target="_blank">Leo2236 RE3SLDE Editor</a>.<br>' +
 					 'The new R3ditor V2 logo was created using <a href="https://www.dafont.com/pix-chicago.font" target="_blank">Pix Chicago</a> and <a href="https://www.fonts.com/font/linotype/plak/black-extra-condensed" target="_blank">Plak® Extra Condensed</a> fonts.<br><br>' +
-					 'Biohazard and Resident Evil are trademarks of ©CAPCOM CO., LTD. ALL RIGHTS RESERVED.</i></div><br><br><div class="ABOUT_LEGAL_INFO">THE LICENSE TO USE THIS SOFTWARE IS FREE FOR PERSONAL AND COMMERCIAL USE SINCE YOU GIVE CREDITS TO CREATOR OF THIS TOOL AND FOR ALL NAMES CITED ABOVE - SINCE THEY ARE OWNERS OF KNOWLEDGE THAT WERE NECESSARY FOR IT\'S CREATION.</div>',
+					 'Biohazard and Resident Evil are trademarks of ©CAPCOM CO., LTD. ALL RIGHTS RESERVED.</i></div>',
 	INCLUDE_THX = 'Many thanks to: CT-STARS, Elric <i>(Aka. 3lric)</i>, El rincon del Lobezno, Rene Kootstra, discordjs, Rob--, hongru, Joshua MacDonald,<br> jprichardson, Y <i>(The Artist)</i> zu, Mortican, Angus Johnson, Leo2236, MarkGrass, matteofumagalli1275, Klarth, "Shockproof" Jamo Koivisto, Diogo "Flag" Bandeira (Aka. Flag King), Khaled SA, Patrice Mandin (pmandin) and ResidentEvilArtist.',
 	// Settings
 	INCLUDE_SCD_OPTION_EDITOR_MODE = '<option value="0" title="This mode will allow you edit SCD like you do on RPG Maker / Impact JS Events (Entities)">List Editor</option><option value="1" title="This mode will allow edit SCD like Bioscript, writing every function!">Code Editor [WIP]</option>',
@@ -2071,25 +2071,25 @@ const
 		'80': 'On',
 		'03': 'Push'
 	},
-	// SET_TIMER Targets
+	// SET_TIMER Variables
 	R3_SCD_SET_TIMER_TARGET = {
-		'04': 'Unknown Target',
-		'05': 'First digit of Lock Puzzle',
-		'06': 'Second digit of Lock Puzzle',
-		'07': 'Third digit of Lock Puzzle',
-		'08': 'Last digit of Lock Puzzle',
-		'09': 'Unknown Target',
-		'0a': 'Unknown Target',
-		'0b': 'Unknown Target',
-		'11': 'Unknown Target',
-		'1f': 'Unknown Target',
+		'04': 'Unknown Variable',
+		'05': 'Unknown Variable',
+		'06': 'Unknown Variable',
+		'07': 'Unknown Variable',
+		'08': 'Unknown Variable',
+		'09': 'Unknown Variable',
+		'0a': 'Unknown Variable',
+		'0b': 'Unknown Variable',
+		'11': 'Unknown Variable',
+		'1f': 'Unknown Variable',
 		'20': 'Current Character (PLD)',
-		'24': 'Unknown Target',
-		'26': 'Unknown Target',
-		'27': 'Unknown Target',
+		'24': 'Unknown Variable',
+		'26': 'Unknown Variable',
+		'27': 'Unknown Variable',
 		'29': 'Game Over Countdown',
-		'2a': 'Unknown Target',
-		'2b': 'Unknown Target'
+		'2a': 'Unknown Variable',
+		'2b': 'Unknown Variable'
 	},
 	// FADE_SET Types
 	R3_SCD_FADE_SET_TYPES = {
@@ -2121,6 +2121,7 @@ const
 		'26': 'Times up',
 		'27': 'Unknown Variable',
 		'29': 'Times down',
+		'2b': 'Unknown Variable',
 		'2d': 'Unknown Variable',
 		'2f': 'Unknown Variable',
 		'30': 'RNG',

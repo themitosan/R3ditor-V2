@@ -352,7 +352,7 @@ function R3_DESIGN_CHECK_SHOW_EXECS(){
 function R3_WEB_ALERT(){
 	if (APP_CAN_RENDER_DEV === true && R3_SYSTEM.web.isBrowser === true){
 		R3_FILEGEN_selectTextColor(0);
-		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'You are running R3ditor V2 web version!\nTo have all features (Like RE3 Livestatus, Previews, ARD Extractor and more), download the local version!\n\nVisit https://temmieheartz.github.io/ to get download link.', 'RE1', 10);
+		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', 'You are running R3ditor V2 web version!\nTo have all features (Like RE3 Livestatus, Previews, ARD Extractor and more), download the local version!\n\nVisit https://themitosan.github.io/ to get download link.', 'RE1', 10);
 	};
 };
 // Show Tabs
