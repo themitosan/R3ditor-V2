@@ -8,7 +8,7 @@
 	*******************************************************************************
 */
 // Consts
-const R3_GITHUB_FETCH_URL = 'https://api.github.com/repos/TemmieHeartz/R3ditor-V2/';
+const R3_GITHUB_FETCH_URL = 'https://api.github.com/repos/themitosan/R3ditor-V2/';
 // Variables
 var R3_UPDATER_INTERVAL,
 	R3_UPDATER_LOCK = false,

@@ -70,9 +70,7 @@ tempFn_R3_MODULES['INIT'] = function(){
 				R3_SYSTEM_availableMonitors = Object.keys(R3_MODULES.gui.Screen.screens).length;
 			};
 			// Require Electron
-			if (R3_SYSTEM.web.is_ELECTRON === true){
-				R3_MODULES.electron = require('electron');
-			};
+			if (R3_SYSTEM.web.is_ELECTRON === true) R3_MODULES.electron = require('electron');
 			/*
 				End
 			*/
@@ -88,9 +86,7 @@ tempFn_R3_MODULES['INIT'] = function(){
 				readFileSync: function(path, options){
 					if (path !== undefined && path !== ''){
 						var fReader = new FileReader;
-						if (options === undefined){
-							options = 'hex';
-						}
+						if (options === undefined) options = 'hex';
 						/*
 							Read Modes
 							Original Code: https://stackoverflow.com/questions/40031688/javascript-arraybuffer-to-hex
@@ -143,9 +139,7 @@ function R3_LOAD(){
 		// Drity code for webmode
 		if (typeof nw !== 'undefined' && typeof process !== 'undefined'){
 			nwArgs = nw.App.argv;
-			if (nwArgs.indexOf('--webmode') !== -1){
-				startInWebMode = true;
-			};
+			if (nwArgs.indexOf('--webmode') !== -1) startInWebMode = true;
 		} else {
 			startInWebMode = true;
 		};
@@ -161,9 +155,7 @@ function R3_LOAD(){
 		} else {
 			if (R3_MODULES.requireSucess === true){
 				// NW Flavor
-				if (R3_SYSTEM.web.is_NW === true){
-					nwFlavor = ' [' + process.versions['nw-flavor'] + ']';
-				};
+				if (R3_SYSTEM.web.is_NW === true) nwFlavor = ' [' + process.versions['nw-flavor'] + ']';
 				INT_VERSION = INT_VERSION + nwFlavor;
 				try {
 					R3_INIT_DATABASE_GENERATE();
@@ -180,9 +172,7 @@ function R3_LOAD(){
 		R3_SYSTEM.appTitle = 'R3ditor V2 - Ver. ' + INT_VERSION;
 		R3_SYSTEM.log('log', R3_SYSTEM.appTitle);
 		// Log args
-		if (nwArgs.length !== 0){
-			R3_SYSTEM.log('log', 'Run Args: <font class="user-can-select">' + nwArgs.toString().replace(RegExp(',', 'gi'), ' ') + '</font>');
-		};
+		if (nwArgs.length !== 0) R3_SYSTEM.log('log', 'Run Args: <font class="user-can-select">' + nwArgs.toString().replace(RegExp(',', 'gi'), ' ') + '</font>');
 		R3_SYSTEM.log('separator');
 		// If web, log navigator.userArgent
 		if (R3_SYSTEM.web.isBrowser === true){

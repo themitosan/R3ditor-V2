@@ -7,5 +7,6 @@
 	overall settings inside main game executable binaries for all platforms
 	*******************************************************************************
 */
+
 // Variables
 var RE3SET_arquivoBruto;

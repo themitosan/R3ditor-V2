@@ -32,9 +32,7 @@ tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile
 		document.getElementById('R3_FILE_LOAD_DOM').onchange = function(){
 			var hexFile, cFile = document.getElementById('R3_FILE_LOAD_DOM').files[0],
 				fPath = cFile.path, loaderInterval;
-			if (R3_SYSTEM.web.isBrowser === true){
-				fPath = cFile;
-			};
+			if (R3_SYSTEM.web.isBrowser === true) fPath = cFile;
 			if (skipAppFs === false || skipAppFs === undefined){
 				hexFile = R3_MODULES.fs.readFileSync(fPath, readMode);
 			} else {
@@ -70,9 +68,7 @@ tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execN
 	if (R3_SYSTEM.web.isBrowser === false){
 		// Mode: utf-8, hex...
 		var extension = '', location;
-		if (ext !== undefined && ext !== ''){
-			extension = ext;
-		};
+		if (ext !== undefined && ext !== '') extension = ext;
 		document.getElementById('R3_FILE_SAVE_DOM').nwsaveas = filename;
 		document.getElementById('R3_FILE_SAVE_DOM').accept = '.' + extension.replace('.', '');
 		document.getElementById('R3_FILE_SAVE_DOM').onchange = function(){
@@ -86,9 +82,7 @@ tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execN
 			};
 			document.getElementById('R3_FILE_SAVE_DOM').value = '';
 			document.getElementById('R3_FILE_SAVE_DOM').accept = '';
-			if (execNext !== undefined){
-				execNext(location);
-			};
+			if (execNext !== undefined) execNext(location);
 		};
 		TMS.triggerClick('R3_FILE_SAVE_DOM');
 	} else {

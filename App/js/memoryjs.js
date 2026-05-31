@@ -14,10 +14,10 @@
 tempFn_MEMJS = {
 	canRender: false,
 	requireSucess: false,
-	processObj: undefined,
-	discInterval: undefined,
-	updatePosTimer: undefined,
-	checkGameInterval: undefined
+	processObj: void 0,
+	discInterval: void 0,
+	updatePosTimer: void 0,
+	checkGameInterval: void 0
 };
 /*
 	Internal Functions

@@ -1,9 +1,6 @@
 <h1 align="center">
   <img src="App/img/logo.png" alt="R3V2_LOGO" title="R3ditor V2 (R3V2) Logo" width="100"/>
   <br>R3ditor V2<br>
-  <a href="https://discord.gg/hfWJbZPJk2" target="_blank">
-    <img src="https://img.shields.io/discord/686340740904648714?label=Discord%20Users">
-  </a>
 </h1>
 
 _Aka. R3V2_, this is the second version of <a href="https://github.com/themitosan/R3ditor" target="_blank">R3ditor</a> - a tool to create mods and study classic Resident Evil 3!
