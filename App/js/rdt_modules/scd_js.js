@@ -7,35 +7,31 @@
 	compile scripts on JS Editor mode.
 	*******************************************************************************
 */
+
 tempFn_R3_SCD_JS = {};
 tempFn_R3_SCD_JS_tools = {};
+
 /*
 	Compiler Tools
 */
+
 // Parse Flags
 tempFn_R3_SCD_JS_tools['parseFlag'] = function(flag){
-	if (flag !== undefined){
-		if (flag === false){
-			return '00';
-		} else {
-			return '01';
-		};
-	} else {
-		return '00';
-	};
-};
+	var res = '00';
+	if (flag !== void 0 && flag !== !1) res = '01';
+	return res;
+}
+
 // Parse Number
 tempFn_R3_SCD_JS_tools['parseNumber'] = function(n, numLimit, hexLength){
-	if (n !== undefined && numLimit !== undefined && hexLength !== undefined){
+	if (n !== void 0 && numLimit !== void 0 && hexLength !== void 0){
 		var nm = parseInt(n), lm = parseInt(numLimit);
-		if (nm > lm){
-			nm = lm;
-		};
+		if (nm > lm) nm = lm;
 		return R3_tools.fixVars(nm.toString(16), hexLength);
 	} else {
 		return '00';
-	};
-};
+	}
+}
 /*
 	Parse Crouch - For Set Item [ITEM_AOT_SET] R3_JS_COMPILER_parseCrouch
 
@@ -43,22 +39,19 @@ tempFn_R3_SCD_JS_tools['parseNumber'] = function(n, numLimit, hexLength){
 		   1 = Bool to Hex
 */
 tempFn_R3_SCD_JS_tools['parseCrouch'] = function(mode, input){
-	var output = false;
+	var output = !1;
 	if (mode === 0){
-		if (input !== undefined){
+		if (input !== void 0){
 			output = parseInt(input);
-			if (output !== 0){
-				output = true;
-			};
-		};
+			if (output !== 0) output = !0;
+		}
 	} else {
 		output = '0';
-		if (JSON.parse(document.getElementById(input).checked) === true){
-			output = '1';
-		};
-	};
+		if (JSON.parse(document.getElementById(input).checked) === !0) output = '1';
+	}
 	return output;
-};
+}
+
 /*
 	Resident Evil 3 Opcodes Functions
 	Important: If there is no flag attached, it will return default value.
@@ -81,7 +74,7 @@ tempFn_R3_SCD_JS['EVT_CHAIN'] = function(){
 };
 // 04 - Execute Event [EVT_EXEC]
 tempFn_R3_SCD_JS['EVT_EXEC'] = function(evtId){
-	if (evtId !== undefined){
+	if (evtId !== void 0){
 		return '04' + R3_tools.fixVars(evtId, 2);
 	} else {
 		return '04ff';
@@ -93,7 +86,7 @@ tempFn_R3_SCD_JS['EVT_KILL'] = function(evtTarget){
 };
 // 09 - Sleep [SLEEP]
 tempFn_R3_SCD_JS['SLEEP'] = function(sleeping, ticks){
-	if (sleeping !== undefined && ticks !== undefined){
+	if (sleeping !== void 0 && ticks !== void 0){
 		return '09' + R3_tools.fixVars(sleeping, 2) + R3_tools.fixVars(ticks, 4);
 	} else {
 		return '090a1000';
@@ -101,7 +94,7 @@ tempFn_R3_SCD_JS['SLEEP'] = function(sleeping, ticks){
 };
 // 0A - Sleeping [SLEEPING]
 tempFn_R3_SCD_JS['SLEEPING'] = function(ticks){
-	if (ticks !== undefined){
+	if (ticks !== void 0){
 		return '0a' + R3_tools.fixVars(ticks, 4);
 	} else {
 		return '0a1000';
@@ -109,7 +102,7 @@ tempFn_R3_SCD_JS['SLEEPING'] = function(ticks){
 };
 // 19 - Run Script [GO_SUB]
 tempFn_R3_SCD_JS['GO_SUB'] = function(nextScript){
-	if (nextScript !== undefined){
+	if (nextScript !== void 0){
 		var scriptId = parseInt(nextScript);
 		if (scriptId > 255){
 			return '19ff';
@@ -142,7 +135,7 @@ tempFn_R3_SCD_JS['CHASER_EVT_CLR'] = function(){
 };
 // 25 - Open Map [MAP_OPEN]
 tempFn_R3_SCD_JS['MAP_OPEN'] = function(mapId, mapRoom){
-	if (mapId !== undefined && mapRoom !== undefined){
+	if (mapId !== void 0 && mapRoom !== void 0){
 		return '25' + R3_tools.fixVars(mapId, 2) + R3_tools.fixVars(mapRoom, 4);
 	} else {
 		return '25000100';
@@ -206,11 +199,9 @@ tempFn_R3_SCD_JS['SEL_EVT_ON'] = function(id){
 };
 // 3E - Remove Item [ITEM_LOST]
 tempFn_R3_SCD_JS['ITEM_LOST'] = function(itemId){
-	if (itemId !== undefined){
+	if (itemId !== void 0){
 		var iId = parseInt(itemId, 16);
-		if (iId > 143){
-			itemId = '00';
-		};
+		if (iId > 143) itemId = '00';
 		return '3e' + R3_tools.fixVars(itemId, 2);
 	} else {
 		return '3e00';
@@ -254,7 +245,7 @@ tempFn_R3_SCD_JS['SET'] = function(evTrack, variable, flag){
 };
 // 50 - Change Camera [CUT_CHG]
 tempFn_R3_SCD_JS['CUT_CHG'] = function(newCamera){
-	if (newCamera !== undefined){
+	if (newCamera !== void 0){
 		return '50' + R3_tools.fixVars(parseInt(newCamera).toString(16), 2);
 	} else {
 		return '5000';
@@ -266,7 +257,7 @@ tempFn_R3_SCD_JS['CUT_OLD'] = function(){
 };
 // 52 - Lock Camera [CUT_AUTO]
 tempFn_R3_SCD_JS['CUT_AUTO'] = function(lockStataus){
-	if (lockStataus !== undefined){
+	if (lockStataus !== void 0){
 		return '52' + R3_SCD_JS.tools.parseFlag(lockStataus);
 	} else {
 		return '5200';
@@ -274,7 +265,7 @@ tempFn_R3_SCD_JS['CUT_AUTO'] = function(lockStataus){
 };
 // 53 - Swap Camera [CUT_REPLACE]
 tempFn_R3_SCD_JS['CUT_REPLACE'] = function(oldCamera, newCamera){
-	if (oldCamera !== undefined && newCamera !== undefined){
+	if (oldCamera !== void 0 && newCamera !== void 0){
 		return '53' + R3_tools.fixVars(parseInt(oldCamera).toString(16), 2) + R3_tools.fixVars(parseInt(newCamera).toString(16), 2);
 	} else {
 		return '530000';
@@ -302,7 +293,7 @@ tempFn_R3_SCD_JS['SET_VIB1'] = function(id, data0, data1){
 };
 // 5A - RBJ Trigger [RBJ_SET]
 tempFn_R3_SCD_JS['RBJ_SET'] = function(rbjId){
-	if (rbjId !== undefined){
+	if (rbjId !== void 0){
 		return '5a' + R3_tools.fixVars(rbjId, 2);
 	} else {
 		return '5a00';
@@ -310,7 +301,7 @@ tempFn_R3_SCD_JS['RBJ_SET'] = function(rbjId){
 };
 // 5B - Display Message [MESSAGE_ON]
 tempFn_R3_SCD_JS['MESSAGE_ON'] = function(messageId, msgData0, displayMode){
-	if (messageId !== undefined && msgData0 !== undefined && displayMode !== undefined){
+	if (messageId !== void 0 && msgData0 !== void 0 && displayMode !== void 0){
 		if (parseInt(messageId) === NaN || parseInt(messageId) > 255){
 			messageId = 0;
 		};
@@ -337,7 +328,7 @@ tempFn_R3_SCD_JS['WEAPON_CHG'] = function(weaponId){
 };
 // 61 - Set Door [DOOR_AOT_SET]
 tempFn_R3_SCD_JS['DOOR_AOT_SET'] = function(id, aot, XPos, YPos, ZPos, RPos, nextX, nextY, nextZ, nextR, nStage, nRoom, nCam, zIndex, type, orient, unk0, lkFlag, lkKey, dText){
-	if (id !== undefined && aot !== undefined && XPos !== undefined && YPos !== undefined && ZPos !== undefined && RPos !== undefined && nextX !== undefined && nextY !== undefined && nextZ !== undefined && nextR !== undefined && nStage !== undefined && nRoom !== undefined && nCam !== undefined && zIndex !== undefined && type !== undefined && orient !== undefined && unk0 !== undefined && lkFlag !== undefined && lkKey !== undefined && dText !== undefined){
+	if (id !== void 0 && aot !== void 0 && XPos !== void 0 && YPos !== void 0 && ZPos !== void 0 && RPos !== void 0 && nextX !== void 0 && nextY !== void 0 && nextZ !== void 0 && nextR !== void 0 && nStage !== void 0 && nRoom !== void 0 && nCam !== void 0 && zIndex !== void 0 && type !== void 0 && orient !== void 0 && unk0 !== void 0 && lkFlag !== void 0 && lkKey !== void 0 && dText !== void 0){
 		return '61' + R3_tools.fixVars(id, 2) + R3_tools.fixVars(aot, 8) + R3_tools.fixVars(XPos, 4) + R3_tools.fixVars(YPos, 4) + R3_tools.fixVars(ZPos, 4) +
 			   R3_tools.fixVars(RPos, 4) + R3_tools.fixVars(nextX, 4) + R3_tools.fixVars(nextY, 4) + R3_tools.fixVars(nextZ, 4) + R3_tools.fixVars(nextR, 4) +
 			   R3_tools.fixVars(parseInt((nStage) - 1).toString(16), 2) + R3_tools.fixVars(nRoom, 2) + R3_tools.fixVars(parseInt(nCam).toString(16), 2) + R3_tools.fixVars(zIndex, 2) +
@@ -348,7 +339,7 @@ tempFn_R3_SCD_JS['DOOR_AOT_SET'] = function(id, aot, XPos, YPos, ZPos, RPos, nex
 };
 // 62 - Set Door 4P [DOOR_AOT_SET_4P]
 tempFn_R3_SCD_JS['DOOR_AOT_SET_4P'] = function(id, aot, XPos, YPos, ZPos, RPos, D4P, nextX, nextY, nextZ, nextR, nStage, nRoom, nCam, zIndex, type, orient, unk0, lkFlag, lkKey, dText){
-	if (id !== undefined && aot !== undefined && XPos !== undefined && YPos !== undefined && ZPos !== undefined && RPos !== undefined && D4P !== undefined && nextX !== undefined && nextY !== undefined && nextZ !== undefined && nextR !== undefined && nStage !== undefined && nRoom !== undefined && nCam !== undefined && zIndex !== undefined && type !== undefined && orient !== undefined && unk0 !== undefined && lkFlag !== undefined && lkKey !== undefined && dText !== undefined){
+	if (id !== void 0 && aot !== void 0 && XPos !== void 0 && YPos !== void 0 && ZPos !== void 0 && RPos !== void 0 && D4P !== void 0 && nextX !== void 0 && nextY !== void 0 && nextZ !== void 0 && nextR !== void 0 && nStage !== void 0 && nRoom !== void 0 && nCam !== void 0 && zIndex !== void 0 && type !== void 0 && orient !== void 0 && unk0 !== void 0 && lkFlag !== void 0 && lkKey !== void 0 && dText !== void 0){
 		return '62' + R3_tools.fixVars(id, 2) + R3_tools.fixVars(aot, 8) + R3_tools.fixVars(XPos, 4) + R3_tools.fixVars(YPos, 4) + R3_tools.fixVars(ZPos, 4) +
 					  R3_tools.fixVars(RPos, 4) + R3_tools.fixVars(D4P, 16) + R3_tools.fixVars(nextX, 4) + R3_tools.fixVars(nextY, 4) + R3_tools.fixVars(nextZ, 4) +
 					  R3_tools.fixVars(nextR, 4) + R3_tools.fixVars(parseInt((nStage) - 1).toString(16), 2) + R3_tools.fixVars(nRoom, 2) + R3_tools.fixVars(parseInt(nCam).toString(16), 2) +
@@ -359,7 +350,7 @@ tempFn_R3_SCD_JS['DOOR_AOT_SET_4P'] = function(id, aot, XPos, YPos, ZPos, RPos, 
 };
 // 66 - Run Interactive Object [AOT_ON]
 tempFn_R3_SCD_JS['AOT_ON'] = function(aotId){
-	if (aotId !== undefined){
+	if (aotId !== void 0){
 		return '66' + R3_tools.fixVars(aotId, 2);
 	} else {
 		return '6600';
@@ -367,7 +358,7 @@ tempFn_R3_SCD_JS['AOT_ON'] = function(aotId){
 };
 // 67 - Set Item [ITEM_AOT_SET]
 tempFn_R3_SCD_JS['ITEM_AOT_SET'] = function(id, aot, itemX, itemY, itemZ, itemR, itemCode, itemQuant, itemFlag, modelId, itemMp){
-	if (id !== undefined && aot !== undefined && itemX !== undefined && itemY !== undefined && itemZ !== undefined && itemR !== undefined && itemCode !== undefined && itemQuant !== undefined && itemFlag !== undefined && modelId !== undefined && itemMp !== undefined){
+	if (id !== void 0 && aot !== void 0 && itemX !== void 0 && itemY !== void 0 && itemZ !== void 0 && itemR !== void 0 && itemCode !== void 0 && itemQuant !== void 0 && itemFlag !== void 0 && modelId !== void 0 && itemMp !== void 0){
 		return '67' + R3_tools.fixVars(id, 2) + R3_tools.fixVars(aot, 8) + R3_tools.fixVars(itemX, 4) + R3_tools.fixVars(itemY, 4) + R3_tools.fixVars(itemZ, 4) +
 			   R3_tools.fixVars(itemR, 4) + R3_tools.fixVars(itemCode, 2) + '00' + R3_SCD_JS.tools.parseNumber(itemQuant, 255, 2) + '0000' + R3_tools.fixVars(itemFlag, 2) +
 			   R3_tools.fixVars(modelId, 2) + R3_tools.fixVars(itemMp, 2);
@@ -377,7 +368,7 @@ tempFn_R3_SCD_JS['ITEM_AOT_SET'] = function(id, aot, itemX, itemY, itemZ, itemR,
 };
 // 68 - Set Item 4P [ITEM_AOT_SET]
 tempFn_R3_SCD_JS['ITEM_AOT_SET_4P'] = function(id, aot, itemX, itemY, itemZ, itemR, item4P, itemCode, itemQuant, itemFlag, modelId, itemMp){
-	if (id !== undefined && aot !== undefined && itemX !== undefined && itemY !== undefined && itemZ !== undefined && itemR !== undefined && item4P !== undefined && itemCode !== undefined && itemQuant !== undefined && itemFlag !== undefined && modelId !== undefined && itemMp !== undefined){
+	if (id !== void 0 && aot !== void 0 && itemX !== void 0 && itemY !== void 0 && itemZ !== void 0 && itemR !== void 0 && item4P !== void 0 && itemCode !== void 0 && itemQuant !== void 0 && itemFlag !== void 0 && modelId !== void 0 && itemMp !== void 0){
 		return '68' + R3_tools.fixVars(id, 2) + R3_tools.fixVars(aot, 8) + R3_tools.fixVars(itemX, 4) + R3_tools.fixVars(itemY, 4) + R3_tools.fixVars(itemZ, 4) +
 			   R3_tools.fixVars(itemR, 4) + R3_tools.fixVars(item4P, 16) + R3_tools.fixVars(itemCode, 2) + '00' + R3_SCD_JS.tools.parseNumber(itemQuant, 255, 2) + '0000' +
 			   R3_tools.fixVars(itemFlag, 2) + R3_tools.fixVars(modelId, 2) + R3_tools.fixVars(itemMp, 2);
@@ -407,7 +398,7 @@ tempFn_R3_SCD_JS['XA_ON'] = function(xaId, xaData){
 };
 // 7A - Call Cinematic [MOVIE_ON]
 tempFn_R3_SCD_JS['MOVIE_ON'] = function(movieId){
-	if (movieId !== undefined){
+	if (movieId !== void 0){
 		return '7a' + R3_tools.fixVars(movieId, 2);
 	} else {
 		return '7a00';
@@ -423,7 +414,7 @@ tempFn_R3_SCD_JS['STATUS_ON'] = function(){
 };
 // 7E - [MIZU_DIV]
 tempFn_R3_SCD_JS['MIZU_DIV'] = function(mizuId){
-	if (mizuId !== undefined){
+	if (mizuId !== void 0){
 		return '7e' + R3_tools.fixVars(mizuId, 2);
 	} else {
 		return '7e00';
@@ -435,7 +426,7 @@ tempFn_R3_SCD_JS['PLC_MOTION'] = function(plcId, plcValue, plcType){
 };
 // 81 - Set Animation DEST [PLC_DEST]
 tempFn_R3_SCD_JS['PLC_DEST'] = function(animType, animMod, data0, data1){
-	if (animType !== undefined && animMod !== undefined && data0 !== undefined && data1 !== undefined){
+	if (animType !== void 0 && animMod !== void 0 && data0 !== void 0 && data1 !== void 0){
 		return '8100' + R3_tools.fixVars(animType, 2) + R3_tools.fixVars(animMod, 2) + R3_tools.fixVars(data0, 4) + R3_tools.fixVars(data1, 4);
 	} else {
 		return '8100042000000000';
@@ -497,6 +488,7 @@ tempFn_R3_SCD_JS['PLC_MOT_NUM'] = function(plcId, plcValue){
 tempFn_R3_SCD_JS['EM_RESET'] = function(targetId){
 	return '8f' + R3_tools.fixVars(targetId, 2);
 };
+
 /*
 	End
 */

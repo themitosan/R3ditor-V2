@@ -7,68 +7,72 @@
 	(Loading, saving and etc).
 	*******************************************************************************
 */
+
 tempFn_R3_FILEMANAGER = {
 	// Download Variables
 	DOWNLOAD_STATUSCODE: 0,
 	DOWNLOAD_PERCENTAGE: 0,
-	DOWNLOAD_COMPLETE: false,
+	DOWNLOAD_COMPLETE: !1,
 	// File Variables
 	originalFilename: '' // ORIGINAL_FILENAME
-};
+}
+
+/*
+	Functions
+*/
+
 // Load files
 tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile, readMode, skipAppFs){
-	if (functionEval !== undefined){
-		if (extension === ''){
-			extension = '.*';
-		};
-		if (readMode === undefined){
-			readMode = 'hex';
-		};
+	if (functionEval !== void 0){
+
+		if (extension === '') extension = '.*';
+		if (readMode === void 0) readMode = 'hex';
+
 		R3_SYSTEM.web.FILE_BRIDGE = '';
 		document.getElementById('R3_FILE_LOAD_DOM').value = '';
 		document.getElementById('R3_FILE_LOAD_DOM').files = null;
 		document.getElementById('R3_FILE_LOAD_DOM').accept = extension;
 		TMS.triggerClick('R3_FILE_LOAD_DOM');
 		document.getElementById('R3_FILE_LOAD_DOM').onchange = function(){
+
 			var hexFile, cFile = document.getElementById('R3_FILE_LOAD_DOM').files[0],
 				fPath = cFile.path, loaderInterval;
-			if (R3_SYSTEM.web.isBrowser === true) fPath = cFile;
-			if (skipAppFs === false || skipAppFs === undefined){
+
+			if (R3_SYSTEM.web.isBrowser === !0) fPath = cFile;
+			if (skipAppFs === !1 || skipAppFs === void 0){
 				hexFile = R3_MODULES.fs.readFileSync(fPath, readMode);
 			} else {
 				hexFile = null;
-			};
+			}
+
 			loaderInterval = setInterval(function(){
-					if (hexFile !== undefined && hexFile !== ''){
-						if (returnFile !== true){
-							if (cFile !== undefined){
-								if (R3_SYSTEM.web.isBrowser === false){
-									fPath = R3_tools.fixPath(cFile.path.toString());
-								} else {
-									fPath = cFile;
-								};
-								functionEval(fPath, hexFile);
-							};
-						} else {
-							functionEval(document.getElementById('R3_FILE_LOAD_DOM').files[0], hexFile);
+				if (hexFile !== void 0 && hexFile !== ''){
+					if (returnFile !== !0){
+						if (cFile !== void 0){
+							fPath = cFile;
+							if (R3_SYSTEM.web.isBrowser === !1) fPath = R3_tools.fixPath(cFile.path.toString());
+							functionEval(fPath, hexFile);
 						};
-						clearInterval(loaderInterval);
 					} else {
-						console.info('Waiting R3_MODULES.fs...');
-						if (R3_SYSTEM.web.isBrowser === true){
-							hexFile = R3_SYSTEM.web.FILE_BRIDGE;
-						};
-					};
-				}, 100);
-		};
-	};
-};
+						functionEval(document.getElementById('R3_FILE_LOAD_DOM').files[0], hexFile);
+					}
+					clearInterval(loaderInterval);
+				} else {
+					console.info('Waiting R3_MODULES.fs...');
+					if (R3_SYSTEM.web.isBrowser === !0) hexFile = R3_SYSTEM.web.FILE_BRIDGE;
+				}
+			}, 100);
+		}
+	}
+}
+
 // Save files
 tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execNext){
-	if (R3_SYSTEM.web.isBrowser === false){
+	if (R3_SYSTEM.web.isBrowser === !1){
+
 		// Mode: utf-8, hex...
 		var extension = '', location;
-		if (ext !== undefined && ext !== '') extension = ext;
+		if (ext !== void 0 && ext !== '') extension = ext;
 		document.getElementById('R3_FILE_SAVE_DOM').nwsaveas = filename;
 		document.getElementById('R3_FILE_SAVE_DOM').accept = '.' + extension.replace('.', '');
 		document.getElementById('R3_FILE_SAVE_DOM').onchange = function(){
@@ -78,14 +82,15 @@ tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execN
 					R3_MODULES.fs.writeFileSync(location, content, mode);
 				} catch (err) {
 					R3_SYSTEM.log('error', 'ERROR - Unable to save file!\nReason: ' + err);
-				};
-			};
+				}
+			}
 			document.getElementById('R3_FILE_SAVE_DOM').value = '';
 			document.getElementById('R3_FILE_SAVE_DOM').accept = '';
-			if (execNext !== undefined) execNext(location);
-		};
+			if (execNext !== void 0) execNext(location);
+		}
 		TMS.triggerClick('R3_FILE_SAVE_DOM');
 	} else {
+
 		/*
 			Original Code / Snippets:
 			https://stackoverflow.com/questions/25354313/saving-a-uint8array-to-a-binary-file
@@ -121,20 +126,18 @@ tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execN
 			downloadBlob(content, filename, bType);
 		} else {
 			downloadBlob(convertHexFunction(content), filename, bType);
-		};
-		if (execNext !== undefined){
-			execNext(location);
-		};
-	};
-};
+		}
+		if (execNext !== void 0) execNext(location);
+	}
+}
+
 // Download Files
 tempFn_R3_FILEMANAGER['downloadFile'] = function(url, downloadFileName, execNext){
-	if (R3_SYSTEM.web.isBrowser === false){
+	if (R3_SYSTEM.web.isBrowser === !1){
 		var R3_FILE_DOWNLOAD_PG = R3_FILE_DOWNLOAD_LENGTH = 0;
-		if (R3_MODULES.fs.existsSync(downloadFileName) === true){
-			R3_MODULES.fs.unlinkSync(downloadFileName);
-		};
-		const http = require('https'),
+		if (R3_MODULES.fs.existsSync(downloadFileName) === !0) R3_MODULES.fs.unlinkSync(downloadFileName);
+		const
+			http = require('https'),
 			file = R3_MODULES.fs.createWriteStream(downloadFileName),
 			request = http.get(url, function(response){
 				response.pipe(file);
@@ -145,54 +148,55 @@ tempFn_R3_FILEMANAGER['downloadFile'] = function(url, downloadFileName, execNext
 					R3_FILEMANAGER.DOWNLOAD_PERCENTAGE = R3_tools.parsePercentage(R3_FILE_DOWNLOAD_PG, R3_FILE_DOWNLOAD_LENGTH);
 				});
 				file.on('finish', function(){
-					R3_FILEMANAGER.DOWNLOAD_COMPLETE = true;
+					R3_FILEMANAGER.DOWNLOAD_COMPLETE = !0;
 					R3_FILEMANAGER.DOWNLOAD_STATUSCODE = response.statusCode;
 					if (R3_FILEMANAGER.DOWNLOAD_STATUSCODE === 200){
 						console.info('FILE - Download OK!\nStatus Code: ' + R3_FILEMANAGER.DOWNLOAD_STATUSCODE);
 					} else {
 						console.warn('FILE - Download Failed!\nStatus Code: ' + R3_FILEMANAGER.DOWNLOAD_STATUSCODE);
-					};
-					if (execNext !== undefined){
-						execNext();
-					};
+					}
+					if (execNext !== void 0) execNext();
 				});
 			});
-	};
-};
+	}
+}
+
 // Select Path
 tempFn_R3_FILEMANAGER['selectPath'] = function(functionEval){
-	if (R3_SYSTEM.web.isBrowser === false){
-		if (functionEval !== undefined){
+	if (R3_SYSTEM.web.isBrowser === !1){
+		if (functionEval !== void 0){
 			TMS.triggerClick('R3_FOLDER_LOAD_DOM');
 			document.getElementById('R3_FOLDER_LOAD_DOM').onchange = function(){
 				const cFile = document.getElementById('R3_FOLDER_LOAD_DOM').files[0];
-				if (cFile.path !== null && cFile.path !== undefined && cFile.path !== ''){
+				if (cFile.path !== null && cFile.path !== void 0 && cFile.path !== ''){
 					functionEval(R3_tools.fixPath(cFile.path));
 					document.getElementById('R3_FOLDER_LOAD_DOM').value = '';
 					document.getElementById('R3_FOLDER_LOAD_DOM').accept = '';
-				};
-			};
-		};
+				}
+			}
+		}
 	} else {
 		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: This function is not available on web mode.');
-	};
-};
+	}
+}
+
 // Copy files / folders
 tempFn_R3_FILEMANAGER['copyFiles'] = function(source, destiny, execNext){
-	if (R3_SYSTEM.web.isBrowser === false){
+	if (R3_SYSTEM.web.isBrowser === !1){
 		R3_MODULES.fs.copy(source, destiny, function(err){
 			if (err){
 				R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to copy! <br>Reason: ' + err);
 			} else {
-				if (execNext !== undefined){
+				if (execNext !== void 0){
 					execNext();
 				} else {
-					return true;
-				};
-			};
+					return !0;
+				}
+			}
 		});
-	};
-};
+	}
+}
+
 /*
 	END
 */

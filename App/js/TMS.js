@@ -18,9 +18,7 @@ const TMS = Object.freeze(Object.seal({
 
 	// Warn if something go wrong
 	warn: function(warnText){
-		if (this.logWarnings === !0){
-			console.warn('[TMS] ' + warnText);
-		}
+		if (this.logWarnings === !0) console.warn('[TMS] ' + warnText);
 	},
 
 	/*
@@ -31,19 +29,10 @@ const TMS = Object.freeze(Object.seal({
 		Get element
 	*/
 	getElement: function(elementId){
-
 		var res = document.getElementById(elementId);
-
-		if (res === null){
-			res = document.getElementsByTagName(elementId)[0];
-		}
-
-		if (res === void 0){
-			res = null;
-		}
-
+		if (res === null) res = document.getElementsByTagName(elementId)[0];
+		if (res === void 0) res = null;
 		return res;
-
 	},
 
 	/*
@@ -108,12 +97,8 @@ const TMS = Object.freeze(Object.seal({
 		// End
 		if (canStart === !0){
 
-			if (animationEase === void 0){
-				animationEase = '';
-			}
-			if (animationTime < 0){
-				animationTime = 0;
-			}
+			if (animationEase === void 0) animationEase = '';
+			if (animationTime < 0) animationTime = 0;
 
 			Object.keys(cssChanges).forEach(function(cItem){
 				elId.style[cItem] = cssChanges[cItem];
@@ -137,7 +122,6 @@ const TMS = Object.freeze(Object.seal({
 	focus: function(elementId, sTimeout){
 
 		const elId = TMS.getElement(elementId);
-
 		if (elId !== null){
 
 			if (sTimeout !== void 0 && parseInt(sTimeout) !== NaN){
@@ -172,16 +156,13 @@ const TMS = Object.freeze(Object.seal({
 		disableList.forEach(function(cItem){
 
 			const elId = TMS.getElement(cItem);
-
 			if (elId !== null){
 
 				elId.disabled = !0;
 				elId.disabled = 'disabled';
 
 				// If is <input>
-				if (elId.type === 'button'){
-					TMS.css(cItem, {'filter': 'grayscale(1) blur(0.8px)', 'cursor': 'not-allowed', 'opacity': '0.6'});
-				}
+				if (elId.type === 'button') TMS.css(cItem, {'filter': 'grayscale(1) blur(0.8px)', 'cursor': 'not-allowed', 'opacity': '0.6'});
 
 			} else {
 				TMS.warn('Unable to disable element because it does not exist! (' + cItem + ')');
@@ -197,15 +178,11 @@ const TMS = Object.freeze(Object.seal({
 	enableElement: function(elementId){
 
 		const elId = TMS.getElement(elementId);
-
 		if (elId !== null){
 
 			elId.disabled = '';
 			elId.disabled = !1;
-
-			if (elId.type === 'button'){
-				TMS.css(elementId, {'filter': 'grayscale(0) blur(0px)', 'cursor': 'pointer', 'opacity': '1'});
-			}
+			if (elId.type === 'button') TMS.css(elementId, {'filter': 'grayscale(0) blur(0px)', 'cursor': 'pointer', 'opacity': '1'});
 
 		} else {
 			TMS.warn('TMS - Unable to enable element because it does not exist! (' + elementId + ')');
@@ -226,14 +203,10 @@ const TMS = Object.freeze(Object.seal({
 			result = elId.style[cssAttrName];
 
 			// Get computed style
-			if (result === ''){
-				result = window.getComputedStyle(elId)[cssAttrName];
-			}
+			if (result === '') result = window.getComputedStyle(elId)[cssAttrName];
 
 			// Get from DOM
-			if (result === void 0){
-				result = elId[cssAttrName];
-			}
+			if (result === void 0) result = elId[cssAttrName];
 
 		} else {
 			TMS.warn('Unable to get element because it does not exist! (' + elementId + ')');
@@ -249,8 +222,7 @@ const TMS = Object.freeze(Object.seal({
 	scrollTop: function(elementObjects){
 		Object.keys(elementObjects).forEach(function(cItem){
 
-			const elId = TMS.getElement(elementId);
-
+			const elId = TMS.getElement(cItem);
 			if (elId !== null){
 				elId.scrollTop = elementObjects[cItem];
 			} else {
@@ -266,7 +238,6 @@ const TMS = Object.freeze(Object.seal({
 	append: function(elementId, newData){
 
 		var elId = TMS.getElement(elementId);
-
 		if (elId !== null){
 			elId.insertAdjacentHTML('beforeend', newData);
 		} else {
@@ -281,7 +252,6 @@ const TMS = Object.freeze(Object.seal({
 	addClass: function(elementId, className){
 
 		const elId = TMS.getElement(elementId);
-
 		if (elId !== null){
 			elId.classList.add(className);
 		} else {
@@ -295,7 +265,6 @@ const TMS = Object.freeze(Object.seal({
 	removeClass: function(elementId, className){
 
 		const elId = TMS.getElement(elementId);
-
 		if (elId !== null){
 			elId.classList.remove(className);
 		} else {
@@ -309,24 +278,28 @@ const TMS = Object.freeze(Object.seal({
 		Removes all HTML inside
 	*/
 	clear: function(elementId){
+
 		const elId = TMS.getElement(elementId);
 		if (elId !== null){
 			elId.innerHTML = '';
 		} else {
 			TMS.warn('Unable to clear inner data because DOM does not exist! (' + elementId + ')');
 		}
+
 	},
 
 	/*
 		triggerClick
 	*/
 	triggerClick: function(elementId){
+
 		const elId = TMS.getElement(elementId);
 		if (elId !== null){
 			elId.click();
 		} else {
 			TMS.warn('Unable to clear inner data because DOM does not exist! (' + elementId + ')');
 		}
+
 	},
 
 	/*
@@ -353,13 +326,9 @@ const TMS = Object.freeze(Object.seal({
 					dTime = 1;
 				}
 			}
-			if (tagType[elId.tagType] !== void 0){
-				dMode = tagType[elId.tagType];
-			}
-			if (eStyles.opacity !== ''){
-				finalOpacity = eStyles.opacity;
-			}
 
+			if (tagType[elId.tagType] !== void 0) dMode = tagType[elId.tagType];
+			if (eStyles.opacity !== '') finalOpacity = eStyles.opacity;
 			TMS.css(elementId, {'display': dMode, 'opacity': finalOpacity, 'transition': 'opacity ' + dTime + 'ms'});
 
 			setTimeout(function(){
@@ -377,16 +346,12 @@ const TMS = Object.freeze(Object.seal({
 	fadeOut: function(elementId, animationTime){
 
 		const elId = TMS.getElement(elementId);
-
 		if (elId !== null){
 
 			var dTime = 1000;
-
 			if (animationTime !== void 0 && animationTime !== NaN){
 				dTime = parseInt(animationTime);
-				if (dTime < 0){
-					dTime = 1;
-				}
+				if (dTime < 0) dTime = 1;
 			}
 
 			TMS.css(elementId, {'opacity': '0', 'transition': 'opacity ' + dTime + 'ms'});
@@ -407,16 +372,13 @@ const TMS = Object.freeze(Object.seal({
 	scrollCenter: function(elementId, delay){
 
 		const elId = TMS.getElement(elementId);
-
 		if (elId !== null){
 
 			var parentDom = elId.parentElement,
 				parentHeight = parentDom.offsetHeight,
 				elHeight = parseFloat(window.getComputedStyle(elId).height.replace('px', ''));
 
-			if (delay === void 0 || parseInt(delay) === NaN){
-				delay = 0;
-			}
+			if (delay === void 0 || parseInt(delay) === NaN) delay = 0;
 
 			setTimeout(function(){
 				parentDom.scrollTo(0, (elId.offsetTop - ((parentHeight / 2) - (elHeight / 2))));
@@ -432,6 +394,7 @@ const TMS = Object.freeze(Object.seal({
 		setInnerHtml
 	*/
 	setInnerHtml: function(elementId, htmlData){
+
 		const elId = TMS.getElement(elementId);
 		if (elId !== null){
 			document.getElementById(elementId).innerHTML = htmlData;
@@ -446,7 +409,6 @@ const TMS = Object.freeze(Object.seal({
 	removeDOM: function(elementId){
 
 		const elId = TMS.getElement(elementId);
-
 		if (elId !== null){
 			document.getElementById(elementId).remove();
 		} else {
@@ -459,6 +421,7 @@ const TMS = Object.freeze(Object.seal({
 		Blur element
 	*/
 	blur: function(elementId){
+
 		const elId = TMS.getElement(elementId);
 		if (elId !== null){
 			document.getElementById(elementId).blur();
@@ -478,10 +441,7 @@ const TMS = Object.freeze(Object.seal({
 		if (elId !== null){
 
 			res = document.getElementById(elementId).childElementCount;
-			if (res < 0){
-				res = 0;
-			}
-
+			if (res < 0) res = 0;
 			return res;
 
 		} else {
@@ -496,7 +456,6 @@ const TMS = Object.freeze(Object.seal({
 	getRect: function(elementId){
 
 		var elId = TMS.getElement(elementId);
-
 		if (elId !== null){
 			return document.getElementById(elementId).getBoundingClientRect();
 		} else {

@@ -7,22 +7,27 @@
 	user update R3V2 from a GitHub Branch. 
 	*******************************************************************************
 */
+
 // Consts
 const R3_GITHUB_FETCH_URL = 'https://api.github.com/repos/themitosan/R3ditor-V2/';
+
 // Variables
 var R3_UPDATER_INTERVAL,
-	R3_UPDATER_LOCK = false,
-	R3_UPDATER_RUNNING = false,
+	R3_UPDATER_LOCK = !1,
+	R3_UPDATER_RUNNING = !1,
 	R3_GITHUB_BRANCHES_LIST = {},
 	R3_GITHUB_CURRENT_BRANCH = {};
+
 // Objects
 tempFn_R3_UPDATER = {};
+
 /*
 	Functions
 */
+
 // Get branches list R3_UPDATER_GET_BRANCHES
 tempFn_R3_UPDATER['getUpdates'] = function(){
-	if (R3_SYSTEM.web.isBrowser === false && INT_VERSION.indexOf('DEV_VERSION') !== -1 && R3_MODULES.electron === undefined){
+	if (R3_SYSTEM.web.isBrowser === !1 && INT_VERSION.indexOf('DEV_VERSION') !== -1 && R3_MODULES.electron === void 0){
 		var HTML_TEMPLATE = '';
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (GitHub) Fetching branches - Please wait...');
 		fetch(R3_GITHUB_FETCH_URL + 'branches').then(resp => resp.json()).then(function(dat){
@@ -34,17 +39,19 @@ tempFn_R3_UPDATER['getUpdates'] = function(){
 			document.getElementById('R3_UPDATER_CURRENT_BRANCH').innerHTML = INCLUDE_GITHUB_BRANCHES;
 			R3_UPDATER.getCommits();
 		});
-	};
-};
+	}
+}
+
 // Get commits list R3_UPDATER_GET_COMMITS
 tempFn_R3_UPDATER['getCommits'] = function(){
-	if (R3_SYSTEM.web.isBrowser === false && INT_VERSION.indexOf('DEV_VERSION') !== -1){
+	if (R3_SYSTEM.web.isBrowser === !1 && INT_VERSION.indexOf('DEV_VERSION') !== -1){
 		var cBranch = document.getElementById('R3_UPDATER_CURRENT_BRANCH').value, parseTimestamp = function(str){
 				const day = str.slice(0, str.indexOf('T')), time = str.slice(parseInt(str.indexOf('T') + 1)).replace('Z', '');
 				return day + ' - ' + time;
 			};
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (GitHub) Reading latest commit from ' + R3_GITHUB_BRANCHES_LIST[cBranch].name + ' - Please wait...');
 		fetch(R3_GITHUB_FETCH_URL + 'branches/' + R3_GITHUB_BRANCHES_LIST[cBranch].name).then(resp => resp.json()).then(function(dat){
+
 			R3_GITHUB_CURRENT_BRANCH = dat;
 			document.getElementById('R3_UPDATER_COMMIT_SHA').innerHTML = R3_GITHUB_CURRENT_BRANCH.commit.sha;
 			document.getElementById('R3_UPDATER_COMMIT_URL').href = R3_GITHUB_CURRENT_BRANCH.commit.html_url;
@@ -56,12 +63,12 @@ tempFn_R3_UPDATER['getCommits'] = function(){
 			document.getElementById('R3_UPDATER_COMMIT_DATE').innerHTML = parseTimestamp(R3_GITHUB_CURRENT_BRANCH.commit.commit.author.date);
 			document.getElementById('R3_UPDATER_COMMIT_AUTHOR_PIC').title = R3_GITHUB_CURRENT_BRANCH.commit.commit.author.name + '\'s Avatar';
 			// End
-			if (R3_MINI_WINDOW_DATABASE[22][5] === false){
-				R3_MINIWINDOW.open(22, 'center');
-			};
+			if (R3_MINI_WINDOW_DATABASE[22][5] === !1) R3_MINIWINDOW.open(22, 'center');
+
 		});
-	};
-};
+	}
+}
+
 /*
 	Start Updater R3_UPDATER_START
 
@@ -69,12 +76,12 @@ tempFn_R3_UPDATER['getCommits'] = function(){
 	https://github.com/nwjs/nw.js/issues/149#issuecomment-299653483
 */
 tempFn_R3_UPDATER['startUpdate'] = function(){
-	if (R3_SYSTEM.web.isBrowser === false && INT_VERSION.indexOf('DEV_VERSION') !== -1){
+	if (R3_SYSTEM.web.isBrowser === !1 && INT_VERSION.indexOf('DEV_VERSION') !== -1){
 		try {
 			var c = 0;
-			R3_UPDATER_RUNNING = true;
+			R3_UPDATER_RUNNING = !0;
 			R3_UPDATER_INTERVAL = setInterval(function(){
-				if (R3_UPDATER_LOCK === false){
+				if (R3_UPDATER_LOCK === !1){
 					R3_UPDATER.execAction(c);
 					c++;
 				} else {
@@ -86,11 +93,12 @@ tempFn_R3_UPDATER['startUpdate'] = function(){
 		};
 	};
 };
+
 // Updater Actions R3_UPDATER_ACTION
 tempFn_R3_UPDATER['execAction'] = function(actionId){
-	if (R3_SYSTEM.web.isBrowser === false && INT_VERSION.indexOf('DEV_VERSION') !== -1 && R3_UPDATER_RUNNING === true && actionId !== undefined){
+	if (R3_SYSTEM.web.isBrowser === !1 && INT_VERSION.indexOf('DEV_VERSION') !== -1 && R3_UPDATER_RUNNING === !0 && actionId !== void 0){
 		console.info('Running Step ' + actionId);
-		R3_UPDATER_LOCK = true;
+		R3_UPDATER_LOCK = !0;
 		var sysInterval, ACTION_updateCrash = function(reason){
 			clearInterval(sysInterval);
 			clearInterval(R3_UPDATER_INTERVAL);
@@ -108,38 +116,34 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			clearInterval(MEM_JS_updatePosTimer);
 			clearInterval(R3_CHECK_GAME_INTERVAL);
 			clearInterval(R3_CHECK_ifStillOpenInterval);
-			R3_keyPress.enableShortcuts = false;
-			if (R3_GAME.gameRunning === true){
+			R3_keyPress.enableShortcuts = !1;
+			if (R3_GAME.gameRunning === !0){
 				R3_SYSTEM.externalSoftware.killPID(R3_GAME.gamePID);
-				R3_GAME.gameRunning = false;
+				R3_GAME.gameRunning = !1;
 			};
-			R3_UPDATER_LOCK = false;
+			R3_UPDATER_LOCK = !1;
 		};
 		// 1 - Checking files / paths
 		if (actionId === 1){
 			R3_UTILS_CALL_LOADING('Updating R3V2', 'Checking folders...', 10);
-			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Update') !== true){
-				R3_MODULES.fs.mkdirSync(R3_SYSTEM.paths.mod + '/Update');
-			};
-			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Update/Update.zip') === true){
-				R3_MODULES.fs.unlinkSync(R3_SYSTEM.paths.mod + '/Update/Update.zip');
-			};
-			R3_UPDATER_LOCK = false;
+			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Update') !== !0) R3_MODULES.fs.mkdirSync(R3_SYSTEM.paths.mod + '/Update');
+			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Update/Update.zip') === !0) R3_MODULES.fs.unlinkSync(R3_SYSTEM.paths.mod + '/Update/Update.zip');
+			R3_UPDATER_LOCK = !1;
 		};
 		// 2 - Getting package download link
 		if (actionId === 2){
 			var cBranch = document.getElementById('R3_UPDATER_CURRENT_BRANCH').value;
 			R3_UTILS_LOADING_UPDATE('Downloading files from ' + R3_GITHUB_BRANCHES_LIST[cBranch].name + ' branch - Please wait', 20);
 			R3_fileManager.downloadFile('https://codeload.github.com/TemmieHeartz/R3ditor-V2/zip/refs/heads/' + R3_GITHUB_BRANCHES_LIST[cBranch].name, R3_SYSTEM.paths.mod + '/Update/Update.zip', function(){
-				R3_UPDATER_LOCK = false;
+				R3_UPDATER_LOCK = !1;
 			});
 		};
 		// 3 - Check if download file is OK
 		if (actionId === 3){
-			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Update/Update.zip') !== true){
+			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Update/Update.zip') !== !0){
 				ACTION_updateCrash('Unable to find download file!');
 			} else {
-				R3_UPDATER_LOCK = false;
+				R3_UPDATER_LOCK = !1;
 			};
 		};
 		// 4 - Extract all data from file
@@ -151,8 +155,8 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			};
 			R3_SYSTEM.externalSoftware.runExec(external7zPath, ['x', R3_SYSTEM.paths.mod + '/Update/Update.zip', '-o' + R3_SYSTEM.paths.mod + '/Update/', '-y']);
 			sysInterval = setInterval(function(){
-				if (R3_SYSTEM.externalSoftware.processRunning === false){
-					R3_UPDATER_LOCK = false;
+				if (R3_SYSTEM.externalSoftware.processRunning === !1){
+					R3_UPDATER_LOCK = !1;
 					clearInterval(sysInterval);
 				} else {
 					console.info('Waiting for 7z...');
@@ -165,7 +169,7 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			var cBranch =  document.getElementById('R3_UPDATER_CURRENT_BRANCH').value,
 				fPath = 'R3ditor-V2-' + R3_GITHUB_BRANCHES_LIST[cBranch].name;
 			R3_fileManager.copyFiles(R3_SYSTEM.paths.mod + '/Update/' + fPath + '/', R3_tools.fixPath(process.cwd()), function(){
-				R3_UPDATER_LOCK = false;
+				R3_UPDATER_LOCK = !1;
 			});
 		};
 		// 6 - Removing leftovers
@@ -175,7 +179,7 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 				if (msg !== null){
 					ACTION_updateCrash('Unable to remove leftover files!\n' + msg);
 				} else {
-					R3_UPDATER_LOCK = false;
+					R3_UPDATER_LOCK = !1;
 				};
 			});
 		};
@@ -186,12 +190,13 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			chrome.runtime.reload();
 			clearInterval(sysInterval);
 			clearInterval(R3_UPDATER_INTERVAL);
-			R3_UPDATER_LOCK = false;
+			R3_UPDATER_LOCK = !1;
 		};
 	} else {
-		R3_UPDATER_LOCK = false;
-	};
-};
+		R3_UPDATER_LOCK = !1;
+	}
+}
+
 /*
 	END
 */

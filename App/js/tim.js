@@ -10,25 +10,30 @@
 	Email: stevemonaco@hotmail.com
 	*******************************************************************************
 */
+
 // Variables
 var TIM_CLUT, TIM_header, TIM_bppType, TIM_RAW_IMG, TIM_clutSize, TIM_totalCLUT, TIM_arquivoBruto, TIM_colorsPerCLUT, TIM_VRAM_palleteOrgX, TIM_VRAM_palleteOrgY;
+
 // Objects
 tempFn_R3_TIM = {};
 tempFn_timManager = {};
+
 /*
 	Functions
 */
+
 // Load File TIM_loadFile
 tempFn_R3_TIM['loadFile'] = function(){
 	R3_fileManager.loadFile('.tim', function(timFile, timHex){
 		R3_UTILS_VAR_CLEAN_TIM();
 		TIM_arquivoBruto = timHex;
 		TIM.decompileFile();
-	}, undefined, 'hex');
-};
+	}, void 0, 'hex');
+}
+
 // Decompile TIM TIM_decompileFile
 tempFn_R3_TIM['decompileFile'] = function(){
-	if (TIM_arquivoBruto !== undefined){
+	if (TIM_arquivoBruto !== void 0){
 		TIM_header = TIM_arquivoBruto.slice(0, 8);
 		TIM_bppType = TIM_arquivoBruto.slice(8, 16);
 		/*
@@ -54,15 +59,17 @@ tempFn_R3_TIM['decompileFile'] = function(){
 				convertImgSize = parseInt((R3_tools.parseEndianToInt(R3_tools.parseEndian(META_imgSize)) - 12) * 2);
 			// Extract Image
 			TIM_RAW_IMG = TIM_arquivoBruto.slice(parseInt(metadataStart + 24), (parseInt(metadataStart + 24) + convertImgSize));
-		};
-	};
-};
+		}
+	}
+}
+
 /*
 	Extract TIM from string + location
 */
+
 // Get TIM file from string TIM_getTimFromString
 tempFn_R3_TIM['getTimFromString'] = function(hex, location){
-	if (hex !== undefined && location !== undefined){
+	if (hex !== void 0 && location !== void 0){
 		R3_UTILS_VAR_CLEAN_TIM();
 		// Start Read
 		TIM_header  = hex.slice(location, parseInt(location + 8));
@@ -88,20 +95,21 @@ tempFn_R3_TIM['getTimFromString'] = function(hex, location){
 	This will check if file has BPP
 */
 tempFn_R3_TIM['checkIntegrity'] = function(timHex){
-	if (timHex !== undefined){
-		var loc = 0, res = false;
+	if (timHex !== void 0){
+		var loc = 0, res = !1;
 		try {
 			TMP_header = timHex.slice(loc, parseInt(loc + 8));
 			TMP_bppType = timHex.slice((loc + 8), (loc + 16));
-			if (TIM_BPP[TMP_bppType] !== undefined){
-				res = true;
+			if (TIM_BPP[TMP_bppType] !== void 0){
+				res = !0;
 			};
 		} catch (err) {
 			console.error(err);
 		};
 		return res;
-	};
-};
+	}
+}
+
 /*
 	END
 */
@@ -113,34 +121,31 @@ delete tempFn_R3_TIM;
 */
 // Import TIM R3_TIM_MANAGER_importExport
 tempFn_timManager['import'] = function(){
-	if (RDT_arquivoBruto !== undefined){
+	if (RDT_arquivoBruto !== void 0){
 		R3_fileManager.loadFile('.tim', function(fPath, hxFile){
-			if (R3_TIM.checkIntegrity(hxFile) === true){
+			if (R3_TIM.checkIntegrity(hxFile) === !0){
 				R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile] = hxFile;
 				var finalLbl = '';
-				if (R3_SYSTEM.web.isBrowser === true){
-					finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
-				};
+				if (R3_SYSTEM.web.isBrowser === !0) finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
 				R3_SYSTEM.log('separator');
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (TIM Manager) Import Successful! ' + finalLbl);
 				R3_SYSTEM.alert('INFO: (TIM Manager) Import Successful!');
 			} else {
 				R3_SYSTEM.alert('WARN: Unable to import TIM file!\nReason: This file failed on TIM integrity check!');
 			};
-		}, undefined, 'hex');
-	};
-};
+		}, void 0, 'hex');
+	}
+}
+
 // Export TIM
 tempFn_timManager['export'] = function(){
-	if (RDT_arquivoBruto !== undefined){
+	if (RDT_arquivoBruto !== void 0){
 		R3_fileManager.saveFile('TIM_' + R3_RDT_mapName + '_' + (R3_RDT_currentTimFile + 1) + '.tim', R3_RDT_rawSections.ARRAY_TIM[R3_RDT_currentTimFile], 'hex', '.tim', function(fName){
 			var finalLbl = '';
-			if (R3_SYSTEM.web.isBrowser === true){
-				finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
-			};
+			if (R3_SYSTEM.web.isBrowser === !0) finalLbl = 'Path: <font class="user-can-select">' + fName + '</font>';
 			R3_SYSTEM.log('separator');
 			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (TIM Manager) Export Successful! ' + finalLbl);
 			R3_SYSTEM.alert('INFO: (TIM Manager) Export Successful!');
 		});
-	};
-};
+	}
+}

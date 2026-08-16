@@ -7,13 +7,14 @@
 	compiler!
 	*******************************************************************************
 */
+
 // Reload App without closing main window
 R3_SYSTEM.reload = function(){
 	R3_DISC_clearActivity();
-	if (R3_GAME.gameRunning === true) R3_SYSTEM.externalSoftware.killPID(R3_GAME.gamePID);
-	if (R3_SYSTEM.web.isBrowser !== true){
+	if (R3_GAME.gameRunning === !0) R3_SYSTEM.externalSoftware.killPID(R3_GAME.gamePID);
+	if (R3_SYSTEM.web.isBrowser !== !0){
 		localStorage.clear();
 		sessionStorage.clear();
 	};
-	location.reload(true);
+	location.reload(!0);
 }

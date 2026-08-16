@@ -12,50 +12,50 @@
 
 tempFn_R3_keyPress = {
 	// Variables
-	enableShortcuts: true, // R3_keyPress.enableShortcuts
-	keyUpToggleTimout: true, // R3_keyPress.keyUpToggleTimout
-	KEYBOARD_INIT_OK: false,
+	enableShortcuts: !0, // R3_keyPress.enableShortcuts
+	keyUpToggleTimout: !0, // R3_keyPress.keyUpToggleTimout
+	KEYBOARD_INIT_OK: !1,
 
 	// Key Mapping
-	KEY_ALT: false, // R3_keyPress.KEY_ALT
-	KEY_SHIFT: false, // R3_keyPress.KEY_SHIFT
-	KEY_CONTROL: false, // R3_keyPress.KEY_CONTROL
+	KEY_ALT: !1, // R3_keyPress.KEY_ALT
+	KEY_SHIFT: !1, // R3_keyPress.KEY_SHIFT
+	KEY_CONTROL: !1, // R3_keyPress.KEY_CONTROL
 
 	// Release special keys on prompts, alerts and etc.
 	releaseKeys: function(){ // R3_keyPress.releaseKeys
-		R3_keyPress.KEY_ALT = false;
-		R3_keyPress.KEY_SHIFT = false;
-		R3_keyPress.KEY_CONTROL = false;
+		R3_keyPress.KEY_ALT = !1;
+		R3_keyPress.KEY_SHIFT = !1;
+		R3_keyPress.KEY_CONTROL = !1;
 	}
 };
 // Initialize keyboard
 tempFn_R3_keyPress['INIT'] = function(){
-	if (R3_keyPress.KEYBOARD_INIT_OK === false){
-		R3_keyPress.KEYBOARD_INIT_OK = true;
+	if (R3_keyPress.KEYBOARD_INIT_OK === !1){
+		R3_keyPress.KEYBOARD_INIT_OK = !0;
 		/*
 			KeyDown
 		*/
 		document.addEventListener('keydown', function(kd){
 			// console.info(kd.keyCode);
-			if (R3_keyPress.enableShortcuts === true && R3_SYSTEM.APP_ON_BOOT === false){
+			if (R3_keyPress.enableShortcuts === !0 && R3_SYSTEM.APP_ON_BOOT === !1){
 				// Hold shift [SHIFT]
 				if (kd.keyCode === 16){
-					R3_keyPress.KEY_SHIFT = true;
+					R3_keyPress.KEY_SHIFT = !0;
 				};
 				// Hold control [CTRL]
 				if (kd.keyCode === 17){
-					R3_keyPress.KEY_CONTROL = true;
+					R3_keyPress.KEY_CONTROL = !0;
 				};
 				// Release control if [ALT_GR] is pressed
 				if (kd.keyCode === 18){
-					R3_keyPress.KEY_ALT = true;
-					R3_keyPress.KEY_CONTROL = false;
+					R3_keyPress.KEY_ALT = !0;
+					R3_keyPress.KEY_CONTROL = !1;
 				};
 				// SCD Seek Scripts, Functions and Navigation
 				if (R3_MENU_CURRENT === 9){
-					if (R3_keyPress.KEY_CONTROL === true && R3_SCD_IS_EDITING === false && SCD_arquivoBruto !== undefined && R3_keyPress.KEY_SHIFT === false){
+					if (R3_keyPress.KEY_CONTROL === !0 && R3_SCD_IS_EDITING === !1 && SCD_arquivoBruto !== void 0 && R3_keyPress.KEY_SHIFT === !1){
 						// Disable skip shortcuts
-						if (R3_SETTINGS.SETTINGS_SCD_DISABLE_NEXT_PREV_SHORTCUTS === false){
+						if (R3_SETTINGS.SETTINGS_SCD_DISABLE_NEXT_PREV_SHORTCUTS === !1){
 							// Next [CTRL + Right Arrow]
 							if (kd.keyCode === 39){
 								R3_SCD_SKIPSCRIPT(1);
@@ -89,7 +89,7 @@ tempFn_R3_keyPress['INIT'] = function(){
 				};
 				// MSG Shortcuts
 				if (R3_MENU_CURRENT === 7){
-					if (R3_keyPress.KEY_CONTROL === true && MSG_arquivoBruto !== undefined && R3_SETTINGS.SETTINGS_MSG_DISABLE_NEXT_PREV_SHORTCUTS === false){
+					if (R3_keyPress.KEY_CONTROL === !0 && MSG_arquivoBruto !== void 0 && R3_SETTINGS.SETTINGS_MSG_DISABLE_NEXT_PREV_SHORTCUTS === !1){
 						// Next Message [CTRL + Right Arrow]
 						if (kd.keyCode === 39){
 							R3_MSG_SKIPSCRIPT(1);
@@ -101,7 +101,7 @@ tempFn_R3_keyPress['INIT'] = function(){
 					};
 				};
 				// RID Seek Camera
-				if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === true){
+				if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === !0){
 					// Next Next [CTRL + Right Arrow]
 					if (kd.keyCode === 39){
 						R3_DESIGN_RID_seekCamera(1);
@@ -122,67 +122,67 @@ tempFn_R3_keyPress['INIT'] = function(){
 		*/
 		document.addEventListener('keyup', function(kp){
 			// console.info(kp.keyCode);
-			if (R3_keyPress.enableShortcuts === true && R3_SYSTEM.APP_ON_BOOT !== true){
+			if (R3_keyPress.enableShortcuts === !0 && R3_SYSTEM.APP_ON_BOOT !== !0){
 				// Release Shift [SHIFT]
 				if (kp.keyCode === 16){
-					R3_keyPress.KEY_SHIFT = false;
+					R3_keyPress.KEY_SHIFT = !1;
 				};
 				// Release Control [CTRL]
 				if (kp.keyCode === 17){
-					R3_keyPress.KEY_CONTROL = false;
+					R3_keyPress.KEY_CONTROL = !1;
 				};
 				// Release Alt [ALT]
 				if (kp.keyCode === 18){
-					R3_keyPress.KEY_ALT = false;
+					R3_keyPress.KEY_ALT = !1;
 				};
 				// Close on Esc [ESC]
 				if (kp.keyCode === 27){
 					// SCD Editor
 					if (R3_MENU_CURRENT === 9){
 						// SCD Search form
-						if (R3_MINI_WINDOW_DATABASE[9][5] === true){
+						if (R3_MINI_WINDOW_DATABASE[9][5] === !0){
 							R3_MINIWINDOW.close(9);
 						};
 						// Close Edit form
-						if (R3_SCD_IS_EDITING === true){
+						if (R3_SCD_IS_EDITING === !0){
 							R3_SCD_cancelFunctionEdit();
 						};
 					};
 					// MSG Editor
-					if (R3_MENU_CURRENT === 7 && R3_MSG_IS_EDITING === true){
+					if (R3_MENU_CURRENT === 7 && R3_MSG_IS_EDITING === !0){
 						R3_MSG_cancelFunctionEdit();
 					};
 					// RID Editor
-					if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === true){
+					if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === !0){
 						R3_MINIWINDOW.close(6);
 					};
 				};
 				// Commands not available on web vesion
-				if (R3_SYSTEM.web.isBrowser === false){
+				if (R3_SYSTEM.web.isBrowser === !1){
 					// Open Help Center [F1]
 					if (kp.keyCode === 112){
 						R3_HC_OPEN_PAGE(R3_MENU_CURRENT);
 					};
 					// [CTRL] Hotkeys
-					if (R3_keyPress.KEY_CONTROL === true){
+					if (R3_keyPress.KEY_CONTROL === !0){
 						// Open SCD Opcode Finder [Main Menu, CTRL + SHIFT + F]
-						if (R3_keyPress.KEY_SHIFT === true && kp.keyCode === 70){
+						if (R3_keyPress.KEY_SHIFT === !0 && kp.keyCode === 70){
 							R3_SCD_openOpcodeFinder();
 						};
 						// Open log window [CTRL + SHIFT + L]
-						if (R3_keyPress.KEY_SHIFT === true && kp.keyCode === 76){
+						if (R3_keyPress.KEY_SHIFT === !0 && kp.keyCode === 76){
 							R3_DESIGN_openLogWindow();
 						};
 						// Close tools using [CTRL + E]
-						if (R3_keyPress.KEY_SHIFT === false && R3_SETTINGS.SETTINGS_SHORTCUT_CLOSETOOL === true && kp.keyCode === 69){
+						if (R3_keyPress.KEY_SHIFT === !1 && R3_SETTINGS.SETTINGS_SHORTCUT_CLOSETOOL === !0 && kp.keyCode === 69){
 							R3_MENU_EXIT();
 						};
 						// Open Item Databse [CTRL + SHIFT + D]
-						if (R3_keyPress.KEY_SHIFT === true && kp.keyCode === 68){
+						if (R3_keyPress.KEY_SHIFT === !0 && kp.keyCode === 68){
 							R3_MINIWINDOW.open(15, 'center');
 						};
 						// RDT - Open editors using numbers [CTRL + Number]
-						if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === false){
+						if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === !1){
 							// SCD [CTRL + 1]
 							if (kp.keyCode === 49){
 								R3_RDT.sections.openSCD();
@@ -244,29 +244,29 @@ tempFn_R3_keyPress['INIT'] = function(){
 							};
 						};
 						// Go Back to RDT menu [CTRL + ']
-						if (RDT_arquivoBruto !== undefined && R3_MENU_BACK_EXCLUDE.indexOf(R3_MENU_CURRENT) === -1 && kp.keyCode === 192){
+						if (RDT_arquivoBruto !== void 0 && R3_MENU_BACK_EXCLUDE.indexOf(R3_MENU_CURRENT) === -1 && kp.keyCode === 192){
 							R3_MINIWINDOW.close([6, 10]);
 							R3_DESIGN_RDT_closeFileList();
 							R3_SHOW_MENU(10);
 						};
 					};
 					// Open Next Map on RDT Editor
-					if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === false){
+					if (R3_MENU_CURRENT === 10 && R3_MINI_WINDOW_DATABASE[6][5] === !1){
 						// Next Map [CTRL + Right Arrow]
-						if (R3_keyPress.KEY_CONTROL === true && R3_keyPress.KEY_SHIFT === false && kp.keyCode === 39){
+						if (R3_keyPress.KEY_CONTROL === !0 && R3_keyPress.KEY_SHIFT === !1 && kp.keyCode === 39){
 							R3_RDT_openNextPrevMap(0);
 						};
 						// Next Map [CTRL + Left Arrow]
-						if (R3_keyPress.KEY_CONTROL === true && R3_keyPress.KEY_SHIFT === false && kp.keyCode === 37){
+						if (R3_keyPress.KEY_CONTROL === !0 && R3_keyPress.KEY_SHIFT === !1 && kp.keyCode === 37){
 							R3_RDT_openNextPrevMap(1);
 						};
 					};
 					// Open RDT file list [CTRL + Q]
 					if (R3_MENU_CURRENT === 4 || R3_MENU_CURRENT === 10 || R3_MENU_CURRENT === 9 || R3_MENU_CURRENT === 7){
-						if (R3_keyPress.KEY_CONTROL === true && kp.keyCode === 81){
+						if (R3_keyPress.KEY_CONTROL === !0 && kp.keyCode === 81){
 							R3_DESIGN_RDT_openFileList();
 							R3_SHOW_MENU(10);
-							if (RDT_arquivoBruto === undefined){
+							if (RDT_arquivoBruto === void 0){
 								TMS.css('BTN_MAIN_27', {'display': 'none'});
 							};
 						};
@@ -276,11 +276,11 @@ tempFn_R3_keyPress['INIT'] = function(){
 					*/
 					if (R3_MENU_CURRENT === 9){
 						// SCD - Alternate from List to code editor and etc [F2]
-						if (R3_SCD_IS_EDITING === false && kp.keyCode === 113){
+						if (R3_SCD_IS_EDITING === !1 && kp.keyCode === 113){
 							R3_SCD_OPEN_CLOSE_CODE_EDITOR();
 						};
 						// SCD - Save / Open JS File [Code editor]
-						if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1 && R3_keyPress.KEY_CONTROL === false && R3_keyPress.KEY_ALT === true){
+						if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1 && R3_keyPress.KEY_CONTROL === !1 && R3_keyPress.KEY_ALT === !0){
 							// Open file [ALT + O]
 							if (kp.keyCode === 79){
 								R3_SCD_OPEN_JS_FILE();
@@ -291,13 +291,13 @@ tempFn_R3_keyPress['INIT'] = function(){
 							};
 						};
 						// SCD - Open Script List [CTRL + L]
-						if (R3_keyPress.KEY_SHIFT === false && R3_keyPress.KEY_CONTROL === true && kp.keyCode === 76){
+						if (R3_keyPress.KEY_SHIFT === !1 && R3_keyPress.KEY_CONTROL === !0 && kp.keyCode === 76){
 							R3_MINIWINDOW.open(4);
 						};
 						// Navigation Shortcuts
-						if (R3_SCD_IS_EDITING === false && R3_keyPress.KEY_CONTROL === true){
+						if (R3_SCD_IS_EDITING === !1 && R3_keyPress.KEY_CONTROL === !0){
 							// Compile JS SCD Script [CTRL + R]
-							if (kp.keyCode === 82 && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1 && R3_keyPress.KEY_SHIFT === false){
+							if (kp.keyCode === 82 && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1 && R3_keyPress.KEY_SHIFT === !1){
 								R3_SCD_JS_START_COMPILER();
 							};
 							// Open edit form via shortcut [CTRL + Space]
@@ -317,20 +317,20 @@ tempFn_R3_keyPress['INIT'] = function(){
 								R3_SCD_SCRIPT_REMOVE();
 							}
 							// Copy Function [CTRL + C]
-							if (kp.keyCode === 67 && R3_SCD_FUNCTION_FOCUSED === true){
+							if (kp.keyCode === 67 && R3_SCD_FUNCTION_FOCUSED === !0){
 								R3_SCD_COPY_FUNCTION();
 							};
 							// Crop Function [CTRL + X]
-							if (kp.keyCode === 88 && R3_SCD_FUNCTION_FOCUSED === true){
-								R3_SCD_COPY_FUNCTION(true);
+							if (kp.keyCode === 88 && R3_SCD_FUNCTION_FOCUSED === !0){
+								R3_SCD_COPY_FUNCTION(!0);
 							};
 							// Paste Function [CTRL + V]
 							if (kp.keyCode === 86){
 								// Using [SHIFT] will ask where to paste
-								if (R3_keyPress.KEY_SHIFT === true){
+								if (R3_keyPress.KEY_SHIFT === !0){
 									R3_SCD_PASTE_FUNCTION();
 								} else {
-									R3_SCD_PASTE_FUNCTION(true);
+									R3_SCD_PASTE_FUNCTION(!0);
 								};
 							};
 							// Delete Function [CTRL + Delete]
@@ -338,19 +338,19 @@ tempFn_R3_keyPress['INIT'] = function(){
 								R3_SCD_FUNCTION_REMOVE();
 							};
 							// Jump to Run Script [GO_SUB] location [CTRL + J]
-							if (kp.keyCode === 74 && R3_SCD_FUNCTION_FOCUSED === true){
+							if (kp.keyCode === 74 && R3_SCD_FUNCTION_FOCUSED === !0){
 								R3_SCD_JUMP_GOSUB();
 							};
 							// Import script [CTRL + I]
-							if (kp.keyCode === 73 && R3_keyPress.KEY_SHIFT === false){
+							if (kp.keyCode === 73 && R3_keyPress.KEY_SHIFT === !1){
 								R3_SCD_IMPORT_SCRIPT();
 							};
 							// Export Script [CTRL + SHIFT + E]
-							if (R3_keyPress.KEY_SHIFT === true && kp.keyCode === 69){
+							if (R3_keyPress.KEY_SHIFT === !0 && kp.keyCode === 69){
 								R3_SCD_EXPORT_SCRIPT();
 							};
 							// [CTRL + SHIFT] Combos
-							if (R3_keyPress.KEY_SHIFT === true){
+							if (R3_keyPress.KEY_SHIFT === !0){
 								// Go to first function [CTRL + SHIFT + Page Up]
 								if (kp.keyCode === 33){
 									R3_SCD_navigateFunctions(6);
@@ -362,7 +362,7 @@ tempFn_R3_keyPress['INIT'] = function(){
 							};
 						};
 						// Open next function while edit form still open
-						if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0 && R3_SCD_IS_EDITING === true && R3_keyPress.KEY_CONTROL === true && R3_keyPress.KEY_SHIFT === false){
+						if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0 && R3_SCD_IS_EDITING === !0 && R3_keyPress.KEY_CONTROL === !0 && R3_keyPress.KEY_SHIFT === !1){
 							// Next function [CTRL + Right Arrow]
 							if (kp.keyCode === 39){
 								R3_SCD_openPrevNextFunction(1);
@@ -374,7 +374,7 @@ tempFn_R3_keyPress['INIT'] = function(){
 						};
 					};
 					// MSG - Shortcuts
-					if (R3_MENU_CURRENT === 7 && R3_keyPress.KEY_CONTROL === true){
+					if (R3_MENU_CURRENT === 7 && R3_keyPress.KEY_CONTROL === !0){
 						// Add new message [CTRL + +]
 						if (kp.keyCode === 187){
 							R3_MSG_addMessage();
@@ -389,9 +389,9 @@ tempFn_R3_keyPress['INIT'] = function(){
 						};
 					};
 					// Apply Function [CTRL + Enter] or [ALT + Enter]
-					if (R3_keyPress.KEY_CONTROL === true && kp.keyCode === 13 || R3_keyPress.KEY_ALT === true && kp.keyCode === 13){
+					if (R3_keyPress.KEY_CONTROL === !0 && kp.keyCode === 13 || R3_keyPress.KEY_ALT === !0 && kp.keyCode === 13){
 						// SCD Editor
-						if (R3_MENU_CURRENT === 9 && R3_SCD_IS_EDITING === true){
+						if (R3_MENU_CURRENT === 9 && R3_SCD_IS_EDITING === !0){
 							var checkCanApply = document.getElementById('R3_SCD_EDITFUNCTION_HOLDER').innerHTML;
 							if (checkCanApply !== INCLUDE_SCD_EDIT_WIP){
 								TMS.triggerClick('R3_SCD_BTN_APPLY');
@@ -400,12 +400,12 @@ tempFn_R3_keyPress['INIT'] = function(){
 							};
 						};
 						// MSG Editor
-						if (R3_MENU_CURRENT === 7 && R3_MSG_IS_EDITING === true){
+						if (R3_MENU_CURRENT === 7 && R3_MSG_IS_EDITING === !0){
 							TMS.triggerClick('R3_MSG_BTN_APPLY');
 						};
 					};
 					// GOTO [CTRL + G]
-					if (R3_keyPress.KEY_CONTROL === true && kp.keyCode === 71){
+					if (R3_keyPress.KEY_CONTROL === !0 && kp.keyCode === 71){
 						// SCD Editor
 						if (R3_MENU_CURRENT === 9){
 							R3_SCD_GOTO_SCRIPT();
@@ -416,7 +416,7 @@ tempFn_R3_keyPress['INIT'] = function(){
 						};
 					};
 					// Open files [CTRL + O]
-					if (R3_keyPress.KEY_CONTROL === true && kp.keyCode === 79){
+					if (R3_keyPress.KEY_CONTROL === !0 && kp.keyCode === 79){
 						// RDT Editor
 						if (R3_MENU_CURRENT === 10){
 							R3_RDT.loadFile();
@@ -431,7 +431,7 @@ tempFn_R3_keyPress['INIT'] = function(){
 						};
 					};
 					// New file [CTRL + N]
-					if (R3_keyPress.KEY_CONTROL === true && kp.keyCode === 78){
+					if (R3_keyPress.KEY_CONTROL === !0 && kp.keyCode === 78){
 						// RDT Editor
 						if (R3_MENU_CURRENT === 10){
 							R3_RDT.newFile();
@@ -446,30 +446,30 @@ tempFn_R3_keyPress['INIT'] = function(){
 						};
 					};
 					// Save files [CTRL + S]
-					if (R3_keyPress.KEY_CONTROL === true && kp.keyCode === 83){
+					if (R3_keyPress.KEY_CONTROL === !0 && kp.keyCode === 83){
 						// RDT Editor
-						if (R3_MENU_CURRENT === 10 && RDT_arquivoBruto !== undefined){
+						if (R3_MENU_CURRENT === 10 && RDT_arquivoBruto !== void 0){
 							R3_RDT.compile();
 						};
 						// SCD Editor
-						if (R3_MENU_CURRENT === 9 && SCD_arquivoBruto !== undefined){
+						if (R3_MENU_CURRENT === 9 && SCD_arquivoBruto !== void 0){
 							R3_SCD_COMPILE(0);
 						};
 						// MSG Editor
-						if (R3_MENU_CURRENT === 7 && MSG_arquivoBruto !== undefined){
+						if (R3_MENU_CURRENT === 7 && MSG_arquivoBruto !== void 0){
 							R3_MSG_COMPILE(0);
 						};
 					};
 					// Swap Bar Pos [F3]
-					if (kp.keyCode === 114 && R3_keyPress.keyUpToggleTimout !== true && R3_GAME.gameRunning !== false){
+					if (kp.keyCode === 114 && R3_keyPress.keyUpToggleTimout !== !0 && R3_GAME.gameRunning !== !1){
 						R3_LIVESTATUS_BAR_TOGGLEPOS();
 					};
 					// Open RE3 Livestatus [F4]
-					if (kp.keyCode === 115 && R3_keyPress.keyUpToggleTimout !== true && R3_GAME.gameRunning !== false){
+					if (kp.keyCode === 115 && R3_keyPress.keyUpToggleTimout !== !0 && R3_GAME.gameRunning !== !1){
 						R3_LIVESTATUS_OPEN_MENU();
 					};
 					// Run Game
-					if (R3_GAME.gameRunning !== true){
+					if (R3_GAME.gameRunning !== !0){
 						// [F5]: Run RE3 (Mod)
 						if (kp.keyCode === 118){
 							R3_GAME.run(0);
@@ -488,29 +488,29 @@ tempFn_R3_keyPress['INIT'] = function(){
 						};
 					};
 					// [F9]: Go to title screen
-					if (kp.keyCode === 120 && R3_GAME.gameRunning === true){
+					if (kp.keyCode === 120 && R3_GAME.gameRunning === !0){
 						R3_LIVESTATUS.gotoTitleScreen();
 					};
 					// Apply SCD Hack / Open Hex Window
-					if (R3_keyPress.KEY_CONTROL === true && RDT_arquivoBruto !== undefined && kp.keyCode === 72){
+					if (R3_keyPress.KEY_CONTROL === !0 && RDT_arquivoBruto !== void 0 && kp.keyCode === 72){
 						/*
 							APPLY SCD HACK [CTRL + SHIFT + H]
 							Remove the lines below when this feature becomes obsolete
 						*/
-						if (R3_keyPress.KEY_SHIFT === true){
-							R3_RDT.scdHack.applyHack(true);
+						if (R3_keyPress.KEY_SHIFT === !0){
+							R3_RDT.scdHack.applyHack(!0);
 						} else {
 							R3_MINIWINDOW.open(3);
 						};
 					};
 					// Open Backup Manager [CTRL + SHIFT + B]
-					if (R3_keyPress.KEY_CONTROL === true && R3_keyPress.KEY_SHIFT === true && kp.keyCode === 66){
+					if (R3_keyPress.KEY_CONTROL === !0 && R3_keyPress.KEY_SHIFT === !0 && kp.keyCode === 66){
 						R3_DESIGN_renderBackupManager();
 					};
 				};
 			}
 			// Reload [CTRL + SHIFT + R]
-			if (kp.keyCode === 82 && R3_keyPress.KEY_SHIFT === true && R3_keyPress.KEY_CONTROL === true){
+			if (kp.keyCode === 82 && R3_keyPress.KEY_SHIFT === !0 && R3_keyPress.KEY_CONTROL === !0){
 				R3_SYSTEM.reload();
 			};
 			// Update text data on SCD Code editor
@@ -560,22 +560,22 @@ function R3_SCD_CODE_EDITOR_enhanceType(evt){
 	General Functions
 */
 tempFn_R3_mouse = {
-	MOUSE_INIT_OK: false
+	MOUSE_INIT_OK: !1
 };
 // Initialize mouse
 tempFn_R3_mouse['INIT'] = function(){
-	if (R3_mouse.MOUSE_INIT_OK === false){
-		R3_mouse.MOUSE_INIT_OK = true;
+	if (R3_mouse.MOUSE_INIT_OK === !1){
+		R3_mouse.MOUSE_INIT_OK = !0;
 		// Mouse Wheel
 		document.addEventListener('wheel', function(mWheel){
 			// console.info(mWheel.deltaY);
 			if (R3_MENU_CURRENT === 9){
 				// While not editing
-				if (R3_SCD_IS_EDITING === false && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
+				if (R3_SCD_IS_EDITING === !1 && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 					// Focus previous function [CTRL + Mouse Scroll Up]
-					if (R3_keyPress.KEY_CONTROL === true && mWheel.deltaY < 0){
+					if (R3_keyPress.KEY_CONTROL === !0 && mWheel.deltaY < 0){
 						// Normal
-						if (R3_keyPress.KEY_SHIFT === false){
+						if (R3_keyPress.KEY_SHIFT === !1){
 							R3_SCD_navigateFunctions(0);
 						} else {
 							// -10 [CTRL + SHIFT + Mouse Scroll Up]
@@ -583,9 +583,9 @@ tempFn_R3_mouse['INIT'] = function(){
 						};
 					};
 					// Focus next function [CTRL + Mouse Scroll Down]
-					if (R3_keyPress.KEY_CONTROL === true && mWheel.deltaY > 0){
+					if (R3_keyPress.KEY_CONTROL === !0 && mWheel.deltaY > 0){
 						// Normal
-						if (R3_keyPress.KEY_SHIFT === false){
+						if (R3_keyPress.KEY_SHIFT === !1){
 							R3_SCD_navigateFunctions(1);
 						} else {
 							// +10 [CTRL + SHIFT + Mouse Scroll Down]
@@ -596,7 +596,7 @@ tempFn_R3_mouse['INIT'] = function(){
 				// JS Code editor
 				if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){
 					// Text Size
-					if (R3_keyPress.KEY_CONTROL === true){
+					if (R3_keyPress.KEY_CONTROL === !0){
 						// Zoom +
 						if (mWheel.deltaY < 0){
 							R3_DESIGN_CODE_zoomMode(0);
@@ -609,10 +609,10 @@ tempFn_R3_mouse['INIT'] = function(){
 				};
 			};
 			// Prevent page zoom
-			if (R3_keyPress.KEY_CONTROL === true){
+			if (R3_keyPress.KEY_CONTROL === !0){
 				mWheel.preventDefault();
 			};
-		}, {passive: false});
+		}, {passive: !1});
 	} else {
 		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (Mouse) This function is already initialized!');
 	};

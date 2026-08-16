@@ -9,14 +9,18 @@
 	https://github.com/pmandin/reevengi-tools/wiki/.ARD
 	*******************************************************************************
 */
+
 var ARD_fileSize, ARD_arquivoBruto, ARD_totalObjects, ARD_sections = ARD_objectsMetadata = [], ARD_filePath = ARD_fileName = ARD_fileName = '';
+
 /*
 	Functions
 */
+
 // Load Files
 function ARD_loadFile(){
-	if (R3_SYSTEM.web.isBrowser === false){
+	if (R3_SYSTEM.web.isBrowser === !1){
 		R3_fileManager.loadFile('.ard', function(ardFile){
+
 			R3_UTILS_VAR_CLEAN_ARD();
 			ARD_filePath = R3_tools.getFilePath(ardFile);
 			ARD_fileName = R3_tools.getFileName(ardFile);
@@ -25,20 +29,20 @@ function ARD_loadFile(){
 			ARD_totalObjects = parseInt(R3_tools.parseEndian(ARD_arquivoBruto.slice(8, 16)), 16);
 			const tempMetadata = ARD_arquivoBruto.slice(16, ((ARD_totalObjects * 16) + 24)).match(/.{8,8}/g);
 			for (var c = 0; c < (ARD_totalObjects * 2); c++){
-				if (R3_tools.isInteger(c / 2) === true){
-					ARD_objectsMetadata.push(R3_tools.parseEndian(tempMetadata[c]));
-				};
-			};
+				if (R3_tools.isInteger(c / 2) === !0) ARD_objectsMetadata.push(R3_tools.parseEndian(tempMetadata[c]));
+			}
 			// End
 			ARD_extractSections();
+
 		});
 	} else {
 		R3_SYSTEM.web.webWarn();
-	};
-};
+	}
+}
+
 // Extract Sections
 function ARD_extractSections(){
-	if (ARD_arquivoBruto !== undefined){
+	if (ARD_arquivoBruto !== void 0){
 		var cSection = 4096, sectionFullSize, nextSection, sectionSlice, newFilePath, finalFile = '';
 		for (var c = 0; c < ARD_totalObjects; c++){
 			sectionSlice = ARD_arquivoBruto.slice(cSection, (cSection + parseInt(ARD_objectsMetadata[c], 16) * 2));
@@ -64,12 +68,13 @@ function ARD_extractSections(){
 		} catch (err) {
 			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to save ARD Extractor files! <br>Details: ' + err);
 			R3_SYSTEM.alert('ERROR - Unable to save files!\n' + err);
-		};
-	};
-};
+		}
+	}
+}
+
 // Check Compiler
 function ARD_checkCompiler(){
-	if (R3_SYSTEM.web.isBrowser === false){
+	if (R3_SYSTEM.web.isBrowser === !1){
 		R3_fileManager.loadFile('.R3ARD', function(recompilerFile){
 			R3_UTILS_VAR_CLEAN_ARD();
 			// Start Getting Infos
@@ -78,19 +83,20 @@ function ARD_checkCompiler(){
 				rebuildFile.push(line); 
 			});
 			mapName = rebuildFile[1].replace('MAP = ', '');
-			if (R3_MODULES.fs.existsSync(R3_tools.getFilePath(recompilerFile) + '/' + mapName + '.RDT') === true){
+			if (R3_MODULES.fs.existsSync(R3_tools.getFilePath(recompilerFile) + '/' + mapName + '.RDT') === !0){
 				ARD_startRecompiler(rebuildFile, R3_tools.getFilePath(recompilerFile) + mapName + '.RDT');
 			} else {
 				R3_SYSTEM.alert('WARN - Unable to find RDT file!');
-			};
+			}
 		});
 	} else {
 		R3_SYSTEM.web.webWarn();
-	};
-};
+	}
+}
+
 // Start Compiler
 function ARD_startRecompiler(ardInfos, rdtPath){
-	if (R3_SYSTEM.web.isBrowser === false){
+	if (R3_SYSTEM.web.isBrowser === !1){
 		var c = 0, ARD_temp = RDT_nextOffsetLength = RDT_nextOffset = '',
 			fileName = ardInfos[1].replace('MAP = ', '').toUpperCase(),
 			DATA_0 = ardInfos[3].replace('DATA_0 = ', ''),
@@ -113,5 +119,5 @@ function ARD_startRecompiler(ardInfos, rdtPath){
 		R3_fileManager.saveFile(fileName + '.ARD', HEX_FINAL, 'hex', '.ARD');
 	} else {
 		R3_SYSTEM.web.webWarn();
-	};
-};
+	}
+}

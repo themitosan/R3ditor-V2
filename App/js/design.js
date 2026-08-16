@@ -7,6 +7,7 @@
 	operations inside R3V2.
 	*******************************************************************************
 */
+
 // Main Vars
 var R3_HAS_CRITICAL_ERROR = false,
 	// Menu Vars

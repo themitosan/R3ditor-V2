@@ -8,12 +8,12 @@
 */
 // Variables
 var BIO3INI_Save, BIO3INI_Movie, BIO3INI_Regist, BIO3INI_Rofs1, BIO3INI_Rofs2, BIO3INI_Rofs3, BIO3INI_Rofs4, BIO3INI_Rofs5, BIO3INI_Rofs6, BIO3INI_Rofs7, BIO3INI_Rofs8, BIO3INI_Rofs9, BIO3INI_Rofs10, BIO3INI_Rofs11, BIO3INI_Rofs12, BIO3INI_Rofs13, BIO3INI_Rofs14, BIO3INI_Rofs15,
-	// true = On, false = Off
-	BIO3INI_v_disableMovie = true,
-	BIO3INI_v_disableAlpha = false,
-	BIO3INI_v_disableLinear = false,
-	BIO3INI_v_textureAdjust = false,
-	BIO3INI_v_disableSpecular = true,
+	// !0 = On, !1 = Off
+	BIO3INI_v_disableMovie = !0,
+	BIO3INI_v_disableAlpha = !1,
+	BIO3INI_v_disableLinear = !1,
+	BIO3INI_v_textureAdjust = !1,
+	BIO3INI_v_disableSpecular = !0,
 	BIO3INI_v_mode = 'Windowed',
 	// Windowed
 	BIO3INI_w_BPP = 32,
@@ -47,26 +47,26 @@ var BIO3INI_Save, BIO3INI_Movie, BIO3INI_Regist, BIO3INI_Rofs1, BIO3INI_Rofs2, B
 	BIO3INI_sound_device = 'NULL',
 	// Data
 	BIO3INI_data_00 = BIO3INI_data_01 = BIO3INI_data_02 = BIO3INI_data_03 = BIO3INI_data_10 = BIO3INI_data_complete = '';
+
 // Objects
 tempFn_R3_INI = {};
+
 /*
 	Functions
 */
+
 // Parse bool to ini R3_INI_parseBool
 tempFn_R3_INI['parseBool'] = function(value){
-	if (value !== undefined){
+	if (value !== void 0){
 		var res = 'on';
-		if (value === false){
-			res = 'off';
-		};
+		if (value === !1) res = 'off';
 		return res;
-	};
-};
+	}
+}
+
 // Make INI file R3_INI_MAKEFILE
 tempFn_R3_INI['generateIni'] = function(mode, keepRofs11){
-	if (mode !== undefined){
-		mode === 1;
-	};
+	if (mode !== void 0) mode === 1;
 	BIO3INI_Save = '.\\Save';
 	BIO3INI_Movie = '.\\zmovie';
 	BIO3INI_Regist = '.\\regist.txt';
@@ -81,9 +81,7 @@ tempFn_R3_INI['generateIni'] = function(mode, keepRofs11){
 	BIO3INI_Rofs9 = '.\\ROOM\\EMD';
 	BIO3INI_Rofs10 = '.\\ROOM\\EMD08';
 	BIO3INI_Rofs11 = '.\\ROOM\\RBJ';
-	if (keepRofs11 === true){
-		BIO3INI_Rofs11 = '.\\Rofs11.dat';
-	};
+	if (keepRofs11 === !0) BIO3INI_Rofs11 = '.\\Rofs11.dat';
 	BIO3INI_Rofs12 = '.\\' + R3_RDT_PREFIX_EASY + '\\RDT';
 	BIO3INI_Rofs13 = '.\\' + R3_RDT_PREFIX_HARD + '\\RDT';
 	BIO3INI_Rofs14 = '.\\DATA_A\\VOICE';
@@ -104,9 +102,11 @@ tempFn_R3_INI['generateIni'] = function(mode, keepRofs11){
 		BIO3INI_Rofs13 = '.\\Rofs13.dat';
 		BIO3INI_Rofs14 = '.\\Rofs14.dat';
 		BIO3INI_Rofs15 = '.\\Rofs15.dat';
-	};
+	}
+
 	R3_INI.saveIni('Bio3.ini', mode);
-};
+}
+
 // Save INI
 tempFn_R3_INI['saveIni'] = function(path, mode){
 	const FINAL = '[General]\n' +
@@ -168,17 +168,18 @@ tempFn_R3_INI['saveIni'] = function(path, mode){
 		'Data03=' + BIO3INI_data_03 + '\n' +
 		'Data10=' + BIO3INI_data_10 + '\n\n';
 	if (mode === 0){
-		if (R3_SYSTEM.web.isBrowser === false){
+		if (R3_SYSTEM.web.isBrowser === !1){
 			try {
 				R3_MODULES.fs.writeFileSync(R3_MOD.path + '/' + path, FINAL, 'utf-8');
 			} catch (err) {
 				R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to save INI file! <br>Reason: ' + err);
-			};
-		};
+			}
+		}
 	} else {
 		R3_fileManager.saveFile(path, FINAL, 'utf-8', '.ini');
-	};
-};
+	}
+}
+
 /*
 	END
 */

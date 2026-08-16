@@ -7,16 +7,18 @@
 	RDT maps.
 	*******************************************************************************
 */
+
 tempFn_R3_rdtRID = {
 	cameraList: [],
 	currentCamera: 0
-};
+}
+
 /*
 	Functions
 */
 // Start Extraction
 tempFn_R3_rdtRID['readRID'] = function(){
-	if (R3_RDT_rawSections.RAWSECTION_RID !== undefined){
+	if (R3_RDT_rawSections.RAWSECTION_RID !== void 0){
 		var HTML_TEMPLATE = '';
 		R3_DESIGN_CLEAN_RID();
 		// Add Cameras on Interface
@@ -30,11 +32,12 @@ tempFn_R3_rdtRID['readRID'] = function(){
 		R3_rdtRID.readCamera(0);
 	} else {
 		R3_SYSTEM.log('error', 'R3ditor V2 - WARN: Unable to read RID! <br>Reason: RID is not defined!');
-	};
-};
+	}
+}
+
 // Read Camera
 tempFn_R3_rdtRID['readCamera'] = function(cameraId){
-	if (cameraId !== undefined){
+	if (cameraId !== void 0){
 		var cId = parseInt(cameraId), RID_rawCam = R3_rdtRID.cameraList[cId],
 			RID_type = RID_rawCam.slice(R3_RID_DEC_DB.type[0], R3_RID_DEC_DB.type[1]),
 			RID_unk0 = RID_rawCam.slice(R3_RID_DEC_DB.unk0[0], R3_RID_DEC_DB.unk0[1]),
@@ -66,23 +69,25 @@ tempFn_R3_rdtRID['readCamera'] = function(cameraId){
 };
 // Add Camera
 tempFn_R3_rdtRID['addCamera'] = function(){
-	if (R3_RDT_rawSections.RAWSECTION_RID !== undefined){
+	if (R3_RDT_rawSections.RAWSECTION_RID !== void 0){
 		R3_rdtRID.cameraList.push('0000b7730000ffff0000ffff0000ffff0000ffff0000ffff0000ffff000000000');
 		R3_rdtRID.readRID();
 		R3_rdtRID.readCamera(parseInt(R3_rdtRID.cameraList.length - 1));
-	};
-};
+	}
+}
+
 // Remove Camera
 tempFn_R3_rdtRID['removeCamera'] = function(){
-	if (R3_RDT_rawSections.RAWSECTION_RID !== undefined){
+	if (R3_RDT_rawSections.RAWSECTION_RID !== void 0){
 		R3_rdtRID.cameraList.splice(R3_rdtRID.currentCamera, 1);
 		R3_rdtRID.readRID();
 		R3_rdtRID.readCamera(parseInt(R3_rdtRID.cameraList.length - 1));
-	};
-};
+	}
+}
+
 // Compile RID
 tempFn_R3_rdtRID['compileRID'] = function(){
-	if (R3_RDT_rawSections.RAWSECTION_RID !== undefined){
+	if (R3_RDT_rawSections.RAWSECTION_RID !== void 0){
 		var newPointer, cCam = R3_rdtRID.currentCamera, RID_type = document.getElementById('R3_RID_EDIT_camType').value,
 			RID_unk0 = R3_tools.fixVars(document.getElementById('R3_RID_EDIT_unk0').value, 4),
 			RID_X	 = R3_tools.parseEndian(R3_tools.convertPosIntToHex(parseInt(document.getElementById('R3_RID_EDIT_posX').value))),
@@ -101,8 +106,9 @@ tempFn_R3_rdtRID['compileRID'] = function(){
 		// End
 		R3_rdtRID.readRID();
 		R3_rdtRID.readCamera(cCam);
-	};
-};
+	}
+}
+
 /*
 	END
 */
