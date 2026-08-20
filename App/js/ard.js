@@ -50,7 +50,7 @@ function ARD_extractSections(){
 			sectionFullSize = (cSection + sectionSlice.length);
 			nextSection = parseInt(Math.ceil(sectionFullSize / 4096) * 4096);
 			cSection = nextSection;
-		};
+		}
 		finalFile = 'ARD Extract - Generated with R3ditor V2 - V. ' + INT_VERSION + '\nMAP = ' + ARD_fileName.toUpperCase() + '\nTOTAL = ' + ARD_totalObjects + 
 					'\nDATA_0 = ' + ARD_arquivoBruto.slice(0, ARD_arquivoBruto.indexOf(ARD_sections[8])) + '\nDATA_1 = ' + 
 					ARD_arquivoBruto.slice(ARD_arquivoBruto.indexOf(ARD_sections[9]), ARD_arquivoBruto.length);
@@ -108,7 +108,7 @@ function ARD_startRecompiler(ardInfos, rdtPath){
 		while (c < offsetFix){
 			RDT_nextOffset = RDT_nextOffset + '0';
 			c++;
-		};
+		}
 		ARD_temp = DATA_0 + RDT_target + RDT_nextOffset + DATA_1;
 		var newFileSize = R3_tools.parseEndian(R3_tools.fixVars((ARD_temp.length / 2).toString(16), 8)),
 			ARD_temp_sizeFix = newFileSize + ARD_temp.slice(8, ARD_temp.length),

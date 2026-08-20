@@ -27,7 +27,7 @@ tempFn_R3_UPDATER = {};
 
 // Get branches list R3_UPDATER_GET_BRANCHES
 tempFn_R3_UPDATER['getUpdates'] = function(){
-	if (R3_SYSTEM.web.isBrowser === !1 && INT_VERSION.indexOf('DEV_VERSION') !== -1 && R3_MODULES.electron === void 0){
+	if (R3_SYSTEM.web.isBrowser === !1 && INT_VERSION.indexOf('DEV_VERSION') !== -1){
 		var HTML_TEMPLATE = '';
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (GitHub) Fetching branches - Please wait...');
 		fetch(R3_GITHUB_FETCH_URL + 'branches').then(resp => resp.json()).then(function(dat){
@@ -86,13 +86,13 @@ tempFn_R3_UPDATER['startUpdate'] = function(){
 					c++;
 				} else {
 					console.info('UPDATER - Waiting Step ' + c + '...');
-				};
+				}
 			}, 100);
 		} catch (err) {
 			R3_SYSTEM.alert('ERROR: Unable to update R3V2!\n' + err);
-		};
-	};
-};
+		}
+	}
+}
 
 // Updater Actions R3_UPDATER_ACTION
 tempFn_R3_UPDATER['execAction'] = function(actionId){
@@ -105,6 +105,7 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			R3_SYSTEM.alert('ERROR: Unable to execute update!\nReason: ' + reason + '\n\nR3ditor V2 will restart.');
 			chrome.runtime.reload();
 		};
+
 		// 0 - Initial preparations
 		if (actionId === 0){
 			R3_MENU_EXIT();
@@ -120,16 +121,18 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			if (R3_GAME.gameRunning === !0){
 				R3_SYSTEM.externalSoftware.killPID(R3_GAME.gamePID);
 				R3_GAME.gameRunning = !1;
-			};
+			}
 			R3_UPDATER_LOCK = !1;
-		};
+		}
+
 		// 1 - Checking files / paths
 		if (actionId === 1){
 			R3_UTILS_CALL_LOADING('Updating R3V2', 'Checking folders...', 10);
 			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Update') !== !0) R3_MODULES.fs.mkdirSync(R3_SYSTEM.paths.mod + '/Update');
 			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Update/Update.zip') === !0) R3_MODULES.fs.unlinkSync(R3_SYSTEM.paths.mod + '/Update/Update.zip');
 			R3_UPDATER_LOCK = !1;
-		};
+		}
+
 		// 2 - Getting package download link
 		if (actionId === 2){
 			var cBranch = document.getElementById('R3_UPDATER_CURRENT_BRANCH').value;
@@ -137,15 +140,16 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			R3_fileManager.downloadFile('https://codeload.github.com/TemmieHeartz/R3ditor-V2/zip/refs/heads/' + R3_GITHUB_BRANCHES_LIST[cBranch].name, R3_SYSTEM.paths.mod + '/Update/Update.zip', function(){
 				R3_UPDATER_LOCK = !1;
 			});
-		};
+		}
 		// 3 - Check if download file is OK
 		if (actionId === 3){
 			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Update/Update.zip') !== !0){
 				ACTION_updateCrash('Unable to find download file!');
 			} else {
 				R3_UPDATER_LOCK = !1;
-			};
-		};
+			}
+		}
+
 		// 4 - Extract all data from file
 		if (actionId === 4){
 			R3_UTILS_LOADING_UPDATE('Extracting update files...', 40);
@@ -160,9 +164,10 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 					clearInterval(sysInterval);
 				} else {
 					console.info('Waiting for 7z...');
-				};
+				}
 			}, 100);
-		};
+		}
+
 		// 5 - Copy all files
 		if (actionId === 5){
 			R3_UTILS_LOADING_UPDATE('Moving extracted files - Please wait...', 60);
@@ -171,7 +176,8 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			R3_fileManager.copyFiles(R3_SYSTEM.paths.mod + '/Update/' + fPath + '/', R3_tools.fixPath(process.cwd()), function(){
 				R3_UPDATER_LOCK = !1;
 			});
-		};
+		}
+
 		// 6 - Removing leftovers
 		if (actionId === 6){
 			R3_UTILS_LOADING_UPDATE('Cleaning leftover files - Please wait...', 80);
@@ -180,9 +186,10 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 					ACTION_updateCrash('Unable to remove leftover files!\n' + msg);
 				} else {
 					R3_UPDATER_LOCK = !1;
-				};
+				}
 			});
-		};
+		}
+
 		// 7 - Reload R3V2
 		if (actionId === 7){
 			R3_UTILS_LOADING_UPDATE('Process complete!', 100);
@@ -191,7 +198,8 @@ tempFn_R3_UPDATER['execAction'] = function(actionId){
 			clearInterval(sysInterval);
 			clearInterval(R3_UPDATER_INTERVAL);
 			R3_UPDATER_LOCK = !1;
-		};
+		}
+
 	} else {
 		R3_UPDATER_LOCK = !1;
 	}

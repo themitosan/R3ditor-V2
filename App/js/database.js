@@ -47,8 +47,7 @@ const
 	INCLUDE_R3V2_CRITICAL_ERROR = '<font class="LBL_title">Oh no!</font><br>Looks like R3ditor V2 crashed! We apologize - this is not something usual to happen!<br>To avoid crashed like this, report this message to <a href="https://twitter.com/TemmieHeartz/" target="_blank" rel="noreferrer">TemmieHeartz</a> on twitter.<br><br>' +
 								  '<div class="R3_ERROR_CRITICAL_REASON"><div id="R3_ERROR_CRITICAL_REASON" class="R3_ERROR_TEXT">???</div></div><br><input type="button" class="BTN_R3CLASSIC" title="Click here to reload" value="Restart R3V2" onclick="location.reload();">',
 	SYSTEM_LOG_SEPARATOR_TEXT = '--------------------------------------------------------------------------------------------------------------------------',
-	INCLUDE_ABOUT_THX = 'discordjs - RPC - <a target="_blank" href="https://discord.js.org/#/docs/rpc/master/general/welcome">Website</a><br>' + 
-						'Rob-- - memoryjs - <a target="_blank" href="https://github.com/Rob--/memoryjs">GitHub</a><br>' + 
+	INCLUDE_ABOUT_THX = 'Rob-- - memoryjs - <a target="_blank" href="https://github.com/Rob--/memoryjs">GitHub</a><br>' + 
 						'Joshua MacDonald - Xdelta - <a target="_blank" href="https://github.com/jmacd/xdelta">GitHub</a><br>' +
 						'jprichardson - fs-extra plugin - <a target="_blank" href="https://github.com/jprichardson/node-fs-extra">GitHub</a><br>' + 
 						'Elric (Aka. 3lric) - Beta-testing - <a target="_blank" href="https://twitter.com/3lricM">Twitter</a><br>' + 
@@ -105,7 +104,7 @@ const
 					 'RDT SLD Edit icon was created using the original icon from <a href="http://lgt.createaforum.com/tools-24/re3slde-a-tool-to-edit-sld-files/" target="_blank">Leo2236 RE3SLDE Editor</a>.<br>' +
 					 'The new R3ditor V2 logo was created using <a href="https://www.dafont.com/pix-chicago.font" target="_blank">Pix Chicago</a> and <a href="https://www.fonts.com/font/linotype/plak/black-extra-condensed" target="_blank">Plak® Extra Condensed</a> fonts.<br><br>' +
 					 'Biohazard and Resident Evil are trademarks of ©CAPCOM CO., LTD. ALL RIGHTS RESERVED.</i></div>',
-	INCLUDE_THX = 'Many thanks to: CT-STARS, Elric <i>(Aka. 3lric)</i>, El rincon del Lobezno, Rene Kootstra, discordjs, Rob--, hongru, Joshua MacDonald,<br> jprichardson, Y <i>(The Artist)</i> zu, Mortican, Angus Johnson, Leo2236, MarkGrass, matteofumagalli1275, Klarth, "Shockproof" Jamo Koivisto, Diogo "Flag" Bandeira (Aka. Flag King), Khaled SA, Patrice Mandin (pmandin) and ResidentEvilArtist.',
+	INCLUDE_THX = 'Many thanks to: CT-STARS, Elric <i>(Aka. 3lric)</i>, El rincon del Lobezno, Rene Kootstra, Rob--, hongru, Joshua MacDonald,<br> jprichardson, Y <i>(The Artist)</i> zu, Mortican, Angus Johnson, Leo2236, MarkGrass, matteofumagalli1275, Klarth, "Shockproof" Jamo Koivisto, Diogo "Flag" Bandeira (Aka. Flag King), Khaled SA, Patrice Mandin (pmandin) and ResidentEvilArtist.',
 	// Settings
 	INCLUDE_SCD_OPTION_EDITOR_MODE = '<option value="0" title="This mode will allow you edit SCD like you do on RPG Maker / Impact JS Events (Entities)">List Editor</option><option value="1" title="This mode will allow edit SCD like Bioscript, writing every function!">Code Editor [WIP]</option>',
 	INCLUDE_OPTION_SCD_SIZE = '<option value="0.7">Tiny!</option><option value="0.9">Small</option><option value="1">Normal</option><option value="1.2">x1.2</option><option value="1.5">x1.5</option><option value="1.8">x1.8</option><option value="2">x2</option>',
@@ -2967,7 +2966,6 @@ const
 									 '<li><font class="R3_HC_LBL_CODE">--disable-log</font>: Disable internal log</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-enge</font>: Disable eNGE Emulator</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-doorlink</font>: Disable SCD DoorLink</li>' +
-									 '<li><font class="R3_HC_LBL_CODE">--disable-discord</font>: Disable Discord Rich Presence</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-move-screen</font>: Disable moving window to a another screen</li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--disable-animations</font>: Disable all JS animations <i>(ideal for slow machines)</i></li>' +
 									 '<li><font class="R3_HC_LBL_CODE">--screen SCREEN_ID</font>: Move R3ditor V2 window to a another screen <i>(ideal for dual-monitor setups)</i></li>' +

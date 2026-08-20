@@ -75,7 +75,7 @@ tempFn_MEMJS['seekProcess'] = function(){
 				document.getElementById('BTN_MAIN_20').onclick = function(){
 					R3_SYSTEM.externalSoftware.killPID(R3_MEMJS.processObj['th32ProcessID']);
 					R3_MINIWINDOW.close(19);
-				};
+				}
 
 				// Start Render
 				if (R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.isConsole === !1){
@@ -158,8 +158,8 @@ tempFn_MEMJS['writeArray'] = function(ramPos, values){
 			if (typeof cValue === 'number') cValue = R3_tools.fixVars(cValue.toString(16), 2);
 			R3_MODULES.memoryjs.writeMemory(R3_MEMJS.processObj.handle, parseInt(cPosition.toString().replace('0x', ''), 16), parseInt(cValue, 16), R3_MODULES.memoryjs.BYTE);
 		});
-	};
-};
+	}
+}
 
 /*
 	General functions
@@ -214,7 +214,7 @@ tempFn_MEMJS['readGame'] = function(){
 	for (var i = 0; i < 40; i++){
 		tempInventory = tempInventory + R3_MEMJS.readValue(inventPos.toString(16), 2, 'hex');
 		inventPos++;
-	};
+	}
 
 	// Current Status / Weapon
 	R3_LIVESTATUS.currentHP = R3_MEMJS.readValue(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].cHP, 2, 'hex') + R3_MEMJS.readValue(R3_tools.hexSum(R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].cHP, 1), 2, 'hex');
@@ -226,7 +226,7 @@ tempFn_MEMJS['readGame'] = function(){
 	for (var i = 0; i < 255; i++){ // 255 = (64 * 4 Parameter per slot)
 		cHex = cHex + R3_MEMJS.readValue(cLocation.toString(16), 2, 'hex');
 		cLocation++;
-	};
+	}
 	R3_LIVESTATUS.playerItemBox = cHex;
 
 	// End

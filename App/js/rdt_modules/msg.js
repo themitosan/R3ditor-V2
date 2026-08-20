@@ -293,8 +293,10 @@ function R3_MSG_convertHexToPureText(hex, isMsgEditor){
 				textDecoded = textDecoded + R3_msgCurrentDatabase[textRaw[c]][1].replace('"', '/');
 				c++;
 			} else {
+
 				// Exclude text description
 				if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE === 3 && excludeList.indexOf(textRaw[c]) === -1) textDecoded = textDecoded + '<font class="monospace mono_xyzr">' + R3_msgCurrentDatabase[textRaw[c]][1] + ' ' + textRaw[c + 1] + ')</font>';
+
 				// Show Item Name
 				if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE === 3 && textRaw[c] === 'f8'){
 					tmp = DATABASE_ITEM[textRaw[c + 1]];
@@ -305,6 +307,7 @@ function R3_MSG_convertHexToPureText(hex, isMsgEditor){
 					}
 					textDecoded = textDecoded + tmp;
 				}
+
 				// Show Special Char
 				if (R3_SETTINGS.SETTINGS_MSG_DECOMPILER_MODE === 3 && textRaw[c] === 'ea'){
 					tmp = MSG_RE3_SPECIAL_CHAR_LIST[textRaw[c + 1]];
@@ -312,8 +315,9 @@ function R3_MSG_convertHexToPureText(hex, isMsgEditor){
 					textDecoded = textDecoded + tmp;
 				}
 				c = (c + 2);
-			};
-		};
+			}
+		}
+
 		// If is MSG Editor
 		if (isMsgEditor === !0){
 			Object.keys(MSG_formatExclude).forEach(function(cItem, cIndex){
@@ -397,6 +401,7 @@ function R3_MSG_EDIT_APPLY(mode){
 			c++;
 		}
 	}
+
 	// End
 	document.getElementById('R3_MSG_EDIT_TEXTAREA').value = '';
 	R3_MSG_RDT_MESSAGES[R3_MSG_currentMessage] = finalHex;
@@ -441,9 +446,7 @@ function R3_MSG_COMPILE(mode){
 		}
 		// Save As
 		if (mode === 1){
-			if (RDT_arquivoBruto !== void 0){
-				fName = R3_RDT_mapName + '_MSG_' + R3_tools.fixVars(R3_MSG_currentMessage, 2);
-			}
+			if (RDT_arquivoBruto !== void 0) fName = R3_RDT_mapName + '_MSG_' + R3_tools.fixVars(R3_MSG_currentMessage, 2);
 			R3_fileManager.saveFile(fName + '.msg', HEX_FINAL, 'hex', '.msg', function(loc){
 				R3_MSG_fPath = loc;
 			});
@@ -500,7 +503,7 @@ function R3_MSG_recompileWithPointers(mode){
 		R3_RDT_rawSections.RAWSECTION_MSG = HEX_FINAL;
 		R3_SHOW_MENU(10);
 		R3_RDT.sections.generateMsgPreview();
-	};
+	}
 	if (mode === 1){
 		R3_RDT_rawSections.RAWSECTION_MSG = HEX_FINAL;
 		R3_MSG_decompileRDT(!0);

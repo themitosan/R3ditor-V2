@@ -20,7 +20,6 @@ var R3_SETTINGS = {
 		// General
 		'APP_useImageFix': !1,
 		'ENABLE_ANIMATIONS': !1,
-		'SETTINGS_USE_DISCORD': !1,
 		'SETTINGS_MOVE_WINDOW': !1,
 		'SETTINGS_DISABLE_LOG': !1,
 		'SETTINGS_SCD_EDITOR_MODE': 0,
@@ -168,32 +167,32 @@ function R3_LOAD_PROCESS_SETTINGS(){
 	// NW Checks
 	if (R3_SYSTEM.web.isBrowser === !1){
 
-		// Init discord rich presence
-		R3_DISCORD_INIT();
 		// Check for Mod
 		if (R3_MODULES.fs.existsSync(R3_MOD.path + '/Bio3.ini') === !0){
 			R3_MOD.enableMod = !0;
 		} else {
 			R3_MOD.enableMod = !1;
-		};
+		}
+
 		// Check if Executable Exists (RE3)
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3_PATH) === !0){
 			R3_GAME.RE3_canRun = !0;
 			if (R3_MOD.enableMod === !0 && R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.isConsole === !1) R3_RE3_MOD_PATH = R3_SYSTEM.paths.mod + '/Assets/' + R3_gameVersionDatabase[R3_LIVESTATUS.currentMode].gameData.processName;
-		};
+		}
+
 		// Check MERCE path
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_MERCE_PATH) === !0) R3_GAME.MERCE_canRun = !0;
 		// RE3SDLE Path
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3SLDE_PATH) === !0) SETTINGS_ENABLE_RE3SLDE = !0;
 		// Check for game mode paths
 		R3_SETTINGS_getMapPrefix();
-		// Disable Discord
-		if (R3_SETTINGS.SETTINGS_USE_DISCORD !== !0) R3_DISC_clearActivity();
 		// Set Recent File
 		R3_DESIGN_UPDATE_LATEST_LABELS();
 		R3_SETTINGS_ENGE_LOAD_BIOS();
 		R3_DOORLINK.checkDatabase();
+
 	} else {
+
 		// Variables
 		R3_MOD.enableMod = !1;
 		SETTINGS_USE_DISCORD = !1;
@@ -259,7 +258,8 @@ function R3_LOAD_CHECK_EXTRA(){
 		R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', atob(FG_HIDDENSTRINGS[0][0]) + diff + atob(FG_HIDDENSTRINGS[0][1]), 'RE3', 140);
 	} else {
 		R3_WEB_ALERT();
-	};
+	}
+
 	// Initialize Keyboard and mouse
 	R3_mouse.INIT();
 	R3_keyPress.INIT();
@@ -304,7 +304,6 @@ function R3_SETTINGS_UPDATE_CHECKBOX(){
 	R3_SETTINGS.SETTINGS_DISABLE_LOG = JSON.parse(document.getElementById('R3_SETTINGS_DISABLE_LOG').checked);
 	R3_SETTINGS.SETTINGS_DISABLE_ENGE = JSON.parse(document.getElementById('R3_SETTINGS_DISABLE_ENGE').checked);
 	R3_SETTINGS.ENABLE_ANIMATIONS = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').checked);
-	R3_SETTINGS.SETTINGS_USE_DISCORD = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_DISCORD').checked);
 	R3_SETTINGS.SETTINGS_OPEN_LOG_STARTUP = JSON.parse(document.getElementById('R3_SETTINGS_OPEN_LOG_STARTUP').checked);
 	R3_SETTINGS.SETTINGS_ENABLE_FULLSCREEN = JSON.parse(document.getElementById('R3_SETTINGS_ENABLE_FULLSCREEN').checked);
 	R3_SETTINGS.SETTINGS_DISPLAY_POSITION_INT = JSON.parse(document.getElementById('R3_SETTINGS_DISPLAY_POS_INT').checked);
@@ -571,48 +570,55 @@ function R3_INIT_DATABASE_GENERATE(){
 */
 function R3_INIT_PROCESS_ARGS(){
 	if (R3_SYSTEM.web.isBrowser === !1 && R3_SYSTEM.APP_ON_BOOT === !0){
+
 		var runFlags;
+
 		// NW.js
 		if (R3_SYSTEM.web.is_NW === !0) runFlags = nw.App.argv;
-		// Electron
-		if (R3_SYSTEM.web.is_ELECTRON === !0) runFlags = process.argv;
+
 		/*
 			Start
 		*/
 		if (runFlags !== []){
+
 			// Disable animations
 			if (runFlags.indexOf('--disable-animations') !== -1){
 				R3_SETTINGS.ENABLE_ANIMATIONS = !1;
 				document.getElementById('R3_SETTINGS_LBL_enableAnim').onclick = null;
 				document.getElementById('R3_SETTINGS_ENABLE_ANIMATIONS').disabled = 'disabled';
-			};
+			}
+
 			// Enter Fullscreen
 			if (runFlags.indexOf('--fullscreen') !== -1) R3_DESIGN_toggleFullScreen(0);
-			// Disable discord
-			if (runFlags.indexOf('--disable-discord') !== -1) R3_SETTINGS.R3_NW_ARGS_DISABLE_DISCORD = !0;
+
 			// Disable moving screen
 			if (runFlags.indexOf('--disable-move-screen') !== -1) R3_SETTINGS.R3_NW_ARGS_DISABLE_MOVE_SCREEN = !0;
+			
 			// Move window to a specific screen
 			if (runFlags.indexOf('--screen') !== -1){
 				R3_SETTINGS.R3_NW_ARGS_OVERWRITE_MOVE_SCREEN = !0;
 				R3_SYSTEM_moveWindowToScreen(runFlags[parseInt(runFlags.indexOf('--screen') + 1)]);
-			};
+			}
+
 			// Disable DoorLink
 			if (runFlags.indexOf('--disable-doorlink') !== -1) R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK = !0;
+			
 			// Disable Log
 			if (runFlags.indexOf('--disable-log') !== -1) R3_SETTINGS.R3_NW_ARGS_DISABLE_LOG = !0;
+
 			// Disable eNGE
 			if (runFlags.indexOf('--disable-enge') !== -1) R3_SETTINGS.R3_NW_ARGS_DISABLE_ENGE = !0;
-		};
-	};
-};
+
+		}
+	}
+}
 
 /*
 	NW Window Functions
 	Original code: https://stackoverflow.com/questions/29472038/node-webkit-moving-second-window-to-a-second-or-specific-screen
 */
 function R3_SYSTEM_moveWindowToScreen(windowId){
-	if (R3_SYSTEM.web.isBrowser === !1 && parseInt(windowId) !== NaN && SETTINGS_ENABLE_FULLSCREEN === !1 && R3_NW_ARGS_DISABLE_MOVE_SCREEN === !1 && R3_SYSTEM.web.is_ELECTRON === !1){
+	if (R3_SYSTEM.web.isBrowser === !1 && parseInt(windowId) !== NaN && SETTINGS_ENABLE_FULLSCREEN === !1 && R3_NW_ARGS_DISABLE_MOVE_SCREEN === !1){
 		var appWindow = R3_MODULES.gui.Window.get(), appScreens = R3_MODULES.gui.Screen.screens[windowId];
 		appWindow.x = appScreens.work_area.x;
 		appWindow.y = 0;

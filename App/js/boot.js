@@ -18,38 +18,36 @@ tempFn_R3_MODULES = {
 	gui: void 0,
 	path: void 0,
 	memoryjs: void 0,
-	electron: void 0,
-	discordRPC: void 0,
 	childProcess: void 0,
 	// Require Status
 	requireSucess: !1
-};
+}
 
 // Initialize modules
 tempFn_R3_MODULES['INIT'] = function(){
 	R3_SYSTEM.web.checkBrowser();
 	if (R3_SYSTEM.web.isBrowser === !1){
+
 		var eReason = '', 					   // Error reason
-			engineVersion, 					   // nwjs, Electron...
+			engineVersion, 					   // nwjs
 			engineArch = process.arch, 		   // x86 / x64
 			enginePlatform = process.platform; // win32, darwin, linux... 
+
 		/*
 			Detect engine (nwjs, electron and etc.)
 		*/
+
 		// NW.js [Node-Webkit]
 		if (process.versions['node-webkit'] !== void 0){
 			engineVersion = process.versions['node-webkit'];
 			R3_SYSTEM.web.is_NW = !0;
 		}
-		// Electron
-		if (process.versions['electron'] !== void 0){
-			engineVersion = process.versions['electron'];
-			R3_SYSTEM.web.is_ELECTRON = !0;
-		}
+
 		/*
 			Start Require process
 		*/
 		if (engineVersion !== void 0){
+
 			// Init MemoryJS
 			if (engineArch === 'x64' && enginePlatform === 'win32'){
 				try {
@@ -57,26 +55,27 @@ tempFn_R3_MODULES['INIT'] = function(){
 					R3_MEMJS.requireSucess = !0;
 				} catch (err) {
 					console.error('Unable to require MemoryJS!\n' + err);
-				};
-			};
+				}
+			}
+
 			R3_MODULES.os = require('os');
 			R3_MODULES.path = require('path');
 			R3_MODULES.fs = require('fs-extra');
-			R3_MODULES.discordRPC = require('discord-rpc');
 			R3_MODULES.childProcess = require('child_process');
+
 			// NW.gui
 			if (R3_SYSTEM.web.is_NW === !0){
 				R3_MODULES.gui = require('nw.gui');
 				R3_MODULES.gui.Screen.Init();
 				R3_SYSTEM_availableMonitors = Object.keys(R3_MODULES.gui.Screen.screens).length;
-			};
-			// Require Electron
-			if (R3_SYSTEM.web.is_ELECTRON === !0) R3_MODULES.electron = require('electron');
+			}
+
 			/*
 				End
 			*/
 			R3_MODULES.requireSucess = !0;
 		}
+
 	} else {
 		/*
 			Web Mode
@@ -253,6 +252,7 @@ tempFn_R3_SYSTEM = {
 		Web Variables / Functions
 	*/
 	web: {
+
 		FILE_BRIDGE: '',
 		isBrowser: !1,
 		online: navigator.onLine, // APP_ONLINE
@@ -263,16 +263,18 @@ tempFn_R3_SYSTEM = {
 		is_SAFARI: !1,   // Apple Safari
 		is_FIREFOX: !1,  // Mozilla Firefox
 		is_ANDROID: !1,  // Android Browsers
-		is_ELECTRON: !1, // Electron
+
 		// Warn Message
 		webWarn: function(){
 			R3_SYSTEM.alert('WARN: This function is only available on desktop version.');
 			R3_SYSTEM.log('warn', 'WARN: This function is only available on desktop version.');
 		},
+
 		// Detect browser on web-mode
 		checkBrowser: function(){
 			if (R3_SYSTEM.web.isBrowser === !0){
 				const uArgent = navigator.userAgent;
+
 				// Apple Safari / PS4
 				if (uArgent.indexOf('Safari') !== -1 && uArgent.indexOf('Chrome') === -1){
 					if (uArgent.indexOf('PlayStation 4') === -1){
@@ -281,18 +283,23 @@ tempFn_R3_SYSTEM = {
 						R3_SYSTEM.web.is_PS4 = !0;
 					}
 				}
+
 				// Mozilla Firefox
 				if (uArgent.indexOf('Firefox/') !== -1 && uArgent.indexOf('Chrome') === -1) R3_SYSTEM.web.is_FIREFOX = !0;
+
 				// Interet Explorer (IE11)
 				if (uArgent.indexOf('.NET') !== -1 && uArgent.indexOf('Chrome') === -1) R3_SYSTEM.web.is_IE = !0;
+
 				// Android Devices
 				if (uArgent.indexOf('Android') !== -1){
 					R3_SYSTEM.web.is_ANDROID = !0;
 					R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: You are using R3ditor V2 on Android! This isn\'t recommended, since screen size aren\'t great for this tool display.');
 				}
+
 			}
 		}
 	},
+
 	/*
 		App Paths
 	*/
@@ -549,7 +556,6 @@ tempFn_R3_SYSTEM['openInHex'] = function(){
 
 // Reload App
 tempFn_R3_SYSTEM['reload'] = function(){
-	R3_DISC_clearActivity();
 	if (R3_GAME.gameRunning === !0) R3_SYSTEM.externalSoftware.killPID(R3_GAME.gamePID);
 	if (R3_SYSTEM.web.isBrowser !== !0){
 		localStorage.clear();

@@ -39,7 +39,7 @@ function R3_GAMEPAD_INIT(){
 				if (R3_GAMEPAD[0] !== void 0){
 					R3_GAMEPAD_1P = R3_GAMEPAD[0];
 					R3_GAMEPAD_CHECK();
-				};
+				}
 			}, 50);
 		});
 	}

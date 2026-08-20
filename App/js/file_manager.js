@@ -110,7 +110,7 @@ tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execN
 			setTimeout(function(){
 				return window.URL.revokeObjectURL(url);
 			}, 1000);
-		};
+		}
 		downloadURL = function(data, fileName){
 			var a;
 			a = document.createElement('a');

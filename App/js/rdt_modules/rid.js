@@ -65,8 +65,9 @@ tempFn_R3_rdtRID['readCamera'] = function(cameraId){
 		R3_DESIGN_RID_updateRange();
 		// End
 		R3_DESIGN_RID_updateCamSelected(cId);
-	};
-};
+	}
+}
+
 // Add Camera
 tempFn_R3_rdtRID['addCamera'] = function(){
 	if (R3_RDT_rawSections.RAWSECTION_RID !== void 0){

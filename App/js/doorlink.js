@@ -100,9 +100,10 @@ tempFn_R3_DOORLINK['generateDatabase'] = function(){
 			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to execute DoorLink process! <br>Reason: ' + err);
 			R3_DESIGN_CRITIAL_ERROR(err);
 			console.error(err);
-		};
-	};
-};
+		}
+	}
+}
+
 // Search function using doorlink method R3_DOORLINK_SEARCH
 tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 	if (R3_SYSTEM.web.isBrowser === !1){
@@ -156,7 +157,7 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 									cScript = 'INIT';
 								} else {
 									cScript = R3_tools.fixVars(cScript, 4);
-								};
+								}
 								HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_OPCODE_FINDER_RES_MAP" onclick="R3_RDT.readMap(\'' + R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cItem + '.RDT\', !0);R3_SHOW_MENU(10);">' +
 												'<font title="' + RDT_locations[cItem][0] + ', ' + RDT_locations[cItem][1] + '">Map ' + cItem + '</font> - Script ' + cScript + ' - Function ' + R3_tools.fixVars(cPosition, 3) + '</div>';
 								c++;

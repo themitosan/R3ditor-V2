@@ -87,9 +87,10 @@ tempFn_R3_TIM['getTimFromString'] = function(hex, location){
 			TIM_RAW_IMG = hex.slice(parseInt(metadataStart + 24), (parseInt(metadataStart + 24) + convertImgSize));
 			// End
 			return hex.slice(location, (hex.indexOf(TIM_RAW_IMG) + TIM_RAW_IMG.length));
-		};
-	};
-};
+		}
+	}
+}
+
 /*
 	Check if file is a valid TIM TIM_checkIntegrity
 	This will check if file has BPP
@@ -100,12 +101,10 @@ tempFn_R3_TIM['checkIntegrity'] = function(timHex){
 		try {
 			TMP_header = timHex.slice(loc, parseInt(loc + 8));
 			TMP_bppType = timHex.slice((loc + 8), (loc + 16));
-			if (TIM_BPP[TMP_bppType] !== void 0){
-				res = !0;
-			};
+			if (TIM_BPP[TMP_bppType] !== void 0) res = !0;
 		} catch (err) {
 			console.error(err);
-		};
+		}
 		return res;
 	}
 }
@@ -132,7 +131,7 @@ tempFn_timManager['import'] = function(){
 				R3_SYSTEM.alert('INFO: (TIM Manager) Import Successful!');
 			} else {
 				R3_SYSTEM.alert('WARN: Unable to import TIM file!\nReason: This file failed on TIM integrity check!');
-			};
+			}
 		}, void 0, 'hex');
 	}
 }

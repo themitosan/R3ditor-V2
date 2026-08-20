@@ -67,6 +67,7 @@ function R3_ROFS_EXTRACT(){
 /*
 	Xdelta Patcher
 */
+
 // Load Files
 tempFn_R3_XDELTA['loadFiles'] = function(mode){
 	if (R3_SYSTEM.web.isBrowser === !1){
@@ -321,45 +322,6 @@ function R3_FILEGEN_RENDER_EXTERNAL(location, text, font, interval){
 			FILEGEN_currentFont = font;
 			R3_FILEGEN_renderText(!1, location, text);
 		}
-	}
-}
-
-/*
-	Discord API
-*/
-
-// Set Status
-function R3_DISC_setActivity(det, stat){
-	if (R3_SETTINGS.SETTINGS_USE_DISCORD !== !1 && rpcReady !== !1 && R3_SYSTEM.web.isBrowser === !1 && R3_SETTINGS.R3_NW_ARGS_DISABLE_DISCORD === !1){
-		if (R3_GAME.gameRunning !== !1){
-			RPC.setActivity({'details': 'Running RE3', 'state': 'On ' + RDT_locations[R3_LIVESTATUS.currentRDT][0], 'largeImageKey': 'app_logo', 'maxpartysize': 0});
-		} else {
-			RPC.setActivity({'details': det, 'state': stat, 'largeImageKey': atob(special_day_02[3] + '='), 'maxpartysize': 0});
-		}
-	}
-}
-
-// Clear Activity
-function R3_DISC_clearActivity(){
-	if (R3_SETTINGS.SETTINGS_USE_DISCORD !== !1 && rpcReady !== !1 && R3_SYSTEM.web.isBrowser === !1 && R3_SETTINGS.R3_NW_ARGS_DISABLE_DISCORD === !1) RPC.clearActivity();
-}
-
-// Init discord API
-function R3_DISCORD_INIT(){
-	if (R3_SYSTEM.web.isBrowser === !1 && R3_SETTINGS.R3_NW_ARGS_DISABLE_DISCORD === !1){
-		RPC = new R3_MODULES.discordRPC.Client({transport: 'ipc'});
-		if (navigator.onLine !== !1){
-			var loginRPC = RPC.login({clientId: atob(special_day_02[0]), clientSecret: atob(special_day_02[1] + special_day_02[2])});
-			RPC.on('ready', function(){
-				rpcReady = !0;
-				discUserName = RPC.user.username;
-				R3_DISC_setActivity('Main menu', 'Idle');
-			});
-		} else {
-			R3_SYSTEM.log('warn', 'WARN - You are offline!\nDiscord options will be disabled.');
-		}
-	} else {
-		if (R3_NW_ARGS_DISABLE_DISCORD === !0) R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Disabling Discord Rich Presence...');
 	}
 }
 
@@ -724,8 +686,10 @@ tempFn_R3_backupManager['restoreFile'] = function(fileId){
 			fPath = R3_backupManager.backupList[fName][5],
 			fExt  = R3_backupManager.backupList[fName][6];
 		try {
+
 			// RDT Files
 			if (fExt === 'rdt'){
+
 				// Easy Mode
 				conCheck = R3_SYSTEM.confirm('Confirm: Click OK to restore this file on Easy mode (' + R3_RDT_PREFIX_EASY + ')');
 				if (conCheck === !0){
@@ -737,6 +701,7 @@ tempFn_R3_backupManager['restoreFile'] = function(fileId){
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Process complete! <br>Path:<font class="user-can-select">' + newFilePath + '</font>');
 					R3_SYSTEM.alert('INFO: Process complete! (' + R3_RDT_PREFIX_EASY + ')');
 				}
+
 				// Hard Mode
 				conCheck = R3_SYSTEM.confirm('Confirm: Click OK to restore this file on Hard mode (' + R3_RDT_PREFIX_HARD + ')');
 				if (conCheck === !0){
@@ -747,7 +712,8 @@ tempFn_R3_backupManager['restoreFile'] = function(fileId){
 					R3_SYSTEM.log('separator');
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: Process complete! <br>Path:<font class="user-can-select">' + newFilePath + '</font>');
 					R3_SYSTEM.alert('INFO: Process complete! (' + R3_RDT_PREFIX_HARD + ')');
-				};
+				}
+
 				// Actions after restoring map
 				if (R3_RDT_mapName === mName && restoreOk === !0){
 					R3_SHOW_MENU(10);
@@ -755,7 +721,9 @@ tempFn_R3_backupManager['restoreFile'] = function(fileId){
 						R3_RDT_LOAD(R3_fileManager.originalFilename, !0);
 					}, 100);
 				}
+
 			}
+
 		} catch (err) {
 			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to restore backup file! <br>Reason: ' + err);
 		}

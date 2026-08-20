@@ -888,7 +888,7 @@ tempFn_scdHack['enableHack'] = function(){
 				fName = R3_tools.getFileName(R3_fileManager.originalFilename).toUpperCase();
 			} else {
 				fName = R3_tools.getFileName(R3_fileManager.originalFilename.name).toUpperCase();
-			};
+			}
 			R3_backupManager.backupFile(RDT_arquivoBruto, fName, '.RDT', R3_SYSTEM.paths.mod + '/Configs/Backup/RDT', cEditor);
 			var newHackRDT     = RDT_arquivoBruto + R3_RDT_rawSections.RAWSECTION_SCD + R3_RDT_DIVISOR + R3_RDT_rawSections.RAWSECTION_MSG,
 				newSCDPointer  = R3_tools.parseEndian(R3_tools.fixVars((RDT_arquivoBruto.length / 2).toString(16), 8)),

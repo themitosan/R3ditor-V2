@@ -18,10 +18,12 @@
 tempFn_R3_rdtLIT = {
 	lightArray: void 0,
 	camPointers: void 0
-};
+}
+
 /*
 	Functions
 */
+
 // Extract LIT R3_LIT_DECOMPILE
 tempFn_R3_rdtLIT['readLIT'] = function(){
 	if (R3_RDT_rawSections.RAWSECTION_LIT !== void 0){
@@ -30,8 +32,9 @@ tempFn_R3_rdtLIT['readLIT'] = function(){
 			R3_rdtLIT.lightArray = R3_RDT_rawSections.RAWSECTION_LIT.slice(LIT_rawCamPointers.length, R3_RDT_rawSections.RAWSECTION_LIT.length).match(/.{80,80}/g);
 		// WIP
 		R3_SYSTEM.WIP();
-	};
-};
+	}
+}
+
 /*
 	END
 */
