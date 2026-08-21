@@ -623,8 +623,6 @@ function R3_SYSTEM_moveWindowToScreen(windowId){
 		appWindow.x = appScreens.work_area.x;
 		appWindow.y = 0;
 		appWindow.show();
-		setTimeout(function(){
-			appWindow.maximize();
-		}, 50);
+		setTimeout(appWindow.maximize, 50);
 	}
 }

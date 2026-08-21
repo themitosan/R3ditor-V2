@@ -14,6 +14,6 @@ R3_SYSTEM.reload = function(){
 	if (R3_SYSTEM.web.isBrowser !== !0){
 		localStorage.clear();
 		sessionStorage.clear();
-	};
+	}
 	location.reload(!0);
 }

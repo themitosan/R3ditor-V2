@@ -215,6 +215,7 @@ function R3_SHOW_MENU(menuId){
 					'SCD_FUNCTION_LIST': 0,
 					'R3_SCD_SCRIPT_INNER': 0
 				});
+
 				if (SCD_arquivoBruto !== void 0){
 					R3_DESIGN_SCD_openScriptList();
 					setTimeout(function(){
@@ -222,6 +223,7 @@ function R3_SHOW_MENU(menuId){
 						TMS.focus('SCD_FUNCTION_SEARCH_FIELD');
 					}, 40);
 				}
+
 				// Generate new SCD file if empty
 				if (SCD_arquivoBruto === void 0) R3_SCD_NEW_FILE();
 			};
@@ -234,6 +236,7 @@ function R3_SHOW_MENU(menuId){
 				} else {
 					TMS.css('R3_PAGE_ICON_BG_7', {'display': 'none'});
 				}
+
 				document.getElementById('R3_RDT_FILELIST_SERACH').value = '';
 				R3_RDT_FILELIST_UPDATELIST();
 				setTimeout(function(){
@@ -377,6 +380,7 @@ function R3_DESIGN_ADJUST(){
 	TMS.disableElement(['BTN_MAIN_21','BTN_MAIN_58','BTN_MAIN_59','BTN_MAIN_60','BTN_MAIN_61']);
 	// Fix RDT Path Labels and disable some unused functions in non-windows os / web
 	if (R3_SYSTEM.web.isBrowser === !1){
+
 		// Mod Menu
 		TMS.css('R3_MENU_MOD', {'display': 'block'});
 		TMS.css('SETTINGS_LI_CLEARCACHE', {'display': 'none'});
@@ -388,38 +392,39 @@ function R3_DESIGN_ADJUST(){
 		} else {
 			R3_RDT_MENU_LABEL_FIX_NUMBER = 104;
 		}
+
 		// Get random image for main bg
 		if (R3_GET_BG === !1){
 			if (R3_MOD.enableMod === !0){
+
 				getFiles = R3_MODULES.fs.readdirSync(R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/');
 				getFiles.forEach(function(cFile, cIndex){
 					if (cFile.indexOf('SLD') !== -1) getFiles.splice(cIndex, 1);
 				});
 				thePic = Math.floor(Math.random() * Math.floor(getFiles.length)), fileFix = '';
-				if (R3_SETTINGS.APP_useImageFix === !0){
-					fileFix = 'file://';
-				};
+				if (R3_SETTINGS.APP_useImageFix === !0) fileFix = 'file://';
 				document.getElementById('R3_HOME_BG').src = fileFix + R3_SYSTEM.paths.mod + '/Assets/DATA_A/BSS/' + getFiles[thePic];
 				R3_THEPIC = getFiles[thePic];
-				if (R3_THEPIC === 'R50605.JPG' || R3_THEPIC === 'R50606.JPG'){
-					R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', INCLUDE_RE3_BEEP_BOOP, 'RE3', 40);
-				}
+				if (R3_THEPIC === 'R50605.JPG' || R3_THEPIC === 'R50606.JPG') R3_FILEGEN_RENDER_EXTERNAL('MAIN_HIDDEN_CANVAS', INCLUDE_RE3_BEEP_BOOP, 'RE3', 40);
 				if (R3_SETTINGS.ENABLE_ANIMATIONS === !0){
 					TMS.fadeIn('R3_HOME_BG', 7100);
 				} else {
 					TMS.css('R3_HOME_BG', {'display': 'inline'});	
 				}
+
 				// End
 				R3_GET_BG = !0;
 			} else {
 				TMS.css('R3_HOME_BG', {'display': 'none'});
 			}
 		}
+
 		// Mod Enabled
 		if (R3_MOD.enableMod === !0){
 			TMS.css('R3_MENU_ITEM_LEOS_HUB', {'display': 'block'});
 			TMS.css('R3_MENU_ITEM_OPCODE_FINDER', {'display': 'block'});
 		}
+
 		// Leo's settings
 		TMS.css('SETTINGS_DIV_LEO_PATH', {'display': 'block'});
 	} else {
@@ -453,9 +458,11 @@ function R3_DESIGN_ADJUST(){
 			TMS.css('R3_RID_EDIT_rangePosR', {'width': '120px'});
 		}
 	}
+
 	// Fix percentage design
 	R3_LIVESTATUS_OPEN_BAR();
 	setTimeout(R3_LIVESTATUS_CLOSE_BAR, 10);
+
 }
 
 /*
@@ -471,7 +478,7 @@ function R3_DESIGN_toggleFullScreen(mode){
 			require('nw.gui').Window.get().enterFullscreen();
 		} else {
 			document.documentElement.requestFullscreen();
-		};
+		}
 	} else {
 		if (R3_SYSTEM.web.isBrowser === !1 && R3_SYSTEM.web.is_NW === !0){
 			nw.Window.get().leaveFullscreen();
@@ -492,7 +499,7 @@ function R3_GOTO_MAIN(){
 				R3_DESIGN_toggleFullScreen(0);
 			} else {
 				R3_DESIGN_toggleFullScreen(1);
-			};
+			}
 			// Get random character icon
 			var getRandomPlr = parseInt(Math.floor(Math.random() * 2) + 1);
 			if (getRandomPlr === 0 || getRandomPlr > 2) getRandomPlr = 1;
@@ -520,7 +527,7 @@ function R3_GOTO_MAIN(){
 				TMS.css('R3_SPLASH_thanks', {'display': 'inline'});
 				TMS.css('R3_SPLASH_BG_BIG', {'display': 'inline'});
 				TMS.css('R3_SPLASH', {'display': 'inline'});
-			};
+			}
 			setTimeout(function(){
 				TMS.css('R3_APP_HOLDER', {'display': 'inline'});
 				TMS.css('R3_APP_MAIN_DIV', {'display': 'none'});
@@ -576,6 +583,7 @@ tempFn_R3_MINIWINDOW['INIT'] = function(elementId){
 	} else {
 		elmnt.onmousedown = MINI_WINDOW_dragMouseDown;
 	}
+
 	function MINI_WINDOW_dragMouseDown(e){
 		e = e || window.event;
 		e.preventDefault();
@@ -584,6 +592,7 @@ tempFn_R3_MINIWINDOW['INIT'] = function(elementId){
 		document.onmousemove = MINI_WINDOW_elementDrag;
 		document.onmouseup = MINI_WINDOW_closeDragElement;
 	}
+
 	function MINI_WINDOW_elementDrag(e){
 		// console.info(domId);
 		var domId = elmnt.id;
@@ -602,11 +611,12 @@ tempFn_R3_MINIWINDOW['INIT'] = function(elementId){
 			if (R3_MINI_WINDOW_DATABASE[9][5] === !0 && R3_SETTINGS.SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM === !0) R3_MINIWINDOW.snap(14, 9, !0);
 			// Snap DoorLink
 			if (R3_MINI_WINDOW_DATABASE[20][5] === !0) R3_MINIWINDOW.snap(14, 20, !0);
-		};
+		}
 		// End
 		elmnt.style.top = finalTop + 'px';
 		elmnt.style.left = finalLeft + 'px';
-	};
+	}
+
 	function MINI_WINDOW_closeDragElement(){
 		document.onmouseup = null;
 		document.onmousemove = null;
@@ -639,7 +649,7 @@ tempFn_R3_MINIWINDOW['open'] = function(windowId, mode){
 						'width': R3_MINI_WINDOW_DATABASE[windowId][0] + 'px',
 						'height': R3_MINI_WINDOW_DATABASE[windowId][1] + 'px'
 					});
-				};
+				}
 			} else {
 				// Log window
 				if (R3_SYSTEM.web.is_FIREFOX === !0) fixLeft = '872px';
@@ -721,6 +731,7 @@ tempFn_R3_MINIWINDOW['open'] = function(windowId, mode){
 			End
 		*/
 		R3_MINI_WINDOW_DATABASE[windowId][5] = !0;
+
 	} else {
 		R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to open window! <br>Reason: Window ID does not exist!');
 	}
@@ -1107,7 +1118,7 @@ function R3_DESIGN_SCD_openDoorLink(){
 			} else {
 				R3_SYSTEM.log('separator');
 				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to open DoorLink! <br>Reason: You must generate DoorLink database before using this option! <br>If you already extracted game assets: Go to settings, navigate to SCD Settings and click on \"Update DoorLink Database\".');
-			};
+			}
 		} else {
 			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to open DoorLink! <br>Reason: DoorLink was disabled on run args!');
 		}
@@ -1173,8 +1184,10 @@ function R3_SCD_ID_LIST_INSERT(mode, id, type, textDisplay){
 
 		// General
 		if (mode === 0) R3_SCD_ID_LIST_ENTRIES[id] = [id.toUpperCase(), type, textDisplay];
+
 		// Set 3D Object [OM_SET] list
 		if (mode === 1) R3_SCD_ID_OM_SET_ENTRIES[id] = [id.toUpperCase(), type, textDisplay];
+
 	}
 }
 
@@ -1192,6 +1205,7 @@ function R3_SCD_ID_LIST_CAPTURE(){
 				cFunction = cScript[d];
 				cOpcode = cFunction.slice(0, 2);
 				R3_SCD_DEC_DB = R3_SCD_DECOMPILER_DATABASE[cOpcode];
+
 				// Set Door [DOOR_AOT_SET]
 				if (cOpcode === '61'){
 					var DOOR_Id   = cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]).toUpperCase(),
@@ -1257,9 +1271,10 @@ function R3_SCD_ID_LIST_CAPTURE(){
 					var OM_id  = cFunction.slice(R3_SCD_DEC_DB.objId[0], R3_SCD_DEC_DB.objId[1]),
 						OM_AOT = cFunction.slice(R3_SCD_DEC_DB.aot[0], R3_SCD_DEC_DB.aot[1]);
 					R3_SCD_ID_LIST_INSERT(1, OM_id.toLowerCase(), R3_SCD_DATABASE[cOpcode][2], R3_SCD_DATABASE[cOpcode][1] + ' - ' + R3_SCD_OM_SET_AOT_TYPES[OM_AOT]);
-				};
+				}
+
 				d++;
-			};
+			}
 			d = 0;
 			c++;
 		}
@@ -1370,9 +1385,9 @@ function R3_DESIGN_UPDATE_INSERT_HEX_POS(){
 				cInfo = R3_SCD_INFO_DATABASE[cFunction];
 				HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCD_EDIT_DEMO_NEXTFN monospace R3_SCD_function_' + cCssId + '" title="' + cInfo + '"><div class="R3_SCD_INSERT_LBL_FIX">' + cName + '</div></div>';
 				d++;
-			};
+			}
 			c++;
-		};
+		}
 	} else {
 		canScroll = !1;
 		HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCD_function_14">The script location are out of bounds!<br>Set a number from 1 to ' + R3_SCD_SCRIPTS_LIST[R3_SCD_CURRENT_SCRIPT].length + '</div>';
@@ -1470,7 +1485,7 @@ function R3_SCD_navigateFunctions(mode, fnId, isClick){
 		if (R3_SCD_HIGHLIGHT_FUNCTION > (R3_SCD_TOTAL_FUNCTIONS - 2)) R3_SCD_HIGHLIGHT_FUNCTION = (R3_SCD_TOTAL_FUNCTIONS - 2);
 		for (var c = 0; c < R3_SCD_TOTAL_FUNCTIONS; c++){
 			TMS.css('R3_SCD_scriptCommand_' + c, {'box-shadow': '0px 0px 0px #000'});
-		};
+		}
 
 		// Make it shine, baby!
 		TMS.css('R3_SCD_scriptCommand_' + R3_SCD_HIGHLIGHT_FUNCTION, {'box-shadow': '0px 0px 10px #fff'});
@@ -2528,6 +2543,7 @@ function R3_LIVETSTATUS_RENDER(){
 	/*
 		End
 	*/
+
 	// Turn Off Force renderer
 	if (R3_LIVESTATUS_FORCE_RENDER === !0) R3_LIVESTATUS_FORCE_RENDER = !1;
 
@@ -2741,11 +2757,13 @@ function R3_UTILS_CALL_LOADING(title, status, percent){
 	R3_SHOW_MENU(2);	
 	R3_MENU_LOCK = !0;
 }
+
 function R3_UTILS_LOADING_UPDATE(status, percent){
 	document.getElementById('R3_LOADING_STATUS').innerHTML = status;
 	document.getElementById('R3_LOADING_PGBAR_LABEL').innerHTML = percent;
 	TMS.css('R3_LOADING_PGBAR_DIV', {'width': 'calc(' + parseInt(percent) + '% - 20px)'});
 }
+
 function R3_UTILS_LOADING_CLOSE(){
 	TMS.css('R3_MENU_MAIN_TOP', {'display': 'inline-flex'});
 	R3_DESIGN_LOADING_ACTIVE = !1;
