@@ -28,19 +28,19 @@
     },
     "dependencies": {
         "fs-extra": "^8.1.0",
-        "memoryjs": "^3.2.3",
         "graceful-fs": "^4.2.9",
         "jsonfile": "^4.0.0",
+        "memoryjs": "^3.2.3",
         "node-fetch": "^2.6.7",
         "universalify": "^2.0.0"
     },
     "scripts": {
         "start": "nw --disable-features=ProcessPerSiteUpToMainFrameThreshold ."
     },
+    "allowScripts": {
+        "nw@0.112.0-sdk": true
+    },
     "devDependencies": {
         "nw": "^0.112.0-sdk"
-    },
-    "allowScripts": {
-        "nw@0.112.0": true
     }
 }

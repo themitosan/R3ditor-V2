@@ -39,11 +39,24 @@ tempFn_R3_DOORLINK['checkDatabase'] = function(){
 // Generate DoorLink Database R3_DOORLINK_INIT
 tempFn_R3_DOORLINK['generateDatabase'] = function(){
 	if (R3_SYSTEM.web.isBrowser === !1 && R3_MOD.enableMod === !0 && R3_SETTINGS.R3_NW_ARGS_DISABLE_DOORLINK === !1){
-		var dInterval, cLocation, fName, tmpRes, fileList, tempDoorList, tempDoorList4P, tempList = {}, pComplete = !1;
+
+		var dInterval, 
+			cLocation, 
+			fName, 
+			tmpRes, 
+			fileList, 
+			tempDoorList, 
+			tempDoorList4P, 
+			tempList = {}, 
+			pComplete = !1;
+
 		R3_SYSTEM.log('separator');
 		R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (DoorLink) Starting reading process - Please Wait...');
 		try {
+
 			R3_DOORLINK_RUNNING = !0;
+			if (R3_MODULES.fs.existsSync(R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT') !== !0) R3_RDT_PREFIX_HARD = 'DATA_J';
+
 			fileList = R3_MODULES.fs.readdirSync(R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
 			fileList.forEach(function(cFile, cIndex){
 				if (R3_tools.getFileExtension(cFile).toLowerCase() === 'rdt' && R3_DOORLINK_RUNNING === !0){
@@ -64,7 +77,7 @@ tempFn_R3_DOORLINK['generateDatabase'] = function(){
 							if (tempList[tmpRes[0]] === void 0) tempList[tmpRes[0]] = [];
 							tempList[tmpRes[0]].push(tmpRes);
 						});
-					};
+					}
 
 					// Set Door 4P [DOOR_AOT_SET_4P]
 					tempDoorList4P = R3_SCD_SEARCH_SCRIPT_FUNCTION('62', !0);
@@ -74,7 +87,8 @@ tempFn_R3_DOORLINK['generateDatabase'] = function(){
 							if (tempList[tmpRes[0]] === void 0) tempList[tmpRes[0]] = [];
 							tempList[tmpRes[0]].push(tmpRes);
 						});
-					};
+					}
+
 					if ((cIndex + 1) === fileList.length) R3_DOORLINK_RUNNING = !1;
 
 				} else {
@@ -93,7 +107,7 @@ tempFn_R3_DOORLINK['generateDatabase'] = function(){
 					// If are running on wizard...
 					if (R3_WIZARD_RUNNING === !0) R3_WIZARD_FINISH();
 					clearInterval(R3_DOORLINK_INTERVAL);
-				};
+				}
 			}, 200);
 
 		} catch (err) {
@@ -116,10 +130,18 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 				if (R3_MENU_CURRENT !== 4) R3_MENU_EXIT();
 				R3_DOORLINK_RUNNING = !0;
 				R3_OPCODE_SEARCH_DATABASE = {};
-				var HTML_TEMPLATE = '', cLocation, fName, tmpRes, fileList, tempFunctionOpcode, tempList = {};
-				fileList = R3_MODULES.fs.readdirSync(R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
 
+				var fName,
+					tmpRes, 
+					fileList, 
+					cLocation,
+					tempList = {},
+					HTML_TEMPLATE = '',
+					tempFunctionOpcode; 
+
+				fileList = R3_MODULES.fs.readdirSync(R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT');
 				fileList.forEach(function(cFile, cIndex){
+
 					if (R3_tools.getFileExtension(cFile).toLowerCase() === 'rdt'){
 
 						cLocation = R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cFile;
@@ -142,27 +164,30 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 					} else {
 						R3_SYSTEM.log('warn', 'R3ditor V2 - INFO: (Search) Skipping file ' + cIndex + ' - this isn\'t a valid map!');
 					}
+
 				});
 
 				// Post-process
 				R3_DOORLINK_INTERVAL = setInterval(function(){
+
 					if (R3_DOORLINK_RUNNING === !1){
 						R3_OPCODE_SEARCH_DATABASE = tempList;
 						Object.keys(R3_OPCODE_SEARCH_DATABASE).forEach(function(cItem){
 							Object.keys(R3_OPCODE_SEARCH_DATABASE[cItem]).forEach(function(lItem){
+
 								var cArray    = R3_OPCODE_SEARCH_DATABASE[cItem][lItem],
-									cScript   = cArray[0],
-									cPosition = cArray[1]; 
-								if (cScript === 0){
-									cScript = 'INIT';
-								} else {
-									cScript = R3_tools.fixVars(cScript, 4);
-								}
+									cScript   = R3_tools.fixVars(cArray[0], 4),
+									cPosition = cArray[1];
+
+								if (cArray[0] === 0) cScript = 'INIT';
+
 								HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_OPCODE_FINDER_RES_MAP" onclick="R3_RDT.readMap(\'' + R3_SYSTEM.paths.mod + '/Assets/' + R3_RDT_PREFIX_HARD + '/RDT/' + cItem + '.RDT\', !0);R3_SHOW_MENU(10);">' +
 												'<font title="' + RDT_locations[cItem][0] + ', ' + RDT_locations[cItem][1] + '">Map ' + cItem + '</font> - Script ' + cScript + ' - Function ' + R3_tools.fixVars(cPosition, 3) + '</div>';
 								c++;
+
 							});
 						});
+
 						document.getElementById('R3_OPCODE_FINDER_RESULT').innerHTML = HTML_TEMPLATE;
 						document.getElementById('R3V2_TITLE_SCD_OPCODE_FINDER').innerHTML = 'SCD Opcode Finder <i>(' + c + ' Results)</i>';
 						document.getElementById('R3_OPCODE_FINDER_opName').innerHTML = '<font title="' + R3_SCD_INFO_DATABASE[opcodeId] + '" class="no-bg-image R3_SCD_function_' + R3_SCD_DATABASE[opcodeId][2] + '">' + R3_SCD_DATABASE[opcodeId][1] + '</font>';
@@ -171,6 +196,7 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 						R3_UTILS_VAR_CLEAN();
 						clearInterval(R3_DOORLINK_INTERVAL);
 					}
+
 				}, 200);
 
 			} catch (err) {
@@ -186,7 +212,7 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 
 			// End Script [EVT_END] fix
 			if (opcodeId === '01'){
-				R3_SYSTEM.alert('WARN: Unable to search because this opcode (End Script / EVT_END) are present in all SCD scripts!');
+				R3_SYSTEM.alert('WARN: Unable to search because this opcode (End Script [EVT_END]) are present in all SCD scripts!');
 				document.getElementById('R3_OPCODE_FINDER_SEARCH').value = '';
 			}
 
@@ -197,5 +223,6 @@ tempFn_R3_DOORLINK['searchScdOpcode'] = function(){
 /*
 	END
 */
+
 const R3_DOORLINK = tempFn_R3_DOORLINK;
 delete tempFn_R3_DOORLINK;

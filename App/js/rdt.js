@@ -155,12 +155,14 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 						R3_RDT.HEADER_POINTERS.push(a);
 					} else {
 						R3_RDT.HEADER_POINTERS.push(R3_tools.parseEndian(a));
-					};
+					}
 				});
+
 				/*
 					Get Extra Info From RDT
 				*/
 				R3_RDT_MAP_totalCams = parseInt(R3_RDT.HEADER_POINTERS[0].slice(0, 4), 16);
+
 				/*
 					Extract Sections
 					Note: PRI extraction function will be executed inside LIT.
@@ -176,8 +178,9 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 					R3_RDT.sections.readMSG();
 					R3_RDT.sections.readFLR();
 					R3_RDT.sections.readEFF();
-				};
+				}
 				R3_RDT.sections.readSCD();
+
 				/*
 					End
 				*/
@@ -190,14 +193,16 @@ tempFn_R3_RDT['readMap'] = function(rdtFile, showInterface, hexFile){
 					R3_RDT_DESIGN_enableInterface(showInterface);
 					R3_SYSTEM.log('separator');
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) ' + R3_RDT_mapName + ' - Loading Complete!');
-				};
+				}
+
 			} catch (err) {
 				console.error(err);
 				R3_DESIGN_CRITIAL_ERROR(err);
-			};
-		};
-	};
-};
+			}
+		}
+	}
+}
+
 // Make a copy of all original sections R3_RDT_COPY_ORIGINALS
 tempFn_R3_RDT['backupSections'] = function(){
 	if (RDT_arquivoBruto !== void 0){
@@ -220,7 +225,8 @@ tempFn_R3_RDT['backupSections'] = function(){
 		R3_RDT.sections.readPRI();
 		R3_RDT_rawSections.ORIGINAL_PRI = R3_RDT_rawSections.RAWSECTION_PRI;
 	}
-};
+}
+
 // Blank section error message R3_RDT_ERROR_POINTER_BLANK
 tempFn_R3_RDT['errorBlankSection'] = function(section){
 	if (RDT_arquivoBruto !== void 0 && section !== void 0){
@@ -246,15 +252,18 @@ tempFn_sections['readFLR'] = function(){
 	if (RDT_arquivoBruto !== void 0){
 		console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading FLR...');
 		if (R3_RDT.HEADER_POINTERS[13] !== '00000000'){
+
 			// It seems to always ends on SCD Start
-			const flrStart = (parseInt(R3_RDT.HEADER_POINTERS[13], 16) * 2),
+			const
+				flrStart = (parseInt(R3_RDT.HEADER_POINTERS[13], 16) * 2),
 				flrEnd = RDT_arquivoBruto.indexOf(R3_RDT_rawSections.RAWSECTION_SCD);
 			R3_RDT_rawSections.RAWSECTION_FLR = RDT_arquivoBruto.slice(flrStart, flrEnd);
+
 		} else {
 			R3_RDT.errorBlankSection('FLR');
-		};
-	};
-};
+		}
+	}
+}
 
 // Open FLR R3_RDT_OPEN_FLR
 tempFn_sections['openFLR'] = function(){
@@ -282,14 +291,14 @@ tempFn_sections['readBLK'] = function(){
 				blkStart = RDT_arquivoBruto.slice(blkStartPos);
 				blkArray.push(blkStart.slice(0, 96));
 				blkStartPos = (blkStartPos + 96); // Update Pos.
-			};
+			}
 			// End
 			R3_RDT_rawSections.RAWSECTION_BLK = blkHeader + blkArray.toString().replace(RegExp(',', 'gi'), '');
 		} else {
 			R3_RDT.errorBlankSection('BLK');
-		};
-	};
-};
+		}
+	}
+}
 
 // Open BLK R3_RDT_OPEN_BLK
 tempFn_sections['openBLK'] = function(){
@@ -321,12 +330,13 @@ tempFn_sections['readVB'] = function(){
 				R3_RDT_rawSections.RAWSECTION_VB = VB_idListHex + VB_headerHex + VB_dataHex;
 			} else {
 				R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: Unable to find VB Header database (<font class="user-can-select">0x0000B1B2</font>)');
-			};	
+			}	
 		} else {
 			R3_RDT.errorBlankSection('VB');
-		};
-	};
-};
+		}
+	}
+}
+
 // Open match VB on Hex Editor
 tempFn_R3_RDT['openVbOnHex'] = function(){
 	if (R3_SYSTEM.web.isBrowser === !1){
@@ -336,12 +346,13 @@ tempFn_R3_RDT['openVbOnHex'] = function(){
 				R3_SYSTEM.externalSoftware.runExec(R3_SETTINGS.R3_HEX_PATH, [fPath]);
 			} else {
 				R3_SYSTEM.alert('ERROR: Unable to open VB file because it does not exist! (404)');
-			};
-		};
+			}
+		}
 	} else {
 		R3_SYSTEM.web.webWarn();
-	};
-};
+	}
+}
+
 /*
 	RVD
 	Camera Trigger [WIP]
@@ -356,9 +367,9 @@ tempFn_sections['readRVD'] = function(){
 			R3_RDT_rawSections.RAWSECTION_RVD = tempRVD.slice(0, tempRVD.indexOf('ffffffff'));
 		} else {
 			R3_RDT.errorBlankSection('RVD');
-		};
-	};
-};
+		}
+	}
+}
 
 // Open RVD
 tempFn_sections['openRVD'] = function(){
@@ -386,20 +397,21 @@ tempFn_sections['readOBJ'] = function(){
 					if (R3_RDT_rawSections.ARRAY_TIM.indexOf(tempTim) === -1){
 						console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading TIM file ' + cIndex);
 						R3_RDT_rawSections.ARRAY_TIM.push(tempTim);
-					};
+					}
 					if (R3_RDT_rawSections.ARRAY_OBJ.indexOf(temp3dObj) === -1){
 						console.info('R3ditor V2 - INFO: (' + R3_RDT_mapName + ') Reading 3D OBJ file ' + cIndex);
 						R3_RDT_rawSections.ARRAY_OBJ.push(temp3dObj);
-					};
+					}
 				});
 			} else {
 				R3_SYSTEM.log('log', 'R3ditor V2 - INFO: ' + R3_RDT_mapName + ' does not have any TIM / OBJ file!');
-			};
+			}
 		} else {
 			R3_RDT.errorBlankSection('OBJ');
-		};
-	};
-};
+		}
+	}
+}
+
 // Open TIM Manager R3_RDT_OPEN_TIM
 tempFn_sections['openTimManager'] = function(){
 	if (RDT_arquivoBruto !== void 0 && R3_RDT_rawSections.ARRAY_TIM !== []){
@@ -414,9 +426,10 @@ tempFn_sections['openTimManager'] = function(){
 		} else {
 			// No Object - Fix this later
 			R3_SYSTEM.alert('ERROR: This map does not have any object (OBJ)');
-		};
-	};
-};
+		}
+	}
+}
+
 // Open OBJ Manager R3_RDT_OPEN_OBJ
 tempFn_sections['openObjManager'] = function(){
 	if (RDT_arquivoBruto !== void 0 && R3_RDT_rawSections.ARRAY_OBJ !== []){
@@ -426,18 +439,20 @@ tempFn_sections['openObjManager'] = function(){
 				HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + cIndex + '">OBJ File ' + (cIndex + 1) + '</option>';
 			} else {
 				HTML_TEMPLATE = HTML_TEMPLATE + '<option value="' + cIndex + '" disabled="disabled" title="This OBJ is disabled because it haves a null location (0)">OBJ File ' + (cIndex + 1) + '</option>';
-			};
+			}
 		});
 		document.getElementById('R3_RDT_objManagerList').innerHTML = HTML_TEMPLATE;
+
 		// End
 		if (R3_RDT_rawSections.ARRAY_OBJ.length !== 0){
 			R3_MINIWINDOW.open(17);
 		} else {
 			// No Object - Fix this later
 			R3_SYSTEM.alert('ERROR: This map does not have any object (OBJ)');
-		};
-	};
-};
+		}
+	}
+}
+
 /*
 	SCA
 	Colission / Boundaries
@@ -456,9 +471,9 @@ tempFn_sections['readSCA'] = function(){
 			R3_RDT_rawSections.RAWSECTION_SCA = SCA_header + SCA_boundaries;
 		} else {
 			R3_RDT.errorBlankSection('SCA');
-		};
-	};
-};
+		}
+	}
+}
 
 // Open SCA R3_RDT_OPEN_SCA
 tempFn_sections['openSCA'] = function(){
@@ -597,9 +612,10 @@ tempFn_sections['readMSG'] = function(){
 			R3_RDT.sections.generateMsgPreview();
 		} else {
 			R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: This map does not have any message!');
-		};
-	};
-};
+		}
+	}
+}
+
 // Open MSG Section R3_RDT_OPEN_MSG
 tempFn_sections['openMSG'] = function(){
 	if (RDT_arquivoBruto !== void 0){
@@ -634,7 +650,7 @@ tempFn_sections['generateMsgPreview'] = function(){
 				if (R3_MSG_commands[d][0] === 0) cMessage = cMessage + R3_MSG_commands[d][1];
 				if (R3_MSG_convertHexToPureText(cMessage) !== '') R3_MSG_RDT_MESSAGES_PREVIEW.push(R3_MSG_convertHexToPureText(cMessage));
 				d++;
-			};
+			}
 
 		});
 
@@ -693,7 +709,7 @@ tempFn_sections['openSCD'] = function(){
 		R3_DESIGN_CLEAN_SCD();
 		R3_UTILS_VAR_CLEAN_SCD();
 		SCD_arquivoBruto = R3_RDT_rawSections.RAWSECTION_SCD;
-		R3_SCD_fileName = R3_fileManager.originalFilename.name.replace('.RDT', '');
+//		R3_SCD_fileName = R3_fileManager.originalFilename.name.replace('.RDT', '');
 		if (R3_SYSTEM.web.isBrowser === !1) R3_SCD_fileName = R3_tools.getFileName(R3_fileManager.originalFilename).toUpperCase();
 		R3_SCD_START_DECOMPILER(R3_RDT_rawSections.RAWSECTION_SCD);
 	    document.title = R3_SYSTEM.appTitle + ' - SCD Editor - File: ' + R3_SCD_fileName + '.RDT';
@@ -788,63 +804,63 @@ tempFn_sections['importAll'] = function(sectionId){
 					if (R3_MODULES.fs.existsSync(fPath + '/VB.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading VB (VB.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_VB = R3_MODULES.fs.readFileSync(fPath + '/VB.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/SCA.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading SCA (SCA.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_SCA = R3_MODULES.fs.readFileSync(fPath + '/SCA.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/RID.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading RID (RID.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_RID = R3_MODULES.fs.readFileSync(fPath + '/RID.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/RVD.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading RVD (RVD.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_RVD = R3_MODULES.fs.readFileSync(fPath + '/RVD.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/OBJ.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading OBJ (OBJ.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_OBJ = R3_MODULES.fs.readFileSync(fPath + '/OBJ.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/LIT.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading LIT (LIT.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_LIT = R3_MODULES.fs.readFileSync(fPath + '/LIT.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/PRI.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading PRI (PRI.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_PRI = R3_MODULES.fs.readFileSync(fPath + '/PRI.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/FLR.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading FLR (FLR.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_FLR = R3_MODULES.fs.readFileSync(fPath + '/FLR.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/MSG.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading MSG (MSG.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_MSG = R3_MODULES.fs.readFileSync(fPath + '/MSG.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/SCD.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading SCD (SCD.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_SCD = R3_MODULES.fs.readFileSync(fPath + '/SCD.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/EFF.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading EFF (EFF.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_EFF = R3_MODULES.fs.readFileSync(fPath + '/EFF.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/SND.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading SND (SND.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_SND = R3_MODULES.fs.readFileSync(fPath + '/SND.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/BLK.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading BLK (BLK.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_BLK = R3_MODULES.fs.readFileSync(fPath + '/BLK.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/RBJ.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading RBJ (RBJ.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_RBJ = R3_MODULES.fs.readFileSync(fPath + '/RBJ.R3SECTION', 'hex');
-					};
+					}
 					if (R3_MODULES.fs.existsSync(fPath + '/EFFSPR.R3SECTION') === !0){
 						R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Loading EFFSPR (EFFSPR.R3SECTION)');
 						R3_RDT_rawSections.RAWSECTION_EFFSPR = R3_MODULES.fs.readFileSync(fPath + '/EFFSPR.R3SECTION', 'hex');
-					};
+					}
 					R3_SYSTEM.log('separator');
 					R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (RDT) Import Successful!');
 					R3_SYSTEM.alert('INFO: Process Complete!');
@@ -856,11 +872,11 @@ tempFn_sections['importAll'] = function(sectionId){
 			} catch (err) {
 				console.error(err);
 				R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to import all sections! <br>' + err);
-			};
-		};
+			}
+		}
 	} else{
 		R3_SYSTEM.web.webWarn();
-	};
+	}
 }
 
 /*

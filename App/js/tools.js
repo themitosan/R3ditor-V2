@@ -64,13 +64,13 @@ tempFn_R3_TOOLS['processBio3Vars'] = function(hex){
 				finalNumber = finalNumber + 255;
 				finalNumber++;
 				second--;
-			};
+			}
 			while (first !== 0){
 				finalNumber++;
 				first--;
-			};
+			}
 			return finalNumber;
-		};
+		}
 	} else {
 		return 0;
 	}
@@ -186,9 +186,11 @@ tempFn_R3_TOOLS['readDate'] = function(dateStr, mode){
 			mode = 0;
 		} else {
 			mode = parseInt(mode);
-		};
+		}
+
 		// Date
 		if (mode === 0) return dateStr.slice(0, 10).replace(new RegExp('-', 'gi'), '/');
+
 		// Time
 		if (mode === 1) return dateStr.slice(11, dateStr.length).replace(new RegExp('[.]', 'gi'), ':');
 
@@ -333,7 +335,7 @@ tempFn_R3_TOOLS['fixVars'] = function(inp, v){
 	if (input.length < size){
 		while (input.length !== size){
 			input = '0' + input;
-		};
+		}
 	} else {
 		if (input.length !== size && input.toString().length > size) input = input.slice(0, v);
 	}
@@ -384,6 +386,7 @@ tempFn_R3_TOOLS['parseHexTime'] = function(hex, outputMode){
 			MM = parseInt(MM - 60);
 			HH++;
 		}
+
 		/*
 			End
 		*/

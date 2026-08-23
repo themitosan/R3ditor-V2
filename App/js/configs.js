@@ -78,13 +78,13 @@ function R3_LOAD_CHECKFILES(){
 			const
 				DATABASE_INIT_CREATE_FOLDER = [
 					R3_SYSTEM.paths.mod,
-					R3_SYSTEM.paths.mod + '/Assets',
-					R3_SYSTEM.paths.mod + '/Update',
-					R3_SYSTEM.paths.mod + '/Configs',
-					R3_SYSTEM.paths.mod + '/Assets/Save',
-					R3_SYSTEM.paths.mod + '/Configs/Backup',
-					R3_SYSTEM.paths.mod + '/Configs/GameModes',
-					R3_SYSTEM.paths.mod + '/Configs/Backup/RDT'
+					`${R3_SYSTEM.paths.mod}/Assets`,
+					`${R3_SYSTEM.paths.mod}/Update`,
+					`${R3_SYSTEM.paths.mod}/Configs`,
+					`${R3_SYSTEM.paths.mod}/Assets/Save`,
+					`${R3_SYSTEM.paths.mod}/Configs/Backup`,
+					`${R3_SYSTEM.paths.mod}/Configs/GameModes`,
+					`${R3_SYSTEM.paths.mod}/Configs/Backup/RDT`
 				],
 				DATABASE_INIT_DELETE_FILES = [
 					R3_SYSTEM.paths.mod + '/Update/Update.zip',
@@ -182,10 +182,13 @@ function R3_LOAD_PROCESS_SETTINGS(){
 
 		// Check MERCE path
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_MERCE_PATH) === !0) R3_GAME.MERCE_canRun = !0;
+
 		// RE3SDLE Path
 		if (R3_MODULES.fs.existsSync(R3_SETTINGS.R3_RE3SLDE_PATH) === !0) SETTINGS_ENABLE_RE3SLDE = !0;
+
 		// Check for game mode paths
 		R3_SETTINGS_getMapPrefix();
+
 		// Set Recent File
 		R3_DESIGN_UPDATE_LATEST_LABELS();
 		R3_SETTINGS_ENGE_LOAD_BIOS();
@@ -195,8 +198,8 @@ function R3_LOAD_PROCESS_SETTINGS(){
 
 		// Variables
 		R3_MOD.enableMod = !1;
-		SETTINGS_USE_DISCORD = !1;
 		SETTINGS_ENABLE_RE3SLDE = !1;
+
 	}
 
 	/*
@@ -269,6 +272,7 @@ function R3_LOAD_CHECK_EXTRA(){
 
 // Function to be overwritten by debug.js
 function R3_POSTBOOT(){};
+
 // Save Settings
 function R3_SAVE_SETTINGS(reload, logSaving){
 	R3_LOAD_CHECKFILES();
@@ -297,7 +301,8 @@ function R3_SETTINGS_SAVE(){
 	R3_SAVE_SETTINGS(!1, !1);
 	if (R3_GAME.gameRunning === !1) R3_MENU_GOBACK();
 	R3_LOAD_PROCESS_SETTINGS();
-};
+}
+
 // Update checkbox
 function R3_SETTINGS_UPDATE_CHECKBOX(){
 	R3_SETTINGS.SETTINGS_MOVE_WINDOW = JSON.parse(document.getElementById('R3_SETTINGS_MOVE_CORNER').checked);
@@ -327,7 +332,8 @@ function R3_SETTINGS_UPDATE_CHECKBOX(){
 	R3_SETTINGS.SETTINGS_SCD_SNAP_SEARCH_WINDOW_WITH_EDIT_FORM = JSON.parse(document.getElementById('R3_SETTINGS_SCD_SNAP_SEARCH_EDIT_FORM').checked);
 	// Process selection
 	R3_DESIGN_processSettingsChanges();
-};
+}
+
 // Update select
 function R3_SETTINGS_UPDATE_SELECT(){
 	R3_LIVESTATUS.currentMode = parseInt(document.getElementById('R3_SETTINGS_RE3_VERSION').value);
@@ -336,15 +342,17 @@ function R3_SETTINGS_UPDATE_SELECT(){
 	R3_SETTINGS.SETTINGS_LIVESTATUS_BAR_POS = parseInt(document.getElementById('R3_SETTINGS_LIVESTATUS_POSITION').value);
 	R3_SETTINGS.SETTINGS_SCD_HEXVIEW_FACTOR = parseFloat(document.getElementById('R3_SETTINGS_SCD_HEX_VIEW_SIZE').value);
 	R3_SETTINGS.SETTINGS_ENABLE_MOVE_SCREEN_ID = parseInt(document.getElementById('SETTINGS_ENABLE_MOVE_DISPLAY_SELECT').value);
-};
+}
+
 // Update ranges
 function R3_SETTINGS_UPDATE_RANGE(mode){
 	if (mode === 0){
 		var newValue = document.getElementById('R3_SETTINGS_RANGE_LIVETSTATUS_FREQUENCY').value;
 		document.getElementById('R3_SETTINGS_LIVETSTATUS_FREQUENCY').innerHTML = newValue;
 		R3_SETTINGS.RE3_LIVE_RENDER_TIME = newValue;
-	};
-};
+	}
+}
+
 // Set Executable Path
 function R3_SETTINGS_SET_PATH(mode){
 	if (mode !== 4){
@@ -355,17 +363,17 @@ function R3_SETTINGS_SET_PATH(mode){
 					// R3_SETTINGS_RE3_PATH
 					R3_SETTINGS.R3_RE3_PATH = fixPath;
 					document.getElementById('R3_SETTINGS_RE3_PATH').innerHTML = R3_SETTINGS.R3_RE3_PATH;
-				};
+				}
 				if (mode === 1){
 					// R3_SETTINGS_MERCE_PATH
 					R3_SETTINGS.R3_MERCE_PATH = fixPath;
 					document.getElementById('R3_SETTINGS_MERCE_PATH').innerHTML = R3_SETTINGS.R3_MERCE_PATH;
-				};
+				}
 				if (mode === 2){
 					// R3_SETTINGS_HEX_PATH
 					R3_SETTINGS.R3_HEX_PATH = fixPath;
 					document.getElementById('R3_SETTINGS_HEX_PATH').innerHTML = R3_SETTINGS.R3_HEX_PATH;
-				};
+				}
 				if (mode === 3){
 					// R3_SETTINGS_RE3SLDE_PATH
 					R3_SETTINGS.R3_RE3SLDE_PATH = fixPath;
@@ -404,25 +412,29 @@ function R3_SETTINGS_SET_PATH(mode){
 // Generate prefix for map paths [DATA_AU, DATA_E, DATA_AJ]
 function R3_SETTINGS_getMapPrefix(){
 	if (R3_SYSTEM.web.isBrowser === !1){
+	
 		// Easy
 		var mPath = R3_MOD.path + '/' + R3_RDT_PREFIX_EASY + '/RDT/';
 		if (R3_MODULES.fs.existsSync(mPath) !== !0){
 			console.info('INFO: DATA_AJ does not exist! Switching to DATA_AU');
 			R3_RDT_PREFIX_EASY = 'DATA_AU';
-		};
+		}
+	
 		// Hard
 		mPath = R3_MOD.path + '/' + R3_RDT_PREFIX_HARD + '/RDT/';
 		if (R3_MODULES.fs.existsSync(mPath) !== !0){
 			console.info('INFO: DATA_E does not exist! Switching to DATA_U');
 			R3_RDT_PREFIX_EASY = 'DATA_U';
-		};
+		}
+
 		// End
 		document.getElementById('R3_RDT_IMPORT_EASY_PREFIX').innerHTML = R3_RDT_PREFIX_EASY;
 		document.getElementById('R3_RDT_IMPORT_HARD_PREFIX').innerHTML = R3_RDT_PREFIX_HARD;
 		document.getElementById('R3_LBL_IMPORT_EASY').title = 'Set this option enabled to import your new map to easy mode (' + R3_RDT_PREFIX_EASY + ')';
 		document.getElementById('R3_LBL_IMPORT_HARD').title = 'Set this option enabled to import your new map to hard mode (' + R3_RDT_PREFIX_HARD + ')';
-	};
-};
+
+	}
+}
 /*
 	eNGE Settings Functions
 */
@@ -458,6 +470,7 @@ function R3_ENGE_updateResVars(){
 
 	var vW = parseInt(document.getElementById('R3_SETTINGS_ENGE_WIDTH').value),
 		vH = parseInt(document.getElementById('R3_SETTINGS_ENGE_HEIGHT').value);
+
 	if (vW === NaN || vW === '' || vW < 360) vW = 360;
 	if (vH === NaN || vH === '' || vH < 317) vH = 317;
 	R3_SETTINGS.SETTINGS_ENGE_WIDTH_RES = vW;
@@ -475,44 +488,47 @@ function R3_INIT_generateSelectValues(db, mode, prevHTML, limit){
 	if (limit !== void 0 && parseInt(limit) !== NaN) maxLimit = parseInt(limit);
 	// Start Madness
 	for (var c = 0; c < maxLimit; c++){
+
 		// Modes
 		if (mode === 'hex'){
 			modeType = R3_tools.fixVars(tempAttr[c], 2);
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType][0] + '</option>';
 		}
+
 		// Item
 		if (mode === 'item'){
 			modeType = R3_tools.fixVars(c.toString(16), 2);
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType][0] + '</option>';
 		}
+
 		// Files
 		if (mode === 'files'){
 			modeType = R3_tools.fixVars(tempAttr[c], 2);
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType] + '</option>';
 		}
+
 		// Set Variables
 		if (mode === 'set'){
 			modeType = tempAttr[c];
 			TEMP_STR = TEMP_STR + '<option value="' + modeType + '">(' + modeType.toUpperCase() + ') ' + db[modeType] + '</option>';
 		}
+
 		// Preset button
-		if (mode === 'presetBtn'){
-			TEMP_STR = TEMP_STR + '<input type="button" class="SCD_FUNCTION_BUTTON" value="' + db[c][0] + '" onclick="R3_SCD_usePreset(' + c + ');">';
-		}
+		if (mode === 'presetBtn') TEMP_STR = TEMP_STR + '<input type="button" class="SCD_FUNCTION_BUTTON" value="' + db[c][0] + '" onclick="R3_SCD_usePreset(' + c + ');">';
+
 		// Special CK
-		if (mode === 'ckSpecial'){
-			TEMP_STR = TEMP_STR + '<option value="' + tempAttr[c] + '">(' + tempAttr[c] + ') ' + db[tempAttr[c]] + '</option>';
-		}
+		if (mode === 'ckSpecial') TEMP_STR = TEMP_STR + '<option value="' + tempAttr[c] + '">(' + tempAttr[c] + ') ' + db[tempAttr[c]] + '</option>';
+
 	}
+
 	return TEMP_STR;
-};
+}
+
 // Generate Database
 function R3_INIT_DATABASE_GENERATE(){
 	R3_MOD.path = '';
 	// Check for Web
-	if (R3_SYSTEM.web.isBrowser === !1){
-		R3_MOD.path = R3_SYSTEM.paths.mod + '/Assets';
-	};
+	if (R3_SYSTEM.web.isBrowser === !1) R3_MOD.path = R3_SYSTEM.paths.mod + '/Assets';
 	var tempAttr, TEMP_STR = currentHex = '';
 	// Item
 	INCLUDE_EDIT_ITEM = R3_INIT_generateSelectValues(DATABASE_ITEM, 'item');

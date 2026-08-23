@@ -9,7 +9,10 @@
 */
 
 // Main variables
-var R3_GAMEPAD, R3_GAMEPAD_1P, R3_GAMEPAD_INTERVAL,
+var R3_GAMEPAD, 
+	R3_GAMEPAD_1P,
+	R3_GAMEPAD_INTERVAL,
+
 	// Mapped buttons
 	R3_GAMEPAD_1P_ID_CROSS = 0,
 	R3_GAMEPAD_1P_ID_SQUARE,
@@ -53,6 +56,7 @@ function R3_GAMEPAD_CHECK(){
 /*
 	eNGE Utility
 */
+
 // Disabling R3V2 shortcuts to use KB as eNGE controller
 function eNGE_FOCUS(){
 	if (R3_keyPress.enableShortcuts === !0){

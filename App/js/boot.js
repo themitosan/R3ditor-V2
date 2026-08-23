@@ -136,8 +136,10 @@ delete tempFn_R3_MODULES;
 // Start Process
 function R3_LOAD(){
 	try {
+
 		R3_APP_START = !0;
 		var startInWebMode = !1, nwArgs = [], nwFlavor = '';
+
 		// Drity code for webmode
 		if (typeof nw !== 'undefined' && typeof process !== 'undefined'){
 			nwArgs = nw.App.argv;
@@ -146,6 +148,7 @@ function R3_LOAD(){
 			startInWebMode = !0;
 		}
 		R3_SYSTEM.web.isBrowser = startInWebMode;
+
 		// Init modules
 		R3_MODULES.INIT();
 		R3_SYSTEM.getPaths();
@@ -156,9 +159,11 @@ function R3_LOAD(){
 			R3_DESIGN_ADJUST();
 		} else {
 			if (R3_MODULES.requireSucess === !0){
+
 				// NW Flavor
 				if (R3_SYSTEM.web.is_NW === !0) nwFlavor = ' [' + process.versions['nw-flavor'] + ']';
 				INT_VERSION = INT_VERSION + nwFlavor;
+
 				try {
 					R3_INIT_DATABASE_GENERATE();
 					R3_LOAD_CHECKFILES();
@@ -168,15 +173,18 @@ function R3_LOAD(){
 					R3_DESIGN_CRITIAL_ERROR(err);
 					console.error(err);
 				}
+
 			}
 		}
 
 		// End
 		R3_SYSTEM.appTitle = 'R3ditor V2 - Ver. ' + INT_VERSION;
 		R3_SYSTEM.log('log', R3_SYSTEM.appTitle);
+
 		// Log args
 		if (nwArgs.length !== 0) R3_SYSTEM.log('log', 'Run Args: <font class="user-can-select">' + nwArgs.toString().replace(RegExp(',', 'gi'), ' ') + '</font>');
 		R3_SYSTEM.log('separator');
+
 		// If web, log navigator.userArgent
 		if (R3_SYSTEM.web.isBrowser === !0){
 			R3_SYSTEM.log('log', 'R3ditor V2 - INFO: (Webmode) - User-Argent: <font class="user-can-select">' + navigator.userAgent + '</font>');
@@ -184,12 +192,15 @@ function R3_LOAD(){
 			R3_SYSTEM.log('log', atob(special_day_03));
 			R3_SYSTEM.log('separator');
 		} else {
+
 			// eNGE Start
 			eNGE_INIT();
+
 		}
 
 		document.title = R3_SYSTEM.appTitle;
 		console.info(R3_SYSTEM.appTitle);
+
 	} catch (err) {
 		console.error(err);
 		R3_DESIGN_CRITIAL_ERROR(err);
@@ -201,12 +212,14 @@ function R3_LOAD(){
 	System Variables and Functions
 */
 tempFn_R3_SYSTEM = {
+
 	/*
 		Init Variables
 	*/
 	appTitle: '',
 	APP_ON_BOOT: !0, // "APP_ON_BOOT" is responsible for avoiding some functions to run when app is already loaded
 	appCanStart: !0,
+
 	/*
 		Log Variables / functions
 	*/
@@ -218,21 +231,25 @@ tempFn_R3_SYSTEM = {
 	logCounter_WARN: 0,
 	logCounter_ERROR: 0,
 	RELEASE_LOG_DATA: !1,
+
 	/*
 		Common API replacements
 	*/
+
 	// Prompt replace
 	prompt: function(txt){
 		var res = window.prompt(txt);
 		R3_keyPress.releaseKeys();
 		return res;
 	},
+
 	// Confirm replace
 	confirm: function(conf){
 		var res = window.confirm(conf);
 		R3_keyPress.releaseKeys();
 		return res;
 	},
+
 	// Alert system
 	alert: function(msg){
 		if (msg !== void 0){
@@ -240,6 +257,7 @@ tempFn_R3_SYSTEM = {
 			R3_keyPress.releaseKeys();
 		}
 	},
+
 	/*
 		External Software
 	*/
@@ -248,6 +266,7 @@ tempFn_R3_SYSTEM = {
 		processExitCode: 0,
 		processRunning: !1
 	},
+
 	/*
 		Web Variables / Functions
 	*/
@@ -256,6 +275,7 @@ tempFn_R3_SYSTEM = {
 		FILE_BRIDGE: '',
 		isBrowser: !1,
 		online: navigator.onLine, // APP_ONLINE
+
 		// Web Modes
 		is_IE: !1,	    // Internet Explorer
 		is_NW: !1,	    // NW.js (Node Webkit)
@@ -309,6 +329,7 @@ tempFn_R3_SYSTEM = {
 		tools: '',	 // Tools
 		original: '' // "App" Copy
 	},
+
 	/*
 		Messages
 	*/
@@ -317,6 +338,7 @@ tempFn_R3_SYSTEM = {
 		R3_SYSTEM.alert('TemmieHeartz Says - THIS IS WIP! #Sorry');
 		R3_SYSTEM.log('warn', 'TemmieHeartz Says - THIS IS WIP! #Sorry');
 	}
+
 }
 
 /*
@@ -328,13 +350,17 @@ tempFn_R3_SYSTEM['getPaths'] = function(){
 		R3_SYSTEM.paths.app = R3_tools.fixPath(process.cwd());
 		R3_SYSTEM.paths.tools = R3_tools.fixPath(process.cwd()) + '/Tools';
 		R3_SYSTEM.paths.original = R3_SYSTEM.paths.app;
+
 		/*
 			Other OS
 		*/
+
 		// macOS (Tested on Mojave)
 		if (process.platform === 'darwin') R3_SYSTEM.paths.app = process.env.HOME + '/Documents/R3V2';
+
 		// Windows [Tested on 7, 8, 8.1, 10 and 11 Preview]
 		if (process.platform === 'win32'){
+
 			var tempPath = process.env.HOMEDRIVE + process.env.HOMEPATH + '/Documents';
 			/*
 				Fix if documents does not exists (attempt to fix 3lric boot issue)
@@ -342,14 +368,17 @@ tempFn_R3_SYSTEM['getPaths'] = function(){
 			*/
 			if (R3_MODULES.fs.existsSync(tempPath) !== !0) tempPath = R3_tools.fixPath(R3_MODULES.path.dirname(process.execPath)) + '/R3V2';
 			R3_SYSTEM.paths.mod = R3_tools.fixPath(tempPath) + '/R3V2';
+
 		} else {
 			R3_SETTINGS.APP_useImageFix = !0;
 		}
+
 		// Linux (Tested on Ubuntu 21.10)
 		if (process.platform === 'linux'){
 			R3_SYSTEM.paths.mod = R3_MODULES.os.homedir() + '/R3V2';
 			R3_SYSTEM.paths.tools = R3_tools.fixPath(R3_SYSTEM.paths.original + '/Tools');
 		}
+
 	}
 }
 
@@ -359,6 +388,7 @@ tempFn_R3_SYSTEM['getPaths'] = function(){
 // Run Executable
 tempFn_R3_SYSTEM.externalSoftware['runExec'] = function(exe, args, mode, newFilePath){
 	if (R3_SYSTEM.web.isBrowser === !1){
+
 		/*
 			Modes:
 			0: Use executable path as chdir
@@ -366,6 +396,7 @@ tempFn_R3_SYSTEM.externalSoftware['runExec'] = function(exe, args, mode, newFile
 			2: Don't set chdir
 			3: Set custom chdir
 		*/
+
 		if (mode === 0) process.chdir(R3_tools.getFilePath(exe));
 		if (mode === 1){
 			process.chdir(R3_MOD.path);
@@ -378,6 +409,7 @@ tempFn_R3_SYSTEM.externalSoftware['runExec'] = function(exe, args, mode, newFile
 		}
 		if (args === void 0 || args === '' || args === null) args = [''];
 		R3_GAME.gamePID = 0;
+
 		/*
 			Run windows executable on non-windows platform
 			This will require wine to work
@@ -428,8 +460,8 @@ tempFn_R3_SYSTEM.externalSoftware['killPID'] = function(processID){
 			} else {
 				if (R3_SYSTEM.externalSoftware.processPID !== 0 && R3_SYSTEM.externalSoftware.processPID !== void 0){
 					process.kill(R3_SYSTEM.externalSoftware.processPID);
-				};
-			};
+				}
+			}
 		} catch (err) {
 			R3_SYSTEM.log('error', 'R3ditor V2 - ERROR: Unable to kill process ' + processID + '! <br>Details: ' + err);
 		}
@@ -442,26 +474,33 @@ tempFn_R3_SYSTEM.externalSoftware['killPID'] = function(processID){
 */
 tempFn_R3_SYSTEM['log'] = function(mode, text){
 	if (R3_SETTINGS.SETTINGS_DISABLE_LOG === !1 && R3_SETTINGS.R3_NW_ARGS_DISABLE_LOG === !1){
-		var lastLog, isSeparator = !1, HTML_LOG_TEMPLATE = logCSS = textClean = '', canLog = !0,
+
+		var lastLog, 
+			canLog = !0,
+			isSeparator = !1, 
+			HTML_LOG_TEMPLATE = logCSS = textClean = '', 
 			defaultCheck = [void 0, '', 'log', 'ok', 'info'];
+
 		if (text === void 0) text = '';
 		if (R3_SYSTEM.log_RESET === !0){
 			document.getElementById('R3_LOG_HOLDER').innerHTML = '';
 			R3_SYSTEM.log_RESET = !1;
 		} else {
 			textClean = R3_tools.removeHtmlFromString(text);
-		};
+		}
+
 		// Avoid eNGE null messages
 		if (textClean === 'R3ditor V2 - INFO: (eNGE) \n'){
 			textClean = text = '';
 			canLog = !1;
-		};
+		}
 		lastLog = R3_SYSTEM.logList[(R3_SYSTEM.currentLogId - 1)];
 		if (lastLog !== void 0 && lastLog.type === 'separator' && mode === 'separator') canLog = !1;
 
 		/*
 			Final checks
 		*/
+
 		if (canLog === !0){
 			if (defaultCheck.indexOf(mode) !== -1){
 				logCSS = 'R3_LOG_OK';
@@ -484,10 +523,10 @@ tempFn_R3_SYSTEM['log'] = function(mode, text){
 			} else {
 				HTML_LOG_TEMPLATE = '<div id="R3_LOG_ID_N_' + R3_SYSTEM.currentLogId + '" class="R3_LOG_ITEM ' + logCSS + '">' + text + '</div>';
 			}
+
 			// Open on warn / error
-			if (mode === 'warn' || mode === 'error'){
-				if (R3_SETTINGS.SETTINGS_OPEN_LOG_ON_WARN_ERROR === !0) R3_MINIWINDOW.open(0);
-			}
+			if (mode === 'warn' || mode === 'error') if (R3_SETTINGS.SETTINGS_OPEN_LOG_ON_WARN_ERROR === !0) R3_MINIWINDOW.open(0);
+
 			/*
 				End
 			*/
@@ -498,7 +537,8 @@ tempFn_R3_SYSTEM['log'] = function(mode, text){
 			R3_SYSTEM.currentLogId++;
 			// Execute log if window is opened
 			if (R3_MINI_WINDOW_DATABASE[0][5] === !0) R3_SYSTEM.appendLog();
-		};
+		}
+
 	} else {
 		if (text !== void 0){
 			if (mode === void 0 || mode.toLowerCase() === 'log') console.info(R3_tools.removeHtmlFromString(text));
@@ -686,17 +726,21 @@ function R3_UTILS_VAR_CLEAN(){
 	R3_UTILS_VAR_CLEAN_LIT();
 	// TIM Files
 	R3_UTILS_VAR_CLEAN_TIM();
-};
+}
+
 function R3_UTILS_VAR_CLEAN_GENERAL(){
 	R3_fileManager.originalFilename = void 0;
-};
+}
+
 function R3_UTILS_VAR_CLEAN_XDELTA(){
 	R3_XDELTA_PATCH = void 0;
 	R3_XDELTA_ORIGINALFILE = void 0;
-};
+}
+
 function R3_UTILS_VAR_CLEAN_OBJ(){
 	OBJ_arquivoBruto = '';
-};
+}
+
 function R3_UTILS_VAR_CLEAN_MSG(){
 	R3_MSG_tempHex = '';
 	R3_MSG_textMode = '';
@@ -705,7 +749,8 @@ function R3_UTILS_VAR_CLEAN_MSG(){
 	R3_MSG_RDT_MESSAGES = [];
 	R3_MSG_totalCommands = 0;
 	MSG_arquivoBruto = void 0;
-};
+}
+
 function R3_UTILS_VAR_CLEAN_SCD(){
 	R3_SCD_path = '';
 	R3_SCD_POINTERS = [];
@@ -727,7 +772,8 @@ function R3_UTILS_VAR_CLEAN_SCD(){
 	R3_SCD_FUNCTION_FOCUSED = !1;
 	R3_SCD_SCRIPTS_IS_LOADING = !1;
 	R3_SCD_OVERALL_TOTAL_FUNCTIONS = 0;
-};
+}
+
 function R3_UTILS_VAR_CLEAN_RDT(){
 	R3_RDT_LOADED = !1;
 	R3_RDT_MAP_totalCams = 0;
@@ -768,7 +814,8 @@ function R3_UTILS_VAR_CLEAN_RDT(){
 	R3_RDT_rawSections.RAWSECTION_EFFSPR = '';
 	R3_RDT_rawSections.ARRAY_TIM = [];
 	R3_RDT_rawSections.ARRAY_OBJ = [];
-};
+}
+
 function R3_UTILS_VAR_CLEAN_ARD(){
 	ARD_filePath = '';
 	ARD_fileName = '';
@@ -777,15 +824,18 @@ function R3_UTILS_VAR_CLEAN_ARD(){
 	ARD_objectsMetadata = [];
 	ARD_arquivoBruto = void 0;
 	ARD_totalObjects = void 0;
-};
+}
+
 function R3_UTILS_VAR_CLEAN_RID(){
 	R3_rdtRID.cameraList = [];
-};
+}
+
 function R3_UTILS_VAR_CLEAN_LIT(){
 	LIT_lightArray = [];
 	LIT_camPointers = [];
 	LIT_arquivoBruto = void 0;
-};
+}
+
 function R3_UTILS_VAR_CLEAN_TIM(){
 	TIM_arquivoBruto = void 0;
 	TIM_header = void 0;
@@ -797,8 +847,7 @@ function R3_UTILS_VAR_CLEAN_TIM(){
 	TIM_totalCLUT = void 0;
 	TIM_CLUT = void 0;
 	TIM_RAW_IMG = void 0;
-};
-
+}
 
 /*
 	Window Onload

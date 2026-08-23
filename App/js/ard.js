@@ -10,7 +10,11 @@
 	*******************************************************************************
 */
 
-var ARD_fileSize, ARD_arquivoBruto, ARD_totalObjects, ARD_sections = ARD_objectsMetadata = [], ARD_filePath = ARD_fileName = ARD_fileName = '';
+var ARD_fileSize, 
+	ARD_arquivoBruto, 
+	ARD_totalObjects, 
+	ARD_sections = ARD_objectsMetadata = [], 
+	ARD_filePath = ARD_fileName = ARD_fileName = '';
 
 /*
 	Functions

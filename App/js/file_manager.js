@@ -9,12 +9,15 @@
 */
 
 tempFn_R3_FILEMANAGER = {
+
 	// Download Variables
 	DOWNLOAD_STATUSCODE: 0,
 	DOWNLOAD_PERCENTAGE: 0,
 	DOWNLOAD_COMPLETE: !1,
+
 	// File Variables
 	originalFilename: '' // ORIGINAL_FILENAME
+
 }
 
 /*
@@ -35,15 +38,12 @@ tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile
 		TMS.triggerClick('R3_FILE_LOAD_DOM');
 		document.getElementById('R3_FILE_LOAD_DOM').onchange = function(){
 
-			var hexFile, cFile = document.getElementById('R3_FILE_LOAD_DOM').files[0],
+			var hexFile = null, 
+				cFile = document.getElementById('R3_FILE_LOAD_DOM').files[0],
 				fPath = cFile.path, loaderInterval;
 
 			if (R3_SYSTEM.web.isBrowser === !0) fPath = cFile;
-			if (skipAppFs === !1 || skipAppFs === void 0){
-				hexFile = R3_MODULES.fs.readFileSync(fPath, readMode);
-			} else {
-				hexFile = null;
-			}
+			if (skipAppFs === !1 || skipAppFs === void 0) hexFile = R3_MODULES.fs.readFileSync(fPath, readMode);
 
 			loaderInterval = setInterval(function(){
 				if (hexFile !== void 0 && hexFile !== ''){
@@ -52,7 +52,7 @@ tempFn_R3_FILEMANAGER['loadFile'] = function(extension, functionEval, returnFile
 							fPath = cFile;
 							if (R3_SYSTEM.web.isBrowser === !1) fPath = R3_tools.fixPath(cFile.path.toString());
 							functionEval(fPath, hexFile);
-						};
+						}
 					} else {
 						functionEval(document.getElementById('R3_FILE_LOAD_DOM').files[0], hexFile);
 					}
@@ -96,11 +96,14 @@ tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execN
 			https://stackoverflow.com/questions/25354313/saving-a-uint8array-to-a-binary-file
 			https://stackoverflow.com/questions/38987784/how-to-convert-a-hexadecimal-string-to-uint8array-and-back-in-javascript
 		*/
-		var downloadBlob, downloadURL, bType = 'application/octet-stream', convertHexFunction = function(hexString){
+		var downloadBlob,
+			downloadURL,
+			bType = 'application/octet-stream', 
+			convertHexFunction = function(hexString){
   			return new Uint8Array(hexString.match(/.{1,2}/g).map(function(byte){
   				return parseInt(byte, 16)
   			}));
-  		};
+  		}
 		downloadBlob = function(data, fileName, mimeType){
 			var blob = new Blob([data], {
 					type: mimeType
@@ -120,7 +123,7 @@ tempFn_R3_FILEMANAGER['saveFile'] = function(filename, content, mode, ext, execN
 			a.style = 'display: none';
 			a.click();
 			a.remove();
-		};
+		}
 		if (mode === 'utf-8'){
 			bType = 'text/plain';
 			downloadBlob(content, filename, bType);

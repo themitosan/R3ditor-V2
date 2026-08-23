@@ -3569,8 +3569,9 @@ const
 				'invtLocation':  '0xA7C744',
 				'currentWeapon': '0xA7C86D'
 			}
-		}
-	}, R3_gameVersionDatabase = R3_tempGameVersionDB,
+		},
+	}, 
+	R3_gameVersionDatabase = R3_tempGameVersionDB,
 	R3_LIVESTATUS_DB = {
 		// Player list (R3_LIVESTATUS_playerList)
 		playerList: {

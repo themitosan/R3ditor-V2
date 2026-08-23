@@ -75,7 +75,6 @@ Download Link: [ <a target="_blank" href="https://dl.nwjs.io/v0.38.4/nwjs-sdk-v0
 - eNGE by Reene-Kootstra
 
 ### NW.js Plugins:
-- RPC by discord.js
 - memoryjs by Rob--
 - fs-extra by jprichardson
 

@@ -62,6 +62,7 @@ tempFn_R3_keyPress['INIT'] = function(){
 
 							// Next [CTRL + Right Arrow]
 							if (kd.keyCode === 39) R3_SCD_SKIPSCRIPT(1);
+
 							// Previous [CTRL + Left Arrow]
 							if (kd.keyCode === 37) R3_SCD_SKIPSCRIPT(0);
 
@@ -513,16 +514,15 @@ function R3_SCD_CODE_EDITOR_KEYFIX(evt){
 
 // Enhance code typing
 function R3_SCD_CODE_EDITOR_enhanceType(evt){
-	const textData = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value,
+	const
+		textData = document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value,
 		latestChar = textData.slice(textData.length - 1), autoCompleteDatabase = {
 			'{': '}',
 			'[': ']',
 			'(': ')'
 		}, skipChar = [8, 46]; // Skip Delete and Backspace keys
 	// Auto-complete keys
-	if (Object.keys(autoCompleteDatabase).indexOf(latestChar) !== -1 && skipChar.indexOf(evt.keyCode) === -1){
-		document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = textData + autoCompleteDatabase[latestChar];
-	}
+	if (Object.keys(autoCompleteDatabase).indexOf(latestChar) !== -1 && skipChar.indexOf(evt.keyCode) === -1) document.getElementById('R3_SCD_CODE_EDITOR_TEXTAREA').value = textData + autoCompleteDatabase[latestChar];
 }
 
 /*
@@ -537,10 +537,12 @@ tempFn_R3_mouse = {
 tempFn_R3_mouse['INIT'] = function(){
 	if (R3_mouse.MOUSE_INIT_OK === !1){
 		R3_mouse.MOUSE_INIT_OK = !0;
+		
 		// Mouse Wheel
 		document.addEventListener('wheel', function(mWheel){
 			// console.info(mWheel.deltaY);
 			if (R3_MENU_CURRENT === 9){
+
 				// While not editing
 				if (R3_SCD_IS_EDITING === !1 && R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 0){
 					// Focus previous function [CTRL + Mouse Scroll Up]
@@ -551,8 +553,9 @@ tempFn_R3_mouse['INIT'] = function(){
 						} else {
 							// -10 [CTRL + SHIFT + Mouse Scroll Up]
 							R3_SCD_navigateFunctions(3);
-						};
-					};
+						}
+					}
+
 					// Focus next function [CTRL + Mouse Scroll Down]
 					if (R3_keyPress.KEY_CONTROL === !0 && mWheel.deltaY > 0){
 						// Normal
@@ -561,28 +564,33 @@ tempFn_R3_mouse['INIT'] = function(){
 						} else {
 							// +10 [CTRL + SHIFT + Mouse Scroll Down]
 							R3_SCD_navigateFunctions(4);
-						};
-					};
-				};
+						}
+					}
+				}
+
 				// JS Code editor
 				if (R3_SETTINGS.SETTINGS_SCD_EDITOR_MODE === 1){
+
 					// Text Size
 					if (R3_keyPress.KEY_CONTROL === !0){
+
 						// Zoom +
 						if (mWheel.deltaY < 0){
 							R3_DESIGN_CODE_zoomMode(0);
 						} else {
 							R3_DESIGN_CODE_zoomMode(1);
-						};
+						}
+
 						// Update Text labels
 						R3_SCD_CODE_updateTextData();
-					};
-				};
-			};
+
+					}
+				}
+			}
+
 			// Prevent page zoom
-			if (R3_keyPress.KEY_CONTROL === !0){
-				mWheel.preventDefault();
-			};
+			if (R3_keyPress.KEY_CONTROL === !0) mWheel.preventDefault();
+
 		}, {passive: !1});
 	} else {
 		R3_SYSTEM.log('warn', 'R3ditor V2 - WARN: (Mouse) This function is already initialized!');

@@ -104,7 +104,7 @@ tempFn_MEMJS['seekProcess'] = function(){
 */
 tempFn_MEMJS['HOOK_EMU'] = function(){
 	R3_SYSTEM.WIP();
-}
+};
 
 /*
 	R3_MEMJS.readValue

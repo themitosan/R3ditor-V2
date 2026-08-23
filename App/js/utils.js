@@ -225,17 +225,19 @@ function R3_FILEGEN_BG_UPDATE_FILTERS(){
 		document.getElementById('R3_FILEGEN_LBL_BG_OPACITY').innerHTML = R3_tools.parsePercentage(bgOpacity, 1);
 		// Update BG
 		TMS.css('R3_FILEGEN_RENDERAREA_BG', {'background-size': 'auto ' + bgSize + '%', 'opacity': bgOpacity, 'filter': 'blur(' + bgBlur + 'px) hue-rotate(' + bgHUE + 'deg) saturate(' + bgSat + ') invert(' + bgInvert + ') sepia(' + bgSepia + ')'});
-	};
-};
+	}
+}
+
 // Select Text color
 function R3_FILEGEN_selectTextColor(mode){
 	for (var i = 0; i < 4; i++){
 		document.getElementById('R3_FILEGEN_color_' + i).checked = !1;
-	};
+	}
 	document.getElementById('R3_FILEGEN_color_' + mode).checked = !0;
 	FILEGEN_currentColor = mode;
 	R3_FILEGEN_renderText(!0);
-};
+}
+
 // Render Text
 function R3_FILEGEN_renderText(renderOnFilegen, otherCanvas, textRender){
 	if (R3_SYSTEM.web.is_SAFARI === !1 && R3_SYSTEM.web.is_IE === !1){
@@ -247,7 +249,7 @@ function R3_FILEGEN_renderText(renderOnFilegen, otherCanvas, textRender){
 		} else {
 			textToRender = textRender;
 			document.getElementById(otherCanvas).innerHTML = '';
-		};
+		}
 		invertCheck = document.getElementById('R3_FILEGEN_CHECKBOX_INVERT').checked;
 		if (invertCheck === !0) textInvert = 1;
 		if (textToRender !== ''){
@@ -277,8 +279,8 @@ function R3_FILEGEN_renderText(renderOnFilegen, otherCanvas, textRender){
 					};
 				} else {
 					c++;
-				};
-			};
+				}
+			}
 			// Render
 			if (renderOnFilegen === !0){
 				TMS.append('R3_FILEGEN_RENDERAREA', FG_HTML_TEMPLATE);

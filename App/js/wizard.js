@@ -7,6 +7,7 @@
 	creating mods.
 	*******************************************************************************
 */
+
 // Wizard variables
 var R3_WIZARD_modFile,
 	R3_WIZARD_MOD_NAME = '',
@@ -58,7 +59,7 @@ function R3_WIZARD_checkProcess(){
 
 		if (R3_WIZARD_MOD_NAME === ''){
 			canStart = !1;
-			eReason = eReason + '\nYou must insert a valid name for this mod';
+			eReason = eReason + '\nYou must insert a valid name for this mod!';
 		}
 
 		/*
@@ -82,18 +83,21 @@ function R3_WIZARD_startProcess(){
 		R3_keyPress.enableShortcuts = !1;
 		R3_UTILS_CALL_LOADING('Running R3V2 Wizard', 'Please wait while R3ditor V2 extracts all game assets...', 10);
 		var currentRofs = 1, rofsTimer, rofsFix;
+
 		// Create zmovie
 		if (R3_MODULES.fs.existsSync(R3_MOD.path + '/zmovie') === !1) R3_MODULES.fs.mkdirSync(R3_MOD.path + '/zmovie');
+
 		// Fix for Rofs11.dat
-		if (R3_MODULES.fs.existsSync(R3_WIZARD_GAME_PATH + '/Rofs11.dat') !== !1 && R3_WIZARD_KEEP_ROFS11 === !0){
-			rofsFix = R3_MODULES.fs.readFileSync(R3_WIZARD_GAME_PATH + '/Rofs11.dat', 'hex');
-			R3_MODULES.fs.writeFileSync(R3_MOD.path + '/Rofs11.dat', rofsFix, 'hex');
+		if (R3_MODULES.fs.existsSync(R3_WIZARD_GAME_PATH + 'Rofs11.dat') !== !1 && R3_WIZARD_KEEP_ROFS11 === !0){
+			rofsFix = R3_MODULES.fs.readFileSync(R3_WIZARD_GAME_PATH + 'Rofs11.dat', 'hex');
+			R3_MODULES.fs.writeFileSync(R3_MOD.path + 'Rofs11.dat', rofsFix, 'hex');
 		}
 
 		rofsTimer = setInterval(function(){
 			if (currentRofs < 16){
 
 				if (R3_SYSTEM.externalSoftware.processRunning !== !0){
+
 					if (R3_SYSTEM.externalSoftware.processExitCode < 2){
 						R3_WIZARD_EXTRACT_ROFS(currentRofs);
 						currentRofs++;
@@ -102,6 +106,7 @@ function R3_WIZARD_startProcess(){
 						R3_UTILS_LOADING_UPDATE('Something went wrong while extracting Rofs ' + currentRofs + '!', 100);
 						clearInterval(rofsTimer);
 					}
+
 				} else {
 					console.info('ROFS - Waiting Rofs' + currentRofs + '.dat');
 				}
@@ -120,11 +125,15 @@ function R3_WIZARD_startProcess(){
 // Copy Missing Files
 function R3_WIZARD_copyMissingFiles(){
 	R3_UTILS_LOADING_UPDATE('Now R3ditor V2 is getting all missing files - Please wait...', 80);
-	var c = 0, syncInterval, ask, fileList = {
-		0: [R3_WIZARD_GAME_PATH + '/zmovie', R3_MOD.path + '/zmovie'],
-		1: [R3_WIZARD_GAME_PATH + '/ResidentEvil3.exe', R3_MOD.path + '/ResidentEvil3.exe'],
-		2: [R3_SYSTEM.paths.tools + '/Misc/eAssets.bin', R3_MOD.path + '/' + R3_RDT_PREFIX_HARD + '/ETC2/WARNE.TIM']
-	};
+	var ask, 
+		c = 0,
+		syncInterval,
+		fileList = {
+			0: [R3_WIZARD_GAME_PATH + 'ResidentEvil3.exe', R3_MOD.path + 'ResidentEvil3.exe'],
+			1: [`${R3_WIZARD_GAME_PATH}BIOHAZARD(R) 3 PC.exe`, `${R3_MOD}BIOHAZARD(R) 3 PC.exe`],
+			2: [R3_SYSTEM.paths.tools + '/Misc/eAssets.bin', R3_MOD.path + '/' + R3_RDT_PREFIX_HARD + '/ETC2/WARNE.TIM']
+		};
+
 	Object.keys(fileList).forEach(function(cItem){
 		if (parseInt(cItem) === 2 && R3_WIZARD_REPLACE_WARN === !1){
 			console.info('Skipping WARNE.TIM');
@@ -135,6 +144,7 @@ function R3_WIZARD_copyMissingFiles(){
 		}
 		c++;
 	});
+
 	syncInterval = setInterval(function(){
 		if (c > (Object.keys(fileList).length - 1)){
 			R3_MOD.enableMod = !0;
@@ -158,6 +168,7 @@ function R3_WIZARD_EXTRACT_ROFS(rofsId){
 /*
 	Final steps
 */
+
 // Check RE3 Path
 function R3_WIZARD_FINAL_CHECK_RE3_PATH(){
 	if (R3_SYSTEM.web.isBrowser === !1){

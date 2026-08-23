@@ -559,6 +559,7 @@ function R3_DESIGN_SHOW_INTERFACE(){
 function R3_DESIGN_openLogWindow(){
 	if (R3_SETTINGS.SETTINGS_DISABLE_LOG === !1 && R3_SETTINGS.R3_NW_ARGS_DISABLE_LOG === !1) R3_MINIWINDOW.open(0);
 }
+
 // See full log
 function R3_DESIGN_seeFullLog(){
 	if (R3_SETTINGS.SETTINGS_DISABLE_LOG === !1 && R3_SETTINGS.R3_NW_ARGS_DISABLE_LOG === !1){
@@ -572,6 +573,7 @@ function R3_DESIGN_seeFullLog(){
 	MiniWindow API
 */
 tempFn_R3_MINIWINDOW = {};
+
 /*
 	Drag Elements R3_DESIGN_enableDragElement
 	Original Code: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable
@@ -651,6 +653,7 @@ tempFn_R3_MINIWINDOW['open'] = function(windowId, mode){
 					});
 				}
 			} else {
+
 				// Log window
 				if (R3_SYSTEM.web.is_FIREFOX === !0) fixLeft = '872px';
 				TMS.css('R3V2_MINI_WINDOW_' + windowId, {
@@ -663,6 +666,7 @@ tempFn_R3_MINIWINDOW['open'] = function(windowId, mode){
 				scrollSize = document.getElementById('R3_LOG_HOLDER').scrollHeight;
 				document.getElementById('R3_LOG_HOLDER').scrollTop = scrollSize;
 				document.getElementById('R3V2_TITLE_LOG_WINDOW').innerHTML = 'R3ditor V2 Log <i>[' + R3_SYSTEM.logCounter_INFO + ' Infos, ' + R3_SYSTEM.logCounter_WARN + ' Warns and ' + R3_SYSTEM.logCounter_ERROR + ' Errors]</i>';
+
 				// Append log if it's open
 				if (R3_SYSTEM.RELEASE_LOG_DATA === !0) R3_SYSTEM.appendLog();
 			}
@@ -696,6 +700,7 @@ tempFn_R3_MINIWINDOW['open'] = function(windowId, mode){
 		} else {
 			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'display': 'block'});
 		}
+
 		// Focus element
 		focusDomName = R3_MINI_WINDOW_DATABASE[windowId][6];
 		if (focusDomName !== '' && document.getElementById(focusDomName) !== null){
@@ -703,27 +708,35 @@ tempFn_R3_MINIWINDOW['open'] = function(windowId, mode){
 				document.getElementById(R3_MINI_WINDOW_DATABASE[windowId][6]).focus();
 			}, 30);
 		}
+
 		// Close DoorLink if SCD Search Form
 		if (windowId === 9) R3_MINIWINDOW.close(20);
+
 		// Disable shortcuts if eNGE is opened
 		if (windowId === 13) eNGE_FOCUS();
+
 		// Adjust window size if SCD edit form
 		if (windowId === 14 && R3_SCD_DATABASE[R3_SCD_currentOpcode] !== void 0){
 			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'width': R3_SCD_DATABASE[R3_SCD_currentOpcode][6] + 'px', 'height': R3_SCD_DATABASE[R3_SCD_currentOpcode][7] + 'px'});
 			R3_MINIWINDOW.adjustMiniWindowForm();
 		}
+
 		// Process opening mode
 		if (mode !== void 0 && R3_MINI_WINDOW_DATABASE[windowId][5] === !1){
+
 			// Center Screen
 			if (mode === 'center'){
+
 				var windowW = window.innerWidth,
 					windowH = window.innerHeight,
 					formW = document.getElementById('R3V2_MINI_WINDOW_' + windowId).offsetWidth,
 					formH = document.getElementById('R3V2_MINI_WINDOW_' + windowId).offsetHeight,
 					finalW = ((windowW / 2) - (formW / 2)),
 					finalH = ((windowH / 2) - (formH / 2));
+
 				// End
 				TMS.css('R3V2_MINI_WINDOW_' + windowId, {'left': finalW + 'px', 'top': finalH + 'px'});
+
 			}
 		}
 
@@ -774,6 +787,7 @@ tempFn_R3_MINIWINDOW['close'] = function(windowId){
 // Maximize window R3_DESIGN_MINIWINDOW_MAXIMIZE
 tempFn_R3_MINIWINDOW['maximize'] = function(windowId){
 	if (windowId !== void 0){
+
 		if (R3_SETTINGS.ENABLE_ANIMATIONS === !1){
 			TMS.fadeOut('R3V2_MINI_WINDOW_MAXIMIZE_' + windowId, 100);
 			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'top': '44px', 'left': '4px', 'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
@@ -782,10 +796,13 @@ tempFn_R3_MINIWINDOW['maximize'] = function(windowId){
 			TMS.css('R3V2_MINI_WINDOW_' + windowId, {'width': 'calc(100% - 122px)', 'height': 'calc(100% - 88px)'});
 			TMS.animate('R3V2_MINI_WINDOW_' + windowId, {'top': '44px', 'left': '4px'}, 100, 'cubic-bezier(0, 1, 0, 1)');
 		}
+
 		// Clear Log fix
 		if (windowId === 0) TMS.css('R3V2_MINI_WINDOW_CLEAR_LOG', {'right': '32px'});
+
 		// Last file opened fix
 		if (R3_MENU_CURRENT === 4 && R3_SETTINGS.SETTINGS_SHOW_LAST_FILE_OPENED_POPUP === !0) R3_DESIGN_OPEN_CLOSE_LATEST(1);
+
 	}
 }
 
@@ -1049,7 +1066,7 @@ function R3_SCD_renderScriptActiveStatus(){
 		} else {
 			document.getElementById('R3_SCD_SCRIPT_ACTIVE').title = 'This script is not active';
 			TMS.css('R3_SCD_SCRIPT_ACTIVE', {'background-image': 'linear-gradient(to bottom, #000, #444)', 'box-shadow': 'none'});
-		};
+		}
 		Object.keys(R3_SCD_SCRIPTS_LIST).forEach(function(cItem){
 			if (document.getElementById('R3_SCD_SCRIPT_LIST_ACTIVE_' + cItem) !== null){
 				if (R3_SCD_SCRIPT_ACTIVE_LIST[parseInt(cItem)] === !0){
@@ -1235,14 +1252,17 @@ function R3_SCD_ID_LIST_CAPTURE(){
 
 				// Set Item [ITEM_AOT_SET]
 				if (cOpcode === '67'){
+
 					var ITEM_Id 	= cFunction.slice(R3_SCD_DEC_DB.id[0], R3_SCD_DEC_DB.id[1]).toUpperCase(),
 						ITEM_Opcode = cFunction.slice(R3_SCD_DEC_DB.itemCode[0], R3_SCD_DEC_DB.itemCode[1]),
 						ITEM_title  = '';
 
 					// Item
 					if (parseInt(ITEM_Opcode, 16) < 134) ITEM_title = DATABASE_ITEM[ITEM_Opcode.toLowerCase()][0];
+
 					// File
 					if (parseInt(ITEM_Opcode, 16) > 133 && parseInt(ITEM_Opcode, 16) < 164) ITEM_title = DATABASE_FILES[ITEM_Opcode.toLowerCase()];
+
 					// Map
 					if (parseInt(ITEM_Opcode, 16) > 163) ITEM_title = DATABASE_MAPS[ITEM_Opcode.toLowerCase()];
 
@@ -1301,8 +1321,10 @@ function R3_SCD_ID_LIST_RENDER(){
 			HTML_TEMPLATE = HTML_TEMPLATE + '<div class="R3_SCRIPT_LIST_ITEM R3_SCD_ID_LIST_ITEM R3_SCD_BTN_function_' + cID[1] + '" id="R3_SCD_OM_FUNCTION_' + 
 							cID[0].toUpperCase() + '"><font class="monospace mono_xyzr user-can-select">' + cID[0].toUpperCase() + '</font> - ' + cID[2].replace('[', '[<font class="monospace mono_xyzr">').replace(']', '</font>]') + '</div>';
 		});
+
 		// End
 		document.getElementById('R3_SCD_ID_LIST_HOLDER_OM_SET').innerHTML = HTML_TEMPLATE;
+
 	}
 }
 
@@ -1523,9 +1545,7 @@ function R3_SCD_openPrevNextFunction(mode){
 			if (tempNextOp === void 0){
 				break;
 			} else {
-				if (INCLUDE_SCD_EDIT_FUNCTIONS[tempNextOp.slice(0, 2)] !== 'NO_EDIT'){
-					canOpen = !0;
-				}
+				if (INCLUDE_SCD_EDIT_FUNCTIONS[tempNextOp.slice(0, 2)] !== 'NO_EDIT') canOpen = !0;
 			}
 		}
 
@@ -1634,12 +1654,14 @@ function R3_SCD_CODE_updateTextData(){
 		document.getElementById('R3_SCD_CODE_selectionStart').innerHTML = textTarget.selectionStart;
 		document.getElementById('R3_SCD_CODE_keyShift').innerHTML = R3_keyPress.KEY_SHIFT.toString().slice(0, 1).toUpperCase() + R3_keyPress.KEY_SHIFT.toString().slice(1);
 		document.getElementById('R3_SCD_CODE_keyCtrl').innerHTML = R3_keyPress.KEY_CONTROL.toString().slice(0, 1).toUpperCase() + R3_keyPress.KEY_CONTROL.toString().slice(1);
+		
 		// End
 		if (textTarget.selectionStart !== textTarget.selectionEnd){
 			TMS.css('R3_SCD_CODE_selectionDiv', {'display': 'inline'});
 		} else {
 			TMS.css('R3_SCD_CODE_selectionDiv', {'display': 'none'});
 		}
+
 	}
 }
 
@@ -2148,10 +2170,15 @@ function R3_RDT_FILELIST_GENERATE(currentMode){
 
 		R3_SETTINGS_getMapPrefix();
 		document.getElementById('R3_RDT_FILELIST_HOLDER').innerHTML = '<div class="align-center">Generating file list, please wait...</div>';
-		var mode = R3_tools.getMapPath()[0], rPath, fileTest, currentMap, HTML_MAP_LIST = mapIcon = '', gameMode = 'Easy',
+		var mode = R3_tools.getMapPath()[0], 
+			rPath, 
+			fileTest,
+			currentMap,
+			gameMode = 'Easy',
+			HTML_MAP_LIST = mapIcon = '',
 			rdtPath = R3_tools.getMapPath()[1];
+		
 		if (mode === 1) gameMode = 'Hard';
-
 		const path = require('path');
 
 		// Start Reading
@@ -2166,7 +2193,7 @@ function R3_RDT_FILELIST_GENERATE(currentMode){
 						if (R3_MODULES.fs.existsSync(mapIcon) !== !0){
 							mapIcon = `${R3_MOD.path}/DATA_A/BSS/${currentMap}01.JPG`;
 							if (R3_MODULES.fs.existsSync(mapIcon) !== !0) mapIcon = 'img/404.webp';
-						};
+						}
 						// Non-windows fix
 						if (R3_SETTINGS.APP_useImageFix === !0 && R3_MODULES.fs.existsSync(mapIcon) === !0) mapIcon = `file://${mapIcon}`;
 						rPath = rdtPath.replace(new RegExp('/', 'g'), '\\') + '/' + currentMap + '.RDT';
@@ -2375,10 +2402,12 @@ function R3_LIVESTATUS_OPEN_BAR(){
 function R3_LIVESTATUS_CLOSE_BAR(){
 	TMS.css('R3_LIVESTATUS_0_HOLDER', {'display': 'none'});
 	TMS.css('R3_LIVESTATUS_1_HOLDER', {'display': 'none'});
+
 	// Adjust menus
 	for (var c = 0; c < R3_TOTAL_MENUS; c++){
 		if (document.getElementById(`MENU_${c}`) !== null) TMS.css('MENU_' + c, {'width': '100%', 'height': 'calc(100% - 24px)'});
 	}
+
 	// End
 	if (R3_MINI_WINDOW_DATABASE[19][5] === !0) R3_MINIWINDOW.close(19);
 }
@@ -2397,7 +2426,7 @@ function R3_LIVESTATUS_BAR_TOGGLEPOS(){
 			R3_SETTINGS.SETTINGS_LIVESTATUS_BAR_POS = 1;
 		} else {
 			R3_SETTINGS.SETTINGS_LIVESTATUS_BAR_POS = 0;
-		};
+		}
 		R3_LIVESTATUS_OPEN_BAR();
 		R3_keyPress.keyUpToggleTimout = !0;
 		R3_LIVESTATUS_FORCE_RENDER = !0;

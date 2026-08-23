@@ -12,7 +12,16 @@
 */
 
 // Variables
-var TIM_CLUT, TIM_header, TIM_bppType, TIM_RAW_IMG, TIM_clutSize, TIM_totalCLUT, TIM_arquivoBruto, TIM_colorsPerCLUT, TIM_VRAM_palleteOrgX, TIM_VRAM_palleteOrgY;
+var	TIM_CLUT,
+	TIM_header,
+	TIM_bppType,
+	TIM_RAW_IMG,
+	TIM_clutSize,
+	TIM_totalCLUT,
+	TIM_arquivoBruto,
+	TIM_colorsPerCLUT,
+	TIM_VRAM_palleteOrgX,
+	TIM_VRAM_palleteOrgY;
 
 // Objects
 tempFn_R3_TIM = {};
@@ -40,15 +49,18 @@ tempFn_R3_TIM['decompileFile'] = function(){
 			8BPP With CLUT
 		*/
 		if (TIM_bppType === '09000000'){
+
 			TIM_clutSize		 = TIM_arquivoBruto.slice(16, 24);
 			TIM_VRAM_palleteOrgX = TIM_arquivoBruto.slice(24, 28);
 			TIM_VRAM_palleteOrgY = TIM_arquivoBruto.slice(28, 32);
 			TIM_colorsPerCLUT	 = TIM_arquivoBruto.slice(32, 36);
 			TIM_totalCLUT   	 = TIM_arquivoBruto.slice(36, 40);
+
 			// Extract All CLUTS
 			var clutSizeConvert = parseInt((R3_tools.parseEndianToInt(R3_tools.parseEndian(TIM_clutSize)) - 12) * 2);
 			CLUT_RAW = TIM_arquivoBruto.slice(40, parseInt(clutSizeConvert + 40));
 			TIM_CLUT = CLUT_RAW.match(new RegExp('.{' + clutSizeConvert + ',' + clutSizeConvert + '}', 'g'));
+
 			// Extract Metadata
 			var metadataStart  = parseInt(TIM_arquivoBruto.indexOf(CLUT_RAW) + CLUT_RAW.length),
 				META_imgSize   = TIM_arquivoBruto.slice(metadataStart, parseInt(metadataStart + 8)),
@@ -57,8 +69,10 @@ tempFn_R3_TIM['decompileFile'] = function(){
 				META_imgWidth  = TIM_arquivoBruto.slice(parseInt(metadataStart + 16), parseInt(metadataStart + 20)),
 				META_imgHeight = TIM_arquivoBruto.slice(parseInt(metadataStart + 20), parseInt(metadataStart + 24)),
 				convertImgSize = parseInt((R3_tools.parseEndianToInt(R3_tools.parseEndian(META_imgSize)) - 12) * 2);
+
 			// Extract Image
 			TIM_RAW_IMG = TIM_arquivoBruto.slice(parseInt(metadataStart + 24), (parseInt(metadataStart + 24) + convertImgSize));
+
 		}
 	}
 }
@@ -118,6 +132,7 @@ delete tempFn_R3_TIM;
 /*
 	RDT TIM Manager functions
 */
+
 // Import TIM R3_TIM_MANAGER_importExport
 tempFn_timManager['import'] = function(){
 	if (RDT_arquivoBruto !== void 0){
